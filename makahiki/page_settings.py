@@ -26,25 +26,45 @@ WIDTHS = {
 #    { "<WIDTHS>" : ( (("row1_widget1", "40%"), ("row1_widget2", "60%")),
 #                     ("row2_widget", "100%") ) }
 PAGE_SETTINGS = {
-    # help page
-    "help":
-            {"PAGE_TITLE": "Help",
+    # home page
+    "home":
+            {"PAGE_TITLE": "Home",
              "BASE_TEMPLATE": "logged_in_base.html",
              "LAYOUTS":
                      {"DEFAULT":
                           (
-                              (("help_intro", "50%"), ("help_faq", "50%"),),
-                              (("help_rule", "50%"), ("ask_admin", "50%"),),
+                              ("notifications", "100%"),
+                              ("quests", "100%"),
+                              ("home", "100%"),
                           ),
                       "PHONE_PORTRAIT":
                           (
-                              ("help", "100%"),
-                              ("help_faq", "50%"),
-                              ("help_rule", "50%"),
-                              ("ask_admin", "50%"),
+                              ("home", "100%"),
                           ),
                      },
              },
+
+    # help page
+    "help":
+        {"PAGE_TITLE": "Help",
+         "BASE_TEMPLATE": "logged_in_base.html",
+         "LAYOUTS":
+                 {"DEFAULT":
+                      (
+                          ("notifications", "100%"),
+                          ("quests", "100%"),
+                          (("help_intro", "50%"), ("help_faq", "50%"),),
+                          (("help_rule", "50%"), ("ask_admin", "50%"),),
+                      ),
+                  "PHONE_PORTRAIT":
+                      (
+                          ("help", "100%"),
+                          ("help_faq", "50%"),
+                          ("help_rule", "50%"),
+                          ("ask_admin", "50%"),
+                      ),
+                 },
+         },
 
     # actions page
     "actions":
@@ -53,6 +73,8 @@ PAGE_SETTINGS = {
           "LAYOUTS":
               {"DEFAULT":
                  (
+                  ("notifications", "100%"),
+                  ("quests", "100%"),
                   (("upcoming_events", "40%"), ("smartgrid", "60%"), ("scoreboard", "40%"),),
                  ),
                "PHONE_PORTRAIT":

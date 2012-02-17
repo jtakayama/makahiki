@@ -1,6 +1,7 @@
 """
 main views module to render pages.
 """
+import os
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.utils import importlib
@@ -33,21 +34,25 @@ def index(request):
     page_settings = settings.PAGE_SETTINGS[page_name]
     page_settings["PAGE_NAME"] = page_name
 
+    # get the view_objects
     view_objects = _get_view_objects(request, page_settings)
 
+    # get the page layout and responsive style
     page_layouts = {}
     page_layouts["DEFAULT"] = []
-    responsive_css = ""
-
+    extra_css = ""
     for layout in page_settings["LAYOUTS"].items():
-        responsive_css = _get_layout(page_layouts, layout, responsive_css)
+        extra_css = _get_layout(page_layouts, layout, extra_css)
+
+    # get tbe page and widget css
+    extra_css  += _get_widget_css(page_name, view_objects)
 
     setting_objects = {
         "PAGE_NAME": page_settings["PAGE_NAME"],
         "PAGE_TITLE": page_settings["PAGE_TITLE"],
         "BASE_TEMPLATE": page_settings["BASE_TEMPLATE"],
-        "CSS": page_settings["PAGE_NAME"],
-        "RESPONSIVE_CSS": responsive_css,
+        "PAGE_CSS": page_name,
+        "EXTRA_CSS": extra_css,
         }
 
     return render_to_response("pages/templates/index.html", {
@@ -63,19 +68,32 @@ def _get_view_objects(request, page_settings):
     for row in default_layout:
         for columns in row:
             if isinstance(columns, types.TupleType):
-                gamelet = columns[0]
-                view_module_name = 'apps.widgets.' + gamelet + '.views'
+                widget = columns[0]
+                view_module_name = 'apps.widgets.' + widget + '.views'
                 page_views = importlib.import_module(view_module_name)
-                view_objects[gamelet] = page_views.supply(request)
+                view_objects[widget] = page_views.supply(request)
             else:
-                gamelet = columns
-                view_module_name = 'apps.widgets.' + gamelet + '.views'
+                widget = columns
+                view_module_name = 'apps.widgets.' + widget + '.views'
                 page_views = importlib.import_module(view_module_name)
-                view_objects[gamelet] = page_views.supply(request)
+                view_objects[widget] = page_views.supply(request)
                 break
     
     return view_objects
 
+def _get_widget_css(page_name, view_objects):
+    """
+    Returns the contents of the available widget css file
+    """
+    widget_css = ""
+    for widget in view_objects.keys():
+        widget_css_file = "%s/apps/widgets/%s/templates/css.css" % (settings.PROJECT_ROOT, widget)
+        try:
+            infile = open(widget_css_file)
+            widget_css += infile.read() + "\n"
+        except IOError:
+            pass
+    return widget_css
 
 def _create_responsive_css(row, idx, gid, percent, responsive_css):
     """Returns the responsive CSS."""
@@ -92,33 +110,34 @@ def _create_responsive_css(row, idx, gid, percent, responsive_css):
     return responsive_css
 
 
-def _get_layout(page_layouts, layout, responsive_css):
-    """Returns the page_layouts definitions from page_settings.py."""
+def _get_layout(page_layouts, layout, extra_css):
+    """Fills in the page_layouts definitions from page_settings.py, Returns extra css"""
+    responsive_css = ""
     if layout[0] == "PHONE_PORTRAIT":
-        responsive_css += "\n@media screen and (max-width: 1000px) {\n"
+        extra_css += "\n@media screen and (max-width: 1000px) {\n"
     for row in layout[1]:
         column_layout = []
         for idx, columns in enumerate(row):
-            if isinstance(columns, types.TupleType): # ((gamelet, 30%), (gamelet, 70%))
-                gamelet = columns[0]
-                gid = "%s" % (gamelet)
+            if isinstance(columns, types.TupleType): # ((widget, 30%), (widget, 70%))
+                widget = columns[0]
+                gid = "%s" % (widget)
                 percent = int(columns[1][:-1]) - 1
-                gamelet_layout = {}
+                widget_layout = {}
                 responsive_css = _create_responsive_css(row, idx, gid, percent, responsive_css)
                 if layout[0] == "DEFAULT":
-                    gamelet_layout["id"] = gid
-                    gamelet_layout["template"] = "widgets/%s/templates/index.html" % gamelet
-                    column_layout += [gamelet_layout]
-            else:  # (gamelet, 100%)
-                gamelet = columns
-                gid = gamelet
+                    widget_layout["id"] = gid
+                    widget_layout["template"] = "widgets/%s/templates/index.html" % widget
+                    column_layout += [widget_layout]
+            else:  # (widget, 100%)
+                widget = columns
+                gid = widget
                 percent = 100
                 responsive_css += "#%s { float: none; width: %d%%; }" % (gid, percent)
                 if layout[0] == "DEFAULT":
-                    gamelet_layout = {}
-                    gamelet_layout["id"] = gamelet
-                    gamelet_layout["template"] = "widgets/%s/templates/index.html" % gamelet
-                    column_layout += [gamelet_layout]
+                    widget_layout = {}
+                    widget_layout["id"] = widget
+                    widget_layout["template"] = "widgets/%s/templates/index.html" % widget
+                    column_layout += [widget_layout]
                     column_layout += [{}]
                 
                 break 
@@ -128,4 +147,4 @@ def _get_layout(page_layouts, layout, responsive_css):
     
     if layout[0] == "PHONE_PORTRAIT":
         responsive_css += "\n}"
-    return responsive_css
+    return extra_css + responsive_css

@@ -89,7 +89,7 @@ class QuestFunctionalTestCase(TestCase):
         )
         self.assertRedirects(response, reverse("home_index"))
         self.assertNotContains(response, "Test quest", msg_prefix="Test quest should not be shown.")
-        self.assertFalse(response.context["QUESTS"].has_key("completed"),
+        self.assertFalse(response.context["view_objects"]["quests"].has_key("completed"),
             "There should not be any completed quests.")
 
     def testCancelQuest(self):
@@ -109,7 +109,7 @@ class QuestFunctionalTestCase(TestCase):
             follow=True,
             HTTP_REFERER=reverse("home_index"),
         )
-        self.assertTrue(quest in response.context["QUESTS"]["user_quests"],
+        self.assertTrue(quest in response.context["view_objects"]["quests"]["user_quests"],
             "User should be participating in the test quest.")
         response = self.client.post(
             reverse("quests_cancel", args=(quest.quest_slug,)),
@@ -117,9 +117,9 @@ class QuestFunctionalTestCase(TestCase):
             HTTP_REFERER=reverse("home_index"),
         )
         self.assertRedirects(response, reverse("home_index"))
-        self.assertTrue(quest not in response.context["QUESTS"]["user_quests"],
+        self.assertTrue(quest not in response.context["view_objects"]["quests"]["user_quests"],
             "Test quest should not be in user's quests.")
-        self.assertTrue(quest in response.context["QUESTS"]["available_quests"],
+        self.assertTrue(quest in response.context["view_objects"]["quests"]["available_quests"],
             "Test quest should be in available quests.")
 
     def testQuestCompletion(self):
@@ -135,7 +135,7 @@ class QuestFunctionalTestCase(TestCase):
         quest.save()
 
         response = self.client.get(reverse("home_index"))
-        self.assertEqual(len(response.context["NOTIFICATIONS"]["alerts"]),
+        self.assertEqual(len(response.context["view_objects"]["notifications"]["alerts"]),
             0, "User should not have any completed quests.")
 
         response = self.client.post(
@@ -144,7 +144,7 @@ class QuestFunctionalTestCase(TestCase):
             HTTP_REFERER=reverse("home_index"),
         )
         self.assertRedirects(response, reverse("home_index"))
-        self.assertFalse(quest in response.context["QUESTS"]["user_quests"],
+        self.assertFalse(quest in response.context["view_objects"]["quests"]["user_quests"],
             "Quest should not be loaded as a user quest.")
         message = "Congratulations! You completed the '%s' quest." % quest.name
         self.assertContains(response, message,

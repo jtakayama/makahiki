@@ -27,6 +27,31 @@ class ActivitiesFunctionalTest(TestCase):
         response = self.client.get(reverse("actions_index"))
         self.failUnlessEqual(response.status_code, 200)
 
+    def testSetupComplete(self):
+        """
+        Check if the activity are created.
+        """
+
+        # Create the activity to link to.
+        activity = Activity(
+            title="Test activity",
+            name=settings.SETUP_WIZARD_ACTIVITY_NAME,
+            description="Testing!",
+            duration=10,
+            point_value=15,
+            pub_date=datetime.datetime.today(),
+            expire_date=datetime.datetime.today() + datetime.timedelta(days=7),
+            confirm_type="text",
+            type="activity",
+        )
+        activity.save()
+
+        self.client.get(reverse("actions_index"))
+
+        member = ActivityMember.objects.get(user=self.user, activity=activity)
+        self.assertEqual(member.approval_status, "approved",
+            "Test that the user completed the linked activity.")
+
     def testViewCodesAndRsvps(self):
         activity = Activity(
             title="Test activity",

@@ -21,17 +21,13 @@ from django.core.urlresolvers import reverse
 
 from lib.avatar.models import avatar_file_path, Avatar
 import lib.facebook_api.facebook as facebook
-from pages.home.forms import  ProfileForm, ReferralForm
+from widgets.home.forms import  ProfileForm, ReferralForm
 
-@never_cache
-@login_required
-def index(request):
+def supply(request):
     """
     Directs the user to the home page.
     """
-    return render_to_response("pages/home/templates/index.html", {},
-        context_instance=RequestContext(request))
-
+    return {}
 
 @login_required
 def restricted(request):
@@ -47,7 +43,7 @@ def restricted(request):
     if today < start:
         before = True
 
-    return render_to_response("pages/home/templates/restricted.html", {
+    return render_to_response("widgets/home/templates/restricted.html", {
         "before": before,
         "start": start,
         "end": end,
@@ -61,7 +57,7 @@ def setup_welcome(request):
     Uses AJAX to display the initial setup page.
     """
     if request.is_ajax():
-        response = render_to_string("pages/home/templates/first-login/welcome.html", {},
+        response = render_to_string("first-login/welcome.html", {},
             context_instance=RequestContext(request))
 
         return HttpResponse(json.dumps({
@@ -79,7 +75,7 @@ def terms(request):
     Uses AJAX to display a terms and conditions page.
     """
     if request.is_ajax():
-        response = render_to_string("pages/home/templates/first-login/terms.html", {
+        response = render_to_string("first-login/terms.html", {
             }, context_instance=RequestContext(request))
 
         return HttpResponse(json.dumps({
@@ -121,7 +117,7 @@ def referral(request):
         elif not form:
             form = ReferralForm()
 
-        response = render_to_string('pages/home/templates/first-login/referral.html', {
+        response = render_to_string('first-login/referral.html', {
             'form': form,
             }, context_instance=RequestContext(request))
 
@@ -163,7 +159,7 @@ def profile_facebook(request):
         }
         form = ProfileForm(initial=user_info)
 
-        response = render_to_string("pages/home/templates/first-login/profile-facebook.html", {
+        response = render_to_string("first-login/profile-facebook.html", {
             "fb_id": fb_id,
             "form": form,
             }, context_instance=RequestContext(request))
@@ -266,7 +262,7 @@ def _get_profile_form(request, form=None, non_xhr=False):
             "facebook_photo": facebook_photo,
             })
 
-    response = render_to_string("pages/home/templates/first-login/profile.html", {
+    response = render_to_string("first-login/profile.html", {
         "form": form,
         "fb_id": fb_id,
         }, context_instance=RequestContext(request))
@@ -288,7 +284,7 @@ def _get_profile_form(request, form=None, non_xhr=False):
 def setup_activity(request):
     """handles setup activity url"""
     if request.is_ajax():
-        template = render_to_string("pages/home/templates/first-login/activity.html", {},
+        template = render_to_string("first-login/activity.html", {},
             context_instance=RequestContext(request))
 
         response = HttpResponse(json.dumps({
@@ -299,7 +295,7 @@ def setup_activity(request):
         return response
 
     else:
-        template = render_to_string("pages/home/templates/first-login/activity.html", {},
+        template = render_to_string("first-login/activity.html", {},
             context_instance=RequestContext(request))
 
         response = HttpResponse("<textarea>" + json.dumps({
@@ -315,7 +311,7 @@ def setup_activity(request):
 def setup_question(request):
     """handles setup questions"""
     if request.is_ajax():
-        template = render_to_string("pages/home/templates/first-login/question.html", {},
+        template = render_to_string("first-login/question.html", {},
             context_instance=RequestContext(request))
 
         response = HttpResponse(json.dumps({
@@ -338,7 +334,7 @@ def setup_complete(request):
         profile.setup_complete = True
         profile.completion_date = datetime.datetime.today()
         profile.save()
-        template = render_to_string("pages/home/templates/first-login/complete.html", {},
+        template = render_to_string("first-login/complete.html", {},
             context_instance=RequestContext(request))
 
         response = HttpResponse(json.dumps({

@@ -28,6 +28,7 @@ PAGE_CSS_IMPORT = {
   "canopy": '<link rel="stylesheet" href="{0}css/{1}/pages/canopy.css">',
   "status": '<link rel="stylesheet" href="{0}css/{1}/pages/status.css">',
 }
+
 CSS_IDS = {
   "landing-sponsors": "content-box",
   "landing-sponsors-title": "content-box-title",

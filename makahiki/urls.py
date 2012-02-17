@@ -10,6 +10,7 @@ urlpatterns = patterns('',
     url(r'^$', "pages.views.root_index", name="root_index"),
 
     # page urls
+    url(r'^home/$', "pages.views.index", name="home_index"),
     url(r'^help/$', "pages.views.index", name="help_index"),
     url(r'^actions/$', "pages.views.index", name="actions_index"),
     url(r'^profile/$', "pages.views.index", name="profile_index"),
@@ -18,6 +19,7 @@ urlpatterns = patterns('',
     url(r'^prizes/$', "pages.views.index", name="prizes_index"),
 
     # widget urls
+    url(r'^home/', include('widgets.home.urls')),
     url(r'^ask-admin/', include('widgets.ask_admin.urls')),
     url(r'^actions/', include('widgets.smartgrid.urls')),
     url(r'^profile/', include('widgets.profile.urls')),
@@ -30,7 +32,6 @@ urlpatterns = patterns('',
     (r'^admin/status/', include('widgets.analytics.urls'),),
 
     # system level
-    url(r'^home/', include('pages.home.urls')),
     url(r'^log/', include('managers.log_mgr.urls')),
     url(r'^help/', include('managers.help_mgr.urls')),
     url(r'^avatar/', include('lib.avatar.urls')),

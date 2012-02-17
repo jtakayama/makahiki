@@ -110,7 +110,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 # MIDDLEWARE settings
 ######################
 MIDDLEWARE_CLASSES = (
-    'django.middleware.cache.UpdateCacheMiddleware',
+    'django.middleware.cache.UpdateCacheMiddleware', #always start with this for caching
+
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.transaction.TransactionMiddleware',
@@ -119,11 +120,16 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'lib.django_cas.middleware.CASMiddleware',
+
     'managers.player_mgr.middleware.LoginTrackingMiddleware',
     'managers.log_mgr.middleware.LoggingMiddleware',
-    'pages.home.middleware.CompetitionMiddleware',
-    'pages.home.middleware.CheckSetupMiddleware',
-    'django.middleware.cache.FetchFromCacheMiddleware',
+
+    'widgets.home.middleware.CompetitionMiddleware',
+    'widgets.home.middleware.CheckSetupMiddleware',
+    'widgets.badges.middleware.AwardBadgeMiddleware',
+    'widgets.smartgrid.middleware.SetupCompleteMiddleware',
+
+    'django.middleware.cache.FetchFromCacheMiddleware', #always end with this for caching
     )
 
 ######################
@@ -141,7 +147,6 @@ INSTALLED_APPS = (
     # Makahiki pages
     'apps',
     'pages',
-    'pages.home',
 
     # Makahiki components
     'managers.auth_mgr',
@@ -152,6 +157,7 @@ INSTALLED_APPS = (
     'managers.cache_mgr',
     'managers.help_mgr',
 
+    'widgets.home',
     'widgets.help_intro',
     'widgets.help_faq',
     'widgets.help_rule',

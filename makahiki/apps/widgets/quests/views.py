@@ -6,6 +6,10 @@ from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import get_object_or_404
 
 from widgets.quests.models import Quest, QuestMember
+from widgets.quests import get_quests
+
+def supply(request):
+    return get_quests(request.user)
 
 @login_required
 def accept(request, slug):
