@@ -9,7 +9,7 @@
 {% block selected_icon %}selected-profile{% endblock %}
 
 {% block extra_head %}
-    {% import_page_css "view_profile" STATIC_URL CSS_THEME %}
+    {% import_page_css "profile" STATIC_URL CSS_THEME %}
 {% endblock %}
 
 {% block body %}
@@ -30,13 +30,13 @@
 
                 {% for badge in awarded_badges %}
                     <tr class="{% cycle '' 'alt-row' as cycle_class %}">
-                        {% include "view_profile/components/catalog-item.html" %}
+                        {% include "catalog-item.html" %}
                     </tr>
                 {% endfor %}
 
                 {% for badge in locked_badges %}
                     <tr class="{% cycle cycle_class %}">
-                        {% include "view_profile/components/catalog-item.html" %}
+                        {% include "catalog-item.html" %}
                     </tr>
                 {% endfor %}
             </table>

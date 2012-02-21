@@ -31,7 +31,7 @@ def index(request):
         "view_objects": view_objects,
         }, context_instance=RequestContext(request))
 
-
+@can_access_canopy
 def supply(request):
     """
     Directs the user to the canopy page.

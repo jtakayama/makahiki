@@ -1,8 +1,6 @@
 from django.conf.urls.defaults import url, patterns
 
 urlpatterns = patterns('',
-    url(r'^$', 'widgets.canopy.views.index', name="canopy_index"),
-
     # Quest URLS
     url(r'^mission/(?P<slug>[-\w]+)/accept/$', 'widgets.canopy.views.mission_accept',
         name="canopy_mission_accept"),

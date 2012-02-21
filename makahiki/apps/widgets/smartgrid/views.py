@@ -1,4 +1,5 @@
 import datetime
+from django.conf import settings
 from django.db.models.query_utils import Q
 import simplejson as json
 
@@ -37,9 +38,9 @@ smartgrid_COL_COUNT = 3
 def supply(request):
     user = request.user
 
-    team = user.get_profile().team
+    profile = user.get_profile()
+    team = profile.team
     user_team_standings = None
-
     current_round = get_current_round()
     round_name = current_round if current_round else None
     team_standings = Team.team_points_leaders(num_results=10, round_name=round_name)
@@ -65,7 +66,7 @@ def supply(request):
     return {
         "profile": user.get_profile(),
         "team": team,
-        "categories": __get_categories(user),
+        "categories": _get_categories(user),
         "current_round": round_name or "Overall",
         "team_standings": team_standings,
         "profile_standings": profile_standings,
@@ -75,8 +76,8 @@ def supply(request):
         "event_form": form,
         }
 
-## new design, return the category list with the tasks info
-def __get_categories(user):
+def _get_categories(user):
+    """return the category list with the tasks info"""
     categories = cache.get('smartgrid-categories-%s' % user.username)
     if not categories:
         cursor = connection.cursor()

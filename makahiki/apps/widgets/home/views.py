@@ -22,6 +22,7 @@ from django.core.urlresolvers import reverse
 from lib.avatar.models import avatar_file_path, Avatar
 import lib.facebook_api.facebook as facebook
 from widgets.home.forms import  ProfileForm, ReferralForm
+from widgets.smartgrid.models import ActivityMember, Activity
 
 def supply(request):
     """
@@ -330,6 +331,18 @@ def setup_complete(request):
     """handles setup complete"""
     if request.is_ajax():
         profile = request.user.get_profile()
+
+        if request.method == "POST":
+            # User got the question right.
+            # link it to an activity.
+            activity_name = settings.SETUP_WIZARD_ACTIVITY_NAME
+            try:
+                activity = Activity.objects.get(name=activity_name)
+                ActivityMember.objects.get_or_create(activity=activity, user=profile.user,
+                    approval_status="approved")
+                # If this was created, it's automatically saved.
+            except Activity.DoesNotExist:
+                pass # Don't add anything if we can't link to the activity.
 
         profile.setup_complete = True
         profile.completion_date = datetime.datetime.today()

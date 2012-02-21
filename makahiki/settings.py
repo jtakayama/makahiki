@@ -11,6 +11,8 @@ import posixpath
 ##############
 # DB settings
 ##############
+import types
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -72,10 +74,6 @@ STATICFILES_DIRS = (
 # Examples: "http://foo.com/media/", "/media/".
 ADMIN_MEDIA_PREFIX = posixpath.join(STATIC_URL, "admin/")
 
-ABSOLUTE_URL_OVERRIDES = {
-    "auth.user": lambda o: "/profiles/profile/%s/" % o.username,
-    }
-
 ROOT_URLCONF = 'urls'
 
 FIXTURE_DIRS = [
@@ -121,13 +119,8 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'lib.django_cas.middleware.CASMiddleware',
 
-    'managers.player_mgr.middleware.LoginTrackingMiddleware',
+    'managers.player_mgr.middleware.LoginMiddleware',
     'managers.log_mgr.middleware.LoggingMiddleware',
-
-    'widgets.home.middleware.CompetitionMiddleware',
-    'widgets.home.middleware.CheckSetupMiddleware',
-    'widgets.badges.middleware.AwardBadgeMiddleware',
-    'widgets.smartgrid.middleware.SetupCompleteMiddleware',
 
     'django.middleware.cache.FetchFromCacheMiddleware', #always end with this for caching
     )
@@ -156,23 +149,6 @@ INSTALLED_APPS = (
     'managers.score_mgr',
     'managers.cache_mgr',
     'managers.help_mgr',
-
-    'widgets.home',
-    'widgets.help_intro',
-    'widgets.help_faq',
-    'widgets.help_rule',
-    'widgets.ask_admin',
-    'widgets.prizes',
-    'widgets.smartgrid',
-    'widgets.energy',
-    'widgets.quests',
-    'widgets.upcoming_events',
-    'widgets.badges',
-    'widgets.notifications',
-    'widgets.profile',
-    'widgets.news',
-    'widgets.canopy',
-    'widgets.analytics',
 
     # 3rd party libraries
     'lib.django_cas',
@@ -273,6 +249,30 @@ try:
     INSTALLED_APPS += LOCAL_INSTALLED_APPS  # pylint: disable=E0602
 except NameError:
     pass
+
+
+#########################################
+# code to include the INSTALL_WIDGET_APPS
+#########################################
+def get_widget_apps(all_page_settings):
+    apps = ()
+    """ Returns a list of widget names defined in page_settings.py. """
+    for page in all_page_settings.keys():
+        default_layout = all_page_settings[page]["LAYOUTS"]["DEFAULT"]
+        for row in default_layout:
+            for columns in row:
+                if isinstance(columns, types.TupleType):
+                    if not columns[0] in apps:
+                        apps += ("widgets.%s" % columns[0], )
+                else:
+                    if not columns in apps:
+                        apps += ("widgets.%s" % columns, )
+                    break
+
+    return apps
+
+INSTALLED_WIDGET_APPS = get_widget_apps(PAGE_SETTINGS)
+INSTALLED_APPS += INSTALLED_WIDGET_APPS
 
 ##############################
 # LOGGING settings

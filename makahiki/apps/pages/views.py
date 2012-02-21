@@ -9,8 +9,9 @@ from django.views.decorators.cache import never_cache
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
-
+from django.conf.urls.defaults import url, patterns, include
 from django.conf import settings
+
 import types
 
 @never_cache
@@ -45,7 +46,7 @@ def index(request):
         extra_css = _get_layout(page_layouts, layout, extra_css)
 
     # get tbe page and widget css
-    extra_css  += _get_widget_css(page_name, view_objects)
+    extra_css  += _get_widget_css(view_objects)
 
     setting_objects = {
         "PAGE_NAME": page_settings["PAGE_NAME"],
@@ -69,19 +70,20 @@ def _get_view_objects(request, page_settings):
         for columns in row:
             if isinstance(columns, types.TupleType):
                 widget = columns[0]
-                view_module_name = 'apps.widgets.' + widget + '.views'
-                page_views = importlib.import_module(view_module_name)
-                view_objects[widget] = page_views.supply(request)
+                _load_widget_module(request, widget, view_objects)
             else:
                 widget = columns
-                view_module_name = 'apps.widgets.' + widget + '.views'
-                page_views = importlib.import_module(view_module_name)
-                view_objects[widget] = page_views.supply(request)
+                _load_widget_module(request, widget, view_objects)
                 break
     
     return view_objects
 
-def _get_widget_css(page_name, view_objects):
+def _load_widget_module(request, widget, view_objects):
+    view_module_name = 'apps.widgets.' + widget + '.views'
+    page_views = importlib.import_module(view_module_name)
+    view_objects[widget] = page_views.supply(request)
+
+def _get_widget_css(view_objects):
     """
     Returns the contents of the available widget css file
     """

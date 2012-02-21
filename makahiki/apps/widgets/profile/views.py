@@ -61,34 +61,6 @@ def supply(request):
         # "notifications": user.usernotification_set.order_by("-created_at"),
     }
 
-
-@login_required
-def badge_catalog(request):
-    awarded_badges = [earned.badge for earned in request.user.badges_earned.all()]
-    registry = badges._registry.copy()          # pylint: disable=W0212
-    # Remove badges that are already earned
-    for badge in awarded_badges:
-        registry.pop(badge.slug)
-
-    locked_badges = registry.values()
-
-    # For each badge, get the number of people who have the badge.
-    team = request.user.get_profile().team
-    for badge in awarded_badges:
-        badge.total_users = BadgeAward.objects.filter(slug=badge.slug).count()
-        badge.team_users = User.objects.filter(badges_earned__slug=badge.slug,
-            profile__team=team)
-    for badge in locked_badges:
-        badge.total_users = BadgeAward.objects.filter(slug=badge.slug).count()
-        badge.team_users = User.objects.filter(badges_earned__slug=badge.slug,
-            profile__team=team)
-
-    return render_to_response("view_profile/badge-catalog.html", {
-        "awarded_badges": awarded_badges,
-        "locked_badges": locked_badges,
-        }, context_instance=RequestContext(request))
-
-
 @login_required
 def view_rejected(request, rejected_id):
     request.session["rejected_id"] = rejected_id

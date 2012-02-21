@@ -93,10 +93,12 @@ PAGE_SETTINGS = {
               {"DEFAULT":
                 (
                   ("profile", "100%"),
+                  ("badges", "100%"),
                 ),
                 "PHONE_PORTRAIT":
                 (
                   ("profile", "100%"),
+                  ("badges", "100%"),
                 ),
               },
         },
@@ -148,5 +150,19 @@ PAGE_SETTINGS = {
                 ),
               },
         },
-
+    # canopy page
+    "canopy":
+            {"PAGE_TITLE": "Canopy",
+             "BASE_TEMPLATE": "logged_in_base.html",
+             "LAYOUTS":
+                     {"DEFAULT":
+                          (
+                              ("canopy", "100%"),
+                              ),
+                      "PHONE_PORTRAIT":
+                          (
+                              ("canopy", "100%"),
+                              ),
+                      },
+             },
 }
