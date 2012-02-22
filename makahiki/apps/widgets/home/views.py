@@ -241,7 +241,7 @@ def _get_profile_form(request, form=None, non_xhr=False):
     try:
         fb_user = facebook.get_user_from_cookie(request.COOKIES, settings.FACEBOOK_APP_ID,
             settings.FACEBOOK_SECRET_KEY)
-    except:  # pylint: disable=W0702
+    except AttributeError:
         fb_user = None
 
     fb_id = None
