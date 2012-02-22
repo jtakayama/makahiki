@@ -154,7 +154,7 @@ Typically, they will be worth fewer points than activities."""
     def __unicode__(self):
         return self.title
 
-    def save(self, force_insert=False, force_update=False, using=None):
+    def save(self, *args, **kwargs):
         """Custom save method to set fields."""
         self.type = "commitment"
         super(Commitment, self).save()
@@ -366,7 +366,7 @@ class CommitmentMember(CommonBase):
 
         return False
 
-    def save(self, force_insert=False, force_update=False, using=None):
+    def save(self, *args, **kwargs):
         """Custom save method to set fields depending on whether or not the item is just added or if the item is completed."""
         profile = self.user.get_profile()
 
@@ -518,8 +518,6 @@ class ActivityMember(CommonActivityUser):
         return False
 
     def save(self, *args, **kwargs):
-        _ = args
-        _ = kwargs
 
         """Custom save method to award/remove points if the activitymember is approved or rejected."""
         if self.approval_status != "rejected":
@@ -549,7 +547,7 @@ class ActivityMember(CommonActivityUser):
         cache.delete('smartgrid-categories-%s' % self.user.username)
         cache.delete('user_events-%s' % self.user.username)
         invalidate_team_avatar_cache(self.activity, self.user)
-        super(ActivityMember, self).save()
+        super(ActivityMember, self).save(*args, **kwargs)
 
         # We check here for approved and rejected items because the object needs to be saved first.
         if self.approval_status == u"approved" and not self.award_date:

@@ -183,7 +183,7 @@ class ActivityAdminForm(forms.ModelForm):
 
         return cleaned_data
 
-    def save(self, commit=True):                # pylint: disable=E1003
+    def save(self, *args, **kwargs):
         activity = super(forms.ModelForm, self).save(commit=False)
 
         activity.save()
