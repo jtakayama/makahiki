@@ -167,6 +167,7 @@ INSTALLED_APPS = (
     # external
     'staticfiles',
     'django_nose',
+    'django_extensions',
 
     # internal
     'django.contrib.admin',
