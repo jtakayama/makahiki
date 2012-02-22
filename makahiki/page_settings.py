@@ -126,11 +126,15 @@ PAGE_SETTINGS = {
           "LAYOUTS":
               {"DEFAULT":
                 (
-                  ("energy", "100%"),
+                    ("notifications", "100%"),
+                    ("quests", "100%"),
+                    (("power", "35%"), ("energy_goal", "65%"), ("energy_scoreboard", "35%"),),
                 ),
                 "PHONE_PORTRAIT":
                 (
-                  ("energy", "100%"),
+                  ("power", "100%"),
+                  ("energy_goal", "100%"),
+                  ("energy_scoreboard", "100%"),
                 ),
               },
         },

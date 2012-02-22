@@ -10,7 +10,7 @@ from django.db.models import Count, F, Min
 
 from widgets.smartgrid import get_popular_activities, get_popular_commitments, get_popular_events
 from widgets.smartgrid.models import ActivityBase, Activity, ActivityMember
-from widgets.energy.models import TeamEnergyGoal
+from widgets.energy_goal.models import TeamEnergyGoal
 from managers.team_mgr.models import Team
 from managers.player_mgr.models import Profile
 from managers.score_mgr.models import ScoreboardEntry

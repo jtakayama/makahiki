@@ -1,7 +1,8 @@
 {% load class_tags %}
 
-<div {% get_id_and_classes "energy-scoreboard" %}>
-    {% for round_name in view_objects.energy.scoreboard_rounds %}
+<div {% get_id_and_classes "energy-scoreboard-box" %}>
+  <div {% get_id_and_classes "energy-scoreboard" %}>
+    {% for round_name in view_objects.energy_scoreboard.scoreboard_rounds %}
         <div class="energy-scoreboard-cycle"
              {% if not forloop.first %}style="display: none"{% endif %}>
             <div {% get_id_and_classes "energy-scoreboard-title" %} style="width: 100%">
@@ -19,7 +20,7 @@
         </div>
     {% endfor %}
     {# Additional scoreboard entry for the energy goals #}
-    {% if view_objects.energy.goals_scoreboard and view_objects.energy.goals_scoreboard|length > 0 %}
+    {% if view_objects.energy_scoreboard.goals_scoreboard and view_objects.energy_scoreboard.goals_scoreboard|length > 0 %}
         <div class="energy-scoreboard-cycle" style="display: none">
             <div {% get_id_and_classes "energy-scoreboard-title" %} style="width: 100%">
                 Completed Energy Goals
@@ -37,7 +38,7 @@
                         <th>Lounge</th>
                         <th>Days met goal</th>
                     </tr>
-                    {% for entry in view_objects.energy.goals_scoreboard %}
+                    {% for entry in view_objects.energy_scoreboard.goals_scoreboard %}
                         <tr>
                             <td>{{ forloop.counter }}</td>
                             <td>
@@ -50,8 +51,20 @@
             </div>
         </div>
     {% endif %}
-</div>
-<div id="scoreboard-cycle-nav"></div>
-<div id="energy-scoreboard-message">#1 at end of round wins a
+  </div>
+  <div id="scoreboard-cycle-nav"></div>
+  <div id="energy-scoreboard-message">#1 at end of round wins a
     <a href="/prizes"> prize!</a>
+  </div>
 </div>
+
+<script type="text/javascript">
+    jQuery(document).ready(function ($) {
+        $("#energy-scoreboard").cycle({
+            height:"530px",
+            pause:1,
+            timeout:7000,
+            pager:'#scoreboard-cycle-nav'
+        });
+    })
+</script>

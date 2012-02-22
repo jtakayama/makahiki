@@ -8,7 +8,7 @@
 }
 
 #energy-power-scoreboard {
-	width: 298px;
+	width: 310px;
 	float: left;
 }
 
@@ -63,7 +63,7 @@ fieldset legend {
 	margin: 0;
 	padding: 0;
 	border-spacing: 0;
-	width: 298px;
+	width: 310px;
 }
 
 #energy-scoreboard table th {

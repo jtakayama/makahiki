@@ -10,8 +10,6 @@ CSS_IMPORTS = """
 <link rel="stylesheet" href="{0}css/{1}/jquery-ui.css">
 <link rel="stylesheet" href="{0}css/{1}/screen.css">
 
-<link rel="stylesheet" href="{0}frontendadmin/css/frontendadmin.css" />
-<link rel="stylesheet" href="{0}uni_form/uni-form.css" />
 """
 
 LOGGED_IN_CSS_IMPORT = '<link rel="stylesheet" href="{0}css/{1}/logged_in_base.css">'

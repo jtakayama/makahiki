@@ -6,7 +6,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 
 from managers.team_mgr.models import Team
-from widgets.energy.models import TeamEnergyGoal
+from widgets.energy_goal.models import TeamEnergyGoal
 
 class EnergyFunctionalTestCase(TestCase):
     fixtures = ["base_teams.json"]

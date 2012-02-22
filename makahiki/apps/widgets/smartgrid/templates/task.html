@@ -112,7 +112,7 @@
                             </button>
                         </a>
                     {% else %}
-                        <a href="/activities">
+                        <a href="/actions">
                             <button style="cursor:pointer;">
                                 <img src="{{ STATIC_URL}}/css/default/images/left.png" width="50"
                                      align="top">
@@ -403,10 +403,10 @@
                 closeOnEscape:false,
                 position:[400, 100],
                 open:function (event, ui) {
-                    log_js_action("activities", "{{task.slug}}", "show-form");
+                    log_js_action("smartgrid", "{{task.slug}}", "show-form");
                 },
                 close:function (event, ui) {
-                    log_js_action("activities", "{{task.slug}}", "close-form");
+                    log_js_action("smartgrid", "{{task.slug}}", "close-form");
                 }
             });
 

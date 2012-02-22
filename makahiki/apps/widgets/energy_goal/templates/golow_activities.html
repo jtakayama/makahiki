@@ -5,9 +5,9 @@
     <th>Points</th>
     </thead>
     <tbody>
-    {% for a in view_objects.energy.golow_activities %}
+    {% for a in view_objects.energy_goal.golow_activities %}
         <tr>
-            <td><a href="/activities/{{a.type}}/{{a.slug}}">{{ a.title }}</a></td>
+            <td><a href="/smartgrid/{{a.type}}/{{a.slug}}">{{ a.title }}</a></td>
             <td>
                 {% if a.point_value %}
                     {{ a.point_value }}

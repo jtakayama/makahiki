@@ -1,0 +1,25 @@
+{% load class_tags %}
+{% load markup %}
+
+    <script type="text/javascript"
+            src="{{STATIC_URL}}/js/org.wattdepot.gdata.makahiki.PowerMeter.js"></script>
+
+
+        <div {% get_id_and_classes "energy-power" %}>
+            <div {% get_id_and_classes "activity-power-box" %}>
+                <div {% get_id_and_classes "energy-power-title" %}>
+                    Current Lounge Power
+                    <a href="#" style="float: right">
+                        <img src="{{ STATIC_URL}}/css/default/images/icon-help-sm.png" width="20"
+                             align="center"
+                             title="Click to get help about this window"
+                             onclick="toggleHelp('widget', 'lounge-power'); return false;"
+                                /></a>
+                </div>
+                <div {% get_id_and_classes "energy-power-content" %}>
+                    <center>
+                        {% include "power.html" %}
+                    </center>
+                </div>
+            </div>
+        </div>
