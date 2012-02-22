@@ -30,7 +30,7 @@ class EnergyFunctionalTestCase(TestCase):
 
     def testEnergyScoreboard(self):
         response = self.client.get(reverse("energy_index"))
-        goals = response.context["view_objects"]["energy"]["goals_scoreboard"]
+        goals = response.context["view_objects"]["energy_scoreboard"]["goals_scoreboard"]
         for goal in goals:
             self.assertEqual(goal["completions"], 0, "No team should have completed a goal.")
 
@@ -41,7 +41,7 @@ class EnergyFunctionalTestCase(TestCase):
         )
 
         response = self.client.get(reverse("energy_index"))
-        goals = response.context["view_objects"]["energy"]["goals_scoreboard"]
+        goals = response.context["view_objects"]["energy_scoreboard"]["goals_scoreboard"]
         for goal in goals:
             self.assertEqual(goal["completions"], 0, "No team should have completed a goal.")
 
@@ -52,7 +52,7 @@ class EnergyFunctionalTestCase(TestCase):
         )
 
         response = self.client.get(reverse("energy_index"))
-        goals = response.context["view_objects"]["energy"]["goals_scoreboard"]
+        goals = response.context["view_objects"]["energy_scoreboard"]["goals_scoreboard"]
         for team in goals:
             if team["team__name"] == self.team.name:
                 # print team.teamenergygoal_set.all()
