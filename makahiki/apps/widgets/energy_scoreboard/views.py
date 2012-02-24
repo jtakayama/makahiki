@@ -17,7 +17,7 @@ def supply(request, page_name):
     for key in rounds.keys():
         # Check if this round happened already or if it is in progress.
         # We don't care if the round happens in the future.
-        if today >= datetime.datetime.strptime(rounds[key]["start"], "%Y-%m-%d"):
+        if today >= datetime.datetime.strptime(rounds[key]["start"], "%Y-%m-%d %H:%M:%S"):
             scoreboard_rounds.append(key)
 
     # Generate the scoreboard for energy goals.

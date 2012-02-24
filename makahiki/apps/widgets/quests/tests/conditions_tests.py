@@ -14,7 +14,7 @@ from widgets.smartgrid.models import Activity, ActivityMember, Commitment, Commi
 from lib.avatar import create_default_thumbnails
 from lib.avatar.models import Avatar, avatar_file_path
 from widgets.quests.models import Quest
-from widgets.prizes.models import RaffleDeadline, RafflePrize, RaffleTicket
+from widgets.raffle.models import RafflePrize, RaffleTicket
 
 class QuestConditionsTest(TestCase):
     """
@@ -40,16 +40,10 @@ class QuestConditionsTest(TestCase):
         Test that allocated_ticket works.
         """
         # Create a raffle prize.
-        deadline = RaffleDeadline(
-            round_name="Overall",
-            pub_date=datetime.datetime.today() - datetime.timedelta(hours=1),
-            end_date=datetime.datetime.today() + datetime.timedelta(days=5),
-        )
-        deadline.save()
         prize = RafflePrize(
             title="Super prize!",
             description="A test prize",
-            deadline=deadline,
+            round_name="Round 1",
             value=5,
         )
         prize.save()

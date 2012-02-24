@@ -30,17 +30,17 @@ COMPETITION_GROUP_NAME = "Lounge"
 
 # This include start and end dates along with round information.
 # The start and end date of the competition.
-COMPETITION_START = (datetime.date.today() - datetime.timedelta(days=3)).strftime("%Y-%m-%d")
-COMPETITION_END = (datetime.date.today() + datetime.timedelta(days=6)).strftime("%Y-%m-%d")
+COMPETITION_START = (datetime.date.today() - datetime.timedelta(days=3)).strftime("%Y-%m-%d %H:%M:%S")
+COMPETITION_END = (datetime.date.today() + datetime.timedelta(days=6)).strftime("%Y-%m-%d %H:%M:%S")
 
-# The rounds of the competition. Specify dates using "yyyy-mm-dd".
+# The rounds of the competition. Specify dates using "yyyy-mm-dd hh:mm:ss".
 # Start means the competition will start at midnight on that date.
 # End means the competition will end at midnight of that date.
 # This means that a round that ends on "2010-08-02" will end at 11:59pm of August 1st.
 COMPETITION_ROUNDS = {
     "Round 1": {
-        "start": (datetime.date.today() - datetime.timedelta(days=3)).strftime("%Y-%m-%d"),
-        "end": (datetime.date.today() - datetime.timedelta(days=1)).strftime("%Y-%m-%d"),
+        "start": (datetime.date.today() - datetime.timedelta(days=3)).strftime("%Y-%m-%d %H:%M:%S"),
+        "end": (datetime.date.today() + datetime.timedelta(days=1)).strftime("%Y-%m-%d %H:%M:%S"),
         },
     }
 

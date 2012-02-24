@@ -71,8 +71,8 @@ class LoginMiddleware(object):
             path = request.path
 
             today = datetime.datetime.today()
-            start = datetime.datetime.strptime(settings.COMPETITION_START, "%Y-%m-%d")
-            end = datetime.datetime.strptime(settings.COMPETITION_END, "%Y-%m-%d")
+            start = datetime.datetime.strptime(settings.COMPETITION_START, "%Y-%m-%d %H:%M:%S")
+            end = datetime.datetime.strptime(settings.COMPETITION_END, "%Y-%m-%d %H:%M:%S")
 
             staff_user = request.user.is_staff or request.session.get('staff', False)
 

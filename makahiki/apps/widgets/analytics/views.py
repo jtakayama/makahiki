@@ -14,7 +14,6 @@ from widgets.energy_goal.models import TeamEnergyGoal
 from managers.team_mgr.models import Team
 from managers.player_mgr.models import Profile
 from managers.score_mgr.models import ScoreboardEntry
-from widgets.prizes.models import RaffleDeadline
 from widgets.quests.models import Quest
 
 @user_passes_test(lambda u: u.is_staff, login_url="/account/cas/login")
@@ -92,7 +91,7 @@ def users(request):
     todays_users = Profile.objects.filter(last_visit_date=datetime.datetime.today())
 
     # Approximate logins by their first points transaction.
-    start = datetime.datetime.strptime(settings.COMPETITION_START, "%Y-%m-%d")
+    start = datetime.datetime.strptime(settings.COMPETITION_START, "%Y-%m-%d %H:%M:%S")
     today = datetime.datetime.today()
 
     users_anno = User.objects.annotate(login_date=Min('pointstransaction__submission_date'))
@@ -113,7 +112,6 @@ def users(request):
 
 @user_passes_test(lambda u: u.is_staff, login_url="/account/cas/login")
 def prizes(request):
-    deadlines = RaffleDeadline.objects.all().order_by("pub_date")
 
     # Calculate unused raffle tickets for every user.
     elig_users = User.objects.filter(profile__points__gte=25).select_related('profile', 'raffleticket')
@@ -126,7 +124,6 @@ def prizes(request):
         unused += available
 
     return render_to_response("status/prizes.html", {
-        "deadlines": deadlines,
         "unused": unused,
         "has_error": len(errors) > 0,
         "errors": errors,

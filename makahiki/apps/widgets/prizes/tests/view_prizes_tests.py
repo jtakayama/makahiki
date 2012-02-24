@@ -42,16 +42,16 @@ class PrizesFunctionalTestCase(TestCase):
 
         settings.COMPETITION_ROUNDS = {
             "Round 1": {
-                "start": start.strftime("%Y-%m-%d"),
-                "end": end1.strftime("%Y-%m-%d"),
+                "start": start.strftime("%Y-%m-%d %H:%M:%S"),
+                "end": end1.strftime("%Y-%m-%d %H:%M:%S"),
                 },
             "Round 2": {
-                "start": end1.strftime("%Y-%m-%d"),
-                "end": end2.strftime("%Y-%m-%d"),
+                "start": end1.strftime("%Y-%m-%d %H:%M:%S"),
+                "end": end2.strftime("%Y-%m-%d %H:%M:%S"),
                 },
             }
-        settings.COMPETITION_START = start.strftime("%Y-%m-%d")
-        settings.COMPETITION_END = end2.strftime("%Y-%m-%d")
+        settings.COMPETITION_START = start.strftime("%Y-%m-%d %H:%M:%S")
+        settings.COMPETITION_END = end2.strftime("%Y-%m-%d %H:%M:%S")
 
         profile = self.user.get_profile()
         profile.name = "Test User"
@@ -97,16 +97,16 @@ class PrizesFunctionalTestCase(TestCase):
 
         settings.COMPETITION_ROUNDS = {
             "Round 1": {
-                "start": start.strftime("%Y-%m-%d"),
-                "end": end1.strftime("%Y-%m-%d"),
+                "start": start.strftime("%Y-%m-%d %H:%M:%S"),
+                "end": end1.strftime("%Y-%m-%d %H:%M:%S"),
                 },
             "Round 2": {
-                "start": end1.strftime("%Y-%m-%d"),
-                "end": end2.strftime("%Y-%m-%d"),
+                "start": end1.strftime("%Y-%m-%d %H:%M:%S"),
+                "end": end2.strftime("%Y-%m-%d %H:%M:%S"),
                 },
             }
-        settings.COMPETITION_START = start.strftime("%Y-%m-%d")
-        settings.COMPETITION_END = end2.strftime("%Y-%m-%d")
+        settings.COMPETITION_START = start.strftime("%Y-%m-%d %H:%M:%S")
+        settings.COMPETITION_END = end2.strftime("%Y-%m-%d %H:%M:%S")
 
         profile = self.user.get_profile()
         profile.add_points(10, datetime.datetime.today(), "test")

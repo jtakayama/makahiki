@@ -41,9 +41,9 @@ class Profile(models.Model):
 
     # Check first login completion.
     setup_profile = models.BooleanField(default=False, editable=False)
-    setup_complete = models.BooleanField(default=False, editable=False)
+    setup_complete = models.BooleanField(default=False, )
     completion_date = models.DateTimeField(null=True, blank=True,
-        editable=False)
+        )
 
     # Check visits for daily visitor badge.
     daily_visit_count = models.IntegerField(default=0, editable=False)
@@ -267,8 +267,8 @@ class Profile(models.Model):
 
         # Find which round this belongs to.
         for key in rounds:
-            start = datetime.datetime.strptime(rounds[key]["start"], "%Y-%m-%d")
-            end = datetime.datetime.strptime(rounds[key]["end"], "%Y-%m-%d")
+            start = datetime.datetime.strptime(rounds[key]["start"], "%Y-%m-%d %H:%M:%S")
+            end = datetime.datetime.strptime(rounds[key]["end"], "%Y-%m-%d %H:%M:%S")
             if submission_date >= start and submission_date < end:
                 return key
 

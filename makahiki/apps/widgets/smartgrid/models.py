@@ -547,7 +547,7 @@ class ActivityMember(CommonActivityUser):
         cache.delete('smartgrid-categories-%s' % self.user.username)
         cache.delete('user_events-%s' % self.user.username)
         invalidate_team_avatar_cache(self.activity, self.user)
-        super(ActivityMember, self).save(*args, **kwargs)
+        super(ActivityMember, self).save()
 
         # We check here for approved and rejected items because the object needs to be saved first.
         if self.approval_status == u"approved" and not self.award_date:

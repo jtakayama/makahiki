@@ -6,7 +6,7 @@ from django.conf import settings
 from django.core.files.images import ImageFile
 from django.contrib.auth.models import User
 
-from widgets.prizes.models import RafflePrize, RaffleDeadline
+from widgets.raffle.models import RafflePrize
 
 class RafflePrizeTests(TestCase):
     """
@@ -24,21 +24,13 @@ class RafflePrizeTests(TestCase):
 
         settings.COMPETITION_ROUNDS = {
             "Round 1": {
-                "start": start.strftime("%Y-%m-%d"),
-                "end": end.strftime("%Y-%m-%d"),
+                "start": start.strftime("%Y-%m-%d %H:%M:%S"),
+                "end": end.strftime("%Y-%m-%d %H:%M:%S"),
                 },
             }
 
         # Create a test user
         self.user = User.objects.create_user("user", "user@test.com", password="changeme")
-
-        # Set up raffle deadline
-        self.deadline = RaffleDeadline(
-            round_name="Round 1",
-            pub_date=datetime.datetime.today() - datetime.timedelta(hours=1),
-            end_date=datetime.datetime.today() + datetime.timedelta(days=5),
-        )
-        self.deadline.save()
 
         image_path = os.path.join(settings.PROJECT_ROOT, "fixtures", "test_images", "test.jpg")
         image = ImageFile(open(image_path, "r"))
@@ -47,7 +39,7 @@ class RafflePrizeTests(TestCase):
             description="A test prize",
             image=image,
             value=5,
-            deadline=self.deadline,
+            round_name = "Round 1",
         )
 
     def testTicketAllocation(self):

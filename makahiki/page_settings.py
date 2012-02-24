@@ -153,11 +153,14 @@ PAGE_SETTINGS = {
           "LAYOUTS":
               {"DEFAULT":
                 (
-                  ("prizes", "100%"),
+                  ("notifications", "100%"),
+                  ("quests", "100%"),
+                  (("prizes", "45%"), ("raffle", "55%"),),
                 ),
                 "PHONE_PORTRAIT":
                 (
                   ("prizes", "100%"),
+                  ("raffle", "50%"),
                 ),
               },
         },

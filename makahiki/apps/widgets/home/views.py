@@ -34,8 +34,8 @@ def supply(request, page_name):
 def restricted(request):
     """handle restricted url"""
     today = datetime.datetime.today()
-    start = datetime.datetime.strptime(settings.COMPETITION_START, "%Y-%m-%d")
-    end = datetime.datetime.strptime(settings.COMPETITION_END, "%Y-%m-%d")
+    start = datetime.datetime.strptime(settings.COMPETITION_START, "%Y-%m-%d %H:%M:%S")
+    end = datetime.datetime.strptime(settings.COMPETITION_END, "%Y-%m-%d %H:%M:%S")
 
     before = False
     # If we are in the competition, bring them back to the home page.

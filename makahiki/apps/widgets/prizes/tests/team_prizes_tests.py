@@ -38,8 +38,8 @@ class DormTeamPrizeTests(TestCase):
 
         settings.COMPETITION_ROUNDS = {
             "Round 1": {
-                "start": start.strftime("%Y-%m-%d"),
-                "end": end.strftime("%Y-%m-%d"),
+                "start": start.strftime("%Y-%m-%d %H:%M:%S"),
+                "end": end.strftime("%Y-%m-%d %H:%M:%S"),
                 },
             }
 
@@ -179,8 +179,8 @@ class OverallTeamPrizeTest(TestCase):
 
         settings.COMPETITION_ROUNDS = {
             "Round 1": {
-                "start": start.strftime("%Y-%m-%d"),
-                "end": end.strftime("%Y-%m-%d"),
+                "start": start.strftime("%Y-%m-%d %H:%M:%S"),
+                "end": end.strftime("%Y-%m-%d %H:%M:%S"),
                 },
             }
 

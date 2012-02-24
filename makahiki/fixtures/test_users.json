@@ -359,8 +359,8 @@
             "contact_email": "",
             "user": 4,
             "contact_carrier": null,
-            "setup_profile": true,
-            "enable_help": true
+            "setup_profile": false,
+            "enable_help": false
         }
     },
     {
