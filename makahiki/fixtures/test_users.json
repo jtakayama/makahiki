@@ -353,13 +353,13 @@
             "daily_visit_count": 0,
             "last_awarded_submission": null,
             "completion_date": null,
-            "setup_complete": false,
+            "setup_complete": true,
             "contact_text": "",
             "points": 0,
             "contact_email": "",
             "user": 4,
             "contact_carrier": null,
-            "setup_profile": false,
+            "setup_profile": true,
             "enable_help": true
         }
     },

@@ -13,7 +13,7 @@ from widgets.ask_admin.forms import FeedbackForm
 
 FROM_EMAIL = settings.MANAGERS[0][1]
 
-def supply(request):
+def supply(request, page_name):
     """ supply view_objects for widget rendering."""
     _ = request
     form = FeedbackForm(auto_id="help_%s")

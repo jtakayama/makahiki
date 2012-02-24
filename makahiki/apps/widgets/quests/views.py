@@ -8,7 +8,7 @@ from django.shortcuts import get_object_or_404
 from widgets.quests.models import Quest, QuestMember
 from widgets.quests import get_quests
 
-def supply(request):
+def supply(request, page_name):
     return get_quests(request.user)
 
 @login_required

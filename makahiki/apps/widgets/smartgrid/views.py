@@ -35,7 +35,7 @@ from django.db import connection
 MAX_INDIVIDUAL_STANDINGS = 10
 smartgrid_COL_COUNT = 3
 
-def supply(request):
+def supply(request, page_name):
     user = request.user
 
     profile = user.get_profile()

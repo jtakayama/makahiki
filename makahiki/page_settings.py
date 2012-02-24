@@ -53,15 +53,16 @@ PAGE_SETTINGS = {
                       (
                           ("notifications", "100%"),
                           ("quests", "100%"),
-                          (("help_intro", "50%"), ("help_faq", "50%"),),
-                          (("help_rule", "50%"), ("ask_admin", "50%"),),
+                          (("help_intro", "50%"), ("help_rule", "50%"), ),
+                          (("help_faq", "50%"), ("ask_admin", "50%"),),
+
                       ),
                   "PHONE_PORTRAIT":
                       (
-                          ("help", "100%"),
-                          ("help_faq", "50%"),
-                          ("help_rule", "50%"),
-                          ("ask_admin", "50%"),
+                          ("help_intro", "100%"),
+                          ("help_faq", "100%"),
+                          ("help_rule", "100%"),
+                          ("ask_admin", "100%"),
                       ),
                  },
          },
@@ -110,11 +111,15 @@ PAGE_SETTINGS = {
           "LAYOUTS":
               {"DEFAULT":
                 (
-                  ("news", "100%"),
+                  ("notifications", "100%"),
+                  ("quests", "100%"),
+                  (("upcoming_events", "50%"), ("news", "50%"), ("wallpost", "50%"), ),
                 ),
                 "PHONE_PORTRAIT":
                 (
+                  ("wallpost", "100%"),
                   ("news", "100%"),
+                  ("upcoming_events", "100%"),
                 ),
               },
         },
@@ -128,13 +133,15 @@ PAGE_SETTINGS = {
                 (
                     ("notifications", "100%"),
                     ("quests", "100%"),
-                    (("power", "35%"), ("energy_goal", "65%"), ("energy_scoreboard", "35%"),),
+                    (("energy_power_meter", "35%"), ("energy_goal", "65%"), ("energy_scoreboard", "35%"), ("wallpost", "65%"),),
+
                 ),
                 "PHONE_PORTRAIT":
                 (
-                  ("power", "100%"),
+                  ("energy_power_meter", "100%"),
                   ("energy_goal", "100%"),
                   ("energy_scoreboard", "100%"),
+                  ("wallpost", "100%"),
                 ),
               },
         },

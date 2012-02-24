@@ -1,11 +1,8 @@
 import datetime
 
 from django.db import models
-from django.contrib.auth.models import User
 
 from managers.team_mgr.models import Team
-
-# Create your models here.
 
 class TeamEnergyGoal(models.Model):
     # The amount of points to award for completing a goal.
@@ -13,16 +10,18 @@ class TeamEnergyGoal(models.Model):
 
     team = models.ForeignKey(Team)
     percent_reduction = models.IntegerField(default=0, editable=False)
-    goal_usage = models.DecimalField(decimal_places=2, max_digits=10, editable=False)
-    actual_usage = models.DecimalField(decimal_places=2, max_digits=10, editable=False)
+    goal_usage = models.IntegerField(default=0,)
+    actual_usage = models.IntegerField(default=0,)
+    warning_usage = models.IntegerField(default=0,)
 
     created_at = models.DateTimeField(editable=False, auto_now_add=True)
     updated_at = models.DateTimeField(editable=False, auto_now=True)
 
     def save(self, *args, **kwargs):
         """Overrided save method to award the goal's points to members of the team."""
-        goal_completed = self.goal_usage and self.actual_usage and (
-        self.actual_usage <= self.goal_usage)
+        goal_completed = self.goal_usage and \
+                         self.actual_usage and \
+                         (self.actual_usage <= self.goal_usage)
         super(TeamEnergyGoal, self).save(*args, **kwargs)
 
         if self.team and goal_completed:

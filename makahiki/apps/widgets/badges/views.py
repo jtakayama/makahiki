@@ -9,7 +9,7 @@ from lib.brabeion.models import BadgeAward
 from widgets.badges import user_badges
 from lib.brabeion import badges
 
-def supply(request):
+def supply(request, page_name):
     """ supply view_objects for widget rendering."""
     user = request.user
 

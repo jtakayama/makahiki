@@ -15,7 +15,29 @@
                             /></a>
             </div>
             <div {% get_id_and_classes "energy-scoreboard-content" %}>
-                <table id="{{round_name|slugify}}-energy-scoreboard"></table>
+                <table id="{{round_name|slugify}}-energy-scoreboard">
+                    <tr>
+                        <th>Rank</th>
+                        <th>{{ TEAM_LABEL }}</th>
+                        <th>kWh used</th>
+                    </tr>
+                    {% for entry in view_objects.energy_scoreboard.energy_ranks %}
+
+                        <tr>
+                            <td>{%  if entry.team == user.get_profile.team %}<b>{% endif %}
+                                {{ forloop.counter }}</td>
+                            <td>{%  if entry.team == user.get_profile.team %}<b>{% endif %}
+                                {{ entry.team.name }}
+                            </td>
+                            <td style="text-align: right; padding-right: 20px">
+                                {%  if entry.team == user.get_profile.team %}<b>{% endif %}
+                                {{ entry.energy }}
+                            </td>
+                        </tr>
+
+                    {% endfor %}
+
+                </table>
             </div>
         </div>
     {% endfor %}

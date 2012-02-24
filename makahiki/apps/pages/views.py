@@ -13,6 +13,7 @@ from django.conf.urls.defaults import url, patterns, include
 from django.conf import settings
 
 import types
+from widgets.energy_scoreboard.models import EnergyData
 
 @never_cache
 def root_index(request):
@@ -56,32 +57,39 @@ def index(request):
         "EXTRA_CSS": extra_css,
         }
 
+    # get user energy rank and usage
+    energy_rank_info = EnergyData.get_team_overall_rank_info(request.user.get_profile().team)
+
     return render_to_response("pages/templates/index.html", {
         "setting_objects": setting_objects,
         "view_objects": view_objects,
         "page_layouts": page_layouts,
+        "energy_rank_info": energy_rank_info,
         }, context_instance=RequestContext(request))
+
+
 
 def _get_view_objects(request, page_settings):
     """ Returns view_objects supplied widgets defined in page_settings.py. """
     view_objects = {}
     default_layout = page_settings["LAYOUTS"]["DEFAULT"]
+    page_name = page_settings["PAGE_NAME"]
     for row in default_layout:
         for columns in row:
             if isinstance(columns, types.TupleType):
                 widget = columns[0]
-                _load_widget_module(request, widget, view_objects)
+                _load_widget_module(request, widget, view_objects, page_name)
             else:
                 widget = columns
-                _load_widget_module(request, widget, view_objects)
+                _load_widget_module(request, widget, view_objects, page_name)
                 break
     
     return view_objects
 
-def _load_widget_module(request, widget, view_objects):
+def _load_widget_module(request, widget, view_objects, page_name):
     view_module_name = 'apps.widgets.' + widget + '.views'
     page_views = importlib.import_module(view_module_name)
-    view_objects[widget] = page_views.supply(request)
+    view_objects[widget] = page_views.supply(request, page_name)
 
 def _get_widget_css(view_objects):
     """
@@ -97,35 +105,38 @@ def _get_widget_css(view_objects):
             pass
     return widget_css
 
-def _create_responsive_css(row, idx, gid, percent, responsive_css):
-    """Returns the responsive CSS."""
-    if idx == 0:
-        responsive_css += "#%s { float: left; width: %d%%; }" % (gid, percent)
-    elif idx == len(row) - 1:
-        if idx == 1: # second column of the two columns layout
-            responsive_css += "#%s { float: right; width: %d%%; }" % (gid, percent)
-        else:
-            # last column of the three columns layout
-            responsive_css += "#%s { float: left; width: %d%%; }" % (gid, percent)
+def _create_layout_style(row, idx, gid, percent_increment, layout_style):
+    """Returns the layout_style CSS."""
+    if percent_increment < 95:
+        layout_style += "#%s { float: left; width: %d%%; }" % (gid, percent)
     else:
-        responsive_css += "#%s { float: right; width: %d%%; }" % (gid, percent)
-    return responsive_css
+        layout_style += "#%s { float: right; width: %d%%; }" % (gid, percent)
 
+    return layout_style
 
-def _get_layout(page_layouts, layout, extra_css):
-    """Fills in the page_layouts definitions from page_settings.py, Returns extra css"""
-    responsive_css = ""
+def _get_layout(page_layouts, layout, css_style):
+    """Fills in the page_layouts definitions from page_settings.py, Returns css style"""
+
     if layout[0] == "PHONE_PORTRAIT":
-        extra_css += "\n@media screen and (max-width: 1000px) {\n"
+        css_style += "\n@media screen and (max-width: 1000px) {\n"  # responsive style
+    layout_style = ""
     for row in layout[1]:
         column_layout = []
+        percent_total = 0
         for idx, columns in enumerate(row):
             if isinstance(columns, types.TupleType): # ((widget, 30%), (widget, 70%))
                 widget = columns[0]
                 gid = "%s" % (widget)
+
                 percent = int(columns[1][:-1]) - 1
+                percent_total += percent
+                if percent_total < 95:
+                    layout_style += "#%s { float: left; width: %d%%; }" % (gid, percent)
+                else:
+                    layout_style += "#%s { float: right; width: %d%%; }" % (gid, percent)
+                    percent_total = 0
+
                 widget_layout = {}
-                responsive_css = _create_responsive_css(row, idx, gid, percent, responsive_css)
                 if layout[0] == "DEFAULT":
                     widget_layout["id"] = gid
                     widget_layout["template"] = "widgets/%s/templates/index.html" % widget
@@ -133,8 +144,9 @@ def _get_layout(page_layouts, layout, extra_css):
             else:  # (widget, 100%)
                 widget = columns
                 gid = widget
+
                 percent = 100
-                responsive_css += "#%s { float: none; width: %d%%; }" % (gid, percent)
+                layout_style += "#%s { float: left; width: %d%%; }" % (gid, percent)
                 if layout[0] == "DEFAULT":
                     widget_layout = {}
                     widget_layout["id"] = widget
@@ -146,7 +158,9 @@ def _get_layout(page_layouts, layout, extra_css):
         
         if layout[0] == "DEFAULT":
             page_layouts["DEFAULT"] += [column_layout]
-    
+
+    css_style += layout_style
+
     if layout[0] == "PHONE_PORTRAIT":
-        responsive_css += "\n}"
-    return extra_css + responsive_css
+        css_style += "\n}"
+    return css_style

@@ -12,7 +12,7 @@ from managers.settings_mgr import get_round_info, get_current_round
 from widgets.prizes import POINTS_PER_TICKET
 from widgets.prizes.models import Prize, RafflePrize, RaffleDeadline
 
-def supply(request):
+def supply(request, page_name):
     team = request.user.get_profile().team
     prizes = _get_prizes(team)
     raffle_dict = _get_raffle_prizes(request.user)

@@ -13,7 +13,7 @@ from lib.brabeion import badges
 from lib.brabeion.models import BadgeAward
 
 
-def supply(request):
+def supply(request, page_name):
     user = request.user
     form = None
     if request.method == "POST":

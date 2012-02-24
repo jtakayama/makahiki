@@ -2,7 +2,7 @@ from widgets.smartgrid.forms import EventCodeForm
 from widgets.smartgrid import get_available_events
 from django.core.cache import cache
 
-def supply(request):
+def supply(request, page_name):
     user = request.user
     events = cache.get('user_events-%s' % user.username)
     if not events:

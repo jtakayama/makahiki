@@ -36,8 +36,8 @@ class EnergyFunctionalTestCase(TestCase):
 
         goal = TeamEnergyGoal.objects.create(
             team=self.team,
-            goal_usage="1.0",
-            actual_usage="2.0",
+            goal_usage="1",
+            actual_usage="2",
         )
 
         response = self.client.get(reverse("energy_index"))
@@ -47,8 +47,8 @@ class EnergyFunctionalTestCase(TestCase):
 
         goal = TeamEnergyGoal.objects.create(
             team=self.team,
-            goal_usage="1.0",
-            actual_usage="0.5",
+            goal_usage="2",
+            actual_usage="1",
         )
 
         response = self.client.get(reverse("energy_index"))
@@ -83,8 +83,8 @@ class TeamEnergyGoalTest(TestCase):
 
         goal = TeamEnergyGoal(
             team=self.team,
-            goal_usage=str(1.0),
-            actual_usage=str(0.5),
+            goal_usage=10,
+            actual_usage=5,
         )
         goal.save()
         profile = Profile.objects.get(user__username="user")
@@ -94,13 +94,13 @@ class TeamEnergyGoalTest(TestCase):
         profile.setup_complete = True
         profile.save()
 
-        goal.actual_usage = "1.5"
+        goal.actual_usage = 15
         goal.save()
         profile = Profile.objects.get(user__username="user")
         self.assertEqual(profile.points, points,
             "Team that failed the goal should not be awarded any points.")
 
-        goal.actual_usage = "0.5"
+        goal.actual_usage = 5
         goal.save()
         profile = Profile.objects.get(user__username="user")
         self.assertEqual(profile.points, points + TeamEnergyGoal.GOAL_POINTS,

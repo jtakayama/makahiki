@@ -1,11 +1,13 @@
 import datetime
 from django.db.models import F
 from django.db.models.aggregates import Count
+from lib.gviz_api import gviz_api
 
 from managers.settings_mgr import get_round_info
 from widgets.energy_goal.models import TeamEnergyGoal
+from widgets.energy_scoreboard.models import EnergyData
 
-def supply(request):
+def supply(request, page_name):
     user = request.user
     team = user.get_profile().team
 
@@ -27,8 +29,11 @@ def supply(request):
         "team__name"
     ).annotate(completions=Count("team")).order_by("-completions")
 
+    energy_ranks = EnergyData.get_overall_ranks()
+
     return {
         "team": team,
         "scoreboard_rounds": scoreboard_rounds,
         "goals_scoreboard": goals_scoreboard,
+        "energy_ranks": energy_ranks,
         }

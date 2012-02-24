@@ -43,10 +43,5 @@ def competition(request):
         "CURRENT_ROUND_INFO": get_current_round_info(),
         "FACEBOOK_APP_ID": facebook_app_id,
         "IN_COMPETITION": in_competition(),
-        "SPREADSHEETS": {
-            "THIRTY_DAYS": settings.ENERGY_THIRTY_DAYS_URL,
-            "ENERGY_GOAL": settings.ENERGY_GOAL_URL,
-            "POWER": settings.POWER_GAUGE_URL,
-            }
     }
 

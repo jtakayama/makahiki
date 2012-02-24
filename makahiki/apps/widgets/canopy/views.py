@@ -32,7 +32,7 @@ def index(request):
         }, context_instance=RequestContext(request))
 
 @can_access_canopy
-def supply(request):
+def supply(request, page_name):
     """
     Directs the user to the canopy page.
     """

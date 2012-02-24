@@ -24,7 +24,7 @@ import lib.facebook_api.facebook as facebook
 from widgets.home.forms import  ProfileForm, ReferralForm
 from widgets.smartgrid.models import ActivityMember, Activity
 
-def supply(request):
+def supply(request, page_name):
     """
     Directs the user to the home page.
     """

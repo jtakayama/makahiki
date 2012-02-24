@@ -7,10 +7,6 @@
   <script src="{{STATIC_URL}}/js/quest.js" type="text/javascript"></script>
   <script src="{{STATIC_URL}}/js/feedback.js" type="text/javascript"></script>
 
-  <script type="text/javascript" src="http://www.google.com/jsapi"></script>
-  <script type="text/javascript" src="{{STATIC_URL}}/js/com.iskitz.ajile.js?mvcoff,mvcshareoff,refresh"></script>
-  <script type="text/javascript" src="{{STATIC_URL}}/js/org.wattdepot.gdata.GDataLoader.js"></script>
-  <script type="text/javascript" src="{{STATIC_URL}}/js/org.wattdepot.gdata.makahiki.EnergyRank.js"></script>
   {% import_logged_in_css STATIC_URL %}
   {% block extra_head %}{% endblock %}
 {% endblock %}
@@ -109,43 +105,6 @@
     cookie: true, 
     xfbml: true
   });
-  
-  // Normally, we would wrap this in an anonymous function, but we want it to be available for later.
-  // Get the spreadsheet we need.
-  var energyLastThirtyDays = '{{SPREADSHEETS.THIRTY_DAYS}}';
-  var refreshInterval = 0; // don't refresh this spreadsheet.
-
-  // Load the visualization API and the spreadsheet, then call displayRank.
-  var loader = new org.wattdepot.gdata.GDataLoader(displayRank, energyLastThirtyDays, refreshInterval);  
-
-  function displayRank(energyDataTable) {
-    // The source for which we want to find the rank must be specified by Makahiki.
-    var source = {% if user.get_profile.team %}'{{user.get_profile.team.name}}'{% else %}null{% endif %};
-    var energyRank = new org.wattdepot.gdata.makahiki.EnergyRank();
-    
-    // Get the usage for the current round and overall.
-    {% for key, value in ROUNDS.items %}
-      // console.log('{{key}} start: {{value.start}}, end: {{value.end}}');
-      var usage = energyRank.processDataTable(energyDataTable, {{value.start}}, {{value.end}});
-      var info = energyRank.calculateRankInfo(usage, source);
-      
-      // Check if this is overall information.
-      {% if key == "Overall" %}
-      energyRank.draw("overall-energy-rank", "overall-energy-value", info);
-      {% else %}
-        // Check if this is info for the current round.
-        {% if CURRENT_ROUND and key == CURRENT_ROUND %}
-        energyRank.draw("round-energy-rank", "round-energy-value", info);
-        {% endif %}
-      {% endif %}
-
-        if (document.getElementById('{{key|slugify}}-energy-scoreboard') !== null) {
-            energyRank.drawCompleteStandings("{{key|slugify}}-energy-scoreboard", "{{user.get_profile.team.name}}", usage);
-        }
-
-      {% block extra_round_energy %}{% endblock %}
-    {% endfor %}
-  }
 </script>
 
 {% block extra_body %}{% endblock %}

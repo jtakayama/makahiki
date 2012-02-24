@@ -11,22 +11,10 @@ from django.contrib.auth.models import User
 from managers.team_mgr.models import Post
 from widgets.smartgrid import get_available_events, get_current_commitment_members, get_popular_tasks
 from managers.player_mgr.models import Profile
-from widgets.news.forms import WallForm
 from widgets.smartgrid.forms import EventCodeForm
 
-from widgets.news import DEFAULT_POST_COUNT
-
-def supply(request):
+def supply(request, page_name):
     team_id = request.user.get_profile().team_id
-
-    # Get team posts.
-    posts = Post.objects.filter(
-        team=team_id
-    ).order_by("-id").select_related('user__profile')
-
-    post_count = posts.count
-    posts = posts[:DEFAULT_POST_COUNT]
-    is_more_posts = True if post_count > DEFAULT_POST_COUNT else False
 
     # Get upcoming events.
     events = get_available_events(request.user)
@@ -43,10 +31,7 @@ def supply(request):
     form = EventCodeForm()
 
     return {
-        "posts": posts,
         "events": events,
-        "wall_form": WallForm(),
-        "more_posts": is_more_posts,
         "commitment_members": commitment_members,
         "team_members": members,
         "popular_tasks": get_popular_tasks(),
@@ -65,60 +50,3 @@ def team_members(request):
     return render_to_response("news/directory/team_members.html", {
         "team_members": members,
         }, context_instance=RequestContext(request))
-
-
-@login_required
-def post(request):
-    if request.is_ajax() and request.method == "POST":
-        form = WallForm(request.POST)
-        if form.is_valid():
-            wall_post = Post(
-                user=request.user,
-                team=request.user.get_profile().team,
-                text=form.cleaned_data["post"]
-            )
-            wall_post.save()
-
-            # Render the post and send it as a response.
-            template = render_to_string("news/user_post.html", {"post": wall_post},
-                context_instance=RequestContext(request))
-            return HttpResponse(json.dumps({
-                "contents": template,
-                }), mimetype="application/json")
-
-        # At this point there is a form validation error.
-        return HttpResponse(json.dumps({
-            "message": "This should not be blank."
-        }), mimetype="application/json")
-
-    raise Http404
-
-
-@login_required
-def more_posts(request):
-    if request.is_ajax():
-        team = request.user.get_profile().team
-        if request.GET.has_key("last_post"):
-            posts = Post.objects.filter(team=team, id__lt=int(request.GET["last_post"])).order_by(
-                "-id")
-        else:
-            posts = Post.objects.filter(team=team).order_by("-id")
-
-        post_count = posts.count
-        posts = posts[:DEFAULT_POST_COUNT]
-        is_more_posts = True if post_count > DEFAULT_POST_COUNT else False
-
-        view_objects = {}
-        view_objects["news"] = {"posts": posts,
-                                "wall_form": WallForm(),
-                                "more_posts": is_more_posts, }
-
-        template = render_to_string("news/news_posts.html", {
-            "view_objects": view_objects,
-            }, context_instance=RequestContext(request))
-
-        return HttpResponse(json.dumps({
-            "contents": template,
-            }), mimetype='application/json')
-
-    raise Http404

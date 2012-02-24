@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 
 from widgets.smartgrid.models import Commitment, CommitmentMember
 from managers.team_mgr.models import Team, Post
-from widgets.news import DEFAULT_POST_COUNT
+from widgets.wallpost.views import DEFAULT_POST_COUNT
 
 class NewsFunctionalTestCase(TestCase):
     fixtures = ["base_teams.json"]
@@ -103,7 +103,7 @@ class NewsFunctionalTestCase(TestCase):
             post.save()
 
         second_post = Post.objects.all().order_by("-pk")[0]
-        response = self.client.get(reverse("news_more_posts"),
+        response = self.client.get(reverse("news_more_posts") + "?page_name=news",
             HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         self.failUnlessEqual(response.status_code, 200)
         self.assertNotContains(response, "Testing AJAX response 0.")
@@ -111,7 +111,7 @@ class NewsFunctionalTestCase(TestCase):
         for i in range(1, DEFAULT_POST_COUNT + 1):
             self.assertContains(response, "Testing AJAX response %d" % i)
 
-        response = self.client.get(reverse("news_more_posts") + ("?last_post=%d" % second_post.id),
+        response = self.client.get(reverse("news_more_posts") + ("?last_post=%d&page_name=news" % second_post.id),
             HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         self.assertContains(response, "Testing AJAX response 0.")
     

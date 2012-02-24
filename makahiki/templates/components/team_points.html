@@ -41,11 +41,11 @@
 
 <div id="header-team-overall-rank4" style="display:none">
   <div {% get_id_and_classes "header-team-energy" %}>
-    <h3 id="overall-energy-value"></h3>
+    <h3>{{ energy_rank_info.usage }}</h3>
      <div {% get_id_and_classes "header-text" %}>kWh used overall</div>
   </div>
   <div {% get_id_and_classes "header-team-rank" %}>
-    <h3 id="overall-energy-rank"></h3> 
+      <h3>#{{ energy_rank_info.rank }}</h3>
     <div {% get_id_and_classes "header-text" %}>out of {{TEAM_COUNT}} in all teams</div>
   </div>
 </div>

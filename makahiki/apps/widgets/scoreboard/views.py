@@ -3,7 +3,7 @@ from managers.settings_mgr import get_current_round
 from managers.player_mgr.models import Profile
 from managers.team_mgr.models import Team
 
-def supply(request):
+def supply(request, page_name):
     user = request.user
 
     team = user.get_profile().team

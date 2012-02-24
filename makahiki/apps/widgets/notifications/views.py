@@ -5,7 +5,7 @@ from django.http import Http404, HttpResponse, HttpResponseRedirect
 from widgets.notifications.models import UserNotification
 from widgets.notifications import get_unread_notifications
 
-def supply(request):
+def supply(request, page_name):
     return get_unread_notifications(request.user, limit=3)
 
 def read(request, notification_id):

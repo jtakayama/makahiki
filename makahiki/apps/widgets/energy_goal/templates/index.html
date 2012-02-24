@@ -1,9 +1,6 @@
 {% load class_tags %}
 {% load markup %}
 
-    <script type="text/javascript"
-            src="{{ STATIC_URL}}/js/org.wattdepot.gdata.makahiki.EnergyGoalGame.js"></script>
-
         <div {% get_id_and_classes "energy-status-box" %}>
             <div {% get_id_and_classes "energy-status-title" %}>
                 Daily Energy Goal Game
@@ -17,8 +14,11 @@
             <div {% get_id_and_classes "energy-status-content" %}>
                 <fieldset {% get_id_and_classes "energy-status-progress" %}>
                     <legend>Current Status</legend>
-
-                    {% include "usage.html" %}
+                    <div {% get_id_and_classes "energy-power-box" %}>
+                        {% if user.get_profile.team %}
+                          {% include "usage.html" %}
+                        {% endif %}
+                    </div>
                     <p/>
                     <center><b>
                         Each member receives 20 points
@@ -36,40 +36,6 @@
                             </td>
                         </tr>
                     </table>
-                </fieldset>
-
-                <fieldset {% get_id_and_classes "energy-status-posts" %}>
-                    <legend>Organize with your {{ TEAM_LABEL.lower }} peeps</legend>
-                    Got ideas on how to conserve energy? Share it on the {{ TEAM_LABEL.lower }}
-                    wall:<br>
-
-                    <div {% get_id_and_classes "news-wall-content" %}>
-                        <div {% get_id_and_classes "wall-form" %}>
-                            <form {% get_id_and_classes "news-post-form" %}
-                                    action="{% url news_post %}" method="POST">
-                                {% csrf_token %}
-                                <div {% get_id_and_classes "wall-post-errors" %}></div>
-                                <div {% get_id_and_classes "wall-post" %}>
-                                    {{ view_objects.energy_goal.wall_form.post }}
-                                </div>
-                                <div style="text-align: center">
-                                    <button id="wall-post-submit"
-                                            style="font-size: 14px; margin-top:0.8em; margin-left:0.5em; margin-right:0.5em; margin-bottom:0.8em;">
-                                        Post
-                                    </button>
-                                </div>
-                                <!--- <a {% get_id_and_classes "wall-post-submit" %} href="#">Post</a> -->
-                            </form>
-                        </div>
-
-                        <ul {% get_id_and_classes "wall-posts" %}>
-                            {% include "news/news_posts.html" %}
-                        </ul>
-                        {% if not posts %}
-                            <p {% get_id_and_classes "wall-no-posts" %} style="padding: 7px;">There
-                                are no posts yet!</p>
-                        {% endif %}
-
                 </fieldset>
             </div>
         </div>

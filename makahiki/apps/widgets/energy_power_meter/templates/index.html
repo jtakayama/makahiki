@@ -1,10 +1,7 @@
 {% load class_tags %}
 {% load markup %}
 
-    <script type="text/javascript"
-            src="{{STATIC_URL}}/js/org.wattdepot.gdata.makahiki.PowerMeter.js"></script>
-
-
+{% if user.get_profile.team %}
         <div {% get_id_and_classes "energy-power" %}>
             <div {% get_id_and_classes "activity-power-box" %}>
                 <div {% get_id_and_classes "energy-power-title" %}>
@@ -18,8 +15,11 @@
                 </div>
                 <div {% get_id_and_classes "energy-power-content" %}>
                     <center>
-                        {% include "power.html" %}
+                        <div {% get_id_and_classes "energy-power-gauge" %}>
+                          {% include "power.html" %}
+                        </div>
                     </center>
                 </div>
             </div>
         </div>
+{% endif %}
