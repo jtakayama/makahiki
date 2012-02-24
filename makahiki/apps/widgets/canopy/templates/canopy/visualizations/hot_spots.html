@@ -4,7 +4,7 @@
 <div id="hotSpotChart">
 
     <div id="title" style="font-weight: bold; text-align: center;">
-        Hot Spot Analysis : Lounge
+        Hot Spot Analysis : {{ TEAM_LABEL }}
         <select id='lounge' onchange='updateLounge();'>
             {% for lounge in view_objects.canopy.all_lounges %}
                 <option {% if user.get_profile.team.name == lounge.name %}

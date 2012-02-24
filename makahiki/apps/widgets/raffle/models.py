@@ -3,6 +3,9 @@ from django.contrib.auth.models import User
 
 from managers.settings_mgr import get_round_info
 
+POINTS_PER_TICKET = 25      # Number of points for each raffle ticket.
+RAFFLE_END_PERIOD = 2       # raffle end 2 hours before round ends
+
 class RafflePrize(models.Model):
     ROUND_CHOICES = ((round_name, round_name) for round_name in get_round_info().keys())
 
@@ -25,14 +28,13 @@ class RafflePrize(models.Model):
     winner = models.ForeignKey(User, null=True, blank=True)
 
     def __unicode__(self):
-        return "%s: %s" % (self.deadline.round_name, self.title)
+        return "%s: %s" % (self.round_name, self.title)
 
     def add_ticket(self, user):
         """
         Adds a ticket from the user if they have one.  Throws an exception if they cannot add a ticket.
         """
-        profile = user.get_profile()
-        if profile.available_tickets() <= 0:
+        if RaffleTicket.available_tickets(user) <= 0:
             raise Exception("This user does not have any tickets to allocate.")
 
         ticket = RaffleTicket(raffle_prize=self, user=user)
@@ -63,3 +65,18 @@ class RaffleTicket(models.Model):
     raffle_prize = models.ForeignKey(RafflePrize)
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
     updated_at = models.DateTimeField(auto_now=True, editable=False)
+
+    @staticmethod
+    def available_tickets(user):
+        """
+        Returns the number of raffle tickets the user has available.
+        """
+        profile = user.get_profile()
+        total_tickets = profile.points / POINTS_PER_TICKET
+        allocated_tickets = user.raffleticket_set.count()
+
+        return total_tickets - allocated_tickets
+
+    @staticmethod
+    def total_tickets(user):
+        return user.get_profile().points / POINTS_PER_TICKET

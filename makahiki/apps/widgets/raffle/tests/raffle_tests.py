@@ -6,7 +6,7 @@ from django.conf import settings
 from django.core.files.images import ImageFile
 from django.contrib.auth.models import User
 
-from widgets.raffle.models import RafflePrize
+from widgets.raffle.models import RafflePrize, RaffleTicket
 
 class RafflePrizeTests(TestCase):
     """
@@ -54,9 +54,9 @@ class RafflePrizeTests(TestCase):
         profile.save()
 
         # Add a ticket to the prize
-        self.assertEqual(profile.available_tickets(), 1, "User should have one raffle ticket.")
+        self.assertEqual(RaffleTicket.available_tickets(self.user), 1, "User should have one raffle ticket.")
         self.prize.add_ticket(self.user)
-        self.assertEqual(profile.available_tickets(), 0, "User should not have any raffle tickets.")
+        self.assertEqual(RaffleTicket.available_tickets(self.user), 0, "User should not have any raffle tickets.")
         self.assertEqual(self.prize.allocated_tickets(), 1,
             "1 ticket should be allocated to this prize.")
         self.assertEqual(self.prize.allocated_tickets(self.user), 1,

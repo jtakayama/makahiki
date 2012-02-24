@@ -8,17 +8,6 @@ from django.conf import settings
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 
-# Default string to use as the team label.
-DEFAULT_TEAM_LABEL = "Team"
-
-def get_team_label():
-    """Returns the team label from the settings or the default if it doesn't exist."""
-
-    if settings.COMPETITION_GROUP_NAME:
-        return settings.COMPETITION_GROUP_NAME
-    else:
-        return DEFAULT_TEAM_LABEL
-
 
 def get_round_info():
     """Returns a dictionary containing round information."""

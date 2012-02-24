@@ -35,9 +35,6 @@ class CompetitionMiddlewareTestCase(TestCase):
         self.saved_start = settings.COMPETITION_START
         self.saved_end = settings.COMPETITION_END
 
-        self.saved_access = settings.CAN_ACCESS_OUTSIDE_COMPETITION
-        settings.CAN_ACCESS_OUTSIDE_COMPETITION = False
-
     def testBeforeCompetition(self):
         """
         Check that the user is redirected before the competition starts.
@@ -67,7 +64,6 @@ class CompetitionMiddlewareTestCase(TestCase):
     def tearDown(self):
         settings.COMPETITION_START = self.saved_start
         settings.COMPETITION_END = self.saved_end
-        settings.CAN_ACCESS_OUTSIDE_COMPETITION = self.saved_access
 
 
 class SetupWizardFunctionalTestCase(TestCase):

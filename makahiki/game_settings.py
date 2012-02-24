@@ -11,8 +11,8 @@ import datetime
 # SITE
 #####################
 SITE_ID = 1
-SITE_NAME = "Kukui Cup"
-CONTACT_EMAIL = "feedback@example.com"
+SITE_NAME = "UHM"
+CONTACT_EMAIL = "feedback@kukuicup.org"
 ADMINS = (("Makahiki Developers", "makahiki-dev@googlegroups.com"),)
 MANAGERS = ADMINS
 
@@ -22,11 +22,11 @@ MANAGERS = ADMINS
 # The actual name of the competition.
 COMPETITION_NAME = "Kukui Cup"
 
-# Optional setting to specify a special name for the points. Default is "points".
-COMPETITION_POINT_NAME = "point"
+# Optional setting to specify a special name for the points. Default is "point".
+COMPETITION_POINT_LABEL = "point"
 
-# The name of a standard competition grouping.  Defaults to "Team" if this is not provided.
-COMPETITION_GROUP_NAME = "Lounge"
+# The label of a standard competition team.  Defaults to "Team" if this is not provided.
+COMPETITION_TEAM_LABEL = "Lounge"
 
 # This include start and end dates along with round information.
 # The start and end date of the competition.
@@ -44,24 +44,11 @@ COMPETITION_ROUNDS = {
         },
     }
 
-POINTS_PER_TICKET = 20
-
 ###################
 # Authentication
 ###################
 # Settings for the CAS authentication service.
 CAS_SERVER_URL = 'https://login.its.hawaii.edu/cas/'
-CAS_REDIRECT_URL = '/home'
-CAS_IGNORE_REFERER = True
-
-LOGIN_URL = "/account/cas/login/"
-LOGIN_REDIRECT_URLNAME = "home_index"
-LOGIN_REDIRECT_URL = "/"
-RESTRICTED_URL = '/restricted/'
-
-# When enabled, users who try to access the site before or after the competition ends are blocked.
-# Admin users are able to log in at any time.
-CAN_ACCESS_OUTSIDE_COMPETITION = False
 
 ##################
 # DATA Settings
@@ -91,8 +78,5 @@ LOCALE_SETTING = 'en_US.UTF-8'
 ###################
 # THEME
 ###################
-
 # The theme to use as default. This corresponds to a folder in media that contains the CSS.
 MAKAHIKI_THEME = "default"
-
-CSS_THEME = "default"

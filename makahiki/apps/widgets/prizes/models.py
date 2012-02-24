@@ -13,10 +13,10 @@ class Prize(models.Model):
     ROUND_CHOICES = ((round_name, round_name) for round_name in get_round_info().keys())
     AWARD_TO_CHOICES = (
         ("individual_overall", "Individual (Overall)"),
-        ("individual_team", "Individual (" + settings.COMPETITION_GROUP_NAME + ")"),
+        ("individual_team", "Individual (" + settings.COMPETITION_TEAM_LABEL + ")"),
         # ("individual_group", "Individual (Group)"),
-        ("team_overall", settings.COMPETITION_GROUP_NAME + " (Overall)"),
-        ("team_group", settings.COMPETITION_GROUP_NAME + " (Group)"),
+        ("team_overall", settings.COMPETITION_TEAM_LABEL + " (Overall)"),
+        ("team_group", settings.COMPETITION_TEAM_LABEL + " (Group)"),
         # ("group", "Group"), # Not implemented yet.
         )
     AWARD_CRITERIA_CHOICES = (

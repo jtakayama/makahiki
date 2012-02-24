@@ -70,15 +70,6 @@ class Profile(models.Model):
 
         return Profile.objects.all().order_by("-points", "-last_awarded_submission")[:num_results]
 
-    def available_tickets(self):
-        """
-        Returns the number of raffle tickets the user has available.
-        """
-        total_tickets = self.points / settings.POINTS_PER_TICKET
-        allocated_tickets = self.user.raffleticket_set.count()
-
-        return total_tickets - allocated_tickets
-
     def current_round_points(self):
         """Returns the amount of points the user has in the current round."""
         current_round = get_current_round()

@@ -8,12 +8,8 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.urlresolvers import reverse
 from django.views.decorators.cache import never_cache
 
-from managers.settings_mgr import  get_current_round, get_current_round_info
-from widgets.raffle.models import  RafflePrize
-
-
-POINTS_PER_TICKET = 25      # Number of points for each raffle ticket.
-RAFFLE_END_PERIOD = 2       # raffle end 2 hours before round ends
+from managers.settings_mgr import  get_current_round_info
+from widgets.raffle.models import  RafflePrize, RaffleTicket, POINTS_PER_TICKET, RAFFLE_END_PERIOD
 
 def supply(request, page_name):
     user = request.user
@@ -22,9 +18,8 @@ def supply(request, page_name):
     today = datetime.datetime.today()
 
     # Get the user's tickets.
-    profile = user.get_profile()
-    available_tickets = profile.available_tickets()
-    total_tickets = profile.points / POINTS_PER_TICKET
+    available_tickets = RaffleTicket.available_tickets(user)
+    total_tickets = RaffleTicket.total_tickets(user)
     allocated_tickets = total_tickets - available_tickets
 
     prizes = None
@@ -53,14 +48,13 @@ def add_ticket(request, prize_id):
     """
     if request.method == "POST":
         prize = get_object_or_404(RafflePrize, id=prize_id)
-        profile = request.user.get_profile()
+        user = request.user
         current_round_info = get_current_round_info()
         deadline  = current_round_info["end"] - datetime.timedelta(hours=RAFFLE_END_PERIOD)
         in_deadline = datetime.datetime.today() <= deadline
 
-        #print profile.available_tickets()
-        if profile.available_tickets() > 0 and in_deadline:
-            prize.add_ticket(request.user)
+        if RaffleTicket.available_tickets(user) > 0 and in_deadline:
+            prize.add_ticket(user)
             return HttpResponseRedirect(reverse("prizes_index"))
         elif not in_deadline:
             messages.error(request, "The raffle for this round is over.")

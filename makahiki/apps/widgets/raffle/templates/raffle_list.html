@@ -2,7 +2,6 @@
 {% load prize_tags %}
 {% load markup %}
 
-{% with user.get_profile.available_tickets as available_tickets %}
     {% for prize in raffle.prizes %}
         <!-- {% cycle 'alt-row' '' as cycle_class %} -->
         {% with prize|user_tickets:user as user_tickets %}
@@ -45,7 +44,7 @@
                 <td class="{% insert_classes "prize-number" %} user-odds">
                     {# {{prize|user_odds:user}} #}</td>
                 <td>
-                    {% if available_tickets > 0 %}
+                    {% if raffle.tickets.available > 0 %}
                         <form action="{% url raffle_add_ticket prize.id %}" method="POST">
                             {% csrf_token %}
                             <a class="enabled" href="#"
@@ -67,7 +66,6 @@
             </tr>
         {% endwith %}
     {% endfor %}
-{% endwith %}
 
 <script type='text/javascript'>
     $(".user-odds").each(function (index) {

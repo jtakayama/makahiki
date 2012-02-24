@@ -17,6 +17,10 @@
 <div style="margin-top: 10px">
   
   <div {% get_id_and_classes "header-logout" %}>
+    <div id="header-site-name">
+        {{ SITE_NAME }} {{ COMPETITION_NAME }}
+    </div>
+
     {% if user.get_profile.canopy_member and not in_canopy %}
     <div id="link-container" style="float: left">
       <div id="header-canopy-link" class="hidden">
