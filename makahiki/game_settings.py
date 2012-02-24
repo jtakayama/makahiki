@@ -40,7 +40,7 @@ COMPETITION_END = (datetime.date.today() + datetime.timedelta(days=6)).strftime(
 COMPETITION_ROUNDS = {
     "Round 1": {
         "start": (datetime.date.today() - datetime.timedelta(days=3)).strftime("%Y-%m-%d %H:%M:%S"),
-        "end": (datetime.date.today() + datetime.timedelta(days=1)).strftime("%Y-%m-%d %H:%M:%S"),
+        "end": (datetime.date.today() - datetime.timedelta(days=1)).strftime("%Y-%m-%d %H:%M:%S"),
         },
     }
 

@@ -160,5 +160,41 @@
       "value": 10,
         "round_name": "Round 1"
     }
+  },
+  {
+    "pk": 4,
+    "model": "raffle.raffleprize",
+    "fields": {
+      "description": "A bike helmet.",
+      "title": "Bike Helmet for Overall",
+      "image": "prizes/bikehelmet_1.jpg",
+      "winner": null,
+      "value": 10,
+      "round_name": "Overall"
+    }
+  },
+  {
+    "pk": 5,
+    "model": "raffle.raffleprize",
+    "fields": {
+      "description": "A surfboard.",
+      "title": "Surfboard for Overall",
+      "image": "prizes/surf_lessons_1.jpg",
+      "winner": null,
+      "value": 10,
+        "round_name": "Overall"
+    }
+  },
+  {
+    "pk": 6,
+    "model": "raffle.raffleprize",
+    "fields": {
+      "description": "A gift certificate for a double dip cone from Bubbies Ice Cream Parlor, voted Best Ice Cream of 2010!",
+      "title": "Bubbies Gift Certificate for Overall",
+      "image": "prizes/bubbies.png",
+      "winner": null,
+      "value": 10,
+        "round_name": "Overall"
+    }
   }
 ]
