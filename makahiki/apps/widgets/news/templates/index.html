@@ -1,0 +1,82 @@
+{% load class_tags %}
+{% load avatar_tags %}
+
+<div {% get_id_and_classes "news-members" %}>
+    <div {% get_id_and_classes "news-members-title" %}>
+        {{ TEAM_LABEL }} members
+        <a href="#" style="float: right">
+            <img src="{{ STATIC_URL}}/css/default/images/icon-help-sm.png" width="20" align="center"
+                 title="Click to get help about this window"
+                 onclick="toggleHelp('widget', 'news-directory'); return false;"
+                    /></a>
+        <br style="clear: both"/>
+    </div>
+    <div {% get_id_and_classes "news-members-content" %}>
+        <ul {% get_id_and_classes "news-members-list" %}>
+            {% for member in view_objects.news.team_members %}
+                <li>
+                    <a href="{% url news_team_members %}#{{member.name|slugify}}">
+                        <img src="{% avatar_url member.user 40 %}" alt="Photo of {{ member.name }}"
+                             title="Photo of {{ member.name }}" align="top"/>
+
+                        <div>
+                            {{ member.name }}
+                        </div>
+                    </a>
+                </li>
+                {% if forloop.counter|divisibleby:6 %}
+                    <br style="clear: left"/>
+                {% endif %}
+            {% endfor %}
+        </ul>
+        <div style="text-align: center">
+            <a href="{% url news_team_members %}">View all members</a>
+        </div>
+    </div>
+</div>
+
+<div {% get_id_and_classes "news-events-popular-activities" %}>
+    <div {% get_id_and_classes "news-most-popular" %}>
+        <div {% get_id_and_classes "news-most-popular-title" %}>
+            Most Popular
+            <a href="#" style="float: right">
+                <img src="{{ STATIC_URL}}/css/default/images/icon-help-sm.png" width="20"
+                     align="center"
+                     title="Click to get help about this window"
+                     onclick="toggleHelp('widget', 'most-popular'); return false;"
+                        /></a>
+        </div>
+        <div {% get_id_and_classes "news-most-popular-content" %}>
+            <div {% get_id_and_classes "news-most-popular-tasks" %} >
+                {% include "news/popular_tasks.html" %}
+            </div>
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    var height = 45; //Minimum height of the box.
+                    $("#news-most-popular-tasks").children().each(function (index, value) {
+                        if ($(value).height() > height) {
+                            height = $(value).height() + 30;
+                        }
+                    });
+
+                    $("#news-most-popular-tasks").cycle({height:"" + height + "px"});
+                })
+            </script>
+        </div>
+    </div>
+
+    <div {% get_id_and_classes "news-commitments" %}>
+        <div {% get_id_and_classes "news-commitments-title" %}>
+            My Public Commitments
+            <a href="#" style="float: right">
+                <img src="{{ STATIC_URL}}/css/default/images/icon-help-sm.png" width="20"
+                     align="center"
+                     title="Click to get help about this window"
+                     onclick="toggleHelp('widget', 'my-public-commitments'); return false;"
+                        /></a>
+        </div>
+        <div {% get_id_and_classes "news-commitments-content" %}>
+            {% include "activities/user_commitments.html" %}
+        </div>
+    </div>
+</div>

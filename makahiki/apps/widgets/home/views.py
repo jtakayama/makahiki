@@ -80,7 +80,7 @@ def terms(request):
     """
     if request.is_ajax():
         response = render_to_string("first-login/terms.html", {
-        }, context_instance=RequestContext(request))
+            }, context_instance=RequestContext(request))
 
         return HttpResponse(json.dumps({
             "title": "Introduction: Step 2 of 7",
