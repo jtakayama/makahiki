@@ -7,6 +7,7 @@ import datetime
 import urllib2
 
 from django.conf import settings
+from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.template.loader import render_to_string
@@ -15,6 +16,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.core.files import File
 from django.core.files.temp import NamedTemporaryFile
+from django.utils import importlib
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_exempt
 from django.core.urlresolvers import reverse
@@ -22,12 +24,13 @@ from django.core.urlresolvers import reverse
 from lib.avatar.models import avatar_file_path, Avatar
 import lib.facebook_api.facebook as facebook
 from widgets.home.forms import  ProfileForm, ReferralForm
-from widgets.smartgrid.models import ActivityMember, Activity
 
 def supply(request, page_name):
     """
     Directs the user to the home page.
     """
+    _ = request
+    _ = page_name
     return {}
 
 @login_required
@@ -335,14 +338,18 @@ def setup_complete(request):
         if request.method == "POST":
             # User got the question right.
             # link it to an activity.
-            activity_name = settings.SETUP_WIZARD_ACTIVITY_NAME
-            try:
-                activity = Activity.objects.get(name=activity_name)
-                ActivityMember.objects.get_or_create(activity=activity, user=profile.user,
-                    approval_status="approved")
-                # If this was created, it's automatically saved.
-            except Activity.DoesNotExist:
-                pass # Don't add anything if we can't link to the activity.
+            if "widgets.smartgrid" in settings.INSTALLED_WIDGET_APPS:
+                activity_name = settings.SETUP_WIZARD_ACTIVITY_NAME
+                try:
+                    module = importlib.import_module("apps.widgets.smartgrid.models")
+                    activity = module.Activity.objects.get(name=activity_name)
+                    module.ActivityMember.objects.get_or_create(
+                        activity=activity,
+                        user=profile.user,
+                        approval_status="approved")
+                    # If this was created, it's automatically saved.
+                except ObjectDoesNotExist:
+                    pass # Don't add anything if we can't link to the activity.
 
         profile.setup_complete = True
         profile.completion_date = datetime.datetime.today()

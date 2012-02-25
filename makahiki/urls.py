@@ -20,15 +20,15 @@ urlpatterns = patterns('',
     url(r'^news/$', "pages.views.index", name="news_index"),
     url(r'^prizes/$', "pages.views.index", name="prizes_index"),
     url(r'^canopy/$', 'pages.views.index', name="canopy_index"),
-    url(r'^home/', include('widgets.home.urls')),
-
 
     # system level
     url(r'^log/', include('managers.log_mgr.urls')),
     url(r'^help/', include('managers.help_mgr.urls')),
+    url(r'^account/login/$', 'managers.auth_mgr.views.login', name='auth_login'),
+    url(r'^account/cas/login/$', 'lib.django_cas.views.login'),
+    url(r'^account/cas/logout/$', 'lib.django_cas.views.logout'),
     url(r'^avatar/', include('lib.avatar.urls')),
     (r'^admin/login-as/(?P<user_id>\d+)/$', 'managers.auth_mgr.views.login_as'),
-    (r'^admin/status/', include('widgets.analytics.urls'),),
     (r'^admin/doc/', include('django.contrib.admindocs.urls')),
     (r'^admin/', include(admin.site.urls)),
 
@@ -37,11 +37,6 @@ urlpatterns = patterns('',
     url(r'^about/$', direct_to_template, {'template': 'about.html'}, name='about'),
     url(r'^browser-check/$', direct_to_template, {'template': 'browser_check.html'}, name='browser_check'),
     url(r'^coming-soon/$', direct_to_template, {'template': 'coming_soon.html'}, name='coming_soon'),
-
-    # service views.
-    url(r'^account/login/$', 'managers.auth_mgr.views.login', name='auth_login'),
-    url(r'^account/cas/login/$', 'lib.django_cas.views.login'),
-    url(r'^account/cas/logout/$', 'lib.django_cas.views.logout'),
 )
 
 for widget_app in settings.INSTALLED_WIDGET_APPS:

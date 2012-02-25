@@ -1,7 +1,6 @@
 """
 main views module to render pages.
 """
-import os
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.utils import importlib
@@ -9,11 +8,9 @@ from django.views.decorators.cache import never_cache
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
-from django.conf.urls.defaults import url, patterns, include
 from django.conf import settings
 
 import types
-from widgets.energy_scoreboard.models import EnergyData
 
 @never_cache
 def root_index(request):
@@ -32,6 +29,9 @@ def index(request):
     handle dynamically lay-outed pages defined in page_settings.
     """
     page_name = request.path[1:][:-1]
+
+    if not page_name in settings.PAGE_SETTINGS.keys():
+        return HttpResponseRedirect(reverse("home_index"))
 
     page_settings = settings.PAGE_SETTINGS[page_name]
     page_settings["PAGE_NAME"] = page_name
@@ -58,7 +58,11 @@ def index(request):
         }
 
     # get user energy rank and usage
-    energy_rank_info = EnergyData.get_team_overall_rank_info(request.user.get_profile().team)
+    energy_rank_info = None
+    if "widgets.energy_scoreboard" in settings.INSTALLED_WIDGET_APPS:
+        module = importlib.import_module("apps.widgets.energy_scoreboard.models")
+        energy_rank_info = module.EnergyData.get_team_overall_rank_info(
+            request.user.get_profile().team)
 
     return render_to_response("pages/templates/index.html", {
         "setting_objects": setting_objects,
@@ -87,6 +91,7 @@ def _get_view_objects(request, page_settings):
     return view_objects
 
 def _load_widget_module(request, widget, view_objects, page_name):
+    """Loads the widget modules"""
     view_module_name = 'apps.widgets.' + widget + '.views'
     page_views = importlib.import_module(view_module_name)
     view_objects[widget] = page_views.supply(request, page_name)
@@ -105,15 +110,6 @@ def _get_widget_css(view_objects):
             pass
     return widget_css
 
-def _create_layout_style(row, idx, gid, percent_increment, layout_style):
-    """Returns the layout_style CSS."""
-    if percent_increment < 95:
-        layout_style += "#%s { float: left; width: %d%%; }" % (gid, percent)
-    else:
-        layout_style += "#%s { float: right; width: %d%%; }" % (gid, percent)
-
-    return layout_style
-
 def _get_layout(page_layouts, layout, css_style):
     """Fills in the page_layouts definitions from page_settings.py, Returns css style"""
 
@@ -123,7 +119,7 @@ def _get_layout(page_layouts, layout, css_style):
     for row in layout[1]:
         column_layout = []
         percent_total = 0
-        for idx, columns in enumerate(row):
+        for columns in row:
             if isinstance(columns, types.TupleType): # ((widget, 30%), (widget, 70%))
                 widget = columns[0]
                 gid = "%s" % (widget)

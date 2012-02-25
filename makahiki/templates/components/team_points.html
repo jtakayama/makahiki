@@ -16,6 +16,7 @@
   </div>
 </div>
 
+{% if energy_rank_info %}
 <div id="header-team-overall-rank2" style="display:none">
   <div {% get_id_and_classes "header-team-energy" %}>
     <h3 id="round-energy-value"></h3>
@@ -26,6 +27,7 @@
     <div {% get_id_and_classes "header-text" %}>out of {{TEAM_COUNT}} in all teams</div>
   </div>
 </div>
+{% endif %}
 {% endif %}
 
 <div id="header-team-overall-rank3" {% if CURRENT_ROUND %}style="display:none"{% endif %}>
@@ -39,6 +41,7 @@
   </div>
 </div>
 
+{% if energy_rank_info %}
 <div id="header-team-overall-rank4" style="display:none">
   <div {% get_id_and_classes "header-team-energy" %}>
     <h3>{{ energy_rank_info.usage }}</h3>
@@ -49,5 +52,7 @@
     <div {% get_id_and_classes "header-text" %}>out of {{TEAM_COUNT}} in all teams</div>
   </div>
 </div>
+{% endif %}
+
 {% endcache %}
 {% endif %}

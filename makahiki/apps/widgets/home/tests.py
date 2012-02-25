@@ -41,7 +41,8 @@ class CompetitionMiddlewareTestCase(TestCase):
         """
         start = datetime.date.today() + datetime.timedelta(days=1)
         settings.COMPETITION_START = start.strftime("%Y-%m-%d %H:%M:%S")
-        settings.COMPETITION_END = (start + datetime.timedelta(days=7)).strftime("%Y-%m-%d %H:%M:%S")
+        settings.COMPETITION_END = (start +
+                                    datetime.timedelta(days=7)).strftime("%Y-%m-%d %H:%M:%S")
 
         response = self.client.get(reverse("home_index"), follow=True)
         self.failUnlessEqual(response.status_code, 200)
@@ -54,7 +55,8 @@ class CompetitionMiddlewareTestCase(TestCase):
         """
         start = datetime.date.today() - datetime.timedelta(days=8)
         settings.COMPETITION_START = start.strftime("%Y-%m-%d %H:%M:%S")
-        settings.COMPETITION_END = (start + datetime.timedelta(days=7)).strftime("%Y-%m-%d %H:%M:%S")
+        settings.COMPETITION_END = (start +
+                                    datetime.timedelta(days=7)).strftime("%Y-%m-%d %H:%M:%S")
 
         response = self.client.get(reverse("home_index"), follow=True)
         self.failUnlessEqual(response.status_code, 200)
