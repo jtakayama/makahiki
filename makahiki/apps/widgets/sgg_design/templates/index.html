@@ -3,43 +3,19 @@
         Smart Grid Game Designer
     </div>
     <div id="content" class="content-box-contents">
-    <table>
-        <thead>
-            <tr>
-            	<th>
-            	{% for category in view_objects.sgg_design.categories %}
-            	<div class="sgg-category draggable">{{category}}</div>
-            	{% endfor %}
-            	</ul>
-            	</th>
-            </tr>
-        </thead>
-        <tbody>
-        	<tr>
-        <ul id="sgg-levels-tab" class="nav nav-tabs">
-        {% for level in view_objects.sgg_design.levels %}
-            <li class="">
-                <a class="level-unlocked" data-toggle="tab" style="padding-right: 6px; padding-left: 6px;" title="{{ level.name }} Actions"
-                  href="#sgg-designer-level-{{forloop.counter}}" rel="tooltip" >
-                    {{ level.name }}
-                </a>
-            </li>
-        {% endfor %}
-        </ul>
-        <!-- Tab contents -->
-        <div class="tab-content">
-        {% for level in view_objects.sgg_design.levels %}
-            <div id="sgg-designer-level-{{forloop.counter}}" class="tab-pane">
-                <table>
-        
-                </table>
-            </div>
-        {% endfor %}
+    	<div class="sgg-category-title"><h5> Categories:</h5>
+			<div class="ssg-category-selections clearfix">
+          		{% for category in view_objects.sgg_design.categories %}
+          		<div class="sgg-category draggable">{{category}}</div>
+           		{% endfor %}
+        	</div>
         </div>
-            </tr>
-        </tbody>
-    </table>
+        <div class="sgg-dropzone clearfix">
+   			<div class="sgg-category-dropzone"></div>
+
+		</div>
     </div>
+
 </div>
 
 <script type="text/javascript">
@@ -47,7 +23,10 @@
 $( init );
  
 function init() {
-  $('.draggable').draggable();
+  $('.draggable').draggable({
+	  cursor: 'move',
+	  helper: 'clone',
+  });
   $('#makeMeDraggable').draggable({
 	    cursor: 'move',
 	    //snap: '#content',
