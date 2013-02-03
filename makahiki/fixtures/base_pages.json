@@ -130,6 +130,19 @@
         }
     },
     {
+        "pk": 12,
+        "model": "challenge_mgr.pageinfo",
+        "fields": {
+            "name": "sgg_designer",
+            "title": "Smart Grid Game Designer",
+            "introduction": "",
+            "label": "sgg conf",
+            "priority": 100,
+            "url": "/sgg_designer",
+            "unlock_condition": "True"
+        }
+    },
+    {
         "pk": 10,
         "model": "challenge_mgr.pagesetting",
         "fields": {
