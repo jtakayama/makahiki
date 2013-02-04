@@ -1,3 +1,5 @@
+{% load sgg_design_tags %}
+
 <div class="content-box">
     <div class="content-box-title">Smart Grid Game Designer</div>
     <div id="content" class="content-box-contents">
@@ -20,7 +22,11 @@
                         <div id="category-dropzone"
                             class="sgg-category-dropzone clearfix">
                             <table>
-                                <tr></tr>
+                                <tr>
+                                {% for i in 10|get_range %}
+                                	<td><div class="sgg-category-slot" data-column={{ i }}></div></td>
+                                {% endfor %}
+                                </tr>
                             </table>
                         </div>
                     </div>
@@ -46,19 +52,19 @@
                     <div id="activities" class="sgg-action-selections tab-pane active" style="height: 600px; overflow: scroll;">
                         {% for action in view_objects.sgg_design.activities %}
                         <div id="{{action.slug}}" data-type="{{action.type}}"
-                            class="sgg-action sgg-activity draggable">{{action.name}}</div>
+                            class="sgg-action sgg-activity draggable"><a href="{% url action_details action.type action.slug %}" class="sgg-action">{{action.name}}</a></div>
                         {% endfor %}
                     </div>
                     <div id="commitments" class="sgg-action-selections tab-pane" style="height: 600px; overflow: scroll;">
                         {% for action in view_objects.sgg_design.commitments %}
                         <div id="{{action.slug}}" data-type="{{action.type}}"
-                            class="sgg-action sgg-commitment draggable">{{action.name}}</div>
+                            class="sgg-action sgg-commitment draggable"><a href="{% url action_details action.type action.slug %}" class="sgg-action">{{action.name}}</a></div>
                         {% endfor %}
                     </div>
                     <div id="events" class="sgg-action-selections tab-pane" style="height: 600px; overflow: scroll;">
                         {% for action in view_objects.sgg_design.events %}
                         <div id="{{action.slug}}" data-type="{{action.type}}"
-                            class="sgg-action sgg-event draggable">{{action.name}}</div>
+                            class="sgg-action sgg-event draggable"><a href="{% url action_details action.type action.slug %}" class="sgg-action">{{action.name}}</a></div>
                         {% endfor %}
                     </div>
                 </div>
@@ -68,6 +74,13 @@
                     <div id="action-dropzone"
                         class="sgg-action-dropzone clearfix">
                         <table>
+                        {% for i in 10|get_range %}
+							<tr>
+							{% for j in 10|get_range %}
+								<td><div class="sgg-action-slot" data-column="{{ j }}" data-row="{{ i }}"></div></td>
+							{% endfor %}
+							</tr>
+                        {% endfor %}
                         </table>
                     </div>
                 </div>
@@ -86,45 +99,37 @@
 			helper : 'clone',
 		});
 
-		var t = $('#action-dropzone table');
-		var c = $('#category-dropzone table tr')
-		for ( var i = 1; i <= 10; i++) {
-			$('<td><div class="sgg-category-slot"></div></td>').data(
-					'priority', i).appendTo(c).droppable({
-				accept : '.sgg-category',
-				drop : handleCategoryDrop
-			});
-			var row = $('<tr></tr>').data('priority', i * 10).appendTo(t);
-			for ( var j = 1; j <= 10; j++) {
-				$('<td><div class="sgg-action-slot"></div></td>').data(
-						'column-num', j).appendTo(row).droppable({
-					accept : '.sgg-action',
-					drop : handleActionDrop
-				})
-			}
-		}
+		$('.sgg-category-slot').droppable({
+			accept : '.sgg-category',
+			drop : handleCategoryDrop
+		});
+		
+		$('.sgg-action-slot').droppable({
+			accept : '.sgg-action',
+			drop : handleActionDrop
+		});
 	}
 
 	function handleCategoryDrop(event, ui) {
-		var slotNumber = $(this).data('priority');
+		var column = $(this).data('column');
 		var slug = ui.draggable.attr('id');
 		var drop = $('<div id="' + slug + '" class="sgg-category draggable" ' +
-				'data-priority="' + slotNumber + '" data-slug="' + slug + '">'  + ui.draggable.text() + '</div>');
+				'data-priority="' + (column + 1) + '" data-slug="' + slug + '">'  + ui.draggable.text() + '</div>');
 		var html = $('<div />').append(drop.clone()).html();
 		$(this).html(html);
 
 	}
 
 	function handleActionDrop(event, ui) {
-	    var column = $(this).data('column-num');
-	    var priority = $(this).parent().data('priority');
+	    var column = $(this).data('column');
+	    var row = $(this).data('row');
         var slug = ui.draggable.attr('id');
         var type = ui.draggable.data('type');
         if (type == "clear") {
         	$(this).html('<div class="sgg-action-slot"></div>');
         } else {
-            $(this).html('<div id="' + slug + '" class="sgg-' + type + '-cell draggable" ' +
-                   		   	'data-type="' + type + '">' + ui.draggable.text() + '</div>');
+            $(this).html('<div id="' + slug + '" class="sgg-action sgg-' + type + '-cell draggable" ' +
+                   		   	'data-type="' + type + '" data-priority="' + row + '" data-column="' + column + '">' + '<a href="/sgg_design/' + type + '/' + slug + '/" class="sgg-action">' + ui.draggable.text()+ '</a></div>');
         }
 	}
 
@@ -134,6 +139,14 @@
 		for (var i = 0; i < children.length; i++) {
 			var child = $(children[i]);
 			console.log(child.data('slug') + "'s priority is " + child.data('priority'));
+		}
+		var actions = $('#action-dropzone table');
+		var droppedActions = actions.find("td div.sgg-action");
+//		var first = $(droppedActions[0]);
+//		console.log("Found " + droppedActions.length + " actions." + first.html());
+		for (var j = 0; j < droppedActions.length; j++) {
+			var action = $(droppedActions[j]);
+			console.log(action.attr('id') + "'s row is " + action.data('priority') + " column is " + action.data('column'));
 		}
 	}
 </script>
