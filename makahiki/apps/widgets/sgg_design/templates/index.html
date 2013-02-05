@@ -7,6 +7,12 @@
             <div class="span3">Drag the Categories to create columns. Then Drag 
             the Activities, Commitments, or Events to fill the Grid.
             
+            <form action="/sgg_design/update_smart_grid/" method="post">
+            	{% csrf_token %}
+				{{ view_objects.sgg_design.form.as_p }}
+				<input class="btn btn-widget" type="submit" value="Submit" />
+			</form>
+
                 <button class="btn btn-widget" onclick="saveSggLayout();">Save SGG</button>
             </div>
             <div class="span9">
@@ -114,7 +120,7 @@
 		var column = $(this).data('column');
 		var slug = ui.draggable.attr('id');
 		var drop = $('<div id="' + slug + '" class="sgg-category draggable" ' +
-				'data-priority="' + (column + 1) + '" data-slug="' + slug + '">'  + ui.draggable.text() + '</div>');
+				'data-priority="' + column + '" data-slug="' + slug + '">'  + ui.draggable.text() + '</div>');
 		var html = $('<div />').append(drop.clone()).html();
 		for (var i = 1; i < 11; i++) {
 			var row = $('#action-dropzone table tbody tr:nth-child('+ i +')');
@@ -126,7 +132,7 @@
 			innerDiv.attr('data-category', slug);
 		}
 		$(this).html(html);
-
+		saveSggLayout();
 	}
 
 	function handleActionDrop(event, ui) {
@@ -143,22 +149,34 @@
                    		   	column + '" data-category="' + category + '">' + '<a href="/sgg_design/' + 
                    		   	type + '/' + slug + '/" class="sgg-action">' + ui.draggable.text()+ '</a></div>');
         }
+        saveSggLayout();
 	}
 
 	function saveSggLayout() {
 		var categories = $('#category-dropzone table tr');
 		var children = categories.find("td div.sgg-category");
+		var hidden_category = $('#id_category_updates');
+		var hidden_action = $('#id_action_updates');
+		var inner_str = '';
 		for (var i = 0; i < children.length; i++) {
 			var child = $(children[i]);
-			console.log(child.data('slug') + "'s priority is " + child.data('priority'));
+			var cat_str = '"'.concat(child.data('slug'),'", ', child.data('priority'));
+			inner_str = inner_str.concat(cat_str, ', ');
 		}
+		var tmp = inner_str.substr(0, inner_str.length - 2);
+		hidden_category.attr('value', ''.concat('[', tmp, ']'));
 		var actions = $('#action-dropzone table');
 		var droppedActions = actions.find("td div.sgg-action");
-//		var first = $(droppedActions[0]);
-//		console.log("Found " + droppedActions.length + " actions." + first.html());
+		inner_str = '';
 		for (var j = 0; j < droppedActions.length; j++) {
 			var action = $(droppedActions[j]);
-			console.log(action.attr('id') + "'s priority is " + action.data('priority') + " category is " + action.data('category'));
+			var act_slug = action.attr('id');
+			var category = action.attr('data-category');
+			var pri = action.attr('data-priority');
+			var cat_str = '"'.concat(act_slug, '", "', category, '", ', pri);
+			inner_str = inner_str.concat(cat_str, ', ');
 		}
+		tmp = inner_str.substr(0, inner_str.length - 2);
+		hidden_action.attr('value', ''.concat('[', tmp, ']'));
 	}
 </script>

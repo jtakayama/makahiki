@@ -11,4 +11,7 @@ urlpatterns = patterns('',
     url(r'^(?P<action_type>[\w]+)/(?P<slug>[\w\d\-]+)/$',
         'apps.widgets.sgg_design.views.view_action',
         name='action_details'),
+    url(r'^update_smart_grid/$',
+        'apps.widgets.sgg_design.views.update_sgg',
+        name="update_smart_grid"),
 )
