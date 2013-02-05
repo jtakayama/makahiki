@@ -24,7 +24,7 @@
                             <table>
                                 <tr>
                                 {% for i in 10|get_range %}
-                                	<td><div class="sgg-category-slot" data-column={{ i }}></div></td>
+                                	<td><div class="sgg-category-slot" data-column={{ i|add:'1' }}></div></td>
                                 {% endfor %}
                                 </tr>
                             </table>
@@ -77,7 +77,7 @@
                         {% for i in 10|get_range %}
 							<tr>
 							{% for j in 10|get_range %}
-								<td><div class="sgg-action-slot" data-column="{{ j }}" data-row="{{ i }}"></div></td>
+								<td><div class="sgg-action-slot" data-column="{{ j|add:'1' }}" data-row="{{ i|add:'1' }}"></div></td>
 							{% endfor %}
 							</tr>
                         {% endfor %}
@@ -116,12 +116,22 @@
 		var drop = $('<div id="' + slug + '" class="sgg-category draggable" ' +
 				'data-priority="' + (column + 1) + '" data-slug="' + slug + '">'  + ui.draggable.text() + '</div>');
 		var html = $('<div />').append(drop.clone()).html();
+		for (var i = 1; i < 11; i++) {
+			var row = $('#action-dropzone table tbody tr:nth-child('+ i +')');
+			var cell = row.find('td:nth-child(' + column + ')');
+			var outerDiv = cell.children('div');
+//			div.data('category', slug);
+			outerDiv.attr('data-category', slug);
+			var innerDiv = outerDiv.children('div');
+			innerDiv.attr('data-category', slug);
+		}
 		$(this).html(html);
 
 	}
 
 	function handleActionDrop(event, ui) {
 	    var column = $(this).data('column');
+	    var category = $(this).data('category');
 	    var row = $(this).data('row');
         var slug = ui.draggable.attr('id');
         var type = ui.draggable.data('type');
@@ -129,7 +139,9 @@
         	$(this).html('<div class="sgg-action-slot"></div>');
         } else {
             $(this).html('<div id="' + slug + '" class="sgg-action sgg-' + type + '-cell draggable" ' +
-                   		   	'data-type="' + type + '" data-priority="' + row + '" data-column="' + column + '">' + '<a href="/sgg_design/' + type + '/' + slug + '/" class="sgg-action">' + ui.draggable.text()+ '</a></div>');
+                   		   	'data-type="' + type + '" data-priority="' + row + '" data-column="' + 
+                   		   	column + '" data-category="' + category + '">' + '<a href="/sgg_design/' + 
+                   		   	type + '/' + slug + '/" class="sgg-action">' + ui.draggable.text()+ '</a></div>');
         }
 	}
 
@@ -146,7 +158,7 @@
 //		console.log("Found " + droppedActions.length + " actions." + first.html());
 		for (var j = 0; j < droppedActions.length; j++) {
 			var action = $(droppedActions[j]);
-			console.log(action.attr('id') + "'s row is " + action.data('priority') + " column is " + action.data('column'));
+			console.log(action.attr('id') + "'s priority is " + action.data('priority') + " category is " + action.data('category'));
 		}
 	}
 </script>
