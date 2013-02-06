@@ -7,13 +7,11 @@
             <div class="span3">Drag the Categories to create columns. Then Drag 
             the Activities, Commitments, or Events to fill the Grid.
             
-            <form action="/sgg_design/update_smart_grid/" method="post">
-            	{% csrf_token %}
-				{{ view_objects.sgg_design.form.as_p }}
-				<input class="btn btn-widget" type="submit" value="Submit" />
-			</form>
-
-                <button class="btn btn-widget" onclick="saveSggLayout();">Save SGG</button>
+	            <form action="/sgg_design/update_smart_grid/" method="post">
+    	        	{% csrf_token %}
+					{{ view_objects.sgg_design.form.as_p }}
+					<input class="btn btn-widget" type="submit" value="Save SGG" />
+				</form>
             </div>
             <div class="span9">
                 <div class="sgg-category-title">
@@ -55,19 +53,19 @@
                     </li>
                 </ul>
                 <div class="tab-content">
-                    <div id="activities" class="sgg-action-selections tab-pane active" style="height: 600px; overflow: scroll;">
+                    <div id="activities" class="sgg-action-selections tab-pane active" style="height: 470px; overflow: scroll;">
                         {% for action in view_objects.sgg_design.activities %}
-                        <div id="{{action.slug}}" data-type="{{action.type}}"
+                        <div id="{{action.slug}}" data-type="{{action.type}}" data-instance="{{action}}"
                             class="sgg-action sgg-activity draggable"><a href="{% url action_details action.type action.slug %}" class="sgg-action">{{action.name}}</a></div>
                         {% endfor %}
                     </div>
-                    <div id="commitments" class="sgg-action-selections tab-pane" style="height: 600px; overflow: scroll;">
+                    <div id="commitments" class="sgg-action-selections tab-pane" style="height: 470px; overflow: scroll;">
                         {% for action in view_objects.sgg_design.commitments %}
                         <div id="{{action.slug}}" data-type="{{action.type}}"
                             class="sgg-action sgg-commitment draggable"><a href="{% url action_details action.type action.slug %}" class="sgg-action">{{action.name}}</a></div>
                         {% endfor %}
                     </div>
-                    <div id="events" class="sgg-action-selections tab-pane" style="height: 600px; overflow: scroll;">
+                    <div id="events" class="sgg-action-selections tab-pane" style="height: 470px; overflow: scroll;">
                         {% for action in view_objects.sgg_design.events %}
                         <div id="{{action.slug}}" data-type="{{action.type}}"
                             class="sgg-action sgg-event draggable"><a href="{% url action_details action.type action.slug %}" class="sgg-action">{{action.name}}</a></div>
@@ -91,6 +89,18 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="row-fluid">
+        	<div class="span12">
+				<div class="content-box">
+    				<div id="action-title" class="content-box-title"></div>
+    				<div class="content-box-contents">
+        				<p/>
+        				This <span class="action-type"></span> is worth 
+        				<span class="action-points"></span> points.
+        			</div>
+        		</div>
+        	</div>
         </div>
     </div>
 
@@ -150,6 +160,17 @@
                    		   	type + '/' + slug + '/" class="sgg-action">' + ui.draggable.text()+ '</a></div>');
         }
         saveSggLayout();
+        fillActionDetails(ui.draggable);
+	}
+	
+	function fillActionDetails(action) {
+		var title = $('#action-title');
+		var name = action.text();
+		var type = action.data('type');
+		var instance = action.data('instance');
+		title.html(type.charAt(0).toUpperCase() + type.slice(1) + ": " + name );
+		var typespans = $('.action-type');
+		typespans.html('{{instance.type}}');
 	}
 
 	function saveSggLayout() {

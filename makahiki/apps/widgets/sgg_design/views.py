@@ -74,4 +74,7 @@ def update_sgg(request):
                 action.priority = priority
                 action.save()
 
+            response = HttpResponseRedirect("/sgg_designer/")
+            return response
+
     raise Http404
