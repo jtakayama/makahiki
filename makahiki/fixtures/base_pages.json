@@ -564,6 +564,17 @@
         }
     },
     {
+        "pk": 114,
+        "model": "challenge_mgr.pagesetting",
+        "fields": {
+            "priority": 1,
+            "widget": "sgg_design",
+            "enabled": true,
+            "page": 12,
+            "location": "Left"
+        }
+    },
+    {
         "pk": 1,
         "model": "challenge_mgr.gameinfo",
         "fields": {

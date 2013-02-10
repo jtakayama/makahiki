@@ -1,0 +1,29 @@
+{% load sgg_design_tags %}
+
+<div class="sgg_grid">
+	<div class="sgg-dropzone clearfix">
+		<div id="category-dropzone" class="sgg-category-dropzone clearfix">
+			<table>
+				<tr>
+					{% for i in 10|get_range %}
+					<td><div class="sgg-category-slot" data-column={{i|add:'1' }}></div></td>
+					{% endfor %}
+				</tr>
+			</table>
+		</div>
+	</div>
+	<div class="sgg-dropzone clearfix">
+		<div id="action-dropzone" class="sgg-action-dropzone clearfix">
+			<table>
+				{% for i in 10|get_range %}
+				<tr>
+					{% for j in 10|get_range %}
+					<td><div class="sgg-action-slot disabled"
+							data-column="{{ j|add:'1' }}" data-row="{{ i|add:'1' }}"></div></td>
+					{% endfor %}
+				</tr>
+				{% endfor %}
+			</table>
+		</div>
+	</div>
+</div>
