@@ -26,9 +26,8 @@ def competition(request):
     available_events = None
     default_view_objects = None
     all_page_info = None
-    site_admin_models = None
-    sys_admin_models = None
-    game_admin_models = None
+    designer_models = [None, None]
+    admin_models = [None, None]
 
     challenge = challenge_mgr.get_challenge()
     css_theme = challenge.theme
@@ -49,10 +48,17 @@ def competition(request):
         if profile.theme:
             css_theme = profile.theme
 
-        if page_name == "admin":
-            site_admin_models = challenge_mgr.get_site_admin_models()
-            sys_admin_models = challenge_mgr.get_sys_admin_models()
-            game_admin_models = challenge_mgr.get_game_admin_models()
+        if page_name == "sys_admin/challenge_mgr/challengesetting/1":
+            page_name = "admin"
+        if page_name == "challenge_setting_admin" or page_name == "challenge_admin":
+            page_name = "admin"
+            designer_models[0] = \
+                challenge_mgr.get_designer_challenge_info_models()
+            designer_models[1] = \
+                challenge_mgr.get_designer_game_info_models()
+            admin_models[0] = \
+                challenge_mgr.get_admin_challenge_info_mdoels()
+            admin_models[1] = challenge_mgr.get_admin_game_info_models()
 
     return {
         "CHALLENGE": challenge,
@@ -69,9 +75,10 @@ def competition(request):
         "DEFAULT_VIEW_OBJECTS": default_view_objects,
         "AVAILABLE_EVENTS": available_events,
         "ALL_PAGE_INFO": all_page_info,
-        "MAKAHIKI_SITE_ADMIN_MODELS": site_admin_models,
-        "MAKAHIKI_SYS_ADMIN_MODELS": sys_admin_models,
-        "MAKAHIKI_GAME_ADMIN_MODELS": game_admin_models,
+        "MAKAHIKI_DESIGNER_CHALLENGE_MODELS": designer_models[0],
+        "MAKAHIKI_DESIGNER_GAME_MODELS": designer_models[1],
+        "MAKAHIKI_ADMIN_CHALLENGE_MODELS": admin_models[0],
+        "MAKAHIKI_ADMIN_GAME_MODELS": admin_models[1],
         "ACTIVE_PAGE": page_name
     }
 

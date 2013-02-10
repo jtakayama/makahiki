@@ -5,17 +5,18 @@ from django.forms.widgets import Textarea
 from apps.managers.challenge_mgr import challenge_mgr
 from apps.managers.challenge_mgr.models import ChallengeSetting, RoundSetting, PageSetting, \
     PageInfo, Sponsor, UploadImage, GameSetting, GameInfo
+from apps.admin.admin import sys_admin_site, challenge_designer_site, challenge_manager_site
 
 
 class PageSettingInline(admin.TabularInline):
     """PageSettingInline admin."""
     model = PageSetting
-    #can_delete = False
+    # can_delete = False
     fields = ['widget', 'location', 'priority', 'enabled', ]
-    #readonly_fields = ['widget', ]
+    # readonly_fields = ['widget', ]
     extra = 0
 
-    #def has_add_permission(self, request):
+    # def has_add_permission(self, request):
     #    return False
 
 
@@ -30,7 +31,7 @@ class PageInfoAdmin(admin.ModelAdmin):
                    "title",
                    "introduction",
                    "unlock_condition",
-                   ("url", "priority"), )
+                   ("url", "priority"),)
             }),
     )
 
@@ -41,6 +42,8 @@ class PageInfoAdmin(admin.ModelAdmin):
         }
 
 admin.site.register(PageInfo, PageInfoAdmin)
+challenge_designer_site.register(PageInfo, PageInfoAdmin)
+challenge_manager_site.register(PageInfo, PageInfoAdmin)
 
 
 class PageSettingAdmin(admin.ModelAdmin):
@@ -85,39 +88,69 @@ class SponsorsInline(admin.TabularInline):
     extra = 0
 
 
-class ChallengeSettingAdmin(admin.ModelAdmin):
-    """ChallengeSetting administrator interface definition."""
-
+class SystemSettingAdmin(admin.ModelAdmin):
+    """The system administrator's Challenge Administration interface definition."""
     fieldsets = (
-        ("Challenge",
-            {"fields":
-                  (("name", "location"),
-                   ("logo", "domain"),
-                   ("team_label", "theme"),
-                  )}),
         ("Authentication",
-            {"fields":
+            {"description": "<div class='help makahiki-box content-box-contents'>Choose the " + \
+             "type or types of authentication for players</div>",
+             "fields":
                   (("use_cas_auth", "cas_server_url", "cas_auth_text"),
                    ("use_ldap_auth", "ldap_server_url", "ldap_search_base", "ldap_auth_text"),
                    ("use_internal_auth", "internal_auth_text"),
                   )}),
         ("WattDepot server for real time energy data",
-            {"fields":
-                  ("wattdepot_server_url", )}),
+            {"description": "<div class='help makahiki-box content-box-contents'>If using " + \
+             "WattDepot for energy data, provide the WattDepot Server's URL.</div>",
+             "fields":
+                  ("wattdepot_server_url",)}),
         ("Email",
-             {"fields":
+             {"description": "<div class='help makahiki-box content-box-contents'>If you want " + \
+             "email notifications enable email and provide the host information.</div>",
+             "fields":
                   ("email_enabled",
                    "contact_email",
-                   ("email_host", "email_port", "email_use_tls"), )}),
+                   ("email_host", "email_port", "email_use_tls"),)}),
+    )
+    formfield_overrides = {
+        models.TextField: {'widget': Textarea(attrs={'rows': 2, 'cols': 70})},
+        }
+    page_text = "System Settings"
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+sys_admin_site.register(ChallengeSetting, SystemSettingAdmin)
+
+
+class ChallengeSettingAdmin(admin.ModelAdmin):
+    """ChallengeSetting administrator interface definition."""
+
+    fieldsets = (
+        ("Challenge",
+            {"description": "<div class='help makahiki-box content-box-contents'>Enter the " + \
+             "information for this Challenge</div>",
+             "fields":
+                  (("name", "location"),
+                   ("logo", "domain"),
+                   ("team_label", "theme"),
+                  )}),
         ("Landing Page",
-             {"fields":
+            {"description": "<div class='help makahiki-box content-box-contents'>Setup the " + \
+             "Landing Page. It is the first page players see.</div>",
+             "fields":
                   ("landing_slogan",
                    "landing_introduction",
                    "landing_participant_text",
-                   "landing_non_participant_text", )}),
+                   "landing_non_participant_text",)}),
         ("About Page",
-            {"fields":
-                  ("about_page_text", )}),
+            {"description": "<div class='help makahiki-box content-box-contents'>The " + \
+             "About Page explains the Challenge.</div>",
+             "fields":
+                  ("about_page_text",)}),
     )
 
     inlines = [SponsorsInline]
@@ -136,11 +169,14 @@ class ChallengeSettingAdmin(admin.ModelAdmin):
 admin.site.register(ChallengeSetting, ChallengeSettingAdmin)
 admin.site.register(UploadImage)
 
-challenge_mgr.register_site_admin_model("Challenge", ChallengeSetting)
-challenge_mgr.register_site_admin_model("Challenge", RoundSetting)
-challenge_mgr.register_sys_admin_model("Other Settings", PageInfo)
+challenge_mgr.register_designer_challenge_info_model("Challenge", 1, ChallengeSetting, 1)
+challenge_mgr.register_designer_challenge_info_model("Challenge", 1, RoundSetting, 2)
+challenge_mgr.register_designer_challenge_info_model("Other Settings", 3, PageInfo, 1)
 
 from djcelery.models import CrontabSchedule, PeriodicTask, IntervalSchedule
-challenge_mgr.register_sys_admin_model("Scheduler (Celery)", CrontabSchedule)
-challenge_mgr.register_sys_admin_model("Scheduler (Celery)", IntervalSchedule)
-challenge_mgr.register_sys_admin_model("Scheduler (Celery)", PeriodicTask)
+challenge_mgr.register_designer_challenge_info_model("Scheduler (Celery) - Optional", \
+                                                     5, CrontabSchedule, 5)
+challenge_mgr.register_designer_challenge_info_model("Scheduler (Celery) - Optional", \
+                                                     5, IntervalSchedule, 5)
+challenge_mgr.register_designer_challenge_info_model("Scheduler (Celery) - Optional", \
+                                                     5, PeriodicTask, 5)
