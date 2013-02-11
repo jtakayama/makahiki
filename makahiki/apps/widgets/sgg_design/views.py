@@ -29,6 +29,7 @@ def supply(request, page_name):
         'events': events,
         'commitments': commitments,
         'form': form,
+        'smart_grid': smartgrid.get_smart_grid(),
             }
 
 
@@ -57,22 +58,33 @@ def update_sgg(request):
             categories = form.cleaned_data['category_updates']
             actions = form.cleaned_data['action_updates']
 
-            for i in xrange(0, len(categories), 2):
-                category = Category.objects.get(slug=categories[i])
-                category.priority = categories[i + 1]
-                category.save()
+            num_levels = len(categories)
+            for lvl in xrange(0, num_levels):
+                level_cats = categories[lvl][1]
+                for i in xrange(0, len(level_cats), 2):
+                    category = Category.objects.get(slug=level_cats[i])
+                    category.priority = level_cats[i + 1]
+                    category.save()
 
+            # clear the existing actions
             for action in Action.objects.all():
                 action.category = None
+                action.level = None
                 action.save()
 
-            for i in xrange(0, len(actions), 3):
-                action = smartgrid.get_action(actions[i])
-                category = Category.objects.get(slug=actions[i + 1])
-                priority = actions[i + 2]
-                action.category = category
-                action.priority = priority
-                action.save()
+            num_levels = len(actions)
+            for lvl in xrange(0, num_levels):
+                level_name = actions[lvl][0]
+                level = Level.objects.get(name=level_name)
+                level_actions = actions[lvl][1]
+                for i in xrange(0, len(level_actions), 3):
+                    action = smartgrid.get_action(level_actions[i])
+                    category = Category.objects.get(slug=level_actions[i + 1])
+                    priority = level_actions[i + 2]
+                    action.level = level
+                    action.category = category
+                    action.priority = priority
+                    action.save()
 
             response = HttpResponseRedirect("/sgg_designer/")
             return response

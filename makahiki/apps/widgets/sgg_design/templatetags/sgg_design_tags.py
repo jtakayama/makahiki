@@ -27,3 +27,11 @@ def get_range(value):
     return range(value)
 
 register.filter('get_range', get_range)
+
+
+@register.filter
+def nth(value, arg):
+    """Returns the nth item from a list."""
+    return value[arg]
+
+register.filter('nth', nth)

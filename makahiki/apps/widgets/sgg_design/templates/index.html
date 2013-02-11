@@ -86,28 +86,18 @@
 				{% endfor %}
 				</ul>
 	        	<!-- Tab contents -->
-        		<div class="tab-content">
-        		{% for level in view_objects.sgg_design.levels %}
-        			{% if forloop.counter == 1 %}
-            		<div id="sgg-level-{{forloop.counter}}" class="tab-pane active" data-level={{forloop.counter}}>
+        		<div id="sgg-grid" class="tab-content">
+        		{% for level in view_objects.sgg_design.smart_grid %}
+            		<div id="sgg-level-{{forloop.counter}}" 
+           			{% if forloop.counter == 1 %}
+						  class="tab-pane active"
             		{% else %}
-            		<div id="sgg-level-{{forloop.counter}}" class="tab-pane" data-level={{forloop.counter}}>
+            			  class="tab-pane"
 					{% endif %}            		
+					 data-level="{{level.name}}">
 					{% include "sgg_grid.html" %}
 					</div>
 				{% endfor %}
-				</div>
-			</div>
-		</div>
-		<div class="row-fluid">
-			<div class="span12">
-				<div class="content-box">
-					<div id="action-title" class="content-box-title"></div>
-					<div class="content-box-contents">
-						<p />
-						This <span class="action-type"></span> is worth <span
-							class="action-points"></span> points.
-					</div>
 				</div>
 			</div>
 		</div>
@@ -151,7 +141,6 @@
 				accept : '.sgg-action',
 				drop : handleActionDrop
 			});
-			//			div.data('category', slug);
 			outerDiv.attr('data-category', slug);
 			var innerDiv = outerDiv.children('div');
 			innerDiv.attr('data-category', slug);
@@ -178,49 +167,65 @@
 									+ ui.draggable.text() + '</a></div>');
 		}
 		saveSggLayout();
-		fillActionDetails(ui.draggable);
-	}
-
-	function fillActionDetails(action) {
-		var title = $('#action-title');
-		var name = action.text();
-		var type = action.data('type');
-		var instance = action.data('instance');
-		title.html(type.charAt(0).toUpperCase() + type.slice(1) + ": " + name);
-		var typespans = $('.action-type');
-		typespans.html('{{instance.type}}');
 	}
 
 	function saveSggLayout() {
-		var levels = "{{ view_objects.sgg_design.levels|safe }}";
-		var categories = $('#category-dropzone table tr');
-		var children = categories.find("td div.sgg-category-drop");
+		var levels = $('#sgg-grid .tab-pane');
 		var hidden_category = $('#id_category_updates');
+		hidden_category.attr('value', '');
 		var hidden_action = $('#id_action_updates');
-		var inner_str = '';
-		for ( var i = 0; i < children.length; i++) {
-			var child = $(children[i]);
-			var cat_str = '"'.concat(child.data('slug'), '", ', child
-					.data('priority'));
-			inner_str = inner_str.concat(cat_str, ', ');
-		}
-		var tmp = inner_str.substr(0, inner_str.length - 2);
-		hidden_category.attr('value', ''.concat('[', tmp, ']'));
-		var actions = $('#action-dropzone table');
-		var droppedActions = actions.find("td div.sgg-action");
-		inner_str = '';
-		for ( var j = 0; j < droppedActions.length; j++) {
-			var action = $(droppedActions[j]);
-			var act_slug = action.attr('id');
-			var category = action.attr('data-category');
-			var pri = action.attr('data-priority');
-			var cat_str = '"'.concat(act_slug, '", "', category, '", ', pri);
-			inner_str = inner_str.concat(cat_str, ', ');
-		}
-		tmp = inner_str.substr(0, inner_str.length - 2);
-		hidden_action.attr('value', ''.concat('[', tmp, ']'));
-	}
+		hidden_action.attr('value', '');
+		var cat_value = '';
+		var act_value = '';
+		levels.each(function () {
+			cat_value = hidden_category.attr('value');
+			var level = $(this).attr('data-level');
+			var slug = $(this).attr('id');
+			var levelStr = '"' + level + '"';
+			var categories = $(this).find('#category-dropzone table tr');
+			var children = categories.find("td div.sgg-category-drop");
+			var inner_str =  '';
+			for ( var i = 0; i < children.length; i++) {
+				var child = $(children[i]);
+				var cat_str = '"'.concat(child.data('slug'), '", ', child
+						.data('priority'));
+				inner_str = inner_str.concat(cat_str, ', ');
+			}
+			if (children.length > 0) {
+				var tmp = inner_str.substr(0, inner_str.length - 2);
+				var cat_list = levelStr.concat(', [', tmp, ']');
+				cat_value = cat_value.concat('[' + cat_list + '], ');
+				hidden_category.attr('value', cat_value);
+			}
 
+			act_value = hidden_action.attr('value');
+			var actions = $(this).find('#action-dropzone table');
+			var droppedActions = actions.find("td div.sgg-action");
+			inner_str = '';
+			for ( var j = 0; j < droppedActions.length; j++) {
+				var action = $(droppedActions[j]);
+				var act_slug = action.attr('data-slug');
+				var category = action.attr('data-category');
+				var pri = action.attr('data-priority');
+				var act_str = '"'.concat(act_slug, '", "', category, '", ', pri);
+				inner_str = inner_str.concat(act_str, ', ');
+			}
+			if (droppedActions.length > 0) {
+				tmp = inner_str.substr(0, inner_str.length - 2);
+				var act_list = levelStr.concat(', [' + tmp + ']');
+				act_value = act_value.concat('[' + act_list + '], ');
+				hidden_action.attr('value', act_value);
+			}
+		});
+		cat_value = hidden_category.attr('value');
+		cat_value = cat_value.substr(0, cat_value.length - 2);
+		hidden_category.attr('value', ''.concat('[' + cat_value + ']'));
+		
+		act_value = hidden_action.attr('value');
+		act_value = act_value.substr(0, act_value.length - 2);
+		hidden_action.attr('value', ''.concat('[' + act_value + ']'));
+	}
+	
 	function hasClass(ele, cls) {
 		return ele.className.match(new RegExp('(\\s|^)' + cls + '(\\s|$)'));
 	}
