@@ -6,7 +6,7 @@
 			<table>
 				<tr>
 					{% for i in 10|get_range %}
-					<td><div class="sgg-category-slot" data-column={{i}}>
+					<td><div class="sgg-category-slot" data-column={{i|add:1}}>
 					{% if i < level.cat_list|length %}
 						{% with cat=level.cat_list|nth:i %}
 					<div data-slug="{{cat.slug}}" class="sgg-category-drop" 
@@ -25,7 +25,12 @@
 				{% for i in 10|get_range %}
 				<tr>
 					{% for j in 10|get_range %}
-					<td><div class="sgg-action-slot disabled"
+					<td>
+                        {% if j < level.cat_list|length %}
+                        <div class="sgg-action-slot"                        
+                        {% else %}
+                        <div class="sgg-action-slot disabled"                        
+                        {% endif %}
 							data-column="{{ j|add:'1' }}" data-row="{{ i|add:'1' }}">
 							{% if j < level.cat_list|length %}
 								{% with cat=level.cat_list|nth:j %}

@@ -8,9 +8,9 @@
 				Drag the Categories to create columns. Then Drag the Activities,
 				Commitments, or Events to fill the Grid.
 
-				<form action="/sgg_design/update_smart_grid/" method="post">
+				<form id="save-form" action="/sgg_design/update_smart_grid/" method="post">
 					{% csrf_token %} {{ view_objects.sgg_design.form.as_p }} 
-					<input class="btn btn-widget" type="submit" value="Save SGG" />
+					<input class="btn btn-widget" onclick="saveFormSubmit();return false;" value="Save SGG" />
 				</form>
 			</div>
 			<div class="span9">
@@ -118,7 +118,13 @@
 			accept : '.sgg-category',
 			drop : handleCategoryDrop
 		});
-
+	    var saved = getCookie('sgg_save');
+	    if (saved) {
+	    	//console.log(saved);
+	    	clearCategories();
+	    	clearActions();
+	    	loadSavedSGG(saved);
+	    }
 	}
 
 	function handleCategoryDrop(event, ui) {
@@ -169,6 +175,15 @@
 		saveSggLayout();
 	}
 
+	function clearCategories() {
+	    $('.sgg-category-slot').empty();
+	    $('.sgg-action-slot').addClass("disabled");
+	}
+	
+	function clearActions() {
+	    $('.sgg-action-slot').empty();	
+	}
+	
 	function saveSggLayout() {
 		var levels = $('#sgg-grid .tab-pane');
 		var hidden_category = $('#id_category_updates');
@@ -219,11 +234,28 @@
 		});
 		cat_value = hidden_category.attr('value');
 		cat_value = cat_value.substr(0, cat_value.length - 2);
-		hidden_category.attr('value', ''.concat('[' + cat_value + ']'));
+		cat_value = ''.concat('[' + cat_value + ']');
+		hidden_category.attr('value', cat_value);
 		
 		act_value = hidden_action.attr('value');
 		act_value = act_value.substr(0, act_value.length - 2);
-		hidden_action.attr('value', ''.concat('[' + act_value + ']'));
+		act_value = ''.concat('[' + act_value + ']');
+		hidden_action.attr('value', act_value);
+		
+		setCookie('sgg_save', cat_value + act_value);
+	}
+
+	function loadSavedSGG(savedData) {
+		console.log(savedData);
+		var s = jQuery.parseJSON(savedData);
+		for (var i = 0; i < s.length; i++) {
+			console.log(s[i]);
+		}
+	}
+	
+	function saveFormSubmit() {
+		deleteCookie('sgg_save');
+	    $('#save-form').submit();	
 	}
 	
 	function hasClass(ele, cls) {
