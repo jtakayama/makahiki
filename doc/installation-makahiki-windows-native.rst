@@ -1,17 +1,11 @@
 .. _section-installation-native-windows:
 
-Makahiki Installation Directly on Windows (Experimental)
-========================================================
+Makahiki Native Windows Installation
+====================================
 
-.. WARNING:: This is instruction is experimental and is for advanced users only.
+.. WARNING:: Native windows installation should be viewed as "experimental" and should be
+   undertaken only by expert Windows developers. 
 
-Hardware requirements
----------------------
-
-Our estimated hardware requirements for **development** use are:
-  * CPU: modern dual or quad core
-  * RAM: 4 GB
-  * Disk space: 10 GB
 
 Install Python
 -----------------
@@ -216,7 +210,7 @@ Configure your Makahiki instance
 --------------------------------
 
 Now that you have a running Makahiki instance, it is time to configure it for your
-challenge, as documented in :ref:`section-configuration`.
+challenge, as documented in :ref:`section-site-configuration`.
 
 Updating your Makahiki instance
 -------------------------------

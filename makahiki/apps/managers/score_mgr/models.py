@@ -10,6 +10,9 @@ from apps.managers.cache_mgr import cache_mgr
 class ScoreSetting(models.Model):
     """score settings models."""
 
+    name = models.CharField(default="Score Settings",
+                            max_length="30", editable=False,
+                            help_text="The settings label.")
     setup_points = models.IntegerField(
         default=5,
         help_text="The point amount for setting up the profile."
@@ -35,6 +38,8 @@ class ScoreSetting(models.Model):
         default=0,
         help_text="The point amount for providing action feedback."
     )
+    admin_tool_tip = "The points awarded for completing various " + \
+        "actions and how many points are needed for a player to be 'active'."
 
     def save(self, *args, **kwargs):
         """Custom save method."""

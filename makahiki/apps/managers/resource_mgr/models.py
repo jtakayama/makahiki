@@ -36,6 +36,7 @@ class ResourceSetting(models.Model):
         choices=WINNING_ORDER_CHOICE,
         help_text="The winning order. Ascending indicates the lesser/smaller wins."
     )
+    admin_tool_tip = ""
 
     class Meta:
         """Meta"""
@@ -96,6 +97,7 @@ class EnergyUsage(ResourceUsage):
                 self.usage = self.manual_meter_reading - day_before[0].manual_meter_reading
 
         super(EnergyUsage, self).save(args, kwargs)
+    admin_tool_tip = "Team Energy Usage"
 
 
 class WaterUsage(ResourceUsage):
@@ -109,6 +111,7 @@ class WaterUsage(ResourceUsage):
                 self.usage = self.manual_meter_reading - day_before[0].manual_meter_reading
 
         super(WaterUsage, self).save(args, kwargs)
+    admin_tool_tip = "Team Water Usage"
 
 
 class WasteUsage(ResourceUsage):
@@ -122,3 +125,4 @@ class WasteUsage(ResourceUsage):
                 self.usage = self.manual_meter_reading - day_before[0].manual_meter_reading
 
         super(WasteUsage, self).save(args, kwargs)
+    admin_tool_tip = "Team Waste Output"

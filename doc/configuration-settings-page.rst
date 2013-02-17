@@ -1,7 +1,11 @@
-.. _section-configuration-settings:
+.. _section-configuration-settings-page:
 
-Retrieve Settings Page
-======================
+How to retrieve the Settings (admin) Page
+=========================================
+
+The on-line user interface to Makahiki administrative functions is obtained via the
+Settings page.  (There are also command-line administrative functions, which are
+documented in :ref:`section-developer-guide-management-commands`.)
 
 Log in as admin
 ---------------
@@ -22,7 +26,7 @@ Upon successful login, you will be taken to the home page:
 
 Note that admin accounts have two additional pages displayed in the Nav Bar:  "Status" and
 "Settings".  "Status" provides real time analytics for use in managing a running
-competition, as detailed in :ref:`section-execution`.
+competition, as detailed in :ref:`section-challenge-management`.
 
 Click on Settings page icon
 ---------------------------
@@ -33,9 +37,8 @@ Click on the Settings icon in the Nav Bar to go to the Settings page:
    :width: 600 px
    :align: center
 
-This page presents a set of Django-styled widgets (Challenge, Player, Resource, etc.) that
-provide access to pages that allow configuration of all of the various aspects of
-a Makahiki challenge.
+This page presents a set of buttons providing access to different administrative areas
+depending upon the type of task to be accomplished.  These correspond roughly to the
+Makahiki "life-cycle phases" described in :ref:`section-site-administration-guide`.
 
-The following sections document these configuration widgets.
 

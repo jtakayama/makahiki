@@ -2,8 +2,11 @@
 
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib import admin
 
 from apps.widgets.smartgrid.models import Action
+from apps.managers.challenge_mgr import challenge_mgr
+from apps.admin.admin import challenge_designer_site, challenge_manager_site, developer_site
 
 
 class ActionFeedback(models.Model):
@@ -26,7 +29,14 @@ class ActionFeedback(models.Model):
     changed = models.DateTimeField(editable=False,
                                    help_text="The time the feedback was changed.",
                                    auto_now=True)
+    admin_tool_tip = "Player Feedback about Actions"
 
     def __unicode__(self):
         return "%s rated %s %d and said %s" % \
             (self.user.username, self.action.name, self.rating, self.comment)
+
+admin.site.register(ActionFeedback)
+challenge_designer_site.register(ActionFeedback)
+challenge_manager_site.register(ActionFeedback)
+developer_site.register(ActionFeedback)
+challenge_mgr.register_developer_game_info_model("Smartgrid Game", ActionFeedback)

@@ -18,13 +18,17 @@ _designer_challenge_info_models = {}
 _designer_game_info_models = {}
 """private variable to store the registered models for challenge designer game page."""
 
-
 _admin_challenge_info_models = {}
 """private variable to store the registered models for challenge admin challenge page."""
 
-
 _admin_game_info_models = {}
 """private variable to store the registered models for challenge admin game page."""
+
+_developer_challenge_info_models = {}
+"""private variable to store the registered models for developer admin challenge page."""
+
+_developer_game_info_models = {}
+"""private variable to store the registered models for developer admin game page."""
 
 
 def init():
@@ -390,7 +394,7 @@ def get_designer_game_info_models():
     return game_admins
 
 
-def get_admin_challenge_info_mdoels():
+def get_admin_challenge_info_models():
     """Returns the Challenge Admin's challenge info models."""
     return get_challenge_models(_admin_challenge_info_models)
 
@@ -401,6 +405,21 @@ def get_admin_game_info_models():
     for game in GameInfo.objects.all().order_by("priority"):
         if game.name in _admin_game_info_models:
             game_admin = (game.name, game.enabled, game.pk, _admin_game_info_models[game.name],)
+            game_admins += (game_admin,)
+    return game_admins
+
+
+def get_developer_challenge_info_models():
+    """Returns the Developer's challenge info models."""
+    return get_challenge_models(_developer_challenge_info_models)
+
+
+def get_developer_game_info_models():
+    """Returns the Developer's game info models."""
+    game_admins = ()
+    for game in GameInfo.objects.all().order_by("priority"):
+        if game.name in _developer_game_info_models:
+            game_admin = (game.name, game.enabled, game.pk, _developer_game_info_models[game.name],)
             game_admins += (game_admin,)
     return game_admins
 
@@ -430,9 +449,16 @@ def get_challenge_models(registry):
 
 def _get_model_admin_info(model, priority):
     """return the admin info for the model."""
+    try:
+        tooltip = model.admin_tool_tip
+    except AttributeError:
+        tooltip = model.__doc__
+    url = "%s/%s" % (model._meta.app_label, model._meta.module_name)
+    if model._meta.module_name in ['challengesetting', 'scoresetting', 'participationsetting']:
+        url = "%s/%s/1" % (model._meta.app_label, model._meta.module_name)
     return {"name": capfirst(model._meta.verbose_name_plural),
-            "tooltip": capfirst(model.__doc__),
-            "url": "%s/%s" % (model._meta.app_label, model._meta.module_name),
+            "tooltip": capfirst(tooltip),
+            "url": url,
             "priority": priority}
 
 
@@ -454,6 +480,16 @@ def register_admin_challenge_info_model(group, g_priority, model, m_priority):
 def register_admin_game_info_model(group, model):
     """Register the model of the game for the challenge admin."""
     register_admin_model(_admin_game_info_models, group, model)
+
+
+def register_developer_challenge_info_model(group, g_priority, model, m_priority):
+    """Register the model of the challenge info for challenge admin."""
+    register_challenge_model(_developer_challenge_info_models, group, g_priority, model, m_priority)
+
+
+def register_developer_game_info_model(group, model):
+    """Register the model of the game for the challenge admin."""
+    register_admin_model(_developer_game_info_models, group, model)
 
 
 def register_admin_model(registry, group, model, priority=None):

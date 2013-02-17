@@ -5,7 +5,8 @@ from django.forms.widgets import Textarea
 from apps.managers.challenge_mgr import challenge_mgr
 from apps.managers.challenge_mgr.models import ChallengeSetting, RoundSetting, PageSetting, \
     PageInfo, Sponsor, UploadImage, GameSetting, GameInfo
-from apps.admin.admin import sys_admin_site, challenge_designer_site, challenge_manager_site
+from apps.admin.admin import sys_admin_site, challenge_designer_site, challenge_manager_site, \
+    developer_site
 
 
 class PageSettingInline(admin.TabularInline):
@@ -41,9 +42,33 @@ class PageInfoAdmin(admin.ModelAdmin):
         models.TextField: {'widget': Textarea(attrs={'rows': 3, 'cols': 70})},
         }
 
+
+class DesignerPageInfoAdmin(admin.ModelAdmin):
+    """Designer admin interface for PageInfo entries."""
+    list_display = ["name", "unlock_condition", "priority"]
+
+    fieldsets = (
+        (None,
+            {"fields":
+                ("label",
+                 "title",
+                 "introduction",
+                 "unlock_condition",
+                 "priority",)
+             }),
+        )
+
+    inlines = [PageSettingInline]
+
+    formfield_overrides = {
+        models.TextField: {'widget': Textarea(attrs={'rows': 3, 'cols': 70})},
+        }
+
+
 admin.site.register(PageInfo, PageInfoAdmin)
-challenge_designer_site.register(PageInfo, PageInfoAdmin)
-challenge_manager_site.register(PageInfo, PageInfoAdmin)
+challenge_designer_site.register(PageInfo, DesignerPageInfoAdmin)
+challenge_manager_site.register(PageInfo, DesignerPageInfoAdmin)
+developer_site.register(PageInfo, PageInfoAdmin)
 
 
 class PageSettingAdmin(admin.ModelAdmin):
@@ -52,6 +77,9 @@ class PageSettingAdmin(admin.ModelAdmin):
     list_editable = ["widget", "enabled"]
 
 admin.site.register(PageSetting, PageSettingAdmin)
+challenge_designer_site.register(PageSetting, PageSettingAdmin)
+challenge_manager_site.register(PageSetting, PageSettingAdmin)
+developer_site.register(PageSetting, PageSettingAdmin)
 
 
 class GameSettingInline(admin.TabularInline):
@@ -73,6 +101,9 @@ class GameInfoAdmin(admin.ModelAdmin):
     inlines = [GameSettingInline]
 
 admin.site.register(GameInfo, GameInfoAdmin)
+challenge_designer_site.register(GameInfo, GameInfoAdmin)
+challenge_manager_site.register(GameInfo, GameInfoAdmin)
+developer_site.register(GameInfo, GameInfoAdmin)
 
 
 class RoundSettingAdmin(admin.ModelAdmin):
@@ -80,6 +111,9 @@ class RoundSettingAdmin(admin.ModelAdmin):
     list_display = ["name", "start", "end", "round_reset", "display_scoreboard"]
 
 admin.site.register(RoundSetting, RoundSettingAdmin)
+challenge_designer_site.register(RoundSetting, RoundSettingAdmin)
+challenge_manager_site.register(RoundSetting, RoundSettingAdmin)
+developer_site.register(RoundSetting, RoundSettingAdmin)
 
 
 class SponsorsInline(admin.TabularInline):
@@ -158,7 +192,8 @@ class ChallengeSettingAdmin(admin.ModelAdmin):
     formfield_overrides = {
         models.TextField: {'widget': Textarea(attrs={'rows': 2, 'cols': 70})},
         }
-    page_text = "Click on the name of the challenge to change the settings."
+    page_text = "Click on the name of the challenge to change the settings." +\
+    "There must be only one Challenge Setting."
 
     def has_add_permission(self, request):
         return False
@@ -167,7 +202,11 @@ class ChallengeSettingAdmin(admin.ModelAdmin):
         return False
 
 admin.site.register(ChallengeSetting, ChallengeSettingAdmin)
+challenge_designer_site.register(ChallengeSetting, ChallengeSettingAdmin)
+challenge_manager_site.register(ChallengeSetting, ChallengeSettingAdmin)
+developer_site.register(ChallengeSetting, ChallengeSettingAdmin)
 admin.site.register(UploadImage)
+developer_site.register(UploadImage)
 
 challenge_mgr.register_designer_challenge_info_model("Challenge", 1, ChallengeSetting, 1)
 challenge_mgr.register_designer_challenge_info_model("Challenge", 1, RoundSetting, 2)
@@ -186,3 +225,20 @@ challenge_mgr.register_designer_challenge_info_model("Scheduler (Celery) - Optio
 CrontabSchedule.__doc__ = "Defines the scheduled tasks."
 challenge_mgr.register_designer_challenge_info_model("Scheduler (Celery) - Optional", \
                                                      5, PeriodicTask, 5)
+
+# Developer Admin interface.
+challenge_mgr.register_developer_challenge_info_model("Challenge", 1, ChallengeSetting, 1)
+challenge_mgr.register_developer_challenge_info_model("Challenge", 1, RoundSetting, 2)
+admin.site.register(Sponsor)
+developer_site.register(Sponsor)
+challenge_mgr.register_developer_challenge_info_model("Challenge", 1, Sponsor, 3)
+challenge_mgr.register_developer_challenge_info_model("Games", 3, GameInfo, 2)
+challenge_mgr.register_developer_challenge_info_model("Games", 3, PageInfo, 1)
+challenge_mgr.register_developer_challenge_info_model("Scheduler (Celery)", \
+                                                      6, CrontabSchedule, 5)
+challenge_mgr.register_developer_challenge_info_model("Scheduler (Celery)", \
+                                                      6, IntervalSchedule, 5)
+challenge_mgr.register_developer_challenge_info_model("Scheduler (Celery)", \
+                                                      6, PeriodicTask, 5)
+UploadImage.admin_tool_tip = "Uploaded images"
+challenge_mgr.register_developer_challenge_info_model("Misc", 7, UploadImage, 1)

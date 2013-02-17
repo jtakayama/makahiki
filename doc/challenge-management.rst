@@ -1,12 +1,12 @@
-.. _section-execution:
+.. _section-challenge-management:
 
-Running a challenge 
-===================
+Challenge Management
+====================
 
-Running a challenge includes the following tasks:
+Managing a running challenge includes the following tasks:
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    execution-manage-resource-game
    execution-manage-smartgrid-game

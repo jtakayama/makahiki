@@ -140,6 +140,9 @@ class ChallengeSetting(models.Model):
         help_text="The text of the about page. " +
                   settings.MARKDOWN_TEXT)
 
+    admin_tool_tip = "The global settings for the challenge. (Name, landing page, " + \
+    "about page, and sponsors)"
+
     def __unicode__(self):
         return self.name
 
@@ -163,7 +166,7 @@ class ChallengeSetting(models.Model):
 
 
 class UploadImage(models.Model):
-    """Defines the global settings for the challenge."""
+    """Defines the table for uploaded images."""
     image = models.ImageField(
         upload_to=media_file_path(_MEDIA_LOCATION_UPLOAD),
         max_length=255, blank=True, null=True,
@@ -229,6 +232,7 @@ class RoundSetting(models.Model):
         default=True,
         help_text="Display the round in scoreboard?"
     )
+    admin_tool_tip = "The Round information for the challenge. (How many, when, etc.)"
 
     class Meta:
         """Meta"""
@@ -246,18 +250,20 @@ class RoundSetting(models.Model):
 class PageInfo(models.Model):
     """Defines the page info."""
     name = models.CharField(
-        help_text="The name of the page.",
+        help_text="The name of the page. It is used to determine which navbar icon is used.",
         max_length=50,)
     label = models.CharField(
-        help_text="The label of the page.",
+        help_text="The label of the page. It is used on the Home page and the navbar. " + \
+        "</br>Should be less than 10 characters long.",
         max_length=100,)
     title = models.CharField(
         blank=True, null=True,
-        help_text="The title of the page.",
+        help_text="The HTML title of the page.",
         max_length=255,)
     introduction = models.TextField(
         blank=True, null=True,
-        help_text="The introduction of the page. " + settings.MARKDOWN_TEXT,
+        help_text="This text is shown on the Home page. It should not be more than 3 lines," + \
+        "</br>each line should be less than 25 characters long. " + settings.MARKDOWN_TEXT,
         max_length=1000,)
     priority = models.IntegerField(
         default=1,
@@ -271,6 +277,8 @@ class PageInfo(models.Model):
         max_length=255,
         help_text="if the condition is True, the page will be unlocked. " +
                   settings.PREDICATE_DOC_TEXT)
+    admin_tool_tip = "The top level page information. Defines which widgets " + \
+    "are on the page, if the page is displayed, and the ordering of the pages."
 
     class Meta:
         """meta"""
@@ -313,6 +321,7 @@ class PageSetting(models.Model):
         """meta"""
         unique_together = (("page", "widget", ), )
         ordering = ['page', 'location', 'priority']
+        verbose_name = "page widget"
 
     def __unicode__(self):
         return ""
