@@ -1,3 +1,14 @@
+function getColumnFromCategory(cat_list, category) {
+	var column = -1;
+	for (var i = 0; i < cat_list.length; i += 3) {
+		if (category == cat_list[i]) {
+			column = Math.floor(i / 3) + 1;
+		}
+	}
+	console.log("getColumnForCategory(" + category + ") returns " + column);
+	return column;
+}
+
 /**
  * Parses the string who's data is a python list with the format [["level", ["data1", ...]], [...]]
  * Works for both category and action data.
@@ -27,12 +38,14 @@ function getLevels(data) {
  * @returns {Array} of the list associated with the level, or false if level is not in the data.
  */
 function getLevelList(level, data) {
+//	console.log("getLevelList(" + level + ", " + data + ")");
 	var split = data.split('],');
 	for (var i = 0; i < split.length; i++) {
 		var index = split[i].indexOf(level);
 		if (index != -1) {
 			var i2 = split[i].indexOf(']');
 			var list = split[i].slice(index + level.length + 4, i2).split(', ');
+//			console.log(list);
 			return list;
 		}
 	}
@@ -95,7 +108,8 @@ function createSGGActionSaveData() {
 			var act_slug = action.attr('data-slug');
 			var category = action.attr('data-category');
 			var pri = action.attr('data-priority');
-			var act_str = '"'.concat(act_slug, '", "', category, '", ', pri, ', "', trim1(action.text()), '"');
+			var type = action.attr('data-type');
+			var act_str = '"'.concat(act_slug, '", "', type , '", "', category, '", ', pri, ', "', trim1(action.text()), '"');
 			inner_str = inner_str.concat(act_str, ', ');
 		}
 		if (droppedActions.length > 0) {
@@ -136,16 +150,17 @@ function createCategoryDropDiv(slug, column, text) {
  * @returns a jQuery object representing the dropped Action.
  */
 function createActionDropDiv(slug, type, row, column, category, text) {
-	var drop = $('<div data-slug="' + trim1(slug) + '" class="sgg-action sgg-' + type + '-cell draggable" ' +
-		   	'data-type="' + type + '" data-priority="' + row + '" data-column="' + 
-		   	column + '" data-category="' + category + '">'
+	var drop = $('<div data-slug="' + trim2(slug) + '" class="sgg-action sgg-' + trim2(type) + '-cell draggable" ' +
+		   	'data-type="' + trim2(type) + '" data-priority="' + row + '" data-column="' + 
+		   	column + '" data-category="' + trim2(category) + '">'
 				+ '<a href="/sgg_design/' + 
-		   	type + '/' + slug + '/" class="sgg-action">'
+		   	trim2(type) + '/' + slug + '/" class="sgg-action">'
 				+ trim2(text) + '</a></div>');
 	return drop;
 }
 
 function activateColumn(levelID, column, slug) {
+//	console.log("activateColumn("+ levelID + ", " + column + ", " + slug + ")");
 	for ( var i = 1; i < 11; i++) {
 		var row = $('#' + levelID + ' .sgg-action-dropzone table tbody tr:nth-child(' + i + ')');
 		var tdCell = row.find('td:nth-child(' + column + ')');
