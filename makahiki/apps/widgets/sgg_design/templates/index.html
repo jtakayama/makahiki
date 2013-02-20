@@ -174,6 +174,7 @@
 	}
 
 	function loadSavedSGG(savedData) {
+//		console.log("loadSavedSGG");
 		var split = savedData.split('][');
 		var categories = split[0];
 //		console.log(categories);
@@ -200,7 +201,7 @@
 				activateColumn(level, c, slug);
 			}
 			var act_list = getLevelList(levels[i], actions);
-			console.log(act_list);
+//			console.log(act_list);
 			for (var j = 0; j < act_list.length; j += 5) {
 				var actIndex = Math.floor(j / 5);
 //				var col = actIndex % numCat + 1;
@@ -211,11 +212,11 @@
 				var rowStr = act_list[j + 3];
 				var text = act_list[j + 4];
 				var col = getColumnFromCategory(cat_list, category);
-//				console.log(slug + ", " + category + "[" + row + ", "+ col + " ]" + category + " " + text);
-				var dz = levelDiv.find('.sgg-action-slot[data-column="' + col +'"][data-row="' + row + '"]');
+				console.log(slug + ", " + category + "[" + row + ", "+ col + " ]" + category + " " + text + " rowstr=" + rowStr);
+				var dz = levelDiv.find('.sgg-action-slot[data-column="' + col +'"][data-row="' + rowStr + '"]');
 //				console.log(dz);
-				var action = createActionDropDiv(slug, type, row, col, category, text);
-//				console.log($('<div />').append(action.clone()).html());
+				var action = createActionDropDiv(slug, type, rowStr, col, category, text);
+				console.log($('<div />').append(action.clone()).html());
 				dz.html($('<div />').append(action.clone()).html());
 			}
 		}

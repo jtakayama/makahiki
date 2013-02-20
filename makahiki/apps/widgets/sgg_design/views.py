@@ -61,9 +61,13 @@ def update_sgg(request):
             num_levels = len(categories)
             for lvl in xrange(0, num_levels):
                 level_cats = categories[lvl][1]
-                for i in xrange(0, len(level_cats), 2):
-                    category = Category.objects.get(slug=level_cats[i])
-                    category.priority = level_cats[i + 1]
+                for i in xrange(0, len(level_cats), 3):
+                    slug = level_cats[i]
+                    priority = level_cats[i + 1]
+                    text = level_cats[i + 2]
+                    category = Category.objects.get(slug=slug)
+                    category.priority = priority
+                    category.name = text
                     category.save()
 
             # clear the existing actions
@@ -77,10 +81,14 @@ def update_sgg(request):
                 level_name = actions[lvl][0]
                 level = Level.objects.get(name=level_name)
                 level_actions = actions[lvl][1]
-                for i in xrange(0, len(level_actions), 3):
-                    action = smartgrid.get_action(level_actions[i])
-                    category = Category.objects.get(slug=level_actions[i + 1])
-                    priority = level_actions[i + 2]
+                for i in xrange(0, len(level_actions), 5):
+                    slug = level_actions[i]
+                    #type = level_actions[i + 1]
+                    cat_slug = level_actions[i + 2]
+                    priority = level_actions[i + 3] * 10
+                    text = level_actions[i + 4]
+                    action = smartgrid.get_action(slug)
+                    category = Category.objects.get(slug=cat_slug)
                     action.level = level
                     action.category = category
                     action.priority = priority

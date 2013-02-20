@@ -5,7 +5,7 @@ function getColumnFromCategory(cat_list, category) {
 			column = Math.floor(i / 3) + 1;
 		}
 	}
-	console.log("getColumnForCategory(" + category + ") returns " + column);
+//	console.log("getColumnForCategory(" + category + ") returns " + column);
 	return column;
 }
 
