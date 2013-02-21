@@ -62,7 +62,7 @@ function createSGGCategorySaveData() {
 	levels.each(function () {
 		cat_value = temp;
 		var level = $(this).attr('data-level');
-		var slug = $(this).attr('id');
+		var slug = $(this).attr('data-slug');
 		var levelStr = '"' + level + '"';
 		var categories = $(this).find('#category-dropzone table tr');
 		var children = categories.find("td div.sgg-category-drop");
@@ -70,7 +70,7 @@ function createSGGCategorySaveData() {
 		for ( var i = 0; i < children.length; i++) {
 			var child = $(children[i]);
 			var cat_str = '"'.concat(child.data('slug'), '", ', child
-					.data('priority'), ', "', trim1(child.text()), '"');
+					.data('priority'), ', "', trim1(child.text()), '", ' + child.data('pk'));
 			inner_str = inner_str.concat(cat_str, ', ');
 		}
 		if (children.length > 0) {
@@ -85,6 +85,39 @@ function createSGGCategorySaveData() {
 	cat_value = cat_value.substr(0, cat_value.length - 2);
 	cat_value = ''.concat('[' + cat_value + ']');
 	return cat_value;
+}
+
+function handleCategoryDrop(event, ui) {
+	var levelID = findLevelID(this);
+	var column = $(this).data('column');
+	var slug = ui.draggable.attr('data-slug');
+	var pk = ui.draggable.attr('data-pk');
+	var drop = createCategoryDropDiv(slug, column, ui.draggable.text(), trim2(pk));
+	var html = $('<div />').append(drop.clone()).html();
+	$(this).html(html);
+	activateColumn(levelID, column, slug);
+	saveSggLayout();
+}
+
+function handleActionDrop(event, ui) {
+	var column = $(this).data('column');
+	var category = $(this).data('category');
+	var row = $(this).data('row');
+	var slug = ui.draggable.attr('id');
+	var pk = ui.draggable.attr('data-pk');
+	var type = ui.draggable.data('type');
+	if (type == "clear") {
+		$(this).html('');
+	} else {
+		var drop = createActionDropDiv(slug, type, row, column, category, ui.draggable.text(), pk);
+		var html = $('<div />').append(drop.clone()).html();
+		console.log(html);
+		$(this).html(html);
+		var listItem = $('.sgg-action [data-slug="' + trim2(slug) + '"][data-position="in-list"]');
+		listItem.removeClass('draggable');
+		listItem.attr('data-position=in-grid');
+	}
+	saveSggLayout();
 }
 
 /**
@@ -109,7 +142,8 @@ function createSGGActionSaveData() {
 			var category = action.attr('data-category');
 			var pri = action.attr('data-priority');
 			var type = action.attr('data-type');
-			var act_str = '"'.concat(act_slug, '", "', type , '", "', category, '", ', pri, ', "', trim1(action.text()), '"');
+			var pk = action.attr('data-pk');
+			var act_str = '"'.concat(act_slug, '", "', type , '", "', category, '", ', pri, ', "', trim1(action.text()), '", ', pk);
 			inner_str = inner_str.concat(act_str, ', ');
 		}
 		if (droppedActions.length > 0) {
@@ -125,6 +159,7 @@ function createSGGActionSaveData() {
 	return act_value;
 }
 
+
 /**
  * Returns a jQuery object that represents the dropped Category.
  * @param slug a String the category's slug.
@@ -132,12 +167,19 @@ function createSGGActionSaveData() {
  * @param text a String the name of the Category.
  * @returns a jQuery object representing the dropped Category. It can be added to the page.
  */
-function createCategoryDropDiv(slug, column, text) {
+function createCategoryDropDiv(slug, column, text, id) {
+	console.log("createCategoryDropDiv(" + slug + ", " + column + ", " + text + ", " + id + ")");
 	var drop = $('<div data-slug=' + trim1(slug) + ' class="sgg-category-drop" ' +
-			'data-priority=' + column + '>'
-			+ trim2(text) + '</div>');
+			'data-priority=' + column + '>' + '<a class="sgg-category" ' +
+			'href="/challenge_admin/smartgrid/category/' + id + '/">'
+			+ trim2(text) + '</a></div>');
 	return drop;
 } 
+
+function clearSavedData() {
+	deleteCookie('sgg_save');
+	window.location.reload();
+}
 
 /**
  * Returns a jQuery object that represents the dropped Action.
@@ -149,18 +191,18 @@ function createCategoryDropDiv(slug, column, text) {
  * @param text a String the name of the Action.
  * @returns a jQuery object representing the dropped Action.
  */
-function createActionDropDiv(slug, type, row, column, category, text) {
+function createActionDropDiv(slug, type, row, column, category, text, id) {
+	console.log("createActionDropDiv(" + slug + ", " + type + ", " + row + ", " + column + ", " + category + ", " + text + ", " + id + ")");
 	var drop = $('<div data-slug="' + trim2(slug) + '" class="sgg-action sgg-' + trim2(type) + '-cell draggable" ' +
 		   	'data-type="' + trim2(type) + '" data-priority="' + row + '" data-column="' + 
-		   	column + '" data-category="' + trim2(category) + '">'
-				+ '<a href="/sgg_design/' + 
-		   	trim2(type) + '/' + slug + '/" class="sgg-action">'
-				+ trim2(text) + '</a></div>');
+		   	column + '" data-category="' + trim2(category) + '" data-pk="' + trim2(id) + '">' +
+		   	'<a href="/admin/smartgrid/' + trim2(type) + '/' + trim2(id) + '/"	class="sgg-action">' +
+			trim2(text) + '</a></div>');
 	return drop;
 }
 
 function activateColumn(levelID, column, slug) {
-//	console.log("activateColumn("+ levelID + ", " + column + ", " + slug + ")");
+	console.log("activateColumn("+ levelID + ", " + column + ", " + slug + ")");
 	for ( var i = 1; i < 11; i++) {
 		var row = $('#' + levelID + ' .sgg-action-dropzone table tbody tr:nth-child(' + i + ')');
 		var tdCell = row.find('td:nth-child(' + column + ')');
@@ -177,6 +219,65 @@ function activateColumn(levelID, column, slug) {
 	}		
 }
 
+function saveSggLayout() {
+	var cat_value = createSGGCategorySaveData();
+	var hidden_category = $('#id_category_updates');
+	hidden_category.attr('value', cat_value);
+	var act_value = createSGGActionSaveData();
+	var hidden_action = $('#id_action_updates');
+	hidden_action.attr('value', act_value);
+	setCookie('sgg_save', cat_value + act_value);
+}
+
+function loadSavedSGG(savedData) {
+//	console.log("loadSavedSGG");
+	var split = savedData.split('][');
+	var categories = split[0];
+//	console.log(categories);
+	var actions = split[1];
+//	console.log(actions);
+	var levels = getLevels(categories);
+//	console.log(levels);
+	for (var i = 0; i < levels.length; i++) {
+		var levelDiv = $('#sgg-level-' + (i + 1));
+		var level = levelDiv.attr('id');
+		var cat_list = getLevelList(levels[i], categories);
+//		console.log(cat_list);
+		var numCat = cat_list.length / 4;
+		for (var j = 0; j < numCat * 4; j += 4) {
+			var c = (j / 4) + 1;
+			var dz = levelDiv.find('.sgg-category-slot[data-column="' + c + '"]');
+//			console.log(dz);
+			var slug = cat_list[j];
+			var column = cat_list[j + 1];
+			var text = cat_list[j + 2];
+			var pk = cat_list[j + 3];
+			var category = createCategoryDropDiv(slug, column, text, pk);
+//			console.log($('<div />').append(category.clone()).html());
+			dz.html($('<div />').append(category.clone()).html());
+			activateColumn(level, c, slug);
+		}
+		var act_list = getLevelList(levels[i], actions);
+//		console.log(act_list);
+		for (var j = 0; j < act_list.length; j += 5) {
+			var actIndex = Math.floor(j / 5);
+//			var col = actIndex % numCat + 1;
+			var row = Math.floor(actIndex / numCat) + 1;
+			var slug = act_list[j];
+			var type = act_list[j + 1];
+			var category = act_list[j + 2];
+			var rowStr = act_list[j + 3];
+			var text = act_list[j + 4];
+			var col = getColumnFromCategory(cat_list, category);
+			console.log(slug + ", " + category + "[" + row + ", "+ col + " ]" + category + " " + text + " rowstr=" + rowStr);
+			var dz = levelDiv.find('.sgg-action-slot[data-column="' + col +'"][data-row="' + rowStr + '"]');
+//			console.log(dz);
+			var action = createActionDropDiv(slug, type, rowStr, col, category, text);
+			console.log($('<div />').append(action.clone()).html());
+			dz.html($('<div />').append(action.clone()).html());
+		}
+	}
+}
 /**
  * Trims the whitespace from front and end of str.
  * @param str the string.

@@ -10,15 +10,25 @@
 
 				<form id="save-form" action="/sgg_design/update_smart_grid/" method="post">
 					{% csrf_token %} {{ view_objects.sgg_design.form.as_p }} 
-					<input class="btn btn-widget" onclick="saveFormSubmit();return false;" value="Save SGG" />
+					<input class="btn btn-widget" onclick="saveFormSubmit();return false;" value="Update Smart Grid Game" />
 				</form>
+				<button class="btn btn-widget" onclick="clearSavedData();return false;">Revert to Current Smart Grid Game</button>
 			</div>
 			<div class="span9">
-				<div class="sgg-category-title">
-					<h5>Categories:</h5>
+				<div class="makahiki-box">
+					<div class="sgg-category-title">
+						<h5>Categories:</h5>
+					</div>
+					<div class="content-box-contents">
+						<a href="/challenge_admin/smartgrid/category/">
+							<div class="btn btn-widget">Edit Categories</div></a>
+						Drag the category to the top row of the grid below. You cannot have the same category twice in the same level.
+					</div>
 					<div class="ssg-category-selections clearfix">
 						{% for category in view_objects.sgg_design.categories %}
-						<div id="{{category.slug}}" class="sgg-category draggable">{{category}}</div>
+						<div class="sgg-category draggable" data-pk="{{category.pk}}" data-slug="{{category.slug}}">
+							<a class="sgg-category" href="/challenge_admin/smartgrid/category/{{category.pk}}/">{{category}}</a>
+						</div>
 						{% endfor %}
 					</div>
 				</div>
@@ -38,11 +48,11 @@
 				<div class="tab-content">
 					<div id="activities" class="sgg-action-selections tab-pane active"
 						style="height: 470px; overflow: scroll;">
-						{% for action in view_objects.sgg_design.activities %}
-						<div id="{{action.slug}}" data-slug="{{action.slug}}" data-type="{{action.type}}"
-							data-instance="{{action}}"
-							class="sgg-action sgg-activity draggable">
-							<a href="{% url action_details action.type action.slug %}"
+						{% for action in view_objects.sgg_design.activities %}		
+						<div id="{{action.slug}}" data-slug="{{action.slug}}" data-type="{{action.type}}" data-pk="{{action.pk}}"
+							data-instance="{{action}}" data-position="{% if action.level != None and action.category != None %}in-grid{% else %}in-list{% endif %}"
+							class="sgg-action sgg-activity {% if action.level == None or action.category == None %}draggable{% endif %}">
+							<a href="/admin/smartgrid/{{action.type}}/{{action.pk}}/"
 								class="sgg-action">{{action.name}}</a>
 						</div>
 						{% endfor %}
@@ -50,9 +60,10 @@
 					<div id="commitments" class="sgg-action-selections tab-pane"
 						style="height: 470px; overflow: scroll;">
 						{% for action in view_objects.sgg_design.commitments %}
-						<div id="{{action.slug}}" data-slug="{{action.slug}}" data-type="{{action.type}}"
-							class="sgg-action sgg-commitment draggable">
-							<a href="{% url action_details action.type action.slug %}"
+						<div id="{{action.slug}}" data-slug="{{action.slug}}" data-type="{{action.type}}" data-pk="{{action.pk}}"
+							data-instance="{{action}}" data-position="{% if action.level != None and action.category != None %}in-grid{% else %}in-list{% endif %}"
+							class="sgg-action sgg-commitment {% if action.level == None or action.category == None %}draggable{% endif %}">
+							<a href="/admin/smartgrid/{{action.type}}/{{action.pk}}/"
 								class="sgg-action">{{action.name}}</a>
 						</div>
 						{% endfor %}
@@ -60,9 +71,10 @@
 					<div id="events" class="sgg-action-selections tab-pane"
 						style="height: 470px; overflow: scroll;">
 						{% for action in view_objects.sgg_design.events %}
-						<div id="{{action.slug}}" data-slug="{{action.slug}}" data-type="{{action.type}}"
-							class="sgg-action sgg-event draggable">
-							<a href="{% url action_details action.type action.slug %}"
+						<div id="{{action.slug}}" data-slug="{{action.slug}}" data-type="{{action.type}}" data-pk="{{action.pk}}"
+							data-instance="{{action}}" data-position="{% if action.level != None and action.category != None %}in-grid{% else %}in-list{% endif %}"
+							class="sgg-action sgg-event {% if action.level == None or action.category == None %}draggable{% endif %}">
+							<a href="/admin/smartgrid/{{action.type}}/{{action.pk}}/"
 								class="sgg-action">{{action.name}}</a>
 						</div>
 						{% endfor %}
@@ -70,34 +82,40 @@
 				</div>
 			</div>
 			<div class="span9">
-				<!-- Tabs for the levels -->
-				<ul id="sgg-levels-tab" class="nav nav-tabs">
-				{% for level in view_objects.sgg_design.levels %}
-					{% if forloop.counter == 1 %}
-					<li class="active">
-					{% else %}
-					<li class="">					
-					{% endif %}
-						<a class="level-unlocked" data-toggle="tab" style="padding-right: 6px; padding-left: 6px;" 
-						   title="{{ level.name }} Actions"
-						   href="#sgg-level-{{forloop.counter}}" rel="tooltip" >
-						   {{ level.name }}
-						</a></li>
-				{% endfor %}
-				</ul>
-	        	<!-- Tab contents -->
-        		<div id="sgg-grid" class="tab-content">
-        		{% for level in view_objects.sgg_design.smart_grid %}
-            		<div id="sgg-level-{{forloop.counter}}" 
-           			{% if forloop.counter == 1 %}
-						  class="tab-pane active"
-            		{% else %}
-            			  class="tab-pane"
-					{% endif %}            		
-					 data-level="{{level.name}}">
-					{% include "sgg_grid.html" %}
+				<div class="makahiki-box">
+					<div class="content-box-contents">
+						<a href="/admin/smartgrid/level/">
+							<div class="btn btn-widget">Edit Levels</div></a>
 					</div>
-				{% endfor %}
+					<!-- Tabs for the levels -->
+					<ul id="sgg-levels-tab" class="nav nav-tabs">
+					{% for level in view_objects.sgg_design.levels %}
+						{% if forloop.counter == 1 %}
+						<li class="active">
+						{% else %}
+						<li class="">					
+						{% endif %}
+							<a class="level-unlocked" data-toggle="tab" style="padding-right: 6px; padding-left: 6px;" 
+							   title="{{ level.name }} Actions"
+							   href="#sgg-level-{{forloop.counter}}" rel="tooltip" >
+							   {{ level.name }}
+							</a></li>
+					{% endfor %}
+					</ul>
+	    	    	<!-- Tab contents -->
+        			<div id="sgg-grid" class="tab-content">
+        			{% for level in view_objects.sgg_design.smart_grid %}
+            			<div id="sgg-level-{{forloop.counter}}" 
+	           			{% if forloop.counter == 1 %}
+							  class="tab-pane active"
+        	    		{% else %}
+            				  class="tab-pane"
+						{% endif %}            		
+							  data-level="{{level.name}}">
+						{% include "sgg_grid.html" %}
+						</div>
+					{% endfor %}
+					</div>
 				</div>
 			</div>
 		</div>
@@ -108,6 +126,7 @@
 <script type="text/javascript">
 	$(init);
 
+	// See sggDesigner.js for most of the functionality.
 	function init() {
 		$('.draggable').draggable({
 			cursor : 'move',
@@ -118,6 +137,11 @@
 			accept : '.sgg-category',
 			drop : handleCategoryDrop
 		});
+		$('.sgg-action-slot').droppable({
+			accept : '.sgg-action',
+			drop : handleActionDrop
+		});
+		
 	    var saved = getCookie('sgg_save');
 	    if (saved) {
 	    	//console.log(saved);
@@ -127,33 +151,6 @@
 	    }
 	}
 
-	function handleCategoryDrop(event, ui) {
-		var levelID = findLevelID(this);
-		var column = $(this).data('column');
-		var slug = ui.draggable.attr('id');
-		var drop = createCategoryDropDiv(slug, column, ui.draggable.text());
-		var html = $('<div />').append(drop.clone()).html();
-		$(this).html(html);
-		activateColumn(levelID, column, slug);
-		saveSggLayout();
-	}
-
-	function handleActionDrop(event, ui) {
-		var column = $(this).data('column');
-		var category = $(this).data('category');
-		var row = $(this).data('row');
-		var slug = ui.draggable.attr('id');
-		var type = ui.draggable.data('type');
-		if (type == "clear") {
-			$(this).html('<div class="sgg-action-slot"></div>');
-		} else {
-			var drop = createActionDropDiv(slug, type, row, column, category, ui.draggable.text());
-			var html = $('<div />').append(drop.clone()).html();
-			$(this).html(html);
-		}
-		saveSggLayout();
-	}
-
 	function clearCategories() {
 	    $('.sgg-category-slot').empty();
 	    $('.sgg-action-slot').addClass("disabled");
@@ -161,65 +158,6 @@
 	
 	function clearActions() {
 	    $('.sgg-action-slot').empty();	
-	}
-	
-	function saveSggLayout() {
-		var cat_value = createSGGCategorySaveData();
-		var hidden_category = $('#id_category_updates');
-		hidden_category.attr('value', cat_value);
-		var act_value = createSGGActionSaveData();
-		var hidden_action = $('#id_action_updates');
-		hidden_action.attr('value', act_value);
-		setCookie('sgg_save', cat_value + act_value);
-	}
-
-	function loadSavedSGG(savedData) {
-//		console.log("loadSavedSGG");
-		var split = savedData.split('][');
-		var categories = split[0];
-//		console.log(categories);
-		var actions = split[1];
-//		console.log(actions);
-		var levels = getLevels(categories);
-//		console.log(levels);
-		for (var i = 0; i < levels.length; i++) {
-			var levelDiv = $('#sgg-level-' + (i + 1));
-			var level = levelDiv.attr('id');
-			var cat_list = getLevelList(levels[i], categories);
-//			console.log(cat_list);
-			var numCat = cat_list.length / 3;
-			for (var j = 0; j < numCat * 3; j += 3) {
-				var c = (j / 3) + 1;
-				var dz = levelDiv.find('.sgg-category-slot[data-column="' + c + '"]');
-//				console.log(dz);
-				var slug = cat_list[j];
-				var column = cat_list[j + 1];
-				var text = cat_list[j + 2];
-				var category = createCategoryDropDiv(slug, column, text);
-//				console.log($('<div />').append(category.clone()).html());
-				dz.html($('<div />').append(category.clone()).html());
-				activateColumn(level, c, slug);
-			}
-			var act_list = getLevelList(levels[i], actions);
-//			console.log(act_list);
-			for (var j = 0; j < act_list.length; j += 5) {
-				var actIndex = Math.floor(j / 5);
-//				var col = actIndex % numCat + 1;
-				var row = Math.floor(actIndex / numCat) + 1;
-				var slug = act_list[j];
-				var type = act_list[j + 1];
-				var category = act_list[j + 2];
-				var rowStr = act_list[j + 3];
-				var text = act_list[j + 4];
-				var col = getColumnFromCategory(cat_list, category);
-				console.log(slug + ", " + category + "[" + row + ", "+ col + " ]" + category + " " + text + " rowstr=" + rowStr);
-				var dz = levelDiv.find('.sgg-action-slot[data-column="' + col +'"][data-row="' + rowStr + '"]');
-//				console.log(dz);
-				var action = createActionDropDiv(slug, type, rowStr, col, category, text);
-				console.log($('<div />').append(action.clone()).html());
-				dz.html($('<div />').append(action.clone()).html());
-			}
-		}
 	}
 	
 	function saveFormSubmit() {

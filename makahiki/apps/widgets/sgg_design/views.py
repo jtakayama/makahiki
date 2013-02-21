@@ -59,34 +59,36 @@ def update_sgg(request):
             actions = form.cleaned_data['action_updates']
 
             num_levels = len(categories)
-            for lvl in xrange(0, num_levels):
-                level_cats = categories[lvl][1]
-                for i in xrange(0, len(level_cats), 3):
-                    slug = level_cats[i]
-                    priority = level_cats[i + 1]
-                    text = level_cats[i + 2]
-                    category = Category.objects.get(slug=slug)
-                    category.priority = priority
-                    category.name = text
-                    category.save()
+            if num_levels > 0:
+                for lvl in xrange(0, num_levels):
+                    level_cats = categories[lvl][1]
+                    for i in xrange(0, len(level_cats), 4):
+                        slug = level_cats[i]
+                        priority = level_cats[i + 1]
+                        text = level_cats[i + 2]
+                        category = Category.objects.get(slug=slug)
+                        category.priority = priority
+                        category.name = text
+                        category.save()
 
-            # clear the existing actions
-            for action in Action.objects.all():
-                action.category = None
-                action.level = None
-                action.save()
+                # clear the existing actions
+                for action in Action.objects.all():
+                    action.category = None
+                    action.level = None
+                    action.save()
 
             num_levels = len(actions)
             for lvl in xrange(0, num_levels):
                 level_name = actions[lvl][0]
                 level = Level.objects.get(name=level_name)
                 level_actions = actions[lvl][1]
-                for i in xrange(0, len(level_actions), 5):
+                for i in xrange(0, len(level_actions), 6):
                     slug = level_actions[i]
                     #type = level_actions[i + 1]
                     cat_slug = level_actions[i + 2]
                     priority = level_actions[i + 3] * 10
-                    text = level_actions[i + 4]
+                    #text = level_actions[i + 4]
+                    print(slug + " " + cat_slug)
                     action = smartgrid.get_action(slug)
                     category = Category.objects.get(slug=cat_slug)
                     action.level = level

@@ -349,9 +349,17 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display = ["name", "priority"]
     prepopulated_fields = {"slug": ("name",)}
 
+
+class LimitedCategoryAdmin(admin.ModelAdmin):
+    """Limited Category Admin. Doesn't have priority."""
+    list_display = ["name"]
+    prepopulated_fields = {"slug": ("name",)}
+    fields = ["name", "slug"]
+
+
 admin.site.register(Category, CategoryAdmin)
 challenge_designer_site.register(Category, CategoryAdmin)
-challenge_manager_site.register(Category, CategoryAdmin)
+challenge_manager_site.register(Category, LimitedCategoryAdmin)
 developer_site.register(Category, CategoryAdmin)
 challenge_mgr.register_designer_game_info_model("Smart Grid Game", Category)
 challenge_mgr.register_developer_game_info_model("Smart Grid Game", Category)

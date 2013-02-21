@@ -10,7 +10,9 @@
 					{% if i < level.cat_list|length %}
 						{% with cat=level.cat_list|nth:i %}
 					<div data-slug="{{cat.slug}}" class="sgg-category-drop" 
-						 data-priority={{i}}>{{cat.name}}</div>
+						 data-priority={{i}} data-pk={{cat.pk}}>
+						 <a class="sgg-category" href="/challenge_admin/smartgrid/category/{{cat.pk}}/">
+						 {{cat.name}}</a></div>
 						 {% endwith %}
 					{% endif %}
 					</div></td>
@@ -27,9 +29,11 @@
 					{% for j in 10|get_range %}
 					<td>
                         {% if j < level.cat_list|length %}
-                        <div class="sgg-action-slot"                        
+							{% with cat=level.cat_list|nth:j %}
+                        <div class="sgg-action-slot" data-category="{{cat.slug}}"
+                        	{% endwith %}
                         {% else %}
-                        <div class="sgg-action-slot disabled"                        
+                        <div class="sgg-action-slot disabled"     
                         {% endif %}
 							data-column="{{ j|add:'1' }}" data-row="{{ i|add:'1' }}">
 							{% if j < level.cat_list|length %}
@@ -38,7 +42,8 @@
 									{% with act=cat.task_list|nth:i %}
 								<div data-slug="{{act.slug}}" class="sgg-action sgg-{{act.type}}-cell draggable"
                    		   			 data-type="{{act.type}}" data-priority="{{i|add:1}}" data-column="{{j|add:1}}" 
-                   		   			 data-category="{{cat.slug}}">{{act.name}}</div>								
+                   		   			 data-category="{{cat.slug}}" data-pk={{act.pk}}><a href="/admin/smartgrid/{{act.type}}/{{act.pk}}/"
+										class="sgg-action">{{act.name}}</a></div>								
 									{% endwith %}
 								{% endif %}
 								{% endwith %}
