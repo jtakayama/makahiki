@@ -108,6 +108,18 @@ function handleActionDrop(event, ui) {
 	var type = ui.draggable.data('type');
 	if (type == "clear") {
 		$(this).html('');
+	} else if (type == "filler") {
+		numFiller += 1;
+		slug = 'filler-' + numFiller;
+		var text = 'Filler-' + numFiller;
+		console.log("Dropping filler-" + numFiller + " slug=" + slug + ", category=" + category + ", type=" + type);
+		var drop = createActionDropDiv(slug, type, row, column, category, text, "-1");
+		var html = $('<div />').append(drop.clone()).html();
+		console.log(html);
+		$(this).html(html);
+		var listItem = $('.sgg-action [data-slug="' + trim2(slug) + '"][data-position="in-list"]');
+		listItem.removeClass('draggable');
+		listItem.attr('data-position=in-grid');		
 	} else {
 		var drop = createActionDropDiv(slug, type, row, column, category, ui.draggable.text(), pk);
 		var html = $('<div />').append(drop.clone()).html();

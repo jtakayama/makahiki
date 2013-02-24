@@ -1,5 +1,6 @@
 """Provides the view of the widget."""
-from apps.widgets.smartgrid.models import Level, Category, Activity, Event, Commitment, Action
+from apps.widgets.smartgrid.models import Level, Category, Activity, Event, Commitment, Action, \
+    Filler
 from django.views.decorators.cache import never_cache
 from django.contrib.auth.decorators import login_required
 from apps.widgets.smartgrid import smartgrid
@@ -19,6 +20,7 @@ def supply(request, page_name):
     activities = Activity.objects.all()
     events = Event.objects.all()
     commitments = Commitment.objects.all()
+    fillers = Filler.objects.all()
     form = SggUpdateForm({'category_updates': '[]',
                           'action_updates': '[]'})
 
@@ -28,6 +30,7 @@ def supply(request, page_name):
         'activities': activities,
         'events': events,
         'commitments': commitments,
+        'fillers': fillers,
         'form': form,
         'smart_grid': smartgrid.get_smart_grid(),
             }
@@ -87,10 +90,18 @@ def update_sgg(request):
                     #type = level_actions[i + 1]
                     cat_slug = level_actions[i + 2]
                     priority = level_actions[i + 3] * 10
-                    #text = level_actions[i + 4]
-                    print(slug + " " + cat_slug)
-                    action = smartgrid.get_action(slug)
+                    text = level_actions[i + 4]
+                    #pk = level_actions[i + 5]
                     category = Category.objects.get(slug=cat_slug)
+                    print(slug + " " + cat_slug)
+                    if slug.startswith('filler'):
+                        try:
+                            action = Filler.objects.get(slug=slug)
+                        except Filler.DoesNotExist:
+                            action = Filler(name=text, slug=slug, title=text, type='filler', \
+                                            level=level, category=category, priority=priority)
+                    else:
+                        action = smartgrid.get_action(slug)
                     action.level = level
                     action.category = category
                     action.priority = priority

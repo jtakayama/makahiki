@@ -39,11 +39,10 @@
 				<div class="sgg-action sgg-clear draggable" data-type="clear">erase</div>
 				<div class="sgg-action sgg-filler draggable" data-type="filler">filler</div>
 				<ul class="nav nav-tabs">
-					<li class="active"><a href="#activities" data-toggle="tab">Activities</a>
-					</li>
-					<li class=""><a href="#commitments" data-toggle="tab">Cmnts.</a>
-					</li>
+					<li class="active"><a href="#activities" data-toggle="tab">Activities</a></li>
+					<li class=""><a href="#commitments" data-toggle="tab">Cmnts.</a></li>
 					<li class=""><a href="#events" data-toggle="tab">Events</a></li>
+					<li class=""><a href="#fillers" data-toggle="tab">Fillers</a></li>
 				</ul>
 				<div class="tab-content">
 					<div id="activities" class="sgg-action-selections tab-pane active"
@@ -76,6 +75,16 @@
 							class="sgg-action sgg-event {% if action.level == None or action.category == None %}draggable{% endif %}">
 							<a href="/admin/smartgrid/{{action.type}}/{{action.pk}}/"
 								class="sgg-action">{{action.name}}</a>
+						</div>
+						{% endfor %}
+					</div>
+					<div id="fillers" class="sgg-action-selections tab-pane"
+						style="height: 470px; overflow: scroll;">
+						{% for action in view_objects.sgg_design.fillers %}
+						<div id="{{action.slug}}" data-slug="{{action.slug}}" data-type="{{action.type}}" data-pk="{{action.pk}}"
+							data-instance="{{action}}" data-position="{% if action.level != None and action.category != None %}in-grid{% else %}in-list{% endif %}"
+							class="sgg-action sgg-event {% if action.level == None or action.category == None %}draggable{% endif %}">
+								{{action.name}}
 						</div>
 						{% endfor %}
 					</div>
@@ -126,6 +135,7 @@
 <script type="text/javascript">
 	$(init);
 
+	var numFiller = {{view_objects.sgg_design.fillers|length}};
 	// See sggDesigner.js for most of the functionality.
 	function init() {
 		$('.draggable').draggable({
