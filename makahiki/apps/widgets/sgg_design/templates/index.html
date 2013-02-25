@@ -30,6 +30,7 @@
 							<a class="sgg-category" href="/challenge_admin/smartgrid/category/{{category.pk}}/">{{category}}</a>
 						</div>
 						{% endfor %}
+						<div class="sgg-clear sgg-category draggable" data-pk="-1" data-slug="clear">erase</div>
 					</div>
 				</div>
 			</div>
@@ -50,6 +51,7 @@
 						{% for action in view_objects.sgg_design.activities %}		
 						<div id="{{action.slug}}" data-slug="{{action.slug}}" data-type="{{action.type}}" data-pk="{{action.pk}}"
 							data-instance="{{action}}" data-position="{% if action.level != None and action.category != None %}in-grid{% else %}in-list{% endif %}"
+							data-unlock="{{action.unlock_condition}}"
 							class="sgg-action sgg-activity {% if action.level == None or action.category == None %}draggable{% endif %}">
 							<a href="/admin/smartgrid/{{action.type}}/{{action.pk}}/"
 								class="sgg-action">{{action.name}}</a>

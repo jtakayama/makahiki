@@ -1,8 +1,8 @@
 function getColumnFromCategory(cat_list, category) {
 	var column = -1;
-	for (var i = 0; i < cat_list.length; i += 3) {
+	for (var i = 0; i < cat_list.length; i += 4) {
 		if (category == cat_list[i]) {
-			column = Math.floor(i / 3) + 1;
+			column = Math.floor(i / 4) + 1;
 		}
 	}
 //	console.log("getColumnForCategory(" + category + ") returns " + column);
@@ -92,10 +92,16 @@ function handleCategoryDrop(event, ui) {
 	var column = $(this).data('column');
 	var slug = ui.draggable.attr('data-slug');
 	var pk = ui.draggable.attr('data-pk');
-	var drop = createCategoryDropDiv(slug, column, ui.draggable.text(), trim2(pk));
-	var html = $('<div />').append(drop.clone()).html();
-	$(this).html(html);
-	activateColumn(levelID, column, slug);
+	if (pk == "-1") {
+		$(this).html('');
+		deactivateColumn(levelID, column);
+	}
+	else {
+		var drop = createCategoryDropDiv(slug, column, ui.draggable.text(), trim2(pk));
+		var html = $('<div />').append(drop.clone()).html();
+		$(this).html(html);
+		activateColumn(levelID, column, slug);
+	}
 	saveSggLayout();
 }
 
@@ -106,14 +112,15 @@ function handleActionDrop(event, ui) {
 	var slug = ui.draggable.attr('id');
 	var pk = ui.draggable.attr('data-pk');
 	var type = ui.draggable.data('type');
+	var unlock = ui.draggable.attr('data-unlock');
 	if (type == "clear") {
 		$(this).html('');
 	} else if (type == "filler") {
 		numFiller += 1;
 		slug = 'filler-' + numFiller;
 		var text = 'Filler-' + numFiller;
-		console.log("Dropping filler-" + numFiller + " slug=" + slug + ", category=" + category + ", type=" + type);
-		var drop = createActionDropDiv(slug, type, row, column, category, text, "-1");
+//		console.log("Dropping filler-" + numFiller + " slug=" + slug + ", category=" + category + ", type=" + type);
+		var drop = createActionDropDiv(slug, type, row, column, category, text, "-1", "True");
 		var html = $('<div />').append(drop.clone()).html();
 		console.log(html);
 		$(this).html(html);
@@ -121,7 +128,7 @@ function handleActionDrop(event, ui) {
 		listItem.removeClass('draggable');
 		listItem.attr('data-position=in-grid');		
 	} else {
-		var drop = createActionDropDiv(slug, type, row, column, category, ui.draggable.text(), pk);
+		var drop = createActionDropDiv(slug, type, row, column, category, ui.draggable.text(), pk, unlock);
 		var html = $('<div />').append(drop.clone()).html();
 		console.log(html);
 		$(this).html(html);
@@ -203,11 +210,11 @@ function clearSavedData() {
  * @param text a String the name of the Action.
  * @returns a jQuery object representing the dropped Action.
  */
-function createActionDropDiv(slug, type, row, column, category, text, id) {
-	console.log("createActionDropDiv(" + slug + ", " + type + ", " + row + ", " + column + ", " + category + ", " + text + ", " + id + ")");
+function createActionDropDiv(slug, type, row, column, category, text, id, unlock) {
+	console.log("createActionDropDiv(" + slug + ", " + type + ", " + row + ", " + column + ", " + category + ", " + text + ", " + id + ", " + unlock + ")");
 	var drop = $('<div data-slug="' + trim2(slug) + '" class="sgg-action sgg-' + trim2(type) + '-cell draggable" ' +
 		   	'data-type="' + trim2(type) + '" data-priority="' + row + '" data-column="' + 
-		   	column + '" data-category="' + trim2(category) + '" data-pk="' + trim2(id) + '">' +
+		   	column + '" data-category="' + trim2(category) + '" data-pk="' + trim2(id) + '" data-unlock="' + unlock + '">' +
 		   	'<a href="/admin/smartgrid/' + trim2(type) + '/' + trim2(id) + '/"	class="sgg-action">' +
 			trim2(text) + '</a></div>');
 	return drop;
@@ -228,6 +235,17 @@ function activateColumn(levelID, column, slug) {
 		outerDiv.attr('data-category', slug);
 		var innerDiv = outerDiv.children('div');
 		innerDiv.attr('data-category', slug);
+	}		
+}
+
+function deactivateColumn(levelID, column) {
+	console.log("deactivateColumn("+ levelID + ", " + column + ")");
+	for ( var i = 1; i < 11; i++) {
+		var row = $('#' + levelID + ' .sgg-action-dropzone table tbody tr:nth-child(' + i + ')');
+		var tdCell = row.find('td:nth-child(' + column + ')');
+		var outerDiv = tdCell.children('div');
+		outerDiv.addClass('disabled');
+		outerDiv.html('');
 	}		
 }
 
@@ -338,3 +356,8 @@ function findLevelID(ele) {
 	}
 	return false;
 }	
+
+function findLevelForSlug(slug) {
+	var ele = $('div[data-slug=' + slug + ']');
+	return false;
+}

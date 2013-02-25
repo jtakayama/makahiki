@@ -42,7 +42,7 @@
 									{% with act=cat.task_list|nth:i %}
 								<div data-slug="{{act.slug}}" class="sgg-action sgg-{{act.type}}-cell draggable"
                    		   			 data-type="{{act.type}}" data-priority="{{i|add:1}}" data-column="{{j|add:1}}" 
-                   		   			 data-category="{{cat.slug}}" data-pk={{act.pk}}><a href="/admin/smartgrid/{{act.type}}/{{act.pk}}/"
+                   		   			 data-category="{{cat.slug}}" data-pk={{act.pk}} data-unlock="{{act.unlock_condition}}"><a href="/admin/smartgrid/{{act.type}}/{{act.pk}}/"
 										class="sgg-action">{{act.name}}</a></div>								
 									{% endwith %}
 								{% endif %}
