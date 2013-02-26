@@ -4,10 +4,20 @@
 Challenge Design
 ================
 
-Along with specifying authentication, wattdepot, and email configuration (see
-:ref:`section-site-configuration`), you must also design the specific nature of your
-challenge.  Go to the Settings Page (see :ref:`section-configuration-settings-page`), and
-click on the Challenge Design button to retrieve the following page:
+About challenge design
+----------------------
+
+Unlike :ref:`section-software-installation` and :ref:`section-site-configuration`,
+challenge design is not intended to need "sys admin" skills.  During this phase, the focus
+is on tailoring the default Makahiki configuration to suit the needs of your specific
+challenge goals. 
+
+Getting to the challenge design page
+------------------------------------
+
+Go to the Settings Page (see :ref:`section-configuration-settings-page`), and
+click on the Challenge Design button to retrieve the page providing the top-level
+interface to the various aspects of Challenge Design.
 
 .. figure:: figs/configuration/configuration-challenge-design.png
    :width: 600 px
@@ -18,10 +28,8 @@ Settings".  Challenge settings enables you to set the global properties of the c
 (rounds, scores, users, etc.), while Game Settings enables you to configure the specific
 games to appear in the challenge and their properties. 
 
-Challenge Settings
-------------------
-
-The following sections document the settings accessable from the "Challenge Settings" widget.
+Challenge
+---------
 
 .. toctree::
    :maxdepth: 1
@@ -29,10 +37,27 @@ The following sections document the settings accessable from the "Challenge Sett
    challenge-design-name-settings
    challenge-design-round-settings
    challenge-design-score-settings
+
+Players
+-------
+
+.. toctree::
+   :maxdepth: 1
+
    challenge-design-groups-settings
    challenge-design-teams-settings
    challenge-design-players-settings
-   challenge-design-scheduler-settings
+
+
+Other settings
+--------------
+
+.. todo:: Pages for each of the remaining links in the Other Settings area need to be
+   provided.  Each should start with an "About" section providing a top-level explanation
+   of what the settings accomplishes.   Include a "note" specifying whether configuration
+   is optional or required.  My guess is that all of the pages linked to in this section
+   provide pages that are optional---the default configuration for these settings produces
+   a viable challenge..
 
 
 Game Design Settings
@@ -52,6 +77,8 @@ The following sections document the settings accessable from the "Game Settings"
    challenge-design-game-admin-quest
    challenge-design-game-admin-badge
    challenge-design-game-admin-referral
+
+
 
 
 

@@ -18,10 +18,6 @@ class ChallengeSetting(models.Model):
 
     THEME_CHOICES = ((key, key) for key in settings.INSTALLED_THEMES)
 
-    location = models.CharField(
-        default="",
-        help_text="The location of the challenge. e.g. University of Hawaii",
-        max_length=50,)
     domain = models.CharField(
         default="localhost",
         help_text="The domain name of this challenge.",
@@ -91,7 +87,7 @@ class ChallengeSetting(models.Model):
     wattdepot_server_url = models.CharField(
         null=True, blank=True,
         help_text="The URL for Wattdepot service. " \
-                  "Example: http://localhost:8194",
+                  "Example: http://localhost:8194/wattdepot",
         max_length=100,)
 
     # email settings
@@ -134,14 +130,12 @@ class ChallengeSetting(models.Model):
         help_text="The text of the non participant button in the landing page. " +
                   settings.MARKDOWN_TEXT)
 
-    about_page_text = models.TextField(
-        default="For more information, please go to " \
-                "<a href='http://kukuicup.org'>kukuicup.org</a>.",
-        help_text="The text of the about page. " +
-                  settings.MARKDOWN_TEXT)
-
     admin_tool_tip = "The global settings for the challenge. (Name, landing page, " + \
     "about page, and sponsors)"
+
+    class Meta:
+        """meta"""
+        verbose_name = "global setting"
 
     def __unicode__(self):
         return self.name
@@ -159,6 +153,11 @@ class ChallengeSetting(models.Model):
         """returns the info for all rounds."""
         return settings.COMPETITION_ROUNDS
 
+    def about_page_text(self):
+        """returns the about page text."""
+        aboutpage, _ = AboutPage.objects.get_or_create(pk=1)
+        return aboutpage.about_page_text
+
     def save(self, *args, **kwargs):
         """Custom save method."""
         super(ChallengeSetting, self).save(*args, **kwargs)
@@ -174,6 +173,24 @@ class UploadImage(models.Model):
 
     def __unicode__(self):
         return self.image.name
+
+
+class AboutPage(models.Model):
+    """Defines the sponsor for this challenge."""
+    challenge = models.ForeignKey("ChallengeSetting")
+    about_page_text = models.TextField(
+        default="For more information, please go to " \
+                "<a href='http://kukuicup.org'>kukuicup.org</a>.",
+        help_text="The text of the about page that explains the challenge. " +
+                  settings.MARKDOWN_TEXT)
+
+    class Meta:
+        """meta"""
+        verbose_name = "about page"
+        verbose_name_plural = "about page"
+
+    def __unicode__(self):
+        return ""
 
 
 class Sponsor(models.Model):
@@ -237,6 +254,7 @@ class RoundSetting(models.Model):
     class Meta:
         """Meta"""
         ordering = ['start']
+        unique_together = ("name", )
 
     def __unicode__(self):
         return self.name

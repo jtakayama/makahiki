@@ -1,10 +1,12 @@
 """Implements the admin interface for game settings."""
 from django.contrib import admin
 from django.db import models
+from django import forms
+from django.forms.util import ErrorList
 from django.forms.widgets import Textarea
 from apps.managers.challenge_mgr import challenge_mgr
 from apps.managers.challenge_mgr.models import ChallengeSetting, RoundSetting, PageSetting, \
-    PageInfo, Sponsor, UploadImage, GameSetting, GameInfo
+    PageInfo, Sponsor, UploadImage, GameSetting, GameInfo, AboutPage
 from apps.admin.admin import sys_admin_site, challenge_designer_site, challenge_manager_site, \
     developer_site
 
@@ -106,9 +108,62 @@ challenge_manager_site.register(GameInfo, GameInfoAdmin)
 developer_site.register(GameInfo, GameInfoAdmin)
 
 
+class RoundSettingAdminForm(forms.ModelForm):
+    """RoundSetting Admin Form."""
+    class Meta:
+        """Meta"""
+        model = RoundSetting
+
+    def clean(self):
+        """validate the round date."""
+
+        super(RoundSettingAdminForm, self).clean()
+
+        # Data that has passed validation.
+        cleaned_data = self.cleaned_data
+
+        start = cleaned_data.get("start")
+        end = cleaned_data.get("end")
+        name = cleaned_data.get("name")
+
+        # end date must be later than start date
+        if end <= start:
+            self._errors["end"] = ErrorList(
+                [u"This end date must be later than the start date."])
+            del cleaned_data["end"]
+
+            return cleaned_data
+
+        # can not overlap with other rounds
+        for rs in RoundSetting.objects.all():
+            if name != rs.name:
+                if rs.start < start < rs.end:
+                    self._errors["start"] = ErrorList(
+                        [u"This date is overlapped with another round."])
+                    del cleaned_data["start"]
+                    break
+                if rs.start < end < rs.end:
+                    self._errors["end"] = ErrorList(
+                        [u"This date is overlapped with another round."])
+                    del cleaned_data["end"]
+                    break
+                if start < rs.start and rs.end < end:
+                    self._errors["start"] = ErrorList(
+                        [u"This date is overlapped with another round."])
+                    del cleaned_data["start"]
+                    self._errors["end"] = ErrorList(
+                        [u"This date is overlapped with another round."])
+                    del cleaned_data["end"]
+                    break
+
+        return cleaned_data
+
+
 class RoundSettingAdmin(admin.ModelAdmin):
     """PageSetting administrator interface definition."""
     list_display = ["name", "start", "end", "round_reset", "display_scoreboard"]
+    form = RoundSettingAdminForm
+
 
 admin.site.register(RoundSetting, RoundSettingAdmin)
 challenge_designer_site.register(RoundSetting, RoundSettingAdmin)
@@ -120,6 +175,22 @@ class SponsorsInline(admin.TabularInline):
     """SponsorsInline admin."""
     model = Sponsor
     extra = 0
+
+
+class AboutPageInline(admin.StackedInline):
+    """AboutPage inline admin"""
+    model = AboutPage
+    extra = 0
+
+    formfield_overrides = {
+        models.TextField: {'widget': Textarea(attrs={'rows': 20, 'cols': 100})},
+    }
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
 
 
 class SystemSettingAdmin(admin.ModelAdmin):
@@ -168,9 +239,9 @@ class ChallengeSettingAdmin(admin.ModelAdmin):
             {"description": "<div class='help makahiki-box content-box-contents'>Enter the " + \
              "information for this Challenge</div>",
              "fields":
-                  (("name", "location"),
-                   ("logo", "domain"),
-                   ("team_label", "theme"),
+                  (("name", "logo"),
+                   ("domain", "theme"),
+                   ("team_label", ),
                   )}),
         ("Landing Page",
             {"description": "<div class='help makahiki-box content-box-contents'>Setup the " + \
@@ -180,18 +251,15 @@ class ChallengeSettingAdmin(admin.ModelAdmin):
                    "landing_introduction",
                    "landing_participant_text",
                    "landing_non_participant_text",)}),
-        ("About Page",
-            {"description": "<div class='help makahiki-box content-box-contents'>The " + \
-             "About Page explains the Challenge.</div>",
-             "fields":
-                  ("about_page_text",)}),
+
     )
 
-    inlines = [SponsorsInline]
+    inlines = [AboutPageInline, SponsorsInline]
 
     formfield_overrides = {
         models.TextField: {'widget': Textarea(attrs={'rows': 2, 'cols': 70})},
         }
+
     page_text = "Click on the name of the challenge to change the settings." +\
     "There must be only one Challenge Setting."
 
@@ -214,21 +282,14 @@ challenge_mgr.register_designer_challenge_info_model("Other Settings", 3, PageIn
 
 from djcelery.models import CrontabSchedule, PeriodicTask, IntervalSchedule
 CrontabSchedule.__doc__ = "Defines the schedule in crontab format (minute/hour/day)."
-challenge_designer_site.register(CrontabSchedule)
-challenge_mgr.register_designer_challenge_info_model("Scheduler (Celery) - Optional", \
-                                                     5, CrontabSchedule, 5)
+developer_site.register(CrontabSchedule)
 
 IntervalSchedule.__doc__ = "Defines the schedule in intervals, such as every hour, every minutes."
-challenge_designer_site.register(IntervalSchedule)
-challenge_mgr.register_designer_challenge_info_model("Scheduler (Celery) - Optional", \
-                                                     5, IntervalSchedule, 5)
+developer_site.register(IntervalSchedule)
 
 PeriodicTask.__doc__ = "Defines the scheduled tasks."
-challenge_designer_site.register(PeriodicTask)
-challenge_mgr.register_designer_challenge_info_model("Scheduler (Celery) - Optional", \
-                                                     5, PeriodicTask, 5)
+developer_site.register(PeriodicTask)
 
-# Developer Admin interface.
 challenge_mgr.register_developer_challenge_info_model("Challenge", 1, ChallengeSetting, 1)
 challenge_mgr.register_developer_challenge_info_model("Challenge", 1, RoundSetting, 2)
 admin.site.register(Sponsor)
