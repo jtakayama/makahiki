@@ -112,7 +112,13 @@ function handleActionDrop(event, ui) {
 	var slug = ui.draggable.attr('id');
 	var pk = ui.draggable.attr('data-pk');
 	var type = ui.draggable.data('type');
-	var unlock = ui.draggable.attr('data-unlock');
+	var unlock = trim1(ui.draggable.attr('data-unlock'));
+	var unlockCondition = "";
+	if (isCompletedAction(unlock)) {
+		var unlockSlug = getSlugFromUnlock(unlock);
+		var unlockPk = findPkForSlug(unlockSlug);
+		unlockCondition = "[" + unlockPk + "]";
+	}
 	if (type == "clear") {
 		$(this).html('');
 	} else if (type == "filler") {
@@ -120,7 +126,7 @@ function handleActionDrop(event, ui) {
 		slug = 'filler-' + numFiller;
 		var text = 'Filler-' + numFiller;
 //		console.log("Dropping filler-" + numFiller + " slug=" + slug + ", category=" + category + ", type=" + type);
-		var drop = createActionDropDiv(slug, type, row, column, category, text, "-1", "True");
+		var drop = createActionDropDiv(slug, type, row, column, category, text, "-1", "True", "");
 		var html = $('<div />').append(drop.clone()).html();
 		console.log(html);
 		$(this).html(html);
@@ -128,7 +134,7 @@ function handleActionDrop(event, ui) {
 		listItem.removeClass('draggable');
 		listItem.attr('data-position=in-grid');		
 	} else {
-		var drop = createActionDropDiv(slug, type, row, column, category, ui.draggable.text(), pk, unlock);
+		var drop = createActionDropDiv(slug, type, row, column, category, ui.draggable.text(), pk, unlock, unlockCondition);
 		var html = $('<div />').append(drop.clone()).html();
 		console.log(html);
 		$(this).html(html);
@@ -210,13 +216,14 @@ function clearSavedData() {
  * @param text a String the name of the Action.
  * @returns a jQuery object representing the dropped Action.
  */
-function createActionDropDiv(slug, type, row, column, category, text, id, unlock) {
-	console.log("createActionDropDiv(" + slug + ", " + type + ", " + row + ", " + column + ", " + category + ", " + text + ", " + id + ", " + unlock + ")");
+function createActionDropDiv(slug, type, row, column, category, text, id, unlock, unlockCondition) {
+	console.log("createActionDropDiv(" + slug + ", " + type + ", " + row + ", " + column + ", " + category + ", " + text + ", " + id + ", " + unlock + ", " + unlockCondition + ")");
 	var drop = $('<div data-slug="' + trim2(slug) + '" class="sgg-action sgg-' + trim2(type) + '-cell draggable" ' +
 		   	'data-type="' + trim2(type) + '" data-priority="' + row + '" data-column="' + 
 		   	column + '" data-category="' + trim2(category) + '" data-pk="' + trim2(id) + '" data-unlock="' + unlock + '">' +
+		   	'<div class="sgg-pk">' + trim2(id) + '</div><br/>' +
 		   	'<a href="/admin/smartgrid/' + trim2(type) + '/' + trim2(id) + '/"	class="sgg-action">' +
-			trim2(text) + '</a></div>');
+			trim2(text) + '</a><br/><div class="sgg-unlock">' + unlockCondition + '</div></div>');
 	return drop;
 }
 
@@ -357,7 +364,127 @@ function findLevelID(ele) {
 	return false;
 }	
 
-function findLevelForSlug(slug) {
+function findPkForSlug(slug) {
 	var ele = $('div[data-slug=' + slug + ']');
+	return ele.attr('data-pk');
+}
+
+function isCompoundUnlock(unlock) {
+	if (unlock.indexOf(" or ") != -1 || unlock.indexOf(" and ")) {
+		return true;
+	}
 	return false;
+}
+
+function isCompletedAction(unlock) {
+	var str = "completed_action(";
+	return unlock.slice(0, str.length) == str;
+}
+
+function getSlugFromUnlock(unlock) {
+	if (isCompletedAction(unlock)) {
+		var slug = unlock.slice(17, -1);
+		return slug;
+	}
+	return "";
+}
+
+function fillUnlockConditions() {
+	$('div .sgg-activity-cell').each(function () {
+		var unlockCondText = $(this).attr('data-unlock');
+		var unlockText = "";
+		if (unlockCondText == "True") {
+			unlockText = "T";
+		} else if (unlockCondText == "False") {
+			unlockText = "F";
+		} else if (isCompoundUnlock(unlockCondText)) {
+			var conditions = unlockCondText.split(" ");
+			unlockText += "[";
+			for (var i = 0; i < conditions.length; i++) {
+				if (i % 2 == 0) {
+					var unlockSlug = getSlugFromUnlock(conditions[i]);
+					var pk = findPkForSlug(unlockSlug);
+					unlockText += "" + pk;
+				} else {
+					if (conditions[i] == "or") {
+						unlockText += ",";
+					} else if (conditions[i] == "and") {
+						unlockText += "+";
+					}
+				}
+			}
+			unlockText += "]";
+		} else if (isCompletedAction(unlockCondText)) {
+			var unlockSlug = getSlugFromUnlock(trim1(unlockCondText));
+			var pk = findPkForSlug(unlockSlug);
+			unlockText = "[" + pk + "]";
+		}
+		var unlockDiv = $(this).find('.sgg-unlock');
+		unlockDiv.html(unlockText);		
+	});
+	$('div .sgg-commitment-cell').each(function () {
+		var unlockCondText = $(this).attr('data-unlock');
+		var unlockText = "";
+		if (unlockCondText == "True") {
+			unlockText = "T";
+		} else if (unlockCondText == "False") {
+			unlockText = "F";
+		} else if (isCompoundUnlock(unlockCondText)) {
+			var conditions = unlockCondText.split(" ");
+			unlockText += "[";
+			for (var i = 0; i < conditions.length; i++) {
+				if (i % 2 == 0) {
+					var unlockSlug = getSlugFromUnlock(conditions[i]);
+					var pk = findPkForSlug(unlockSlug);
+					unlockText += "" + pk;
+				} else {
+					if (conditions[i] == "or") {
+						unlockText += ",";
+					} else if (conditions[i] == "and") {
+						unlockText += "+";
+					}
+				}
+			}
+			unlockText += "]";
+		} else if (isCompletedAction(unlockCondText)) {
+			var unlockSlug = getSlugFromUnlock(trim1(unlockCondText));
+			var pk = findPkForSlug(unlockSlug);
+			unlockText = "[" + pk + "]";
+		}
+		var unlockDiv = $(this).find('.sgg-unlock');
+		unlockDiv.html(unlockText);		
+	});
+	$('div .sgg-event-cell').each(function () {
+		var unlockCondText = $(this).attr('data-unlock');
+		var unlockText = "";
+		if (unlockCondText == "True") {
+			unlockText = "T";
+		} else if (unlockCondText == "False") {
+			unlockText = "F";
+		} else if (isCompoundUnlock(unlockCondText)) {
+			var conditions = unlockCondText.split(" ");
+			unlockText += "[";
+			for (var i = 0; i < conditions.length; i++) {
+				if (i % 2 == 0) {
+					var unlockSlug = getSlugFromUnlock(conditions[i]);
+					var pk = findPkForSlug(unlockSlug);
+					unlockText += "" + pk;
+				} else {
+					if (conditions[i] == "or") {
+						unlockText += ",";
+					} else if (conditions[i] == "and") {
+						unlockText += "+";
+					}
+				}
+			}
+			unlockText += "]";
+		} else if (isCompletedAction(unlockCondText)) {
+			var unlockSlug = getSlugFromUnlock(trim1(unlockCondText));
+			var pk = findPkForSlug(unlockSlug);
+			unlockText = "[" + pk + "]";
+		}
+		var unlockDiv = $(this).find('.sgg-unlock');
+		unlockDiv.html(unlockText);		
+	});
+	
 }

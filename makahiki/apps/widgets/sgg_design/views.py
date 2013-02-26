@@ -5,10 +5,9 @@ from django.views.decorators.cache import never_cache
 from django.contrib.auth.decorators import login_required
 from apps.widgets.smartgrid import smartgrid
 from django.http import HttpResponseRedirect, Http404
-from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
-from apps.widgets.sgg_design.forms import SggUpdateForm, ListFormField
+from apps.widgets.sgg_design.forms import SggUpdateForm
 
 
 def supply(request, page_name):

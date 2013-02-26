@@ -138,6 +138,11 @@
 	$(init);
 
 	var numFiller = {{view_objects.sgg_design.fillers|length}};
+	
+	$( document ).ready( function() {
+		  fillUnlockConditions();
+		});
+	
 	// See sggDesigner.js for most of the functionality.
 	function init() {
 		$('.draggable').draggable({
