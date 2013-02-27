@@ -112,13 +112,11 @@ function handleActionDrop(event, ui) {
 	var slug = ui.draggable.attr('id');
 	var pk = ui.draggable.attr('data-pk');
 	var type = ui.draggable.data('type');
-	var unlock = trim1(ui.draggable.attr('data-unlock'));
-	var unlockCondition = "";
-	if (isCompletedAction(unlock)) {
-		var unlockSlug = getSlugFromUnlock(unlock);
-		var unlockPk = findPkForSlug(unlockSlug);
-		unlockCondition = "[" + unlockPk + "]";
+	var unlock = ui.draggable.attr('data-unlock');
+	if (unlock) {
+		unlock = trim1(unlock);
 	}
+	var unlockCondition = createUnlockStr(unlock);
 	if (type == "clear") {
 		$(this).html('');
 	} else if (type == "filler") {
@@ -370,18 +368,29 @@ function findPkForSlug(slug) {
 }
 
 function isCompoundUnlock(unlock) {
-	if (unlock.indexOf(" or ") != -1 || unlock.indexOf(" and ")) {
-		return true;
+	if (unlock) {
+		if (unlock.indexOf(" or ") != -1 || unlock.indexOf(" and ")) {
+			return true;
+		}
 	}
 	return false;
 }
 
 function isCompletedAction(unlock) {
-	var str = "completed_action(";
-	return unlock.slice(0, str.length) == str;
+	if (unlock) {
+		var str = "completed_action(";
+		return unlock.slice(0, str.length) == str;
+	}
+	return false;
 }
 
 function getSlugFromUnlock(unlock) {
+	if (unlock == "True") {
+		return "T";
+	}
+	if (unlock == "False") {
+		return "F";
+	}
 	if (isCompletedAction(unlock)) {
 		var slug = unlock.slice(17, -1);
 		return slug;
@@ -392,99 +401,67 @@ function getSlugFromUnlock(unlock) {
 function fillUnlockConditions() {
 	$('div .sgg-activity-cell').each(function () {
 		var unlockCondText = $(this).attr('data-unlock');
-		var unlockText = "";
-		if (unlockCondText == "True") {
-			unlockText = "T";
-		} else if (unlockCondText == "False") {
-			unlockText = "F";
-		} else if (isCompoundUnlock(unlockCondText)) {
-			var conditions = unlockCondText.split(" ");
-			unlockText += "[";
-			for (var i = 0; i < conditions.length; i++) {
-				if (i % 2 == 0) {
-					var unlockSlug = getSlugFromUnlock(conditions[i]);
-					var pk = findPkForSlug(unlockSlug);
-					unlockText += "" + pk;
-				} else {
-					if (conditions[i] == "or") {
-						unlockText += ",";
-					} else if (conditions[i] == "and") {
-						unlockText += "+";
-					}
-				}
-			}
-			unlockText += "]";
-		} else if (isCompletedAction(unlockCondText)) {
-			var unlockSlug = getSlugFromUnlock(trim1(unlockCondText));
-			var pk = findPkForSlug(unlockSlug);
-			unlockText = "[" + pk + "]";
-		}
+		var unlockText = createUnlockStr(unlockCondText);
 		var unlockDiv = $(this).find('.sgg-unlock');
 		unlockDiv.html(unlockText);		
 	});
 	$('div .sgg-commitment-cell').each(function () {
 		var unlockCondText = $(this).attr('data-unlock');
-		var unlockText = "";
-		if (unlockCondText == "True") {
-			unlockText = "T";
-		} else if (unlockCondText == "False") {
-			unlockText = "F";
-		} else if (isCompoundUnlock(unlockCondText)) {
-			var conditions = unlockCondText.split(" ");
-			unlockText += "[";
-			for (var i = 0; i < conditions.length; i++) {
-				if (i % 2 == 0) {
-					var unlockSlug = getSlugFromUnlock(conditions[i]);
-					var pk = findPkForSlug(unlockSlug);
-					unlockText += "" + pk;
-				} else {
-					if (conditions[i] == "or") {
-						unlockText += ",";
-					} else if (conditions[i] == "and") {
-						unlockText += "+";
-					}
-				}
-			}
-			unlockText += "]";
-		} else if (isCompletedAction(unlockCondText)) {
-			var unlockSlug = getSlugFromUnlock(trim1(unlockCondText));
-			var pk = findPkForSlug(unlockSlug);
-			unlockText = "[" + pk + "]";
-		}
+		var unlockText = createUnlockStr(unlockCondText);
 		var unlockDiv = $(this).find('.sgg-unlock');
 		unlockDiv.html(unlockText);		
 	});
 	$('div .sgg-event-cell').each(function () {
 		var unlockCondText = $(this).attr('data-unlock');
-		var unlockText = "";
-		if (unlockCondText == "True") {
-			unlockText = "T";
-		} else if (unlockCondText == "False") {
-			unlockText = "F";
-		} else if (isCompoundUnlock(unlockCondText)) {
-			var conditions = unlockCondText.split(" ");
-			unlockText += "[";
-			for (var i = 0; i < conditions.length; i++) {
-				if (i % 2 == 0) {
-					var unlockSlug = getSlugFromUnlock(conditions[i]);
-					var pk = findPkForSlug(unlockSlug);
-					unlockText += "" + pk;
-				} else {
-					if (conditions[i] == "or") {
-						unlockText += ",";
-					} else if (conditions[i] == "and") {
-						unlockText += "+";
-					}
-				}
-			}
-			unlockText += "]";
-		} else if (isCompletedAction(unlockCondText)) {
-			var unlockSlug = getSlugFromUnlock(trim1(unlockCondText));
-			var pk = findPkForSlug(unlockSlug);
-			unlockText = "[" + pk + "]";
-		}
+		var unlockText = createUnlockStr(unlockCondText);
 		var unlockDiv = $(this).find('.sgg-unlock');
 		unlockDiv.html(unlockText);		
 	});
-	
+}
+
+function isSlugInGrid(slug) {
+	var ele = $('.sgg-action-slot div[data-slug=' + slug + ']');
+	if (ele.length > 0) {
+		return true;
+	}
+	return false;
+}
+
+function createUnlockStr(unlockCondText) {
+	var unlockText = "";
+	if (unlockCondText == "True") {
+		unlockText = "T";
+	} else if (unlockCondText == "False") {
+		unlockText = "F";
+	} else if (isCompoundUnlock(unlockCondText)) {
+		var conditions = unlockCondText.split(" ");
+		unlockText += "[";
+		for (var i = 0; i < conditions.length; i++) {
+			if (i % 2 == 0) {
+				var unlockSlug = getSlugFromUnlock(conditions[i]);
+				var pk = findPkForSlug(unlockSlug);
+				if (isSlugInGrid(unlockSlug)) {
+					unlockText += "" + pk;						
+				} else {
+					unlockText += "<del><em>" + pk + "</em></del>";
+				}
+			} else {
+				if (conditions[i] == "or") {
+					unlockText += ",";
+				} else if (conditions[i] == "and") {
+					unlockText += "+";
+				}
+			}
+		}
+		unlockText += "]";
+	} else if (isCompletedAction(unlockCondText)) {
+		var unlockSlug = getSlugFromUnlock(trim1(unlockCondText));
+		var pk = findPkForSlug(unlockSlug);
+		if (isSlugInGrid(unlockSlug)) {
+			unlockText = "[" + pk + "]";				
+		} else {
+			unlockText = "[<del><em>" + pk + "</em></del>]"; 
+		}
+	}
+	return unlockText;
 }
