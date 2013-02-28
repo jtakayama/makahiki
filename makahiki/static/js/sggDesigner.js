@@ -417,6 +417,12 @@ function fillUnlockConditions() {
 		var unlockDiv = $(this).find('.sgg-unlock');
 		unlockDiv.html(unlockText);		
 	});
+	$('div .sgg-excursion-cell').each(function () {
+		var unlockCondText = $(this).attr('data-unlock');
+		var unlockText = createUnlockStr(unlockCondText);
+		var unlockDiv = $(this).find('.sgg-unlock');
+		unlockDiv.html(unlockText);		
+	});
 }
 
 function isSlugInGrid(slug) {
