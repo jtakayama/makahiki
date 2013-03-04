@@ -25,21 +25,21 @@ def copy_static_media(heroku_app):
         # always use S3 in heorku, need to upload the media directory to S3 bucket
         if 'MAKAHIKI_AWS_ACCESS_KEY_ID' in os.environ and\
            'MAKAHIKI_AWS_SECRET_ACCESS_KEY' in os.environ:
-            command = "s3put -a %s -s %s -b %s -g public-read -p `pwd` %s" % (
+            command = "s3put -q -a %s -s %s -b %s -g public-read -p `pwd` %s" % (
                 os.environ['MAKAHIKI_AWS_ACCESS_KEY_ID'],
                 os.environ['MAKAHIKI_AWS_SECRET_ACCESS_KEY'],
-                heroku_app,
+                os.environ['MAKAHIKI_AWS_STORAGE_BUCKET_NAME'],
                 "media"
                 )
-            #print command
+            print command
             os.system(command)
-            command = "s3put -a %s -s %s -b %s -g public-read -p `pwd`/site_media %s" % (
+            command = "s3put -q -a %s -s %s -b %s -g public-read -p `pwd`/site_media %s" % (
                 os.environ['MAKAHIKI_AWS_ACCESS_KEY_ID'],
                 os.environ['MAKAHIKI_AWS_SECRET_ACCESS_KEY'],
-                heroku_app,
+                os.environ['MAKAHIKI_AWS_STORAGE_BUCKET_NAME'],
                 "site_media/static"
                 )
-            #print command
+            print command
             os.system(command)
         else:
             print "Environment variable MAKAHIKI_AWS_ACCESS_KEY_ID and/or " \
@@ -63,7 +63,6 @@ def syncdb(manage_command):
     """sync db."""
     print "syncing and migrating db..."
     os.system("%s syncdb --noinput --migrate --verbosity 0" % manage_command)
-    os.system("%s clear_cache" % manage_command)
 
 
 def reset_db(heroku_app):
@@ -93,19 +92,14 @@ def create_heroku_app(heroku_app):
     os.system("git remote add %s git@heroku.com:%s.git" % (heroku_app, heroku_app))
 
     os.system("heroku config:add --app %s MAKAHIKI_ADMIN_INFO=$MAKAHIKI_ADMIN_INFO "\
-                "MAKAHIKI_USE_MEMCACHED=$MAKAHIKI_USE_MEMCACHED "\
+                "MAKAHIKI_USE_MEMCACHED=True "\
                 "MAKAHIKI_USE_HEROKU=True "\
                 "MAKAHIKI_USE_S3=True "\
                 "MAKAHIKI_AWS_ACCESS_KEY_ID=$MAKAHIKI_AWS_ACCESS_KEY_ID "\
                 "MAKAHIKI_AWS_SECRET_ACCESS_KEY=$MAKAHIKI_AWS_SECRET_ACCESS_KEY "\
-                "MAKAHIKI_AWS_STORAGE_BUCKET_NAME=%s "\
-                "MAKAHIKI_EMAIL_INFO=$MAKAHIKI_EMAIL_INFO "\
-                "MAKAHIKI_USE_FACEBOOK=$MAKAHIKI_USE_FACEBOOK "\
-                "MAKAHIKI_FACEBOOK_APP_ID=$MAKAHIKI_FACEBOOK_APP_ID "\
-                "MAKAHIKI_FACEBOOK_SECRET_KEY=$MAKAHIKI_FACEBOOK_SECRET_KEY" % (heroku_app,
-                                                                                heroku_app))
+                "MAKAHIKI_AWS_STORAGE_BUCKET_NAME=$MAKAHIKI_AWS_STORAGE_BUCKET_NAME "\
+              % heroku_app)
 
-    os.system("heroku addons:add -a %s heroku-postgresql:dev" % heroku_app)
     os.system("heroku addons:add -a %s memcache" % heroku_app)
 
 
@@ -130,14 +124,8 @@ def load_data(manage_command, instance_type, fixture_path):
         print "setting up default data..."
         os.system("%s setup_test_data rounds 1" % manage_command)
         load_fixtures(manage_command, fixture_path, "default_")
-    elif instance_type == "demo":
-        print "setting up demo data..."
-        os.system("%s setup_test_data rounds 1" % manage_command)
-        load_fixtures(manage_command, fixture_path, "demo_")
         # setup 2 user per team
         os.system("%s setup_test_data all 2" % manage_command)
-        # change the commitment duration to 1 day
-        os.system("%s setup_test_data commitment_durations 1" % manage_command)
     elif instance_type == "test":
         print "setting up test data..."
         os.system("%s setup_test_data rounds 3" % manage_command)
@@ -150,6 +138,8 @@ def load_data(manage_command, instance_type, fixture_path):
         load_fixtures(manage_command, fixture_path, "uh12_")
         # setup 2 user per team
         os.system("%s setup_test_data all 2" % manage_command)
+
+    os.system("%s clear_cache" % manage_command)
 
 
 def has_verbose_flag(argv):

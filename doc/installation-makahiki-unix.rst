@@ -7,7 +7,7 @@ These instructions also assume that you are using a Bourne-type shell (such as b
 which is the default on Mac OS X and Linux. Using a C-shell variant
 (like tcsh), is possible but not recommended.
 
-Hardware requirements 
+Hardware requirements
 ---------------------
 
 Our estimated hardware requirements for **production** use are:
@@ -18,7 +18,7 @@ Our estimated hardware requirements for **production** use are:
 For **development** only, a modern dual core CPU with 4 GB should be ok, although the more the better.
 
 Install Python
------------------
+--------------
 
 `Python`_ 2.7.3 or higher (but not Python 3).
 
@@ -36,17 +36,17 @@ build certain libraries (PIL, etc.) that require GCC (which is bundled with
 Xcode). Xcode can either be found in your OS X installation DVD, or in the Mac
 App Store.
 
-If on Linux, in most cases, you will find the C/C++ compiler is already installed in your Linux environment.
+If on Linux, in most cases, you will find the C/C++ compiler is already installed in your environment.
 
 
 Install Git
---------------
+-----------
 
 Find a package for your operating system at the `GitHub install
-wiki`_.
+wiki`_. We recommend following the GitHub setup instructions at https://help.github.com/articles/set-up-git.
 
 Install Pip
---------------
+-----------
 
 Install it by typing::
 
@@ -54,22 +54,21 @@ Install it by typing::
 
 Depending on your system configuration, you may
 have to type ``sudo easy_install pip``. If you do not have easy_install,
-download and install it from the `setuptools website`_.
+download and install it from the `setuptools website`_. Linux (Ubuntu) users can use 
+``sudo apt-get install python-setuptools``.
 
 Install Virtual Environment Wrapper
----------------------------------------
+-----------------------------------
 
 `Virtualenvwrapper`_ allows you to install libraries separately from your global Python path.
 
-In Mac OS X and Linux, follow the `virtualenvwrapper installation instructions`_ through the Quick Start section.
-
-Once virtualenv is installed, create a virtual environment for makahiki as follows::
+Follow the `virtualenvwrapper installation instructions`_ through the Quick Start section to install virtualenv and virtualenvwrapper. Once they are installed, create a virtual environment for makahiki as follows::
 
   % mkvirtualenv makahiki
 
 
 Install Python Imaging Library
----------------------------------
+------------------------------
 
 Makahiki requires the `Python Imaging Library`_ (PIL).
 
@@ -86,7 +85,7 @@ Linux
 
 In Ubuntu, install PIL by typing::
 
-  % sudo apt-get install -y python-imaging libjpeg-dev
+  % sudo apt-get install -y python-imaging python-dev libjpeg-dev
 
 Make sure you have both libjpeg (for JPEG) and zlib (for PNG) in the /usr/lib directory. If not, you can make the symbolic link there. For example, in a 32bit OS, do the following::
 
@@ -95,34 +94,40 @@ Make sure you have both libjpeg (for JPEG) and zlib (for PNG) in the /usr/lib di
 
 
 Install PostgreSQL
----------------------
+------------------
 
-Makahiki uses `PostgreSQL`_ as its standard backend database.
+Makahiki uses `PostgreSQL`_ as its standard backend database. We recommend version 9.1.3.
 Note that on Mac OS X, the installer will need to make changes in the
 ``sysctl`` settings and a reboot before installation can proceed. Once
 installed, be sure that your PostgreSQL installation's bin/ directory is on
 $PATH so that ``pg_config`` and ``psql`` are defined.
 
-In the development environment, It will be convenient that the user "postgres" is
-"trusted" locally so that you can connect to the server as the user "postgres"
-locally without authentication. You could edit the
-pg_hba.conf file and change "local all postgres ident" to "local all postgres trust".
-Or, you may be able to create a .pgpass file containing the credentials. See
-PostgreSQL documentation for how to bypass the authentication for localhost.
+You will also need to configure authentication for the "postgres" database user.   
 
+During development, a simple way to configure authentication is to make the postgres user
+"trusted" locally.  This means that local processes such as Makahiki can connect to the
+database server as the user postgres without authentication. To configure this way, edit
+the pg_hba.conf file and change::
 
-Additional install for Linux
-****************************
-In the Linux environment, you need to install the additional package "postgres-dev"
-in order to get the pg_config command.
+  local all postgres ident
 
+to:: 
+
+  local all postgres trust
+
+The first line might be: "local all postgres peer". Change it to "local all postgres trust"
+
+Alternatively, you can create a .pgpass file containing the credentials for the user postgres. See
+the PostgreSQL documentation for more information on the .pgpass file.
+
+Linux users need to install the ``libpq-dev`` package using ``sudo apt-get install libpq-dev``.
 
 Install Memcache
--------------------
+----------------
 
 Makahiki can optionally use `Memcache`_ to improve performance, especially in the
 production environment.  To avoid the need for alternative configuration files, we require
-local installations to install Memcache and an associated library even if they aren't
+local installations to install Memcache and an associated library even if developers aren't
 intending to use it.
 
 Mac OS X
@@ -134,16 +139,10 @@ On Mac OS X, if you have installed `Homebrew`_, you can install these by typing:
 
 Linux
 *****
-For other environments, one place to start is `Heroku's memcache
-installation instructions`_. For Linux (Ubuntu), you can install the memcached by running "sudo apt-get install memcached". But you will have to install the libmemcached from the source. Here are the commands we did on Ubuntu::
+For Ubuntu, install memcached as follows::
 
-  % sudo apt-get install -y memcached libcloog-ppl0 g++
-  % wget https://launchpad.net/libmemcached/1.0/.53/+download/libmemcached-0.53.tar.gz
-  % tar xzvf libmemcached-0.53.tar.gz
-  % cd libmemcached-0.53
-  % ./configure
-  % make
-  % sudo make install
+  % sudo apt-get install memcached
+  % sudo apt-get install libmemcached-dev
 
 
 .. _Python: http://www.python.org/download/
@@ -159,7 +158,7 @@ installation instructions`_. For Linux (Ubuntu), you can install the memcached b
 .. _Heroku's memcache installation instructions: http://devcenter.heroku.com/articles/memcache#local_memcache_setup
 
 Download the Makahiki source
----------------------------------
+----------------------------
 
 You can download the source by cloning or forking the `Makahiki Git repository`_::
 
@@ -170,7 +169,7 @@ This will create the new folder and download the code from the repository.
 .. _Makahiki Git repository: https://github.com/csdl/makahiki/
 
 Workon makahiki
--------------------
+---------------
 
 The remaining steps require you to be in the makahiki/ directory and to have
 activated that virtual environment::
@@ -183,21 +182,27 @@ and of course cd to the appropriate directory before continuing.
 
 Install required packages
 -------------------------
+
 You can install the required Python package for Makahiki by::
 
   % pip install -r requirements.txt
 
+Don't worry that this command generates lots and lots of output.
+
 Setup environment variables
--------------------------------
+---------------------------
 
 At a minimum, Makahiki requires two environment variables: MAKAHIKI_DATABASE_URL and
 MAKAHIKI_ADMIN_INFO.  
 
-In Unix, these environment variables can be defined this way::
+The following lines show example settings for these two environment variables, preceded by 
+a comment line describing their syntax::
 
-  % export MAKAHIKI_DATABASE_URL=postgres://db_user:password@db_host:db_port/db_name
+  % # Syntax: postgres://<db_user>:<db_password>@<db_host>:<db_port>/<db_name>
+  % export MAKAHIKI_DATABASE_URL=postgres://makahiki:makahiki@localhost:5432/makahiki
 
-  % export MAKAHIKI_ADMIN_INFO=admin:admin_password
+  % # Syntax:  <admin_name>:<admin_password>
+  % export MAKAHIKI_ADMIN_INFO=admin:admin
 
 You will want to either add these variables to a login script so they are
 always available, or you can edit the ``postactivate`` file (in Unix, found in
@@ -214,10 +219,11 @@ Initialize Makahiki
 -------------------
 
 Next, invoke the initialize_instance script, passing it an argument to specify what kind
-of initial data to load.  In most cases, you will want to load the default dataset, as
-shown next::
+of initial data to load. You need to be in the makahiki/makahiki directory. In most cases, 
+you will want to load the default dataset, as shown next::
 
-  % scripts/initialize_instance.py -t default
+  % cd makahiki
+  % scripts/initialize_instance.py --type default
 
 This command will:
   * Install and/or update all Python packages required by Makahiki;
@@ -225,23 +231,17 @@ This command will:
   * Initialize the system with data.
   * Set up static files. 
 
-If you instead want to create a demo instance to facilitate training or sample use, you can invoke
-the initialize_instance script as::
-
-  % scripts/initialize_instance.py -t demo
-
-This will create a demo instance that enables people to play a simple version of the Kukui
-Cup with minimal additional configuration.
-
-.. warning:: Invoke initialize_instance only once!
+.. warning:: initialize_instance will wipe out all challenge configuration modifications!
 
    The initialize_instance script should be run only a single time in production
-   scenarios, because any subsequent configuration will be lost if initialize_instance is
-   invoked again.   Use update_instance (discussed below) after performing configuration. 
+   scenarios, because any subsequent configuration modifications will be lost if initialize_instance is
+   invoked again.   Use update_instance (discussed below) to update source code without
+   losing subsequent configuration actions.
 
-
+You will have to answer 'Y' to the question "Do you wish to continue (Y/n)?"
+ 
 Start the server
---------------------
+----------------
 
 Finally, you can start the Makahiki server using either::
 
