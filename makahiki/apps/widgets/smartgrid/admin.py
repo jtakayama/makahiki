@@ -10,7 +10,7 @@ from apps.utils import utils
 from apps.widgets.smartgrid.models import ActionMember, Activity, Category, Event, \
                                      Commitment, ConfirmationCode, TextPromptQuestion, \
                                      QuestionChoice, Level, Action, Filler, \
-                                     EmailReminder, TextReminder
+                                     EmailReminder, TextReminder, LibraryCategory, LibraryAction
 from apps.widgets.smartgrid.views import action_admin, action_admin_list
 
 from django.contrib import admin
@@ -357,12 +357,27 @@ class LimitedCategoryAdmin(admin.ModelAdmin):
     fields = ["name", "slug"]
 
 
+class LibraryCategoryAdmin(admin.ModelAdmin):
+    """LibraryCategory Admin."""
+    list_display = ["name"]
+    prepopulated_fields = {"slug": ("name",)}
+    fields = ["name", "slug"]
+
+
 admin.site.register(Category, CategoryAdmin)
+admin.site.register(LibraryCategory, LibraryCategoryAdmin)
 challenge_designer_site.register(Category, CategoryAdmin)
+challenge_designer_site.register(LibraryCategory, LibraryCategoryAdmin)
 challenge_manager_site.register(Category, LimitedCategoryAdmin)
+challenge_manager_site.register(LibraryCategory, LibraryCategoryAdmin)
 developer_site.register(Category, CategoryAdmin)
+developer_site.register(LibraryCategory, LibraryCategoryAdmin)
 challenge_mgr.register_designer_game_info_model("Smart Grid Game", Category)
+challenge_mgr.register_designer_challenge_info_model("Smart Grid Game Library", 4, \
+                                                     LibraryCategory, 1)
 challenge_mgr.register_developer_game_info_model("Smart Grid Game", Category)
+challenge_mgr.register_developer_challenge_info_model("Smart Grid Game Library", 4, \
+                                                      LibraryCategory, 1)
 
 
 def redirect_urls(model_admin, url_type):
@@ -499,6 +514,56 @@ class ActionAdmin(admin.ModelAdmin):
     def get_urls(self):
         return redirect_urls(self, "change")
 
+admin.site.register(Action, ActionAdmin)
+challenge_designer_site.register(Action, ActionAdmin)
+challenge_manager_site.register(Action, ActionAdmin)
+developer_site.register(Action, ActionAdmin)
+challenge_mgr.register_designer_game_info_model("Smart Grid Game", Action)
+challenge_mgr.register_developer_game_info_model("Smart Grid Game", Action)
+
+
+class LibraryActionAdmin(admin.ModelAdmin):
+    """Admin interface for Smart Grid Game Library Actions."""
+    actions = ["delete_selected", "copy_action"]
+    list_display = ["slug", "title", "type", "subject", "point_value"]
+    prepopulated_fields = {"slug": ("name",)}
+    search_fields = ["slug", "title"]
+    list_filter = ["type", 'subject']
+
+    def delete_selected(self, request, queryset):
+        """override the delete selected."""
+        _ = request
+        for obj in queryset:
+            obj.delete()
+
+    delete_selected.short_description = "Delete the selected objects."
+
+    def copy_action(self, request, queryset):
+        """Copy the selected Actions."""
+        _ = request
+        for obj in queryset:
+            obj.id = None
+            slug = obj.slug
+            obj.slug = slug + "-copy"
+            try:
+                obj.save()
+            except IntegrityError:
+                # How do we indicate an error to the admin?
+                pass
+    copy_action.short_description = "Copy selected Action(s)"
+
+#    def get_urls(self):
+#        return redirect_urls(self, "change")
+
+admin.site.register(LibraryAction, LibraryActionAdmin)
+challenge_designer_site.register(LibraryAction, LibraryActionAdmin)
+challenge_manager_site.register(LibraryAction, LibraryActionAdmin)
+developer_site.register(LibraryAction, LibraryActionAdmin)
+challenge_mgr.register_designer_challenge_info_model("Smart Grid Game Library", 4, \
+                                                     LibraryAction, 2)
+challenge_mgr.register_developer_challenge_info_model("Smart Grid Game Library", 4, \
+                                                      LibraryAction, 2)
+
 
 class ActivityAdmin(admin.ModelAdmin):
     """Activity Admin"""
@@ -532,12 +597,6 @@ class ActivityAdmin(admin.ModelAdmin):
         return redirect_urls(self, "changelist")
 
 
-admin.site.register(Action, ActionAdmin)
-challenge_designer_site.register(Action, ActionAdmin)
-challenge_manager_site.register(Action, ActionAdmin)
-developer_site.register(Action, ActionAdmin)
-challenge_mgr.register_designer_game_info_model("Smart Grid Game", Action)
-challenge_mgr.register_developer_game_info_model("Smart Grid Game", Action)
 
 admin.site.register(Activity, ActivityAdmin)
 challenge_designer_site.register(Activity, ActivityAdmin)

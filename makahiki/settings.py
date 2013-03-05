@@ -150,6 +150,7 @@ INSTALLED_APPS = (
     'storages',
     'kombu.transport.django',
     'djcelery',
+    #'django-taggit',
 
     # comment out only for debug_toolbar
     #'debug_toolbar',

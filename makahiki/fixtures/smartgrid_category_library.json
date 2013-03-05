@@ -1,0 +1,242 @@
+[
+    {
+        "pk": 16,
+        "model": "smartgrid.librarycategory",
+        "fields": {
+            "name": "Electrimental",
+            "slug": "electrimental"
+        }
+    },
+    {
+        "pk": 30,
+        "model": "smartgrid.librarycategory",
+        "fields": {
+            "name": "Generation Next",
+            "slug": "generation-next"
+        }
+    },
+    {
+        "pk": 1,
+        "model": "smartgrid.librarycategory",
+        "fields": {
+            "name": "Get Started",
+            "slug": "get-started"
+        }
+    },
+    {
+        "pk": 20,
+        "model": "smartgrid.librarycategory",
+        "fields": {
+            "name": "Get Creative",
+            "slug": "get-creative"
+        }
+    },
+    {
+        "pk": 17,
+        "model": "smartgrid.librarycategory",
+        "fields": {
+            "name": "Let's Get Physical",
+            "slug": "lets-get-physical"
+        }
+    },
+    {
+        "pk": 11,
+        "model": "smartgrid.librarycategory",
+        "fields": {
+            "name": "Just Do It",
+            "slug": "just-do-it"
+        }
+    },
+    {
+        "pk": 22,
+        "model": "smartgrid.librarycategory",
+        "fields": {
+            "name": "Think Smart",
+            "slug": "think-smart"
+        }
+    },
+    {
+        "pk": 18,
+        "model": "smartgrid.librarycategory",
+        "fields": {
+            "name": "Power to Burn?",
+            "slug": "power-burn"
+        }
+    },
+    {
+        "pk": 12,
+        "model": "smartgrid.librarycategory",
+        "fields": {
+            "name": "Go Dark",
+            "slug": "go-dark"
+        }
+    },
+    {
+        "pk": 19,
+        "model": "smartgrid.librarycategory",
+        "fields": {
+            "name": "Make it So",
+            "slug": "make-it-so"
+        }
+    },
+    {
+        "pk": 15,
+        "model": "smartgrid.librarycategory",
+        "fields": {
+            "name": "Potpourri",
+            "slug": "potpourri"
+        }
+    },
+    {
+        "pk": 29,
+        "model": "smartgrid.librarycategory",
+        "fields": {
+            "name": "Last Dance",
+            "slug": "last-dance"
+        }
+    },
+    {
+        "pk": 31,
+        "model": "smartgrid.librarycategory",
+        "fields": {
+            "name": "Energy Wizardry",
+            "slug": "energy-wizardry"
+        }
+    },
+    {
+        "pk": 5,
+        "model": "smartgrid.librarycategory",
+        "fields": {
+            "name": "Moving on",
+            "slug": "moving-on"
+        }
+    },
+    {
+        "pk": 14,
+        "model": "smartgrid.librarycategory",
+        "fields": {
+            "name": "Energize Yourself",
+            "slug": "energize-yourself"
+        }
+    },
+    {
+        "pk": 25,
+        "model": "smartgrid.librarycategory",
+        "fields": {
+            "name": "Express Yourself",
+            "slug": "express-yourself"
+        }
+    },
+    {
+        "pk": 21,
+        "model": "smartgrid.librarycategory",
+        "fields": {
+            "name": "Be Committed",
+            "slug": "be-committed"
+        }
+    },
+    {
+        "pk": 27,
+        "model": "smartgrid.librarycategory",
+        "fields": {
+            "name": "Do It To It",
+            "slug": "do-it-it"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "smartgrid.librarycategory",
+        "fields": {
+            "name": "Basic Energy",
+            "slug": "basic-energy"
+        }
+    },
+    {
+        "pk": 3,
+        "model": "smartgrid.librarycategory",
+        "fields": {
+            "name": "Lights Out!",
+            "slug": "lights-out"
+        }
+    },
+    {
+        "pk": 23,
+        "model": "smartgrid.librarycategory",
+        "fields": {
+            "name": "Water Cycle",
+            "slug": "water-cycle"
+        }
+    },
+    {
+        "pk": 13,
+        "model": "smartgrid.librarycategory",
+        "fields": {
+            "name": "Play!",
+            "slug": "play"
+        }
+    },
+    {
+        "pk": 4,
+        "model": "smartgrid.librarycategory",
+        "fields": {
+            "name": "Make Watts",
+            "slug": "make-watts"
+        }
+    },
+    {
+        "pk": 24,
+        "model": "smartgrid.librarycategory",
+        "fields": {
+            "name": "Watts Up?",
+            "slug": "watts"
+        }
+    },
+    {
+        "pk": 28,
+        "model": "smartgrid.librarycategory",
+        "fields": {
+            "name": "Moving on",
+            "slug": "moving"
+        }
+    },
+    {
+        "pk": 26,
+        "model": "smartgrid.librarycategory",
+        "fields": {
+            "name": "Trail Mix",
+            "slug": "trail-mix"
+        }
+    },
+    {
+        "pk": 6,
+        "model": "smartgrid.librarycategory",
+        "fields": {
+            "name": "Opala",
+            "slug": "opala"
+        }
+    },
+    {
+        "pk": 9,
+        "model": "smartgrid.librarycategory",
+        "fields": {
+            "name": "Mixed Bag",
+            "slug": "mixed-bag"
+        }
+    },
+    {
+        "pk": 7,
+        "model": "smartgrid.librarycategory",
+        "fields": {
+            "name": "Wet and Wild",
+            "slug": "wet-and-wild"
+        }
+    },
+    {
+        "pk": 10,
+        "model": "smartgrid.librarycategory",
+        "fields": {
+            "name": "Creative",
+            "slug": "creative"
+        }
+    }
+]

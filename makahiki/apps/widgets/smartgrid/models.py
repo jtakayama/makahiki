@@ -68,8 +68,30 @@ class Level(models.Model):
         cache_mgr.clear()
 
 
+class LibraryCategory(models.Model):
+    """Represents a Category in the Smart Grid Game Library."""
+    name = models.CharField(max_length=255,
+                            help_text="The name of the category (max 255 characters).")
+    slug = models.SlugField(help_text="Automatically generated if left blank.",
+                            null=True)
+
+    class Meta:
+        """Meta"""
+        verbose_name_plural = "library categories"
+        ordering = ("name",)
+
+    def __unicode__(self):
+        return self.name
+
+    def save(self, *args, **kwargs):
+        """Custom save method to set fields."""
+        super(LibraryCategory, self).save(args, kwargs)
+        cache_mgr.clear()
+
+
 class Category(models.Model):
     """Categories used to group actions."""
+    libCategory = models.ForeignKey(LibraryCategory)
     name = models.CharField(max_length=255,
                             help_text="The name of the category (max 255 characters).")
     slug = models.SlugField(help_text="Automatically generated if left blank.",
@@ -93,77 +115,93 @@ class Category(models.Model):
         cache_mgr.clear()
 
 
-class TextPromptQuestion(models.Model):
-    """Represents questions that can be asked of users in order to verify participation
-    in activities."""
+class LibraryAction(models.Model):
+    """Represents an Action in the Smart Grid Game Library."""
+    TYPE_CHOICES = (
+        ('activity', 'Activity'),
+        ('creative', 'Creative'),
+        ('commitment', 'Commitment'),
+        ('event', 'Event'),
+        ('excursion', 'Excursion'),
+        ('video', 'Video'),
+    )
 
-    action = models.ForeignKey("Action")
-    question = models.TextField(help_text="The question text.")
-    answer = models.CharField(max_length=255,
-                              help_text="The answer of question (max 255 characters).",
-                              null=True, blank=True)
+    SUBJECT_CHOICES = (
+        ('energy', 'Energy'),
+        ('water', 'Water'),
+        ('waste_recycling', 'Waste/Recycling'),
+        ('food', 'Food'),
+        ('transportation', 'Transportation'),
+        ('lighting', 'Lighting'),
+        ('climate_change', 'Climate Change'),
+        ('kukui_cup', 'Kukui Cup'),
+        ('multi_subject', 'Multi-Subject'),
+    )
+
+    VIDEO_SOURCE_CHOICES = (
+        ('youtube', 'youtube'),
+    )
+
+    name = models.CharField(
+        max_length=20,
+        help_text="The name of the action.")
+    slug = models.SlugField(
+        help_text="A unique identifier of the action. Automatically generated if left blank.",
+        unique=True,
+        )
+    title = models.CharField(
+        max_length=200,
+        help_text="The title of the action.")
+    image = models.ImageField(
+        max_length=255, blank=True, null=True,
+        upload_to=media_file_path(_MEDIA_LOCATION_ACTION),
+        help_text="Uploaded image for the activity. This will appear under the title when "
+                  "the action content is displayed.")
+    video_id = models.CharField(
+        null=True, blank=True,
+        max_length=200,
+        help_text="The id of the video (optional). Currently only YouTube video is supported. "
+                  "This is the unique id of the video as identified by the YouTube video url.")
+    video_source = models.CharField(
+        null=True, blank=True,
+        max_length=20,
+        choices=VIDEO_SOURCE_CHOICES,
+        help_text="The source of the video.")
+    embedded_widget = models.CharField(
+        null=True, blank=True,
+        max_length=50,
+        help_text="The name of the embedded widget (optional).")
+    description = models.TextField(
+        help_text="The discription of the action. " + settings.MARKDOWN_TEXT)
+    type = models.CharField(
+        max_length=20,
+        choices=TYPE_CHOICES,
+        help_text="The type of the action."
+    )
+    subject = models.CharField(
+        max_length=20,
+        choices=SUBJECT_CHOICES,
+        help_text="The subject of the action."
+    )
+    unlock_condition = models.CharField(
+        max_length=400, null=True, blank=True,
+        help_text="if the condition is True, the action will be unlocked. " +
+                  settings.PREDICATE_DOC_TEXT)
+    unlock_condition_text = models.CharField(
+        max_length=400, null=True, blank=True,
+        help_text="The description of the unlock condition. It will be displayed to players when "
+                  "the lock icon is clicked.")
+    social_bonus = models.IntegerField(
+        default=0,
+        help_text="Social bonus point value.")
+    point_value = models.IntegerField(
+        default=0,
+        help_text="The point value to be awarded."
+    )
+    admin_tool_tip = "Smart Grid Game Library Actions"
 
     def __unicode__(self):
-        return "Question: '%s' Answer: '%s'" % (self.question, self.answer)
-
-
-class QuestionChoice(models.Model):
-    """Represents questions's multiple choice"""
-
-    question = models.ForeignKey("TextPromptQuestion")
-    action = models.ForeignKey("Action")
-    choice = models.CharField(max_length=255,
-                              help_text="The choice of question (max 255 characters).")
-
-    def __unicode__(self):
-        return self.choice
-
-
-class ConfirmationCode(models.Model):
-    """Represents confirmation codes for activities."""
-    action = models.ForeignKey("Action")
-    code = models.CharField(max_length=50, unique=True, db_index=True,
-                            help_text="The confirmation code.")
-    is_active = models.BooleanField(default=True, editable=False,
-                                    help_text="Is the confirmation code still active?")
-    user = models.ForeignKey(User, null=True, blank=True,
-                             help_text="The user who claimed the code.")
-    create_date = models.DateTimeField(default=datetime.datetime.now(),
-                                   verbose_name="Date created",
-                                   help_text="Date the code was created.")
-    printed_or_distributed = models.BooleanField(default=False, editable=True,
-                                help_text="Has the code been printed or distributed.")
-
-    @staticmethod
-    def generate_codes_for_activity(event, num_codes):
-        """Generates a set of random codes for the activity."""
-        values = 'abcdefghijkmnpqrstuvwxyz234789'
-
-        # Use the first non-dash component of the slug.
-        components = event.slug.split('-')
-        header = components[0]
-        # Need to see if there are other codes with this header.
-        index = 1
-        while ConfirmationCode.objects.filter(code__istartswith=header).exclude(
-            action=event).count() > 0 and index < len(components):
-            header += components[index]
-            index += 1
-
-        header += "-"
-        for _ in range(0, num_codes):
-            code = ConfirmationCode(action=event, code=header)
-            valid = False
-            while not valid:
-                for value in random.sample(values, 5):
-                    code.code += value
-                try:
-                    # print code.code
-                    # Throws exception if the code is a duplicate.
-                    code.save()
-                    valid = True
-                except IntegrityError:
-                    # Try again.
-                    code.code = header
+        return "%s: %s" % (self.type.capitalize(), self.title)
 
 
 class Action(models.Model):
@@ -278,20 +316,6 @@ class Action(models.Model):
         ordering = ("level", "category", "priority")
 
 
-class Filler(Action):
-    """Filler action. It is always locked"""
-    pass
-
-
-class Commitment(Action):
-    """Commitments involve non-verifiable actions that a user can commit to.
-    Typically, they will be worth fewer points than activities."""
-    duration = models.IntegerField(
-        default=5,
-        help_text="Duration of commitment, in days."
-    )
-
-
 class Activity(Action):
     """Activities involve verifiable actions that users commit to.  These actions can be
    verified by asking questions or posting an image attachment that verifies the user did
@@ -363,6 +387,15 @@ class Activity(Action):
         verbose_name_plural = "Activities"
 
 
+class Commitment(Action):
+    """Commitments involve non-verifiable actions that a user can commit to.
+    Typically, they will be worth fewer points than activities."""
+    duration = models.IntegerField(
+        default=5,
+        help_text="Duration of commitment, in days."
+    )
+
+
 class Event(Action):
     """Events will be verified by confirmation code. It includes events and excursions."""
 
@@ -397,6 +430,25 @@ class Event(Action):
             if result.days >= 0 and result.seconds >= 0:
                 return True
         return False
+
+
+class Filler(Action):
+    """Filler action. It is always locked"""
+    pass
+
+
+class TextPromptQuestion(models.Model):
+    """Represents questions that can be asked of users in order to verify participation
+    in activities."""
+
+    action = models.ForeignKey("Action")
+    question = models.TextField(help_text="The question text.")
+    answer = models.CharField(max_length=255,
+                              help_text="The answer of question (max 255 characters).",
+                              null=True, blank=True)
+
+    def __unicode__(self):
+        return "Question: '%s' Answer: '%s'" % (self.question, self.answer)
 
 
 class ActionMember(models.Model):
@@ -878,3 +930,62 @@ class TextReminder(Reminder):
             UserNotification.create_email_notification(email, "", message)
             self.sent = True
             self.save()
+
+
+class ConfirmationCode(models.Model):
+    """Represents confirmation codes for activities."""
+    action = models.ForeignKey("Action")
+    code = models.CharField(max_length=50, unique=True, db_index=True,
+                            help_text="The confirmation code.")
+    is_active = models.BooleanField(default=True, editable=False,
+                                    help_text="Is the confirmation code still active?")
+    user = models.ForeignKey(User, null=True, blank=True,
+                             help_text="The user who claimed the code.")
+    create_date = models.DateTimeField(default=datetime.datetime.now(),
+                                   verbose_name="Date created",
+                                   help_text="Date the code was created.")
+    printed_or_distributed = models.BooleanField(default=False, editable=True,
+                                help_text="Has the code been printed or distributed.")
+
+    @staticmethod
+    def generate_codes_for_activity(event, num_codes):
+        """Generates a set of random codes for the activity."""
+        values = 'abcdefghijkmnpqrstuvwxyz234789'
+
+        # Use the first non-dash component of the slug.
+        components = event.slug.split('-')
+        header = components[0]
+        # Need to see if there are other codes with this header.
+        index = 1
+        while ConfirmationCode.objects.filter(code__istartswith=header).exclude(
+            action=event).count() > 0 and index < len(components):
+            header += components[index]
+            index += 1
+
+        header += "-"
+        for _ in range(0, num_codes):
+            code = ConfirmationCode(action=event, code=header)
+            valid = False
+            while not valid:
+                for value in random.sample(values, 5):
+                    code.code += value
+                try:
+                    # print code.code
+                    # Throws exception if the code is a duplicate.
+                    code.save()
+                    valid = True
+                except IntegrityError:
+                    # Try again.
+                    code.code = header
+
+
+class QuestionChoice(models.Model):
+    """Represents questions's multiple choice"""
+
+    question = models.ForeignKey("TextPromptQuestion")
+    action = models.ForeignKey("Action")
+    choice = models.CharField(max_length=255,
+                              help_text="The choice of question (max 255 characters).")
+
+    def __unicode__(self):
+        return self.choice
