@@ -39,6 +39,7 @@ def supply(request, page_name):
 @login_required
 def view_action(request, action_type, slug):
     """individual action page"""
+    _ = action_type
     action = smartgrid.get_action(slug=slug)
     user = request.user
     view_objects = {}
@@ -65,12 +66,9 @@ def update_sgg(request):
                 for lvl in xrange(0, num_levels):
                     level_cats = categories[lvl][1]
                     for i in xrange(0, len(level_cats), 4):
-                        slug = level_cats[i]
-                        priority = level_cats[i + 1]
-                        text = level_cats[i + 2]
-                        category = Category.objects.get(slug=slug)
-                        category.priority = priority
-                        category.name = text
+                        category = Category.objects.get(slug=level_cats[i])
+                        category.priority = level_cats[i + 1]
+                        category.name = level_cats[i + 2]
                         category.save()
 
                 # clear the existing actions
@@ -79,31 +77,31 @@ def update_sgg(request):
                     action.level = None
                     action.save()
 
-            num_levels = len(actions)
+#            num_levels = len(actions)
             for lvl in xrange(0, num_levels):
-                level_name = actions[lvl][0]
-                level = Level.objects.get(name=level_name)
+                level = Level.objects.get(name=actions[lvl][0])
                 level_actions = actions[lvl][1]
                 for i in xrange(0, len(level_actions), 6):
-                    slug = level_actions[i]
+                    #slug = level_actions[i]
                     #type = level_actions[i + 1]
-                    cat_slug = level_actions[i + 2]
-                    priority = level_actions[i + 3] * 10
-                    text = level_actions[i + 4]
+                    #cat_slug = level_actions[i + 2]
+                    #priority = level_actions[i + 3] * 10
+                    #text = level_actions[i + 4]
                     #pk = level_actions[i + 5]
-                    category = Category.objects.get(slug=cat_slug)
-                    print(slug + " " + cat_slug)
-                    if slug.startswith('filler'):
+                    category = Category.objects.get(slug=level_actions[i + 2])
+                    if level_actions[i].startswith('filler'):
                         try:
-                            action = Filler.objects.get(slug=slug)
+                            action = Filler.objects.get(slug=level_actions[i])
                         except Filler.DoesNotExist:
-                            action = Filler(name=text, slug=slug, title=text, type='filler', \
-                                            level=level, category=category, priority=priority)
+                            action = Filler(name=level_actions[i + 4], slug=level_actions[i], \
+                                            title=level_actions[i + 4], type='filler', \
+                                            level=level, \
+                                            category=category, priority=level_actions[i + 3] * 10)
                     else:
-                        action = smartgrid.get_action(slug)
+                        action = smartgrid.get_action(level_actions[i])
                     action.level = level
                     action.category = category
-                    action.priority = priority
+                    action.priority = level_actions[i + 3] * 10
                     action.save()
 
             response = HttpResponseRedirect("/sgg_designer/")
