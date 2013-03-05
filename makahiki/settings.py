@@ -200,6 +200,7 @@ INSTALLED_WIDGET_APPS = (
     'scoreboard',
     'participation',
     'smartgrid',
+    'sgg_design',
     'team_members',
     'upcoming_events',
     'logging',

@@ -1,0 +1,63 @@
+{% load sgg_design_tags %}
+
+<div class="sgg_grid">
+	<div class="sgg-dropzone clearfix">
+		<div id="category-dropzone" class="sgg-category-dropzone clearfix">
+			<table>
+				<tr>
+					{% for i in 10|get_range %}
+					<td><div class="sgg-category-slot" data-column={{i|add:1}}>
+					{% if i < level.cat_list|length %}
+						{% with cat=level.cat_list|nth:i %}
+					<div data-slug="{{cat.slug}}" class="sgg-category-drop" 
+						 data-priority={{i}} data-pk={{cat.pk}}>
+						 <a class="sgg-category" href="/challenge_admin/smartgrid/category/{{cat.pk}}/">
+						 {{cat.name}}</a></div>
+						 {% endwith %}
+					{% endif %}
+					</div></td>
+					{% endfor %}
+				</tr>
+			</table>
+		</div>
+	</div>
+	<div class="sgg-dropzone clearfix">
+		<div id="action-dropzone" class="sgg-action-dropzone clearfix">
+			<table>
+				{% for i in 10|get_range %}
+				<tr>
+					{% for j in 10|get_range %}
+					<td>
+                        {% if j < level.cat_list|length %}
+							{% with cat=level.cat_list|nth:j %}
+                        <div class="sgg-action-slot" data-category="{{cat.slug}}"
+                        	{% endwith %}
+                        {% else %}
+                        <div class="sgg-action-slot disabled"     
+                        {% endif %}
+							data-column="{{ j|add:'1' }}" data-row="{{ i|add:'1' }}">
+							{% if j < level.cat_list|length %}
+								{% with cat=level.cat_list|nth:j %}
+								{% if i < cat.task_list|length %}
+									{% with act=cat.task_list|nth:i %}
+								<div data-slug="{{act.slug}}" class="sgg-action sgg-{{act.type}}-cell draggable"
+                   		   			 data-type="{{act.type}}" data-priority="{{i|add:1}}" data-column="{{j|add:1}}" 
+                   		   			 data-category="{{cat.slug}}" data-pk={{act.pk}} data-unlock="{{act.unlock_condition}}">
+                   		   			<div class="sgg-pk">{{act.pk}}</div><br/>
+                   		   			<a href="/admin/smartgrid/{{act.type}}/{{act.pk}}/"
+									   class="sgg-action">{{act.name}}</a><br/>
+									<div class="sgg-unlock"></div> 
+								</div>								
+									{% endwith %}
+								{% endif %}
+								{% endwith %}
+							{% endif %}
+						</div>
+					</td>
+					{% endfor %}
+				</tr>
+				{% endfor %}
+			</table>
+		</div>
+	</div>
+</div>
