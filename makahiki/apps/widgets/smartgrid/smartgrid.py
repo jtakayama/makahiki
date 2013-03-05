@@ -174,6 +174,37 @@ def get_level_actions(user):
     return levels
 
 
+def get_smart_grid():
+    """Returns the currently defined smart grid."""
+    levels = []
+    for level in Level.objects.all():
+        categories = []
+        action_list = None
+        category = None
+        for action in level.action_set.all().select_related("category"):
+            # the action are ordered by level and category
+            if category != action.category:
+                if category:
+                    # a new category
+                    category.task_list = action_list
+                    categories.append(category)
+
+                action_list = []
+                category = action.category
+
+            action_list.append(action)
+
+        if category:
+            # last category
+            category.task_list = action_list
+            categories.append(category)
+
+        level.cat_list = categories
+        levels.append(level)
+
+    return levels
+
+
 def get_popular_actions(action_type, approval_status, num_results=None):
     """Gets the most popular activities in terms of completions."""
     results = Action.objects.filter(actionmember__approval_status=approval_status,
