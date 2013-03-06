@@ -22,6 +22,7 @@ from apps.widgets.badges import badges
 from apps.widgets.notifications.models import UserNotification
 from apps.managers.cache_mgr import cache_mgr
 from apps.widgets.smartgrid import NOSHOW_PENALTY_DAYS, SETUP_WIZARD_ACTIVITY
+from apps.widgets.smartgrid_library.models import LibraryCategory, LibraryAction
 
 _MEDIA_LOCATION_ACTION = os.path.join("smartgrid", "actions")
 """location for the uploaded files for actions."""
@@ -68,27 +69,6 @@ class Level(models.Model):
         cache_mgr.clear()
 
 
-class LibraryCategory(models.Model):
-    """Represents a Category in the Smart Grid Game Library."""
-    name = models.CharField(max_length=255,
-                            help_text="The name of the category (max 255 characters).")
-    slug = models.SlugField(help_text="Automatically generated if left blank.",
-                            null=True)
-
-    class Meta:
-        """Meta"""
-        verbose_name_plural = "library categories"
-        ordering = ("name",)
-
-    def __unicode__(self):
-        return self.name
-
-    def save(self, *args, **kwargs):
-        """Custom save method to set fields."""
-        super(LibraryCategory, self).save(args, kwargs)
-        cache_mgr.clear()
-
-
 class Category(models.Model):
     """Categories used to group actions."""
     libCategory = models.ForeignKey(LibraryCategory)
@@ -115,95 +95,6 @@ class Category(models.Model):
         cache_mgr.clear()
 
 
-class LibraryAction(models.Model):
-    """Represents an Action in the Smart Grid Game Library."""
-    TYPE_CHOICES = (
-        ('activity', 'Activity'),
-        ('creative', 'Creative'),
-        ('commitment', 'Commitment'),
-        ('event', 'Event'),
-        ('excursion', 'Excursion'),
-        ('video', 'Video'),
-    )
-
-    SUBJECT_CHOICES = (
-        ('energy', 'Energy'),
-        ('water', 'Water'),
-        ('waste_recycling', 'Waste/Recycling'),
-        ('food', 'Food'),
-        ('transportation', 'Transportation'),
-        ('lighting', 'Lighting'),
-        ('climate_change', 'Climate Change'),
-        ('kukui_cup', 'Kukui Cup'),
-        ('multi_subject', 'Multi-Subject'),
-    )
-
-    VIDEO_SOURCE_CHOICES = (
-        ('youtube', 'youtube'),
-    )
-
-    name = models.CharField(
-        max_length=20,
-        help_text="The name of the action.")
-    slug = models.SlugField(
-        help_text="A unique identifier of the action. Automatically generated if left blank.",
-        unique=True,
-        )
-    title = models.CharField(
-        max_length=200,
-        help_text="The title of the action.")
-    image = models.ImageField(
-        max_length=255, blank=True, null=True,
-        upload_to=media_file_path(_MEDIA_LOCATION_ACTION),
-        help_text="Uploaded image for the activity. This will appear under the title when "
-                  "the action content is displayed.")
-    video_id = models.CharField(
-        null=True, blank=True,
-        max_length=200,
-        help_text="The id of the video (optional). Currently only YouTube video is supported. "
-                  "This is the unique id of the video as identified by the YouTube video url.")
-    video_source = models.CharField(
-        null=True, blank=True,
-        max_length=20,
-        choices=VIDEO_SOURCE_CHOICES,
-        help_text="The source of the video.")
-    embedded_widget = models.CharField(
-        null=True, blank=True,
-        max_length=50,
-        help_text="The name of the embedded widget (optional).")
-    description = models.TextField(
-        help_text="The discription of the action. " + settings.MARKDOWN_TEXT)
-    type = models.CharField(
-        max_length=20,
-        choices=TYPE_CHOICES,
-        help_text="The type of the action."
-    )
-    subject = models.CharField(
-        max_length=20,
-        choices=SUBJECT_CHOICES,
-        help_text="The subject of the action."
-    )
-    unlock_condition = models.CharField(
-        max_length=400, null=True, blank=True,
-        help_text="if the condition is True, the action will be unlocked. " +
-                  settings.PREDICATE_DOC_TEXT)
-    unlock_condition_text = models.CharField(
-        max_length=400, null=True, blank=True,
-        help_text="The description of the unlock condition. It will be displayed to players when "
-                  "the lock icon is clicked.")
-    social_bonus = models.IntegerField(
-        default=0,
-        help_text="Social bonus point value.")
-    point_value = models.IntegerField(
-        default=0,
-        help_text="The point value to be awarded."
-    )
-    admin_tool_tip = "Smart Grid Game Library Actions"
-
-    def __unicode__(self):
-        return "%s: %s" % (self.type.capitalize(), self.title)
-
-
 class Action(models.Model):
     """Activity Base class."""
     TYPE_CHOICES = (
@@ -225,7 +116,7 @@ class Action(models.Model):
     )
 
     users = models.ManyToManyField(User, through="ActionMember")
-
+    libAction = models.ForeignKey(LibraryAction)
     name = models.CharField(
         max_length=20,
         help_text="The name of the action.")

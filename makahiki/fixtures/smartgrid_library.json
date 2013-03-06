@@ -1,7 +1,247 @@
 [
     {
+        "pk": 16,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "Electrimental",
+            "slug": "electrimental"
+        }
+    },
+    {
+        "pk": 30,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "Generation Next",
+            "slug": "generation-next"
+        }
+    },
+    {
+        "pk": 1,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "Get Started",
+            "slug": "get-started"
+        }
+    },
+    {
+        "pk": 20,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "Get Creative",
+            "slug": "get-creative"
+        }
+    },
+    {
+        "pk": 17,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "Let's Get Physical",
+            "slug": "lets-get-physical"
+        }
+    },
+    {
+        "pk": 11,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "Just Do It",
+            "slug": "just-do-it"
+        }
+    },
+    {
+        "pk": 22,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "Think Smart",
+            "slug": "think-smart"
+        }
+    },
+    {
+        "pk": 18,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "Power to Burn?",
+            "slug": "power-burn"
+        }
+    },
+    {
+        "pk": 12,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "Go Dark",
+            "slug": "go-dark"
+        }
+    },
+    {
+        "pk": 19,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "Make it So",
+            "slug": "make-it-so"
+        }
+    },
+    {
+        "pk": 15,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "Potpourri",
+            "slug": "potpourri"
+        }
+    },
+    {
+        "pk": 29,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "Last Dance",
+            "slug": "last-dance"
+        }
+    },
+    {
+        "pk": 31,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "Energy Wizardry",
+            "slug": "energy-wizardry"
+        }
+    },
+    {
+        "pk": 5,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "Moving on",
+            "slug": "moving-on"
+        }
+    },
+    {
+        "pk": 14,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "Energize Yourself",
+            "slug": "energize-yourself"
+        }
+    },
+    {
+        "pk": 25,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "Express Yourself",
+            "slug": "express-yourself"
+        }
+    },
+    {
+        "pk": 21,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "Be Committed",
+            "slug": "be-committed"
+        }
+    },
+    {
+        "pk": 27,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "Do It To It",
+            "slug": "do-it-it"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "Basic Energy",
+            "slug": "basic-energy"
+        }
+    },
+    {
+        "pk": 3,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "Lights Out!",
+            "slug": "lights-out"
+        }
+    },
+    {
+        "pk": 23,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "Water Cycle",
+            "slug": "water-cycle"
+        }
+    },
+    {
+        "pk": 13,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "Play!",
+            "slug": "play"
+        }
+    },
+    {
+        "pk": 4,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "Make Watts",
+            "slug": "make-watts"
+        }
+    },
+    {
+        "pk": 24,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "Watts Up?",
+            "slug": "watts"
+        }
+    },
+    {
+        "pk": 28,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "Moving on",
+            "slug": "moving"
+        }
+    },
+    {
+        "pk": 26,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "Trail Mix",
+            "slug": "trail-mix"
+        }
+    },
+    {
+        "pk": 6,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "Opala",
+            "slug": "opala"
+        }
+    },
+    {
+        "pk": 9,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "Mixed Bag",
+            "slug": "mixed-bag"
+        }
+    },
+    {
+        "pk": 7,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "Wet and Wild",
+            "slug": "wet-and-wild"
+        }
+    },
+    {
+        "pk": 10,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "Creative",
+            "slug": "creative"
+        }
+    },
+    {
         "pk": 36,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 5,
             "video_id": "",
@@ -21,7 +261,7 @@
     },
     {
         "pk": 193,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": null,
@@ -41,7 +281,7 @@
     },
     {
         "pk": 196,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 10,
             "video_id": "",
@@ -61,7 +301,7 @@
     },
     {
         "pk": 197,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": "",
@@ -81,7 +321,7 @@
     },
     {
         "pk": 198,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": "",
@@ -101,7 +341,7 @@
     },
     {
         "pk": 199,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": "",
@@ -121,7 +361,7 @@
     },
     {
         "pk": 205,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 5,
             "video_id": null,
@@ -141,7 +381,7 @@
     },
     {
         "pk": 2,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": "hBUg7bsR0d0",
@@ -161,7 +401,7 @@
     },
     {
         "pk": 156,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 10,
             "video_id": null,
@@ -181,7 +421,7 @@
     },
     {
         "pk": 15,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": "E4MLXlUiRv0",
@@ -201,7 +441,7 @@
     },
     {
         "pk": 8,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": null,
@@ -221,7 +461,7 @@
     },
     {
         "pk": 238,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": "",
@@ -241,7 +481,7 @@
     },
     {
         "pk": 66,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": "qN-OxaX9enI",
@@ -261,7 +501,7 @@
     },
     {
         "pk": 9,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": null,
@@ -281,7 +521,7 @@
     },
     {
         "pk": 80,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 10,
             "video_id": "",
@@ -301,7 +541,7 @@
     },
     {
         "pk": 129,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": "",
@@ -321,7 +561,7 @@
     },
     {
         "pk": 157,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 10,
             "video_id": null,
@@ -341,7 +581,7 @@
     },
     {
         "pk": 38,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 5,
             "video_id": null,
@@ -361,7 +601,7 @@
     },
     {
         "pk": 158,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 10,
             "video_id": null,
@@ -381,7 +621,7 @@
     },
     {
         "pk": 159,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 10,
             "video_id": null,
@@ -401,7 +641,7 @@
     },
     {
         "pk": 160,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 10,
             "video_id": null,
@@ -421,7 +661,7 @@
     },
     {
         "pk": 32,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 5,
             "video_id": "",
@@ -441,7 +681,7 @@
     },
     {
         "pk": 31,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 5,
             "video_id": "",
@@ -461,7 +701,7 @@
     },
     {
         "pk": 161,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 10,
             "video_id": null,
@@ -481,7 +721,7 @@
     },
     {
         "pk": 162,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 10,
             "video_id": null,
@@ -501,7 +741,7 @@
     },
     {
         "pk": 163,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 10,
             "video_id": null,
@@ -521,7 +761,7 @@
     },
     {
         "pk": 164,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 10,
             "video_id": null,
@@ -541,7 +781,7 @@
     },
     {
         "pk": 165,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 10,
             "video_id": null,
@@ -561,7 +801,7 @@
     },
     {
         "pk": 166,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 10,
             "video_id": null,
@@ -581,7 +821,7 @@
     },
     {
         "pk": 167,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 10,
             "video_id": null,
@@ -601,7 +841,7 @@
     },
     {
         "pk": 168,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": null,
@@ -621,7 +861,7 @@
     },
     {
         "pk": 18,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": "sAClKZPhcPI",
@@ -641,7 +881,7 @@
     },
     {
         "pk": 192,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 10,
             "video_id": null,
@@ -661,7 +901,7 @@
     },
     {
         "pk": 85,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": "",
@@ -681,7 +921,7 @@
     },
     {
         "pk": 11,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": "",
@@ -701,7 +941,7 @@
     },
     {
         "pk": 249,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 10,
             "video_id": null,
@@ -721,7 +961,7 @@
     },
     {
         "pk": 16,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": "wc_Cfq9sEoY",
@@ -741,7 +981,7 @@
     },
     {
         "pk": 65,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 5,
             "video_id": "",
@@ -761,7 +1001,7 @@
     },
     {
         "pk": 7,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": "",
@@ -781,7 +1021,7 @@
     },
     {
         "pk": 34,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 5,
             "video_id": null,
@@ -801,7 +1041,7 @@
     },
     {
         "pk": 61,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": "",
@@ -821,7 +1061,7 @@
     },
     {
         "pk": 127,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 5,
             "video_id": "",
@@ -841,7 +1081,7 @@
     },
     {
         "pk": 78,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": "c5lgCDtTzyQ",
@@ -861,7 +1101,7 @@
     },
     {
         "pk": 91,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": "QgZ7AEE3ntY",
@@ -881,7 +1121,7 @@
     },
     {
         "pk": 77,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": "ZsgmnCxzHao",
@@ -901,7 +1141,7 @@
     },
     {
         "pk": 49,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 5,
             "video_id": null,
@@ -921,7 +1161,7 @@
     },
     {
         "pk": 48,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 5,
             "video_id": null,
@@ -941,7 +1181,7 @@
     },
     {
         "pk": 137,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 10,
             "video_id": "",
@@ -961,7 +1201,7 @@
     },
     {
         "pk": 50,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 5,
             "video_id": null,
@@ -981,7 +1221,7 @@
     },
     {
         "pk": 118,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 5,
             "video_id": "",
@@ -1001,7 +1241,7 @@
     },
     {
         "pk": 109,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 10,
             "video_id": "",
@@ -1021,7 +1261,7 @@
     },
     {
         "pk": 57,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": "6FeXBOyQerA",
@@ -1041,7 +1281,7 @@
     },
     {
         "pk": 132,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 10,
             "video_id": "",
@@ -1061,7 +1301,7 @@
     },
     {
         "pk": 46,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 5,
             "video_id": null,
@@ -1081,7 +1321,7 @@
     },
     {
         "pk": 42,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 5,
             "video_id": null,
@@ -1101,7 +1341,7 @@
     },
     {
         "pk": 74,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 5,
             "video_id": null,
@@ -1121,7 +1361,7 @@
     },
     {
         "pk": 30,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 5,
             "video_id": null,
@@ -1141,7 +1381,7 @@
     },
     {
         "pk": 79,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 5,
             "video_id": null,
@@ -1161,7 +1401,7 @@
     },
     {
         "pk": 39,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 5,
             "video_id": null,
@@ -1181,7 +1421,7 @@
     },
     {
         "pk": 21,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": "",
@@ -1201,7 +1441,7 @@
     },
     {
         "pk": 45,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 5,
             "video_id": null,
@@ -1221,7 +1461,7 @@
     },
     {
         "pk": 128,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 5,
             "video_id": "",
@@ -1241,7 +1481,7 @@
     },
     {
         "pk": 37,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 5,
             "video_id": null,
@@ -1261,7 +1501,7 @@
     },
     {
         "pk": 96,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": "",
@@ -1281,7 +1521,7 @@
     },
     {
         "pk": 169,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 10,
             "video_id": null,
@@ -1301,7 +1541,7 @@
     },
     {
         "pk": 170,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 10,
             "video_id": null,
@@ -1321,7 +1561,7 @@
     },
     {
         "pk": 171,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 10,
             "video_id": null,
@@ -1341,7 +1581,7 @@
     },
     {
         "pk": 150,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": "",
@@ -1361,7 +1601,7 @@
     },
     {
         "pk": 172,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 10,
             "video_id": null,
@@ -1381,7 +1621,7 @@
     },
     {
         "pk": 173,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 10,
             "video_id": null,
@@ -1401,7 +1641,7 @@
     },
     {
         "pk": 174,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 10,
             "video_id": null,
@@ -1421,7 +1661,7 @@
     },
     {
         "pk": 4,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": "",
@@ -1441,7 +1681,7 @@
     },
     {
         "pk": 33,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 5,
             "video_id": null,
@@ -1461,7 +1701,7 @@
     },
     {
         "pk": 133,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 10,
             "video_id": "",
@@ -1481,7 +1721,7 @@
     },
     {
         "pk": 41,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 5,
             "video_id": null,
@@ -1501,7 +1741,7 @@
     },
     {
         "pk": 138,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 10,
             "video_id": "",
@@ -1521,7 +1761,7 @@
     },
     {
         "pk": 175,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 10,
             "video_id": null,
@@ -1541,7 +1781,7 @@
     },
     {
         "pk": 99,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": "Yt13tkdi_Dk",
@@ -1561,7 +1801,7 @@
     },
     {
         "pk": 26,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": "wSquej2rFXM",
@@ -1581,7 +1821,7 @@
     },
     {
         "pk": 176,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": null,
@@ -1601,7 +1841,7 @@
     },
     {
         "pk": 35,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 5,
             "video_id": null,
@@ -1621,7 +1861,7 @@
     },
     {
         "pk": 22,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": "zK_cz7A7qVw",
@@ -1641,7 +1881,7 @@
     },
     {
         "pk": 189,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 10,
             "video_id": null,
@@ -1661,7 +1901,7 @@
     },
     {
         "pk": 44,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 5,
             "video_id": null,
@@ -1681,7 +1921,7 @@
     },
     {
         "pk": 131,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 10,
             "video_id": "",
@@ -1701,7 +1941,7 @@
     },
     {
         "pk": 139,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 10,
             "video_id": "",
@@ -1721,7 +1961,7 @@
     },
     {
         "pk": 136,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 10,
             "video_id": "",
@@ -1741,7 +1981,7 @@
     },
     {
         "pk": 177,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 5,
             "video_id": null,
@@ -1761,7 +2001,7 @@
     },
     {
         "pk": 140,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 10,
             "video_id": "",
@@ -1781,7 +2021,7 @@
     },
     {
         "pk": 135,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 10,
             "video_id": "",
@@ -1801,7 +2041,7 @@
     },
     {
         "pk": 108,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": "bSFp6WXyOU4",
@@ -1821,7 +2061,7 @@
     },
     {
         "pk": 40,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 5,
             "video_id": null,
@@ -1841,7 +2081,7 @@
     },
     {
         "pk": 148,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": "",
@@ -1861,7 +2101,7 @@
     },
     {
         "pk": 190,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 10,
             "video_id": null,
@@ -1881,7 +2121,7 @@
     },
     {
         "pk": 191,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 10,
             "video_id": null,
@@ -1901,7 +2141,7 @@
     },
     {
         "pk": 93,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": "",
@@ -1921,7 +2161,7 @@
     },
     {
         "pk": 94,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": "",
@@ -1941,7 +2181,7 @@
     },
     {
         "pk": 179,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": null,
@@ -1961,7 +2201,7 @@
     },
     {
         "pk": 86,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": "",
@@ -1981,7 +2221,7 @@
     },
     {
         "pk": 182,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": "",
@@ -2001,7 +2241,7 @@
     },
     {
         "pk": 155,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": null,
@@ -2021,7 +2261,7 @@
     },
     {
         "pk": 184,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": "",
@@ -2041,7 +2281,7 @@
     },
     {
         "pk": 185,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": "",
@@ -2061,7 +2301,7 @@
     },
     {
         "pk": 186,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": "",
@@ -2081,7 +2321,7 @@
     },
     {
         "pk": 187,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": "",
@@ -2101,7 +2341,7 @@
     },
     {
         "pk": 188,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": null,
@@ -2121,7 +2361,7 @@
     },
     {
         "pk": 147,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": "",
@@ -2141,7 +2381,7 @@
     },
     {
         "pk": 141,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": "",
@@ -2161,7 +2401,7 @@
     },
     {
         "pk": 142,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": "",
@@ -2181,7 +2421,7 @@
     },
     {
         "pk": 194,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 10,
             "video_id": null,
@@ -2201,7 +2441,7 @@
     },
     {
         "pk": 200,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 10,
             "video_id": null,
@@ -2221,7 +2461,7 @@
     },
     {
         "pk": 201,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 10,
             "video_id": null,
@@ -2241,7 +2481,7 @@
     },
     {
         "pk": 202,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 10,
             "video_id": null,
@@ -2261,7 +2501,7 @@
     },
     {
         "pk": 203,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 10,
             "video_id": null,
@@ -2281,7 +2521,7 @@
     },
     {
         "pk": 204,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": null,
@@ -2301,7 +2541,7 @@
     },
     {
         "pk": 206,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": "",
@@ -2321,7 +2561,7 @@
     },
     {
         "pk": 207,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 10,
             "video_id": null,
@@ -2341,7 +2581,7 @@
     },
     {
         "pk": 208,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": "",
@@ -2361,7 +2601,7 @@
     },
     {
         "pk": 209,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": "",
@@ -2381,7 +2621,7 @@
     },
     {
         "pk": 210,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": "",
@@ -2401,7 +2641,7 @@
     },
     {
         "pk": 211,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": null,
@@ -2421,7 +2661,7 @@
     },
     {
         "pk": 212,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": null,
@@ -2441,7 +2681,7 @@
     },
     {
         "pk": 213,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": null,
@@ -2461,7 +2701,7 @@
     },
     {
         "pk": 215,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 10,
             "video_id": null,
@@ -2481,7 +2721,7 @@
     },
     {
         "pk": 216,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 10,
             "video_id": null,
@@ -2501,7 +2741,7 @@
     },
     {
         "pk": 217,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 10,
             "video_id": null,
@@ -2521,7 +2761,7 @@
     },
     {
         "pk": 218,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 10,
             "video_id": null,
@@ -2541,7 +2781,7 @@
     },
     {
         "pk": 220,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": "",
@@ -2561,7 +2801,7 @@
     },
     {
         "pk": 221,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": "",
@@ -2581,7 +2821,7 @@
     },
     {
         "pk": 223,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": "",
@@ -2601,7 +2841,7 @@
     },
     {
         "pk": 226,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 10,
             "video_id": null,
@@ -2621,7 +2861,7 @@
     },
     {
         "pk": 227,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 10,
             "video_id": null,
@@ -2641,7 +2881,7 @@
     },
     {
         "pk": 228,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 10,
             "video_id": null,
@@ -2661,7 +2901,7 @@
     },
     {
         "pk": 229,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 10,
             "video_id": null,
@@ -2681,7 +2921,7 @@
     },
     {
         "pk": 231,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 5,
             "video_id": null,
@@ -2701,7 +2941,7 @@
     },
     {
         "pk": 232,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": "",
@@ -2721,7 +2961,7 @@
     },
     {
         "pk": 235,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 10,
             "video_id": null,
@@ -2741,7 +2981,7 @@
     },
     {
         "pk": 234,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": "",
@@ -2761,7 +3001,7 @@
     },
     {
         "pk": 236,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": "",
@@ -2781,7 +3021,7 @@
     },
     {
         "pk": 237,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": "",
@@ -2801,7 +3041,7 @@
     },
     {
         "pk": 242,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 10,
             "video_id": null,
@@ -2821,7 +3061,7 @@
     },
     {
         "pk": 243,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 10,
             "video_id": null,
@@ -2841,7 +3081,7 @@
     },
     {
         "pk": 244,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 10,
             "video_id": null,
@@ -2861,7 +3101,7 @@
     },
     {
         "pk": 245,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 10,
             "video_id": null,
@@ -2881,7 +3121,7 @@
     },
     {
         "pk": 246,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 10,
             "video_id": null,
@@ -2901,7 +3141,7 @@
     },
     {
         "pk": 247,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 10,
             "video_id": null,
@@ -2921,7 +3161,7 @@
     },
     {
         "pk": 248,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 10,
             "video_id": null,
@@ -2941,7 +3181,7 @@
     },
     {
         "pk": 88,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": null,
@@ -2961,7 +3201,7 @@
     },
     {
         "pk": 116,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": null,
@@ -2981,7 +3221,7 @@
     },
     {
         "pk": 143,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": null,
@@ -3001,7 +3241,7 @@
     },
     {
         "pk": 107,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": null,
@@ -3021,7 +3261,7 @@
     },
     {
         "pk": 14,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": "T37kNTkZCrA",
@@ -3041,7 +3281,7 @@
     },
     {
         "pk": 121,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": null,
@@ -3061,7 +3301,7 @@
     },
     {
         "pk": 117,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": null,
@@ -3081,7 +3321,7 @@
     },
     {
         "pk": 101,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": null,
@@ -3101,7 +3341,7 @@
     },
     {
         "pk": 151,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": null,
@@ -3121,7 +3361,7 @@
     },
     {
         "pk": 134,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 10,
             "video_id": null,
@@ -3141,7 +3381,7 @@
     },
     {
         "pk": 144,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": null,
@@ -3161,7 +3401,7 @@
     },
     {
         "pk": 87,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": null,
@@ -3181,7 +3421,7 @@
     },
     {
         "pk": 92,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": null,
@@ -3201,7 +3441,7 @@
     },
     {
         "pk": 10,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": null,
@@ -3221,7 +3461,7 @@
     },
     {
         "pk": 95,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": null,
@@ -3241,7 +3481,7 @@
     },
     {
         "pk": 145,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": null,
@@ -3261,7 +3501,7 @@
     },
     {
         "pk": 97,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": null,
@@ -3281,7 +3521,7 @@
     },
     {
         "pk": 146,
-        "model": "smartgrid.libraryaction",
+        "model": "smartgrid_library.libraryaction",
         "fields": {
             "social_bonus": 0,
             "video_id": null,
@@ -3298,5 +3538,2274 @@
             "unlock_condition": "True",
             "description": "As part of the Kukui Cup, we've tried to introduce you to other groups in the community that are interested in energy and sustainability. For this activity, you will find an event hosted by one of those groups, attend and tell us how it went. Here's a list of possible groups to check for events, but feel free to go beyond it:\r\n\r\n* [Student Organic Farm Training](http://www.ctahr.hawaii.edu/sustainag/soft/)\r\n* [Sustainable UH](http://sustainable.hawaii.edu/)\r\n* [Kanu Hawaii](http://www.kanuhawaii.org/)\r\n* [Sierra Club](http://www.sierraclubhawaii.com/)\r\n* [Cycle Manoa](http://cyclemanoa.org/)\r\n* Or check out [Honolulu Weekly's Green page](http://honoluluweekly.com/your-inbox/green.html)\r\n\r\nTake a picture of the meeting or event, and come back here to submit the picture and tell us what happened and what you learned."
         }
-    }
+    },
+    {
+        "pk": 14,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 5,
+            "point_range_end": null,
+            "confirm_type": "text",
+            "point_range_start": null,
+            "confirm_prompt": ""
+        }
+    },
+    {
+        "pk": 66,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 5,
+            "point_range_end": null,
+            "confirm_type": "text",
+            "point_range_start": null,
+            "confirm_prompt": ""
+        }
+    },
+    {
+        "pk": 2,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 5,
+            "point_range_end": null,
+            "confirm_type": "text",
+            "point_range_start": null,
+            "confirm_prompt": ""
+        }
+    },
+    {
+        "pk": 15,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 5,
+            "point_range_end": null,
+            "confirm_type": "text",
+            "point_range_start": null,
+            "confirm_prompt": ""
+        }
+    },
+    {
+        "pk": 8,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 5,
+            "point_range_end": null,
+            "confirm_type": "free",
+            "point_range_start": null,
+            "confirm_prompt": "Please tell us your name on Facebook (usually just your real name) so we can confirm that you Liked the page on Facebook."
+        }
+    },
+    {
+        "pk": 9,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 5,
+            "point_range_end": null,
+            "confirm_type": "free",
+            "point_range_start": null,
+            "confirm_prompt": "Please tell us your Twitter username so we can check out your tweet."
+        }
+    },
+    {
+        "pk": 80,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 60,
+            "point_range_end": 15,
+            "confirm_type": "image",
+            "point_range_start": 5,
+            "confirm_prompt": "Please upload the picture of your door art."
+        }
+    },
+    {
+        "pk": 129,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 5,
+            "point_range_end": null,
+            "confirm_type": "free",
+            "point_range_start": null,
+            "confirm_prompt": "Enter the Kukui Cup email address at least one person who used you for the referral bonus."
+        }
+    },
+    {
+        "pk": 85,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 90,
+            "point_range_end": null,
+            "confirm_type": "free",
+            "point_range_start": null,
+            "confirm_prompt": "Enter a list of the appliances in your room, your estimate of the energy each of them consume per day, and the total amount of energy your entire room uses per day (in watt-hours or kilowatt-hours)."
+        }
+    },
+    {
+        "pk": 11,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 15,
+            "point_range_end": null,
+            "confirm_type": "image",
+            "point_range_start": null,
+            "confirm_prompt": "Please upload the photo showing your labels on devices in your room."
+        }
+    },
+    {
+        "pk": 16,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 5,
+            "point_range_end": null,
+            "confirm_type": "text",
+            "point_range_start": null,
+            "confirm_prompt": ""
+        }
+    },
+    {
+        "pk": 65,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 15,
+            "point_range_end": null,
+            "confirm_type": "free",
+            "point_range_start": null,
+            "confirm_prompt": "Enter in the values you recorded for the volume of the container and the number of seconds it took to fill, and also your calculation of the flow rate in gallons per minute."
+        }
+    },
+    {
+        "pk": 7,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 10,
+            "point_range_end": null,
+            "confirm_type": "image",
+            "point_range_start": null,
+            "confirm_prompt": "Please upload the screenshot you took of your new, more energy efficient system settings."
+        }
+    },
+    {
+        "pk": 61,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 10,
+            "point_range_end": null,
+            "confirm_type": "free",
+            "point_range_start": null,
+            "confirm_prompt": "Please report on the following 3 things: is your lounge above or below the energy goal? by how much? name one activity that might help your lounge conserve energy."
+        }
+    },
+    {
+        "pk": 127,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 60,
+            "point_range_end": null,
+            "confirm_type": "free",
+            "point_range_start": null,
+            "confirm_prompt": "Tell us your Flickr name so we can confirm your upload to the group."
+        }
+    },
+    {
+        "pk": 18,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 5,
+            "point_range_end": null,
+            "confirm_type": "text",
+            "point_range_start": null,
+            "confirm_prompt": ""
+        }
+    },
+    {
+        "pk": 78,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 5,
+            "point_range_end": null,
+            "confirm_type": "text",
+            "point_range_start": null,
+            "confirm_prompt": ""
+        }
+    },
+    {
+        "pk": 91,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 5,
+            "point_range_end": null,
+            "confirm_type": "text",
+            "point_range_start": null,
+            "confirm_prompt": ""
+        }
+    },
+    {
+        "pk": 77,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 5,
+            "point_range_end": null,
+            "confirm_type": "text",
+            "point_range_start": null,
+            "confirm_prompt": ""
+        }
+    },
+    {
+        "pk": 137,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 240,
+            "point_range_end": 50,
+            "confirm_type": "free",
+            "point_range_start": 5,
+            "confirm_prompt": "Give us a link to your photo blog."
+        }
+    },
+    {
+        "pk": 118,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 15,
+            "point_range_end": null,
+            "confirm_type": "free",
+            "point_range_start": null,
+            "confirm_prompt": "Enter in the values you recorded for the volume of the container and the number of seconds it took to fill, and also your calculation of the flow rate in gallons per minute."
+        }
+    },
+    {
+        "pk": 109,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 120,
+            "point_range_end": null,
+            "confirm_type": "free_image",
+            "point_range_start": null,
+            "confirm_prompt": "Please describe your no impact date and what you did. Upload a photo of you and your friend doing one of the activities together."
+        }
+    },
+    {
+        "pk": 57,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 5,
+            "point_range_end": null,
+            "confirm_type": "text",
+            "point_range_start": null,
+            "confirm_prompt": ""
+        }
+    },
+    {
+        "pk": 132,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 60,
+            "point_range_end": 50,
+            "confirm_type": "free",
+            "point_range_start": 5,
+            "confirm_prompt": "Please type or paste your poem below"
+        }
+    },
+    {
+        "pk": 21,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 15,
+            "point_range_end": null,
+            "confirm_type": "free",
+            "point_range_start": null,
+            "confirm_prompt": "Enter the name of each of the 5 devices you measured and both the on and off power use values below."
+        }
+    },
+    {
+        "pk": 128,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 120,
+            "point_range_end": 45,
+            "confirm_type": "free",
+            "point_range_start": 5,
+            "confirm_prompt": "Give us a link to your Flickr account so we can verify your uploads"
+        }
+    },
+    {
+        "pk": 96,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 15,
+            "point_range_end": null,
+            "confirm_type": "free",
+            "point_range_start": null,
+            "confirm_prompt": "Type anything below (because our system won't allow a blank answer) to get your points."
+        }
+    },
+    {
+        "pk": 4,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 10,
+            "point_range_end": null,
+            "confirm_type": "image",
+            "point_range_start": null,
+            "confirm_prompt": "Please upload the photo you took, showing both the incandescent bulb you replaced and the CFL you installed."
+        }
+    },
+    {
+        "pk": 133,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 120,
+            "point_range_end": 50,
+            "confirm_type": "free",
+            "point_range_start": 5,
+            "confirm_prompt": "Please tell us what publication you sent your letter to, and paste the contents of the letter."
+        }
+    },
+    {
+        "pk": 138,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 360,
+            "point_range_end": 50,
+            "confirm_type": "free",
+            "point_range_start": 5,
+            "confirm_prompt": "Tell us about the art you created, and upload an image of it."
+        }
+    },
+    {
+        "pk": 99,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 5,
+            "point_range_end": null,
+            "confirm_type": "text",
+            "point_range_start": null,
+            "confirm_prompt": ""
+        }
+    },
+    {
+        "pk": 26,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 5,
+            "point_range_end": null,
+            "confirm_type": "text",
+            "point_range_start": null,
+            "confirm_prompt": ""
+        }
+    },
+    {
+        "pk": 22,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 5,
+            "point_range_end": null,
+            "confirm_type": "text",
+            "point_range_start": null,
+            "confirm_prompt": ""
+        }
+    },
+    {
+        "pk": 131,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 60,
+            "point_range_end": 50,
+            "confirm_type": "free_image",
+            "point_range_start": 5,
+            "confirm_prompt": "Tell us about your concept for the window art, and upload a nice picture of it."
+        }
+    },
+    {
+        "pk": 139,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 120,
+            "point_range_end": 50,
+            "confirm_type": "image",
+            "point_range_start": 5,
+            "confirm_prompt": "Provide us with an image of your design, preferably in JPEG, PDF, or PNG formats."
+        }
+    },
+    {
+        "pk": 136,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 240,
+            "point_range_end": 50,
+            "confirm_type": "free",
+            "point_range_start": 5,
+            "confirm_prompt": "Paste your interview below, or provide us with a link to the results of your hard work."
+        }
+    },
+    {
+        "pk": 140,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 480,
+            "point_range_end": 50,
+            "confirm_type": "free",
+            "point_range_start": 5,
+            "confirm_prompt": "Tell us about what you did, and/or provide us with a link to the results of your hard work."
+        }
+    },
+    {
+        "pk": 135,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 240,
+            "point_range_end": 50,
+            "confirm_type": "free",
+            "point_range_start": 5,
+            "confirm_prompt": "Tell us about the song you wrote, and provide us the song or a link to the results of your hard work."
+        }
+    },
+    {
+        "pk": 108,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 6,
+            "point_range_end": null,
+            "confirm_type": "text",
+            "point_range_start": null,
+            "confirm_prompt": ""
+        }
+    },
+    {
+        "pk": 93,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 15,
+            "point_range_end": null,
+            "confirm_type": "text",
+            "point_range_start": null,
+            "confirm_prompt": ""
+        }
+    },
+    {
+        "pk": 94,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 15,
+            "point_range_end": null,
+            "confirm_type": "text",
+            "point_range_start": null,
+            "confirm_prompt": ""
+        }
+    },
+    {
+        "pk": 134,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 240,
+            "point_range_end": 50,
+            "confirm_type": "free",
+            "point_range_start": 5,
+            "confirm_prompt": "Send us a link to your video."
+        }
+    },
+    {
+        "pk": 86,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 15,
+            "point_range_end": null,
+            "confirm_type": "text",
+            "point_range_start": null,
+            "confirm_prompt": ""
+        }
+    },
+    {
+        "pk": 182,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 480,
+            "point_range_end": 50,
+            "confirm_type": "free",
+            "point_range_start": 5,
+            "confirm_prompt": "Tell us about what you did, and/or provide us with a link to the results of your hard work."
+        }
+    },
+    {
+        "pk": 184,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 30,
+            "point_range_end": null,
+            "confirm_type": "text",
+            "point_range_start": null,
+            "confirm_prompt": ""
+        }
+    },
+    {
+        "pk": 185,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 480,
+            "point_range_end": 50,
+            "confirm_type": "text",
+            "point_range_start": 5,
+            "confirm_prompt": ""
+        }
+    },
+    {
+        "pk": 186,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 480,
+            "point_range_end": 50,
+            "confirm_type": "text",
+            "point_range_start": 5,
+            "confirm_prompt": ""
+        }
+    },
+    {
+        "pk": 187,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 480,
+            "point_range_end": 50,
+            "confirm_type": "text",
+            "point_range_start": 5,
+            "confirm_prompt": ""
+        }
+    },
+    {
+        "pk": 147,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 15,
+            "point_range_end": null,
+            "confirm_type": "free",
+            "point_range_start": null,
+            "confirm_prompt": "Answer these questions:\r\n1. What interesting differences do you notice in energy use when looking at the 3 different timescales?\r\n2. What how different are the graphs of power and energy?\r\n3. Pick 2 lounges and compare their energy use across 2 different time scales.\r\n4. What are your thoughts on this visualization? What are its strengths and weaknesses?"
+        }
+    },
+    {
+        "pk": 141,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 15,
+            "point_range_end": null,
+            "confirm_type": "free",
+            "point_range_start": null,
+            "confirm_prompt": "Answer the following questions:\r\n\r\n1. What hours of the day seem to have the highest energy use? How does that compare to your own energy use patterns?\r\n2. What differences in energy use do you notice between lounges?\r\n3. What are your thoughts on this visualization? What are its strengths and weaknesses?\r\n"
+        }
+    },
+    {
+        "pk": 148,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 15,
+            "point_range_end": null,
+            "confirm_type": "free",
+            "point_range_start": null,
+            "confirm_prompt": "Answer the following questions:\r\n1. Compare the lounges in your tower. How does their power usage compare right now?\r\n2. Pick a particular lounge letter and compare that lounge across the other towers. How does the power consumption differ?\r\n3. What are your thoughts on this visualization? What are its strengths and weaknesses?"
+        }
+    },
+    {
+        "pk": 142,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 15,
+            "point_range_end": null,
+            "confirm_type": "free",
+            "point_range_start": null,
+            "confirm_prompt": "Answer the following questions:\r\n\r\n1. What patterns do you see in the data?\r\n2. Do you notice any spatial patterns?\r\n3. What are your thoughts on this visualization? What are its strengths and weaknesses?"
+        }
+    },
+    {
+        "pk": 150,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 60,
+            "point_range_end": null,
+            "confirm_type": "image",
+            "point_range_start": null,
+            "confirm_prompt": "Upload the screen shot of the energy city game that shows you are playing the game."
+        }
+    },
+    {
+        "pk": 196,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 360,
+            "point_range_end": null,
+            "confirm_type": "text",
+            "point_range_start": null,
+            "confirm_prompt": ""
+        }
+    },
+    {
+        "pk": 197,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 120,
+            "point_range_end": 50,
+            "confirm_type": "text",
+            "point_range_start": 5,
+            "confirm_prompt": ""
+        }
+    },
+    {
+        "pk": 198,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 120,
+            "point_range_end": 50,
+            "confirm_type": "text",
+            "point_range_start": 5,
+            "confirm_prompt": ""
+        }
+    },
+    {
+        "pk": 199,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 120,
+            "point_range_end": 50,
+            "confirm_type": "text",
+            "point_range_start": 5,
+            "confirm_prompt": ""
+        }
+    },
+    {
+        "pk": 206,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 480,
+            "point_range_end": 50,
+            "confirm_type": "text",
+            "point_range_start": 5,
+            "confirm_prompt": ""
+        }
+    },
+    {
+        "pk": 208,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 480,
+            "point_range_end": 50,
+            "confirm_type": "text",
+            "point_range_start": 5,
+            "confirm_prompt": ""
+        }
+    },
+    {
+        "pk": 209,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 480,
+            "point_range_end": 50,
+            "confirm_type": "text",
+            "point_range_start": 5,
+            "confirm_prompt": ""
+        }
+    },
+    {
+        "pk": 210,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 480,
+            "point_range_end": 50,
+            "confirm_type": "text",
+            "point_range_start": 5,
+            "confirm_prompt": ""
+        }
+    },
+    {
+        "pk": 220,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 120,
+            "point_range_end": 50,
+            "confirm_type": "free",
+            "point_range_start": 5,
+            "confirm_prompt": "Send us a copy of your letter."
+        }
+    },
+    {
+        "pk": 221,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 120,
+            "point_range_end": 50,
+            "confirm_type": "free",
+            "point_range_start": 5,
+            "confirm_prompt": "List the energy hogs."
+        }
+    },
+    {
+        "pk": 223,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 480,
+            "point_range_end": 50,
+            "confirm_type": "free",
+            "point_range_start": 5,
+            "confirm_prompt": "Mutiple University Sustainability"
+        }
+    },
+    {
+        "pk": 232,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 480,
+            "point_range_end": 50,
+            "confirm_type": "free",
+            "point_range_start": 5,
+            "confirm_prompt": "Upload your video"
+        }
+    },
+    {
+        "pk": 234,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 480,
+            "point_range_end": 50,
+            "confirm_type": "free",
+            "point_range_start": 5,
+            "confirm_prompt": "DIY Workshop 3"
+        }
+    },
+    {
+        "pk": 236,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 480,
+            "point_range_end": 50,
+            "confirm_type": "free",
+            "point_range_start": 5,
+            "confirm_prompt": "DIY Sustain Game 2"
+        }
+    },
+    {
+        "pk": 237,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 480,
+            "point_range_end": 50,
+            "confirm_type": "free",
+            "point_range_start": 5,
+            "confirm_prompt": "Course Proj S13 2"
+        }
+    },
+    {
+        "pk": 238,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 480,
+            "point_range_end": 50,
+            "confirm_type": "free",
+            "point_range_start": 5,
+            "confirm_prompt": "Sust Class F13"
+        }
+    },
+    {
+        "pk": 88,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 15,
+            "point_range_end": null,
+            "confirm_type": "text",
+            "point_range_start": null,
+            "confirm_prompt": ""
+        }
+    },
+    {
+        "pk": 143,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 120,
+            "point_range_end": 50,
+            "confirm_type": "free",
+            "point_range_start": 5,
+            "confirm_prompt": "Provide us a list of the places you found energy being wasted on campus, and your suggestion on how to stop each one."
+        }
+    },
+    {
+        "pk": 116,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 5,
+            "point_range_end": null,
+            "confirm_type": "text",
+            "point_range_start": null,
+            "confirm_prompt": ""
+        }
+    },
+    {
+        "pk": 107,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 15,
+            "point_range_end": null,
+            "confirm_type": "text",
+            "point_range_start": null,
+            "confirm_prompt": ""
+        }
+    },
+    {
+        "pk": 121,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 15,
+            "point_range_end": null,
+            "confirm_type": "text",
+            "point_range_start": null,
+            "confirm_prompt": ""
+        }
+    },
+    {
+        "pk": 117,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 15,
+            "point_range_end": null,
+            "confirm_type": "text",
+            "point_range_start": null,
+            "confirm_prompt": ""
+        }
+    },
+    {
+        "pk": 101,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 15,
+            "point_range_end": null,
+            "confirm_type": "text",
+            "point_range_start": null,
+            "confirm_prompt": ""
+        }
+    },
+    {
+        "pk": 92,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 5,
+            "point_range_end": null,
+            "confirm_type": "text",
+            "point_range_start": null,
+            "confirm_prompt": ""
+        }
+    },
+    {
+        "pk": 87,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 15,
+            "point_range_end": null,
+            "confirm_type": "text",
+            "point_range_start": null,
+            "confirm_prompt": ""
+        }
+    },
+    {
+        "pk": 10,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 5,
+            "point_range_end": null,
+            "confirm_type": "free",
+            "point_range_start": null,
+            "confirm_prompt": "Please paste the URL of your Google+ profile."
+        }
+    },
+    {
+        "pk": 95,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 15,
+            "point_range_end": null,
+            "confirm_type": "text",
+            "point_range_start": null,
+            "confirm_prompt": ""
+        }
+    },
+    {
+        "pk": 145,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 240,
+            "point_range_end": 50,
+            "confirm_type": "free",
+            "point_range_start": 15,
+            "confirm_prompt": "Tell us: which lounge you decided to help out, who you spoke to there, what you did, and how much energy you think you are helping them to save."
+        }
+    },
+    {
+        "pk": 146,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 180,
+            "point_range_end": null,
+            "confirm_type": "free",
+            "point_range_start": null,
+            "confirm_prompt": "Foo"
+        }
+    },
+    {
+        "pk": 144,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 120,
+            "point_range_end": null,
+            "confirm_type": "free",
+            "point_range_start": null,
+            "confirm_prompt": "Submit the results of your energy comparison across families. What have you learned?"
+        }
+    },
+    {
+        "pk": 97,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "duration": 15,
+            "point_range_end": null,
+            "confirm_type": "text",
+            "point_range_start": null,
+            "confirm_prompt": ""
+        }
+    },
+    {
+        "pk": 31,
+        "model": "smartgrid_library.librarycommitment",
+        "fields": {
+            "duration": 1
+        }
+    },
+    {
+        "pk": 32,
+        "model": "smartgrid_library.librarycommitment",
+        "fields": {
+            "duration": 1
+        }
+    },
+    {
+        "pk": 36,
+        "model": "smartgrid_library.librarycommitment",
+        "fields": {
+            "duration": 1
+        }
+    },
+    {
+        "pk": 38,
+        "model": "smartgrid_library.librarycommitment",
+        "fields": {
+            "duration": 1
+        }
+    },
+    {
+        "pk": 34,
+        "model": "smartgrid_library.librarycommitment",
+        "fields": {
+            "duration": 1
+        }
+    },
+    {
+        "pk": 49,
+        "model": "smartgrid_library.librarycommitment",
+        "fields": {
+            "duration": 1
+        }
+    },
+    {
+        "pk": 48,
+        "model": "smartgrid_library.librarycommitment",
+        "fields": {
+            "duration": 1
+        }
+    },
+    {
+        "pk": 50,
+        "model": "smartgrid_library.librarycommitment",
+        "fields": {
+            "duration": 1
+        }
+    },
+    {
+        "pk": 46,
+        "model": "smartgrid_library.librarycommitment",
+        "fields": {
+            "duration": 1
+        }
+    },
+    {
+        "pk": 74,
+        "model": "smartgrid_library.librarycommitment",
+        "fields": {
+            "duration": 1
+        }
+    },
+    {
+        "pk": 30,
+        "model": "smartgrid_library.librarycommitment",
+        "fields": {
+            "duration": 1
+        }
+    },
+    {
+        "pk": 79,
+        "model": "smartgrid_library.librarycommitment",
+        "fields": {
+            "duration": 1
+        }
+    },
+    {
+        "pk": 39,
+        "model": "smartgrid_library.librarycommitment",
+        "fields": {
+            "duration": 1
+        }
+    },
+    {
+        "pk": 45,
+        "model": "smartgrid_library.librarycommitment",
+        "fields": {
+            "duration": 1
+        }
+    },
+    {
+        "pk": 37,
+        "model": "smartgrid_library.librarycommitment",
+        "fields": {
+            "duration": 1
+        }
+    },
+    {
+        "pk": 33,
+        "model": "smartgrid_library.librarycommitment",
+        "fields": {
+            "duration": 1
+        }
+    },
+    {
+        "pk": 41,
+        "model": "smartgrid_library.librarycommitment",
+        "fields": {
+            "duration": 1
+        }
+    },
+    {
+        "pk": 35,
+        "model": "smartgrid_library.librarycommitment",
+        "fields": {
+            "duration": 1
+        }
+    },
+    {
+        "pk": 42,
+        "model": "smartgrid_library.librarycommitment",
+        "fields": {
+            "duration": 1
+        }
+    },
+    {
+        "pk": 44,
+        "model": "smartgrid_library.librarycommitment",
+        "fields": {
+            "duration": 1
+        }
+    },
+    {
+        "pk": 177,
+        "model": "smartgrid_library.librarycommitment",
+        "fields": {
+            "duration": 5
+        }
+    },
+    {
+        "pk": 40,
+        "model": "smartgrid_library.librarycommitment",
+        "fields": {
+            "duration": 1
+        }
+    },
+    {
+        "pk": 205,
+        "model": "smartgrid_library.librarycommitment",
+        "fields": {
+            "duration": 5
+        }
+    },
+    {
+        "pk": 231,
+        "model": "smartgrid_library.librarycommitment",
+        "fields": {
+            "duration": 5
+        }
+    },
+    {
+        "pk": 156,
+        "model": "smartgrid_library.libraryevent",
+        "fields": {
+            "duration": 30,
+            "is_excursion": false
+        }
+    },
+    {
+        "pk": 157,
+        "model": "smartgrid_library.libraryevent",
+        "fields": {
+            "duration": 30,
+            "is_excursion": false
+        }
+    },
+    {
+        "pk": 158,
+        "model": "smartgrid_library.libraryevent",
+        "fields": {
+            "duration": 120,
+            "is_excursion": false
+        }
+    },
+    {
+        "pk": 159,
+        "model": "smartgrid_library.libraryevent",
+        "fields": {
+            "duration": 30,
+            "is_excursion": false
+        }
+    },
+    {
+        "pk": 160,
+        "model": "smartgrid_library.libraryevent",
+        "fields": {
+            "duration": 30,
+            "is_excursion": false
+        }
+    },
+    {
+        "pk": 161,
+        "model": "smartgrid_library.libraryevent",
+        "fields": {
+            "duration": 30,
+            "is_excursion": false
+        }
+    },
+    {
+        "pk": 162,
+        "model": "smartgrid_library.libraryevent",
+        "fields": {
+            "duration": 30,
+            "is_excursion": false
+        }
+    },
+    {
+        "pk": 163,
+        "model": "smartgrid_library.libraryevent",
+        "fields": {
+            "duration": 30,
+            "is_excursion": false
+        }
+    },
+    {
+        "pk": 164,
+        "model": "smartgrid_library.libraryevent",
+        "fields": {
+            "duration": 30,
+            "is_excursion": false
+        }
+    },
+    {
+        "pk": 165,
+        "model": "smartgrid_library.libraryevent",
+        "fields": {
+            "duration": 60,
+            "is_excursion": false
+        }
+    },
+    {
+        "pk": 166,
+        "model": "smartgrid_library.libraryevent",
+        "fields": {
+            "duration": 120,
+            "is_excursion": true
+        }
+    },
+    {
+        "pk": 167,
+        "model": "smartgrid_library.libraryevent",
+        "fields": {
+            "duration": 30,
+            "is_excursion": false
+        }
+    },
+    {
+        "pk": 169,
+        "model": "smartgrid_library.libraryevent",
+        "fields": {
+            "duration": 30,
+            "is_excursion": false
+        }
+    },
+    {
+        "pk": 170,
+        "model": "smartgrid_library.libraryevent",
+        "fields": {
+            "duration": 30,
+            "is_excursion": false
+        }
+    },
+    {
+        "pk": 171,
+        "model": "smartgrid_library.libraryevent",
+        "fields": {
+            "duration": 30,
+            "is_excursion": false
+        }
+    },
+    {
+        "pk": 172,
+        "model": "smartgrid_library.libraryevent",
+        "fields": {
+            "duration": 30,
+            "is_excursion": false
+        }
+    },
+    {
+        "pk": 173,
+        "model": "smartgrid_library.libraryevent",
+        "fields": {
+            "duration": 60,
+            "is_excursion": true
+        }
+    },
+    {
+        "pk": 174,
+        "model": "smartgrid_library.libraryevent",
+        "fields": {
+            "duration": 30,
+            "is_excursion": false
+        }
+    },
+    {
+        "pk": 175,
+        "model": "smartgrid_library.libraryevent",
+        "fields": {
+            "duration": 30,
+            "is_excursion": false
+        }
+    },
+    {
+        "pk": 189,
+        "model": "smartgrid_library.libraryevent",
+        "fields": {
+            "duration": 120,
+            "is_excursion": false
+        }
+    },
+    {
+        "pk": 190,
+        "model": "smartgrid_library.libraryevent",
+        "fields": {
+            "duration": 120,
+            "is_excursion": false
+        }
+    },
+    {
+        "pk": 191,
+        "model": "smartgrid_library.libraryevent",
+        "fields": {
+            "duration": 120,
+            "is_excursion": false
+        }
+    },
+    {
+        "pk": 192,
+        "model": "smartgrid_library.libraryevent",
+        "fields": {
+            "duration": 120,
+            "is_excursion": false
+        }
+    },
+    {
+        "pk": 194,
+        "model": "smartgrid_library.libraryevent",
+        "fields": {
+            "duration": 480,
+            "is_excursion": true
+        }
+    },
+    {
+        "pk": 200,
+        "model": "smartgrid_library.libraryevent",
+        "fields": {
+            "duration": 120,
+            "is_excursion": false
+        }
+    },
+    {
+        "pk": 201,
+        "model": "smartgrid_library.libraryevent",
+        "fields": {
+            "duration": 120,
+            "is_excursion": false
+        }
+    },
+    {
+        "pk": 202,
+        "model": "smartgrid_library.libraryevent",
+        "fields": {
+            "duration": 120,
+            "is_excursion": false
+        }
+    },
+    {
+        "pk": 203,
+        "model": "smartgrid_library.libraryevent",
+        "fields": {
+            "duration": 120,
+            "is_excursion": false
+        }
+    },
+    {
+        "pk": 207,
+        "model": "smartgrid_library.libraryevent",
+        "fields": {
+            "duration": 480,
+            "is_excursion": true
+        }
+    },
+    {
+        "pk": 215,
+        "model": "smartgrid_library.libraryevent",
+        "fields": {
+            "duration": 120,
+            "is_excursion": false
+        }
+    },
+    {
+        "pk": 216,
+        "model": "smartgrid_library.libraryevent",
+        "fields": {
+            "duration": 120,
+            "is_excursion": false
+        }
+    },
+    {
+        "pk": 217,
+        "model": "smartgrid_library.libraryevent",
+        "fields": {
+            "duration": 120,
+            "is_excursion": false
+        }
+    },
+    {
+        "pk": 218,
+        "model": "smartgrid_library.libraryevent",
+        "fields": {
+            "duration": 120,
+            "is_excursion": false
+        }
+    },
+    {
+        "pk": 226,
+        "model": "smartgrid_library.libraryevent",
+        "fields": {
+            "duration": 120,
+            "is_excursion": false
+        }
+    },
+    {
+        "pk": 227,
+        "model": "smartgrid_library.libraryevent",
+        "fields": {
+            "duration": 120,
+            "is_excursion": false
+        }
+    },
+    {
+        "pk": 228,
+        "model": "smartgrid_library.libraryevent",
+        "fields": {
+            "duration": 120,
+            "is_excursion": false
+        }
+    },
+    {
+        "pk": 229,
+        "model": "smartgrid_library.libraryevent",
+        "fields": {
+            "duration": 120,
+            "is_excursion": false
+        }
+    },
+    {
+        "pk": 235,
+        "model": "smartgrid_library.libraryevent",
+        "fields": {
+            "duration": 480,
+            "is_excursion": true
+        }
+    },
+    {
+        "pk": 242,
+        "model": "smartgrid_library.libraryevent",
+        "fields": {
+            "duration": 120,
+            "is_excursion": false
+        }
+    },
+    {
+        "pk": 243,
+        "model": "smartgrid_library.libraryevent",
+        "fields": {
+            "duration": 120,
+            "is_excursion": false
+        }
+    },
+    {
+        "pk": 244,
+        "model": "smartgrid_library.libraryevent",
+        "fields": {
+            "duration": 120,
+            "is_excursion": false
+        }
+    },
+    {
+        "pk": 245,
+        "model": "smartgrid_library.libraryevent",
+        "fields": {
+            "duration": 120,
+            "is_excursion": false
+        }
+    },
+    {
+        "pk": 246,
+        "model": "smartgrid_library.libraryevent",
+        "fields": {
+            "duration": 120,
+            "is_excursion": false
+        }
+    },
+    {
+        "pk": 247,
+        "model": "smartgrid_library.libraryevent",
+        "fields": {
+            "duration": 120,
+            "is_excursion": false
+        }
+    },
+    {
+        "pk": 248,
+        "model": "smartgrid_library.libraryevent",
+        "fields": {
+            "duration": 120,
+            "is_excursion": false
+        }
+    },
+    {
+        "pk": 249,
+        "model": "smartgrid_library.libraryevent",
+        "fields": {
+            "duration": 120,
+            "is_excursion": false
+        }
+    },
+    {
+        "pk": 151,
+        "model": "smartgrid_library.libraryevent",
+        "fields": {
+            "duration": 1,
+            "is_excursion": false
+        }
+    },
+    {
+        "pk": 44,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 2,
+            "answer": "kilowatt-hour",
+            "question": "What is the unit of measurement for household energy?"
+        }
+    },
+    {
+        "pk": 45,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 2,
+            "answer": "watt",
+            "question": "What is the unit of measurement for power?"
+        }
+    },
+    {
+        "pk": 46,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 22,
+            "answer": "Heat, light",
+            "question": "What are the two things the sun provides?"
+        }
+    },
+    {
+        "pk": 47,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 22,
+            "answer": "Ability to run power meter forwards or backwards",
+            "question": "What is net metering?"
+        }
+    },
+    {
+        "pk": 48,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 57,
+            "answer": "reuse containers, bring your own container, use reusable bags, etc",
+            "question": "Name one way you can reduce the amount of trash you produce"
+        }
+    },
+    {
+        "pk": 49,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 2,
+            "answer": "power",
+            "question": "What concept in electricity is like a car's speedometer?"
+        }
+    },
+    {
+        "pk": 50,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 2,
+            "answer": "energy",
+            "question": "What concept in electricity is like a car's odometer?"
+        }
+    },
+    {
+        "pk": 51,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 18,
+            "answer": "higher prices, climate change, lost beaches",
+            "question": "What might be some consequences of failing to make changes in Hawaii's current energy generation?"
+        }
+    },
+    {
+        "pk": 52,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 22,
+            "answer": "doesn't work at night, or when very cloudy",
+            "question": "What is one limitation of solar power?"
+        }
+    },
+    {
+        "pk": 53,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 26,
+            "answer": "less fresh water, less beach, more drought, more floods, more coral bleaching",
+            "question": "What is one expected impact of climate change in Hawaii?"
+        }
+    },
+    {
+        "pk": 54,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 26,
+            "answer": "reduce it, get it under 350 ppm",
+            "question": "What should we do about carbon dioxide?"
+        }
+    },
+    {
+        "pk": 55,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 26,
+            "answer": "Reduce our energy use, reduce energy footprint",
+            "question": "How can we in Hawaii reduce our carbon footprint?"
+        }
+    },
+    {
+        "pk": 56,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 14,
+            "answer": "90%",
+            "question": "How much of Hawaii's energy comes from oil?"
+        }
+    },
+    {
+        "pk": 57,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 18,
+            "answer": "anything reasonable",
+            "question": "What did you learn from the video?"
+        }
+    },
+    {
+        "pk": 58,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 14,
+            "answer": "Hale Aloha dorms, or Lehua, Ilima, Mokihana, and Lokelani",
+            "question": "Where is the Kukui Cup taking place?"
+        }
+    },
+    {
+        "pk": 59,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 14,
+            "answer": "freshmen, first-year students, residents of Hale Aloha",
+            "question": "What students can participate?"
+        }
+    },
+    {
+        "pk": 60,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 15,
+            "answer": "200 W",
+            "question": "How much power does a game console use?"
+        }
+    },
+    {
+        "pk": 61,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 15,
+            "answer": "1000+ W",
+            "question": "How much does power a microwave use?"
+        }
+    },
+    {
+        "pk": 62,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 15,
+            "answer": "175-200 W",
+            "question": "How much power does a solar panel generate?"
+        }
+    },
+    {
+        "pk": 63,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 15,
+            "answer": "3 Wh",
+            "question": "How much energy is in a AA battery?"
+        }
+    },
+    {
+        "pk": 64,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 15,
+            "answer": "1 kWh",
+            "question": "How much energy does a solar panel generate per day?"
+        }
+    },
+    {
+        "pk": 65,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 15,
+            "answer": "1500 kWh",
+            "question": "How much energy does a Hale Aloha tower use per day?"
+        }
+    },
+    {
+        "pk": 66,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 15,
+            "answer": "$0.20-$0.30",
+            "question": "How much does a kilowatt-hour cost in Hawaii?"
+        }
+    },
+    {
+        "pk": 67,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 57,
+            "answer": "a power plant that turns some of Hawaii's waste into energy",
+            "question": "What is H-POWER?"
+        }
+    },
+    {
+        "pk": 68,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 57,
+            "answer": "60%",
+            "question": "What percentage of our trash does H-POWER convert into energy?"
+        }
+    },
+    {
+        "pk": 69,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 57,
+            "answer": "prevent/reduce, reuse, recycle",
+            "question": "What are the three components of the trash pyramid?"
+        }
+    },
+    {
+        "pk": 70,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 16,
+            "answer": "hair dryer",
+            "question": "Which device uses the most power: mobile phone, laptop, or hair dryer?"
+        }
+    },
+    {
+        "pk": 71,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 78,
+            "answer": "so many types available, easier for renewables to be price competitive here",
+            "question": "What is one reason renewable power has great potential in Hawaii?"
+        }
+    },
+    {
+        "pk": 72,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 78,
+            "answer": "oil",
+            "question": "What is the main source of energy in Hawaii?"
+        }
+    },
+    {
+        "pk": 73,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 77,
+            "answer": "turning off lights, using sunlight",
+            "question": "What is one way to reduce energy use from lighting?"
+        }
+    },
+    {
+        "pk": 74,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 77,
+            "answer": "CFL",
+            "question": "Which light source uses more power, compact fluorescent (CFL) or LED?"
+        }
+    },
+    {
+        "pk": 75,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 77,
+            "answer": "incandescent",
+            "question": "Which light source uses more power, incandescent or compact fluorescent (CFL)?"
+        }
+    },
+    {
+        "pk": 76,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 16,
+            "answer": "vampire power, devices can use energy when powered off",
+            "question": "Why would we measure the power drawn by a device that is off?"
+        }
+    },
+    {
+        "pk": 77,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 66,
+            "answer": "Points and Lounge energy consumption",
+            "question": "What are the two ways to \"keep score\" in the Kukui Cup?"
+        }
+    },
+    {
+        "pk": 78,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 66,
+            "answer": "Accumulate kukui cup points",
+            "question": "How do you earn raffle tickets?"
+        }
+    },
+    {
+        "pk": 79,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 66,
+            "answer": "5",
+            "question": "How many commitments can you have at one time?"
+        }
+    },
+    {
+        "pk": 80,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 78,
+            "answer": "no interconnection, small grids, expensive raw materials",
+            "question": "What is one reason why energy costs more in Hawaii?"
+        }
+    },
+    {
+        "pk": 81,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 86,
+            "answer": "The rate at which energy is being used.",
+            "question": "What is power?"
+        }
+    },
+    {
+        "pk": 82,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 87,
+            "answer": "About 1.",
+            "question": "How many solar panels would be needed to power an XBox?"
+        }
+    },
+    {
+        "pk": 83,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 88,
+            "answer": "LED",
+            "question": "If you were a chocolate bunny, would you want to live under an incandescent light or an LED light?"
+        }
+    },
+    {
+        "pk": 84,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 91,
+            "answer": "70%",
+            "question": "According to the HCEI, what percentage of our energy should come from clean sources by 2030?"
+        }
+    },
+    {
+        "pk": 85,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 92,
+            "answer": "bar",
+            "question": "Foo"
+        }
+    },
+    {
+        "pk": 86,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 93,
+            "answer": "They are intermittent, we need power even when it's dark and not windy.",
+            "question": "Why can't solar or wind power supply all of Hawaii's energy needs?"
+        }
+    },
+    {
+        "pk": 87,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 94,
+            "answer": "$0.30",
+            "question": "What is the approximate cost of a kilowatt-hour of electricity on Oahu?"
+        }
+    },
+    {
+        "pk": 88,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 95,
+            "answer": "wind",
+            "question": "What clean energy project is occurring in Kahuku?"
+        }
+    },
+    {
+        "pk": 89,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 97,
+            "answer": "The sun's rays get focused on water, turning it to steam to turn a turbine",
+            "question": "How does a solar thermal electric plant convert sunlight to energy?"
+        }
+    },
+    {
+        "pk": 90,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 99,
+            "answer": "60%",
+            "question": "What percentage of Hawaii's energy is used for transportation?"
+        }
+    },
+    {
+        "pk": 91,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 101,
+            "answer": "PHEV adds electric motor and batteries that can be charged by plugging in",
+            "question": "Briefly, what are the differences between a conventional car and a plug-in hybrid?"
+        }
+    },
+    {
+        "pk": 92,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 107,
+            "answer": "90%",
+            "question": "How much does H-POWER reduce the volume of the opala it processes?"
+        }
+    },
+    {
+        "pk": 93,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 116,
+            "answer": "bar",
+            "question": "Foo"
+        }
+    },
+    {
+        "pk": 94,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 117,
+            "answer": "Bar",
+            "question": "Foo"
+        }
+    },
+    {
+        "pk": 95,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 121,
+            "answer": "50 feet",
+            "question": "If sea levels rise by six inches, how many feet of beach will be lost?"
+        }
+    },
+    {
+        "pk": 96,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 86,
+            "answer": "Power is the rate at which energy is used.",
+            "question": "What is the relationship between power and energy?"
+        }
+    },
+    {
+        "pk": 97,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 87,
+            "answer": "gone down",
+            "question": "Has Hawaii's oil consumption gone up, down, or stayed the same over the past five years? Why?"
+        }
+    },
+    {
+        "pk": 98,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 87,
+            "answer": "about 20 kWh",
+            "question": "How much energy does a typical Hawaii home use in a day?"
+        }
+    },
+    {
+        "pk": 99,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 88,
+            "answer": "90%",
+            "question": "What percent of the energy used to power an incandescent bulb is emitted as heat?"
+        }
+    },
+    {
+        "pk": 100,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 91,
+            "answer": "They will decrease.",
+            "question": "If we achieve the goals of HCEI, what will happen to our baseline power requirements over the next 20 years?"
+        }
+    },
+    {
+        "pk": 101,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 91,
+            "answer": "6 billion dollars.",
+            "question": "How much money do we currently send out of state on oil per year?"
+        }
+    },
+    {
+        "pk": 102,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 93,
+            "answer": "We as citizens need to decide what trade-offs we want to make.",
+            "question": "Why can't we just let the electric company solve our energy problems?"
+        }
+    },
+    {
+        "pk": 103,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 94,
+            "answer": "Washington",
+            "question": "According to the US Energy Information Office, what state currently has the lowest energy costs?"
+        }
+    },
+    {
+        "pk": 104,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 94,
+            "answer": "Petroleum (37%)",
+            "question": "What is the primary source of energy across the United States?"
+        }
+    },
+    {
+        "pk": 105,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 95,
+            "answer": "wave",
+            "question": "What clean energy project is occurring in Kaneohe?"
+        }
+    },
+    {
+        "pk": 106,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 95,
+            "answer": "About 4,000",
+            "question": "According to the HCEI Year 2 update, how many PV projects were installed in 2010?"
+        }
+    },
+    {
+        "pk": 107,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 97,
+            "answer": "Phosphorus and boron",
+            "question": "What two elements are added to silicon to make a solar cell?"
+        }
+    },
+    {
+        "pk": 108,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 97,
+            "answer": "solar hot water heater",
+            "question": "What is one common way to use the sun's heat in a home?"
+        }
+    },
+    {
+        "pk": 109,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 99,
+            "answer": "Nothing!",
+            "question": "As a UH student, how much does it cost you to ride The Bus?"
+        }
+    },
+    {
+        "pk": 110,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 99,
+            "answer": "Google Maps or hea.thebus.org",
+            "question": "How can you find out when the next bus is coming?"
+        }
+    },
+    {
+        "pk": 111,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 101,
+            "answer": "Every Wednesday 7-8:30pm or Thursday from 12-2",
+            "question": "When can you fix your bike at Cycle Manoa for free?"
+        }
+    },
+    {
+        "pk": 112,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 101,
+            "answer": "The Prius!",
+            "question": "Which has lower emissions, driving a Prius with three passengers or taking the bus?"
+        }
+    },
+    {
+        "pk": 113,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 107,
+            "answer": "equivalent to 1 barrel of oil",
+            "question": "How much energy does 1 ton of waste produce in H-POWER?"
+        }
+    },
+    {
+        "pk": 114,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 107,
+            "answer": "Place in the Art Building where people can leave or takes stuff for free",
+            "question": "What is the Free Store?"
+        }
+    },
+    {
+        "pk": 115,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 121,
+            "answer": "This is a trick question. He says it doesn't matter which side of the debate you take, because regardless of which side is right, we need to take action.",
+            "question": "Which side of the debate on climate change does Greg Craven take in his video, \"How it all ends\"?"
+        }
+    },
+    {
+        "pk": 116,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 121,
+            "answer": "Possibilities: the media, under-education, denialism.",
+            "question": "According to the Scientific American article, what are possible reasons why Americans are so ill-informed about climate change?"
+        }
+    },
+    {
+        "pk": 117,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 108,
+            "answer": "Equivalent to 250 billion barrels of oil",
+            "question": "How much solar energy do tropical seas absorb in a day?"
+        }
+    },
+    {
+        "pk": 118,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 108,
+            "answer": "Use the temperature difference between warm ocean surface and cold depths to spin turbine",
+            "question": "How does OTEC generate energy?"
+        }
+    },
+    {
+        "pk": 119,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 108,
+            "answer": "Ocean Thermal Energy Conversion",
+            "question": "What does OTEC stand for?"
+        }
+    },
+    {
+        "pk": 120,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 108,
+            "answer": "Provides constant power, not intermittent",
+            "question": "How does OTEC differ from solar and wind energy?"
+        }
+    },
+    {
+        "pk": 122,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 184,
+            "answer": "???",
+            "question": "???"
+        }
+    },
+    {
+        "pk": 123,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 185,
+            "answer": "???",
+            "question": "???"
+        }
+    },
+    {
+        "pk": 124,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 186,
+            "answer": "???",
+            "question": "???"
+        }
+    },
+    {
+        "pk": 125,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 187,
+            "answer": "???",
+            "question": "???"
+        }
+    },
+    {
+        "pk": 126,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 196,
+            "answer": "???",
+            "question": "???"
+        }
+    },
+    {
+        "pk": 127,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 197,
+            "answer": "???",
+            "question": "???"
+        }
+    },
+    {
+        "pk": 128,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 198,
+            "answer": "???",
+            "question": "Sust Class S13"
+        }
+    },
+    {
+        "pk": 129,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 199,
+            "answer": "???",
+            "question": "Capus Energy Hogs"
+        }
+    },
+    {
+        "pk": 130,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 206,
+            "answer": "???",
+            "question": "DIY Video 2"
+        }
+    },
+    {
+        "pk": 131,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 208,
+            "answer": "???",
+            "question": "DIY Workshop 2"
+        }
+    },
+    {
+        "pk": 132,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 209,
+            "answer": "???",
+            "question": "DIY Sustainability Game"
+        }
+    },
+    {
+        "pk": 133,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "libraryaction": 210,
+            "answer": "???",
+            "question": "Course Proj S13"
+        }
+    }    
 ]

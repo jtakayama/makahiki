@@ -33,6 +33,7 @@
         "pk": 16,
         "model": "smartgrid.category",
         "fields": {
+        	"libCategory": 16,
             "priority": 1,
             "name": "Electrimental",
             "slug": "electrimental"
@@ -42,6 +43,7 @@
         "pk": 30,
         "model": "smartgrid.category",
         "fields": {
+        	"libCategory": 30,
             "priority": 1,
             "name": "Generation Next",
             "slug": "generation-next"
@@ -51,6 +53,7 @@
         "pk": 1,
         "model": "smartgrid.category",
         "fields": {
+        	"libCategory": 1,
             "priority": 1,
             "name": "Get Started",
             "slug": "get-started"
@@ -60,6 +63,7 @@
         "pk": 20,
         "model": "smartgrid.category",
         "fields": {
+        	"libCategory": 20,        
             "priority": 2,
             "name": "Get Creative",
             "slug": "get-creative"
@@ -69,6 +73,7 @@
         "pk": 17,
         "model": "smartgrid.category",
         "fields": {
+        	"libCategory": 17,
             "priority": 2,
             "name": "Let's Get Physical",
             "slug": "lets-get-physical"
@@ -78,6 +83,7 @@
         "pk": 11,
         "model": "smartgrid.category",
         "fields": {
+        	"libCategory": 11,
             "priority": 2,
             "name": "Just Do It",
             "slug": "just-do-it"
@@ -87,6 +93,7 @@
         "pk": 22,
         "model": "smartgrid.category",
         "fields": {
+        	"libCategory": 22,
             "priority": 3,
             "name": "Think Smart",
             "slug": "think-smart"
@@ -96,6 +103,7 @@
         "pk": 18,
         "model": "smartgrid.category",
         "fields": {
+        	"libCategory": 18,
             "priority": 3,
             "name": "Power to Burn?",
             "slug": "power-burn"
@@ -105,6 +113,7 @@
         "pk": 12,
         "model": "smartgrid.category",
         "fields": {
+        	"libCategory": 12,
             "priority": 3,
             "name": "Go Dark",
             "slug": "go-dark"
@@ -114,6 +123,7 @@
         "pk": 19,
         "model": "smartgrid.category",
         "fields": {
+        	"libCategory": 19,
             "priority": 4,
             "name": "Make it So",
             "slug": "make-it-so"
@@ -123,6 +133,7 @@
         "pk": 15,
         "model": "smartgrid.category",
         "fields": {
+        	"libCategory": 15,
             "priority": 4,
             "name": "Potpourri",
             "slug": "potpourri"
@@ -132,6 +143,7 @@
         "pk": 29,
         "model": "smartgrid.category",
         "fields": {
+        	"libCategory": 29,
             "priority": 4,
             "name": "Last Dance",
             "slug": "last-dance"
@@ -141,6 +153,7 @@
         "pk": 31,
         "model": "smartgrid.category",
         "fields": {
+         	"libCategory": 31,
             "priority": 5,
             "name": "Energy Wizardry",
             "slug": "energy-wizardry"
@@ -150,6 +163,7 @@
         "pk": 5,
         "model": "smartgrid.category",
         "fields": {
+        	"libCategory": 5,
             "priority": 5,
             "name": "Moving on",
             "slug": "moving-on"
@@ -159,6 +173,7 @@
         "pk": 14,
         "model": "smartgrid.category",
         "fields": {
+        	"libCategory": 14,
             "priority": 5,
             "name": "Energize Yourself",
             "slug": "energize-yourself"
@@ -168,6 +183,7 @@
         "pk": 25,
         "model": "smartgrid.category",
         "fields": {
+        	"libCategory": 25,
             "priority": 5,
             "name": "Express Yourself",
             "slug": "express-yourself"
@@ -177,6 +193,7 @@
         "pk": 21,
         "model": "smartgrid.category",
         "fields": {
+        	"libCategory": 21,
             "priority": 5,
             "name": "Be Committed",
             "slug": "be-committed"
@@ -186,6 +203,7 @@
         "pk": 27,
         "model": "smartgrid.category",
         "fields": {
+        	"libCategory": 27,
             "priority": 5,
             "name": "Do It To It",
             "slug": "do-it-it"
@@ -195,6 +213,7 @@
         "pk": 2,
         "model": "smartgrid.category",
         "fields": {
+        	"libCategory": 2,
             "priority": 5,
             "name": "Basic Energy",
             "slug": "basic-energy"
@@ -204,6 +223,7 @@
         "pk": 3,
         "model": "smartgrid.category",
         "fields": {
+        	"libCategory": 3,
             "priority": 5,
             "name": "Lights Out!",
             "slug": "lights-out"
@@ -213,6 +233,7 @@
         "pk": 23,
         "model": "smartgrid.category",
         "fields": {
+        	"libCategory": 23,
             "priority": 5,
             "name": "Water Cycle",
             "slug": "water-cycle"
@@ -222,6 +243,7 @@
         "pk": 13,
         "model": "smartgrid.category",
         "fields": {
+        	"libCategory": 13,
             "priority": 5,
             "name": "Play!",
             "slug": "play"
@@ -231,6 +253,7 @@
         "pk": 4,
         "model": "smartgrid.category",
         "fields": {
+        	"libCategory": 4,
             "priority": 5,
             "name": "Make Watts",
             "slug": "make-watts"
@@ -240,6 +263,7 @@
         "pk": 24,
         "model": "smartgrid.category",
         "fields": {
+        	"libCategory": 24,
             "priority": 5,
             "name": "Watts Up?",
             "slug": "watts"
@@ -249,6 +273,7 @@
         "pk": 28,
         "model": "smartgrid.category",
         "fields": {
+        	"libCategory": 28,
             "priority": 5,
             "name": "Moving on",
             "slug": "moving"
@@ -258,6 +283,7 @@
         "pk": 26,
         "model": "smartgrid.category",
         "fields": {
+        	"libCategory": 26,
             "priority": 6,
             "name": "Trail Mix",
             "slug": "trail-mix"
@@ -267,6 +293,7 @@
         "pk": 6,
         "model": "smartgrid.category",
         "fields": {
+        	"libCategory": 6,
             "priority": 6,
             "name": "Opala",
             "slug": "opala"
@@ -276,6 +303,7 @@
         "pk": 9,
         "model": "smartgrid.category",
         "fields": {
+        	"libCategory": 9,
             "priority": 6,
             "name": "Mixed Bag",
             "slug": "mixed-bag"
@@ -285,6 +313,7 @@
         "pk": 7,
         "model": "smartgrid.category",
         "fields": {
+        	"libCategory": 7,
             "priority": 7,
             "name": "Wet and Wild",
             "slug": "wet-and-wild"
@@ -294,6 +323,7 @@
         "pk": 10,
         "model": "smartgrid.category",
         "fields": {
+        	"libCategory": 10,
             "priority": 9,
             "name": "Creative",
             "slug": "creative"
@@ -996,6 +1026,7 @@
         "pk": 14,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 14,
             "category": 1,
             "related_resource": null,
             "social_bonus": 0,
@@ -1021,6 +1052,7 @@
         "pk": 66,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 66,
             "category": 1,
             "related_resource": null,
             "social_bonus": 0,
@@ -1046,6 +1078,7 @@
         "pk": 2,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 2,
             "category": 1,
             "related_resource": "energy",
             "social_bonus": 0,
@@ -1071,6 +1104,7 @@
         "pk": 8,
         "model": "smartgrid.action",
         "fields": {
+         	"libAction": 8,
             "category": 11,
             "related_resource": null,
             "social_bonus": 0,
@@ -1096,6 +1130,7 @@
         "pk": 9,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 9,
             "category": 11,
             "related_resource": null,
             "social_bonus": 0,
@@ -1121,6 +1156,7 @@
         "pk": 80,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 80,
             "category": 11,
             "related_resource": null,
             "social_bonus": 10,
@@ -1146,6 +1182,7 @@
         "pk": 31,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 31,
             "category": 12,
             "related_resource": "energy",
             "social_bonus": 5,
@@ -1171,6 +1208,7 @@
         "pk": 32,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 32,
             "category": 12,
             "related_resource": "energy",
             "social_bonus": 5,
@@ -1196,6 +1234,7 @@
         "pk": 36,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 36,
             "category": 12,
             "related_resource": null,
             "social_bonus": 5,
@@ -1221,6 +1260,7 @@
         "pk": 42,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 42,
             "category": 19,
             "related_resource": "water",
             "social_bonus": 5,
@@ -1246,6 +1286,7 @@
         "pk": 49,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 49,
             "category": 19,
             "related_resource": null,
             "social_bonus": 5,
@@ -1271,6 +1312,7 @@
         "pk": 151,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 151,
             "category": 19,
             "related_resource": null,
             "social_bonus": 0,
@@ -1296,6 +1338,7 @@
         "pk": 15,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 15,
             "category": 16,
             "related_resource": "energy",
             "social_bonus": 0,
@@ -1321,6 +1364,7 @@
         "pk": 77,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 77,
             "category": 16,
             "related_resource": "energy",
             "social_bonus": 0,
@@ -1346,6 +1390,7 @@
         "pk": 16,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 16,
             "category": 16,
             "related_resource": "energy",
             "social_bonus": 0,
@@ -1371,6 +1416,7 @@
         "pk": 152,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 151,
             "category": 16,
             "related_resource": null,
             "social_bonus": 0,
@@ -1396,6 +1442,7 @@
         "pk": 61,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 61,
             "category": 17,
             "related_resource": "energy",
             "social_bonus": 0,
@@ -1421,6 +1468,7 @@
         "pk": 7,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 7,
             "category": 17,
             "related_resource": "energy",
             "social_bonus": 0,
@@ -1446,6 +1494,7 @@
         "pk": 153,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 151,
             "category": 17,
             "related_resource": null,
             "social_bonus": 0,
@@ -1471,6 +1520,7 @@
         "pk": 11,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 11,
             "category": 17,
             "related_resource": "energy",
             "social_bonus": 0,
@@ -1496,6 +1546,7 @@
         "pk": 18,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 18,
             "category": 18,
             "related_resource": null,
             "social_bonus": 0,
@@ -1521,6 +1572,7 @@
         "pk": 78,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 78,
             "category": 18,
             "related_resource": null,
             "social_bonus": 0,
@@ -1546,6 +1598,7 @@
         "pk": 91,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 91,
             "category": 18,
             "related_resource": null,
             "social_bonus": 0,
@@ -1571,6 +1624,7 @@
         "pk": 39,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 39,
             "category": 18,
             "related_resource": null,
             "social_bonus": 5,
@@ -1596,6 +1650,7 @@
         "pk": 57,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 57,
             "category": 15,
             "related_resource": null,
             "social_bonus": 0,
@@ -1621,6 +1676,7 @@
         "pk": 26,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 26,
             "category": 15,
             "related_resource": null,
             "social_bonus": 0,
@@ -1646,6 +1702,7 @@
         "pk": 22,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 22,
             "category": 15,
             "related_resource": null,
             "social_bonus": 0,
@@ -1671,6 +1728,7 @@
         "pk": 154,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 151,
             "category": 15,
             "related_resource": null,
             "social_bonus": 0,
@@ -1696,6 +1754,7 @@
         "pk": 48,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 48,
             "category": 30,
             "related_resource": "energy",
             "social_bonus": 5,
@@ -1721,6 +1780,7 @@
         "pk": 41,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 41,
             "category": 30,
             "related_resource": "energy",
             "social_bonus": 5,
@@ -1746,6 +1806,7 @@
         "pk": 50,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 50,
             "category": 30,
             "related_resource": null,
             "social_bonus": 5,
@@ -1771,6 +1832,7 @@
         "pk": 133,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 133,
             "category": 20,
             "related_resource": null,
             "social_bonus": 10,
@@ -1796,6 +1858,7 @@
         "pk": 132,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 132,
             "category": 20,
             "related_resource": null,
             "social_bonus": 10,
@@ -1821,6 +1884,7 @@
         "pk": 155,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 151,
             "category": 20,
             "related_resource": null,
             "social_bonus": 0,
@@ -1846,6 +1910,7 @@
         "pk": 38,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 38,
             "category": 22,
             "related_resource": null,
             "social_bonus": 5,
@@ -1871,6 +1936,7 @@
         "pk": 109,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 109,
             "category": 22,
             "related_resource": null,
             "social_bonus": 10,
@@ -1896,6 +1962,7 @@
         "pk": 34,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 34,
             "category": 22,
             "related_resource": "water",
             "social_bonus": 5,
@@ -1921,6 +1988,7 @@
         "pk": 147,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 147,
             "category": 29,
             "related_resource": "energy",
             "social_bonus": 0,
@@ -1946,6 +2014,7 @@
         "pk": 141,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 141,
             "category": 29,
             "related_resource": "energy",
             "social_bonus": 0,
@@ -1971,6 +2040,7 @@
         "pk": 148,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 148,
             "category": 29,
             "related_resource": "energy",
             "social_bonus": 0,
@@ -1996,6 +2066,7 @@
         "pk": 88,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 88,
             "category": null,
             "related_resource": "energy",
             "social_bonus": 0,
@@ -2021,6 +2092,7 @@
         "pk": 65,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 65,
             "category": null,
             "related_resource": "water",
             "social_bonus": 5,
@@ -2046,6 +2118,7 @@
         "pk": 131,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 131,
             "category": null,
             "related_resource": null,
             "social_bonus": 10,
@@ -2071,6 +2144,7 @@
         "pk": 35,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 35,
             "category": null,
             "related_resource": "water",
             "social_bonus": 5,
@@ -2096,6 +2170,7 @@
         "pk": 116,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 116,
             "category": null,
             "related_resource": "water",
             "social_bonus": 0,
@@ -2121,6 +2196,7 @@
         "pk": 85,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 85,
             "category": null,
             "related_resource": null,
             "social_bonus": 0,
@@ -2146,6 +2222,7 @@
         "pk": 140,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 140,
             "category": null,
             "related_resource": null,
             "social_bonus": 10,
@@ -2171,6 +2248,7 @@
         "pk": 44,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 44,
             "category": null,
             "related_resource": null,
             "social_bonus": 5,
@@ -2196,6 +2274,7 @@
         "pk": 143,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 143,
             "category": null,
             "related_resource": null,
             "social_bonus": 0,
@@ -2221,6 +2300,7 @@
         "pk": 21,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 21,
             "category": null,
             "related_resource": "energy",
             "social_bonus": 0,
@@ -2246,6 +2326,7 @@
         "pk": 46,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 46,
             "category": null,
             "related_resource": "water",
             "social_bonus": 5,
@@ -2271,6 +2352,7 @@
         "pk": 93,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 93,
             "category": null,
             "related_resource": null,
             "social_bonus": 0,
@@ -2296,6 +2378,7 @@
         "pk": 107,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 107,
             "category": null,
             "related_resource": null,
             "social_bonus": 0,
@@ -2321,6 +2404,7 @@
         "pk": 94,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 94,
             "category": null,
             "related_resource": null,
             "social_bonus": 0,
@@ -2346,6 +2430,7 @@
         "pk": 96,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 96,
             "category": null,
             "related_resource": null,
             "social_bonus": 0,
@@ -2371,6 +2456,7 @@
         "pk": 150,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 150,
             "category": null,
             "related_resource": "energy",
             "social_bonus": 0,
@@ -2396,6 +2482,7 @@
         "pk": 99,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 99,
             "category": null,
             "related_resource": null,
             "social_bonus": 0,
@@ -2421,6 +2508,7 @@
         "pk": 135,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 135,
             "category": null,
             "related_resource": null,
             "social_bonus": 10,
@@ -2446,6 +2534,7 @@
         "pk": 139,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 139,
             "category": null,
             "related_resource": null,
             "social_bonus": 10,
@@ -2471,6 +2560,7 @@
         "pk": 118,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 118,
             "category": null,
             "related_resource": "water",
             "social_bonus": 5,
@@ -2496,6 +2586,7 @@
         "pk": 74,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 74,
             "category": null,
             "related_resource": null,
             "social_bonus": 5,
@@ -2521,6 +2612,7 @@
         "pk": 101,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 101,
             "category": null,
             "related_resource": null,
             "social_bonus": 0,
@@ -2546,6 +2638,7 @@
         "pk": 117,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 117,
             "category": null,
             "related_resource": "water",
             "social_bonus": 0,
@@ -2571,6 +2664,7 @@
         "pk": 121,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 121,
             "category": null,
             "related_resource": null,
             "social_bonus": 0,
@@ -2596,6 +2690,7 @@
         "pk": 137,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 137,
             "category": null,
             "related_resource": null,
             "social_bonus": 10,
@@ -2621,6 +2716,7 @@
         "pk": 40,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 40,
             "category": null,
             "related_resource": null,
             "social_bonus": 5,
@@ -2646,6 +2742,7 @@
         "pk": 128,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 128,
             "category": null,
             "related_resource": null,
             "social_bonus": 5,
@@ -2671,6 +2768,7 @@
         "pk": 136,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 136,
             "category": null,
             "related_resource": null,
             "social_bonus": 10,
@@ -2696,6 +2794,7 @@
         "pk": 86,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 86,
             "category": null,
             "related_resource": null,
             "social_bonus": 0,
@@ -2721,6 +2820,7 @@
         "pk": 108,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 108,
             "category": null,
             "related_resource": null,
             "social_bonus": 0,
@@ -2746,6 +2846,7 @@
         "pk": 4,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 4,
             "category": null,
             "related_resource": null,
             "social_bonus": 0,
@@ -2771,6 +2872,7 @@
         "pk": 127,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 127,
             "category": null,
             "related_resource": null,
             "social_bonus": 5,
@@ -2796,6 +2898,7 @@
         "pk": 30,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 30,
             "category": null,
             "related_resource": "energy",
             "social_bonus": 5,
@@ -2821,6 +2924,7 @@
         "pk": 138,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 138,
             "category": null,
             "related_resource": null,
             "social_bonus": 10,
@@ -2846,6 +2950,7 @@
         "pk": 33,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 33,
             "category": null,
             "related_resource": "energy",
             "social_bonus": 5,
@@ -2871,6 +2976,7 @@
         "pk": 79,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 79,
             "category": null,
             "related_resource": "energy",
             "social_bonus": 5,
@@ -2896,6 +3002,7 @@
         "pk": 37,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 37,
             "category": null,
             "related_resource": null,
             "social_bonus": 5,
@@ -2921,6 +3028,7 @@
         "pk": 134,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 134,
             "category": null,
             "related_resource": null,
             "social_bonus": 10,
@@ -2946,6 +3054,7 @@
         "pk": 129,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 129,
             "category": null,
             "related_resource": null,
             "social_bonus": 0,
@@ -2971,6 +3080,7 @@
         "pk": 87,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 87,
             "category": null,
             "related_resource": "energy",
             "social_bonus": 0,
@@ -2996,6 +3106,7 @@
         "pk": 92,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 92,
             "category": null,
             "related_resource": null,
             "social_bonus": 0,
@@ -3021,6 +3132,7 @@
         "pk": 45,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 45,
             "category": null,
             "related_resource": "water",
             "social_bonus": 5,
@@ -3046,6 +3158,7 @@
         "pk": 10,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 10,
             "category": null,
             "related_resource": null,
             "social_bonus": 0,
@@ -3071,6 +3184,7 @@
         "pk": 95,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 95,
             "category": null,
             "related_resource": null,
             "social_bonus": 0,
@@ -3096,6 +3210,7 @@
         "pk": 145,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 145,
             "category": null,
             "related_resource": null,
             "social_bonus": 0,
@@ -3121,6 +3236,7 @@
         "pk": 97,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 97,
             "category": null,
             "related_resource": null,
             "social_bonus": 0,
@@ -3146,6 +3262,7 @@
         "pk": 144,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 144,
             "category": null,
             "related_resource": null,
             "social_bonus": 0,
@@ -3171,6 +3288,7 @@
         "pk": 146,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 146,
             "category": null,
             "related_resource": null,
             "social_bonus": 0,
@@ -3196,6 +3314,7 @@
         "pk": 142,
         "model": "smartgrid.action",
         "fields": {
+        	"libAction": 142,
             "category": null,
             "related_resource": "energy",
             "social_bonus": 0,
