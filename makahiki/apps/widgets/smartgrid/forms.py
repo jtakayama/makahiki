@@ -3,9 +3,10 @@
 from django import forms
 from django.forms.util import ErrorList
 
-from apps.widgets.smartgrid.models import ConfirmationCode, QuestionChoice, TextReminder, Level, \
+from apps.widgets.smartgrid.models import ConfirmationCode, TextReminder, Level, \
     Category
 from apps.managers.player_mgr import player_mgr
+from apps.widgets.smartgrid_library.models import LibraryQuestionChoice
 
 
 class GenerateCodeForm(forms.Form):
@@ -39,7 +40,7 @@ class ActivityTextForm(forms.Form):
 
         if qid:
             self.fields['choice_response'] = forms.ModelChoiceField(
-                queryset=QuestionChoice.objects.filter(question__id=qid), required=True)
+                queryset=LibraryQuestionChoice.objects.filter(question__id=qid), required=True)
 
     def clean(self):
         """Custom validation to verify confirmation codes."""
@@ -188,7 +189,7 @@ class SurveyForm(forms.Form):
         if questions:
             for i, q in enumerate(questions):
                 self.fields['choice_response_%s' % i] = forms.ModelChoiceField(
-                    queryset=QuestionChoice.objects.filter(question__id=q.pk),
+                    queryset=LibraryQuestionChoice.objects.filter(question__id=q.pk),
                     label=q.question,
                     required=True
                 )

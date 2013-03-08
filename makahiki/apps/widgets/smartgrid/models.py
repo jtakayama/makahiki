@@ -22,7 +22,8 @@ from apps.widgets.badges import badges
 from apps.widgets.notifications.models import UserNotification
 from apps.managers.cache_mgr import cache_mgr
 from apps.widgets.smartgrid import NOSHOW_PENALTY_DAYS, SETUP_WIZARD_ACTIVITY
-from apps.widgets.smartgrid_library.models import LibraryCategory, LibraryAction
+from apps.widgets.smartgrid_library.models import LibraryCategory, LibraryAction, LibraryActivity,\
+    LibraryCommitment, LibraryEvent, LibraryTextPromptQuestion
 
 _MEDIA_LOCATION_ACTION = os.path.join("smartgrid", "actions")
 """location for the uploaded files for actions."""
@@ -71,11 +72,8 @@ class Level(models.Model):
 
 class Category(models.Model):
     """Categories used to group actions."""
-    libCategory = models.ForeignKey(LibraryCategory)
-    name = models.CharField(max_length=255,
-                            help_text="The name of the category (max 255 characters).")
-    slug = models.SlugField(help_text="Automatically generated if left blank.",
-                            null=True)
+    library = models.ForeignKey(LibraryCategory)
+    level = models.ForeignKey(Level, help_text="The level in the Smart Grid this Category is in.")
     priority = models.IntegerField(
         default=1,
         help_text="Categories with lower values (higher priority) will be listed first."
@@ -87,7 +85,7 @@ class Category(models.Model):
         ordering = ("priority",)
 
     def __unicode__(self):
-        return self.name
+        return self.library.name
 
     def save(self, *args, **kwargs):
         """Custom save method to set fields."""
@@ -97,62 +95,14 @@ class Category(models.Model):
 
 class Action(models.Model):
     """Activity Base class."""
-    TYPE_CHOICES = (
-        ('activity', 'Activity'),
-        ('commitment', 'Commitment'),
-        ('event', 'Event'),
-        ('excursion', 'Excursion'),
-        ('filler', 'Filler'),
-        )
-
     RESOURCE_CHOICES = (
         ('energy', 'Energy'),
         ('water', 'Water'),
         ('waste', 'Waste'),
     )
 
-    VIDEO_SOURCE_CHOICES = (
-        ('youtube', 'youtube'),
-    )
-
     users = models.ManyToManyField(User, through="ActionMember")
-    libAction = models.ForeignKey(LibraryAction)
-    name = models.CharField(
-        max_length=20,
-        help_text="The name of the action.")
-    slug = models.SlugField(
-        help_text="A unique identifier of the action. Automatically generated if left blank.",
-        unique=True,
-        )
-    title = models.CharField(
-        max_length=200,
-        help_text="The title of the action.")
-    image = models.ImageField(
-        max_length=255, blank=True, null=True,
-        upload_to=media_file_path(_MEDIA_LOCATION_ACTION),
-        help_text="Uploaded image for the activity. This will appear under the title when "
-                  "the action content is displayed.")
-    video_id = models.CharField(
-        null=True, blank=True,
-        max_length=200,
-        help_text="The id of the video (optional). Currently only YouTube video is supported. "
-                  "This is the unique id of the video as identified by the YouTube video url.")
-    video_source = models.CharField(
-        null=True, blank=True,
-        max_length=20,
-        choices=VIDEO_SOURCE_CHOICES,
-        help_text="The source of the video.")
-    embedded_widget = models.CharField(
-        null=True, blank=True,
-        max_length=50,
-        help_text="The name of the embedded widget (optional).")
-    description = models.TextField(
-        help_text="The discription of the action. " + settings.MARKDOWN_TEXT)
-    type = models.CharField(
-        max_length=20,
-        choices=TYPE_CHOICES,
-        help_text="The type of the actions."
-    )
+    library = models.ForeignKey(LibraryAction)
     level = models.ForeignKey(Level,
         null=True, blank=True,
         help_text="The level of the action.")
@@ -195,12 +145,8 @@ class Action(models.Model):
     )
     admin_tool_tip = "Smart Grid Game Actions"
 
-    def __unicode__(self):
-        return "%s: %s" % (self.type.capitalize(), self.title)
-
-    def get_action(self, action_type):
-        """Returns the concrete action object by type."""
-        return action_type.objects.get(action_ptr=self.pk)
+#    def __unicode__(self):
+#        return "%s: %s" % (self.type.capitalize(), self.title)
 
     class Meta:
         """Meta"""
@@ -212,13 +158,7 @@ class Activity(Action):
    verified by asking questions or posting an image attachment that verifies the user did
    the activity."""
 
-    CONFIRM_CHOICES = (
-        ('text', 'Question and Answer'),
-        ('image', 'Image Upload'),
-        ('free', 'Free Response'),
-        ('free_image', 'Free Response and Image Upload'),
-        )
-
+    libActivity = models.ForeignKey(LibraryActivity)
     duration = models.IntegerField(
         verbose_name="Expected activity duration",
         help_text="Time (in minutes) that the activity is expected to take."
@@ -233,22 +173,6 @@ class Activity(Action):
         blank=True,
         help_text="Maximum number of points possible for a variable point activity."
     )
-    confirm_type = models.CharField(
-        max_length=20,
-        choices=CONFIRM_CHOICES,
-        default="text",
-        help_text="If the type is 'Question and Answer', please provide the "
-                  "'Text prompt questions' section below.",
-        verbose_name="Confirmation Type"
-    )
-    confirm_prompt = models.TextField(
-        blank=True,
-        verbose_name="Confirmation prompt",
-        help_text=settings.MARKDOWN_TEXT
-    )
-    admin_note = models.TextField(
-        null=True, blank=True,
-        help_text="Notes for admins when approving this activity. " + settings.MARKDOWN_TEXT)
 
     def is_active(self):
         """Determines if the activity is available for users to participate."""
@@ -264,32 +188,34 @@ class Activity(Action):
 
     def pick_question(self, user_id):
         """Choose a random question to present to a user."""
-        if self.confirm_type != "text":
-            return None
-
-        questions = TextPromptQuestion.objects.filter(action=self)
-        if questions:
-            return questions[user_id % len(questions)]
-        else:
-            return None
+        return self.libActivity.pick_question(user_id)
 
     class Meta:
         """meta"""
         verbose_name_plural = "Activities"
 
+    def __unicode__(self):
+        return "Activity: %s" % (self.libActivity.title)
+
 
 class Commitment(Action):
     """Commitments involve non-verifiable actions that a user can commit to.
     Typically, they will be worth fewer points than activities."""
+
+    libCommitment = models.ForeignKey(LibraryCommitment)
     duration = models.IntegerField(
         default=5,
         help_text="Duration of commitment, in days."
     )
 
+    def __unicode__(self):
+        return "Commitment: %s" % (self.libCommitment.title)
+
 
 class Event(Action):
     """Events will be verified by confirmation code. It includes events and excursions."""
 
+    libEvent = models.ForeignKey(LibraryEvent)
     duration = models.IntegerField(
         verbose_name="Expected activity duration",
         help_text="Time (in minutes) that the activity is expected to take."
@@ -322,24 +248,16 @@ class Event(Action):
                 return True
         return False
 
+    def __unicode__(self):
+        if self.is_excursion:
+            return "Excursion: %s" % (self.libEvent.title)
+        else:
+            return "Event: %s" % (self.libEvent.title)
+
 
 class Filler(Action):
     """Filler action. It is always locked"""
     pass
-
-
-class TextPromptQuestion(models.Model):
-    """Represents questions that can be asked of users in order to verify participation
-    in activities."""
-
-    action = models.ForeignKey("Action")
-    question = models.TextField(help_text="The question text.")
-    answer = models.CharField(max_length=255,
-                              help_text="The answer of question (max 255 characters).",
-                              null=True, blank=True)
-
-    def __unicode__(self):
-        return "Question: '%s' Answer: '%s'" % (self.question, self.answer)
 
 
 class ActionMember(models.Model):
@@ -355,7 +273,7 @@ class ActionMember(models.Model):
 
     user = models.ForeignKey(User)
     action = models.ForeignKey(Action)
-    question = models.ForeignKey(TextPromptQuestion, null=True, blank=True)
+    question = models.ForeignKey(LibraryTextPromptQuestion, null=True, blank=True)
     notifications = generic.GenericRelation(UserNotification, editable=False)
     pointstransactions = generic.GenericRelation(PointsTransaction, editable=False)
 
@@ -868,15 +786,3 @@ class ConfirmationCode(models.Model):
                 except IntegrityError:
                     # Try again.
                     code.code = header
-
-
-class QuestionChoice(models.Model):
-    """Represents questions's multiple choice"""
-
-    question = models.ForeignKey("TextPromptQuestion")
-    action = models.ForeignKey("Action")
-    choice = models.CharField(max_length=255,
-                              help_text="The choice of question (max 255 characters).")
-
-    def __unicode__(self):
-        return self.choice

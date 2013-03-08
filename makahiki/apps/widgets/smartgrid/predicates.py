@@ -60,7 +60,7 @@ def completed_some_of(user, some=1, category_slug=None, action_type=None, resour
         return user.actionmember_set.filter(action__category__slug=category_slug).count() >= some
 
     if action_type:
-        return user.actionmember_set.filter(action__type=action_type).count() >= some
+        return user.actionmember_set.filter(action__library__type=action_type).count() >= some
 
     if resource:
         return user.actionmember_set.filter(action__related_resource=resource).count() >= some

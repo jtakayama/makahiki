@@ -8,8 +8,8 @@ from apps.managers.cache_mgr import cache_mgr
 from apps.managers.challenge_mgr import challenge_mgr
 from apps.utils import utils
 from apps.widgets.smartgrid.models import ActionMember, Activity, Category, Event, \
-                                     Commitment, ConfirmationCode, TextPromptQuestion, \
-                                     QuestionChoice, Level, Action, Filler, \
+                                     Commitment, ConfirmationCode, \
+                                     Level, Action, Filler, \
                                      EmailReminder, TextReminder
 from apps.widgets.smartgrid.views import action_admin, action_admin_list
 
@@ -22,6 +22,8 @@ from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.db.utils import IntegrityError
 from apps.admin.admin import challenge_designer_site, challenge_manager_site, developer_site
+from apps.widgets.smartgrid_library.admin import LibraryTextQuestionInline, LibraryCategoryAdmin
+from django.forms.widgets import MediaDefiningClass
 
 
 class ConfirmationCodeAdmin(admin.ModelAdmin):
@@ -74,66 +76,65 @@ challenge_manager_site.register(ConfirmationCode, ConfirmationCodeAdmin)
 developer_site.register(ConfirmationCode, ConfirmationCodeAdmin)
 
 
-class TextQuestionInlineFormSet(BaseInlineFormSet):
-    """Custom formset model to override validation."""
-
-    def clean(self):
-        """Validates the form data and checks if the activity confirmation type is text."""
-
-        # Form that represents the activity.
-        activity = self.instance
-        if not activity.pk:
-            # If the activity is not saved, we don't care if this validates.
-            return
-
-        # Count the number of questions.
-        count = 0
-        for form in self.forms:
-            try:
-                if form.cleaned_data:
-                    count += 1
-            except AttributeError:
-                pass
-
-        if activity.confirm_type == "text" and count == 0:
-            # Why did I do this?
-            # activity.delete()
-            raise forms.ValidationError(
-                "At least one question is required if the activity's confirmation type is text.")
-
-        elif activity.confirm_type != "text" and count > 0:
-            # activity.delete()
-            raise forms.ValidationError("Questions are not required for this confirmation type.")
-
-
-class QuestionChoiceInline(admin.TabularInline):
-    """Question Choice admin."""
-    model = QuestionChoice
-    fieldset = (
-        (None, {
-            'fields': ('question', 'choice'),
-            'classes': ['wide', ],
-            })
-        )
-    extra = 4
+#class TextQuestionInlineFormSet(BaseInlineFormSet):
+#    """Custom formset model to override validation."""
+#
+#    def clean(self):
+#        """Validates the form data and checks if the activity confirmation type is text."""
+#
+#        # Form that represents the activity.
+#        activity = self.instance
+#        if not activity.pk:
+#            # If the activity is not saved, we don't care if this validates.
+#            return
+#
+#        # Count the number of questions.
+#        count = 0
+#        for form in self.forms:
+#            try:
+#                if form.cleaned_data:
+#                    count += 1
+#            except AttributeError:
+#                pass
+#
+#        if activity.confirm_type == "text" and count == 0:
+#            # Why did I do this?
+#            # activity.delete()
+#            raise forms.ValidationError(
+#                "At least one question is required if the activity's confirmation type is text.")
+#
+#        elif activity.confirm_type != "text" and count > 0:
+#            # activity.delete()
+#            raise forms.ValidationError("Questions are not required for this confirmation type.")
 
 
-class TextQuestionInline(admin.TabularInline):
-    """Text Question admin."""
-    model = TextPromptQuestion
-    fieldset = (
-        (None, {
-            'fields': ('question', 'answer'),
-            })
-        )
-    formfield_overrides = {
-        models.TextField: {'widget': Textarea(attrs={'rows': 2, 'cols': 70})},
-        }
-
-    extra = 1
-    formset = TextQuestionInlineFormSet
-
-
+#class QuestionChoiceInline(admin.TabularInline):
+#    """Question Choice admin."""
+#    model = QuestionChoice
+#    fieldset = (
+#        (None, {
+#            'fields': ('question', 'choice'),
+#            'classes': ['wide', ],
+#            })
+#        )
+#    extra = 4
+#
+#
+#class TextQuestionInline(admin.TabularInline):
+#    """Text Question admin."""
+#    model = TextPromptQuestion
+#    fieldset = (
+#        (None, {
+#            'fields': ('question', 'answer'),
+#            })
+#        )
+#    formfield_overrides = {
+#        models.TextField: {'widget': Textarea(attrs={'rows': 2, 'cols': 70})},
+#        }
+#
+#    extra = 1
+#    formset = TextQuestionInlineFormSet
+#
 class ActivityAdminForm(forms.ModelForm):
     """Activity Admin Form."""
     class Meta:
@@ -211,7 +212,7 @@ class ActivityAdminForm(forms.ModelForm):
 
     def save(self, *args, **kwargs):
         activity = super(ActivityAdminForm, self).save(*args, **kwargs)
-        activity.type = "activity"
+        activity.libActivity.subtype = "activity"
         activity.save()
         cache_mgr.clear()
 
@@ -292,7 +293,7 @@ class CommitmentAdminForm(forms.ModelForm):
 
     def save(self, *args, **kwargs):
         commitment = super(CommitmentAdminForm, self).save(*args, **kwargs)
-        commitment.type = "commitment"
+        commitment.subtype = "commitment"
         commitment.save()
         cache_mgr.clear()
 
@@ -346,15 +347,17 @@ challenge_mgr.register_developer_game_info_model("Smart Grid Game", Level)
 
 class CategoryAdmin(admin.ModelAdmin):
     """Category Admin"""
-    list_display = ["name", "priority"]
-    prepopulated_fields = {"slug": ("name",)}
+    list_display = ['get_name', 'level', 'priority']
+
+    def get_name(self, obj):
+        """Returns the Category's name from the library reference."""
+        return "%s" % (obj.library.name)
+    get_name.short_description = 'Name'
 
 
-class LimitedCategoryAdmin(admin.ModelAdmin):
+class LimitedCategoryAdmin(CategoryAdmin):
     """Limited Category Admin. Doesn't have priority."""
-    list_display = ["name"]
-    prepopulated_fields = {"slug": ("name",)}
-    fields = ["name", "slug"]
+    pass
 
 
 admin.site.register(Category, CategoryAdmin)
@@ -403,9 +406,8 @@ class ActionAdmin(admin.ModelAdmin):
     actions = ["delete_selected", "increment_priority", "decrement_priority",
                "change_level", "change_category", "clear_level", "clear_category",
                "clear_level_category", "copy_action"]
-    list_display = ["slug", "title", "level", "category", "priority", "type", "point_value"]
-    search_fields = ["slug", "title"]
-    list_filter = ["type", 'level', 'category']
+    list_display = ["level", "category", "priority", "point_value"]
+    list_filter = ['level', 'category']
 
     def delete_selected(self, request, queryset):
         """override the delete selected."""
@@ -510,26 +512,19 @@ class ActivityAdmin(admin.ModelAdmin):
     """Activity Admin"""
     fieldsets = (
         ("Basic Information",
-         {'fields': (('name', ),
-                     ('slug', 'related_resource'),
-                     ('title', 'duration'),
-                     'image',
-                     'description',
-                     ('video_id', 'video_source'),
-                     'embedded_widget',
+         {'fields': (('libActivity', ),
+                     ('related_resource'),
+                     ('duration'),
                      ('pub_date', 'expire_date'),
                      ('unlock_condition', 'unlock_condition_text'),
                      )}),
         ("Points",
          {"fields": (("point_value", "social_bonus"), ("point_range_start", "point_range_end"), )}),
         ("Ordering", {"fields": (("level", "category", "priority"), )}),
-        ("Admin Note", {'fields': ('admin_note',)}),
-        ("Confirmation Type", {'fields': ('confirm_type', 'confirm_prompt')}),
     )
-    prepopulated_fields = {"slug": ("name",)}
 
     form = ActivityAdminForm
-    inlines = [TextQuestionInline]
+    inlines = [LibraryTextQuestionInline]
     formfield_overrides = {
         models.CharField: {'widget': TextInput(attrs={'size': '80'})},
         }
@@ -548,11 +543,9 @@ class EventAdmin(admin.ModelAdmin):
     """Event Admin"""
     fieldsets = (
         ("Basic Information",
-         {'fields': (('name', "is_excursion"),
-                     ('slug', 'related_resource'),
-                     ('title', 'duration'),
-                     'image',
-                     'description',
+         {'fields': (('libEvent'),
+                     ('related_resource'),
+                     ('duration'),
                      ('pub_date', 'expire_date'),
                      ('event_date', 'event_location', 'event_max_seat'),
                      ('unlock_condition', 'unlock_condition_text'),
@@ -560,7 +553,6 @@ class EventAdmin(admin.ModelAdmin):
         ("Points", {"fields": (("point_value", "social_bonus"),)}),
         ("Ordering", {"fields": (("level", "category", "priority"), )}),
         )
-    prepopulated_fields = {"slug": ("name",)}
 
     form = EventAdminForm
 
@@ -582,18 +574,15 @@ class CommitmentAdmin(admin.ModelAdmin):
     """Commitment Admin."""
     fieldsets = (
         ("Basic Information", {
-            'fields': (('name', ),
-                       ('slug', 'related_resource'),
-                       ('title', 'duration'),
-                       'image',
-                       'description',
+            'fields': (('libCommitment', ),
+                       ('related_resource'),
+                       ('duration'),
                        'unlock_condition', 'unlock_condition_text',
                        ),
             }),
         ("Points", {"fields": (("point_value", 'social_bonus'), )}),
         ("Ordering", {"fields": (("level", "category", "priority"), )}),
         )
-    prepopulated_fields = {"slug": ("name",)}
 
     form = CommitmentAdminForm
 
@@ -615,15 +604,8 @@ developer_site.register(Commitment, CommitmentAdmin)
 class FillerAdmin(admin.ModelAdmin):
     """Commitment Admin."""
     fieldsets = (
-        ("Basic Information", {
-            'fields': (('name', ),
-                       ('slug', ),
-                       ('title', ),
-                       ),
-            }),
         ("Ordering", {"fields": (("level", "category", "priority"), )}),
         )
-    prepopulated_fields = {"slug": ("name",)}
 
     form = FillerAdminForm
 
@@ -700,7 +682,7 @@ class ActionMemberAdmin(admin.ModelAdmin):
         "action", "submission_date", "user_link", "approval_status", "short_question",
         "short_response")
 
-    list_filter = ["approval_status", "action__type"]
+    list_filter = ["approval_status", ]
     actions = ["approve_selected", "delete_selected"]
     search_fields = ["action__slug", "action__title", "user__username"]
 

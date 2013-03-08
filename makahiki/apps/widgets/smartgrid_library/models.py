@@ -178,24 +178,12 @@ class LibraryActivity(LibraryAction):
         null=True, blank=True,
         help_text="Notes for admins when approving this activity. " + settings.MARKDOWN_TEXT)
 
-    def is_active(self):
-        """Determines if the activity is available for users to participate."""
-        return self.is_active_for_date(datetime.date.today())
-
-    def is_active_for_date(self, date):
-        """Determines if the activity is available for user participation at the given date."""
-        pub_result = date - self.pub_date
-        expire_result = self.expire_date - date
-        if pub_result.days < 0 or expire_result.days < 0:
-            return False
-        return True
-
     def pick_question(self, user_id):
         """Choose a random question to present to a user."""
         if self.confirm_type != "text":
             return None
 
-        questions = LibraryTextPromptQuestion.objects.filter(action=self)
+        questions = LibraryTextPromptQuestion.objects.filter(libraryaction=self)
         if questions:
             return questions[user_id % len(questions)]
         else:
@@ -203,7 +191,7 @@ class LibraryActivity(LibraryAction):
 
     class Meta:
         """meta"""
-        verbose_name_plural = "Activities"
+        verbose_name_plural = "Library Activities"
 
 
 class LibraryCommitment(LibraryAction):

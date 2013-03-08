@@ -11,7 +11,7 @@ from django.forms.util import ErrorList
 from django.forms import TextInput, Textarea
 from django.db.utils import IntegrityError
 from apps.admin.admin import challenge_designer_site, challenge_manager_site, developer_site
-from apps.widgets.smartgrid_library.models import LibraryTextPromptQuestion, LibraryCategory,\
+from apps.widgets.smartgrid_library.models import LibraryTextPromptQuestion, LibraryCategory, \
     LibraryAction, LibraryActivity, LibraryQuestionChoice, LibraryEvent, LibraryCommitment
 from apps.widgets.smartgrid_library.views import library_action_admin_list, library_action_admin
 
