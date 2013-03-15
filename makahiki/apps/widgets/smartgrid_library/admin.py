@@ -1,4 +1,4 @@
-"""Admin definition for Smart Grid Game widget."""
+"""Admin definition for Smart Grid Game Library."""
 from django.db import models
 from apps.managers.cache_mgr import cache_mgr
 from apps.managers.challenge_mgr import challenge_mgr
@@ -9,84 +9,19 @@ from django import forms
 from django.forms.models import BaseInlineFormSet
 from django.forms.util import ErrorList
 from django.forms import TextInput, Textarea
-from django.db.utils import IntegrityError
 from apps.admin.admin import challenge_designer_site, challenge_manager_site, developer_site
 from apps.widgets.smartgrid_library.models import LibraryTextPromptQuestion, LibraryCategory, \
-    LibraryAction, LibraryActivity, LibraryQuestionChoice, LibraryEvent, LibraryCommitment
+    LibraryActivity, LibraryQuestionChoice, LibraryEvent, LibraryCommitment, LibraryAction
+from django.db.utils import IntegrityError
 from apps.widgets.smartgrid_library.views import library_action_admin_list, library_action_admin
 
 
-class LibraryTextQuestionInlineFormSet(BaseInlineFormSet):
-    """Custom formset model to override validation."""
-
-    def clean(self):
-        """Validates the form data and checks if the activity confirmation type is text."""
-
-        # Form that represents the activity.
-        activity = self.instance
-        if not activity.pk:
-            # If the activity is not saved, we don't care if this validates.
-            return
-
-        # Count the number of questions.
-        count = 0
-        for form in self.forms:
-            try:
-                if form.cleaned_data:
-                    count += 1
-            except AttributeError:
-                pass
-
-        if activity.confirm_type == "text" and count == 0:
-            # Why did I do this?
-            # activity.delete()
-            raise forms.ValidationError(
-                "At least one question is required if the activity's confirmation type is text.")
-
-        elif activity.confirm_type != "text" and count > 0:
-            # activity.delete()
-            raise forms.ValidationError("Questions are not required for this confirmation type.")
-
-
-class LibraryTextQuestionInline(admin.TabularInline):
-    """Text Question admin."""
-    model = LibraryTextPromptQuestion
-    fieldset = (
-        (None, {
-            'fields': ('question', 'answer'),
-            })
-        )
-    formfield_overrides = {
-        models.TextField: {'widget': Textarea(attrs={'rows': 2, 'cols': 70})},
-        }
-
-    extra = 1
-    formset = LibraryTextQuestionInlineFormSet
-
-
-class LibraryCategoryAdmin(admin.ModelAdmin):
-    """LibraryCategory Admin."""
-    list_display = ["name"]
-    prepopulated_fields = {"slug": ("name",)}
-    fields = ["name", "slug"]
-
-admin.site.register(LibraryCategory, LibraryCategoryAdmin)
-challenge_designer_site.register(LibraryCategory, LibraryCategoryAdmin)
-challenge_manager_site.register(LibraryCategory, LibraryCategoryAdmin)
-developer_site.register(LibraryCategory, LibraryCategoryAdmin)
-challenge_mgr.register_designer_challenge_info_model("Smart Grid Game Library", 4, \
-                                                     LibraryCategory, 1)
-challenge_mgr.register_developer_challenge_info_model("Smart Grid Game Library", 4, \
-                                                      LibraryCategory, 1)
-
-
 class LibraryActionAdmin(admin.ModelAdmin):
-    """Admin interface for Smart Grid Game Library Actions."""
+    """Admin interface for LibraryActions."""
     actions = ["delete_selected", "copy_action"]
-    list_display = ["slug", "title", "type", "subject", "point_value"]
-    prepopulated_fields = {"slug": ("name",)}
+    list_display = ["slug", "title", "type", "point_value"]
     search_fields = ["slug", "title"]
-    list_filter = ["type", 'subject']
+    list_filter = ["type", ]
 
     def delete_selected(self, request, queryset):
         """override the delete selected."""
@@ -111,7 +46,7 @@ class LibraryActionAdmin(admin.ModelAdmin):
     copy_action.short_description = "Copy selected Action(s)"
 
     def get_urls(self):
-        return library_redirect_urls(self, "change")
+        return redirect_urls(self, "change")
 
 admin.site.register(LibraryAction, LibraryActionAdmin)
 challenge_designer_site.register(LibraryAction, LibraryActionAdmin)
@@ -121,6 +56,22 @@ challenge_mgr.register_designer_challenge_info_model("Smart Grid Game Library", 
                                                      LibraryAction, 2)
 challenge_mgr.register_developer_challenge_info_model("Smart Grid Game Library", 4, \
                                                       LibraryAction, 2)
+
+
+class LibraryCategoryAdmin(admin.ModelAdmin):
+    """LibraryCategory Admin."""
+    list_display = ["name"]
+    prepopulated_fields = {"slug": ("name",)}
+    fields = ["name", "slug"]
+
+admin.site.register(LibraryCategory, LibraryCategoryAdmin)
+challenge_designer_site.register(LibraryCategory, LibraryCategoryAdmin)
+challenge_manager_site.register(LibraryCategory, LibraryCategoryAdmin)
+developer_site.register(LibraryCategory, LibraryCategoryAdmin)
+challenge_mgr.register_designer_challenge_info_model("Smart Grid Game Library", 4, \
+                                                     LibraryCategory, 1)
+challenge_mgr.register_developer_challenge_info_model("Smart Grid Game Library", 4, \
+                                                      LibraryCategory, 1)
 
 
 class LibraryActivityAdminForm(forms.ModelForm):
@@ -189,7 +140,7 @@ class LibraryActivityAdminForm(forms.ModelForm):
 
     def save(self, *args, **kwargs):
         activity = super(LibraryActivityAdminForm, self).save(*args, **kwargs)
-        activity.subtype = "activity"
+        activity.type = 'activity'
         activity.save()
         cache_mgr.clear()
 
@@ -200,13 +151,74 @@ class LibraryActivityAdminForm(forms.ModelForm):
         return activity
 
 
+class LibraryTextQuestionInlineFormSet(BaseInlineFormSet):
+    """Custom formset model to override validation."""
+
+    def clean(self):
+        """Validates the form data and checks if the activity confirmation type is text."""
+
+        # Form that represents the activity.
+        activity = self.instance
+        if not activity.pk:
+            # If the activity is not saved, we don't care if this validates.
+            return
+
+        # Count the number of questions.
+        count = 0
+        for form in self.forms:
+            try:
+                if form.cleaned_data:
+                    count += 1
+            except AttributeError:
+                pass
+
+        if activity.confirm_type == "text" and count == 0:
+            # Why did I do this?
+            # activity.delete()
+            raise forms.ValidationError(
+                "At least one question is required if the activity's confirmation type is text.")
+
+        elif activity.confirm_type != "text" and count > 0:
+            # activity.delete()
+            raise forms.ValidationError("Questions are not required for this confirmation type.")
+
+
+class LibraryQuestionChoiceInline(admin.TabularInline):
+    """Smart Grid Game Library Question Choice admin."""
+    model = LibraryQuestionChoice
+    fieldset = (
+        (None, {
+            'fields': ('question', 'choice'),
+            'classes': ['wide', ],
+            })
+        )
+    extra = 4
+
+
+class LibraryTextQuestionInline(admin.TabularInline):
+    """Text Question admin."""
+    model = LibraryTextPromptQuestion
+    fieldset = (
+        (None, {
+            'fields': ('question', 'answer'),
+            })
+        )
+    formfield_overrides = {
+        models.TextField: {'widget': Textarea(attrs={'rows': 2, 'cols': 70})},
+        }
+
+    extra = 1
+    formset = LibraryTextQuestionInlineFormSet
+
+
 class LibraryActivityAdmin(admin.ModelAdmin):
     """Smart Grid Game Library Activities Admin."""
+    list_display = ["slug", 'title', 'expected_duration', 'point_value']
     fieldsets = (
         ("Basic Information",
          {'fields': (('name', ),
                      ('slug', ),
-                     ('title', 'duration'),
+                     ('title', 'expected_duration'),
                      'image',
                      'description',
                      ('video_id', 'video_source'),
@@ -227,7 +239,7 @@ class LibraryActivityAdmin(admin.ModelAdmin):
         }
 
     def get_urls(self):
-        return library_redirect_urls(self, "changelist")
+        return redirect_urls(self, "changelist")
 
 
 admin.site.register(LibraryActivity, LibraryActivityAdmin)
@@ -250,7 +262,7 @@ class LibraryCommitmentAdminForm(forms.ModelForm):
 
     def save(self, *args, **kwargs):
         commitment = super(LibraryCommitmentAdminForm, self).save(*args, **kwargs)
-        commitment.subtype = "commitment"
+        commitment.type = 'commitment'
         commitment.save()
         cache_mgr.clear()
 
@@ -259,11 +271,12 @@ class LibraryCommitmentAdminForm(forms.ModelForm):
 
 class LibraryCommitmentAdmin(admin.ModelAdmin):
     """Smart Grid Game Library Commitment Admin."""
+    list_display = ["slug", 'title', 'commitment_length', 'point_value']
     fieldsets = (
         ("Basic Information", {
             'fields': (('name', ),
                        ('slug', ),
-                       ('title', 'duration'),
+                       ('title', 'commitment_length'),
                        'image',
                        'description',
                        'unlock_condition', 'unlock_condition_text',
@@ -281,7 +294,7 @@ class LibraryCommitmentAdmin(admin.ModelAdmin):
 
     def get_urls(self):
         """override the url definition."""
-        return library_redirect_urls(self, "changelist")
+        return redirect_urls(self, "changelist")
 
 
 admin.site.register(LibraryCommitment, LibraryCommitmentAdmin)
@@ -305,12 +318,8 @@ class LibraryEventAdminForm(forms.ModelForm):
 
     def save(self, *args, **kwargs):
         event = super(LibraryEventAdminForm, self).save(*args, **kwargs)
-        if event.is_excursion:
-            event.subtype = "excursion"
-        else:
-            event.subtype = "event"
+        event.type = 'event'
         event.save()
-
         cache_mgr.clear()
 
         return event
@@ -318,11 +327,12 @@ class LibraryEventAdminForm(forms.ModelForm):
 
 class LibraryEventAdmin(admin.ModelAdmin):
     """Smart Grid Game Library Event Admin"""
+    list_display = ["slug", 'title', 'expected_duration', 'point_value']
     fieldsets = (
         ("Basic Information",
-         {'fields': (('name', "is_excursion"),
+         {'fields': (('name',),
                      ('slug',),
-                     ('title', 'duration'),
+                     ('title', 'expected_duration'),
                      'image',
                      'description',
                      ('unlock_condition', 'unlock_condition_text'),
@@ -338,7 +348,7 @@ class LibraryEventAdmin(admin.ModelAdmin):
         }
 
     def get_urls(self):
-        return library_redirect_urls(self, "changelist")
+        return redirect_urls(self, "changelist")
 
 
 admin.site.register(LibraryEvent, LibraryEventAdmin)
@@ -347,19 +357,7 @@ challenge_manager_site.register(LibraryEvent, LibraryEventAdmin)
 developer_site.register(LibraryEvent, LibraryEventAdmin)
 
 
-class LibraryQuestionChoiceInline(admin.TabularInline):
-    """Smart Grid Game Library Question Choice admin."""
-    model = LibraryQuestionChoice
-    fieldset = (
-        (None, {
-            'fields': ('question', 'choice'),
-            'classes': ['wide', ],
-            })
-        )
-    extra = 4
-
-
-def library_redirect_urls(model_admin, url_type):
+def redirect_urls(model_admin, url_type):
     """change the url redirection."""
     from django.conf.urls.defaults import patterns, url
     from functools import update_wrapper
@@ -372,11 +370,9 @@ def library_redirect_urls(model_admin, url_type):
         return update_wrapper(wrapper, view)
 
     info = model_admin.model._meta.app_label, model_admin.model._meta.module_name
-    print info
     urlpatterns = patterns('',
         url(r'^$',
-            wrap(library_action_admin_list if url_type == "changelist" else model_admin.\
-                 changelist_view),
+            wrap(library_action_admin_list if url_type == "changelist" else model_admin.changelist_view),
             name='%s_%s_changelist' % info),
         url(r'^add/$',
             wrap(model_admin.add_view),

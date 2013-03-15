@@ -1,19 +1,43 @@
-"""Smart Grid Game model definition."""
+"""Smart Grid Game Library model definition."""
 
-import datetime
 from django.db import models
-from django.conf import settings
-import os
-
 from apps.utils.utils import media_file_path
 from apps.managers.cache_mgr import cache_mgr
+from django.conf import settings
+import os
 
 _MEDIA_LOCATION_ACTION = os.path.join("smartgrid_library", "actions")
 """location for the uploaded files for actions."""
 
 
+class LibraryTextPromptQuestion(models.Model):
+    """Represents questions that can be asked of users in order to verify participation
+    in activities."""
+
+    libraryaction = models.ForeignKey("LibraryAction")
+    question = models.TextField(help_text="The question text.")
+    answer = models.CharField(max_length=255,
+                              help_text="The answer of question (max 255 characters).",
+                              null=True, blank=True)
+
+    def __unicode__(self):
+        return "Question: '%s' Answer: '%s'" % (self.question, self.answer)
+
+
+class LibraryQuestionChoice(models.Model):
+    """Represents questions's multiple choice"""
+
+    question = models.ForeignKey("LibraryTextPromptQuestion")
+    action = models.ForeignKey("LibraryAction")
+    choice = models.CharField(max_length=255,
+                              help_text="The choice of question (max 255 characters).")
+
+    def __unicode__(self):
+        return self.choice
+
+
 class LibraryCategory(models.Model):
-    """Represents a Category in the Smart Grid Game Library."""
+    """Categories used to group actions."""
     name = models.CharField(max_length=255,
                             help_text="The name of the category (max 255 characters).")
     slug = models.SlugField(help_text="Automatically generated if left blank.",
@@ -34,38 +58,20 @@ class LibraryCategory(models.Model):
 
 
 class LibraryAction(models.Model):
-    """Represents an Action in the Smart Grid Game Library."""
+    """Activity Base class."""
     TYPE_CHOICES = (
         ('activity', 'Activity'),
-        ('creative', 'Creative'),
         ('commitment', 'Commitment'),
         ('event', 'Event'),
-        ('excursion', 'Excursion'),
-        ('video', 'Video'),
-    )
-
-    SUBJECT_CHOICES = (
+        )
+    RESOURCE_CHOICES = (
         ('energy', 'Energy'),
         ('water', 'Water'),
-        ('waste_recycling', 'Waste/Recycling'),
-        ('food', 'Food'),
-        ('transportation', 'Transportation'),
-        ('lighting', 'Lighting'),
-        ('climate_change', 'Climate Change'),
-        ('kukui_cup', 'Kukui Cup'),
-        ('multi_subject', 'Multi-Subject'),
+        ('waste', 'Waste'),
     )
 
     VIDEO_SOURCE_CHOICES = (
         ('youtube', 'youtube'),
-    )
-
-    SUBTYPE_CHOICES = (
-        ('activity', 'Activity'),
-        ('commitment', 'Commitment'),
-        ('event', 'Event'),
-        ('excursion', 'Excursion'),
-        ('filler', 'Filler'),
     )
 
     name = models.CharField(
@@ -102,17 +108,7 @@ class LibraryAction(models.Model):
     type = models.CharField(
         max_length=20,
         choices=TYPE_CHOICES,
-        help_text="The type of the action."
-    )
-    subject = models.CharField(
-        max_length=20,
-        choices=SUBJECT_CHOICES,
-        help_text="The subject of the action."
-    )
-    subtype = models.CharField(
-        max_length=20,
-        choices=SUBTYPE_CHOICES,
-        help_text="The subtype or class of the action."
+        help_text="The type of the actions."
     )
     unlock_condition = models.CharField(
         max_length=400, null=True, blank=True,
@@ -122,6 +118,11 @@ class LibraryAction(models.Model):
         max_length=400, null=True, blank=True,
         help_text="The description of the unlock condition. It will be displayed to players when "
                   "the lock icon is clicked.")
+    related_resource = models.CharField(
+        max_length=20,
+        null=True, blank=True,
+        choices=RESOURCE_CHOICES,
+        help_text="The resource type this action related.")
     social_bonus = models.IntegerField(
         default=0,
         help_text="Social bonus point value.")
@@ -129,10 +130,17 @@ class LibraryAction(models.Model):
         default=0,
         help_text="The point value to be awarded."
     )
-    admin_tool_tip = "Smart Grid Game Library Actions"
+
+    def get_classname(self):
+        """Returns the classname."""
+        return self._meta.module_name
 
     def __unicode__(self):
         return "%s: %s" % (self.type.capitalize(), self.title)
+
+    def get_action(self, action_type):
+        """Returns the concrete action object by type."""
+        return action_type.objects.get(action_ptr=self.pk)
 
 
 class LibraryActivity(LibraryAction):
@@ -147,7 +155,7 @@ class LibraryActivity(LibraryAction):
         ('free_image', 'Free Response and Image Upload'),
         )
 
-    duration = models.IntegerField(
+    expected_duration = models.IntegerField(
         verbose_name="Expected activity duration",
         help_text="Time (in minutes) that the activity is expected to take."
     )
@@ -183,7 +191,7 @@ class LibraryActivity(LibraryAction):
         if self.confirm_type != "text":
             return None
 
-        questions = LibraryTextPromptQuestion.objects.filter(libraryaction=self)
+        questions = LibraryTextPromptQuestion.objects.filter(action=self)
         if questions:
             return questions[user_id % len(questions)]
         else:
@@ -191,13 +199,13 @@ class LibraryActivity(LibraryAction):
 
     class Meta:
         """meta"""
-        verbose_name_plural = "Library Activities"
+        verbose_name_plural = "library activities"
 
 
 class LibraryCommitment(LibraryAction):
     """Commitments involve non-verifiable actions that a user can commit to.
     Typically, they will be worth fewer points than activities."""
-    duration = models.IntegerField(
+    commitment_length = models.IntegerField(
         default=5,
         help_text="Duration of commitment, in days."
     )
@@ -206,35 +214,7 @@ class LibraryCommitment(LibraryAction):
 class LibraryEvent(LibraryAction):
     """Events will be verified by confirmation code. It includes events and excursions."""
 
-    duration = models.IntegerField(
+    expected_duration = models.IntegerField(
         verbose_name="Expected activity duration",
         help_text="Time (in minutes) that the activity is expected to take."
     )
-
-    is_excursion = models.BooleanField(default=False, help_text="Is excursion?")
-
-
-class LibraryTextPromptQuestion(models.Model):
-    """Represents questions that can be asked of users in order to verify participation
-    in activities."""
-
-    libraryaction = models.ForeignKey("LibraryAction")
-    question = models.TextField(help_text="The question text.")
-    answer = models.CharField(max_length=255,
-                              help_text="The answer of question (max 255 characters).",
-                              null=True, blank=True)
-
-    def __unicode__(self):
-        return "Question: '%s' Answer: '%s'" % (self.question, self.answer)
-
-
-class LibraryQuestionChoice(models.Model):
-    """Represents questions's multiple choice"""
-
-    question = models.ForeignKey("LibraryTextPromptQuestion")
-    action = models.ForeignKey("LibraryAction")
-    choice = models.CharField(max_length=255,
-                              help_text="The choice of question (max 255 characters).")
-
-    def __unicode__(self):
-        return self.choice

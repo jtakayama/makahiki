@@ -8,6 +8,24 @@ class Migration(SchemaMigration):
 
     def forwards(self, orm):
         
+        # Adding model 'LibraryTextPromptQuestion'
+        db.create_table('smartgrid_library_librarytextpromptquestion', (
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('libraryaction', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['smartgrid_library.LibraryAction'])),
+            ('question', self.gf('django.db.models.fields.TextField')()),
+            ('answer', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True)),
+        ))
+        db.send_create_signal('smartgrid_library', ['LibraryTextPromptQuestion'])
+
+        # Adding model 'LibraryQuestionChoice'
+        db.create_table('smartgrid_library_libraryquestionchoice', (
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('question', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['smartgrid_library.LibraryTextPromptQuestion'])),
+            ('action', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['smartgrid_library.LibraryAction'])),
+            ('choice', self.gf('django.db.models.fields.CharField')(max_length=255)),
+        ))
+        db.send_create_signal('smartgrid_library', ['LibraryQuestionChoice'])
+
         # Adding model 'LibraryCategory'
         db.create_table('smartgrid_library_librarycategory', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
@@ -27,11 +45,9 @@ class Migration(SchemaMigration):
             ('video_source', self.gf('django.db.models.fields.CharField')(max_length=20, null=True, blank=True)),
             ('embedded_widget', self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True)),
             ('description', self.gf('django.db.models.fields.TextField')()),
-            ('type', self.gf('django.db.models.fields.CharField')(max_length=20)),
-            ('subject', self.gf('django.db.models.fields.CharField')(max_length=20)),
-            ('subtype', self.gf('django.db.models.fields.CharField')(max_length=20)),
             ('unlock_condition', self.gf('django.db.models.fields.CharField')(max_length=400, null=True, blank=True)),
             ('unlock_condition_text', self.gf('django.db.models.fields.CharField')(max_length=400, null=True, blank=True)),
+            ('related_resource', self.gf('django.db.models.fields.CharField')(max_length=20, null=True, blank=True)),
             ('social_bonus', self.gf('django.db.models.fields.IntegerField')(default=0)),
             ('point_value', self.gf('django.db.models.fields.IntegerField')(default=0)),
         ))
@@ -40,7 +56,7 @@ class Migration(SchemaMigration):
         # Adding model 'LibraryActivity'
         db.create_table('smartgrid_library_libraryactivity', (
             ('libraryaction_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['smartgrid_library.LibraryAction'], unique=True, primary_key=True)),
-            ('duration', self.gf('django.db.models.fields.IntegerField')()),
+            ('expected_duration', self.gf('django.db.models.fields.IntegerField')()),
             ('point_range_start', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True)),
             ('point_range_end', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True)),
             ('confirm_type', self.gf('django.db.models.fields.CharField')(default='text', max_length=20)),
@@ -52,39 +68,26 @@ class Migration(SchemaMigration):
         # Adding model 'LibraryCommitment'
         db.create_table('smartgrid_library_librarycommitment', (
             ('libraryaction_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['smartgrid_library.LibraryAction'], unique=True, primary_key=True)),
-            ('duration', self.gf('django.db.models.fields.IntegerField')(default=5)),
+            ('commitment_length', self.gf('django.db.models.fields.IntegerField')(default=5)),
         ))
         db.send_create_signal('smartgrid_library', ['LibraryCommitment'])
 
         # Adding model 'LibraryEvent'
         db.create_table('smartgrid_library_libraryevent', (
             ('libraryaction_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['smartgrid_library.LibraryAction'], unique=True, primary_key=True)),
-            ('duration', self.gf('django.db.models.fields.IntegerField')()),
-            ('is_excursion', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('expected_duration', self.gf('django.db.models.fields.IntegerField')()),
         ))
         db.send_create_signal('smartgrid_library', ['LibraryEvent'])
-
-        # Adding model 'LibraryTextPromptQuestion'
-        db.create_table('smartgrid_library_librarytextpromptquestion', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('libraryaction', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['smartgrid_library.LibraryAction'])),
-            ('question', self.gf('django.db.models.fields.TextField')()),
-            ('answer', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True)),
-        ))
-        db.send_create_signal('smartgrid_library', ['LibraryTextPromptQuestion'])
-
-        # Adding model 'LibraryQuestionChoice'
-        db.create_table('smartgrid_library_libraryquestionchoice', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('question', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['smartgrid_library.LibraryTextPromptQuestion'])),
-            ('action', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['smartgrid_library.LibraryAction'])),
-            ('choice', self.gf('django.db.models.fields.CharField')(max_length=255)),
-        ))
-        db.send_create_signal('smartgrid_library', ['LibraryQuestionChoice'])
 
 
     def backwards(self, orm):
         
+        # Deleting model 'LibraryTextPromptQuestion'
+        db.delete_table('smartgrid_library_librarytextpromptquestion')
+
+        # Deleting model 'LibraryQuestionChoice'
+        db.delete_table('smartgrid_library_libraryquestionchoice')
+
         # Deleting model 'LibraryCategory'
         db.delete_table('smartgrid_library_librarycategory')
 
@@ -100,12 +103,6 @@ class Migration(SchemaMigration):
         # Deleting model 'LibraryEvent'
         db.delete_table('smartgrid_library_libraryevent')
 
-        # Deleting model 'LibraryTextPromptQuestion'
-        db.delete_table('smartgrid_library_librarytextpromptquestion')
-
-        # Deleting model 'LibraryQuestionChoice'
-        db.delete_table('smartgrid_library_libraryquestionchoice')
-
 
     models = {
         'smartgrid_library.libraryaction': {
@@ -116,12 +113,10 @@ class Migration(SchemaMigration):
             'image': ('django.db.models.fields.files.ImageField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '20'}),
             'point_value': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
+            'related_resource': ('django.db.models.fields.CharField', [], {'max_length': '20', 'null': 'True', 'blank': 'True'}),
             'slug': ('django.db.models.fields.SlugField', [], {'unique': 'True', 'max_length': '50', 'db_index': 'True'}),
             'social_bonus': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
-            'subject': ('django.db.models.fields.CharField', [], {'max_length': '20'}),
-            'subtype': ('django.db.models.fields.CharField', [], {'max_length': '20'}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
-            'type': ('django.db.models.fields.CharField', [], {'max_length': '20'}),
             'unlock_condition': ('django.db.models.fields.CharField', [], {'max_length': '400', 'null': 'True', 'blank': 'True'}),
             'unlock_condition_text': ('django.db.models.fields.CharField', [], {'max_length': '400', 'null': 'True', 'blank': 'True'}),
             'video_id': ('django.db.models.fields.CharField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
@@ -132,7 +127,7 @@ class Migration(SchemaMigration):
             'admin_note': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             'confirm_prompt': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             'confirm_type': ('django.db.models.fields.CharField', [], {'default': "'text'", 'max_length': '20'}),
-            'duration': ('django.db.models.fields.IntegerField', [], {}),
+            'expected_duration': ('django.db.models.fields.IntegerField', [], {}),
             'libraryaction_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['smartgrid_library.LibraryAction']", 'unique': 'True', 'primary_key': 'True'}),
             'point_range_end': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'point_range_start': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'})
@@ -145,13 +140,12 @@ class Migration(SchemaMigration):
         },
         'smartgrid_library.librarycommitment': {
             'Meta': {'object_name': 'LibraryCommitment', '_ormbases': ['smartgrid_library.LibraryAction']},
-            'duration': ('django.db.models.fields.IntegerField', [], {'default': '5'}),
+            'commitment_length': ('django.db.models.fields.IntegerField', [], {'default': '5'}),
             'libraryaction_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['smartgrid_library.LibraryAction']", 'unique': 'True', 'primary_key': 'True'})
         },
         'smartgrid_library.libraryevent': {
             'Meta': {'object_name': 'LibraryEvent', '_ormbases': ['smartgrid_library.LibraryAction']},
-            'duration': ('django.db.models.fields.IntegerField', [], {}),
-            'is_excursion': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'expected_duration': ('django.db.models.fields.IntegerField', [], {}),
             'libraryaction_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['smartgrid_library.LibraryAction']", 'unique': 'True', 'primary_key': 'True'})
         },
         'smartgrid_library.libraryquestionchoice': {

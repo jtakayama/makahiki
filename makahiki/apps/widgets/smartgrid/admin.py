@@ -8,8 +8,8 @@ from apps.managers.cache_mgr import cache_mgr
 from apps.managers.challenge_mgr import challenge_mgr
 from apps.utils import utils
 from apps.widgets.smartgrid.models import ActionMember, Activity, Category, Event, \
-                                     Commitment, ConfirmationCode, \
-                                     Level, Action, Filler, \
+                                     Commitment, ConfirmationCode, TextPromptQuestion, \
+                                     QuestionChoice, Level, Action, Filler, \
                                      EmailReminder, TextReminder
 from apps.widgets.smartgrid.views import action_admin, action_admin_list
 
@@ -22,383 +22,6 @@ from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.db.utils import IntegrityError
 from apps.admin.admin import challenge_designer_site, challenge_manager_site, developer_site
-from apps.widgets.smartgrid_library.admin import LibraryTextQuestionInline, LibraryCategoryAdmin
-from django.forms.widgets import MediaDefiningClass
-
-
-class ConfirmationCodeAdmin(admin.ModelAdmin):
-    """admin for Bonus Points."""
-    actions = ["delete_selected", "view_selected", "print_selected"]
-    list_display = ["pk", "code", "create_date", "is_active",
-                    "printed_or_distributed", "user"]
-    ordering = ["-create_date", "is_active"]
-    list_filter = ["is_active", "printed_or_distributed"]
-    date_hierarchy = "create_date"
-
-    def delete_selected(self, request, queryset):
-        """override the delete selected method."""
-        _ = request
-        for obj in queryset:
-            obj.delete()
-
-    delete_selected.short_description = "Delete the selected codes."
-
-    def view_selected(self, request, queryset):
-        """Views the Codes for printing."""
-        return render_to_response("admin/view_codes.html", {
-            "activity": queryset[0].action,
-            "codes": queryset,
-            "per_page": 10,
-        }, context_instance=RequestContext(request))
-
-    view_selected.short_description = "view the selected codes."
-
-    def print_selected(self, request, queryset):
-        """Changes the printed_or_distributed flag to True for the selected
-        Confirmation Codes."""
-        _ = request
-        queryset.update(printed_or_distributed=True)
-
-    print_selected.short_description = "Set the printed or distributed flag."
-
-    def view_codes(self, request, queryset):
-        """Views the Codes for printing."""
-        _ = request
-        _ = queryset
-
-        response = HttpResponseRedirect(reverse("activity_view_codes", args=()))
-        return response
-
-
-admin.site.register(ConfirmationCode, ConfirmationCodeAdmin)
-challenge_designer_site.register(ConfirmationCode, ConfirmationCodeAdmin)
-challenge_manager_site.register(ConfirmationCode, ConfirmationCodeAdmin)
-developer_site.register(ConfirmationCode, ConfirmationCodeAdmin)
-
-
-#class TextQuestionInlineFormSet(BaseInlineFormSet):
-#    """Custom formset model to override validation."""
-#
-#    def clean(self):
-#        """Validates the form data and checks if the activity confirmation type is text."""
-#
-#        # Form that represents the activity.
-#        activity = self.instance
-#        if not activity.pk:
-#            # If the activity is not saved, we don't care if this validates.
-#            return
-#
-#        # Count the number of questions.
-#        count = 0
-#        for form in self.forms:
-#            try:
-#                if form.cleaned_data:
-#                    count += 1
-#            except AttributeError:
-#                pass
-#
-#        if activity.confirm_type == "text" and count == 0:
-#            # Why did I do this?
-#            # activity.delete()
-#            raise forms.ValidationError(
-#                "At least one question is required if the activity's confirmation type is text.")
-#
-#        elif activity.confirm_type != "text" and count > 0:
-#            # activity.delete()
-#            raise forms.ValidationError("Questions are not required for this confirmation type.")
-
-
-#class QuestionChoiceInline(admin.TabularInline):
-#    """Question Choice admin."""
-#    model = QuestionChoice
-#    fieldset = (
-#        (None, {
-#            'fields': ('question', 'choice'),
-#            'classes': ['wide', ],
-#            })
-#        )
-#    extra = 4
-#
-#
-#class TextQuestionInline(admin.TabularInline):
-#    """Text Question admin."""
-#    model = TextPromptQuestion
-#    fieldset = (
-#        (None, {
-#            'fields': ('question', 'answer'),
-#            })
-#        )
-#    formfield_overrides = {
-#        models.TextField: {'widget': Textarea(attrs={'rows': 2, 'cols': 70})},
-#        }
-#
-#    extra = 1
-#    formset = TextQuestionInlineFormSet
-#
-class ActivityAdminForm(forms.ModelForm):
-    """Activity Admin Form."""
-    class Meta:
-        """Meta"""
-        model = Activity
-
-    def clean_unlock_condition(self):
-        """Validates the unlock conditions of the action."""
-        data = self.cleaned_data["unlock_condition"]
-        utils.validate_form_predicates(data)
-        return data
-
-    def clean(self):
-        """
-        Validates the admin form data based on a set of constraints.
-            1.  If the verification type is "image" or "code", then a confirm prompt is required.
-            2.  Publication date must be before expiration date.
-            3.  Either points or a point range needs to be specified.
-        """
-
-        super(ActivityAdminForm, self).clean()
-
-        # Data that has passed validation.
-        cleaned_data = self.cleaned_data
-
-        #1 Check the verification type.
-        confirm_type = cleaned_data.get("confirm_type")
-        prompt = cleaned_data.get("confirm_prompt")
-        if confirm_type != "text" and len(prompt) == 0:
-            self._errors["confirm_prompt"] = ErrorList(
-                [u"This confirmation type requires a confirmation prompt."])
-            del cleaned_data["confirm_type"]
-            del cleaned_data["confirm_prompt"]
-
-        #2 Publication date must be before the expiration date.
-        if "pub_date" in cleaned_data and "expire_date" in cleaned_data:
-            pub_date = cleaned_data.get("pub_date")
-            expire_date = cleaned_data.get("expire_date")
-
-            if expire_date and pub_date >= expire_date:
-                self._errors["expire_date"] = ErrorList(
-                    [u"The expiration date must be after the pub date."])
-                del cleaned_data["expire_date"]
-
-        #3 Either points or a point range needs to be specified.
-        points = cleaned_data.get("point_value")
-        point_range_start = cleaned_data.get("point_range_start")
-        point_range_end = cleaned_data.get("point_range_end")
-        if not points and not (point_range_start or point_range_end):
-            self._errors["point_value"] = ErrorList(
-                [u"Either a point value or a range needs to be specified."])
-            del cleaned_data["point_value"]
-        elif points and (point_range_start or point_range_end):
-            self._errors["point_value"] = ErrorList(
-                [u"Please specify either a point_value or a range."])
-            del cleaned_data["point_value"]
-        elif not points:
-            point_range_start = cleaned_data.get("point_range_start")
-            point_range_end = cleaned_data.get("point_range_end")
-            if not point_range_start:
-                self._errors["point_range_start"] = ErrorList(
-                    [u"Please specify a start value for the point range."])
-                del cleaned_data["point_range_start"]
-            elif not point_range_end:
-                self._errors["point_range_end"] = ErrorList(
-                    [u"Please specify a end value for the point range."])
-                del cleaned_data["point_range_end"]
-            elif point_range_start >= point_range_end:
-                self._errors["point_range_start"] = ErrorList(
-                    [u"The start value must be less than the end value."])
-                del cleaned_data["point_range_start"]
-                del cleaned_data["point_range_end"]
-
-        return cleaned_data
-
-    def save(self, *args, **kwargs):
-        activity = super(ActivityAdminForm, self).save(*args, **kwargs)
-        activity.libActivity.subtype = "activity"
-        activity.save()
-        cache_mgr.clear()
-
-        # If the activity's confirmation type is text, make sure to save the questions.
-        if self.cleaned_data.get("confirm_type") == "text":
-            self.save_m2m()
-
-        return activity
-
-
-class EventAdminForm(forms.ModelForm):
-    """Event Admin Form."""
-
-    class Meta:
-        """Meta"""
-        model = Event
-
-    def clean_unlock_condition(self):
-        """Validates the unlock conditions of the action."""
-        data = self.cleaned_data["unlock_condition"]
-        utils.validate_form_predicates(data)
-        return data
-
-    def clean(self):
-        """
-        Validates the admin form data based on a set of constraints.
-
-            1.  Events must have an event date.
-            2.  Publication date must be before expiration date.
-        """
-
-        # Data that has passed validation.
-        cleaned_data = self.cleaned_data
-
-        #1 Check that an event has an event date.
-        event_date = cleaned_data.get("event_date")
-        has_date = "event_date" in cleaned_data   # Check if this is in the data dict.
-        if has_date and not event_date:
-            self._errors["event_date"] = ErrorList([u"Events require an event date."])
-            del cleaned_data["event_date"]
-
-        #2 Publication date must be before the expiration date.
-        if "pub_date" in cleaned_data and "expire_date" in cleaned_data:
-            pub_date = cleaned_data.get("pub_date")
-            expire_date = cleaned_data.get("expire_date")
-
-            if expire_date and pub_date >= expire_date:
-                self._errors["expire_date"] = ErrorList(
-                    [u"The expiration date must be after the pub date."])
-                del cleaned_data["expire_date"]
-
-        return cleaned_data
-
-    def save(self, *args, **kwargs):
-        event = super(EventAdminForm, self).save(*args, **kwargs)
-        if event.is_excursion:
-            event.type = "excursion"
-        else:
-            event.type = "event"
-        event.save()
-
-        cache_mgr.clear()
-
-        return event
-
-
-class CommitmentAdminForm(forms.ModelForm):
-    """admin form"""
-    class Meta:
-        """meta"""
-        model = Commitment
-
-    def clean_unlock_condition(self):
-        """Validates the unlock conditions of the action."""
-        data = self.cleaned_data["unlock_condition"]
-        utils.validate_form_predicates(data)
-        return data
-
-    def save(self, *args, **kwargs):
-        commitment = super(CommitmentAdminForm, self).save(*args, **kwargs)
-        commitment.subtype = "commitment"
-        commitment.save()
-        cache_mgr.clear()
-
-        return commitment
-
-
-class FillerAdminForm(forms.ModelForm):
-    """admin form"""
-    class Meta:
-        """meta"""
-        model = Filler
-
-    def save(self, *args, **kwargs):
-        filler = super(FillerAdminForm, self).save(*args, **kwargs)
-        filler.type = "filler"
-        filler.unlock_condition = "False"
-        filler.unlock_condition_text = "This cell is here only to fill out the grid. " \
-                                       "There is no action associated with it."
-        filler.save()
-        cache_mgr.clear()
-
-        return filler
-
-
-class LevelAdminForm(forms.ModelForm):
-    """admin form"""
-    class Meta:
-        """meta"""
-        model = Level
-
-    def clean_unlock_condition(self):
-        """Validates the unlock conditions of the action."""
-        data = self.cleaned_data["unlock_condition"]
-        utils.validate_form_predicates(data)
-        return data
-
-
-class LevelAdmin(admin.ModelAdmin):
-    """Level Admin"""
-    list_display = ["name", "priority", "unlock_condition"]
-    form = LevelAdminForm
-
-
-admin.site.register(Level, LevelAdmin)
-challenge_designer_site.register(Level, LevelAdmin)
-challenge_manager_site.register(Level, LevelAdmin)
-developer_site.register(Level, LevelAdmin)
-challenge_mgr.register_designer_game_info_model("Smart Grid Game", Level)
-challenge_mgr.register_developer_game_info_model("Smart Grid Game", Level)
-
-
-class CategoryAdmin(admin.ModelAdmin):
-    """Category Admin"""
-    list_display = ['get_name', 'level', 'priority']
-
-    def get_name(self, obj):
-        """Returns the Category's name from the library reference."""
-        return "%s" % (obj.library.name)
-    get_name.short_description = 'Name'
-
-
-class LimitedCategoryAdmin(CategoryAdmin):
-    """Limited Category Admin. Doesn't have priority."""
-    pass
-
-
-admin.site.register(Category, CategoryAdmin)
-challenge_designer_site.register(Category, CategoryAdmin)
-challenge_manager_site.register(Category, LimitedCategoryAdmin)
-developer_site.register(Category, CategoryAdmin)
-challenge_mgr.register_designer_game_info_model("Smart Grid Game", Category)
-challenge_mgr.register_developer_game_info_model("Smart Grid Game", Category)
-
-
-def redirect_urls(model_admin, url_type):
-    """change the url redirection."""
-    from django.conf.urls.defaults import patterns, url
-    from functools import update_wrapper
-
-    def wrap(view):
-        """wrap the view fuction."""
-        def wrapper(*args, **kwargs):
-            """return the wrapper."""
-            return model_admin.admin_site.admin_view(view)(*args, **kwargs)
-        return update_wrapper(wrapper, view)
-
-    info = model_admin.model._meta.app_label, model_admin.model._meta.module_name
-    urlpatterns = patterns('',
-        url(r'^$',
-            wrap(action_admin_list if url_type == "changelist" else model_admin.changelist_view),
-            name='%s_%s_changelist' % info),
-        url(r'^add/$',
-            wrap(model_admin.add_view),
-            name='%s_%s_add' % info),
-        url(r'^(.+)/history/$',
-            wrap(model_admin.history_view),
-            name='%s_%s_history' % info),
-        url(r'^(.+)/delete/$',
-            wrap(model_admin.delete_view),
-            name='%s_%s_delete' % info),
-        url(r'^(.+)/$',
-            wrap(action_admin if url_type == "change" else model_admin.change_view),
-            name='%s_%s_change' % info),
-    )
-    return urlpatterns
 
 
 class ActionAdmin(admin.ModelAdmin):
@@ -406,8 +29,9 @@ class ActionAdmin(admin.ModelAdmin):
     actions = ["delete_selected", "increment_priority", "decrement_priority",
                "change_level", "change_category", "clear_level", "clear_category",
                "clear_level_category", "copy_action"]
-    list_display = ["level", "category", "priority", "point_value"]
-    list_filter = ['level', 'category']
+    list_display = ["slug", "title", "level", "category", "priority", "type", "point_value"]
+    search_fields = ["slug", "title"]
+    list_filter = ['type', 'level', 'category']
 
     def delete_selected(self, request, queryset):
         """override the delete selected."""
@@ -508,23 +132,166 @@ challenge_mgr.register_designer_game_info_model("Smart Grid Game", Action)
 challenge_mgr.register_developer_game_info_model("Smart Grid Game", Action)
 
 
+class ActivityAdminForm(forms.ModelForm):
+    """Activity Admin Form."""
+    class Meta:
+        """Meta"""
+        model = Activity
+
+    def clean_unlock_condition(self):
+        """Validates the unlock conditions of the action."""
+        data = self.cleaned_data["unlock_condition"]
+        utils.validate_form_predicates(data)
+        return data
+
+    def clean(self):
+        """
+        Validates the admin form data based on a set of constraints.
+            1.  If the verification type is "image" or "code", then a confirm prompt is required.
+            2.  Publication date must be before expiration date.
+            3.  Either points or a point range needs to be specified.
+        """
+
+        super(ActivityAdminForm, self).clean()
+
+        # Data that has passed validation.
+        cleaned_data = self.cleaned_data
+
+        #1 Check the verification type.
+        confirm_type = cleaned_data.get("confirm_type")
+        prompt = cleaned_data.get("confirm_prompt")
+        if confirm_type != "text" and len(prompt) == 0:
+            self._errors["confirm_prompt"] = ErrorList(
+                [u"This confirmation type requires a confirmation prompt."])
+            del cleaned_data["confirm_type"]
+            del cleaned_data["confirm_prompt"]
+
+        #2 Publication date must be before the expiration date.
+        if "pub_date" in cleaned_data and "expire_date" in cleaned_data:
+            pub_date = cleaned_data.get("pub_date")
+            expire_date = cleaned_data.get("expire_date")
+
+            if expire_date and pub_date >= expire_date:
+                self._errors["expire_date"] = ErrorList(
+                    [u"The expiration date must be after the pub date."])
+                del cleaned_data["expire_date"]
+
+        #3 Either points or a point range needs to be specified.
+        points = cleaned_data.get("point_value")
+        point_range_start = cleaned_data.get("point_range_start")
+        point_range_end = cleaned_data.get("point_range_end")
+        if not points and not (point_range_start or point_range_end):
+            self._errors["point_value"] = ErrorList(
+                [u"Either a point value or a range needs to be specified."])
+            del cleaned_data["point_value"]
+        elif points and (point_range_start or point_range_end):
+            self._errors["point_value"] = ErrorList(
+                [u"Please specify either a point_value or a range."])
+            del cleaned_data["point_value"]
+        elif not points:
+            point_range_start = cleaned_data.get("point_range_start")
+            point_range_end = cleaned_data.get("point_range_end")
+            if not point_range_start:
+                self._errors["point_range_start"] = ErrorList(
+                    [u"Please specify a start value for the point range."])
+                del cleaned_data["point_range_start"]
+            elif not point_range_end:
+                self._errors["point_range_end"] = ErrorList(
+                    [u"Please specify a end value for the point range."])
+                del cleaned_data["point_range_end"]
+            elif point_range_start >= point_range_end:
+                self._errors["point_range_start"] = ErrorList(
+                    [u"The start value must be less than the end value."])
+                del cleaned_data["point_range_start"]
+                del cleaned_data["point_range_end"]
+
+        return cleaned_data
+
+    def save(self, *args, **kwargs):
+        activity = super(ActivityAdminForm, self).save(*args, **kwargs)
+        activity.type = 'activity'
+        activity.save()
+        cache_mgr.clear()
+
+        # If the activity's confirmation type is text, make sure to save the questions.
+        if self.cleaned_data.get("confirm_type") == "text":
+            self.save_m2m()
+
+        return activity
+
+
+class TextQuestionInlineFormSet(BaseInlineFormSet):
+    """Custom formset model to override validation."""
+
+    def clean(self):
+        """Validates the form data and checks if the activity confirmation type is text."""
+
+        # Form that represents the activity.
+        activity = self.instance
+        if not activity.pk:
+            # If the activity is not saved, we don't care if this validates.
+            return
+
+        # Count the number of questions.
+        count = 0
+        for form in self.forms:
+            try:
+                if form.cleaned_data:
+                    count += 1
+            except AttributeError:
+                pass
+
+        if activity.confirm_type == "text" and count == 0:
+            # Why did I do this?
+            # activity.delete()
+            raise forms.ValidationError(
+                "At least one question is required if the activity's confirmation type is text.")
+
+        elif activity.confirm_type != "text" and count > 0:
+            # activity.delete()
+            raise forms.ValidationError("Questions are not required for this confirmation type.")
+
+
+class TextQuestionInline(admin.TabularInline):
+    """Text Question admin."""
+    model = TextPromptQuestion
+    fieldset = (
+        (None, {
+            'fields': ('question', 'answer'),
+            })
+        )
+    formfield_overrides = {
+        models.TextField: {'widget': Textarea(attrs={'rows': 2, 'cols': 70})},
+        }
+
+    extra = 1
+    formset = TextQuestionInlineFormSet
+
+
 class ActivityAdmin(admin.ModelAdmin):
     """Activity Admin"""
     fieldsets = (
         ("Basic Information",
-         {'fields': (('libActivity', ),
-                     ('related_resource'),
-                     ('duration'),
+         {'fields': (('name', ),
+                     ('slug', 'related_resource'),
+                     ('title', 'expected_duration'),
+                     'image',
+                     'description',
+                     ('video_id', 'video_source'),
+                     'embedded_widget',
                      ('pub_date', 'expire_date'),
                      ('unlock_condition', 'unlock_condition_text'),
                      )}),
         ("Points",
          {"fields": (("point_value", "social_bonus"), ("point_range_start", "point_range_end"), )}),
         ("Ordering", {"fields": (("level", "category", "priority"), )}),
+        ("Admin Note", {'fields': ('admin_note',)}),
+        ("Confirmation Type", {'fields': ('confirm_type', 'confirm_prompt')}),
     )
+    prepopulated_fields = {"slug": ("name",)}
 
     form = ActivityAdminForm
-    inlines = [LibraryTextQuestionInline]
+    inlines = [TextQuestionInline]
     formfield_overrides = {
         models.CharField: {'widget': TextInput(attrs={'size': '80'})},
         }
@@ -539,44 +306,36 @@ challenge_manager_site.register(Activity, ActivityAdmin)
 developer_site.register(Activity, ActivityAdmin)
 
 
-class EventAdmin(admin.ModelAdmin):
-    """Event Admin"""
-    fieldsets = (
-        ("Basic Information",
-         {'fields': (('libEvent'),
-                     ('related_resource'),
-                     ('duration'),
-                     ('pub_date', 'expire_date'),
-                     ('event_date', 'event_location', 'event_max_seat'),
-                     ('unlock_condition', 'unlock_condition_text'),
-                     )}),
-        ("Points", {"fields": (("point_value", "social_bonus"),)}),
-        ("Ordering", {"fields": (("level", "category", "priority"), )}),
-        )
+class CommitmentAdminForm(forms.ModelForm):
+    """admin form"""
+    class Meta:
+        """meta"""
+        model = Commitment
 
-    form = EventAdminForm
+    def clean_unlock_condition(self):
+        """Validates the unlock conditions of the action."""
+        data = self.cleaned_data["unlock_condition"]
+        utils.validate_form_predicates(data)
+        return data
 
-    formfield_overrides = {
-        models.CharField: {'widget': TextInput(attrs={'size': '80'})},
-        }
+    def save(self, *args, **kwargs):
+        commitment = super(CommitmentAdminForm, self).save(*args, **kwargs)
+        commitment.type = 'commitment'
+        commitment.save()
+        cache_mgr.clear()
 
-    def get_urls(self):
-        return redirect_urls(self, "changelist")
-
-
-admin.site.register(Event, EventAdmin)
-challenge_designer_site.register(Event, EventAdmin)
-challenge_manager_site.register(Event, EventAdmin)
-developer_site.register(Event, EventAdmin)
+        return commitment
 
 
 class CommitmentAdmin(admin.ModelAdmin):
     """Commitment Admin."""
     fieldsets = (
         ("Basic Information", {
-            'fields': (('libCommitment', ),
-                       ('related_resource'),
-                       ('duration'),
+            'fields': (('name', ),
+                       ('slug', 'related_resource'),
+                       ('title', 'commitment_length'),
+                       'image',
+                       'description',
                        'unlock_condition', 'unlock_condition_text',
                        ),
             }),
@@ -601,11 +360,122 @@ challenge_manager_site.register(Commitment, CommitmentAdmin)
 developer_site.register(Commitment, CommitmentAdmin)
 
 
+class EventAdminForm(forms.ModelForm):
+    """Event Admin Form."""
+
+    class Meta:
+        """Meta"""
+        model = Event
+
+    def clean_unlock_condition(self):
+        """Validates the unlock conditions of the action."""
+        data = self.cleaned_data["unlock_condition"]
+        utils.validate_form_predicates(data)
+        return data
+
+    def clean(self):
+        """
+        Validates the admin form data based on a set of constraints.
+
+            1.  Events must have an event date.
+            2.  Publication date must be before expiration date.
+        """
+
+        # Data that has passed validation.
+        cleaned_data = self.cleaned_data
+
+        #1 Check that an event has an event date.
+        event_date = cleaned_data.get("event_date")
+        has_date = "event_date" in cleaned_data   # Check if this is in the data dict.
+        if has_date and not event_date:
+            self._errors["event_date"] = ErrorList([u"Events require an event date."])
+            del cleaned_data["event_date"]
+
+        #2 Publication date must be before the expiration date.
+        if "pub_date" in cleaned_data and "expire_date" in cleaned_data:
+            pub_date = cleaned_data.get("pub_date")
+            expire_date = cleaned_data.get("expire_date")
+
+            if expire_date and pub_date >= expire_date:
+                self._errors["expire_date"] = ErrorList(
+                    [u"The expiration date must be after the pub date."])
+                del cleaned_data["expire_date"]
+
+        return cleaned_data
+
+    def save(self, *args, **kwargs):
+        event = super(EventAdminForm, self).save(*args, **kwargs)
+        event.type = 'event'
+        event.save()
+
+        cache_mgr.clear()
+
+        return event
+
+
+class EventAdmin(admin.ModelAdmin):
+    """Event Admin"""
+    fieldsets = (
+        ("Basic Information",
+         {'fields': (('name', ),
+                     ('slug', 'related_resource'),
+                     ('title', 'expected_duration'),
+                     'image',
+                     'description',
+                     ('pub_date', 'expire_date'),
+                     ('event_date', 'event_location', 'event_max_seat'),
+                     ('unlock_condition', 'unlock_condition_text'),
+                     )}),
+        ("Points", {"fields": (("point_value", "social_bonus"),)}),
+        ("Ordering", {"fields": (("level", "category", "priority"), )}),
+        )
+
+    form = EventAdminForm
+
+    formfield_overrides = {
+        models.CharField: {'widget': TextInput(attrs={'size': '80'})},
+        }
+
+    def get_urls(self):
+        return redirect_urls(self, "changelist")
+
+
+admin.site.register(Event, EventAdmin)
+challenge_designer_site.register(Event, EventAdmin)
+challenge_manager_site.register(Event, EventAdmin)
+developer_site.register(Event, EventAdmin)
+
+
+class FillerAdminForm(forms.ModelForm):
+    """admin form"""
+    class Meta:
+        """meta"""
+        model = Filler
+
+    def save(self, *args, **kwargs):
+        filler = super(FillerAdminForm, self).save(*args, **kwargs)
+        filler.type = 'filler'
+        filler.unlock_condition = "False"
+        filler.unlock_condition_text = "This cell is here only to fill out the grid. " \
+                                       "There is no action associated with it."
+        filler.save()
+        cache_mgr.clear()
+
+        return filler
+
+
 class FillerAdmin(admin.ModelAdmin):
     """Commitment Admin."""
     fieldsets = (
+        ("Basic Information", {
+            'fields': (('name', ),
+                       ('slug', ),
+                       ('title', ),
+                       ),
+            }),
         ("Ordering", {"fields": (("level", "category", "priority"), )}),
         )
+    prepopulated_fields = {"slug": ("name",)}
 
     form = FillerAdminForm
 
@@ -622,6 +492,147 @@ admin.site.register(Filler, FillerAdmin)
 challenge_designer_site.register(Filler, FillerAdmin)
 challenge_manager_site.register(Filler, FillerAdmin)
 developer_site.register(Filler, FillerAdmin)
+
+
+class CategoryAdmin(admin.ModelAdmin):
+    """Category Admin"""
+    list_display = ["name", "priority"]
+    prepopulated_fields = {"slug": ("name",)}
+
+
+class LimitedCategoryAdmin(CategoryAdmin):
+    """Limited Category Admin. Doesn't have priority."""
+    pass
+
+
+admin.site.register(Category, CategoryAdmin)
+challenge_designer_site.register(Category, CategoryAdmin)
+challenge_manager_site.register(Category, LimitedCategoryAdmin)
+developer_site.register(Category, CategoryAdmin)
+challenge_mgr.register_designer_game_info_model("Smart Grid Game", Category)
+challenge_mgr.register_developer_game_info_model("Smart Grid Game", Category)
+
+
+class LevelAdminForm(forms.ModelForm):
+    """admin form"""
+    class Meta:
+        """meta"""
+        model = Level
+
+    def clean_unlock_condition(self):
+        """Validates the unlock conditions of the action."""
+        data = self.cleaned_data["unlock_condition"]
+        utils.validate_form_predicates(data)
+        return data
+
+
+class LevelAdmin(admin.ModelAdmin):
+    """Level Admin"""
+    list_display = ["name", "priority", "unlock_condition"]
+    form = LevelAdminForm
+
+
+admin.site.register(Level, LevelAdmin)
+challenge_designer_site.register(Level, LevelAdmin)
+challenge_manager_site.register(Level, LevelAdmin)
+developer_site.register(Level, LevelAdmin)
+challenge_mgr.register_designer_game_info_model("Smart Grid Game", Level)
+challenge_mgr.register_developer_game_info_model("Smart Grid Game", Level)
+
+
+class ConfirmationCodeAdmin(admin.ModelAdmin):
+    """admin for Bonus Points."""
+    actions = ["delete_selected", "view_selected", "print_selected"]
+    list_display = ["pk", "code", "create_date", "is_active",
+                    "printed_or_distributed", "user"]
+    ordering = ["-create_date", "is_active"]
+    list_filter = ["is_active", "printed_or_distributed"]
+    date_hierarchy = "create_date"
+
+    def delete_selected(self, request, queryset):
+        """override the delete selected method."""
+        _ = request
+        for obj in queryset:
+            obj.delete()
+
+    delete_selected.short_description = "Delete the selected codes."
+
+    def view_selected(self, request, queryset):
+        """Views the Codes for printing."""
+        return render_to_response("admin/view_codes.html", {
+            "activity": queryset[0].action,
+            "codes": queryset,
+            "per_page": 10,
+        }, context_instance=RequestContext(request))
+
+    view_selected.short_description = "view the selected codes."
+
+    def print_selected(self, request, queryset):
+        """Changes the printed_or_distributed flag to True for the selected
+        Confirmation Codes."""
+        _ = request
+        queryset.update(printed_or_distributed=True)
+
+    print_selected.short_description = "Set the printed or distributed flag."
+
+    def view_codes(self, request, queryset):
+        """Views the Codes for printing."""
+        _ = request
+        _ = queryset
+
+        response = HttpResponseRedirect(reverse("activity_view_codes", args=()))
+        return response
+
+
+admin.site.register(ConfirmationCode, ConfirmationCodeAdmin)
+challenge_designer_site.register(ConfirmationCode, ConfirmationCodeAdmin)
+challenge_manager_site.register(ConfirmationCode, ConfirmationCodeAdmin)
+developer_site.register(ConfirmationCode, ConfirmationCodeAdmin)
+
+
+class QuestionChoiceInline(admin.TabularInline):
+    """Question Choice admin."""
+    model = QuestionChoice
+    fieldset = (
+        (None, {
+            'fields': ('question', 'choice'),
+            'classes': ['wide', ],
+            })
+        )
+    extra = 4
+
+
+def redirect_urls(model_admin, url_type):
+    """change the url redirection."""
+    from django.conf.urls.defaults import patterns, url
+    from functools import update_wrapper
+
+    def wrap(view):
+        """wrap the view fuction."""
+        def wrapper(*args, **kwargs):
+            """return the wrapper."""
+            return model_admin.admin_site.admin_view(view)(*args, **kwargs)
+        return update_wrapper(wrapper, view)
+
+    info = model_admin.model._meta.app_label, model_admin.model._meta.module_name
+    urlpatterns = patterns('',
+        url(r'^$',
+            wrap(action_admin_list if url_type == "changelist" else model_admin.changelist_view),
+            name='%s_%s_changelist' % info),
+        url(r'^add/$',
+            wrap(model_admin.add_view),
+            name='%s_%s_add' % info),
+        url(r'^(.+)/history/$',
+            wrap(model_admin.history_view),
+            name='%s_%s_history' % info),
+        url(r'^(.+)/delete/$',
+            wrap(model_admin.delete_view),
+            name='%s_%s_delete' % info),
+        url(r'^(.+)/$',
+            wrap(action_admin if url_type == "change" else model_admin.change_view),
+            name='%s_%s_change' % info),
+    )
+    return urlpatterns
 
 
 class ActionMemberAdminForm(forms.ModelForm):
