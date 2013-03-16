@@ -125,6 +125,7 @@ INSTALLED_APPS = (
     'apps.managers.resource_mgr',
     'apps.managers.player_mgr',
     'apps.managers.score_mgr',
+    'apps.managers.smartgrid_mgr',
     'apps.managers.cache_mgr',
     'apps.managers.log_mgr',
 
@@ -150,6 +151,7 @@ INSTALLED_APPS = (
     'storages',
     'kombu.transport.django',
     'djcelery',
+    #'django-taggit',
 
     # comment out only for debug_toolbar
     #'debug_toolbar',
@@ -200,6 +202,7 @@ INSTALLED_WIDGET_APPS = (
     'scoreboard',
     'participation',
     'smartgrid',
+    'smartgrid_library',
     'sgg_design',
     'team_members',
     'upcoming_events',

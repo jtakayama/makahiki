@@ -38,6 +38,32 @@ def activity_image_file_path(instance=None, filename=None, user=None):
                         user.username, filename)
 
 
+class TextPromptQuestion(models.Model):
+    """Represents questions that can be asked of users in order to verify participation
+    in activities."""
+
+    action = models.ForeignKey("Action")
+    question = models.TextField(help_text="The question text.")
+    answer = models.CharField(max_length=255,
+                              help_text="The answer of question (max 255 characters).",
+                              null=True, blank=True)
+
+    def __unicode__(self):
+        return "Question: '%s' Answer: '%s'" % (self.question, self.answer)
+
+
+class QuestionChoice(models.Model):
+    """Represents questions's multiple choice"""
+
+    question = models.ForeignKey("TextPromptQuestion")
+    action = models.ForeignKey("Activity")
+    choice = models.CharField(max_length=255,
+                              help_text="The choice of question (max 255 characters).")
+
+    def __unicode__(self):
+        return self.choice
+
+
 class Level(models.Model):
     """Associates the actions to different levels."""
     name = models.CharField(max_length=50,
@@ -93,89 +119,14 @@ class Category(models.Model):
         cache_mgr.clear()
 
 
-class TextPromptQuestion(models.Model):
-    """Represents questions that can be asked of users in order to verify participation
-    in activities."""
-
-    action = models.ForeignKey("Action")
-    question = models.TextField(help_text="The question text.")
-    answer = models.CharField(max_length=255,
-                              help_text="The answer of question (max 255 characters).",
-                              null=True, blank=True)
-
-    def __unicode__(self):
-        return "Question: '%s' Answer: '%s'" % (self.question, self.answer)
-
-
-class QuestionChoice(models.Model):
-    """Represents questions's multiple choice"""
-
-    question = models.ForeignKey("TextPromptQuestion")
-    action = models.ForeignKey("Action")
-    choice = models.CharField(max_length=255,
-                              help_text="The choice of question (max 255 characters).")
-
-    def __unicode__(self):
-        return self.choice
-
-
-class ConfirmationCode(models.Model):
-    """Represents confirmation codes for activities."""
-    action = models.ForeignKey("Action")
-    code = models.CharField(max_length=50, unique=True, db_index=True,
-                            help_text="The confirmation code.")
-    is_active = models.BooleanField(default=True, editable=False,
-                                    help_text="Is the confirmation code still active?")
-    user = models.ForeignKey(User, null=True, blank=True,
-                             help_text="The user who claimed the code.")
-    create_date = models.DateTimeField(default=datetime.datetime.now(),
-                                   verbose_name="Date created",
-                                   help_text="Date the code was created.")
-    printed_or_distributed = models.BooleanField(default=False, editable=True,
-                                help_text="Has the code been printed or distributed.")
-
-    @staticmethod
-    def generate_codes_for_activity(event, num_codes):
-        """Generates a set of random codes for the activity."""
-        values = 'abcdefghijkmnpqrstuvwxyz234789'
-
-        # Use the first non-dash component of the slug.
-        components = event.slug.split('-')
-        header = components[0]
-        # Need to see if there are other codes with this header.
-        index = 1
-        while ConfirmationCode.objects.filter(code__istartswith=header).exclude(
-            action=event).count() > 0 and index < len(components):
-            header += components[index]
-            index += 1
-
-        header += "-"
-        for _ in range(0, num_codes):
-            code = ConfirmationCode(action=event, code=header)
-            valid = False
-            while not valid:
-                for value in random.sample(values, 5):
-                    code.code += value
-                try:
-                    # print code.code
-                    # Throws exception if the code is a duplicate.
-                    code.save()
-                    valid = True
-                except IntegrityError:
-                    # Try again.
-                    code.code = header
-
-
 class Action(models.Model):
     """Activity Base class."""
     TYPE_CHOICES = (
         ('activity', 'Activity'),
         ('commitment', 'Commitment'),
         ('event', 'Event'),
-        ('excursion', 'Excursion'),
         ('filler', 'Filler'),
         )
-
     RESOURCE_CHOICES = (
         ('energy', 'Energy'),
         ('water', 'Water'),
@@ -264,7 +215,15 @@ class Action(models.Model):
         default=0,
         help_text="The point value to be awarded."
     )
-    admin_tool_tip = "Smart Grid Game Actions"
+
+#    def __init__(self, *args, **kwargs):
+#        """Override the default constructor to set up the type field."""
+#        super(Action, self).__init__(*args, **kwargs)
+#        self.type = self.get_classname()
+
+    def get_classname(self):
+        """Returns the classname."""
+        return self._meta.module_name
 
     def __unicode__(self):
         return "%s: %s" % (self.type.capitalize(), self.title)
@@ -276,20 +235,6 @@ class Action(models.Model):
     class Meta:
         """Meta"""
         ordering = ("level", "category", "priority")
-
-
-class Filler(Action):
-    """Filler action. It is always locked"""
-    pass
-
-
-class Commitment(Action):
-    """Commitments involve non-verifiable actions that a user can commit to.
-    Typically, they will be worth fewer points than activities."""
-    duration = models.IntegerField(
-        default=5,
-        help_text="Duration of commitment, in days."
-    )
 
 
 class Activity(Action):
@@ -304,7 +249,7 @@ class Activity(Action):
         ('free_image', 'Free Response and Image Upload'),
         )
 
-    duration = models.IntegerField(
+    expected_duration = models.IntegerField(
         verbose_name="Expected activity duration",
         help_text="Time (in minutes) that the activity is expected to take."
     )
@@ -363,10 +308,19 @@ class Activity(Action):
         verbose_name_plural = "Activities"
 
 
+class Commitment(Action):
+    """Commitments involve non-verifiable actions that a user can commit to.
+    Typically, they will be worth fewer points than activities."""
+    commitment_length = models.IntegerField(
+        default=5,
+        help_text="Duration of commitment, in days."
+    )
+
+
 class Event(Action):
     """Events will be verified by confirmation code. It includes events and excursions."""
 
-    duration = models.IntegerField(
+    expected_duration = models.IntegerField(
         verbose_name="Expected activity duration",
         help_text="Time (in minutes) that the activity is expected to take."
     )
@@ -388,8 +342,6 @@ class Event(Action):
         help_text="Specify the max number of seats available to the event."
     )
 
-    is_excursion = models.BooleanField(default=False, help_text="Is excursion?")
-
     def is_event_completed(self):
         """Determines if the event is completed."""
         if self.event_date:
@@ -397,6 +349,11 @@ class Event(Action):
             if result.days >= 0 and result.seconds >= 0:
                 return True
         return False
+
+
+class Filler(Action):
+    """Filler action. It is always locked"""
+    pass
 
 
 class ActionMember(models.Model):
@@ -625,7 +582,7 @@ class ActionMember(models.Model):
                                                self)
 
     def _award_possible_reverse_penalty_points(self):
-        """ reverse event/excursion noshow penalty."""
+        """ reverse event noshow penalty."""
         if self._has_noshow_penalty():
             message = "%s (Reverse No Show Penalty)" % self.action
             self.user.get_profile().add_points(
@@ -878,3 +835,50 @@ class TextReminder(Reminder):
             UserNotification.create_email_notification(email, "", message)
             self.sent = True
             self.save()
+
+
+class ConfirmationCode(models.Model):
+    """Represents confirmation codes for activities."""
+    action = models.ForeignKey(Action)
+    code = models.CharField(max_length=50, unique=True, db_index=True,
+                            help_text="The confirmation code.")
+    is_active = models.BooleanField(default=True, editable=False,
+                                    help_text="Is the confirmation code still active?")
+    user = models.ForeignKey(User, null=True, blank=True,
+                             help_text="The user who claimed the code.")
+    create_date = models.DateTimeField(default=datetime.datetime.now(),
+                                   verbose_name="Date created",
+                                   help_text="Date the code was created.")
+    printed_or_distributed = models.BooleanField(default=False, editable=True,
+                                help_text="Has the code been printed or distributed.")
+
+    @staticmethod
+    def generate_codes_for_activity(event, num_codes):
+        """Generates a set of random codes for the activity."""
+        values = 'abcdefghijkmnpqrstuvwxyz234789'
+
+        # Use the first non-dash component of the slug.
+        components = event.slug.split('-')
+        header = components[0]
+        # Need to see if there are other codes with this header.
+        index = 1
+        while ConfirmationCode.objects.filter(code__istartswith=header).exclude(
+            action=event).count() > 0 and index < len(components):
+            header += components[index]
+            index += 1
+
+        header += "-"
+        for _ in range(0, num_codes):
+            code = ConfirmationCode(action=event, code=header)
+            valid = False
+            while not valid:
+                for value in random.sample(values, 5):
+                    code.code += value
+                try:
+                    # print code.code
+                    # Throws exception if the code is a duplicate.
+                    code.save()
+                    valid = True
+                except IntegrityError:
+                    # Try again.
+                    code.code = header

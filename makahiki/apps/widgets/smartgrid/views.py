@@ -17,8 +17,9 @@ from apps.widgets.smartgrid import smartgrid, view_commitments, view_events, vie
     view_reminders
 from apps.widgets.action_feedback.models import ActionFeedback
 from apps.widgets.smartgrid.forms import ChangeLevelForm
-from apps.widgets.smartgrid.models import Action, Level, Category
+from apps.widgets.smartgrid.models import Level, Category
 from apps.widgets.quests.quests import get_quests
+from apps.widgets.smartgrid.models import Action
 
 
 def supply(request, page_name):
@@ -181,7 +182,7 @@ def action_admin(request, pk):
     """handle the action admin."""
     _ = request
     action = Action.objects.get(pk=pk)
-    action_type = action.type if action.type != "excursion" else "event"
+    action_type = action.type
 
     return HttpResponseRedirect("/admin/smartgrid/%s/%s/" % (action_type, pk))
 

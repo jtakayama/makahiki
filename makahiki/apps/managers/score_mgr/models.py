@@ -24,7 +24,7 @@ class ScoreSetting(models.Model):
     )
     signup_bonus_points = models.IntegerField(
         default=2,
-        help_text="The point amount for signing up a commitment or event/excursion."
+        help_text="The point amount for signing up a commitment or event."
     )
     quest_bonus_points = models.IntegerField(
         default=0,

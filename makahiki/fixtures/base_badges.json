@@ -139,7 +139,7 @@
         "pk": 11,
         "model": "badges.badge",
         "fields": {
-            "description": "Have completed all Level 4 non-event/excursion actions.",
+            "description": "Have completed all Level 4 non-event actions.",
             "hint": "Complete more actions!",
             "image": "",
             "points": 20,
@@ -156,7 +156,7 @@
         "pk": 10,
         "model": "badges.badge",
         "fields": {
-            "description": "Have completed all Level 3 non-event/excursion actions.",
+            "description": "Have completed all Level 3 non-event actions.",
             "hint": "Complete more actions!",
             "image": "",
             "points": 20,
@@ -173,7 +173,7 @@
         "pk": 9,
         "model": "badges.badge",
         "fields": {
-            "description": "Have completed all Level 2 non-event/excursion actions.",
+            "description": "Have completed all Level 2 non-event actions.",
             "hint": "Complete more actions!",
             "image": "",
             "points": 20,
@@ -190,7 +190,7 @@
         "pk": 8,
         "model": "badges.badge",
         "fields": {
-            "description": "Have completed all Level 1 non-event/excursion actions.",
+            "description": "Have completed all Level 1 non-event actions.",
             "hint": "Complete more actions!",
             "image": "",
             "points": 20,

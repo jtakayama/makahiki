@@ -274,7 +274,7 @@ def is_level_unlock(user, level):
 
 
 def afterPublished(user, action_slug):
-    """Return true if the event/excursion has been published"""
+    """Return true if the event has been published"""
     _ = user
     try:
         action = Action.objects.get(slug=action_slug)
@@ -507,9 +507,9 @@ def process_rsvp():
                     reverse("activity_task", args=(action.type, action.slug,)),
                     action.title)
                 message += "<p/>Because you signed up for the "\
-                           "event/excursion, if you do not enter the "\
+                           "event, if you do not enter the "\
                            "confirmation code within %d days after the "\
-                           "event/excursion, a total of %d points (%d point "\
+                           "event, a total of %d points (%d point "\
                            "signup bonus plus %d point no-show penalty) will "\
                            "be deducted from your total points. So please "\
                            "enter your confirmation code early to avoid the "\
@@ -520,7 +520,7 @@ def process_rsvp():
                     signup_points,
                 )
                 message += "<p/><p/>Kukui Cup Administrators"
-            subject = "[Kukui Cup] Reminder to enter your event/excursion confirmation code"
+            subject = "[Kukui Cup] Reminder to enter your event confirmation code"
             UserNotification.create_email_notification(user.email, subject,
                                                        message, message)
             print "sent post event email reminder to %s for %s" % (

@@ -1,5 +1,5 @@
 """Provides the view of the widget."""
-from apps.widgets.smartgrid.models import Level, Category, Activity, Event, Commitment, Action, \
+from apps.widgets.smartgrid.models import Level, Category, Activity, Event, Commitment, \
     Filler
 from django.views.decorators.cache import never_cache
 from django.contrib.auth.decorators import login_required
@@ -72,10 +72,10 @@ def update_sgg(request):
                         category.save()
 
                 # clear the existing actions
-                for action in Action.objects.all():
-                    action.category = None
-                    action.level = None
-                    action.save()
+#                for action in Action.objects.all():
+#                    action.category = None
+#                    action.level = None
+#                    action.save()
 
 #            num_levels = len(actions)
             for lvl in xrange(0, num_levels):
