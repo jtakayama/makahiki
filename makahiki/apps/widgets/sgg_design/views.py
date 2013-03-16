@@ -8,6 +8,7 @@ from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 from apps.widgets.sgg_design.forms import SggUpdateForm
+from apps.widgets.smartgrid_library.models import LibraryActivity, LibraryEvent, LibraryCommitment
 
 
 def supply(request, page_name):
@@ -16,22 +17,23 @@ def supply(request, page_name):
     _ = page_name
     levels = Level.objects.all()
     categories = Category.objects.all()
-    activities = Activity.objects.all()
-    events = Event.objects.all()
-    commitments = Commitment.objects.all()
-    fillers = Filler.objects.all()
+    activities = LibraryActivity.objects.all()
+    events = LibraryEvent.objects.all()
+    commitments = LibraryCommitment.objects.all()
     form = SggUpdateForm({'category_updates': '[]',
                           'action_updates': '[]'})
 
+    print len(activities)
+    print len(smartgrid.get_smart_grid_action_slugs())
     return {
         'levels': levels,
         'categories': categories,
         'activities': activities,
         'events': events,
         'commitments': commitments,
-        'fillers': fillers,
         'form': form,
         'smart_grid': smartgrid.get_smart_grid(),
+        'smart_grid_actions': smartgrid.get_smart_grid_action_slugs()
             }
 
 

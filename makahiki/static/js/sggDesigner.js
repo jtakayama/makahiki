@@ -57,6 +57,7 @@ function getLevelList(level, data) {
  * @returns {String} The current categories as an encoded String.
  */
 function createSGGCategorySaveData() {
+//	console.log('createSGGCategorySaveData');
 	var levels = $('#sgg-grid .tab-pane');
 	var temp = '';
 	levels.each(function () {
@@ -69,8 +70,8 @@ function createSGGCategorySaveData() {
 		var inner_str =  '';
 		for ( var i = 0; i < children.length; i++) {
 			var child = $(children[i]);
-			var cat_str = '"'.concat(child.data('slug'), '", ', child
-					.data('priority'), ', "', trim1(child.text()), '", ' + child.data('pk'));
+			var cat_str = '"'.concat(child.attr('data-slug'), '", ', child
+					.attr('data-priority'), ', "', trim1(child.text()), '", ' + child.attr('data-pk'));
 			inner_str = inner_str.concat(cat_str, ', ');
 		}
 		if (children.length > 0) {
@@ -84,6 +85,7 @@ function createSGGCategorySaveData() {
 	cat_value = temp;
 	cat_value = cat_value.substr(0, cat_value.length - 2);
 	cat_value = ''.concat('[' + cat_value + ']');
+//	console.log(cat_value);
 	return cat_value;
 }
 
@@ -128,17 +130,19 @@ function handleActionDrop(event, ui) {
 		var html = $('<div />').append(drop.clone()).html();
 		console.log(html);
 		$(this).html(html);
-		var listItem = $('.sgg-action [data-slug="' + trim2(slug) + '"][data-position="in-list"]');
-		listItem.removeClass('draggable');
-		listItem.attr('data-position=in-grid');		
+		$('.grid-draggable').draggable({
+			cursor : 'move',
+			helper : 'original',
+		});		
 	} else {
 		var drop = createActionDropDiv(slug, type, row, column, category, ui.draggable.text(), pk, unlock, unlockCondition);
 		var html = $('<div />').append(drop.clone()).html();
 		console.log(html);
 		$(this).html(html);
-		var listItem = $('.sgg-action [data-slug="' + trim2(slug) + '"][data-position="in-list"]');
-		listItem.removeClass('draggable');
-		listItem.attr('data-position=in-grid');
+		$('.grid-draggable').draggable({
+			cursor : 'move',
+			helper : 'original',
+		});		
 	}
 	saveSggLayout();
 }
@@ -161,12 +165,20 @@ function createSGGActionSaveData() {
 		inner_str = '';
 		for ( var j = 0; j < droppedActions.length; j++) {
 			var action = $(droppedActions[j]);
+			var action_text = $(action).children('a').text();
+//			console.log('action text:' + action_text);
 			var act_slug = action.attr('data-slug');
+//			console.log("slug:" + act_slug);
 			var category = action.attr('data-category');
+//			console.log("category:" + category);
 			var pri = action.attr('data-priority');
+//			console.log("priority:" + pri);
 			var type = action.attr('data-type');
+//			console.log("type:" + type);
 			var pk = action.attr('data-pk');
-			var act_str = '"'.concat(act_slug, '", "', type , '", "', category, '", ', pri, ', "', trim1(action.text()), '", ', pk);
+//			console.log("pk:" + pk);
+			var act_str = '"'.concat(act_slug, '", "', type , '", "', category, '", ', pri, ', "', trim1(action_text), '", ', pk);
+//			console.log(act_str);
 			inner_str = inner_str.concat(act_str, ', ');
 		}
 		if (droppedActions.length > 0) {
@@ -191,8 +203,8 @@ function createSGGActionSaveData() {
  * @returns a jQuery object representing the dropped Category. It can be added to the page.
  */
 function createCategoryDropDiv(slug, column, text, id) {
-	console.log("createCategoryDropDiv(" + slug + ", " + column + ", " + text + ", " + id + ")");
-	var drop = $('<div data-slug=' + trim1(slug) + ' class="sgg-category-drop" ' +
+//	console.log("createCategoryDropDiv(" + slug + ", " + column + ", " + text + ", " + id + ")");
+	var drop = $('<div data-slug=' + trim1(slug) + ' class="sgg-category-drop grid-draggable" ' +
 			'data-priority=' + column + '>' + '<a class="sgg-category" ' +
 			'href="/challenge_admin/smartgrid/category/' + id + '/">'
 			+ trim2(text) + '</a></div>');
@@ -200,6 +212,7 @@ function createCategoryDropDiv(slug, column, text, id) {
 } 
 
 function clearSavedData() {
+	console.log('clearSavedData');
 	deleteCookie('sgg_save');
 	window.location.reload();
 }
@@ -214,19 +227,19 @@ function clearSavedData() {
  * @param text a String the name of the Action.
  * @returns a jQuery object representing the dropped Action.
  */
-function createActionDropDiv(slug, type, row, column, category, text, id, unlock, unlockCondition) {
-	console.log("createActionDropDiv(" + slug + ", " + type + ", " + row + ", " + column + ", " + category + ", " + text + ", " + id + ", " + unlock + ", " + unlockCondition + ")");
-	var drop = $('<div data-slug="' + trim2(slug) + '" class="sgg-action sgg-' + trim2(type) + '-cell draggable" ' +
+function createActionDropDiv(slug, type, row, column, category, text, id) {
+	console.log("createActionDropDiv(" + slug + ", " + type + ", " + row + ", " + column + ", " + category + ", " + text + ", " + id + ")");
+	var drop = $('<div data-slug="' + trim2(slug) + '" class="sgg-action sgg-' + trim2(type) + '-cell grid-draggable" ' +
 		   	'data-type="' + trim2(type) + '" data-priority="' + row + '" data-column="' + 
-		   	column + '" data-category="' + trim2(category) + '" data-pk="' + trim2(id) + '" data-unlock="' + unlock + '">' +
-		   	'<div class="sgg-pk">' + trim2(id) + '</div><br/>' +
+		   	column + '" data-category="' + trim2(category) + '" data-pk="' + trim2(id) + '">' +
+		   	'<br/>' +
 		   	'<a href="/admin/smartgrid/' + trim2(type) + '/' + trim2(id) + '/"	class="sgg-action">' +
-			trim2(text) + '</a><br/><div class="sgg-unlock">' + unlockCondition + '</div></div>');
+			trim2(text) + '</a><br/></div>');
 	return drop;
 }
 
 function activateColumn(levelID, column, slug) {
-	console.log("activateColumn("+ levelID + ", " + column + ", " + slug + ")");
+//	console.log("activateColumn("+ levelID + ", " + column + ", " + slug + ")");
 	for ( var i = 1; i < 11; i++) {
 		var row = $('#' + levelID + ' .sgg-action-dropzone table tbody tr:nth-child(' + i + ')');
 		var tdCell = row.find('td:nth-child(' + column + ')');
@@ -249,12 +262,16 @@ function deactivateColumn(levelID, column) {
 		var row = $('#' + levelID + ' .sgg-action-dropzone table tbody tr:nth-child(' + i + ')');
 		var tdCell = row.find('td:nth-child(' + column + ')');
 		var outerDiv = tdCell.children('div');
+		var innerDiv = outerDiv.children('div');
+		var slug = innerDiv.attr('data-slug');
+		$('.library-draggable[data-slug=' + slug + ']').removeClass('hidden');		
 		outerDiv.addClass('disabled');
 		outerDiv.html('');
 	}		
 }
 
 function saveSggLayout() {
+	console.log('saveSggLayout');
 	var cat_value = createSGGCategorySaveData();
 	var hidden_category = $('#id_category_updates');
 	hidden_category.attr('value', cat_value);
@@ -265,7 +282,7 @@ function saveSggLayout() {
 }
 
 function loadSavedSGG(savedData) {
-//	console.log("loadSavedSGG");
+	console.log("loadSavedSGG");
 	var split = savedData.split('][');
 	var categories = split[0];
 //	console.log(categories);
@@ -294,7 +311,7 @@ function loadSavedSGG(savedData) {
 		}
 		var act_list = getLevelList(levels[i], actions);
 //		console.log(act_list);
-		for (var j = 0; j < act_list.length; j += 5) {
+		for (var j = 0; j < act_list.length; j += 6) {
 			var actIndex = Math.floor(j / 5);
 //			var col = actIndex % numCat + 1;
 			var row = Math.floor(actIndex / numCat) + 1;
@@ -303,12 +320,13 @@ function loadSavedSGG(savedData) {
 			var category = act_list[j + 2];
 			var rowStr = act_list[j + 3];
 			var text = act_list[j + 4];
+			var pk = act_list[j + 5];
 			var col = getColumnFromCategory(cat_list, category);
-			console.log(slug + ", " + category + "[" + row + ", "+ col + " ]" + category + " " + text + " rowstr=" + rowStr);
+			console.log(slug + ", " + category + "[" + row + ", "+ col + "]" + category + " " + text + " rowstr=" + rowStr);
 			var dz = levelDiv.find('.sgg-action-slot[data-column="' + col +'"][data-row="' + rowStr + '"]');
 //			console.log(dz);
-			var action = createActionDropDiv(slug, type, rowStr, col, category, text);
-			console.log($('<div />').append(action.clone()).html());
+			var action = createActionDropDiv(slug, type, rowStr, col, category, text, pk);
+//			console.log($('<div />').append(action.clone()).html());
 			dz.html($('<div />').append(action.clone()).html());
 		}
 	}
@@ -323,10 +341,12 @@ function trim1 (str) {
 }
 
 function trim2(str) {
-	str = trim1(str);
-	var i = str.indexOf('"');
-	if (i == 0) {
-		str = str.slice(i + 1, str.length - 1);
+	if (typeof str == 'string') {
+		str = trim1(str);
+		var i = str.indexOf('"');
+		if (i == 0) {
+			str = str.slice(i + 1, str.length - 1);
+		}
 	}
 	return str;
 }
@@ -396,33 +416,6 @@ function getSlugFromUnlock(unlock) {
 		return slug;
 	}
 	return "";
-}
-
-function fillUnlockConditions() {
-	$('div .sgg-activity-cell').each(function () {
-		var unlockCondText = $(this).attr('data-unlock');
-		var unlockText = createUnlockStr(unlockCondText);
-		var unlockDiv = $(this).find('.sgg-unlock');
-		unlockDiv.html(unlockText);		
-	});
-	$('div .sgg-commitment-cell').each(function () {
-		var unlockCondText = $(this).attr('data-unlock');
-		var unlockText = createUnlockStr(unlockCondText);
-		var unlockDiv = $(this).find('.sgg-unlock');
-		unlockDiv.html(unlockText);		
-	});
-	$('div .sgg-event-cell').each(function () {
-		var unlockCondText = $(this).attr('data-unlock');
-		var unlockText = createUnlockStr(unlockCondText);
-		var unlockDiv = $(this).find('.sgg-unlock');
-		unlockDiv.html(unlockText);		
-	});
-	$('div .sgg-excursion-cell').each(function () {
-		var unlockCondText = $(this).attr('data-unlock');
-		var unlockText = createUnlockStr(unlockCondText);
-		var unlockDiv = $(this).find('.sgg-unlock');
-		unlockDiv.html(unlockText);		
-	});
 }
 
 function isSlugInGrid(slug) {

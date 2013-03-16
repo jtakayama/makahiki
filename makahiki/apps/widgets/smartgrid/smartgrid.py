@@ -205,6 +205,15 @@ def get_smart_grid():
     return levels
 
 
+def get_smart_grid_action_slugs():
+    """Returns the Actions that are currently in the Smart Grid."""
+    action_list = []
+    for level in Level.objects.all():
+        for action in level.action_set.all().select_related('category'):
+            action_list.append(action.slug)
+    return action_list
+
+
 def get_popular_actions(action_type, approval_status, num_results=None):
     """Gets the most popular activities in terms of completions."""
     results = Action.objects.filter(actionmember__approval_status=approval_status,
