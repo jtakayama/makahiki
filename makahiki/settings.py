@@ -125,6 +125,7 @@ INSTALLED_APPS = (
     'apps.managers.resource_mgr',
     'apps.managers.player_mgr',
     'apps.managers.score_mgr',
+    'apps.managers.smartgrid_mgr',
     'apps.managers.cache_mgr',
     'apps.managers.log_mgr',
 
