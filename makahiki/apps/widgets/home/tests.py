@@ -81,7 +81,7 @@ class SetupWizardFunctionalTestCase(TransactionTestCase):
         HelpTopic.objects.create(title="", slug="terms-and-conditions", category="faq", contents="")
 
         # create the setup activity
-        Activity.objects.create(slug=SETUP_WIZARD_ACTIVITY, name="", title="", duration=5)
+        Activity.objects.create(slug=SETUP_WIZARD_ACTIVITY, name="", title="", expected_duration=5)
 
         challenge_mgr.register_page_widget("home", "home")
         self.client.login(username="user", password="changeme")

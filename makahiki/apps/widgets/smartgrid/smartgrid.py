@@ -50,16 +50,16 @@ def annotate_action_details(user, action):
         members = ActionMember.objects.filter(user=user, action=action).order_by("-submission_date")
 
         # calculate the task duration
-        action.duration = action.commitment.duration
+        action.duration = action.commitment.commitment_length
     else:
         members = ActionMember.objects.filter(user=user, action=action)
 
         # calculate the task duration
         if action.type == "activity":
-            duration = action.activity.duration
+            duration = action.activity.expected_duration
         else:  # is event
             if action.type in ("event", "excursion"):
-                duration = action.event.duration
+                duration = action.event.expected_duration
             else:
                 duration = 0
 

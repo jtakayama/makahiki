@@ -6,10 +6,10 @@ Created on Mar 15, 2013
 
 from django.db.models.deletion import Collector
 from django.db.models.fields.related import ForeignKey
-from apps.widgets.smartgrid.models import Action, Activity, Commitment, Event
+from apps.widgets.smartgrid.models import Action, Activity, Commitment, Event, Filler
 from django.shortcuts import get_object_or_404
 from apps.widgets.smartgrid_library.models import LibraryAction, LibraryActivity, LibraryCommitment,\
-    LibraryEvent
+    LibraryEvent, LibraryCategory
 from django.http import Http404
 
 
@@ -87,6 +87,8 @@ def instantiate_grid_from_library(slug, value=None, field=None, duplicate_order=
     if action_type == 'event':
         grid_obj = Event()
         lib_obj = LibraryEvent.objects.get(slug=slug)
+    if action_type == 'filler':
+        grid_obj = Filler()
 
     for f in lib_obj._meta.fields:
         value = getattr(lib_obj, f.name)
@@ -116,3 +118,8 @@ def get_smartgrid_action(slug):
 def get_smartgrid_library_action(slug):
     """Returns the Smart Grid Game Library Action for the given slug."""
     return get_object_or_404(LibraryAction, slug=slug)
+
+
+def get_smartgrid_library_category(slug):
+    """Return the Smart Grid Game Library Category for the given slug."""
+    return get_object_or_404(LibraryCategory, slug=slug)

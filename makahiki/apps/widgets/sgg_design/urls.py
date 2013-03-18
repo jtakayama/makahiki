@@ -8,10 +8,16 @@ Created on Feb 4, 2013
 from django.conf.urls.defaults import url, patterns
 
 urlpatterns = patterns('',
-    url(r'^(?P<action_type>[\w]+)/(?P<slug>[\w\d\-]+)/$',
-        'apps.widgets.sgg_design.views.view_action',
-        name='action_details'),
-    url(r'^update_smart_grid/$',
-        'apps.widgets.sgg_design.views.update_sgg',
-        name="update_smart_grid"),
+    url(r'^newcat/(?P<cat_slug>[\w\d\-]+)/(?P<level_slug>[\w\d\-]+)/(?P<priority>[\d]+)/$',
+        'apps.widgets.sgg_design.views.instantiate_category',
+        name='instantiate_category'),
+    url(r'^newaction/(?P<action_slug>[\w\d\-]+)/(?P<cat_slug>[\w\d\-]+)/(?P<level_slug>[\w\d\-]+)/(?P<priority>[\d]+)/$',
+        'apps.widgets.sgg_design.views.instantiate_action',
+        name='instantiate_action'),
+    url(r'^delete_action/(?P<action_slug>[\w\d\-]+)/$',
+        'apps.widgets.sgg_design.views.delete_action',
+        name='delete_action'),
+    url(r'^delete_category/(?P<cat_slug>[\w\d\-]+)/$',
+        'apps.widgets.sgg_design.views.delete_category',
+        name='delete_category'),
 )

@@ -5,10 +5,12 @@ from django.views.decorators.cache import never_cache
 from django.contrib.auth.decorators import login_required
 from apps.widgets.smartgrid import smartgrid
 from django.http import HttpResponseRedirect, Http404
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, get_object_or_404
 from django.template.context import RequestContext
 from apps.widgets.sgg_design.forms import SggUpdateForm
-from apps.widgets.smartgrid_library.models import LibraryActivity, LibraryEvent, LibraryCommitment
+from apps.widgets.smartgrid_library.models import LibraryActivity, LibraryEvent, LibraryCommitment,\
+    LibraryCategory, LibraryAction
+from apps.managers.smartgrid_mgr import smartgrid_mgr
 
 
 def supply(request, page_name):
@@ -23,8 +25,8 @@ def supply(request, page_name):
     form = SggUpdateForm({'category_updates': '[]',
                           'action_updates': '[]'})
 
-    print len(activities)
-    print len(smartgrid.get_smart_grid_action_slugs())
+#    print len(activities)
+#    print len(smartgrid.get_smart_grid_action_slugs())
     return {
         'levels': levels,
         'categories': categories,
@@ -110,3 +112,57 @@ def update_sgg(request):
             return response
 
     raise Http404
+
+
+def instantiate_category(request, cat_slug, level_slug, priority):
+    """Instantiates the Smart Grid Game Category from the Library Category in the
+    given level and with the given priority."""
+    _ = request
+    lib_cat = LibraryCategory.objects.get(slug=cat_slug)
+    level = Level.objects.get(slug=level_slug)
+    category = Category()
+    slug = lib_cat.slug
+    slug += '-'
+    slug += level.slug
+    slug += '-'
+    slug += priority
+    category.name = lib_cat.name
+    category.slug = slug
+    category.level = level  # there is no level....
+    category.priority = priority
+    category.save()
+    print category.pk
+    response = HttpResponseRedirect("/sgg_designer/")
+    return response
+
+
+def instantiate_action(request, action_slug, cat_slug, level_slug, priority):
+    """Instantiated the Smart Grid Game Action from the Library Action with the
+    given level, category, and priority."""
+    _ = request
+    grid_action = smartgrid_mgr.instantiate_grid_from_library(action_slug)
+    level = Level.objects.get(slug=level_slug)
+    grid_action.level = level
+    grid_action.category = Category.objects.get(slug=cat_slug)
+    grid_action.priority = priority
+    grid_action.save()
+    response = HttpResponseRedirect("/sgg_designer/")
+    return response
+
+
+def delete_action(request, action_slug):
+    """Deletes the given Smart Grid Game Action."""
+    _ = request
+    action = smartgrid.get_action(action_slug)
+    action.delete()
+    response = HttpResponseRedirect("/sgg_designer/")
+    return response
+
+
+def delete_category(request, cat_slug):
+    """Deletes the given Smart Grid Game Category."""
+    _ = request
+    category = get_object_or_404(Category, slug=cat_slug)
+    category.delete()
+    response = HttpResponseRedirect("/sgg_designer/")
+    return response

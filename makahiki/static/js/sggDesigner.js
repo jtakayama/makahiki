@@ -94,6 +94,7 @@ function handleCategoryDrop(event, ui) {
 	var column = $(this).data('column');
 	var slug = ui.draggable.attr('data-slug');
 	var pk = ui.draggable.attr('data-pk');
+	var levelSlug = findLevelSlug(this);
 	if (pk == "-1") {
 		$(this).html('');
 		deactivateColumn(levelID, column);
@@ -104,12 +105,15 @@ function handleCategoryDrop(event, ui) {
 		$(this).html(html);
 		activateColumn(levelID, column, slug);
 	}
-	saveSggLayout();
+	instantiateGridCategory(slug, levelSlug, column);
 }
 
 function handleActionDrop(event, ui) {
 	var column = $(this).data('column');
 	var category = $(this).data('category');
+	if (category) {
+		category = trim2(category);
+	}
 	var row = $(this).data('row');
 	var slug = ui.draggable.attr('id');
 	var pk = ui.draggable.attr('data-pk');
@@ -118,10 +122,9 @@ function handleActionDrop(event, ui) {
 	if (unlock) {
 		unlock = trim1(unlock);
 	}
+	var levelSlug = findLevelSlug(this);
 	var unlockCondition = createUnlockStr(unlock);
-	if (type == "clear") {
-		$(this).html('');
-	} else if (type == "filler") {
+	if (type == "filler") {
 		numFiller += 1;
 		slug = 'filler-' + numFiller;
 		var text = 'Filler-' + numFiller;
@@ -144,7 +147,30 @@ function handleActionDrop(event, ui) {
 			helper : 'original',
 		});		
 	}
-	saveSggLayout();
+	instantiateGridAction(slug, category, levelSlug, parseInt(row) * 10);
+}
+
+function handleTrashDrop(ui) {
+	console.log('handleTrashDrop');
+	var type = ui.attr('class');
+	console.log(type);
+	var first = type.split(" ")[0];
+	console.log(first);
+	if (first == 'sgg-action') {
+		console.log('removing grid item');
+		ui.addClass('hidden');
+		var slug = ui.attr('data-slug');
+		deleteGridAction(slug);
+		$('.library-draggable[data-slug=' + slug + ']').removeClass('hidden');
+	} else if (first == 'sgg-category-drop') {
+		ui.addClass('hidden');
+		var slug = ui.attr('data-slug');
+		deleteGridCategory(slug);
+ 		var levelID = ui.attr('data-level');
+ 		var column = parseInt(ui.attr('data-priority')) + 1;
+		console.log('levelID = ' + levelID + ', ' + column);
+ 		deactivateColumn(levelID, column);			
+	}
 }
 
 /**
@@ -217,6 +243,16 @@ function clearSavedData() {
 	window.location.reload();
 }
 
+function instantiateGridCategory(catSlug, levelSlug, column) {
+	console.log('instantiateGridCategory(' + catSlug + ', ' + levelSlug + ', ' + column + ')');
+	$.get("/sgg_design/newcat/" + catSlug + "/" + levelSlug + "/" + column + "/");
+}
+
+function instantiateGridAction(actSlug, catSlug, levelSlug, priority) {
+	console.log('instantiateGridAction(' + actSlug + ', ' + catSlug + ', ' + levelSlug + ', ' + priority + ')');
+	$.get("/sgg_design/newaction/" + actSlug + "/" + catSlug + "/" + levelSlug + "/" + priority + "/");	
+}
+
 /**
  * Returns a jQuery object that represents the dropped Action.
  * @param slug a String the Action slug.
@@ -264,21 +300,23 @@ function deactivateColumn(levelID, column) {
 		var outerDiv = tdCell.children('div');
 		var innerDiv = outerDiv.children('div');
 		var slug = innerDiv.attr('data-slug');
-		$('.library-draggable[data-slug=' + slug + ']').removeClass('hidden');		
+		if (typeof slug == 'string') {
+			deleteGridAction(slug);
+			$('.library-draggable[data-slug=' + slug + ']').removeClass('hidden');		
+		}
 		outerDiv.addClass('disabled');
 		outerDiv.html('');
 	}		
 }
 
-function saveSggLayout() {
-	console.log('saveSggLayout');
-	var cat_value = createSGGCategorySaveData();
-	var hidden_category = $('#id_category_updates');
-	hidden_category.attr('value', cat_value);
-	var act_value = createSGGActionSaveData();
-	var hidden_action = $('#id_action_updates');
-	hidden_action.attr('value', act_value);
-	setCookie('sgg_save', cat_value + act_value);
+function deleteGridAction(actionSlug) {
+	console.log("deleteGridAction(" + actionSlug + ")");
+	$.get("/sgg_design/delete_action/" + actionSlug + "/");	
+}
+
+function deleteGridCategory(catSlug) {
+	console.log("deleteGridCategory(" + catSlug + ")");
+	$.get("/sgg_design/delete_category/" + catSlug + "/");		
 }
 
 function loadSavedSGG(savedData) {
@@ -367,6 +405,20 @@ function findLevel(ele) {
 		p = p.parentNode;
 	}
 	return false;
+}
+
+function findLevelSlug(ele) {
+	var p = ele.parentNode;
+	
+	while (p) {
+		var level = $(p).attr('data-levelslug');
+		if (level) {
+			return level;
+		}
+		p = p.parentNode;
+	}
+	return false;
+	
 }
 
 function findLevelID(ele) {

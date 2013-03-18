@@ -68,6 +68,8 @@ class Level(models.Model):
     """Associates the actions to different levels."""
     name = models.CharField(max_length=50,
                             help_text="The name of the level.")
+    slug = models.SlugField(help_text="Automatically generated if left blank.",
+                            null=True)
     priority = models.IntegerField(
         default=1,
         help_text="Levels with lower values (higher priority) will be listed first."

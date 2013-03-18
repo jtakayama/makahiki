@@ -118,7 +118,8 @@
         	    		{% else %}
             				  class="tab-pane"
 						{% endif %}            		
-							  data-level="{{level.name}}">
+							  data-level="{{level.name}}"
+							  data-levelslug="{{level.slug}}">
 						{% include "sgg_grid.html" %}
 						</div>
 					{% endfor %}
@@ -220,36 +221,4 @@
 		$(this).addClass('hidden');
 	}
 	
-	
-	function handleTrashDrop(ui) {
-		console.log('handleTrashDrop');
-		var type = ui.attr('class');
-		console.log(type);
-		var first = type.split(" ")[0];
-		console.log(first);
-		if (first == 'sgg-action') {
-			console.log('removing grid item');
-			ui.addClass('hidden');
-			var slug = ui.attr('data-slug');
-			$('.library-draggable[data-slug=' + slug + ']').removeClass('hidden');
-			saveSggLayout();	
-			return false;
-		} 
-		/*		var answer = confirm('Permantly delete this item?');
-		
-		console.log(first);
- 		ui.draggable.addClass('hidden');
-		var slug = ui.draggable.attr('data-slug');
-		$('.library-draggable[data-slug=' + slug + ']').removeClass('hidden');
-		saveSggLayout();		
- */	}
-	
-	function handleCategoryTrashDrop(event, ui) {
-		console.log('handleCategoryTrashDrop');
-		ui.draggable.addClass('hidden');
- 		var levelID = ui.draggable.attr('data-level');
- 		var column = parseInt(ui.draggable.attr('data-priority')) + 1;
-		console.log('levelID = ' + levelID + ', ' + column);
- 		deactivateColumn(levelID, column);
-	}
 </script>

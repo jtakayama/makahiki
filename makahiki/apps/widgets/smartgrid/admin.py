@@ -530,6 +530,7 @@ class LevelAdmin(admin.ModelAdmin):
     """Level Admin"""
     list_display = ["name", "priority", "unlock_condition"]
     form = LevelAdminForm
+    prepopulated_fields = {"slug": ("name",)}
 
 
 admin.site.register(Level, LevelAdmin)
