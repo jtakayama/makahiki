@@ -147,7 +147,12 @@ function handleActionDrop(event, ui) {
 			helper : 'original',
 		});		
 	}
-	instantiateGridAction(slug, category, levelSlug, parseInt(row) * 10);
+	pk = instantiateGridAction(slug, category, levelSlug, parseInt(row) * 10);
+	console.log("new pk = " + pk);
+	link = $(this).children('a');
+	console.log('link = ' + link.html());
+	href = link.attr('href');
+	console.log(href);
 }
 
 function handleTrashDrop(ui) {
@@ -245,12 +250,28 @@ function clearSavedData() {
 
 function instantiateGridCategory(catSlug, levelSlug, column) {
 	console.log('instantiateGridCategory(' + catSlug + ', ' + levelSlug + ', ' + column + ')');
-	$.get("/sgg_design/newcat/" + catSlug + "/" + levelSlug + "/" + column + "/");
+//	$.get("/sgg_design/newcat/" + catSlug + "/" + levelSlug + "/" + column + "/");
+    jQuery.ajax({
+        url: "/sgg_design/newcat/" + catSlug + "/" + levelSlug + "/" + column + "/", 
+        success: function(data) {
+        	console.log('pk of Grid Category is ' + data.pk);
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+        }
+    });		
 }
 
 function instantiateGridAction(actSlug, catSlug, levelSlug, priority) {
 	console.log('instantiateGridAction(' + actSlug + ', ' + catSlug + ', ' + levelSlug + ', ' + priority + ')');
-	$.get("/sgg_design/newaction/" + actSlug + "/" + catSlug + "/" + levelSlug + "/" + priority + "/");	
+//	$.get("/sgg_design/newaction/" + actSlug + "/" + catSlug + "/" + levelSlug + "/" + priority + "/");
+    jQuery.ajax({
+        url: "/sgg_design/newaction/" + actSlug + "/" + catSlug + "/" + levelSlug + "/" + priority + "/", 
+        success: function(data) {
+        	console.log('pk of Grid Action is ' + data.pk);
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+        }
+    });		
 }
 
 /**
@@ -311,12 +332,26 @@ function deactivateColumn(levelID, column) {
 
 function deleteGridAction(actionSlug) {
 	console.log("deleteGridAction(" + actionSlug + ")");
-	$.get("/sgg_design/delete_action/" + actionSlug + "/");	
+//	$.get("/sgg_design/delete_action/" + actionSlug + "/");	
+    jQuery.ajax({
+        url: "/sgg_design/delete_action/" + actionSlug + "/", 
+        success: function(data) {
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+        }
+    });	
 }
 
 function deleteGridCategory(catSlug) {
 	console.log("deleteGridCategory(" + catSlug + ")");
-	$.get("/sgg_design/delete_category/" + catSlug + "/");		
+//	$.get("/sgg_design/delete_category/" + catSlug + "/");	
+    jQuery.ajax({
+        url: "/sgg_design/delete_category/" + catSlug + "/", 
+        success: function(data) {
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+        }
+    });	
 }
 
 function loadSavedSGG(savedData) {

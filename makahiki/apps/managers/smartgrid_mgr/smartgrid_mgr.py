@@ -93,7 +93,7 @@ def instantiate_grid_from_library(slug, value=None, field=None, duplicate_order=
     for f in lib_obj._meta.fields:
         value = getattr(lib_obj, f.name)
         if f.name != 'id':
-            print "%s, %s" % (f.name, value)
+#            print "%s, %s" % (f.name, value)
             setattr(grid_obj, f.name, value)
 
     # check to see if there is already a grid obj with the same slug

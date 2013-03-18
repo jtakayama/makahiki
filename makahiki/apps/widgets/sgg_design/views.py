@@ -4,13 +4,14 @@ from apps.widgets.smartgrid.models import Level, Category, Activity, Event, Comm
 from django.views.decorators.cache import never_cache
 from django.contrib.auth.decorators import login_required
 from apps.widgets.smartgrid import smartgrid
-from django.http import HttpResponseRedirect, Http404
+from django.http import HttpResponseRedirect, Http404, HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template.context import RequestContext
 from apps.widgets.sgg_design.forms import SggUpdateForm
 from apps.widgets.smartgrid_library.models import LibraryActivity, LibraryEvent, LibraryCommitment,\
     LibraryCategory, LibraryAction
 from apps.managers.smartgrid_mgr import smartgrid_mgr
+import json
 
 
 def supply(request, page_name):
@@ -131,9 +132,11 @@ def instantiate_category(request, cat_slug, level_slug, priority):
     category.level = level  # there is no level....
     category.priority = priority
     category.save()
-    print category.pk
-    response = HttpResponseRedirect("/sgg_designer/")
-    return response
+
+    #  Return the new pk for the instantiated category.
+    return HttpResponse(json.dumps({
+            "pk": category.pk,
+            }), mimetype="application/json")
 
 
 def instantiate_action(request, action_slug, cat_slug, level_slug, priority):
@@ -146,8 +149,11 @@ def instantiate_action(request, action_slug, cat_slug, level_slug, priority):
     grid_action.category = Category.objects.get(slug=cat_slug)
     grid_action.priority = priority
     grid_action.save()
-    response = HttpResponseRedirect("/sgg_designer/")
-    return response
+
+    #  Return the new pk for the instantiated action.
+    return HttpResponse(json.dumps({
+            "pk": grid_action.pk,
+            }), mimetype="application/json")
 
 
 def delete_action(request, action_slug):
