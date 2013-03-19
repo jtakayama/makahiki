@@ -20,4 +20,7 @@ urlpatterns = patterns('',
     url(r'^delete_category/(?P<cat_slug>[\w\d\-]+)/$',
         'apps.widgets.sgg_design.views.delete_category',
         name='delete_category'),
+    url(r'^clear_from_grid/(?P<action_slug>[\w\d\-]+)/$',
+        'apps.widgets.sgg_design.views.clear_from_grid',
+        name='clear_from_grid'),
 )

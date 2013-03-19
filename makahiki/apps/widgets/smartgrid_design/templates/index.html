@@ -6,13 +6,9 @@
 		<div class="row-fluid">
 			<div class="span3">
 				Drag the Categories to create columns. Then Drag the Activities,
-				Commitments, or Events to fill the Grid.
-
-				<form id="save-form" action="/sgg_design/update_smart_grid/" method="post">
-					{% csrf_token %} {{ view_objects.sgg_design.form.as_p }} 
-					<input class="btn btn-widget" onclick="saveFormSubmit();return false;" value="Update Smart Grid Game" />
-				</form>
-				<button class="btn btn-widget" onclick="clearSavedData();return false;">Revert to Current Smart Grid Game</button>
+				Commitments, or Events to fill the Grid. Use the palette to temporarily
+				store Smart Grid Actions.
+				<div class="sgg-palette palette-dropzone">Palette</div>
 			</div>
 			<div class="span9">
 				<div class="makahiki-box">
@@ -154,7 +150,14 @@
 				} else {
 					var answer = confirm('Remove this item from the Smart Grid?');
 					if (answer) {
-						handleTrashDrop($(this));
+						var type = $(dropObj).attr('class');
+						var first = type.split(" ")[0];
+						if (first == 'sgg-palette') {
+							handlePaletteDrop($(this));
+						} else {
+							handleTrashDrop($(this));
+						}
+						return false;
 					}
 					return !answer;
 				}
@@ -174,6 +177,10 @@
 			accept : '.sgg-action',
 			drop : handleActionDrop
 		});
+		$('.palette-dropzone').droppable({
+			accept : '.sgg-action',
+//			drop : handlePaletteDrop
+		})
 		$('.trash-dropzone').droppable({
 //			drop : handleTrashDrop
 		})

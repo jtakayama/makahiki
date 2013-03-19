@@ -23,17 +23,19 @@ def supply(request, page_name):
     activities = LibraryActivity.objects.all()
     events = LibraryEvent.objects.all()
     commitments = LibraryCommitment.objects.all()
+    fillers = Filler.objects.all()
     form = SggUpdateForm({'category_updates': '[]',
                           'action_updates': '[]'})
 
-#    print len(activities)
-#    print len(smartgrid.get_smart_grid_action_slugs())
+    print len(activities)
+    print len(smartgrid.get_smart_grid_action_slugs())
     return {
         'levels': levels,
         'categories': categories,
         'activities': activities,
         'events': events,
         'commitments': commitments,
+        'fillers': fillers,
         'form': form,
         'smart_grid': smartgrid.get_smart_grid(),
         'smart_grid_actions': smartgrid.get_smart_grid_action_slugs()
@@ -170,5 +172,17 @@ def delete_category(request, cat_slug):
     _ = request
     category = get_object_or_404(Category, slug=cat_slug)
     category.delete()
+    response = HttpResponseRedirect("/sgg_designer/")
+    return response
+
+
+def clear_from_grid(request, action_slug):
+    """Clears the Level, Category, and priority for the given Action."""
+    _ = request
+    action = smartgrid.get_action(action_slug)
+    action.level = None
+    action.category = None
+    action.priority = 0
+    action.save()
     response = HttpResponseRedirect("/sgg_designer/")
     return response
