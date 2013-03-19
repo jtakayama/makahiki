@@ -155,25 +155,32 @@ function handleActionDrop(event, ui) {
 	console.log(href);
 }
 
-function handleTrashDrop(ui) {
+function handlePaletteDrop(obj) {
+	console.log('handlePaletteDrop');
+	var slug = obj.attr('data-slug');
+	console.log("slug = " + slug);
+	clearLevelCategoryPriority(slug);
+}
+
+function handleTrashDrop(obj) {
 	console.log('handleTrashDrop');
-	var type = ui.attr('class');
-	console.log(type);
+	var type = obj.attr('class');
+//	console.log(type);
 	var first = type.split(" ")[0];
 	console.log(first);
 	if (first == 'sgg-action') {
-		console.log('removing grid item');
-		ui.addClass('hidden');
-		var slug = ui.attr('data-slug');
+//		console.log('removing grid item');
+		obj.addClass('hidden');
+		var slug = obj.attr('data-slug');
 		deleteGridAction(slug);
 		$('.library-draggable[data-slug=' + slug + ']').removeClass('hidden');
 	} else if (first == 'sgg-category-drop') {
-		ui.addClass('hidden');
-		var slug = ui.attr('data-slug');
+		obj.addClass('hidden');
+		var slug = obj.attr('data-slug');
 		deleteGridCategory(slug);
- 		var levelID = ui.attr('data-level');
- 		var column = parseInt(ui.attr('data-priority')) + 1;
-		console.log('levelID = ' + levelID + ', ' + column);
+ 		var levelID = obj.attr('data-level');
+ 		var column = parseInt(obj.attr('data-priority')) + 1;
+//		console.log('levelID = ' + levelID + ', ' + column);
  		deactivateColumn(levelID, column);			
 	}
 }
@@ -352,6 +359,18 @@ function deleteGridCategory(catSlug) {
         error: function(XMLHttpRequest, textStatus, errorThrown) {
         }
     });	
+}
+
+function clearLevelCategoryPriority(actionSlug) {
+	console.log("clearLevelCategoryPriority(" + actionSlug + ")");
+    jQuery.ajax({
+        url: "/sgg_design/clear_from_grid/" + actionSlug + "/", 
+        success: function(data) {
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+        }
+    });	
+	
 }
 
 function loadSavedSGG(savedData) {
