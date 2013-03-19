@@ -1,15 +1,14 @@
 """Provides the view of the widget."""
-from apps.widgets.smartgrid.models import Level, Category, Activity, Event, Commitment, \
-    Filler
+from apps.widgets.smartgrid.models import Level, Category, Filler
 from django.views.decorators.cache import never_cache
 from django.contrib.auth.decorators import login_required
 from apps.widgets.smartgrid import smartgrid
 from django.http import HttpResponseRedirect, Http404, HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template.context import RequestContext
-from apps.widgets.sgg_design.forms import SggUpdateForm
-from apps.widgets.smartgrid_library.models import LibraryActivity, LibraryEvent, LibraryCommitment,\
-    LibraryCategory, LibraryAction
+from apps.widgets.smartgrid_design.forms import SggUpdateForm
+from apps.widgets.smartgrid_library.models import LibraryActivity, LibraryEvent, \
+    LibraryCommitment, LibraryCategory
 from apps.managers.smartgrid_mgr import smartgrid_mgr
 import json
 
@@ -145,7 +144,7 @@ def instantiate_action(request, action_slug, cat_slug, level_slug, priority):
     """Instantiated the Smart Grid Game Action from the Library Action with the
     given level, category, and priority."""
     _ = request
-    grid_action = smartgrid_mgr.instantiate_grid_from_library(action_slug)
+    grid_action = smartgrid_mgr.instantiate_designer_from_library(action_slug)
     level = Level.objects.get(slug=level_slug)
     grid_action.level = level
     grid_action.category = Category.objects.get(slug=cat_slug)

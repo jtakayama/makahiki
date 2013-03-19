@@ -21,7 +21,7 @@
 						Drag the category to the top row of the grid below. You cannot have the same category twice in the same level.
 					</div>
 					<div class="ssg-category-selections clearfix">
-						{% for category in view_objects.sgg_design.categories %}
+						{% for category in view_objects.smartgrid_design.categories %}
 						<div class="sgg-category draggable" data-pk="{{category.pk}}" data-slug="{{category.slug}}">
 							<a class="sgg-category" href="/challenge_admin/smartgrid/category/{{category.pk}}/">{{category}}</a>
 						</div>
@@ -50,11 +50,11 @@
 				<div class="tab-content">
 					<div id="activities" class="sgg-action-selections tab-pane active"
 						style="height: 470px; overflow: scroll;">
-						{% for action in view_objects.sgg_design.activities %}		
+						{% for action in view_objects.smartgrid_design.activities %}		
 						<div id="{{action.slug}}" data-slug="{{action.slug}}" data-type="{{action.type}}" data-pk="{{action.pk}}"
 							data-instance="{{action}}" 
 							data-unlock="{{action.unlock_condition}}"
-							class="sgg-action sgg-activity library-draggable {% if action.slug in view_objects.sgg_design.smart_grid_actions %}hidden{% endif %}">
+							class="sgg-action sgg-activity library-draggable {% if action.slug in view_objects.smartgrid_design.smart_grid_actions %}hidden{% endif %}">
 							<a href="/admin/smartgrid/{{action.type}}/{{action.pk}}/"
 								class="sgg-action">{{action.name}}</a>
 						</div>
@@ -62,10 +62,10 @@
 					</div>
 					<div id="commitments" class="sgg-action-selections tab-pane"
 						style="height: 470px; overflow: scroll;">
-						{% for action in view_objects.sgg_design.commitments %}
+						{% for action in view_objects.smartgrid_design.commitments %}
 						<div id="{{action.slug}}" data-slug="{{action.slug}}" data-type="{{action.type}}" data-pk="{{action.pk}}"
 							data-instance="{{action}}" 
-							class="sgg-action sgg-commitment library-draggable {% if action.slug in view_objects.sgg_design.smart_grid_actions %}hidden{% endif %}">
+							class="sgg-action sgg-commitment library-draggable {% if action.slug in view_objects.smartgrid_design.smart_grid_actions %}hidden{% endif %}">
 							<a href="/admin/smartgrid/{{action.type}}/{{action.pk}}/"
 								class="sgg-action">{{action.name}}</a>
 						</div>
@@ -73,10 +73,10 @@
 					</div>
 					<div id="events" class="sgg-action-selections tab-pane"
 						style="height: 470px; overflow: scroll;">
-						{% for action in view_objects.sgg_design.events %}
+						{% for action in view_objects.smartgrid_design.events %}
 						<div id="{{action.slug}}" data-slug="{{action.slug}}" data-type="{{action.type}}" data-pk="{{action.pk}}"
 							data-instance="{{action}}" 
-							class="sgg-action sgg-event library-draggable {% if action.slug in view_objects.sgg_design.smart_grid_actions %}hidden{% endif %}">
+							class="sgg-action sgg-event library-draggable {% if action.slug in view_objects.smartgrid_design.smart_grid_actions %}hidden{% endif %}">
 							<a href="/admin/smartgrid/{{action.type}}/{{action.pk}}/"
 								class="sgg-action">{{action.name}}</a>
 						</div>
@@ -92,7 +92,7 @@
 					</div>
 					<!-- Tabs for the levels -->
 					<ul id="sgg-levels-tab" class="nav nav-tabs">
-					{% for level in view_objects.sgg_design.levels %}
+					{% for level in view_objects.smartgrid_design.levels %}
 						{% if forloop.counter == 1 %}
 						<li class="active">
 						{% else %}
@@ -107,7 +107,7 @@
 					</ul>
 	    	    	<!-- Tab contents -->
         			<div id="sgg-grid" class="tab-content">
-        			{% for level in view_objects.sgg_design.smart_grid %}
+        			{% for level in view_objects.smartgrid_design.smart_grid %}
             			<div id="sgg-level-{{forloop.counter}}" 
 	           			{% if forloop.counter == 1 %}
 							  class="tab-pane active"
@@ -130,7 +130,7 @@
 <script type="text/javascript">
 	$(init);
 
-	var numFiller = {{view_objects.sgg_design.fillers|length}};
+	var numFiller = {{view_objects.smartgrid_design.fillers|length}};
 		
 	// See sggDesigner.js for most of the functionality.
 	function init() {
