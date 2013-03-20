@@ -6,13 +6,14 @@ Created on Mar 15, 2013
 
 from django.db.models.deletion import Collector
 from django.db.models.fields.related import ForeignKey
-from apps.widgets.smartgrid.models import Action, Activity, Commitment, Event, Filler, Category
+from apps.widgets.smartgrid.models import Action, Activity, Commitment, Event, Filler, Category, \
+    Level
 from django.shortcuts import get_object_or_404
 from apps.widgets.smartgrid_library.models import LibraryAction, LibraryActivity, \
     LibraryCommitment, LibraryEvent, LibraryCategory
 from django.http import Http404
 from apps.widgets.smartgrid_design.models import DesignerAction, DesignerCategory, \
-    DesignerActivity, DesignerCommitment, DesignerEvent, DesignerFiller
+    DesignerActivity, DesignerCommitment, DesignerEvent, DesignerFiller, DesignerLevel
 
 
 def duplicate(obj, value=None, field=None, duplicate_order=None):  # pylint: disable=R0914
@@ -72,78 +73,125 @@ def duplicate(obj, value=None, field=None, duplicate_order=None):  # pylint: dis
             if root_obj is None:
                 root_obj = obj
     return root_obj
+# pylint: enable=R0914
+
+
+def is_library(obj):
+    """Returns True if the object is a Library instance."""
+    cls = type(obj).__name__
+    return cls.startswith('Library')
+
+
+def is_designer(obj):
+    """Returns True if the object is a Designer instance."""
+    cls = type(obj).__name__
+    return cls.startswith('Designer')
+
+
+def is_smartgrid(obj):
+    """Returns True if the object is a SmartGrid instance."""
+    return not (is_library(obj) or is_designer(obj))
+
+
+def _copy_fields(orig, copy):
+    """Copies the field values from orig to copy and saves the copy."""
+    for f in orig._meta.fields:
+        if f.name != 'id':
+            value = getattr(orig, f.name)
+            setattr(copy, f.name, value)
+    copy.save()
+
+
+def _copy_action_fields(orig, copy):  # pylint: disable=R0912
+    """Copies the field values from orig to copy and saves the copy."""
+    # Find all FKs on model that point to a related_model.
+    fks = []
+    copy_fields = []
+    for f in copy._meta.fields:
+        copy_fields.append(f.name)
+        if isinstance(f, ForeignKey):
+            fks.append(f.name)
+    for f in orig._meta.fields:
+        if f.name in copy_fields:
+            if f.name != 'id':
+                if f.name not in fks:
+                    value = getattr(orig, f.name)
+                    setattr(copy, f.name, value)
+                else:
+                    value = getattr(orig, f.name)
+                    slug = value.slug
+                    if f.name == 'level':
+                        if is_designer(copy):
+                            value = DesignerLevel.objects.get(slug=slug)
+                        if is_smartgrid(copy):
+                            value = Level.objects.get(slug=slug)
+                    if f.name == 'category':
+                        if is_designer(copy):
+                            value = DesignerCategory.objects.get(slug=slug)
+                        if is_smartgrid(copy):
+                            value = Category.objects.get(slug=slug)
+                    setattr(copy, f.name, value)
+    copy.save()  # pylint: enable=R0912
 
 
 def instantiate_designer_from_library(slug):
-    """Instantiates a Smart Grid Game instance from the Smart Grid Game Library instance.
-    slug is the slug value for the library instance."""
+    """Instantiates a Smart Grid Game Design instance from the Smart Grid Game Library instance.
+    slug is the slug value for the library instance. If the Design instance exists it is over
+    written."""
     lib_obj = get_smartgrid_library_action(slug)
     action_type = lib_obj.type
-    new_obj = None
-    if action_type == 'activity':
-        new_obj = DesignerActivity()
-        lib_obj = LibraryActivity.objects.get(slug=slug)
-    if action_type == 'commitment':
-        new_obj = DesignerCommitment()
-        lib_obj = LibraryCommitment.objects.get(slug=slug)
-    if action_type == 'event':
-        new_obj = DesignerEvent()
-        lib_obj = LibraryEvent.objects.get(slug=slug)
-    if action_type == 'filler':
-        new_obj = DesignerFiller()
-
-    for f in lib_obj._meta.fields:
-        value = getattr(lib_obj, f.name)
-        if f.name != 'id':
-#            print "%s, %s" % (f.name, value)
-            setattr(new_obj, f.name, value)
-
-    # check to see if there is already a grid obj with the same slug
+    old_obj = None
     try:
-        obj = get_smartgrid_action(slug)
+        old_obj = get_smartgrid_designer_action(slug)
     except Http404:
-        obj = None
+        old_obj = None
+    design_obj = None
+    if old_obj == None:
+        if action_type == 'activity':
+            design_obj = DesignerActivity()
+            lib_obj = LibraryActivity.objects.get(slug=slug)
+        if action_type == 'commitment':
+            design_obj = DesignerCommitment()
+            lib_obj = LibraryCommitment.objects.get(slug=slug)
+        if action_type == 'event':
+            design_obj = DesignerEvent()
+            lib_obj = LibraryEvent.objects.get(slug=slug)
+        if action_type == 'filler':
+            design_obj = DesignerFiller()
+    else:  # use the existing instance.
+        design_obj = old_obj
 
-    if obj is not None:
-        slug = new_obj.slug
-        new_obj.slug = slug + '-copy'
-    new_obj.save()
+    _copy_action_fields(lib_obj, design_obj)
 
-    return new_obj
+    return design_obj
 
 
 def instantiate_designer_from_grid(slug):
     """Creates a designer instance from the Smart Grid instance."""
     grid_obj = get_smartgrid_action(slug)
     action_type = grid_obj.type
-    designer_obj = None
-    if action_type == 'activity':
-        designer_obj = DesignerActivity()
-        grid_obj = Activity.objects.get(slug=slug)
-    if action_type == 'commitment':
-        designer_obj = DesignerCommitment()
-        grid_obj = Commitment.objects.get(slug=slug)
-    if action_type == 'event':
-        designer_obj = DesignerEvent()
-        grid_obj = Event.objects.get(slug=slug)
-    if action_type == 'filler':
-        designer_obj = DesignerFiller()
-        grid_obj = Filler.objects.get(slug=slug)
-    for f in grid_obj._meta.fields:
-        value = getattr(grid_obj, f.name)
-        if f.name != 'id':
-#            print "%s, %s" % (f.name, value)
-            setattr(designer_obj, f.name, value)
-    # check to see if there is already a grid obj with the same slug
+    old_obj = None
     try:
-        obj = get_smartgrid_designer_action(slug)
+        old_obj = get_smartgrid_designer_action(slug)
     except Http404:
-        obj = None
-
-    if obj is not None:
-        slug = designer_obj.slug
-        designer_obj.slug = slug + '-copy'
-    designer_obj.save()
+        old_obj = None
+    designer_obj = None
+    if old_obj == None:
+        if action_type == 'activity':
+            designer_obj = DesignerActivity()
+            grid_obj = Activity.objects.get(slug=slug)
+        if action_type == 'commitment':
+            designer_obj = DesignerCommitment()
+            grid_obj = Commitment.objects.get(slug=slug)
+        if action_type == 'event':
+            designer_obj = DesignerEvent()
+            grid_obj = Event.objects.get(slug=slug)
+        if action_type == 'filler':
+            designer_obj = DesignerFiller()
+            grid_obj = Filler.objects.get(slug=slug)
+    else:
+        designer_obj = old_obj
+    _copy_action_fields(grid_obj, designer_obj)
 
     return designer_obj
 
@@ -152,41 +200,45 @@ def instantiate_grid_from_designer(slug):
     """Creates a Smart Grid instance from the designer instance."""
     designer_obj = get_smartgrid_designer_action(slug)
     action_type = designer_obj.type
-    grid_obj = None
-    if action_type == 'activity':
-        grid_obj = Activity()
-        designer_obj = DesignerActivity.objects.get(slug=slug)
-    if action_type == 'commitment':
-        grid_obj = Commitment()
-        designer_obj = DesignerCommitment.objects.get(slug=slug)
-    if action_type == 'event':
-        designer_obj = DesignerEvent.objects.get(slug=slug)
-        grid_obj = Event()
-    if action_type == 'filler':
-        designer_obj = DesignerFiller.objects.get(slug=slug)
-        grid_obj = Filler()
-    for f in designer_obj._meta.fields:
-        value = getattr(designer_obj, f.name)
-        if f.name != 'id':
-#            print "%s, %s" % (f.name, value)
-            setattr(grid_obj, f.name, value)
-    # check to see if there is already a grid obj with the same slug
+    old_obj = None
     try:
-        obj = get_smartgrid_action(slug)
+        old_obj = get_smartgrid_action(slug)
     except Http404:
-        obj = None
-
-    if obj is not None:
-        slug = grid_obj.slug
-        grid_obj.slug = slug + '-copy'
-    grid_obj.save()
+        old_obj = None
+    grid_obj = None
+    if old_obj == None:
+        if action_type == 'activity':
+            grid_obj = Activity()
+            designer_obj = DesignerActivity.objects.get(slug=slug)
+        if action_type == 'commitment':
+            grid_obj = Commitment()
+            designer_obj = DesignerCommitment.objects.get(slug=slug)
+        if action_type == 'event':
+            designer_obj = DesignerEvent.objects.get(slug=slug)
+            grid_obj = Event()
+        if action_type == 'filler':
+            designer_obj = DesignerFiller.objects.get(slug=slug)
+            grid_obj = Filler()
+    else:
+        grid_obj = old_obj
+    _copy_action_fields(designer_obj, grid_obj)
 
     return grid_obj
 
 
 def get_smartgrid_action(slug):
     """returns the action object by slug."""
-    return get_object_or_404(Action, slug=slug)
+    action = get_object_or_404(Action, slug=slug)
+    pk = action.pk
+    if action.type == 'activity':
+        return Activity.objects.get(pk=pk)
+    if action.type == 'commitment':
+        return Commitment.objects.get(pk=pk)
+    if action.type == 'event':
+        return Event.objects.get(pk=pk)
+    if action.type == 'filler':
+        return Filler.objects.get(pk=pk)
+    return action
 
 
 def get_smartgrid_category(slug):
@@ -196,7 +248,15 @@ def get_smartgrid_category(slug):
 
 def get_smartgrid_library_action(slug):
     """Returns the Smart Grid Game Library Action for the given slug."""
-    return get_object_or_404(LibraryAction, slug=slug)
+    action = get_object_or_404(LibraryAction, slug=slug)
+    pk = action.pk
+    if action.type == 'activity':
+        return LibraryActivity.objects.get(pk=pk)
+    if action.type == 'commitment':
+        return LibraryCommitment.objects.get(pk=pk)
+    if action.type == 'event':
+        return LibraryEvent.objects.get(pk=pk)
+    return action
 
 
 def get_smartgrid_library_category(slug):
@@ -205,8 +265,18 @@ def get_smartgrid_library_category(slug):
 
 
 def get_smartgrid_designer_action(slug):
-    """Returns the Smart Grid Game Library Action for the given slug."""
-    return get_object_or_404(DesignerAction, slug=slug)
+    """Returns the Smart Grid Game Designer Action for the given slug."""
+    action = get_object_or_404(DesignerAction, slug=slug)
+    pk = action.pk
+    if action.type == 'activity':
+        return DesignerActivity.objects.get(pk=pk)
+    if action.type == 'commitment':
+        return DesignerCommitment.objects.get(pk=pk)
+    if action.type == 'event':
+        return DesignerEvent.objects.get(pk=pk)
+    if action.type == 'filler':
+        return DesignerFiller.objects.get(pk=pk)
+    return action
 
 
 def get_smartgrid_designer_category(slug):
@@ -216,13 +286,11 @@ def get_smartgrid_designer_category(slug):
 
 def clear_designer():
     """Deletes all the instances in the designer."""
-    for obj in DesignerActivity.objects.all():
+    for obj in DesignerLevel.objects.all():
         obj.delete()
-    for obj in DesignerEvent.objects.all():
+    for obj in DesignerCategory.objects.all():
         obj.delete()
-    for obj in DesignerCommitment.objects.all():
-        obj.delete()
-    for obj in DesignerFiller.objects.all():
+    for obj in DesignerAction.objects.all():
         obj.delete()
 
 
@@ -230,15 +298,14 @@ def copy_smartgrid_to_designer():
     """Copies the current Smart Grid Game to the designer instances."""
     # Clear out the Designer
     clear_designer()
+    # Copy the levels
+    for lvl in Level.objects.all():
+        des_lvl = DesignerLevel()
+        _copy_fields(lvl, des_lvl)
     # Copy the categories
     for cat in Category.objects.all():
         des_cat = DesignerCategory()
-        for f in cat._meta.fields:
-            value = getattr(cat, f.name)
-            if f.name != 'id':
-    #            print "%s, %s" % (f.name, value)
-                setattr(des_cat, f.name, value)
-        des_cat.save()
+        _copy_fields(cat, des_cat)
     # Copy the Actions
     for action in Action.objects.all():
         instantiate_designer_from_grid(action.slug)
@@ -259,3 +326,52 @@ def deploy_designer_to_smartgrid():
     clear_smartgrid()
     for action in DesignerAction.objects.all():
         instantiate_grid_from_designer(action.slug)
+
+
+def is_diff_between_designer_and_grid_action(slug):
+    """Returns True if there is a difference between the Designer Action and
+    Grid Action with the given slug."""
+    grid = get_smartgrid_action(slug)
+    fks = []
+    for f in grid._meta.fields:
+        if isinstance(f, ForeignKey):
+            fks.append(f.name)
+    designer = get_smartgrid_designer_action(slug)
+    for f in grid._meta.fields:
+        if f.name in fks:
+            if not f.name.endswith('_ptr'):
+                grid_val = getattr(grid, f.name).name
+                designer_val = getattr(designer, f.name).name
+                if grid_val != designer_val:
+                    return True
+        elif f.name != 'id':
+            grid_val = getattr(grid, f.name)
+            designer_val = getattr(designer, f.name)
+            if grid_val != designer_val:
+                return True
+    return False
+
+
+def diff_between_designer_and_grid_action(slug):
+    """Returns a list of the fields that are different between the Designer Action and
+    Grid Action with the given slug."""
+    grid = get_smartgrid_action(slug)
+    fks = []
+    for f in grid._meta.fields:
+        if isinstance(f, ForeignKey):
+            fks.append(f.name)
+    designer = get_smartgrid_designer_action(slug)
+    diff = []
+    for f in grid._meta.fields:
+        if f.name in fks:
+            if not f.name.endswith('_ptr'):
+                grid_val = getattr(grid, f.name).name
+                designer_val = getattr(designer, f.name).name
+                if grid_val != designer_val:
+                    diff.append(f.name)
+        elif f.name != 'id':
+            grid_val = getattr(grid, f.name)
+            designer_val = getattr(designer, f.name)
+            if grid_val != designer_val:
+                diff.append(f.name)
+    return diff
