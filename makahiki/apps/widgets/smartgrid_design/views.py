@@ -11,14 +11,15 @@ from apps.widgets.smartgrid_library.models import LibraryActivity, LibraryEvent,
     LibraryCommitment, LibraryCategory
 from apps.managers.smartgrid_mgr import smartgrid_mgr
 import json
+from apps.widgets.smartgrid_design.models import DesignerLevel, DesignerCategory
 
 
 def supply(request, page_name):
     """ supply view_objects for widget rendering."""
     _ = request
     _ = page_name
-    levels = Level.objects.all()
-    categories = Category.objects.all()
+    levels = DesignerLevel.objects.all()
+    categories = LibraryCategory.objects.all()
     activities = LibraryActivity.objects.all()
     events = LibraryEvent.objects.all()
     commitments = LibraryCommitment.objects.all()
@@ -36,7 +37,7 @@ def supply(request, page_name):
         'commitments': commitments,
         'fillers': fillers,
         'form': form,
-        'smart_grid': smartgrid.get_smart_grid(),
+        'smart_grid': smartgrid_mgr.get_designer_smartgrid(),
         'smart_grid_actions': smartgrid.get_smart_grid_action_slugs()
             }
 

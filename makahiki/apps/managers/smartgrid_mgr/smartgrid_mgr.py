@@ -7,13 +7,14 @@ Created on Mar 15, 2013
 from django.db.models.deletion import Collector
 from django.db.models.fields.related import ForeignKey
 from apps.widgets.smartgrid.models import Action, Activity, Commitment, Event, Filler, Category, \
-    Level
+    Level, TextPromptQuestion
 from django.shortcuts import get_object_or_404
 from apps.widgets.smartgrid_library.models import LibraryAction, LibraryActivity, \
     LibraryCommitment, LibraryEvent, LibraryCategory
 from django.http import Http404
 from apps.widgets.smartgrid_design.models import DesignerAction, DesignerCategory, \
-    DesignerActivity, DesignerCommitment, DesignerEvent, DesignerFiller, DesignerLevel
+    DesignerActivity, DesignerCommitment, DesignerEvent, DesignerFiller, DesignerLevel,\
+    DesignerTextPromptQuestion
 
 
 def duplicate(obj, value=None, field=None, duplicate_order=None):  # pylint: disable=R0914
@@ -100,6 +101,19 @@ def _copy_fields(orig, copy):
             value = getattr(orig, f.name)
             setattr(copy, f.name, value)
     copy.save()
+
+
+def _copy_fields_no_foriegn_keys(orig, copy):
+    """Copies the field values from orig to copy and saves the copy."""
+    fks = []
+    for f in orig._meta.fields:
+        if isinstance(f, ForeignKey):
+            fks.append(f.name)
+    print fks
+    for f in orig._meta.fields:
+        if f.name != 'id' and not f.name in fks:
+            value = getattr(orig, f.name)
+            setattr(copy, f.name, value)
 
 
 def _copy_action_fields(orig, copy):  # pylint: disable=R0912
@@ -284,6 +298,68 @@ def get_smartgrid_designer_category(slug):
     return get_object_or_404(DesignerCategory, slug=slug)
 
 
+def get_smartgrid():
+    """Returns the currently defined smart grid."""
+    levels = []
+    for level in Level.objects.all():
+        categories = []
+        action_list = None
+        category = None
+        for action in level.action_set.all().select_related("category"):
+            # the action are ordered by level and category
+            if category != action.category:
+                if category:
+                    # a new category
+                    category.task_list = action_list
+                    categories.append(category)
+
+                action_list = []
+                category = action.category
+
+            action_list.append(action)
+
+        if category:
+            # last category
+            category.task_list = action_list
+            categories.append(category)
+
+        level.cat_list = categories
+        levels.append(level)
+
+    return levels
+
+
+def get_designer_smartgrid():
+    """Returns the currently defined smart grid."""
+    levels = []
+    for level in DesignerLevel.objects.all():
+        categories = []
+        action_list = None
+        category = None
+        for action in level.designeraction_set.all().select_related("category"):
+            # the action are ordered by level and category
+            if category != action.category:
+                if category:
+                    # a new category
+                    category.task_list = action_list
+                    categories.append(category)
+
+                action_list = []
+                category = action.category
+
+            action_list.append(action)
+
+        if category:
+            # last category
+            category.task_list = action_list
+            categories.append(category)
+
+        level.cat_list = categories
+        levels.append(level)
+
+    return levels
+
+
 def clear_designer():
     """Deletes all the instances in the designer."""
     for obj in DesignerLevel.objects.all():
@@ -309,6 +385,13 @@ def copy_smartgrid_to_designer():
     # Copy the Actions
     for action in Action.objects.all():
         instantiate_designer_from_grid(action.slug)
+    # Copy all the TextPropmtQuestions
+    for question in TextPromptQuestion.objects.all():
+        slug = question.action.slug
+        des_obj = DesignerTextPromptQuestion()
+        _copy_fields_no_foriegn_keys(question, des_obj)
+        des_obj.action = get_smartgrid_designer_action(slug)
+        des_obj.save()
 
 
 def clear_smartgrid():

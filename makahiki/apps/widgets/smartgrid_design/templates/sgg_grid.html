@@ -11,7 +11,7 @@
 						{% with cat=level.cat_list|nth:i %}
 					<div data-slug="{{cat.slug}}" class="sgg-category-drop grid-draggable" 
 						 data-priority={{i}} data-pk={{cat.pk}} data-level="sgg-level-{{level.priority}}">
-						 <a class="sgg-category" href="/challenge_admin/smartgrid/category/{{cat.pk}}/">
+						 <a class="sgg-category" href="/challenge_setting_admin/smartgrid_design/designercategory/{{cat.pk}}/">
 						 {{cat.name}}</a></div>
 						 {% endwith %}
 					{% endif %}
@@ -44,8 +44,8 @@
                    		   			 data-type="{{act.type}}" data-priority="{{i|add:1}}" data-column="{{j|add:1}}" 
                    		   			 data-category="{{cat.slug}}" data-pk={{act.pk}} data-unlock="{{act.unlock_condition}}">
                    		   			<br/>
-                   		   			<a href="/admin/smartgrid/{{act.type}}/{{act.pk}}/"
-									   class="sgg-action">{{act.name}}</a><br/>
+                   		   			<a href="/challenge_setting_admin/smartgrid_design/designer{{act.type}}/{{act.pk}}/"
+									   class="sgg-action" ref="tooltip" title="{{act.title}}">{{act.name}}</a><br/>
 								</div>								
 									{% endwith %}
 								{% endif %}
