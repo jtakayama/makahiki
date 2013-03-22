@@ -37,6 +37,7 @@ def supply(request, page_name):
         'commitments': commitments,
         'fillers': fillers,
         'form': form,
+        'palette': smartgrid_mgr.get_designer_palette(),
         'smart_grid': smartgrid_mgr.get_designer_smartgrid(),
         'smart_grid_actions': smartgrid.get_smart_grid_action_slugs()
             }

@@ -140,6 +140,14 @@
 					<div style="text-align: left;padding-left: 5px;">Actions with no
 						Level or Category. These do not appear in the Smart Grid Game. Use 
 						this space to move actions from level to level.</div>
+						{% for action in view_objects.smartgrid_design.palette %}
+							<div data-slug="{{action.slug}}" class="sgg-action sgg-{{action.type}}-cell grid-draggable"
+                   		   			 data-type="{{action.type}}" data-pk={{action.pk}} data-unlock="{{action.unlock_condition}}">
+                   		   			<br/>
+                   		   			<a href="/challenge_setting_admin/smartgrid_design/designer{{action.type}}/{{action.pk}}/"
+									   class="sgg-action" ref="tooltip" title="{{action.title}}">{{action.name}}</a><br/>
+							</div>								
+						{% endfor %}						
 				</div>
 			</div>
 		</div>

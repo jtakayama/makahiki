@@ -329,6 +329,16 @@ def get_smartgrid():
     return levels
 
 
+def get_designer_palette():
+    """Returns the DesignerActions with no Level or no Category.  These actions will not
+    appear in the grid if published."""
+    palette = []
+    for action in DesignerAction.objects.all():
+        if action.level == None or action.category == None:
+            palette.append(action)
+    return palette
+
+
 def get_designer_smartgrid():
     """Returns the currently defined smart grid."""
     levels = []
