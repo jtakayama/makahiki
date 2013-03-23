@@ -15,7 +15,7 @@
 				<p></p>
 				<a href="{% url publish_to_grid %}">
 					<div class="btn btn-widget" rel="tooltip"
-						title="Publish changes to the Smart Grid Game.">Publish changes to Smart Grid Game</div>
+						title="Publish changes made in the designer to the Smart Grid Game.">Publish changes to Smart Grid Game</div>
 				</a>
 			</div>
 			<div class="span7">
@@ -38,7 +38,25 @@
 					</div>
 				</div>
 			</div>
-			<div class="span2"></div>
+			<div class="span2">
+				<div class="sgg-differences">
+				<u>Changes:</u>
+			{% for diff in view_objects.smartgrid_design.differences %}
+					<div class="sgg-diff-action">{{diff|nth:0}}:</div>
+					<div class="sgg-diff-fields">
+					{% for field in diff|nth:1 %}
+					{% if not forloop.last %}
+					{{field}}, 
+					{% else %}
+					{{field}}
+					{% endif %}
+					{% endfor %}
+					</div>
+			{% empty %}
+				No changes from the Smart Grid.
+			{% endfor %}
+				</div>
+			</div>
 		</div>
 		<div class="row-fluid">
 			<div class="span3">

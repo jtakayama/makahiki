@@ -467,18 +467,30 @@ def is_diff_between_designer_and_grid_action(slug):
 def diff_between_designer_and_grid_action(slug):
     """Returns a list of the fields that are different between the Designer Action and
     Grid Action with the given slug."""
-    grid = get_smartgrid_action(slug)
-    fks = []
-    for f in grid._meta.fields:
-        if isinstance(f, ForeignKey):
-            fks.append(f.name)
-    designer = get_designer_action(slug)
+    grid = None
+    designer = None
+    try:
+        grid = get_smartgrid_action(slug)
+        fks = []
+        for f in grid._meta.fields:
+            if isinstance(f, ForeignKey):
+                fks.append(f.name)
+        designer = get_designer_action(slug)
+    except Http404:
+        if grid == None:
+            return ['is new action in grid']
+        if designer == None:
+            return ['not in designer but is in grid']
     diff = []
     for f in grid._meta.fields:
         if f.name in fks:
             if not f.name.endswith('_ptr'):
-                grid_val = getattr(grid, f.name).name
-                designer_val = getattr(designer, f.name).name
+                grid_val = getattr(grid, f.name)
+                if grid_val:
+                    grid_val = grid_val.name
+                designer_val = getattr(designer, f.name)
+                if designer_val:
+                    designer_val = designer_val.name
                 if grid_val != designer_val:
                     diff.append(f.name)
         elif f.name != 'id':
@@ -487,3 +499,18 @@ def diff_between_designer_and_grid_action(slug):
             if grid_val != designer_val:
                 diff.append(f.name)
     return diff
+
+
+def diff_between_designer_and_grid():
+    """Returns a list of the action slugs and the changes for those slugs between the
+    designer actions and smartgrid actions."""
+    ret = []
+    for action in DesignerAction.objects.all():
+        slug = action.slug
+        diff = diff_between_designer_and_grid_action(slug)
+        if len(diff) > 0:
+            inner = []
+            inner.append(action.name)
+            inner.append(diff)
+            ret.append(inner)
+    return ret

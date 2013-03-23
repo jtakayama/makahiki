@@ -26,9 +26,11 @@ def supply(request, page_name):
     fillers = Filler.objects.all()
     form = SggUpdateForm({'category_updates': '[]',
                           'action_updates': '[]'})
+    diff = smartgrid_mgr.diff_between_designer_and_grid()
 
 #    print len(activities)
 #    print len(smartgrid_mgr.get_smartgrid_action_slugs())
+    print diff
     return {
         'levels': levels,
         'categories': categories,
@@ -38,6 +40,7 @@ def supply(request, page_name):
         'fillers': fillers,
         'form': form,
         'palette': smartgrid_mgr.get_designer_palette(),
+        'differences': diff,
         'smart_grid': smartgrid_mgr.get_designer_smartgrid(),
         'smart_grid_actions': smartgrid_mgr.get_designer_action_slugs()
             }
