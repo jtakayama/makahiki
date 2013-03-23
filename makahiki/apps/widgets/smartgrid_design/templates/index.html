@@ -8,12 +8,12 @@
 				<p>Drag the Categories to create columns. Then Drag the Activities,
 				Commitments, or Events to fill the Grid. Use the palette to temporarily
 				store Smart Grid Actions.</p>
-				<a href="">
+				<a href="{% url revert_to_grid %}">
 					<div class="btn btn-widget" rel="tooltip" 
 						title="Deletes all changes made in the designer and loads the current Smart Grid Game.">Revert to current Smart Grid Game</div>
 				</a>
 				<p></p>
-				<a href="">
+				<a href="{% url publish_to_grid %}">
 					<div class="btn btn-widget" rel="tooltip"
 						title="Publish changes to the Smart Grid Game.">Publish changes to Smart Grid Game</div>
 				</a>
@@ -65,7 +65,7 @@
 							<div id="{{action.slug}}" data-slug="{{action.slug}}" data-type="{{action.type}}" data-pk="{{action.pk}}"
 								data-instance="{{action}}" 
 								data-unlock="{{action.unlock_condition}}"
-								class="sgg-library-action sgg-activity library-draggable {% if action.slug in view_objects.smartgrid_design.smart_grid_actions %}hidden{% endif %}">
+								class="sgg-action sgg-library-action sgg-activity library-draggable {% if action.slug in view_objects.smartgrid_design.smart_grid_actions %}hidden{% endif %}">
 								<a href="/challenge_setting_admin/smartgrid_library/library{{action.type}}/{{action.pk}}/"
 									class="sgg-action" ref="tooltip" title="{{action.title}}">{{action.name}}</a>
 							</div>
@@ -141,7 +141,7 @@
 						Level or Category. These do not appear in the Smart Grid Game. Use 
 						this space to move actions from level to level.</div>
 						{% for action in view_objects.smartgrid_design.palette %}
-							<div data-slug="{{action.slug}}" class="sgg-action sgg-{{action.type}}-cell grid-draggable"
+							<div data-slug="{{action.slug}}" class="sgg-action sgg-{{action.type}}-cell palette-draggable"
                    		   			 data-type="{{action.type}}" data-pk={{action.pk}} data-unlock="{{action.unlock_condition}}">
                    		   			<br/>
                    		   			<a href="/challenge_setting_admin/smartgrid_design/designer{{action.type}}/{{action.pk}}/"
@@ -170,24 +170,25 @@
 			cursor : 'move',
 			helper : 'original',
 			revert : function(dropObj) {
-				console.log("revert for grid draggable");
+				// console.log("revert for grid draggable");
 				// if false then no drop object
 				if (dropObj == false) {
 					// revert the grid-draggable
 					return true;
 				} else {
-					var answer = confirm('Remove this item from the Smart Grid?');
-					if (answer) {
+					// var answer = confirm('Remove this item from the Smart Grid?');
+					// if (answer) {
 						var type = $(dropObj).attr('class');
 						var first = type.split(" ")[0];
+						console.log(first);
 						if (first == 'sgg-palette') {
 							handlePaletteDrop($(this));
-						} else {
-							handleTrashDrop($(this));
+						} else if (first == 'sgg-right-palette') {
+							handlePaletteDrop($(this));
 						}
 						return false;
-					}
-					return !answer;
+					// }
+					// return !answer;
 				}
 			},
 		});
@@ -196,6 +197,10 @@
 			start : handleLibraryStartDrag,
 			helper : 'clone',
 			revert : 'invalid',
+		})
+		$('.palette-draggable').draggable({
+			cursor : 'move',
+			helper : 'original',
 		})
 		$('.sgg-category-slot').droppable({
 			accept : '.sgg-category',
@@ -207,53 +212,9 @@
 		});
 		$('.palette-dropzone').droppable({
 			accept : '.sgg-action',
-//			drop : handlePaletteDrop
 		})
 		$('.trash-dropzone').droppable({
-//			drop : handleTrashDrop
 		})
-	    var saved = getCookie('sgg_save');
-	    if (saved) {
-	    	console.log('Have sgg_save cookie');
-	    	console.log(">" + saved + "<");
-	    	clearCategories();
-	    	clearActions();
-	    	loadSavedSGG(saved);
-	    }
 	}
 
-	function clearCategories() {
-	    $('.sgg-category-slot').empty();
-	    $('.sgg-action-slot').addClass("disabled");
-	}
-	
-	function clearActions() {
-	    $('.sgg-action-slot').empty();	
-	}
-	
-	function saveFormSubmit() {
-		deleteCookie('sgg_save');
-	    $('#save-form').submit();	
-	}
-	
-	function hasClass(ele, cls) {
-		return ele.className.match(new RegExp('(\\s|^)' + cls + '(\\s|$)'));
-	}
-
-	function addClass(ele, cls) {
-		if (!this.hasClass(ele, cls))
-			ele.className += " " + cls;
-	}
-
-	function removeClass(ele, cls) {
-		if (ele && hasClass(ele, cls)) {
-			var reg = new RegExp('(\\s|^)' + cls + '(\\s|$)');
-			ele.className = ele.className.replace(reg, ' ');
-		}
-	}
-	
-	function handleLibraryStartDrag(event, ui) {
-		$(this).addClass('hidden');
-	}
-	
 </script>

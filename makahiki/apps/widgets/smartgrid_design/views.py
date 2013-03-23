@@ -27,8 +27,8 @@ def supply(request, page_name):
     form = SggUpdateForm({'category_updates': '[]',
                           'action_updates': '[]'})
 
-    print len(activities)
-    print len(smartgrid.get_smart_grid_action_slugs())
+#    print len(activities)
+#    print len(smartgrid_mgr.get_smartgrid_action_slugs())
     return {
         'levels': levels,
         'categories': categories,
@@ -39,7 +39,7 @@ def supply(request, page_name):
         'form': form,
         'palette': smartgrid_mgr.get_designer_palette(),
         'smart_grid': smartgrid_mgr.get_designer_smartgrid(),
-        'smart_grid_actions': smartgrid.get_smart_grid_action_slugs()
+        'smart_grid_actions': smartgrid_mgr.get_designer_action_slugs()
             }
 
 
@@ -124,12 +124,12 @@ def instantiate_category(request, cat_slug, level_slug, priority):
     _ = request
     lib_cat = LibraryCategory.objects.get(slug=cat_slug)
     level = Level.objects.get(slug=level_slug)
-    category = Category()
+    category = DesignerCategory()
     slug = lib_cat.slug
-    slug += '-'
-    slug += level.slug
-    slug += '-'
-    slug += priority
+#    slug += '-'
+#    slug += level.slug
+#    slug += '-'
+#    slug += priority
     category.name = lib_cat.name
     category.slug = slug
     category.level = level  # there is no level....
@@ -147,9 +147,9 @@ def instantiate_action(request, action_slug, cat_slug, level_slug, priority):
     given level, category, and priority."""
     _ = request
     grid_action = smartgrid_mgr.instantiate_designer_from_library(action_slug)
-    level = Level.objects.get(slug=level_slug)
+    level = DesignerLevel.objects.get(slug=level_slug)
     grid_action.level = level
-    grid_action.category = Category.objects.get(slug=cat_slug)
+    grid_action.category = DesignerCategory.objects.get(slug=cat_slug)
     grid_action.priority = priority
     grid_action.save()
 
@@ -178,12 +178,29 @@ def delete_category(request, cat_slug):
 
 
 def clear_from_grid(request, action_slug):
-    """Clears the Level, Category, and priority for the given Action."""
+    """Clears the Level, Category, and priority for the given DesignerAction."""
     _ = request
-    action = smartgrid.get_action(action_slug)
+    action = smartgrid_mgr.get_designer_action(action_slug)
     action.level = None
     action.category = None
     action.priority = 0
     action.save()
+    response = HttpResponseRedirect("/sgg_designer/")
+    return response
+
+
+def revert_to_grid(request):
+    """Deletes all the DesignerActions and creates new DesignerActions from the current Smart
+    Grid Game instances."""
+    smartgrid_mgr.clear_designer()
+    smartgrid_mgr.copy_smartgrid_to_designer()
+    response = HttpResponseRedirect("/sgg_designer/")
+    return response
+
+
+def publish_to_grid(request):
+    """Clears all the current Smart Grid Instances and Copies the DesignerActions to the Smart
+    Grid Game."""
+    smartgrid_mgr.deploy_designer_to_smartgrid()
     response = HttpResponseRedirect("/sgg_designer/")
     return response

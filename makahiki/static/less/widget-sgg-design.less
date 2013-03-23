@@ -18,6 +18,11 @@ a.sgg-category {
 	color: @sgg-entry-font-color;
 }
 
+.palette-draggable {
+	float: left;
+	margin: 2px;	
+}
+
 .sgg-action {
 	color: @sgg-entry-font-color;
 }
@@ -66,6 +71,45 @@ a.sgg-category {
   -moz-box-shadow: 0 0 .5em rgba(0, 0, 0, .8);
   -webkit-box-shadow: 0 0 .5em rgba(0, 0, 0, .8);
   box-shadow: 0 0 .5em rgba(0, 0, 0, .8);
+}
+
+.sgg-category-dropzone {
+    border: 2px solid #000;
+//	height: 56px;
+}
+
+.sgg-category-link {
+    color: @sgg-entry-font-color;	
+}
+
+.ssg-category-selections {
+    border: 1px solid #000;
+    border-radius: 8px;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    margin: 10px auto 0 auto;
+    text-align: center;
+}
+
+.sgg-category-slot {
+    margin: 2px;
+    border: 1px solid #000;
+    border-radius: 8px;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    border-style: dashed;    
+    text-align: center;
+    width: 64px;
+    height: 64px;
+    float: left;
+}
+
+.sgg-category-slot:first-child {
+    margin-left: 0px;
+}
+
+.sgg-category-title {
+    text-align: center;
 }
 
 .sgg-commitment {
@@ -151,8 +195,8 @@ a.sgg-category {
     color: @sgg-header-font-color;
     float: left;
     overflow: hidden;
-    margin: 0;
-    padding: 0;
+    margin: 2px;
+    padding: 2px;
     height: 64px;
     width: 64px;
     vertical-align: middle;
@@ -164,23 +208,6 @@ a.sgg-category {
     text-transform: capitalize;	
     font-weight: bold;
 }
-.sgg-category-title {
-    text-align: center;
-}
-
-.ssg-category-selections {
-    border: 1px solid #000;
-    border-radius: 8px;
-    -moz-border-radius: 8px;
-    -webkit-border-radius: 8px;
-    margin: 10px auto 0 auto;
-    text-align: center;
-}
-
-.sgg-category-dropzone {
-    border: 2px solid #000;
-//	height: 56px;
-}
 
 .sgg-dropzone {
     border: 1px solid #000;
@@ -188,23 +215,6 @@ a.sgg-category {
     -moz-border-radius: 8px;
     -webkit-border-radius: 8px;
 }	
-
-.sgg-category-slot {
-    margin: 2px;
-    border: 1px solid #000;
-    border-radius: 8px;
-    -moz-border-radius: 8px;
-    -webkit-border-radius: 8px;
-    border-style: dashed;    
-    text-align: center;
-    width: 64px;
-    height: 64px;
-    float: left;
-}
-
-.sgg-category-slot:first-child {
-    margin-left: 0px;
-}
 
 .sgg-action-slot {
     margin: 2px;

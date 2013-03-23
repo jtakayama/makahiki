@@ -9,10 +9,13 @@
 					<td><div class="sgg-category-slot" data-column={{i|add:1}}>
 					{% if i < level.cat_list|length %}
 						{% with cat=level.cat_list|nth:i %}
-					<div data-slug="{{cat.slug}}" class="sgg-category-drop grid-draggable" 
+					<div data-slug="{{cat.slug}}" class="sgg-category grid-draggable" 
 						 data-priority={{i}} data-pk={{cat.pk}} data-level="sgg-level-{{level.priority}}">
-						 <a class="sgg-category" href="/challenge_setting_admin/smartgrid_design/designercategory/{{cat.pk}}/">
-						 {{cat.name}}</a></div>
+						 <br/>
+						 <a class="sgg-category-link" href="/challenge_setting_admin/smartgrid_design/designercategory/{{cat.pk}}/">
+						 {{cat.name}}</a>
+						 <br/>
+					</div>
 						 {% endwith %}
 					{% endif %}
 					</div></td>
