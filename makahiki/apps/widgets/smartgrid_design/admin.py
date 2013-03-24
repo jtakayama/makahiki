@@ -1,11 +1,7 @@
 """Admin definition for Smart Grid Game widget."""
 from django.db import models
 from django.http import HttpResponseRedirect
-from django.shortcuts import render_to_response
-from django.template import RequestContext
-import markdown
 from apps.managers.cache_mgr import cache_mgr
-from apps.managers.challenge_mgr import challenge_mgr
 from apps.utils import utils
 from apps.widgets.smartgrid.views import action_admin, action_admin_list
 
@@ -15,12 +11,11 @@ from django.forms.models import BaseInlineFormSet
 from django.forms.util import ErrorList
 from django.forms import TextInput, Textarea
 from django.core.urlresolvers import reverse
-from django.contrib import messages
 from django.db.utils import IntegrityError
 from apps.admin.admin import challenge_designer_site, challenge_manager_site, developer_site
-from apps.widgets.smartgrid_design.models import DesignerAction, DesignerActivity,\
-    DesignerTextPromptQuestion, DesignerCommitment, DesignerEvent, DesignerFiller, DesignerCategory,\
-    DesignerLevel, DesignerQuestionChoice
+from apps.widgets.smartgrid_design.models import DesignerAction, DesignerActivity, \
+    DesignerTextPromptQuestion, DesignerCommitment, DesignerEvent, DesignerFiller, \
+    DesignerCategory, DesignerLevel, DesignerQuestionChoice
 
 
 class DesignerActionAdmin(admin.ModelAdmin):

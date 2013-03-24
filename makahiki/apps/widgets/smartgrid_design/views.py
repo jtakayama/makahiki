@@ -8,7 +8,7 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.template.context import RequestContext
 from apps.widgets.smartgrid_design.forms import SggUpdateForm
 from apps.widgets.smartgrid_library.models import LibraryActivity, LibraryEvent, \
-    LibraryCommitment, LibraryCategory, LibraryTextPromptQuestion
+    LibraryCommitment, LibraryCategory
 from apps.managers.smartgrid_mgr import smartgrid_mgr
 import json
 from apps.widgets.smartgrid_design.models import DesignerLevel, DesignerCategory
@@ -30,7 +30,7 @@ def supply(request, page_name):
 
 #    print len(activities)
 #    print len(smartgrid_mgr.get_smartgrid_action_slugs())
-    print diff
+#    print diff
     return {
         'levels': levels,
         'categories': categories,
@@ -127,12 +127,11 @@ def instantiate_category(request, cat_slug, level_slug, priority):
     _ = request
     lib_cat = LibraryCategory.objects.get(slug=cat_slug)
     level = Level.objects.get(slug=level_slug)
-    category = DesignerCategory()
+    try:
+        category = get_object_or_404(DesignerCategory, slug=cat_slug)
+    except Http404:
+        category = DesignerCategory()
     slug = lib_cat.slug
-#    slug += '-'
-#    slug += level.slug
-#    slug += '-'
-#    slug += priority
     category.name = lib_cat.name
     category.slug = slug
     category.level = level  # there is no level....
@@ -149,15 +148,12 @@ def instantiate_action(request, action_slug, cat_slug, level_slug, priority):
     """Instantiated the Smart Grid Game Action from the Library Action with the
     given level, category, and priority."""
     _ = request
-    library_action = smartgrid_mgr.get_library_action(action_slug)
     grid_action = smartgrid_mgr.instantiate_designer_from_library(action_slug)
     level = DesignerLevel.objects.get(slug=level_slug)
     grid_action.level = level
     grid_action.category = DesignerCategory.objects.get(slug=cat_slug)
     grid_action.priority = priority
     grid_action.save()
-    # copy the questions if any.
-    library_questions = LibraryTextPromptQuestion.objects.filter(libraryaction=library_action)
 
     #  Return the new pk for the instantiated action.
     return HttpResponse(json.dumps({
@@ -198,6 +194,7 @@ def clear_from_grid(request, action_slug):
 def revert_to_grid(request):
     """Deletes all the DesignerActions and creates new DesignerActions from the current Smart
     Grid Game instances."""
+    _ = request
     smartgrid_mgr.clear_designer()
     smartgrid_mgr.copy_smartgrid_to_designer()
     response = HttpResponseRedirect("/sgg_designer/")
@@ -207,6 +204,7 @@ def revert_to_grid(request):
 def publish_to_grid(request):
     """Clears all the current Smart Grid Instances and Copies the DesignerActions to the Smart
     Grid Game."""
+    _ = request
     smartgrid_mgr.deploy_designer_to_smartgrid()
     response = HttpResponseRedirect("/sgg_designer/")
     return response

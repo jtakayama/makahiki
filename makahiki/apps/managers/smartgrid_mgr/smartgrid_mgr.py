@@ -485,7 +485,7 @@ def is_diff_between_designer_and_grid_action(slug):
     return False
 
 
-def diff_between_designer_and_grid_action(slug):
+def diff_between_designer_and_grid_action(slug):  # pylint: disable=R0912
     """Returns a list of the fields that are different between the Designer Action and
     Grid Action with the given slug."""
     grid = None
@@ -522,7 +522,7 @@ def diff_between_designer_and_grid_action(slug):
             designer_val = getattr(designer, f.name)
             if grid_val != designer_val:
                 diff.append(f.name)
-    return diff
+    return diff  # pylint: enable=R0912
 
 
 def diff_between_designer_and_grid():
