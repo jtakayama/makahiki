@@ -10,7 +10,7 @@ from apps.widgets.smartgrid.models import Action, Activity, Commitment, Event, F
     Level, TextPromptQuestion
 from django.shortcuts import get_object_or_404
 from apps.widgets.smartgrid_library.models import LibraryAction, LibraryActivity, \
-    LibraryCommitment, LibraryEvent, LibraryCategory
+    LibraryCommitment, LibraryEvent, LibraryCategory, LibraryTextPromptQuestion
 from django.http import Http404
 from apps.widgets.smartgrid_design.models import DesignerAction, DesignerCategory, \
     DesignerActivity, DesignerCommitment, DesignerEvent, DesignerFiller, DesignerLevel,\
@@ -178,6 +178,13 @@ def instantiate_designer_from_library(slug):
 
     _copy_action_fields(lib_obj, design_obj)
 
+    # Copy all the LibraryTextPropmtQuestions
+    for question in LibraryTextPromptQuestion.objects.filter(libraryaction=lib_obj):
+        des_obj = DesignerTextPromptQuestion()
+        _copy_fields_no_foriegn_keys(question, des_obj)
+        des_obj.action = get_designer_action(slug)
+        des_obj.save()
+
     return design_obj
 
 
@@ -208,6 +215,13 @@ def instantiate_designer_from_grid(slug):
         designer_obj = old_obj
     _copy_action_fields(grid_obj, designer_obj)
 
+    # Copy all the TextPropmtQuestions
+    for question in TextPromptQuestion.objects.filter(action=grid_obj):
+        des_obj = DesignerTextPromptQuestion()
+        _copy_fields_no_foriegn_keys(question, des_obj)
+        des_obj.action = get_designer_action(slug)
+        des_obj.save()
+
     return designer_obj
 
 
@@ -237,6 +251,13 @@ def instantiate_grid_from_designer(slug):
     else:
         grid_obj = old_obj
     _copy_action_fields(designer_obj, grid_obj)
+
+    # Copy all the LibraryTextPropmtQuestions
+    for question in DesignerTextPromptQuestion.objects.filter(action=designer_obj):
+        des_obj = TextPromptQuestion()
+        _copy_fields_no_foriegn_keys(question, des_obj)
+        des_obj.action = get_smartgrid_action(slug)
+        des_obj.save()
 
     return grid_obj
 
@@ -415,12 +436,12 @@ def copy_smartgrid_to_designer():
     for action in Action.objects.all():
         instantiate_designer_from_grid(action.slug)
     # Copy all the TextPropmtQuestions
-    for question in TextPromptQuestion.objects.all():
-        slug = question.action.slug
-        des_obj = DesignerTextPromptQuestion()
-        _copy_fields_no_foriegn_keys(question, des_obj)
-        des_obj.action = get_designer_action(slug)
-        des_obj.save()
+#    for question in TextPromptQuestion.objects.all():
+#        slug = question.action.slug
+#        des_obj = DesignerTextPromptQuestion()
+#        _copy_fields_no_foriegn_keys(question, des_obj)
+#        des_obj.action = get_designer_action(slug)
+#        des_obj.save()
 
 
 def clear_smartgrid():
@@ -469,16 +490,19 @@ def diff_between_designer_and_grid_action(slug):
     Grid Action with the given slug."""
     grid = None
     designer = None
+    t = 'action'
     try:
+        designer = get_designer_action(slug)
+        t = designer.type
         grid = get_smartgrid_action(slug)
+        t = grid.type
         fks = []
         for f in grid._meta.fields:
             if isinstance(f, ForeignKey):
                 fks.append(f.name)
-        designer = get_designer_action(slug)
     except Http404:
         if grid == None:
-            return ['is new action in grid']
+            return ['is new ' + t + ' in grid']
         if designer == None:
             return ['not in designer but is in grid']
     diff = []

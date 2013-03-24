@@ -3,11 +3,28 @@
 <div class="content-box">
 	<div class="content-box-title">Smart Grid Game Designer</div>
 	<div id="content" class="content-box-contents">
-		<div class="row-fluid">
-			<div class="span3">
 				<p>Drag the Categories to create columns. Then Drag the Activities,
 				Commitments, or Events to fill the Grid. Use the palette to temporarily
 				store Smart Grid Actions.</p>
+		<div class="row-fluid">
+			<div class="span3">
+				<div class="sgg-differences">
+				<u>Changes:</u>
+			{% for diff in view_objects.smartgrid_design.differences %}
+					<div class="sgg-diff-action">{{diff|nth:0}}:</div>
+					<div class="sgg-diff-fields">
+					{% for field in diff|nth:1 %}
+					{% if not forloop.last %}
+					{{field}}, 
+					{% else %}
+					{{field}}
+					{% endif %}
+					{% endfor %}
+					</div>
+			{% empty %}
+				No changes from the Smart Grid.
+			{% endfor %}
+				</div>
 				<a href="{% url revert_to_grid %}">
 					<div class="btn btn-widget" rel="tooltip" 
 						title="Deletes all changes made in the designer and loads the current Smart Grid Game.">Revert to current Smart Grid Game</div>
@@ -39,23 +56,6 @@
 				</div>
 			</div>
 			<div class="span2">
-				<div class="sgg-differences">
-				<u>Changes:</u>
-			{% for diff in view_objects.smartgrid_design.differences %}
-					<div class="sgg-diff-action">{{diff|nth:0}}:</div>
-					<div class="sgg-diff-fields">
-					{% for field in diff|nth:1 %}
-					{% if not forloop.last %}
-					{{field}}, 
-					{% else %}
-					{{field}}
-					{% endif %}
-					{% endfor %}
-					</div>
-			{% empty %}
-				No changes from the Smart Grid.
-			{% endfor %}
-				</div>
 			</div>
 		</div>
 		<div class="row-fluid">
@@ -80,8 +80,7 @@
 						<div id="activities" class="sgg-action-selections tab-pane active"
 							style="height: 470px; overflow: scroll;">
 							{% for action in view_objects.smartgrid_design.activities %}		
-							<div id="{{action.slug}}" data-slug="{{action.slug}}" data-type="{{action.type}}" data-pk="{{action.pk}}"
-								data-instance="{{action}}" 
+							<div data-slug="{{action.slug}}" data-type="{{action.type}}" data-pk="{{action.pk}}"
 								data-unlock="{{action.unlock_condition}}"
 								class="sgg-action sgg-library-action sgg-activity library-draggable {% if action.slug in view_objects.smartgrid_design.smart_grid_actions %}hidden{% endif %}">
 								<a href="/challenge_setting_admin/smartgrid_library/library{{action.type}}/{{action.pk}}/"
@@ -92,9 +91,8 @@
 						<div id="commitments" class="sgg-action-selections tab-pane"
 							style="height: 470px; overflow: scroll;">
 							{% for action in view_objects.smartgrid_design.commitments %}
-							<div id="{{action.slug}}" data-slug="{{action.slug}}" data-type="{{action.type}}" data-pk="{{action.pk}}"
-								data-instance="{{action}}" 
-								class="sgg-library-action sgg-commitment library-draggable {% if action.slug in view_objects.smartgrid_design.smart_grid_actions %}hidden{% endif %}">
+							<div data-slug="{{action.slug}}" data-type="{{action.type}}" data-pk="{{action.pk}}"
+								class="sgg-action sgg-library-action sgg-commitment library-draggable {% if action.slug in view_objects.smartgrid_design.smart_grid_actions %}hidden{% endif %}">
 								<a href="/challenge_setting_admin/smartgrid_library/library{{action.type}}/{{action.pk}}/"
 									class="sgg-action" ref="tooltip" title="{{action.title}}">{{action.name}}</a>
 							</div>
@@ -103,9 +101,8 @@
 						<div id="events" class="sgg-action-selections tab-pane"
 							style="height: 470px; overflow: scroll;">
 							{% for action in view_objects.smartgrid_design.events %}
-							<div id="{{action.slug}}" data-slug="{{action.slug}}" data-type="{{action.type}}" data-pk="{{action.pk}}"
-								data-instance="{{action}}" 
-								class="sgg-library-action sgg-event library-draggable {% if action.slug in view_objects.smartgrid_design.smart_grid_actions %}hidden{% endif %}">
+							<div data-slug="{{action.slug}}" data-type="{{action.type}}" data-pk="{{action.pk}}"
+								class="sgg-action sgg-library-action sgg-event library-draggable {% if action.slug in view_objects.smartgrid_design.smart_grid_actions %}hidden{% endif %}">
 								<a href="/challenge_setting_admin/smartgrid_library/library{{action.type}}/{{action.pk}}/"
 									class="sgg-action" ref="tooltip" title="{{action.title}}">{{action.name}}</a>
 							</div>
@@ -157,9 +154,10 @@
 				<div class="sgg-right-palette palette-dropzone"><u>Palette</u></br>
 					<div style="text-align: left;padding-left: 5px;">Actions with no
 						Level or Category. These do not appear in the Smart Grid Game. Use 
-						this space to move actions from level to level.</div>
+						this space to move actions from level to level or temporarily remove the
+						action from the Smart Grid Game.</div>
 						{% for action in view_objects.smartgrid_design.palette %}
-							<div data-slug="{{action.slug}}" class="sgg-action sgg-{{action.type}}-cell palette-draggable"
+							<div data-slug="{{action.slug}}" class="sgg-action sgg-{{action.type}}-palette palette-draggable"
                    		   			 data-type="{{action.type}}" data-pk={{action.pk}} data-unlock="{{action.unlock_condition}}">
                    		   			<br/>
                    		   			<a href="/challenge_setting_admin/smartgrid_design/designer{{action.type}}/{{action.pk}}/"

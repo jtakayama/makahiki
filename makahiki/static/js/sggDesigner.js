@@ -1,24 +1,41 @@
+if (typeof String.prototype.startsWith != 'function') {
+	String.prototype.startsWith = function (str) {
+		return this.slice(0, str.length) == str;
+	};
+}
+
+if (typeof String.prototype.endsWith != 'function') {
+	String.prototype.endsWith = function (str) {
+		return this.slice(-str.length) == str;
+	};
+}
+
 function handleActionDrop(event, ui) {
-	console.log('handleActionDrop()');
-	var column = $(this).data('column');
-	var category = $(this).data('category');
+//	console.log('handleActionDrop()');
+	var column = $(this).attr('data-column');
+	var category = $(this).attr('data-category');
 	if (category) {
 		category = trim2(category);
 	}
-	var row = $(this).data('row');
+	var row = $(this).attr('data-row');
 	var slug = ui.draggable.attr('data-slug');
 	var pk = ui.draggable.attr('data-pk');
 	var type = ui.draggable.attr('data-type');
 	var unlock = ui.draggable.attr('data-unlock');
-	var title = ui.draggable.attr('title');
+	var title = ui.draggable.children('a').attr('title');
 	var cls = ui.draggable.attr('class');
 	var classes = cls.split(" ");
 	var fromPalette = false;
+	var fromGrid = false;
 	for (var i = 0; i < classes.length; i++) {
 		if (classes[i] == 'palette-draggable') {
 			fromPalette = true;
 		}
+		if (classes[i].startsWith('sgg-') && classes[i].endsWith('-cell')) {
+			fromGrid = true;
+		}
 	}
+//	console.log('fromPalette=' + fromPalette + ' fromGrid=' + fromGrid);
 	if (unlock) {
 		unlock = trim1(unlock);
 	}
@@ -27,6 +44,8 @@ function handleActionDrop(event, ui) {
 	if (fromPalette) {
 		ui.draggable.removeClass('palette-draggable');
 		ui.draggable.removeClass('ui-draggable-dragging');
+		ui.draggable.removeClass('sgg-'+ type + '-palette');
+		ui.draggable.addClass('sgg-'+ type + '-cell');
 		ui.draggable.addClass('grid_dragable');
 		var temp = ui.draggable.clone();
 		temp.attr('style', '');
@@ -34,6 +53,13 @@ function handleActionDrop(event, ui) {
 //		console.log(html);
 		$(this).html(html);
 		ui.draggable.addClass('hidden');
+	} else if (fromGrid) {
+		var temp = ui.draggable.clone();
+		temp.attr('style', '');
+		var html = $('<div />').append(temp).html();
+//		console.log(html);
+		$(this).html(html);
+		ui.draggable.addClass('hidden');		
 	} else if (type == "filler") {
 		numFiller += 1;
 		slug = 'filler-' + numFiller;
@@ -56,9 +82,9 @@ function handleActionDrop(event, ui) {
 }
 
 function handleCategoryDrop(event, ui) {
-	console.log('handleCategoryDrop()');
+//	console.log('handleCategoryDrop()');
 	var levelID = findLevelID(this);
-	var column = $(this).data('column');
+	var column = $(this).attr('data-column');
 	var slug = ui.draggable.attr('data-slug');
 	var pk = ui.draggable.attr('data-pk');
 	var levelSlug = findLevelSlug(this);
@@ -80,7 +106,7 @@ function handleLibraryStartDrag(event, ui) {
 }
 
 function handlePaletteDrop(obj) {
-	console.log('handlePaletteDrop');
+//	console.log('handlePaletteDrop');
 	var slug = obj.attr('data-slug');
 	var category = obj.attr('data-category');
 	if (category) {
@@ -115,21 +141,30 @@ function handlePaletteDrop(obj) {
  */
 function createCategoryDropDiv(slug, column, text, id) {
 //	console.log("createCategoryDropDiv(" + slug + ", " + column + ", " + text + ", " + id + ")");
-	var drop = $('<div data-slug=' + trim1(slug) + ' class="sgg-category-drop grid-draggable" ' +
-			'data-priority=' + column + '>' + '<a class="sgg-category" ' +
+	var drop = $('<div data-slug=' + trim1(slug) + ' class="sgg-category grid-draggable" ' +
+			'data-priority=' + column + '><br />' + '<a class="sgg-category-link" ' +
 			'href="/challenge_admin/smartgrid/category/' + id + '/">'
-			+ trim2(text) + '</a></div>');
+			+ trim2(text) + '</a><br /></div>');
 	return drop;
 } 
 
 function instantiateGridCategory(catSlug, levelSlug, column) {
-	console.log('instantiateGridCategory(' + catSlug + ', ' + levelSlug + ', ' + column + ')');
-//	$.get("/smartgrid_design/newcat/" + catSlug + "/" + levelSlug + "/" + column + "/");
+//	console.log('instantiateGridCategory(' + catSlug + ', ' + levelSlug + ', ' + column + ')');
     jQuery.ajax({
         url: "/smartgrid_design/newcat/" + catSlug + "/" + levelSlug + "/" + column + "/", 
         success: function(data) {
-        	console.log('pk of Grid Category is ' + data.pk);
-        	location.reload(true);
+//        	console.log('pk of Grid Category is ' + data.pk);
+        	var div = $('div[data-slug="' + catSlug + '"]:visible > a');
+        	var href = div.attr('href');
+        	href = href.slice(0, href.length - 1);
+        	var index = href.lastIndexOf('/');
+        	if (index != -1) {
+        		href = href.slice(0, index + 1) + data.pk + '/';
+//        		console.log(href);
+        		div.attr('href', href);
+//        		console.log(div);
+        	}
+
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
         }
@@ -137,12 +172,21 @@ function instantiateGridCategory(catSlug, levelSlug, column) {
 }
 
 function instantiateGridAction(actSlug, catSlug, levelSlug, priority) {
-	console.log('instantiateGridAction(' + actSlug + ', ' + catSlug + ', ' + levelSlug + ', ' + priority + ')');
-//	$.get("/smartgrid_design/newaction/" + actSlug + "/" + catSlug + "/" + levelSlug + "/" + priority + "/");
+//	console.log('instantiateGridAction(' + actSlug + ', ' + catSlug + ', ' + levelSlug + ', ' + priority + ')');
     jQuery.ajax({
         url: "/smartgrid_design/newaction/" + actSlug + "/" + catSlug + "/" + levelSlug + "/" + priority + "/", 
         success: function(data) {
-        	console.log('pk of Grid Action is ' + data.pk);
+//        	console.log('pk of new Grid Action is ' + data.pk);
+        	var div = $('div[data-slug="' + actSlug + '"]:visible > a');
+        	var href = div.attr('href');
+        	href = href.slice(0, href.length - 1);
+        	var index = href.lastIndexOf('/');
+        	if (index != -1) {
+        		href = href.slice(0, index + 1) + data.pk + '/';
+//        		console.log(href);
+        		div.attr('href', href);
+//        		console.log(div);
+        	}
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
         }
@@ -160,7 +204,7 @@ function instantiateGridAction(actSlug, catSlug, levelSlug, priority) {
  * @returns a jQuery object representing the dropped Action.
  */
 function createActionDropDiv(slug, type, row, column, category, text, id, title) {
-	console.log("createActionDropDiv(" + slug + ", " + type + ", " + row + ", " + column + ", " + category + ", " + text + ", " + id + ")");
+//	console.log("createActionDropDiv(" + slug + ", " + type + ", " + row + ", " + column + ", " + category + ", " + text + ", " + id + ")");
 	var drop = $('<div data-slug="' + trim2(slug) + '" class="sgg-action sgg-' + trim2(type) + '-cell grid-draggable" ' +
 		   	'data-type="' + trim2(type) + '" data-priority="' + row + '" data-column="' + 
 		   	column + '" data-category="' + trim2(category) + '" data-pk="' + trim2(id) + '">' +
@@ -172,8 +216,8 @@ function createActionDropDiv(slug, type, row, column, category, text, id, title)
 }
 
 function createPaletteDropDiv(slug, type, category, text, id, title) {
-	console.log("createPaletteDropDiv(" + slug + ", " + type + ", " + category + ", " + text + ", " + id + ", " + title + ")");
-	var drop = $('<div data-slug="' + trim2(slug) + '" class="sgg-action sgg-'+ trim2(type) + '-cell palette-draggable ui-draggable"' +
+//	console.log("createPaletteDropDiv(" + slug + ", " + type + ", " + category + ", " + text + ", " + id + ", " + title + ")");
+	var drop = $('<div data-slug="' + trim2(slug) + '" class="sgg-action sgg-'+ trim2(type) + '-palette palette-draggable ui-draggable"' +
 			'data-type="' + trim2(type) + '" data-pk="' + id + '"><br>' +
 			'<a href="/challenge_setting_admin/smartgrid_designer/designer' + trim2(type) + '/' +
 			trim2(id) + '/" class="sgg-action" ref="tooltip" title="' + trim2(title) + '">' +
@@ -200,7 +244,7 @@ function activateColumn(levelID, column, slug) {
 }
 
 function deactivateColumn(levelID, column) {
-	console.log("deactivateColumn("+ levelID + ", " + column + ")");
+//	console.log("deactivateColumn("+ levelID + ", " + column + ")");
 	for ( var i = 1; i < 11; i++) {
 		var row = $('#' + levelID + ' .sgg-action-dropzone table tbody tr:nth-child(' + i + ')');
 		var tdCell = row.find('td:nth-child(' + column + ')');
@@ -217,7 +261,7 @@ function deactivateColumn(levelID, column) {
 }
 
 function deleteGridAction(actionSlug) {
-	console.log("deleteGridAction(" + actionSlug + ")");
+//	console.log("deleteGridAction(" + actionSlug + ")");
 //	$.get("/smartgrid_design/delete_action/" + actionSlug + "/");	
     jQuery.ajax({
         url: "/smartgrid_design/delete_action/" + actionSlug + "/", 
@@ -229,7 +273,7 @@ function deleteGridAction(actionSlug) {
 }
 
 function deleteGridCategory(catSlug) {
-	console.log("deleteGridCategory(" + catSlug + ")");
+//	console.log("deleteGridCategory(" + catSlug + ")");
 //	$.get("/smartgrid_design/delete_category/" + catSlug + "/");	
     jQuery.ajax({
         url: "/smartgrid_design/delete_category/" + catSlug + "/", 
@@ -241,7 +285,7 @@ function deleteGridCategory(catSlug) {
 }
 
 function clearLevelCategoryPriority(actionSlug) {
-	console.log("clearLevelCategoryPriority(" + actionSlug + ")");
+//	console.log("clearLevelCategoryPriority(" + actionSlug + ")");
     jQuery.ajax({
         url: "/smartgrid_design/clear_from_grid/" + actionSlug + "/", 
         success: function(data) {
