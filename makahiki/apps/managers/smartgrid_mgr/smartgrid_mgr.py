@@ -314,7 +314,10 @@ def get_smartgrid_action(slug):
     action = get_object_or_404(Action, slug=slug)
     pk = action.pk
     if action.type == 'activity':
-        return Activity.objects.get(pk=pk)
+        try:
+            return Activity.objects.get(pk=pk)
+        except Activity.DoesNotExist:
+            print "%s, pk = %s" % (slug, pk)
     if action.type == 'commitment':
         return Commitment.objects.get(pk=pk)
     if action.type == 'event':
@@ -426,22 +429,21 @@ def copy_smartgrid_to_designer():
     clear_designer()
     # Copy the levels
     for lvl in Level.objects.all():
-        des_lvl = DesignerLevel()
+        try:
+            des_lvl = get_object_or_404(DesignerLevel, slug=lvl.slug)
+        except Http404:
+            des_lvl = DesignerLevel()
         _copy_fields(lvl, des_lvl)
     # Copy the categories
     for cat in Category.objects.all():
-        des_cat = DesignerCategory()
+        try:
+            des_cat = get_object_or_404(DesignerCategory, slug=cat.slug)
+        except Http404:
+            des_cat = DesignerCategory()
         _copy_fields(cat, des_cat)
     # Copy the Actions
     for action in Action.objects.all():
         instantiate_designer_from_grid(action.slug)
-    # Copy all the TextPropmtQuestions
-#    for question in TextPromptQuestion.objects.all():
-#        slug = question.action.slug
-#        des_obj = DesignerTextPromptQuestion()
-#        _copy_fields_no_foriegn_keys(question, des_obj)
-#        des_obj.action = get_designer_action(slug)
-#        des_obj.save()
 
 
 def clear_smartgrid():

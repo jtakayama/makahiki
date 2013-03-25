@@ -2947,154 +2947,154 @@
         "pk": 30,
         "model": "smartgrid.commitment",
         "fields": {
-            "duration": 5
+            "commitment_length": 5
         }
     },
     {
         "pk": 31,
         "model": "smartgrid.commitment",
         "fields": {
-            "duration": 5
+            "commitment_length": 5
         }
     },
     {
         "pk": 32,
         "model": "smartgrid.commitment",
         "fields": {
-            "duration": 5
+            "commitment_length": 5
         }
     },
     {
         "pk": 33,
         "model": "smartgrid.commitment",
         "fields": {
-            "duration": 5
+            "commitment_length": 5
         }
     },
     {
         "pk": 34,
         "model": "smartgrid.commitment",
         "fields": {
-            "duration": 5
+            "commitment_length": 5
         }
     },
     {
         "pk": 35,
         "model": "smartgrid.commitment",
         "fields": {
-            "duration": 5
+            "commitment_length": 5
         }
     },
     {
         "pk": 36,
         "model": "smartgrid.commitment",
         "fields": {
-            "duration": 5
+            "commitment_length": 5
         }
     },
     {
         "pk": 37,
         "model": "smartgrid.commitment",
         "fields": {
-            "duration": 5
+            "commitment_length": 5
         }
     },
     {
         "pk": 38,
         "model": "smartgrid.commitment",
         "fields": {
-            "duration": 5
+            "commitment_length": 5
         }
     },
     {
         "pk": 39,
         "model": "smartgrid.commitment",
         "fields": {
-            "duration": 5
+            "commitment_length": 5
         }
     },
     {
         "pk": 40,
         "model": "smartgrid.commitment",
         "fields": {
-            "duration": 5
+            "commitment_length": 5
         }
     },
     {
         "pk": 41,
         "model": "smartgrid.commitment",
         "fields": {
-            "duration": 5
+            "commitment_length": 5
         }
     },
     {
         "pk": 42,
         "model": "smartgrid.commitment",
         "fields": {
-            "duration": 5
+            "commitment_length": 5
         }
     },
     {
         "pk": 79,
         "model": "smartgrid.commitment",
         "fields": {
-            "duration": 5
+            "commitment_length": 5
         }
     },
     {
         "pk": 44,
         "model": "smartgrid.commitment",
         "fields": {
-            "duration": 5
+            "commitment_length": 5
         }
     },
     {
         "pk": 45,
         "model": "smartgrid.commitment",
         "fields": {
-            "duration": 5
+            "commitment_length": 5
         }
     },
     {
         "pk": 46,
         "model": "smartgrid.commitment",
         "fields": {
-            "duration": 5
+            "commitment_length": 5
         }
     },
     {
         "pk": 48,
         "model": "smartgrid.commitment",
         "fields": {
-            "duration": 5
+            "commitment_length": 5
         }
     },
     {
         "pk": 49,
         "model": "smartgrid.commitment",
         "fields": {
-            "duration": 5
+            "commitment_length": 5
         }
     },
     {
         "pk": 50,
         "model": "smartgrid.commitment",
         "fields": {
-            "duration": 5
+            "commitment_length": 5
         }
     },
     {
         "pk": 74,
         "model": "smartgrid.commitment",
         "fields": {
-            "duration": 5
+            "commitment_length": 5
         }
     },
     {
         "pk": 139,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 120,
+            "expected_duration": 120,
             "point_range_end": 50,
             "confirm_type": "image",
             "point_range_start": 5,
@@ -3105,7 +3105,7 @@
         "pk": 133,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 120,
+            "expected_duration": 120,
             "point_range_end": 50,
             "confirm_type": "free",
             "point_range_start": 5,
@@ -3116,7 +3116,7 @@
         "pk": 134,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 240,
+            "expected_duration": 240,
             "point_range_end": 50,
             "confirm_type": "free",
             "point_range_start": 5,
@@ -3127,7 +3127,7 @@
         "pk": 135,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 240,
+            "expected_duration": 240,
             "point_range_end": 50,
             "confirm_type": "free",
             "point_range_start": 5,
@@ -3138,7 +3138,7 @@
         "pk": 136,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 240,
+            "expected_duration": 240,
             "point_range_end": 50,
             "confirm_type": "free",
             "point_range_start": 5,
@@ -3149,7 +3149,7 @@
         "pk": 143,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 120,
+            "expected_duration": 120,
             "point_range_end": 50,
             "confirm_type": "free",
             "point_range_start": 5,
@@ -3160,7 +3160,7 @@
         "pk": 80,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 60,
+            "expected_duration": 60,
             "point_range_end": 15,
             "confirm_type": "image",
             "point_range_start": 5,
@@ -3171,7 +3171,7 @@
         "pk": 15,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 5,
+            "expected_duration": 5,
             "point_range_end": null,
             "confirm_type": "text",
             "point_range_start": null,
@@ -3182,7 +3182,7 @@
         "pk": 21,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 15,
+            "expected_duration": 15,
             "point_range_end": null,
             "confirm_type": "free",
             "point_range_start": null,
@@ -3193,7 +3193,7 @@
         "pk": 61,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 10,
+            "expected_duration": 10,
             "point_range_end": null,
             "confirm_type": "free",
             "point_range_start": null,
@@ -3204,7 +3204,7 @@
         "pk": 87,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 15,
+            "expected_duration": 15,
             "point_range_end": null,
             "confirm_type": "text",
             "point_range_start": null,
@@ -3215,7 +3215,7 @@
         "pk": 88,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 15,
+            "expected_duration": 15,
             "point_range_end": null,
             "confirm_type": "text",
             "point_range_start": null,
@@ -3226,7 +3226,7 @@
         "pk": 77,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 5,
+            "expected_duration": 5,
             "point_range_end": null,
             "confirm_type": "text",
             "point_range_start": null,
@@ -3237,7 +3237,7 @@
         "pk": 16,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 5,
+            "expected_duration": 5,
             "point_range_end": null,
             "confirm_type": "text",
             "point_range_start": null,
@@ -3248,7 +3248,7 @@
         "pk": 99,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 5,
+            "expected_duration": 5,
             "point_range_end": null,
             "confirm_type": "text",
             "point_range_start": null,
@@ -3259,7 +3259,7 @@
         "pk": 116,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 5,
+            "expected_duration": 5,
             "point_range_end": null,
             "confirm_type": "text",
             "point_range_start": null,
@@ -3270,7 +3270,7 @@
         "pk": 140,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 480,
+            "expected_duration": 480,
             "point_range_end": 50,
             "confirm_type": "free",
             "point_range_start": 5,
@@ -3281,7 +3281,7 @@
         "pk": 128,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 120,
+            "expected_duration": 120,
             "point_range_end": 45,
             "confirm_type": "free",
             "point_range_start": 5,
@@ -3292,7 +3292,7 @@
         "pk": 145,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 240,
+            "expected_duration": 240,
             "point_range_end": 50,
             "confirm_type": "free",
             "point_range_start": 15,
@@ -3303,7 +3303,7 @@
         "pk": 131,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 60,
+            "expected_duration": 60,
             "point_range_end": 50,
             "confirm_type": "free_image",
             "point_range_start": 5,
@@ -3314,7 +3314,7 @@
         "pk": 132,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 60,
+            "expected_duration": 60,
             "point_range_end": 50,
             "confirm_type": "free",
             "point_range_start": 5,
@@ -3325,7 +3325,7 @@
         "pk": 137,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 240,
+            "expected_duration": 240,
             "point_range_end": 50,
             "confirm_type": "free",
             "point_range_start": 5,
@@ -3336,7 +3336,7 @@
         "pk": 138,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 360,
+            "expected_duration": 360,
             "point_range_end": 50,
             "confirm_type": "free",
             "point_range_start": 5,
@@ -3347,7 +3347,7 @@
         "pk": 8,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 5,
+            "expected_duration": 5,
             "point_range_end": null,
             "confirm_type": "free",
             "point_range_start": null,
@@ -3358,7 +3358,7 @@
         "pk": 11,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 15,
+            "expected_duration": 15,
             "point_range_end": null,
             "confirm_type": "image",
             "point_range_start": null,
@@ -3369,7 +3369,7 @@
         "pk": 9,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 5,
+            "expected_duration": 5,
             "point_range_end": null,
             "confirm_type": "free",
             "point_range_start": null,
@@ -3380,7 +3380,7 @@
         "pk": 10,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 5,
+            "expected_duration": 5,
             "point_range_end": null,
             "confirm_type": "free",
             "point_range_start": null,
@@ -3391,7 +3391,7 @@
         "pk": 93,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 15,
+            "expected_duration": 15,
             "point_range_end": null,
             "confirm_type": "text",
             "point_range_start": null,
@@ -3402,7 +3402,7 @@
         "pk": 26,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 5,
+            "expected_duration": 5,
             "point_range_end": null,
             "confirm_type": "text",
             "point_range_start": null,
@@ -3413,7 +3413,7 @@
         "pk": 92,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 5,
+            "expected_duration": 5,
             "point_range_end": null,
             "confirm_type": "text",
             "point_range_start": null,
@@ -3424,7 +3424,7 @@
         "pk": 14,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 5,
+            "expected_duration": 5,
             "point_range_end": null,
             "confirm_type": "text",
             "point_range_start": null,
@@ -3435,7 +3435,7 @@
         "pk": 18,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 5,
+            "expected_duration": 5,
             "point_range_end": null,
             "confirm_type": "text",
             "point_range_start": null,
@@ -3446,7 +3446,7 @@
         "pk": 57,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 5,
+            "expected_duration": 5,
             "point_range_end": null,
             "confirm_type": "text",
             "point_range_start": null,
@@ -3457,7 +3457,7 @@
         "pk": 22,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 5,
+            "expected_duration": 5,
             "point_range_end": null,
             "confirm_type": "text",
             "point_range_start": null,
@@ -3468,7 +3468,7 @@
         "pk": 65,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 15,
+            "expected_duration": 15,
             "point_range_end": null,
             "confirm_type": "free",
             "point_range_start": null,
@@ -3479,7 +3479,7 @@
         "pk": 66,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 5,
+            "expected_duration": 5,
             "point_range_end": null,
             "confirm_type": "text",
             "point_range_start": null,
@@ -3490,7 +3490,7 @@
         "pk": 78,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 5,
+            "expected_duration": 5,
             "point_range_end": null,
             "confirm_type": "text",
             "point_range_start": null,
@@ -3501,7 +3501,7 @@
         "pk": 85,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 90,
+            "expected_duration": 90,
             "point_range_end": null,
             "confirm_type": "free",
             "point_range_start": null,
@@ -3512,7 +3512,7 @@
         "pk": 86,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 15,
+            "expected_duration": 15,
             "point_range_end": null,
             "confirm_type": "text",
             "point_range_start": null,
@@ -3523,7 +3523,7 @@
         "pk": 109,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 120,
+            "expected_duration": 120,
             "point_range_end": null,
             "confirm_type": "free_image",
             "point_range_start": null,
@@ -3534,7 +3534,7 @@
         "pk": 94,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 15,
+            "expected_duration": 15,
             "point_range_end": null,
             "confirm_type": "text",
             "point_range_start": null,
@@ -3545,7 +3545,7 @@
         "pk": 95,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 15,
+            "expected_duration": 15,
             "point_range_end": null,
             "confirm_type": "text",
             "point_range_start": null,
@@ -3556,7 +3556,7 @@
         "pk": 96,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 15,
+            "expected_duration": 15,
             "point_range_end": null,
             "confirm_type": "free",
             "point_range_start": null,
@@ -3567,7 +3567,7 @@
         "pk": 91,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 5,
+            "expected_duration": 5,
             "point_range_end": null,
             "confirm_type": "text",
             "point_range_start": null,
@@ -3578,7 +3578,7 @@
         "pk": 108,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 6,
+            "expected_duration": 6,
             "point_range_end": null,
             "confirm_type": "text",
             "point_range_start": null,
@@ -3589,7 +3589,7 @@
         "pk": 97,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 15,
+            "expected_duration": 15,
             "point_range_end": null,
             "confirm_type": "text",
             "point_range_start": null,
@@ -3600,7 +3600,7 @@
         "pk": 101,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 15,
+            "expected_duration": 15,
             "point_range_end": null,
             "confirm_type": "text",
             "point_range_start": null,
@@ -3611,7 +3611,7 @@
         "pk": 107,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 15,
+            "expected_duration": 15,
             "point_range_end": null,
             "confirm_type": "text",
             "point_range_start": null,
@@ -3622,7 +3622,7 @@
         "pk": 117,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 15,
+            "expected_duration": 15,
             "point_range_end": null,
             "confirm_type": "text",
             "point_range_start": null,
@@ -3633,7 +3633,7 @@
         "pk": 148,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 15,
+            "expected_duration": 15,
             "point_range_end": null,
             "confirm_type": "free",
             "point_range_start": null,
@@ -3644,7 +3644,7 @@
         "pk": 118,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 15,
+            "expected_duration": 15,
             "point_range_end": null,
             "confirm_type": "free",
             "point_range_start": null,
@@ -3655,7 +3655,7 @@
         "pk": 121,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 15,
+            "expected_duration": 15,
             "point_range_end": null,
             "confirm_type": "text",
             "point_range_start": null,
@@ -3666,7 +3666,7 @@
         "pk": 127,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 60,
+            "expected_duration": 60,
             "point_range_end": null,
             "confirm_type": "free",
             "point_range_start": null,
@@ -3677,7 +3677,7 @@
         "pk": 129,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 5,
+            "expected_duration": 5,
             "point_range_end": null,
             "confirm_type": "free",
             "point_range_start": null,
@@ -3688,7 +3688,7 @@
         "pk": 146,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 180,
+            "expected_duration": 180,
             "point_range_end": null,
             "confirm_type": "free",
             "point_range_start": null,
@@ -3699,7 +3699,7 @@
         "pk": 141,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 15,
+            "expected_duration": 15,
             "point_range_end": null,
             "confirm_type": "free",
             "point_range_start": null,
@@ -3710,7 +3710,7 @@
         "pk": 142,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 15,
+            "expected_duration": 15,
             "point_range_end": null,
             "confirm_type": "free",
             "point_range_start": null,
@@ -3721,7 +3721,7 @@
         "pk": 144,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 120,
+            "expected_duration": 120,
             "point_range_end": null,
             "confirm_type": "free",
             "point_range_start": null,
@@ -3732,7 +3732,7 @@
         "pk": 147,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 15,
+            "expected_duration": 15,
             "point_range_end": null,
             "confirm_type": "free",
             "point_range_start": null,
@@ -3743,7 +3743,7 @@
         "pk": 4,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 10,
+            "expected_duration": 10,
             "point_range_end": null,
             "confirm_type": "image",
             "point_range_start": null,
@@ -3754,7 +3754,7 @@
         "pk": 7,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 10,
+            "expected_duration": 10,
             "point_range_end": null,
             "confirm_type": "image",
             "point_range_start": null,
@@ -3765,7 +3765,7 @@
         "pk": 2,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 5,
+            "expected_duration": 5,
             "point_range_end": null,
             "confirm_type": "text",
             "point_range_start": null,
@@ -3776,7 +3776,7 @@
         "pk": 150,
         "model": "smartgrid.activity",
         "fields": {
-            "duration": 60,
+            "expected_duration": 60,
             "point_range_end": null,
             "confirm_type": "image",
             "point_range_start": null,
@@ -3847,7 +3847,7 @@
             "priority": 200,
             "point_value": 30,
             "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
-            "type": "excursion",
+            "type": "event",
             "slug": "wind-farm",
             "description": "<center>![Wind turbine being assembled with crane](http://media.staradvertiser.com/images/312*467/20101009_biz_windfarm.jpg)</center>\r\n\r\nWant to see sky farmers harvesting the winds? Come with us to Kahuku to see firsthand how energy is plucked from the sky and generated for our use by First Wind's turbines. \r\n\r\nThe wind farm staff requests that everyone wear long pants and closed toe shoes.  We hope to stop in Kahuku for lunch, so bring some money.  \r\n\r\nYou need to register for this free event to reserve your seat on the bus by clicking the **I want to sign up** button below.\r\n\r\nMeet in the Hale Aloha courtyard, from there we'll get on the bus.  Don't be late!"
         }
@@ -4077,7 +4077,7 @@
             "priority": 800,
             "point_value": 45,
             "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
-            "type": "excursion",
+            "type": "event",
             "slug": "beach-cleanup",
             "description": "According to Wikipedia, \"utopia\" is an ideal community or society possessing a perfect socio-politico-legal system. Hawaii, perhaps the closest thing we have to environmental perfection on earth, is regularly polluted by all the garbage washing up on our precious beaches.  \r\n\r\nDo your part to bring Oahu one step closer to utopia by attending this beach cleanup sponsored by [Surfrider Foundation](http://ww2.surfrider.org/oahu/).  Yes, you'll have to wake up early, but it's totally worth it: a free ride to the North Shore,  a couple of hours making Haleiwa Beach even more beautiful than it already is, then a free lunch and prizes provided by Spy Optics!\r\n\r\nMake sure you bring a hat, sunscreen, swim suit, and water (in a reusable water bottle, of course!) \r\n\r\nReserve your spot on the bus by clicking the **I want to sign up** button below. Spaces are limited. \r\n\r\nMeet in the Hale Aloha courtyard, from there we'll get on the bus.  Don't be late, this one leaves early.  Note that this excursion is worth the most points of all!   Good attendance by your lounge could just put you over the top!"
         }
@@ -4100,7 +4100,7 @@
             "priority": 900,
             "point_value": 25,
             "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
-            "type": "excursion",
+            "type": "event",
             "slug": "kokua-market",
             "description": "Does purchasing groceries from corporate supermarkets leave a negative taste in your mouth? Satiate your craving to support local farmers and businesses by taking a tour of the [Kokua Market](http://www.kokua.coop/), the only natural foods cooperative in Hawaii. \r\n\r\nSample foods whilst browsing a bountiful bulk selection, innovative deli items, and a plethora of produce, and learn why Coops are so crucial to the food chain of Hawaii.  At Kokua Market, the customer reigns supreme, not profit.  \r\n\r\nMeet at Hale Aloha Courtyard and we'll walk over---it's just five minutes away!"
         }
@@ -4284,7 +4284,7 @@
             "priority": 400,
             "point_value": 40,
             "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
-            "type": "excursion",
+            "type": "event",
             "slug": "reppun-farm",
             "description": "The Reppun family has been living on their farm and growing taro, coffee, honey and other food in beautiful Waihole valley for over 20 years.  Though they have the Internet, they don't any power lines.  See how they live off the grid in comfort and style through hydro-electric and solar power.  You'll take a bus over to the Windward side, hike into the valley to their farm, and see an amazing blend of old school and next generation Hawaii. Make sure you eat breakfast beforehand; we won't be back until after lunch.\r\n\r\nMake sure to wear clothes and shoes that you don't mind getting wet or muddy on the farm!\r\n\r\nReserve your seat on the bus by clicking the **I want to sign up** button below. \r\n\r\nMeet in the Hale Aloha courtyard, from there we'll get on the bus.  Don't be late!"
         }
@@ -4364,7 +4364,7 @@
         "pk": 81,
         "model": "smartgrid.event",
         "fields": {
-            "duration": 120,
+            "expected_duration": 120,
             "event_date": "2011-10-17T18:30:00",
             "event_max_seat": 1000,
             "event_location": "Hale Aloha courtyard"
@@ -4374,7 +4374,7 @@
         "pk": 84,
         "model": "smartgrid.event",
         "fields": {
-            "duration": 60,
+            "expected_duration": 60,
             "event_date": "2011-10-18T18:30:00",
             "event_max_seat": 200,
             "event_location": "Hale Aloha courtyard"
@@ -4384,7 +4384,7 @@
         "pk": 90,
         "model": "smartgrid.event",
         "fields": {
-            "duration": 60,
+            "expected_duration": 60,
             "event_date": "2011-10-18T22:00:00",
             "event_max_seat": 50,
             "event_location": "Lokelani rooftop"
@@ -4394,7 +4394,7 @@
         "pk": 83,
         "model": "smartgrid.event",
         "fields": {
-            "duration": 120,
+            "expected_duration": 120,
             "event_date": "2011-11-01T18:30:00",
             "event_max_seat": 1000,
             "event_location": "Hale Aloha courtyard"
@@ -4404,7 +4404,7 @@
         "pk": 98,
         "model": "smartgrid.event",
         "fields": {
-            "duration": 240,
+            "expected_duration": 240,
             "event_date": "2011-10-22T10:00:00",
             "event_max_seat": 25,
             "event_location": "Hale Aloha courtyard"
@@ -4414,7 +4414,7 @@
         "pk": 82,
         "model": "smartgrid.event",
         "fields": {
-            "duration": 120,
+            "expected_duration": 120,
             "event_date": "2011-10-24T18:30:00",
             "event_max_seat": 1000,
             "event_location": "Hale Aloha courtyard"
@@ -4424,7 +4424,7 @@
         "pk": 110,
         "model": "smartgrid.event",
         "fields": {
-            "duration": 120,
+            "expected_duration": 120,
             "event_date": "2011-10-27T22:00:00",
             "event_max_seat": 50,
             "event_location": "Lokelani rooftop"
@@ -4434,7 +4434,7 @@
         "pk": 105,
         "model": "smartgrid.event",
         "fields": {
-            "duration": 60,
+            "expected_duration": 60,
             "event_date": "2011-10-20T18:30:00",
             "event_max_seat": 200,
             "event_location": "Hale Aloha courtyard"
@@ -4444,7 +4444,7 @@
         "pk": 126,
         "model": "smartgrid.event",
         "fields": {
-            "duration": 60,
+            "expected_duration": 60,
             "event_date": "2011-11-02T22:00:00",
             "event_max_seat": 50,
             "event_location": "Lehua rooftop"
@@ -4454,7 +4454,7 @@
         "pk": 102,
         "model": "smartgrid.event",
         "fields": {
-            "duration": 60,
+            "expected_duration": 60,
             "event_date": "2011-10-20T22:00:00",
             "event_max_seat": 50,
             "event_location": "Lehua rooftop"
@@ -4464,7 +4464,7 @@
         "pk": 103,
         "model": "smartgrid.event",
         "fields": {
-            "duration": 120,
+            "expected_duration": 120,
             "event_date": "2011-10-23T15:00:00",
             "event_max_seat": 25,
             "event_location": "Hale Aloha courtyard"
@@ -4474,7 +4474,7 @@
         "pk": 106,
         "model": "smartgrid.event",
         "fields": {
-            "duration": 60,
+            "expected_duration": 60,
             "event_date": "2011-10-25T18:30:00",
             "event_max_seat": 200,
             "event_location": "Hale Aloha courtyard"
@@ -4484,7 +4484,7 @@
         "pk": 111,
         "model": "smartgrid.event",
         "fields": {
-            "duration": 60,
+            "expected_duration": 60,
             "event_date": "2011-10-19T22:00:00",
             "event_max_seat": 40,
             "event_location": "Ilima rooftop"
@@ -4494,7 +4494,7 @@
         "pk": 112,
         "model": "smartgrid.event",
         "fields": {
-            "duration": 240,
+            "expected_duration": 240,
             "event_date": "2011-11-05T09:00:00",
             "event_max_seat": 12,
             "event_location": "Hale Aloha courtyard"
@@ -4504,7 +4504,7 @@
         "pk": 113,
         "model": "smartgrid.event",
         "fields": {
-            "duration": 60,
+            "expected_duration": 60,
             "event_date": "2011-10-30T12:00:00",
             "event_max_seat": 20,
             "event_location": "Hale Aloha courtyard"
@@ -4514,7 +4514,7 @@
         "pk": 114,
         "model": "smartgrid.event",
         "fields": {
-            "duration": 60,
+            "expected_duration": 60,
             "event_date": "2011-10-27T18:30:00",
             "event_max_seat": 200,
             "event_location": "Hale Aloha courtyard"
@@ -4524,7 +4524,7 @@
         "pk": 115,
         "model": "smartgrid.event",
         "fields": {
-            "duration": 60,
+            "expected_duration": 60,
             "event_date": "2011-10-24T13:00:00",
             "event_max_seat": 30,
             "event_location": "Campus Center Executive Dining Room"
@@ -4534,7 +4534,7 @@
         "pk": 124,
         "model": "smartgrid.event",
         "fields": {
-            "duration": 120,
+            "expected_duration": 120,
             "event_date": "2011-10-22T16:00:00",
             "event_max_seat": 25,
             "event_location": "Hale Aloha courtyard"
@@ -4544,7 +4544,7 @@
         "pk": 119,
         "model": "smartgrid.event",
         "fields": {
-            "duration": 60,
+            "expected_duration": 60,
             "event_date": "2011-10-25T22:00:00",
             "event_max_seat": 50,
             "event_location": "Lehua rooftop"
@@ -4554,7 +4554,7 @@
         "pk": 120,
         "model": "smartgrid.event",
         "fields": {
-            "duration": 60,
+            "expected_duration": 60,
             "event_date": "2011-11-02T15:30:00",
             "event_max_seat": 20,
             "event_location": "Krauss Hall, Room 012"
@@ -4564,7 +4564,7 @@
         "pk": 122,
         "model": "smartgrid.event",
         "fields": {
-            "duration": 60,
+            "expected_duration": 60,
             "event_date": "2011-11-03T22:00:00",
             "event_max_seat": 25,
             "event_location": "Ilima rooftop"
@@ -4574,7 +4574,7 @@
         "pk": 123,
         "model": "smartgrid.event",
         "fields": {
-            "duration": 60,
+            "expected_duration": 60,
             "event_date": "2011-10-26T22:00:00",
             "event_max_seat": 50,
             "event_location": "Mokihana rooftop"
@@ -4584,7 +4584,7 @@
         "pk": 125,
         "model": "smartgrid.event",
         "fields": {
-            "duration": 240,
+            "expected_duration": 240,
             "event_date": "2011-10-29T10:30:00",
             "event_max_seat": 9,
             "event_location": "Hale Aloha courtyard"
@@ -4594,7 +4594,7 @@
         "pk": 130,
         "model": "smartgrid.event",
         "fields": {
-            "duration": 30,
+            "expected_duration": 30,
             "event_date": "2011-11-04T10:00:00",
             "event_max_seat": 100,
             "event_location": "Sustainability Courtyard"
@@ -4604,7 +4604,7 @@
         "pk": 149,
         "model": "smartgrid.event",
         "fields": {
-            "duration": 30,
+            "expected_duration": 30,
             "event_date": "2012-06-12T11:53:23",
             "event_max_seat": 1000,
             "event_location": ""

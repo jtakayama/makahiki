@@ -139,7 +139,7 @@
             "label": "sgg conf",
             "priority": 100,
             "url": "/sgg_designer",
-            "unlock_condition": "True"
+            "unlock_condition": "is_admin()"
         }
     },
     {

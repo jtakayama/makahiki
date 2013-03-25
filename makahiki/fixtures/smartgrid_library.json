@@ -259,25 +259,6 @@
         }
     },
     {
-        "pk": 193,
-        "model": "smartgrid_library.libraryaction",
-        "fields": {
-            "social_bonus": 0,
-            "video_id": null,
-            "name": "Filler 6",
-            "video_source": null,
-            "image": "",
-            "title": "Filler 6",
-            "unlock_condition_text": "This cell is here only to fill out the grid. There is no action associated with it.",
-            "embedded_widget": null,
-            "point_value": 0,
-            "type": "filler",
-            "slug": "filler-6",
-            "unlock_condition": "False",
-            "description": ""
-        }
-    },
-    {
         "pk": 196,
         "model": "smartgrid_library.libraryaction",
         "fields": {
@@ -784,7 +765,7 @@
             "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
             "embedded_widget": null,
             "point_value": 30,
-            "type": "excursion",
+            "type": "event",
             "slug": "off-the-grid",
             "unlock_condition": "True",
             "description": "The Reppun family has been living on their farm and growing taro, coffee, honey and other food in beautiful Waihole valley for over 20 years.  Though they have the Internet, they don't any power lines.  See how they live off the grid in comfort and style through hydro-electric and solar power.  You'll take a bus over to the Windward side, hike into the valley to their farm, and see an amazing blend of old school and next generation Hawaii. "
@@ -807,25 +788,6 @@
             "slug": "customize-tshirt",
             "unlock_condition": "True",
             "description": "This workshop provides students with materials and advice on how to cut up, paint, stencil, and otherwise customize their Kukui Cup tshirts.   If the student has already received a Kukui Cup tshirt, then they must bring it (or another tshirt) to be customized.  If the student has not already received a Kukui Cup tshirt, then the first 10 attendees w/o a Kukui Cup tshirt will receive one free."
-        }
-    },
-    {
-        "pk": 168,
-        "model": "smartgrid_library.libraryaction",
-        "fields": {
-            "social_bonus": 0,
-            "video_id": null,
-            "name": "Filler 1",
-            "video_source": null,
-            "image": "",
-            "title": "Filler 1",
-            "unlock_condition_text": "This cell is here only to fill out the grid. There is no action associated with it.",
-            "embedded_widget": null,
-            "point_value": 0,
-            "type": "filler",
-            "slug": "filler-1",
-            "unlock_condition": "False",
-            "description": ""
         }
     },
     {
@@ -1563,7 +1525,7 @@
             "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
             "embedded_widget": null,
             "point_value": 20,
-            "type": "excursion",
+            "type": "event",
             "slug": "farmers-market",
             "unlock_condition": "True",
             "description": "???"
@@ -1738,25 +1700,6 @@
             "slug": "climate-change",
             "unlock_condition": "completed_action(\"energy-intuition\")",
             "description": "Watch this video talking about climate change and how it will affect Hawaii.\r\n"
-        }
-    },
-    {
-        "pk": 176,
-        "model": "smartgrid_library.libraryaction",
-        "fields": {
-            "social_bonus": 0,
-            "video_id": null,
-            "name": "Filler 2",
-            "video_source": null,
-            "image": "",
-            "title": "Filler 2",
-            "unlock_condition_text": "This cell is here only to fill out the grid. There is no action associated with it.",
-            "embedded_widget": null,
-            "point_value": 0,
-            "type": "filler",
-            "slug": "filler-2",
-            "unlock_condition": "False",
-            "description": ""
         }
     },
     {
@@ -2083,25 +2026,6 @@
         }
     },
     {
-        "pk": 179,
-        "model": "smartgrid_library.libraryaction",
-        "fields": {
-            "social_bonus": 0,
-            "video_id": null,
-            "name": "Filler 3",
-            "video_source": null,
-            "image": "",
-            "title": "Filler 3",
-            "unlock_condition_text": "This cell is here only to fill out the grid. There is no action associated with it.",
-            "embedded_widget": null,
-            "point_value": 0,
-            "type": "filler",
-            "slug": "filler-3",
-            "unlock_condition": "False",
-            "description": ""
-        }
-    },
-    {
         "pk": 86,
         "model": "smartgrid_library.libraryaction",
         "fields": {
@@ -2137,25 +2061,6 @@
             "slug": "wildcard2",
             "unlock_condition": "True",
             "description": "If you have a really creative idea for exploring one of the Kukui Cup topics that isn't covered by the other advanced activities, this is the place. We strongly recommend you contact the Kukui Cup admins using the **Send Feedback** button at the top right corner of this web page and pitch your idea to us before you start on it. This will let us give you feedback on whether or not we think it is appropriate for this activity, and how many points it might be worth."
-        }
-    },
-    {
-        "pk": 155,
-        "model": "smartgrid_library.libraryaction",
-        "fields": {
-            "social_bonus": 0,
-            "video_id": null,
-            "name": "Filler-4",
-            "video_source": null,
-            "image": "",
-            "title": "Filler 4",
-            "unlock_condition_text": "This cell is here only to fill out the grid. There is no action associated with it.",
-            "embedded_widget": null,
-            "point_value": 0,
-            "type": "filler",
-            "slug": "filler-4",
-            "unlock_condition": "False",
-            "description": ""
         }
     },
     {
@@ -2235,25 +2140,6 @@
         }
     },
     {
-        "pk": 188,
-        "model": "smartgrid_library.libraryaction",
-        "fields": {
-            "social_bonus": 0,
-            "video_id": null,
-            "name": "Filler 5",
-            "video_source": null,
-            "image": "",
-            "title": "Filler 5",
-            "unlock_condition_text": "This cell is here only to fill out the grid. There is no action associated with it.",
-            "embedded_widget": null,
-            "point_value": 0,
-            "type": "filler",
-            "slug": "filler-5",
-            "unlock_condition": "False",
-            "description": ""
-        }
-    },
-    {
         "pk": 147,
         "model": "smartgrid_library.libraryaction",
         "fields": {
@@ -2323,7 +2209,7 @@
             "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
             "embedded_widget": null,
             "point_value": 25,
-            "type": "excursion",
+            "type": "event",
             "slug": "beach-cleanup",
             "unlock_condition": "True",
             "description": "According to Wikipedia, \\\"utopia\\\" is an ideal community or society possessing a perfect socio-politico-legal system. Hawaii, perhaps the closest thing we have to environmental perfection on earth, is regularly polluted by all the garbage washing up on our precious beaches.  \\r\\n\\r\\nDo your part to bring Oahu one step closer to utopia by attending this beach cleanup sponsored by [Surfrider Foundation](http://ww2.surfrider.org/oahu/).  Yes, you'll have to wake up early, but it's totally worth it: a free ride to the North Shore,  a couple of hours making Haleiwa Beach even more beautiful than it already is, then a free lunch and prizes provided by Spy Optics!\\r\\n\\r\\nMake sure you bring a hat, sunscreen, swim suit, and water (in a reusable water bottle, of course!) \\r\\n\\r\\nReserve your spot on the bus by clicking the **I want to sign up** button below. Spaces are limited. \\r\\n\\r\\nMeet in the Hale Aloha courtyard, from there we'll get on the bus.  Don't be late, this one leaves early.  Note that this excursion is worth the most points of all!   Good attendance by your lounge could just put you over the top!"
@@ -2406,25 +2292,6 @@
         }
     },
     {
-        "pk": 204,
-        "model": "smartgrid_library.libraryaction",
-        "fields": {
-            "social_bonus": 0,
-            "video_id": null,
-            "name": "Filler 7",
-            "video_source": null,
-            "image": "",
-            "title": "Filler 7",
-            "unlock_condition_text": "This cell is here only to fill out the grid. There is no action associated with it.",
-            "embedded_widget": null,
-            "point_value": 0,
-            "type": "filler",
-            "slug": "filler-7",
-            "unlock_condition": "False",
-            "description": ""
-        }
-    },
-    {
         "pk": 206,
         "model": "smartgrid_library.libraryaction",
         "fields": {
@@ -2456,7 +2323,7 @@
             "unlock_condition_text": "",
             "embedded_widget": null,
             "point_value": 20,
-            "type": "excursion",
+            "type": "event",
             "slug": "diy-excursion-2",
             "unlock_condition": "True",
             "description": "DIY Excursion 2"
@@ -2517,63 +2384,6 @@
             "slug": "course-proj-s13",
             "unlock_condition": "True",
             "description": "Course Proj S13"
-        }
-    },
-    {
-        "pk": 211,
-        "model": "smartgrid_library.libraryaction",
-        "fields": {
-            "social_bonus": 0,
-            "video_id": null,
-            "name": "Filler 8",
-            "video_source": null,
-            "image": "",
-            "title": "Filler 8",
-            "unlock_condition_text": "This cell is here only to fill out the grid. There is no action associated with it.",
-            "embedded_widget": null,
-            "point_value": 0,
-            "type": "filler",
-            "slug": "filler-8",
-            "unlock_condition": "False",
-            "description": ""
-        }
-    },
-    {
-        "pk": 212,
-        "model": "smartgrid_library.libraryaction",
-        "fields": {
-            "social_bonus": 0,
-            "video_id": null,
-            "name": "Filler 9",
-            "video_source": null,
-            "image": "",
-            "title": "Filler 9",
-            "unlock_condition_text": "This cell is here only to fill out the grid. There is no action associated with it.",
-            "embedded_widget": null,
-            "point_value": 0,
-            "type": "filler",
-            "slug": "filler-9",
-            "unlock_condition": "False",
-            "description": ""
-        }
-    },
-    {
-        "pk": 213,
-        "model": "smartgrid_library.libraryaction",
-        "fields": {
-            "social_bonus": 0,
-            "video_id": null,
-            "name": "Filler 10",
-            "video_source": null,
-            "image": "",
-            "title": "Filler 10",
-            "unlock_condition_text": "This cell is here only to fill out the grid. There is no action associated with it.",
-            "embedded_widget": null,
-            "point_value": 0,
-            "type": "filler",
-            "slug": "filler-10",
-            "unlock_condition": "False",
-            "description": ""
         }
     },
     {
@@ -2836,7 +2646,7 @@
             "unlock_condition_text": "Complete DIY Excursion 2",
             "embedded_widget": null,
             "point_value": 20,
-            "type": "excursion",
+            "type": "event",
             "slug": "diy-excursion-3",
             "unlock_condition": "completed_action('diy-excursion-2')",
             "description": "DIY Excursion 3"
