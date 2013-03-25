@@ -56,7 +56,7 @@ class QuestionChoice(models.Model):
     """Represents questions's multiple choice"""
 
     question = models.ForeignKey("TextPromptQuestion")
-    action = models.ForeignKey("Activity")
+    action = models.ForeignKey("Action")
     choice = models.CharField(max_length=255,
                               help_text="The choice of question (max 255 characters).")
 
@@ -68,6 +68,8 @@ class Level(models.Model):
     """Associates the actions to different levels."""
     name = models.CharField(max_length=50,
                             help_text="The name of the level.")
+    slug = models.SlugField(help_text="Automatically generated if left blank.",
+                            null=True)
     priority = models.IntegerField(
         default=1,
         help_text="Levels with lower values (higher priority) will be listed first."
@@ -471,7 +473,7 @@ class ActionMember(models.Model):
 
                 if self.action.type == "commitment" and not self.completion_date:
                     self.completion_date = self.submission_date + \
-                        datetime.timedelta(days=self.action.commitment.duration)
+                        datetime.timedelta(days=self.action.commitment.commitment_length)
 
                 super(ActionMember, self).save(args, kwargs)
 

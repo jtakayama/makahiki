@@ -18,16 +18,16 @@
         {% endif %}
         points.
         {% if action.type == "commitment" %}
-            It lasts {{ action.duration }} days.
+            It lasts {{ action.commitment_length }} days.
         {% else %}
             <p/>
             {% if action.type == "event" or action.type == "excursion" %}
                 <b>When</b> : {% if action.event.event_date == None %} TBD {% else %} {{ action.event.event_date }} {% endif %} <br/>
                 <b>Where</b> : {{ action.event.event_location }} <br/>
-                <b>Estimated duration</b> : {{ action.duration }} <br/>
+                <b>Estimated duration</b> : {{ action.expected_duration }} <br/>
                 <b>Space(s) still available</b> : {{ action.available_seat }}
             {% else %}
-                <b>Estimated time required</b> : {{ action.duration }} <br/>
+                <b>Estimated time required</b> : {{ action.expected_duration }} <br/>
             {% endif %}
         {% endif %}
         <p/>

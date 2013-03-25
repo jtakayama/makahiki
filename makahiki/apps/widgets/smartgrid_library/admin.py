@@ -372,7 +372,8 @@ def redirect_urls(model_admin, url_type):
     info = model_admin.model._meta.app_label, model_admin.model._meta.module_name
     urlpatterns = patterns('',
         url(r'^$',
-            wrap(library_action_admin_list if url_type == "changelist" else model_admin.changelist_view),
+            wrap(library_action_admin_list if url_type == "changelist" else \
+                 model_admin.changelist_view),
             name='%s_%s_changelist' % info),
         url(r'^add/$',
             wrap(model_admin.add_view),

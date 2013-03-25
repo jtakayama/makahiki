@@ -1,7 +1,7 @@
 {% if not action.completed or action.member.approval_status == "approved" %}
     You will earn {{ SCORE_SETTINGS.signup_bonus_points }} points for making this commitment.
     <p/>
-    You will need to come back after {{ action.duration }} days to get the rest of your
+    You will need to come back after {{ action.commitment_length }} days to get the rest of your
     points.
     {% if action.social_bonus > 0 %}
         <p/>

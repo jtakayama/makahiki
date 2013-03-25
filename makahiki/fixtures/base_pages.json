@@ -568,7 +568,7 @@
         "model": "challenge_mgr.pagesetting",
         "fields": {
             "priority": 1,
-            "widget": "sgg_design",
+            "widget": "smartgrid_design",
             "enabled": true,
             "page": 12,
             "location": "Left"
