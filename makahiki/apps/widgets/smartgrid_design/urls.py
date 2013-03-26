@@ -30,4 +30,7 @@ urlpatterns = patterns('',
     url(r'^publish_to_grid/$',
         'apps.widgets.smartgrid_design.views.publish_to_grid',
         name='publish_to_grid'),
+    url(r'^load_example_grid/(?P<example_name>[\w\d\-]+)/$',
+        'apps.widgets.smartgrid_design.views.load_example_grid',
+        name='load_example_grid'),
 )

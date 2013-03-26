@@ -208,3 +208,11 @@ def publish_to_grid(request):
     smartgrid_mgr.deploy_designer_to_smartgrid()
     response = HttpResponseRedirect("/sgg_designer/")
     return response
+
+
+def load_example_grid(request, example_name):
+    """Clears the Designer and loads the example grid with the given name."""
+    _ = request
+    smartgrid_mgr.load_example_grid(example_name)
+    response = HttpResponseRedirect("/sgg_designer/")
+    return response
