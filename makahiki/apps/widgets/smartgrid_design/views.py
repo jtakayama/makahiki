@@ -11,7 +11,7 @@ from apps.widgets.smartgrid_library.models import LibraryActivity, LibraryEvent,
     LibraryCommitment, LibraryCategory
 from apps.managers.smartgrid_mgr import smartgrid_mgr
 import json
-from apps.widgets.smartgrid_design.models import DesignerLevel, DesignerCategory
+from apps.widgets.smartgrid_design.models import DesignerLevel, DesignerCategory, DesignerAction
 
 
 def supply(request, page_name):
@@ -44,6 +44,25 @@ def supply(request, page_name):
         'smart_grid': smartgrid_mgr.get_designer_smartgrid(),
         'smart_grid_actions': smartgrid_mgr.get_designer_action_slugs()
             }
+
+
+@never_cache
+@login_required
+def designer_action_admin(request, pk):
+    """handle the library action admin."""
+    _ = request
+    action = DesignerAction.objects.get(pk=pk)
+    action_type = action.type
+
+    return HttpResponseRedirect("/admin/smartgrid_design/designer%s/%s/" % (action_type, pk))
+
+
+@never_cache
+@login_required
+def designer_action_admin_list(request):
+    """handle the library action admin."""
+    _ = request
+    return HttpResponseRedirect("/admin/smartgrid_design/designeraction/")
 
 
 @never_cache

@@ -93,8 +93,12 @@ class Tree(object):
                 raise MultipleRootError
             else:
                 self.root = node.identifier
-        self.nodes.update({node.identifier: node})
-        self.__update_children(parent, node.identifier, _ADD)
+        try:
+            self.nodes[node.identifier]
+        except KeyError:
+            self.nodes.update({node.identifier: node})
+        ret = self.__update_children(parent, node.identifier, _ADD)
+#        print "add_node %s, %s" % (node.name, ret)
         node.parent = parent
 
     def create_node(self, name, unlock_condition, identifier=None, parent=None):
@@ -267,16 +271,24 @@ And the structure of the subtree is maintained from the old tree."""
         return "<Tree: %s>" % (self.root)
 
 
-def build_trees(class_type):
-    """Build the unlock_trees for the DesignerActions in the Grid."""
+def build_nodes(class_type):
+    """Builds nodes from all the Actions in the class_type, it should be LibraryAction,
+    DesignerAction or Action."""
     # build nodes for all the actions in the grid.
     nodes = []
     for action in class_type.objects.all():
         try:
             if action.level and action.category:
+#                print action.slug
                 nodes.append(Node(action.slug, action.unlock_condition, action.slug))
         except AttributeError:
             nodes.append(Node(action.slug, action.unlock_condition, action.slug))
+    return nodes
+
+
+def build_trees(class_type):
+    """Build the unlock_trees for the DesignerActions in the Grid."""
+    nodes = build_nodes(class_type)
     trees = {}
     # loop through the nodes looking for possible root nodes. unlock_condition = True or False
     for node in nodes:
@@ -291,6 +303,15 @@ def build_trees(class_type):
             for k in list(trees):
                 if trees[k].get_node(slug):
                     trees[k].add_node(node, slug)
+    # second pass because adding in the wrong order may cause problems
+    for node in nodes:
+        slugs = get_completed_action_slugs(node)
+        for slug in slugs:
+            for k in list(trees):
+                if trees[k].get_node(slug):
+                    trees[k].add_node(node, slug)
+#                else:
+#                    print "%s doesn't have %s in it." % (k, slug)
     return trees
 
 
@@ -303,4 +324,22 @@ def get_completed_action_slugs(node):
         if len(l) > 2:
             index = l[1].find(')')
             ret.append(l[2][:index].strip('"\''))
+    return ret
+
+
+def get_actions_not_in_trees():
+    """Returns the Action slug for actions that are not in any tree.  These actions are not
+    reachable so they will not be unlocked."""
+    ret = []
+    nodes = build_nodes(DesignerAction)
+    trees = build_trees(DesignerAction)
+    # check all the nodes
+    for node in nodes:
+        in_tree = False
+        for k in list(trees):
+            tree = trees[k]
+            if tree.get_node(node.identifier):
+                in_tree = True
+        if not in_tree:
+            ret.append("%s: %s" % (node.identifier, node.unlock_condition))
     return ret
