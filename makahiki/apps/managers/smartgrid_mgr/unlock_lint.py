@@ -234,6 +234,33 @@ for constructing the Nodes Stack push and pop nodes with additional level info."
             for element in queue:
                 self.show(element, level)  # recursive call
 
+    def tostring(self, ret, nid=None, level=_ROOT):
+        """Returns the string version of show."""
+
+        leading = ''
+        lasting = '|___ '
+
+        if nid is None:
+            nid = self.root
+        if self[nid]:
+            label = "{0}-{1}[{2}]".format(self[nid].level, self[nid].name, self[nid].unlock_condition)
+
+            queue = self[nid].children
+            #print level
+            if level == _ROOT:
+                ret = label
+            else:
+                if level <= 1:
+                    leading += ('|' + ' ' * 4) * (level - 1)
+                else:
+                    leading += ('|' + ' ' * 4) + (' ' * 5 * (level - 2))
+                ret.join("{0}{1}{2}".format(leading, lasting, label))
+            if self[nid].expanded:
+                level += 1
+                for element in queue:
+                    ret.join(self.tostring(element, level))  # recursive call
+        return ret
+
     def subtree(self, nid):
         """Return a COPY of subtree of the whole tree with the nid being the new root.
 And the structure of the subtree is maintained from the old tree."""

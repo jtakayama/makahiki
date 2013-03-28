@@ -241,3 +241,9 @@ def load_example_grid(request, example_name):
     smartgrid_mgr.load_example_grid(example_name)
     response = HttpResponseRedirect("/sgg_designer/")
     return response
+
+
+def lint_view(request):
+    """Runs unlock_lint over the DesignerActions and shows the results in a page."""
+    _ = request
+    
