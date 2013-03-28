@@ -28,15 +28,19 @@
 				No changes from the Smart Grid.
 			{% endfor %}
 				</div>
-				<a href="{% url revert_to_grid %}">
-					<div class="btn btn-widget" rel="tooltip" 
-						title="Deletes all changes made in the designer and loads the current Smart Grid Game.">Revert to current Smart Grid Game</div>
-				</a>
+				<form id="revert-form" action="{% url revert_to_grid %}" method="post">
+        	  		{% csrf_token %} {{ view_objects.smartgrid_design.reset_form.as_p }}
+          			<input class="btn btn-widget" rel="tooltip" 
+						title="Deletes all changes made in the designer and loads the current Smart Grid Game." 
+						type="submit" value="Revert to current Smart Grid Game" /> 
+		        </form> 
 				<p></p>
-				<a href="{% url publish_to_grid %}">
-					<div class="btn btn-widget" rel="tooltip"
-						title="Publish changes made in the designer to the Smart Grid Game.">Publish changes to Smart Grid Game</div>
-				</a>
+				<form id="publish-form" action="{% url publish_to_grid %}" method="post">
+        	  		{% csrf_token %} {{ view_objects.smartgrid_design.publish_form.as_p }}
+          			<input class="btn btn-widget" rel="tooltip" 
+						title="Publish changes made in the designer to the Smart Grid Game."
+						type="submit" value="Publish changes to Smart Grid Game" /> 
+		        </form> 
 			</div>
 			<div class="span7">
 				<div class="makahiki-box">

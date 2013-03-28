@@ -28,3 +28,13 @@ class SggUpdateForm(forms.Form):
     """Form for holding the SGG updates."""
     category_updates = ListFormField(widget=forms.HiddenInput)
     action_updates = ListFormField(widget=forms.HiddenInput)
+
+
+class RevertToSmartgridForm(forms.Form):
+    """Form for ensuring no cross-site scripting for reverting designer."""
+    pass
+
+
+class DeployToSmartgridForm(forms.Form):
+    """Form for ensuring no cross-site for publishing the designer to the smartgrid."""
+    pass

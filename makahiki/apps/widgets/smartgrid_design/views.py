@@ -6,7 +6,8 @@ from apps.widgets.smartgrid import smartgrid
 from django.http import HttpResponseRedirect, Http404, HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template.context import RequestContext
-from apps.widgets.smartgrid_design.forms import SggUpdateForm
+from apps.widgets.smartgrid_design.forms import SggUpdateForm, RevertToSmartgridForm,\
+    DeployToSmartgridForm
 from apps.widgets.smartgrid_library.models import LibraryActivity, LibraryEvent, \
     LibraryCommitment, LibraryCategory
 from apps.managers.smartgrid_mgr import smartgrid_mgr
@@ -24,8 +25,8 @@ def supply(request, page_name):
     events = LibraryEvent.objects.all()
     commitments = LibraryCommitment.objects.all()
     fillers = Filler.objects.all()
-    form = SggUpdateForm({'category_updates': '[]',
-                          'action_updates': '[]'})
+    reset_form = RevertToSmartgridForm()
+    publish_form = DeployToSmartgridForm()
     diff = smartgrid_mgr.diff_between_designer_and_grid()
 
 #    print len(activities)
@@ -38,7 +39,8 @@ def supply(request, page_name):
         'events': events,
         'commitments': commitments,
         'fillers': fillers,
-        'form': form,
+        'reset_form': reset_form,
+        'publish_form': publish_form,
         'palette': smartgrid_mgr.get_designer_palette(),
         'differences': diff,
         'smart_grid': smartgrid_mgr.get_designer_smartgrid(),
@@ -213,9 +215,11 @@ def clear_from_grid(request, action_slug):
 def revert_to_grid(request):
     """Deletes all the DesignerActions and creates new DesignerActions from the current Smart
     Grid Game instances."""
-    _ = request
-    smartgrid_mgr.clear_designer()
-    smartgrid_mgr.copy_smartgrid_to_designer()
+    if request.method == 'POST':  # If the form has been submitted...
+        form = RevertToSmartgridForm(request.POST)  # A form bound to the POST data
+        if form.is_valid():  # All validation rules pass
+            smartgrid_mgr.clear_designer()
+            smartgrid_mgr.copy_smartgrid_to_designer()
     response = HttpResponseRedirect("/sgg_designer/")
     return response
 
@@ -223,8 +227,10 @@ def revert_to_grid(request):
 def publish_to_grid(request):
     """Clears all the current Smart Grid Instances and Copies the DesignerActions to the Smart
     Grid Game."""
-    _ = request
-    smartgrid_mgr.deploy_designer_to_smartgrid()
+    if request.method == 'POST':
+        form = DeployToSmartgridForm(request.POST)
+        if form.is_valid():
+            smartgrid_mgr.deploy_designer_to_smartgrid()
     response = HttpResponseRedirect("/sgg_designer/")
     return response
 

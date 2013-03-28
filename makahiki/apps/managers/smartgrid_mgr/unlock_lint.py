@@ -20,12 +20,13 @@ class Node(object):
     """Node in unlock condition tree. Name is the slug of the action, parent is slug of
     condition dependance."""
 
-    def __init__(self, name, unlock_condition, identifier=None, expanded=True):
+    def __init__(self, name, unlock_condition, level=None, identifier=None, expanded=True):
         """initializer."""
         self.__identifier = (str(uuid.uuid1()) if identifier is None else
                              sanitize_string(str(identifier)))
         self.name = name
         self.unlock_condition = unlock_condition
+        self.level = level
         self.expanded = expanded
         self.__parent = None
         self.__children = []
@@ -101,9 +102,9 @@ class Tree(object):
 #        print "add_node %s, %s" % (node.name, ret)
         node.parent = parent
 
-    def create_node(self, name, unlock_condition, identifier=None, parent=None):
+    def create_node(self, name, unlock_condition, level=None, identifier=None, parent=None):
         """Create a child node for the node indicated by the 'parent' parameter"""
-        node = Node(name, unlock_condition, identifier)
+        node = Node(name, unlock_condition, level=level, identifier=identifier)
         self.add_node(node, parent)
         return node
 
@@ -215,7 +216,7 @@ for constructing the Nodes Stack push and pop nodes with additional level info."
 
         if nid is None:
             nid = self.root
-        label = "{0}[{1}]".format(self[nid].name, self[nid].unlock_condition)
+        label = "{0}-{1}[{2}]".format(self[nid].level, self[nid].name, self[nid].unlock_condition)
 
         queue = self[nid].children
         #print level
@@ -280,9 +281,12 @@ def build_nodes(class_type):
         try:
             if action.level and action.category:
 #                print action.slug
-                nodes.append(Node(action.slug, action.unlock_condition, action.slug))
+                node = Node(action.slug, action.unlock_condition, level=action.level, \
+                            identifier=action.slug)
+                node.level = action.level
+                nodes.append(node)
         except AttributeError:
-            nodes.append(Node(action.slug, action.unlock_condition, action.slug))
+            nodes.append(Node(action.slug, action.unlock_condition, identifier=action.slug))
     return nodes
 
 
@@ -292,9 +296,10 @@ def build_trees(class_type):
     trees = {}
     # loop through the nodes looking for possible root nodes. unlock_condition = True or False
     for node in nodes:
-        if node.unlock_condition == "True" or node.unlock_condition == "False":
+        if node.unlock_condition == "True" or node.unlock_condition.find("or True") != -1 \
+        or node.unlock_condition == "False" or node.unlock_condition.find("and False") != -1:
             t = Tree()
-            t.create_node(node.name, node.unlock_condition, node.identifier)
+            t.create_node(node.name, node.unlock_condition, level=node.level, identifier=node.identifier)
             trees[node.name] = t
 
     for node in nodes:
@@ -327,12 +332,13 @@ def get_completed_action_slugs(node):
     return ret
 
 
-def get_actions_not_in_trees():
-    """Returns the Action slug for actions that are not in any tree.  These actions are not
+def get_unreachable_actions(class_type):
+    """Returns the slug for actions that are not in any tree for the given class_type
+    Should be either martgrid_design.DesignerAction or smartgrid.Action.  These actions are not
     reachable so they will not be unlocked."""
     ret = []
-    nodes = build_nodes(DesignerAction)
-    trees = build_trees(DesignerAction)
+    nodes = build_nodes(class_type)
+    trees = build_trees(class_type)
     # check all the nodes
     for node in nodes:
         in_tree = False
@@ -342,4 +348,41 @@ def get_actions_not_in_trees():
                 in_tree = True
         if not in_tree:
             ret.append("%s: %s" % (node.identifier, node.unlock_condition))
+    return ret
+
+
+def get_false_unlock_actions(class_type):
+    """Returns the slug for actions whose root unlock_condition is False for the given
+    class_type. class_type must be either smartgrid_design.DesignerAction or smartgrid.Action."""
+    ret = []
+    trees = build_trees(class_type)
+    for k in list(trees):
+        tree = trees[k]
+        root = tree.get_node(tree.root)
+        if root:
+            if root.unlock_condition == "False" or  root.unlock_condition.find("and False") != -1:
+                # add all nodes in tree to list
+                for node_key in list(tree.nodes):
+                    node = tree.nodes[node_key]
+                    if not node.name in ret:
+                        ret.append(node.name)
+    return ret
+
+
+def get_missmatched_level(class_type):
+    """Returns the slug for actions whose parent level is higher than their own.
+    class_type must be either smartgrid_design.DesignerAction or smartgrid.Action."""
+    ret = []
+    trees = build_trees(class_type)
+    for k in list(trees):
+        tree = trees[k]
+        for node_key in list(tree.nodes):
+            node = tree.nodes[node_key]
+            if node.level:
+                parent_name = node.parent
+                if parent_name:
+                    parent = tree.nodes[parent_name]
+                    if parent and parent.level.priority > node.level.priority:
+                        if node.name not in ret:
+                            ret.append(node.name)
     return ret

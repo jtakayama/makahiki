@@ -21,9 +21,16 @@ class Test(unittest.TestCase):
         pass
 
     def testUnreachable(self):
-        slugs = unlock_lint.get_actions_not_in_trees()
-        print slugs
+        slugs = unlock_lint.get_unreachable_actions(DesignerAction)
+        print "Unreachable actions: %s" % slugs
 
+    def testFalseUnlock(self):
+        slugs = unlock_lint.get_false_unlock_actions(DesignerAction)
+        print "False unlock conditions: %s" % slugs
+
+    def testMissmatchedLevel(self):
+        slugs = unlock_lint.get_missmatched_level(DesignerAction)
+        print "Mismatched levels: %s" % slugs
 
 #    def testLibraryActions(self):
 #        print "*****************************************"
