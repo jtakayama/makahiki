@@ -38,3 +38,16 @@ class RevertToSmartgridForm(forms.Form):
 class DeployToSmartgridForm(forms.Form):
     """Form for ensuring no cross-site for publishing the designer to the smartgrid."""
     pass
+
+
+class ExampleGridsForm(forms.Form):
+    """Form for choosing between different example Smart Grid designs."""
+    TYPE_CHOICES = (
+        ('demo', 'Demo'),
+        ('default', 'Default'),
+        ('uh12', 'KukuiCup/UH 12'),
+        ('test', 'Test Grid'),
+        )
+    grid = forms.ChoiceField(
+        choices=TYPE_CHOICES,
+        )

@@ -15,8 +15,8 @@ from django.http import Http404
 from apps.widgets.smartgrid_design.models import DesignerAction, DesignerCategory, \
     DesignerActivity, DesignerCommitment, DesignerEvent, DesignerFiller, DesignerLevel,\
     DesignerTextPromptQuestion
-from apps.utils import script_utils
 import os
+from django.core.management import call_command
 
 
 def duplicate(obj, value=None, field=None, duplicate_order=None):  # pylint: disable=R0914
@@ -547,8 +547,8 @@ def diff_between_designer_and_grid():
 def load_example_grid(example_name):
     """Loads the Designer with the given example grid. If example_name doesn't exist, nothing
     is changed."""
-    manage_py = script_utils.manage_py_command()
-    manage_command = "python " + manage_py
+#    manage_py = script_utils.manage_py_command()
+#    manage_command = "python " + manage_py
     fixture_path = "fixtures"
 
     # Check to see if there is an example.
@@ -558,4 +558,5 @@ def load_example_grid(example_name):
             clear_designer()
             # load the example
             fixture = os.path.join(fixture_path, name)
-            os.system("%s loaddata -v 0 %s" % (manage_command, fixture))
+            call_command('loaddata', '-v 0', fixture)
+#            os.system("%s loaddata -v 0 %s" % (manage_command, fixture))

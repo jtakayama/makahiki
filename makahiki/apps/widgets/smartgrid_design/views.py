@@ -7,7 +7,7 @@ from django.http import HttpResponseRedirect, Http404, HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template.context import RequestContext
 from apps.widgets.smartgrid_design.forms import SggUpdateForm, RevertToSmartgridForm, \
-    DeployToSmartgridForm
+    DeployToSmartgridForm, ExampleGridsForm
 from apps.widgets.smartgrid_library.models import LibraryActivity, LibraryEvent, \
     LibraryCommitment, LibraryCategory
 from apps.managers.smartgrid_mgr import smartgrid_mgr, unlock_lint
@@ -28,6 +28,7 @@ def supply(request, page_name):  # pylint: disable=R0914
     fillers = Filler.objects.all()
     reset_form = RevertToSmartgridForm()
     publish_form = DeployToSmartgridForm()
+    example_grid_form = ExampleGridsForm()
     diff = smartgrid_mgr.diff_between_designer_and_grid()
     trees = unlock_lint.build_trees(DesignerAction)
     sorted_trees = OrderedDict(sorted(trees.items(), key=lambda t: -len(t[1])))
@@ -50,6 +51,7 @@ def supply(request, page_name):  # pylint: disable=R0914
         'fillers': fillers,
         'reset_form': reset_form,
         'publish_form': publish_form,
+        'example_grid_form': example_grid_form,
         'palette': smartgrid_mgr.get_designer_palette(),
         'differences': diff,
         'smart_grid': smartgrid_mgr.get_designer_smartgrid(),
@@ -249,10 +251,13 @@ def publish_to_grid(request):
     return response
 
 
-def load_example_grid(request, example_name):
+def load_example_grid(request):
     """Clears the Designer and loads the example grid with the given name."""
-    _ = request
-    smartgrid_mgr.load_example_grid(example_name)
+    if request.method == 'POST':
+        form = ExampleGridsForm(request.POST)
+        if form.is_valid():
+            example_name = form.cleaned_data['grid']
+            smartgrid_mgr.load_example_grid(example_name)
     response = HttpResponseRedirect("/sgg_designer/")
     return response
 
