@@ -11,10 +11,13 @@ from apps.managers.smartgrid_mgr.unlock_lint import Tree
 
 
 class TestTree(unittest.TestCase):
+    """Test cases for Tree class."""
     def setUp(self):
+        """Empty setup."""
         pass
 
     def test_initialization(self):
+        """Test initialization of a tree."""
         tree = Tree()
         tree.create_node("Harry", "True", "harry")  # root node
         tree.create_node("Jane", "True", "jane", parent="harry")
@@ -28,9 +31,9 @@ class TestTree(unittest.TestCase):
         print("=" * 80)
         for node in tree.expand_tree(mode=_DEPTH):
             print tree[node].name
-        pass
 
     def tearDown(self):
+        """Empty teardown."""
         pass
 
 

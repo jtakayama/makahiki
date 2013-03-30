@@ -6,13 +6,14 @@ Created on Mar 26, 2013
 @author: Cam Moore
 '''
 import uuid
-from apps.widgets.smartgrid_design.models import DesignerAction
+from collections import deque
 
 (_ADD, _DELETE, _INSERT) = range(3)
 (_ROOT, _DEPTH, _WIDTH) = range(3)
 
 
 def sanitize_string(s):
+    """Creates a slug out of a string by replacing spaces with _."""
     return s.strip().replace(" ", "_")
 
 
@@ -42,23 +43,28 @@ class Node(object):
 
     @property
     def identifier(self):
+        """Gets the Identifier property."""
         return self.__identifier
 
     @property
     def parent(self):
+        """Gets the Parent property."""
         return self.__parent
 
     @parent.setter
     def parent(self, value):
+        """Sets the Parent property."""
         if value is not None:
             self.__parent = sanitize_string(value)
 
     @property
     def children(self):
+        """Gets the Children property."""
         return self.__children
 
     @children.setter
     def children(self, value):
+        """Sets the Children property."""
         if value is not None and isinstance(value, list):
             self.__children = value
 
@@ -98,8 +104,7 @@ class Tree(object):
             self.nodes[node.identifier]
         except KeyError:
             self.nodes.update({node.identifier: node})
-        ret = self.__update_children(parent, node.identifier, _ADD)
-#        print "add_node %s, %s" % (node.name, ret)
+        self.__update_children(parent, node.identifier, _ADD)
         node.parent = parent
 
     def create_node(self, name, unlock_condition, level=None, identifier=None, parent=None):
@@ -109,9 +114,12 @@ class Tree(object):
         return node
 
     def expand_tree(self, nid=None, mode=_DEPTH, filter_fn=None):
+        """expands the tree."""
         # Python generator. Loosly based on an algorithm from 'Essential LISP' by
         # John R. Anderson, Albert T. Corbett, and Brian J. Reiser, page 239-241
         def real_true(pos):
+            """always return True."""
+            _ = pos
             return True
 
         if nid is None:
@@ -134,6 +142,7 @@ class Tree(object):
                     queue = queue[1:]
 
     def get_node(self, nid):
+        """Returns the node with the given nid, or None if node is not in the tree."""
         try:
             return self.nodes[nid]
         except KeyError:
@@ -160,8 +169,7 @@ of new tree to nid."""
 
         if set(new_tree.nodes) & set(self.nodes):
             # error, duplicate node identifier
-            # TODO: PEP8: deprecated form of raising exception
-            raise ValueError, 'Duplicated nodes exists.'
+            raise ValueError('Duplicated nodes exists.')
 
         new_tree[new_tree.root].parent = nid
         self.__update_children(nid, new_tree.root, _ADD)
@@ -171,15 +179,14 @@ of new tree to nid."""
         """Remove a node indicated by 'identifier'. All the successors are removed, too."""
         parent = self[identifier].parent
         remove = []  # temp. list for nodes which will be removed
-        for id in self.expand_tree(identifier):
-            # TODO: implementing this function as a recursive function:
+        for pid in self.expand_tree(identifier):
             # check if node has children
             # true -> run remove_node with child_id
             # no -> delete node
-            remove.append(id)
+            remove.append(pid)
 
-        for id in remove:
-            del(self.nodes[id])
+        for pid in remove:
+            del(self.nodes[pid])
 
         self.__update_children(parent, identifier, _DELETE)
 
@@ -187,6 +194,8 @@ of new tree to nid."""
         """Search the tree from nid to the root along links reversedly."""
 
         def real_true(p):
+            """always return True."""
+            _ = p
             return True
 
         if filter_fn is None:
@@ -216,7 +225,7 @@ for constructing the Nodes Stack push and pop nodes with additional level info."
 
         if nid is None:
             nid = self.root
-        label = "{0}-{1}[{2}]".format(self[nid].level, self[nid].name, self[nid].unlock_condition)
+        label = "{0}:{1}[{2}]".format(self[nid].level, self[nid].name, self[nid].unlock_condition)
 
         queue = self[nid].children
         #print level
@@ -234,32 +243,34 @@ for constructing the Nodes Stack push and pop nodes with additional level info."
             for element in queue:
                 self.show(element, level)  # recursive call
 
-    def tostring(self, ret, nid=None, level=_ROOT):
-        """Returns the string version of show."""
-
-        leading = ''
-        lasting = '|___ '
-
+    def tohtmlstring(self, nid=None):
+        """builds string like show w/o recursion."""
+        s = ''
+        lvl = _ROOT
+        nodes_to_visit = deque([])
         if nid is None:
             nid = self.root
-        if self[nid]:
-            label = "{0}-{1}[{2}]".format(self[nid].level, self[nid].name, self[nid].unlock_condition)
+        nodes_to_visit.append((self[nid], lvl))
+        while len(nodes_to_visit) > 0:
+            leading = ''
+            lasting = '|___ '
+            current_node, lvl = nodes_to_visit.popleft()
+            for c in current_node.children:
+#                print "child {0} lvl{1}".format(self[c], lvl + 1)
+                nodes_to_visit.appendleft((self[c], lvl + 1))
+#            print "process = {0} lvl{1}".format(current_node, lvl)
 
-            queue = self[nid].children
-            #print level
-            if level == _ROOT:
-                ret = label
+            label = "{0}: <b>{1}</b>[{2}]".format(current_node.level, \
+                                                  current_node.name, current_node.unlock_condition)
+            if lvl == _ROOT:
+                s += label + '<br/>'
             else:
-                if level <= 1:
-                    leading += ('|' + ' ' * 4) * (level - 1)
+                if lvl <= 1:
+                    leading += ('|' + '&nbsp' * 4) * (lvl - 1)
                 else:
-                    leading += ('|' + ' ' * 4) + (' ' * 5 * (level - 2))
-                ret.join("{0}{1}{2}".format(leading, lasting, label))
-            if self[nid].expanded:
-                level += 1
-                for element in queue:
-                    ret.join(self.tostring(element, level))  # recursive call
-        return ret
+                    leading += ('|' + '&nbsp' * 4) + ('&nbsp' * 5 * (lvl - 2))
+                s += "{0}{1}{2}".format(leading, lasting, label) + '<br/>'
+        return s
 
     def subtree(self, nid):
         """Return a COPY of subtree of the whole tree with the nid being the new root.
@@ -271,22 +282,28 @@ And the structure of the subtree is maintained from the old tree."""
         return st
 
     def __contains__(self, identifier):
+        """Returns something."""
         return [node.identifier for node in self.nodes
                 if node.identifier is identifier]
 
     def __getitem__(self, key):
+        """Returns something."""
         return self.nodes.get(key)
 
     def __len__(self):
+        """Returns something."""
         return len(self.nodes)
 
     def __setitem__(self, key, item):
+        """Returns something."""
         self.nodes.update({key: item})
 
     def __update_parent(self, nid, identifier):
+        """Returns something."""
         self[nid].parent = identifier
 
     def __update_children(self, nid, identifier, mode):
+        """Returns something."""
         if nid is None:
             return False
         else:
@@ -326,7 +343,8 @@ def build_trees(class_type):
         if node.unlock_condition == "True" or node.unlock_condition.find("or True") != -1 \
         or node.unlock_condition == "False" or node.unlock_condition.find("and False") != -1:
             t = Tree()
-            t.create_node(node.name, node.unlock_condition, level=node.level, identifier=node.identifier)
+            t.create_node(node.name, node.unlock_condition, level=node.level, \
+                          identifier=node.identifier)
             trees[node.name] = t
 
     for node in nodes:
@@ -348,6 +366,7 @@ def build_trees(class_type):
 
 
 def get_completed_action_slugs(node):
+    """Returns the action slugs from the given node's unlock_condition."""
     ret = []
     l = node.unlock_condition.split('completed_action(')
     if len(l) > 1:
