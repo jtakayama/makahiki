@@ -2,8 +2,10 @@
 from django.db import models
 from django.http import HttpResponseRedirect
 from apps.managers.cache_mgr import cache_mgr
+from apps.managers.challenge_mgr import challenge_mgr
 from apps.utils import utils
-from apps.widgets.smartgrid.views import action_admin, action_admin_list
+from apps.widgets.smartgrid_design.views import designer_action_admin, \
+    designer_action_admin_list
 
 from django.contrib import admin
 from django import forms
@@ -122,6 +124,10 @@ admin.site.register(DesignerAction, DesignerActionAdmin)
 challenge_designer_site.register(DesignerAction, DesignerActionAdmin)
 challenge_manager_site.register(DesignerAction, DesignerActionAdmin)
 developer_site.register(DesignerAction, DesignerActionAdmin)
+challenge_mgr.register_designer_challenge_info_model("Smart Grid Game Designer", 5, \
+                                                     DesignerAction, 2)
+challenge_mgr.register_developer_challenge_info_model("Smart Grid Game Designer", 4, \
+                                                      DesignerAction, 2)
 
 
 class DesignerActivityAdminForm(forms.ModelForm):
@@ -556,7 +562,8 @@ def redirect_urls(model_admin, url_type):
     info = model_admin.model._meta.app_label, model_admin.model._meta.module_name
     urlpatterns = patterns('',
         url(r'^$',
-            wrap(action_admin_list if url_type == "changelist" else model_admin.changelist_view),
+            wrap(designer_action_admin_list if url_type == "changelist" else \
+                 model_admin.changelist_view),
             name='%s_%s_changelist' % info),
         url(r'^add/$',
             wrap(model_admin.add_view),
@@ -568,7 +575,7 @@ def redirect_urls(model_admin, url_type):
             wrap(model_admin.delete_view),
             name='%s_%s_delete' % info),
         url(r'^(.+)/$',
-            wrap(action_admin if url_type == "change" else model_admin.change_view),
+            wrap(designer_action_admin if url_type == "change" else model_admin.change_view),
             name='%s_%s_change' % info),
     )
     return urlpatterns

@@ -6,15 +6,17 @@ from apps.widgets.smartgrid import smartgrid
 from django.http import HttpResponseRedirect, Http404, HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template.context import RequestContext
-from apps.widgets.smartgrid_design.forms import SggUpdateForm
+from apps.widgets.smartgrid_design.forms import SggUpdateForm, RevertToSmartgridForm, \
+    DeployToSmartgridForm
 from apps.widgets.smartgrid_library.models import LibraryActivity, LibraryEvent, \
     LibraryCommitment, LibraryCategory
-from apps.managers.smartgrid_mgr import smartgrid_mgr
+from apps.managers.smartgrid_mgr import smartgrid_mgr, unlock_lint
 import json
-from apps.widgets.smartgrid_design.models import DesignerLevel, DesignerCategory
+from apps.widgets.smartgrid_design.models import DesignerLevel, DesignerCategory, DesignerAction
+from collections import OrderedDict
 
 
-def supply(request, page_name):
+def supply(request, page_name):  # pylint: disable=R0914
     """ supply view_objects for widget rendering."""
     _ = request
     _ = page_name
@@ -24,10 +26,18 @@ def supply(request, page_name):
     events = LibraryEvent.objects.all()
     commitments = LibraryCommitment.objects.all()
     fillers = Filler.objects.all()
-    form = SggUpdateForm({'category_updates': '[]',
-                          'action_updates': '[]'})
+    reset_form = RevertToSmartgridForm()
+    publish_form = DeployToSmartgridForm()
     diff = smartgrid_mgr.diff_between_designer_and_grid()
-
+    trees = unlock_lint.build_trees(DesignerAction)
+    sorted_trees = OrderedDict(sorted(trees.items(), key=lambda t: -len(t[1])))
+    unlock_tree = ''
+    for k in list(sorted_trees):
+        unlock_tree += sorted_trees[k].tohtmlstring()
+        unlock_tree += '<p></p>'
+    unreachable = unlock_lint.get_unreachable_actions(DesignerAction)
+    false_unlock = unlock_lint.get_false_unlock_actions(DesignerAction)
+    mismatched_levels = unlock_lint.get_missmatched_level(DesignerAction)
 #    print len(activities)
 #    print len(smartgrid_mgr.get_smartgrid_action_slugs())
 #    print diff
@@ -38,12 +48,36 @@ def supply(request, page_name):
         'events': events,
         'commitments': commitments,
         'fillers': fillers,
-        'form': form,
+        'reset_form': reset_form,
+        'publish_form': publish_form,
         'palette': smartgrid_mgr.get_designer_palette(),
         'differences': diff,
         'smart_grid': smartgrid_mgr.get_designer_smartgrid(),
-        'smart_grid_actions': smartgrid_mgr.get_designer_action_slugs()
-            }
+        'smart_grid_actions': smartgrid_mgr.get_designer_action_slugs(),
+        'tree': unlock_tree,
+        'unreachable': unreachable,
+        'false_unlock': false_unlock,
+        'mismatched_levels': mismatched_levels,
+            }  # pylint: enable=R0914
+
+
+@never_cache
+@login_required
+def designer_action_admin(request, pk):
+    """handle the library action admin."""
+    _ = request
+    action = DesignerAction.objects.get(pk=pk)
+    action_type = action.type
+
+    return HttpResponseRedirect("/admin/smartgrid_design/designer%s/%s/" % (action_type, pk))
+
+
+@never_cache
+@login_required
+def designer_action_admin_list(request):
+    """handle the library action admin."""
+    _ = request
+    return HttpResponseRedirect("/admin/smartgrid_design/designeraction/")
 
 
 @never_cache
@@ -125,8 +159,9 @@ def instantiate_category(request, cat_slug, level_slug, priority):
     """Instantiates the Smart Grid Game Category from the Library Category in the
     given level and with the given priority."""
     _ = request
+    _ = level_slug
     lib_cat = LibraryCategory.objects.get(slug=cat_slug)
-    level = Level.objects.get(slug=level_slug)
+#    level = Level.objects.get(slug=level_slug)
     try:
         category = get_object_or_404(DesignerCategory, slug=cat_slug)
     except Http404:
@@ -134,7 +169,7 @@ def instantiate_category(request, cat_slug, level_slug, priority):
     slug = lib_cat.slug
     category.name = lib_cat.name
     category.slug = slug
-    category.level = level  # there is no level....
+#    category.level = level  # there is no level....
     category.priority = priority
     category.save()
 
@@ -194,9 +229,11 @@ def clear_from_grid(request, action_slug):
 def revert_to_grid(request):
     """Deletes all the DesignerActions and creates new DesignerActions from the current Smart
     Grid Game instances."""
-    _ = request
-    smartgrid_mgr.clear_designer()
-    smartgrid_mgr.copy_smartgrid_to_designer()
+    if request.method == 'POST':  # If the form has been submitted...
+        form = RevertToSmartgridForm(request.POST)  # A form bound to the POST data
+        if form.is_valid():  # All validation rules pass
+            smartgrid_mgr.clear_designer()
+            smartgrid_mgr.copy_smartgrid_to_designer()
     response = HttpResponseRedirect("/sgg_designer/")
     return response
 
@@ -204,8 +241,10 @@ def revert_to_grid(request):
 def publish_to_grid(request):
     """Clears all the current Smart Grid Instances and Copies the DesignerActions to the Smart
     Grid Game."""
-    _ = request
-    smartgrid_mgr.deploy_designer_to_smartgrid()
+    if request.method == 'POST':
+        form = DeployToSmartgridForm(request.POST)
+        if form.is_valid():
+            smartgrid_mgr.deploy_designer_to_smartgrid()
     response = HttpResponseRedirect("/sgg_designer/")
     return response
 
@@ -216,3 +255,8 @@ def load_example_grid(request, example_name):
     smartgrid_mgr.load_example_grid(example_name)
     response = HttpResponseRedirect("/sgg_designer/")
     return response
+
+
+def lint_view(request):
+    """Runs unlock_lint over the DesignerActions and shows the results in a page."""
+    _ = request

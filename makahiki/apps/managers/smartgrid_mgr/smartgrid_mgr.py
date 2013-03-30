@@ -559,8 +559,3 @@ def load_example_grid(example_name):
             # load the example
             fixture = os.path.join(fixture_path, name)
             os.system("%s loaddata -v 0 %s" % (manage_command, fixture))
-
-
-
-
-

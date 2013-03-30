@@ -33,4 +33,7 @@ urlpatterns = patterns('',
     url(r'^load_example_grid/(?P<example_name>[\w\d\-]+)/$',
         'apps.widgets.smartgrid_design.views.load_example_grid',
         name='load_example_grid'),
+    url(r'^unlock_lint/$',
+        'apps.widgets.smartgrid_design.views.lint_view',
+        name='unlock_lint'),
 )
