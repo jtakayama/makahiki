@@ -137,10 +137,18 @@
 					<!-- Tabs for the levels -->
 					<ul id="sgg-levels-tab" class="nav nav-tabs">
 					{% for level in view_objects.smartgrid_design.levels %}
+						<div id="level-tab-menu-{{forloop.counter}}" class="sgg-level-popup-menu">
+							<ul>
+								<li><a href="#" class="sgg-action">Add new level</a>
+								<li><a href="#{{forloop.counter}}" class="sgg-action"
+								rel="tooltip" 
+								title="Delete this level moving all actions to the palette.">Delete {{level.name}}</a></li>
+							</ul>
+						</div> 
 						{% if forloop.counter == 1 %}
-						<li class="active">
+						<li id="level-tab-{{forloop.counter}}" class="active">
 						{% else %}
-						<li class="">					
+						<li id="level-tab-{{forloop.counter}}" class="">					
 						{% endif %}
 							<a class="level-unlocked" data-toggle="tab" style="padding-right: 6px; padding-left: 6px;" 
 							   title="{{ level.name }} Actions"
@@ -149,6 +157,23 @@
 							</a></li>
 					{% endfor %}
 					</ul>
+<script type="text/javascript">
+{% for level in view_objects.smartgrid_design.levels %}
+$("#level-tab-{{forloop.counter}}").bind("contextmenu", function(e) {
+    $('#level-tab-menu-{{forloop.counter}}').css({
+        top: e.pageY+'px',
+        left: e.pageX+'px'
+    }).show();
+    return false;
+});
+$("#level-tab-menu-{{forloop.counter}}").click(function() {
+    $(this).hide();
+});
+$(document).click(function() {
+    $("#level-tab-menu-{{forloop.counter}}").hide();
+});
+{% endfor %}
+</script>
 	    	    	<!-- Tab contents -->
         			<div id="sgg-grid" class="tab-content">
         			{% for level in view_objects.smartgrid_design.smart_grid %}

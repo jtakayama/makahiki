@@ -318,6 +318,21 @@ a.sgg-category {
 	padding-left: 5px;
 }
 
+.sgg-level-popup-menu {
+	display: none;
+    position: absolute;
+    padding: 10px;	
+    border: 1px solid #000;    
+    border-radius: 8px;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;	
+    .background-gradient (fadeout(@widget-title-bkg-color-start, @widget-title-transparency) , fadeout(@widget-title-bkg-color-end, @widget-title-transparency));
+    z-index: 100;  
+}
+
+.sgg-level-popup-menu ul {
+	margin-left: 2px;
+}
 
 .sgg-load-example {
 	color: @sgg-entry-font-color;

@@ -9,13 +9,36 @@
 					<td><div class="sgg-category-slot" data-column={{i|add:1}}>
 					{% if i < level.cat_list|length %}
 						{% with cat=level.cat_list|nth:i %}
-					<div data-slug="{{cat.slug}}" class="sgg-category grid-draggable" 
+						<div id="category-menu-{{cat.slug}}" class="sgg-level-popup-menu">
+							<ul>
+								<li><a href="#{{forloop.counter}}" class="sgg-action"
+								rel="tooltip" 
+								title="Delete this column from the level. Moves all the actions in the column to the palette">Delete column {{cat.name}}</a>
+								</li>
+							</ul>
+						</div> 
+					<div id="category-{{cat.slug}}" data-slug="{{cat.slug}}" class="sgg-category grid-draggable" 
 						 data-priority={{i}} data-pk={{cat.pk}} data-level="sgg-level-{{level.priority}}">
 						 <br/>
 						 <a class="sgg-category-link" href="/challenge_setting_admin/smartgrid_design/designercategory/{{cat.pk}}/">
 						 {{cat.name}}</a>
 						 <br/>
 					</div>
+<script type="text/javascript">
+	$("#category-{{cat.slug}}").bind("contextmenu", function(e) {
+		$('#category-menu-{{cat.slug}}').css({
+			top: e.pageY+'px',
+			left: e.pageX+'px'
+		}).show();
+		return false;
+	});
+	$("#category-menu-{{cat.slug}}").click(function() {
+		$(this).hide();
+	});
+	$(document).click(function() {
+		$("#category-menu-{{cat.slug}}").hide();
+	});
+</script>
 						 {% endwith %}
 					{% endif %}
 					</div></td>
