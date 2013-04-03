@@ -193,6 +193,80 @@ function instantiateGridAction(actSlug, catSlug, levelSlug, priority) {
     });		
 }
 
+function getDesignerDiff() {
+	console.log('getDesignerDiff()');
+	jQuery.ajax({
+		url: "/smartgrid_design/get_diff/",
+		success: function(data) {
+			var diff = data.diff;
+			var numDiff = diff.length;
+			var diffDiv = $('.sgg-differences');
+			if (numDiff == 0) {
+				var noDiff = '<u>Changes:</u>No changes from the Smart Grid.';
+				diffDiv.html(noDiff);
+			}
+			else {
+				var html = '<u>Changes:</u>';
+				for (var i = 0; i < diff.length; i++) {
+					var inner = diff[i];
+					html += '<div id="diff-' + (i + 1) + '">';
+					html += '<div class="sgg-diff-action">' + inner[0] + '</div>';
+					html += '<div class="sgg-diff-fields">';
+					for (var j = 0; j < inner[1].length; j++) {
+						html += '' + inner[1][j] + ', ';
+					}
+					html = html.substring(0, html.length - 2);
+					html += '</div></div>';
+				}				
+				diffDiv.html(html);
+			}
+		}
+	})
+}
+
+function runDesignerLint() {
+	console.log('runDesignerLint()');
+	jQuery.ajax({
+		url: "/smartgrid_design/run_lint/",
+		success: function(data) {
+			var unreachable = data.unreachable;
+			var false_unlock = data.false_unlock;
+			var trees = data.tree;
+			var mismatched = data.mismatched_levels;
+			var lintDiv = $('#designer-lint');
+			var html = '';
+			if (unreachable.length > 0) {
+				html += '<ul>';
+				for (var i = 0; i < unreachable.length; i++) {
+					html += '<li><b>' + unreachable[i] + 
+						'</b> is unreachable due to unlock condition dependencies</li>';
+				}
+				html += '</ul>';
+			}
+			if (mismatched.length > 0) {
+				html += '<ul>';
+				for (var i = 0; i < mismatched.length; i++) {
+					html += '<li>Warning <b>' + mismatched[i] + 
+						'</b> depends on an action in a higher level</li>';
+				}
+				html += '</ul>';
+			}
+			if (false_unlock.length > 0) {
+				html += '<ul>';
+				for (var i = 0; i < false_unlock.length; i++) {
+					html += '<li>Warning <b>' + false_unlock[i] + 
+						'</b> is locked because it depends on an action with a False unlock condition</li>';
+				}
+				html += '</ul>';				
+			}
+			html += 'Unlock Condition Dependency:<div class="sgg-unlock-lint">';
+			html += trees;
+			html += '</div>';
+			lintDiv.html(html);
+		}
+	})
+}
+
 /**
  * Returns a jQuery object that represents the dropped Action.
  * @param slug a String the Action slug.

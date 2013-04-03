@@ -66,6 +66,7 @@ a.sgg-category {
     -moz-border-radius: 8px;
     -webkit-border-radius: 8px;
     text-transform: capitalize;
+    display: inline-block;
 }
 
 .sgg-category.ui-draggable-dragging {
@@ -84,12 +85,20 @@ a.sgg-category {
 }
 
 .ssg-category-selections {
-    border: 1px solid #000;
-    border-radius: 8px;
-    -moz-border-radius: 8px;
-    -webkit-border-radius: 8px;
-    margin: 10px auto 0 auto;
+//    border: 1px solid #000;
+//    border-radius: 8px;
+//    -moz-border-radius: 8px;
+//    -webkit-border-radius: 8px;
+    margin: 10px auto 5px auto;
     text-align: center;
+	overflow-x: auto;
+	overflow-y: hidden;	
+	padding-bottom: 2px;
+}
+
+.sgg-category-wrapper {
+	width: 2500px;
+	margin-bottom: 2px;
 }
 
 .sgg-category-slot {
@@ -141,13 +150,23 @@ a.sgg-category {
     border-radius: 8px;
     -moz-border-radius: 8px;
     -webkit-border-radius: 8px;	
-	height: 220px; 
-	width: 90%;
+	height: 520px; 
+	width: 95%;
 	overflow: scroll;	
 	margin-top: 10px;
 	padding-left: 5px;
 }
 
+#designer-lint {
+    border: 1px solid #000;    
+    border-radius: 8px;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;	
+	height: 520px; 
+	overflow: scroll;	
+	margin-top: 10px;
+	padding-left: 5px;	
+}
 .sgg-diff-action {
 //    text-transform: capitalize;	
     font-weight: bold;	
@@ -245,12 +264,36 @@ a.sgg-category {
     font-weight: bold;
 }
 
+.sgg-library-category {
+    background-color: @sgg-header-bkg-color;
+    color: @sgg-header-font-color;
+    float: left;
+    overflow: hidden;
+    margin: 0 2px 0 2px;
+    padding: 0;
+    height: 64px;
+    width: 64px;
+    vertical-align: middle;
+    text-align: center;
+    border: 1px solid #000;
+    border-radius: 8px;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    text-transform: capitalize;
+    display: inline-block;
+}
+
 .sgg-dropzone {
     border: 1px solid #000;
     border-radius: 8px;
     -moz-border-radius: 8px;
     -webkit-border-radius: 8px;
 }	
+
+.sgg-action-selections {
+	height: 446px;
+	overflow: scroll;
+}
 
 .sgg-action-slot {
     margin: 2px;
@@ -312,7 +355,7 @@ a.sgg-category {
     -moz-border-radius: 8px;
     -webkit-border-radius: 8px;	
 	height: 420px; 
-	width: 100%;
+	width: 98%;
 	overflow: scroll;	
 	margin-top: 10px;
 	padding-left: 5px;
@@ -353,12 +396,11 @@ a.sgg-category {
 
 .sgg-right-palette {
 	color: @sgg-entry-font-color;
-    height: 800px;
-	width: 90%;
-    border: 1px solid #000;    
-    border-radius: 8px;
-    -moz-border-radius: 8px;
-    -webkit-border-radius: 8px;
+    height: 683px;
+//    border: 1px solid #000;    
+//    border-radius: 8px;
+//    -moz-border-radius: 8px;
+//    -webkit-border-radius: 8px;
     text-align: center;
 	overflow: scroll;		
 }
@@ -368,4 +410,52 @@ a.sgg-category {
     border-radius: 4px;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;	
+}
+
+.container-fluid > .designer-sidebar {
+    position: relative;
+    top: 0;
+    left:auto;
+    width: 21%;
+}
+
+.designer-left {
+	float: left;
+}
+
+.designer-right {
+	float: right;
+}
+
+.container-fluid > .designer-center {
+    margin: 0 22%;
+}
+
+.designer-sidebar, .designer-center {
+	color: @sgg-entry-font-color;
+	.makahiki-box;
+//    border: 1px solid #000;    
+//    border-radius: 8px;
+//    -moz-border-radius: 8px;
+//    -webkit-border-radius: 8px;
+    text-align: center;
+}
+
+#sgg-grid {
+	width: auto;
+	overflow-y: scroll;
+}
+
+#designer_levels {
+	width: 100%;
+	height: 500px;
+	overflow-y: scroll;	
+}
+
+#category-dropzone .designer-table {
+	width: 80%;
+}
+
+#action-dropzone .designer-table {
+	width: 80%;
 }

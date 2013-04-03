@@ -16,7 +16,7 @@ from apps.widgets.smartgrid_design.models import DesignerLevel, DesignerCategory
 from collections import OrderedDict
 
 
-def supply(request, page_name):  # pylint: disable=R0914
+def supply(request, page_name):
     """ supply view_objects for widget rendering."""
     _ = request
     _ = page_name
@@ -29,16 +29,6 @@ def supply(request, page_name):  # pylint: disable=R0914
     reset_form = RevertToSmartgridForm()
     publish_form = DeployToSmartgridForm()
     example_grid_form = ExampleGridsForm()
-    diff = smartgrid_mgr.diff_between_designer_and_grid()
-    trees = unlock_lint.build_trees(DesignerAction)
-    sorted_trees = OrderedDict(sorted(trees.items(), key=lambda t: -len(t[1])))
-    unlock_tree = ''
-    for k in list(sorted_trees):
-        unlock_tree += sorted_trees[k].tohtmlstring()
-        unlock_tree += '<p></p>'
-    unreachable = unlock_lint.get_unreachable_actions(DesignerAction)
-    false_unlock = unlock_lint.get_false_unlock_actions(DesignerAction)
-    mismatched_levels = unlock_lint.get_missmatched_level(DesignerAction)
 #    print len(activities)
 #    print len(smartgrid_mgr.get_smartgrid_action_slugs())
 #    print diff
@@ -53,14 +43,9 @@ def supply(request, page_name):  # pylint: disable=R0914
         'publish_form': publish_form,
         'example_grid_form': example_grid_form,
         'palette': smartgrid_mgr.get_designer_palette(),
-        'differences': diff,
         'smart_grid': smartgrid_mgr.get_designer_smartgrid(),
         'smart_grid_actions': smartgrid_mgr.get_designer_action_slugs(),
-        'tree': unlock_tree,
-        'unreachable': unreachable,
-        'false_unlock': false_unlock,
-        'mismatched_levels': mismatched_levels,
-            }  # pylint: enable=R0914
+            }
 
 
 @never_cache
@@ -262,6 +247,30 @@ def load_example_grid(request):
     return response
 
 
-def lint_view(request):
+def run_lint(request):
     """Runs unlock_lint over the DesignerActions and shows the results in a page."""
     _ = request
+    trees = unlock_lint.build_trees(DesignerAction)
+    sorted_trees = OrderedDict(sorted(trees.items(), key=lambda t: -len(t[1])))
+    unlock_tree = ''
+    for k in list(sorted_trees):
+        unlock_tree += sorted_trees[k].tohtmlstring()
+        unlock_tree += '<p></p>'
+    unreachable = unlock_lint.get_unreachable_actions(DesignerAction)
+    false_unlock = unlock_lint.get_false_unlock_actions(DesignerAction)
+    mismatched_levels = unlock_lint.get_missmatched_level(DesignerAction)
+    return HttpResponse(json.dumps({
+            "tree": unlock_tree,
+            "unreachable": unreachable,
+            "false_unlock": false_unlock,
+            "mismatched_levels": mismatched_levels,
+            }), mimetype="application/json")
+
+
+def get_diff(request):
+    """Returns the difference between the designer grid and the Smart Grid as a string."""
+    _ = request
+    diff = smartgrid_mgr.diff_between_designer_and_grid()
+    return HttpResponse(json.dumps({
+            "diff": diff,
+            }), mimetype="application/json")
