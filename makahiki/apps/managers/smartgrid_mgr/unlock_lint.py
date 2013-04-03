@@ -410,7 +410,7 @@ def get_false_unlock_actions(class_type):
                 # add all nodes in tree to list
                 for node_key in list(tree.nodes):
                     node = tree.nodes[node_key]
-                    if not node.name in ret:
+                    if not node.name in ret and not node.name.startswith('filler'):
                         ret.append(node.name)
     return ret
 
