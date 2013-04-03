@@ -101,7 +101,13 @@ function handleCategoryDrop(event, ui) {
 	instantiateGridCategory(slug, levelSlug, column);
 }
 
+function handleGridStartDrag(event, ui) {
+	var zIndex = $(this).css("z-index");
+	console.log(zIndex);
+}
+
 function handleLibraryStartDrag(event, ui) {
+//	console.log('handleLibraryStartDrag(' + event + ', ' + ui + ')');
 	$(this).addClass('hidden');
 }
 

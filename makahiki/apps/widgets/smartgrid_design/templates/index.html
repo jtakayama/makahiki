@@ -17,10 +17,7 @@
 					</div>
 				</div>
 				<div class="tabbable">
-					<a href="/challenge_admin/smartgrid_library/libraryaction/"
-					rel="tooltip" title="Switch to action editing page.">
-						<div class="btn btn-widget">Edit Actions</div>
-					</a></br>Drag the activity, commitment, or event to a empty slot in the grid to the right.
+					Drag the activity, commitment, or event to a empty slot in the grid to the right.
 					<legend>Library Actions</legend>
 					<ul class="nav nav-tabs">
 						<li class="active"><a href="#activities" data-toggle="tab">Activities</a></li>
@@ -94,11 +91,22 @@
 					{% endfor %}
 					</div>
 				</div>
-				<div class="content-box-contents">
-					<a href="/challenge_setting_admin/smartgrid_design/designerlevel/"
-					rel="tooltip" title="Switch to level editing page.">
-						<div class="btn btn-widget">Edit Levels</div></a>
-				</div>
+				<div class="left">
+					<form id="revert-form" action="{% url revert_to_grid %}" method="post">
+   		    	  		{% csrf_token %} {{ view_objects.smartgrid_design.reset_form.as_p }}
+       		  			<input class="btn btn-widget" rel="tooltip" 
+							title="Deletes all changes made in the designer and loads the current Smart Grid Game." 
+							type="submit" value="Revert to current Smart Grid Game" /> 
+		        	</form> 
+		        </div>
+				<div class="right">
+					<form id="publish-form" action="{% url publish_to_grid %}" method="post">
+   	    		  		{% csrf_token %} {{ view_objects.smartgrid_design.publish_form.as_p }}
+       	  				<input id="designer-publish" class="btn btn-widget" rel="tooltip" 
+							title="Publish changes made in the designer to the Smart Grid Game."
+							type="submit" value="Publish changes to Smart Grid Game" /> 
+			        </form> 			
+		        </div>	
 				<div id="designer_levels" class="tabbable tabs-left">
 					<!-- Tabs for the levels -->
 					<ul id="sgg-levels-tab" class="nav nav-tabs">
@@ -185,6 +193,8 @@ $(document).click(function() {
 					</div>
 				</div>
 			</div>
+			<div class="span3">
+			</div>
 		</div>
 	</div>
 </div>
@@ -202,7 +212,8 @@ $(document).click(function() {
 		})
 		$('.grid-draggable').draggable({
 			cursor : 'move',
-			helper : 'original',
+			start: handleLibraryStartDrag,
+			helper : 'clone',
 			revert : function(dropObj) {
 				// console.log("revert for grid draggable");
 				// if false then no drop object
@@ -230,11 +241,19 @@ $(document).click(function() {
 			cursor : 'move',
 			start : handleLibraryStartDrag,
 			helper : 'clone',
-			revert : 'invalid',
+			revert : function(dropObj) {
+				if (dropObj == false) {
+					// unhide the library action
+					$(this).removeClass('hidden');					
+					return true;
+				} else {
+					return false;
+				}				
+			},
 		})
 		$('.palette-draggable').draggable({
 			cursor : 'move',
-			helper : 'original',
+			helper : 'original', // should be clone, but then the drop in the grid isn't working
 		})
 		$('.sgg-category-slot').droppable({
 			accept : '.sgg-library-category',
