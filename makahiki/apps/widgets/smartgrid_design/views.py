@@ -242,7 +242,10 @@ def load_example_grid(request):
         form = ExampleGridsForm(request.POST)
         if form.is_valid():
             example_name = form.cleaned_data['grid']
-            smartgrid_mgr.load_example_grid(example_name)
+            if example_name == 'empty':
+                smartgrid_mgr.clear_designer()
+            else:
+                smartgrid_mgr.load_example_grid(example_name)
     response = HttpResponseRedirect("/sgg_designer/")
     return response
 

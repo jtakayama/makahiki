@@ -47,6 +47,7 @@ class ExampleGridsForm(forms.Form):
         ('default', 'Default'),
         ('uh12', 'KukuiCup/UH 12'),
         ('test', 'Test Grid'),
+        ('empty', 'Empty Grid'),
         )
     grid = forms.ChoiceField(
         choices=TYPE_CHOICES,

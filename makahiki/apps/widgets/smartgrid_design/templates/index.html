@@ -194,6 +194,18 @@ $(document).click(function() {
 				</div>
 			</div>
 			<div class="span3">
+				<div class="content-box">
+					<div class="content-box-title">Load Example Grids:</div>
+					<div class="content-box-contents">
+						Choose an example grid from the choices below.
+		        		<form id="example-grid-form" action="{% url load_example_grid %}" method="post">
+	    	    			{% csrf_token %} {{ view_objects.smartgrid_design.example_grid_form.as_p }}
+          					<input class="btn btn-widget" rel="tooltip" 
+								title="Load example grid into the designer."
+								type="submit" value="Load Example Grid" /> 		        	
+	    	    		</form>
+	        		</div>
+	        	</div>
 			</div>
 		</div>
 	</div>
