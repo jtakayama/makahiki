@@ -14,7 +14,7 @@ from apps.widgets.smartgrid_library.models import LibraryAction, LibraryActivity
 from django.http import Http404
 from apps.widgets.smartgrid_design.models import DesignerAction, DesignerCategory, \
     DesignerActivity, DesignerCommitment, DesignerEvent, DesignerFiller, DesignerLevel,\
-    DesignerTextPromptQuestion
+    DesignerTextPromptQuestion, DesignerGrid
 import os
 from django.core.management import call_command
 
@@ -374,35 +374,26 @@ def get_smartgrid():
     return levels
 
 
-def get_designer_smartgrid():
-    """Returns the currently defined smart grid."""
-    levels = []
+def get_designer_grid():
+    """Returns the smart grid as defined in the Smart Grid Designer. The
+    grid is a list of lists with the format [<DesignerLevel>, [<DesignerCategory>*],
+    [<DesignerAction>*], [active columns]"""
+    ret = []
     for level in DesignerLevel.objects.all():
-        categories = []
-        action_list = None
-        category = None
-        for action in level.designeraction_set.all().select_related("category"):
-            # the action are ordered by level and category
-            if category != action.category:
-                if category:
-                    # a new category
-                    category.task_list = action_list
-                    categories.append(category)
-
-                action_list = []
-                category = action.category
-
-            action_list.append(action)
-
-        if category:
-            # last category
-            category.task_list = action_list
-            categories.append(category)
-
-        level.cat_list = categories
-        levels.append(level)
-
-    return levels
+        level_ret = []
+        level_ret.append(level)
+        level_ret.append(DesignerCategory.objects.filter(level=level))
+        level_ret.append(DesignerGrid.objects.filter(level=level))
+        columns = []
+        for cat in level_ret[1]:
+            if cat.column not in columns:
+                columns.append(cat.column)
+        for act in level_ret[2]:
+            if act.column not in columns:
+                columns.append(act.column)
+        level_ret.append(columns)
+        ret.append(level_ret)
+    return ret
 
 
 def get_designer_palette():
@@ -410,7 +401,7 @@ def get_designer_palette():
     appear in the grid if published."""
     palette = []
     for action in DesignerAction.objects.all():
-        if action.level == None or action.category == None:
+        if len(DesignerGrid.objects.filter(action=action)) == 0:
             palette.append(action)
     return palette
 

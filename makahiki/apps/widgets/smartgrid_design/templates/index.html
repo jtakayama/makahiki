@@ -150,17 +150,25 @@ $(document).click(function() {
 </script>
 	    	    	<!-- Tab contents -->
         			<div id="sgg-grid" class="tab-content">
-        			{% for level in view_objects.smartgrid_design.smart_grid %}
+        			{% for level in view_objects.smartgrid_design.designer_grid %}
+    	    			{% with lvl=level|nth:0 %}
+    	    			{% with cat_list=level|nth:1 %}
+    	    			{% with act_list=level|nth:2 %}
+    	    			{% with columns=level|nth:3 %}
             			<div id="sgg-level-{{forloop.counter}}" 
 	           			{% if forloop.counter == 1 %}
 							  class="tab-pane active"
         	    		{% else %}
             				  class="tab-pane"
 						{% endif %}            		
-							  data-level="{{level.name}}"
-							  data-levelslug="{{level.slug}}">
+							  data-level="{{lvl.name}}"
+							  data-levelslug="{{lvl.slug}}">
 						{% include "sgg_grid.html" %}
 						</div>
+        				{% endwith %}
+        				{% endwith %}
+        				{% endwith %}
+        				{% endwith %}
 					{% endfor %}
 					</div>
 				</div>

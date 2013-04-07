@@ -17,17 +17,16 @@ from django.db.utils import IntegrityError
 from apps.admin.admin import challenge_designer_site, challenge_manager_site, developer_site
 from apps.widgets.smartgrid_design.models import DesignerAction, DesignerActivity, \
     DesignerTextPromptQuestion, DesignerCommitment, DesignerEvent, DesignerFiller, \
-    DesignerCategory, DesignerLevel, DesignerQuestionChoice
+    DesignerCategory, DesignerLevel, DesignerQuestionChoice, DesignerGrid
 
 
 class DesignerActionAdmin(admin.ModelAdmin):
     """abstract admin for action."""
-    actions = ["delete_selected", "increment_priority", "decrement_priority",
-               "change_level", "change_category", "clear_level", "clear_category",
-               "clear_level_category", "copy_action"]
-    list_display = ["slug", "title", "level", "category", "priority", "type", "point_value"]
+    actions = ["delete_selected", "change_level", "change_column", "change_row",
+               "clear_from_grid", "copy_action"]
+    list_display = ["slug", "title", "type", "point_value"]
     search_fields = ["slug", "title"]
-    list_filter = ['type', 'level', 'category']
+    list_filter = ['type', ]
 
     def delete_selected(self, request, queryset):
         """override the delete selected."""
@@ -37,51 +36,15 @@ class DesignerActionAdmin(admin.ModelAdmin):
 
     delete_selected.short_description = "Delete the selected objects."
 
-    def increment_priority(self, request, queryset):
-        """increment priority."""
+    def clear_from_grid(self, request, queryset):
+        """Removes selected actions from the Designer Grid."""
         _ = request
         for obj in queryset:
-            obj.priority += 1
-            obj.save()
+            grid = DesignerGrid.objects.filter(action=obj)
+            for g in grid:
+                g.delete()
 
-    increment_priority.short_description = "Increment selected objects' priority by 1."
-
-    def decrement_priority(self, request, queryset):
-        """decrement priority."""
-        _ = request
-        for obj in queryset:
-            obj.priority -= 1
-            obj.save()
-
-    decrement_priority.short_description = "Decrement selected objects' priority by 1."
-
-    def clear_level(self, request, queryset):
-        """decrement priority."""
-        _ = request
-        for obj in queryset:
-            obj.level = None
-            obj.save()
-
-    clear_level.short_description = "Set the level to (None)."
-
-    def clear_category(self, request, queryset):
-        """decrement priority."""
-        _ = request
-        for obj in queryset:
-            obj.category = None
-            obj.save()
-
-    clear_category.short_description = "Set the category to (None)."
-
-    def clear_level_category(self, request, queryset):
-        """decrement priority."""
-        _ = request
-        for obj in queryset:
-            obj.level = None
-            obj.category = None
-            obj.save()
-
-    clear_level_category.short_description = "Set the level and category to (None)."
+    clear_from_grid.short_description = "Remove selected Actions from Designer Grid."
 
     def change_level(self, request, queryset):
         """change level."""
@@ -92,22 +55,29 @@ class DesignerActionAdmin(admin.ModelAdmin):
 
     change_level.short_description = "Change the level."
 
-    def change_category(self, request, queryset):
-        """change level."""
+    def change_column(self, request, queryset):
+        """change column."""
         _ = queryset
         selected = request.POST.getlist(admin.ACTION_CHECKBOX_NAME)
-        return HttpResponseRedirect(reverse("bulk_change", args=("action", "category",)) +
+        return HttpResponseRedirect(reverse("bulk_change", args=("action", "column",)) +
                                     "?ids=%s" % (",".join(selected)))
 
-    change_category.short_description = "Change the category."
+    change_column.short_description = "Change the column."
+
+    def change_row(self, request, queryset):
+        """change row."""
+        _ = queryset
+        selected = request.POST.getlist(admin.ACTION_CHECKBOX_NAME)
+        return HttpResponseRedirect(reverse("bulk_change", args=("action", "row",)) +
+                                    "?ids=%s" % (",".join(selected)))
+
+    change_row.short_description = "Change the row."
 
     def copy_action(self, request, queryset):
         """Copy the selected Actions."""
         _ = request
         for obj in queryset:
             obj.id = None
-            obj.level = None
-            obj.category = None
             slug = obj.slug
             obj.slug = slug + "-copy"
             try:
@@ -282,7 +252,6 @@ class DesignerActivityAdmin(admin.ModelAdmin):
                      )}),
         ("Points",
          {"fields": (("point_value", "social_bonus"), ("point_range_start", "point_range_end"), )}),
-        ("Ordering", {"fields": (("level", "category", "priority"), )}),
         ("Admin Note", {'fields': ('admin_note',)}),
         ("Confirmation Type", {'fields': ('confirm_type', 'confirm_prompt')}),
     )
@@ -338,7 +307,6 @@ class DesignerCommitmentAdmin(admin.ModelAdmin):
                        ),
             }),
         ("Points", {"fields": (("point_value", 'social_bonus'), )}),
-        ("Ordering", {"fields": (("level", "category", "priority"), )}),
         )
 
     form = DesignerCommitmentAdminForm
@@ -425,7 +393,6 @@ class DesignerEventAdmin(admin.ModelAdmin):
                      ('unlock_condition', 'unlock_condition_text'),
                      )}),
         ("Points", {"fields": (("point_value", "social_bonus"),)}),
-        ("Ordering", {"fields": (("level", "category", "priority"), )}),
         )
 
     form = DesignerEventAdminForm
@@ -471,7 +438,6 @@ class DesignerFillerAdmin(admin.ModelAdmin):
                        ('title', ),
                        ),
             }),
-        ("Ordering", {"fields": (("level", "category", "priority"), )}),
         )
     prepopulated_fields = {"slug": ("name",)}
 
@@ -494,18 +460,13 @@ developer_site.register(DesignerFiller, DesignerFillerAdmin)
 
 class DesignerCategoryAdmin(admin.ModelAdmin):
     """Category Admin"""
-    list_display = ["name", "priority"]
+    list_display = ["name", ]
     prepopulated_fields = {"slug": ("name",)}
-
-
-class LimitedCategoryAdmin(DesignerCategoryAdmin):
-    """Limited Category Admin. Doesn't have priority."""
-    pass
 
 
 admin.site.register(DesignerCategory, DesignerCategoryAdmin)
 challenge_designer_site.register(DesignerCategory, DesignerCategoryAdmin)
-challenge_manager_site.register(DesignerCategory, LimitedCategoryAdmin)
+challenge_manager_site.register(DesignerCategory, DesignerCategoryAdmin)
 developer_site.register(DesignerCategory, DesignerCategoryAdmin)
 
 

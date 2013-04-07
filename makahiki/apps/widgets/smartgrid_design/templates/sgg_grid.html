@@ -7,8 +7,8 @@
 				<tr>
 					{% for i in 8|get_range %}
 					<td><div class="sgg-category-slot" data-column={{i|add:1}}>
-					{% if i < level.cat_list|length %}
-						{% with cat=level.cat_list|nth:i %}
+					{% for cat in cat_list %}
+						{% if i|add:"1" == cat.column %}
 						<div id="category-menu-{{cat.slug}}" class="sgg-level-popup-menu">
 							<ul>
 								<li><a href="#{{forloop.counter}}" class="sgg-action"
@@ -18,7 +18,7 @@
 							</ul>
 						</div> 
 					<div id="category-{{cat.slug}}" data-slug="{{cat.slug}}" class="sgg-category grid-draggable" 
-						 data-priority={{i}} data-pk={{cat.pk}} data-level="sgg-level-{{level.priority}}">
+						 data-priority={{i}} data-pk={{cat.pk}} data-level="sgg-level-{{lvl.priority}}">
 						 <br/>
 						 <a class="sgg-category-link" href="/challenge_setting_admin/smartgrid_design/designercategory/{{cat.pk}}/">
 						 {{cat.name}}</a>
@@ -39,8 +39,8 @@
 		$("#category-menu-{{cat.slug}}").hide();
 	});
 </script>
-						 {% endwith %}
-					{% endif %}
+						{% endif %}
+					{% endfor %}
 					</div></td>
 					{% endfor %}
 				</tr>
@@ -50,33 +50,28 @@
 	<div class="sgg-dropzone">
 		<div id="action-dropzone" class="sgg-action-dropzone">
 			<table class="designer-table">
-				{% for i in 8|get_range %}
+				{% for r in 8|get_range %}
 				<tr>
-					{% for j in 8|get_range %}
+					{% for c in 8|get_range %}
 					<td>
-                        {% if j < level.cat_list|length %}
-							{% with cat=level.cat_list|nth:j %}
-                        <div class="sgg-action-slot" data-category="{{cat.slug}}"
-                        	{% endwith %}
-                        {% else %}
-                        <div class="sgg-action-slot disabled"     
-                        {% endif %}
-							data-column="{{ j|add:'1' }}" data-row="{{ i|add:'1' }}">
-							{% if j < level.cat_list|length %}
-								{% with cat=level.cat_list|nth:j %}
-								{% if i < cat.task_list|length %}
-									{% with act=cat.task_list|nth:i %}
-								<div data-slug="{{act.slug}}" class="sgg-action sgg-{{act.type}}-cell grid-draggable"
-                   		   			 data-type="{{act.type}}" data-priority="{{i|add:1}}" data-column="{{j|add:1}}" 
-                   		   			 data-category="{{cat.slug}}" data-pk={{act.pk}} data-unlock="{{act.unlock_condition}}">
+						{# Decide if column is active #}
+						{% if c|add:"1" in columns %}
+                        <div class="sgg-action-slot"						
+						{% else %}
+                        <div class="sgg-action-slot disabled"						
+						{% endif %}
+							data-column="{{ c|add:'1' }}" data-row="{{ r|add:'1' }}">
+						{% for act in act_list %}
+							{% if r|add:"1" == act.row and c|add:"1" == act.column %}
+							<div data-slug="{{act.action.slug}}" class="sgg-action sgg-{{act.action.type}}-cell grid-draggable"
+                   		   		 data-type="{{act.action.type}}" data-row="{{r|add:1}}" data-column="{{c|add:1}}" 
+                   		   		 data-category="{{cat.slug}}" data-pk={{act.action.pk}} data-unlock="{{act.action.unlock_condition}}">
                    		   			<br/>
-                   		   			<a href="/challenge_setting_admin/smartgrid_design/designer{{act.type}}/{{act.pk}}/"
-									   class="sgg-action" ref="tooltip" title="{{act.title}}">{{act.name}}</a><br/>
-								</div>								
-									{% endwith %}
-								{% endif %}
-								{% endwith %}
+                   		   			<a href="/challenge_setting_admin/smartgrid_design/designer{{act.action.type}}/{{act.action.pk}}/"
+									   class="sgg-action" ref="tooltip" title="{{act.action.title}}">{{act.action.name}}</a><br/>
+								</div>									
 							{% endif %}
+						{% endfor %}
 						</div>
 					</td>
 					{% endfor %}

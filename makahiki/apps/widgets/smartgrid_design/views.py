@@ -21,29 +21,28 @@ def supply(request, page_name):
     _ = request
     _ = page_name
     levels = DesignerLevel.objects.all()
-    categories = LibraryCategory.objects.all()
-    activities = LibraryActivity.objects.all()
-    events = LibraryEvent.objects.all()
-    commitments = LibraryCommitment.objects.all()
-    fillers = Filler.objects.all()
-    reset_form = RevertToSmartgridForm()
-    publish_form = DeployToSmartgridForm()
-    example_grid_form = ExampleGridsForm()
-#    print len(activities)
-#    print len(smartgrid_mgr.get_smartgrid_action_slugs())
-#    print diff
+    if len(levels) == 0:  # need to create default level
+        l = DesignerLevel()
+        l.name = " "  # no name
+        l.slug = "default"
+        l.unlock_condition = "True"
+        l.unlock_condition_text = "Unlocked"
+        l.save()
+
+    grid = smartgrid_mgr.get_designer_grid()
+    print grid[0][2][0].action.slug
     return {
         'levels': levels,
-        'categories': categories,
-        'activities': activities,
-        'events': events,
-        'commitments': commitments,
-        'fillers': fillers,
-        'reset_form': reset_form,
-        'publish_form': publish_form,
-        'example_grid_form': example_grid_form,
+        'categories': LibraryCategory.objects.all(),
+        'activities': LibraryActivity.objects.all(),
+        'commitments': LibraryCommitment.objects.all(),
+        'events': LibraryEvent.objects.all(),
+        'fillers': Filler.objects.all(),
+        'reset_form': RevertToSmartgridForm(),
+        'publish_form': DeployToSmartgridForm(),
+        'example_grid_form': ExampleGridsForm(),
         'palette': smartgrid_mgr.get_designer_palette(),
-        'smart_grid': smartgrid_mgr.get_designer_smartgrid(),
+        'designer_grid': smartgrid_mgr.get_designer_grid(),
         'smart_grid_actions': smartgrid_mgr.get_designer_action_slugs(),
             }
 
