@@ -11,8 +11,8 @@ urlpatterns = patterns('',
     url(r'^newcat/(?P<cat_slug>[\w\d\-]+)/(?P<level_slug>[\w\d\-]+)/(?P<priority>[\d]+)/$',
         'apps.widgets.smartgrid_design.views.instantiate_category',
         name='instantiate_category'),
-    url(r'^newaction/(?P<action_slug>[\w\d\-]+)/(?P<cat_slug>[\w\d\-]+)/(?P<level_slug>[\w\d\-]+)' +
-        '/(?P<priority>[\d]+)/$',
+    url(r'^newaction/(?P<action_slug>[\w\d\-]+)/(?P<level_slug>[\w\d\-]+)' +
+        '/(?P<column>[\d]+)/(?P<row>[\d]+)/$',
         'apps.widgets.smartgrid_design.views.instantiate_action',
         name='instantiate_action'),
     url(r'^delete_action/(?P<action_slug>[\w\d\-]+)/$',

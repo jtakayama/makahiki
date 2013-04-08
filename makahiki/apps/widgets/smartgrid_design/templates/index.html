@@ -232,28 +232,24 @@ $(document).click(function() {
 		})
 		$('.grid-draggable').draggable({
 			cursor : 'move',
-			start: handleLibraryStartDrag,
+			start: handleGridStartDrag,
 			helper : 'clone',
 			revert : function(dropObj) {
 				// console.log("revert for grid draggable");
 				// if false then no drop object
 				if (dropObj == false) {
 					// revert the grid-draggable
+					$(this).removeClass('hidden');
 					return true;
 				} else {
-					// var answer = confirm('Remove this item from the Smart Grid?');
-					// if (answer) {
-						var type = $(dropObj).attr('class');
-						var first = type.split(" ")[0];
-						console.log(first);
-						if (first == 'sgg-palette') {
-							handlePaletteDrop($(this));
-						} else if (first == 'sgg-right-palette') {
-							handlePaletteDrop($(this));
-						}
-						return false;
-					// }
-					// return !answer;
+					var type = $(dropObj).attr('class');
+					var first = type.split(" ")[0];
+					if (first == 'sgg-palette') {
+						handlePaletteDrop($(this));
+					} else if (first == 'sgg-right-palette') {
+						handlePaletteDrop($(this));
+					}
+					return false;
 				}
 			},
 		});
@@ -273,7 +269,8 @@ $(document).click(function() {
 		})
 		$('.palette-draggable').draggable({
 			cursor : 'move',
-			helper : 'original', // should be clone, but then the drop in the grid isn't working
+			start: handlePaletteStartDrag,
+			helper : 'clone', // should be clone, but then the drop in the grid isn't working
 		})
 		$('.sgg-category-slot').droppable({
 			accept : '.sgg-library-category',
