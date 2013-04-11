@@ -14,6 +14,8 @@ function handleActionDrop(event, ui) {
 	console.log('handleActionDrop()');
 	var column = $(this).attr('data-column');
 	var row = $(this).attr('data-row');
+	var oldCol = ui.draggable.attr('data-column');
+	var oldRow = ui.draggable.attr('data-row');
 	var slug = ui.draggable.attr('data-slug');
 	var pk = ui.draggable.attr('data-pk');
 	var type = ui.draggable.attr('data-type');
@@ -71,6 +73,7 @@ function handleActionDrop(event, ui) {
 //		console.log(html);
 		$(this).html(html);
 	} else  {
+		// From the library
 		var drop = createActionDropDiv(slug, type, row, column, ui.draggable.text(), pk, title);
 		var html = $('<div />').append(drop.clone()).html();
 //		console.log(html);
@@ -78,9 +81,14 @@ function handleActionDrop(event, ui) {
 	}
 	$(this).children().draggable({
 		cursor : 'move',
-		helper : 'original',
+		start: handleGridStartDrag,
+		helper : 'clone',
 	});		
-	pk = instantiateGridAction(slug, levelSlug, column, row);
+	if (fromGrid) {
+		moveGridAction(slug, levelSlug, oldCol, oldRow, column, row);
+	} else {
+		pk = instantiateGridAction(slug, levelSlug, column, row);		
+	}
 }
 
 function handleCategoryDrop(event, ui) {
@@ -205,6 +213,32 @@ function instantiateGridAction(actSlug, levelSlug, column, row) {
         error: function(XMLHttpRequest, textStatus, errorThrown) {
         }
     });		
+}
+
+function moveGridAction(actSlug, levelSlug, oldColumn, oldRow, column, row) {
+//	console.log('moveGridAction(' + actSlug + ', ' + levelSlug + ', ' + oldColumn + ', ' + oldRow + ', ' + column + ', ' + row + ')');
+    jQuery.ajax({
+        url: "/smartgrid_design/moveaction/" + actSlug + "/" + levelSlug + "/" + oldColumn + "/" + oldRow + "/" + column + "/" + row + "/", 
+        success: function(data) {
+        	console.log('pk of new Grid Action is ' + data.pk);
+        	var div = $('div[data-slug="' + actSlug + '"]:visible > a');
+        	var href = div.attr('href');
+        	if (href) {
+        		console.log('href = ' + href);
+        		href = href.slice(0, href.length - 1);
+        		var index = href.lastIndexOf('/');
+        		if (index != -1) {
+        			href = href.slice(0, index + 1) + data.pk + '/';
+//        		console.log(href);
+        			div.attr('href', href);
+//        		console.log(div);
+        		}
+        	}
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+        }
+    });		
+	
 }
 
 function getDesignerDiff() {

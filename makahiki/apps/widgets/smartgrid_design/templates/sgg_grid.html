@@ -9,7 +9,7 @@
 					<td><div class="sgg-category-slot" data-column={{i|add:1}}>
 					{% for cat in cat_list %}
 						{% if i|add:"1" == cat.column %}
-						<div id="category-menu-{{cat.slug}}" class="sgg-level-popup-menu">
+						<div id="category-menu-{{cat.category.slug}}" class="sgg-level-popup-menu">
 							<ul>
 								<li><a href="#{{forloop.counter}}" class="sgg-action"
 								rel="tooltip" 
@@ -17,26 +17,26 @@
 								</li>
 							</ul>
 						</div> 
-					<div id="category-{{cat.slug}}" data-slug="{{cat.slug}}" class="sgg-category grid-draggable" 
-						 data-priority={{i}} data-pk={{cat.pk}} data-level="sgg-level-{{lvl.priority}}">
+					<div id="category-{{cat.category.slug}}" data-slug="{{cat.category.slug}}" class="sgg-category grid-draggable" 
+						 data-priority={{i}} data-pk={{cat.category.pk}} data-level="sgg-level-{{lvl.priority}}">
 						 <br/>
-						 <a class="sgg-category-link" href="/challenge_setting_admin/smartgrid_design/designercategory/{{cat.pk}}/">
-						 {{cat.name}}</a>
+						 <a class="sgg-category-link" href="/challenge_setting_admin/smartgrid_design/designercategory/{{cat.category.pk}}/">
+						 {{cat.category.name}}</a>
 						 <br/>
 					</div>
 <script type="text/javascript">
-	$("#category-{{cat.slug}}").bind("contextmenu", function(e) {
-		$('#category-menu-{{cat.slug}}').css({
+	$("#category-{{cat.category.slug}}").bind("contextmenu", function(e) {
+		$('#category-menu-{{cat.category.slug}}').css({
 			top: e.pageY+'px',
 			left: e.pageX+'px'
 		}).show();
 		return false;
 	});
-	$("#category-menu-{{cat.slug}}").click(function() {
+	$("#category-menu-{{cat.category.slug}}").click(function() {
 		$(this).hide();
 	});
 	$(document).click(function() {
-		$("#category-menu-{{cat.slug}}").hide();
+		$("#category-menu-{{cat.category.slug}}").hide();
 	});
 </script>
 						{% endif %}

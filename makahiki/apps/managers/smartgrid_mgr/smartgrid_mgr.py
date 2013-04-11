@@ -14,7 +14,7 @@ from apps.widgets.smartgrid_library.models import LibraryAction, LibraryActivity
 from django.http import Http404
 from apps.widgets.smartgrid_design.models import DesignerAction, DesignerCategory, \
     DesignerActivity, DesignerCommitment, DesignerEvent, DesignerFiller, DesignerLevel,\
-    DesignerTextPromptQuestion, DesignerGrid
+    DesignerTextPromptQuestion, DesignerGrid, DesignerCategoryGrid
 import os
 from django.core.management import call_command
 
@@ -382,7 +382,7 @@ def get_designer_grid():
     for level in DesignerLevel.objects.all():
         level_ret = []
         level_ret.append(level)
-        level_ret.append(DesignerCategory.objects.filter(level=level))
+        level_ret.append(DesignerCategoryGrid.objects.filter(level=level))
         level_ret.append(DesignerGrid.objects.filter(level=level))
         columns = []
         for cat in level_ret[1]:

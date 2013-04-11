@@ -111,20 +111,13 @@ class DesignerCategory(models.Model):
                             help_text="The name of the category (max 255 characters).")
     slug = models.SlugField(help_text="Automatically generated if left blank.",
                             null=True)
-    level = models.ForeignKey(DesignerLevel)
-    column = models.IntegerField(
-        default=1,
-        help_text="The column this Category is in.",
-        validators=[MaxValueValidator(8)]
-    )
 
     class Meta:
         """Meta"""
         verbose_name_plural = "categories"
-        ordering = ("level", "column", )
 
     def __unicode__(self):
-        return "{0}: [{1}, {2}]".format(self.name, self.level, self.column)
+        return "{0}".format(self.name)
 
     def save(self, *args, **kwargs):
         """Custom save method to set fields."""
@@ -236,7 +229,6 @@ class DesignerAction(models.Model):
     def get_action(self, action_type):
         """Returns the concrete action object by type."""
         return action_type.objects.get(action_ptr=self.pk)
-
 
 
 class DesignerActivity(DesignerAction):
@@ -356,6 +348,20 @@ class DesignerEvent(DesignerAction):
 class DesignerFiller(DesignerAction):
     """Filler action. It is always locked"""
     pass
+
+
+class DesignerCategoryGrid(models.Model):
+    """Defines the DesignerCategory positions in the Designer Grid."""
+    level = models.ForeignKey(DesignerLevel,
+        help_text="The level of the action."
+    )
+    column = models.IntegerField(
+        default=1,
+        help_text="The column of the Smart Grid this Action is in.",
+        validators=[MaxValueValidator(8)]
+    )
+    category = models.ForeignKey(DesignerCategory,
+                                 help_text="The Category in this location.")
 
 
 class DesignerGrid(models.Model):
