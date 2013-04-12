@@ -296,7 +296,7 @@ def load_example_grid(request):
 def run_lint(request):
     """Runs unlock_lint over the DesignerActions and shows the results in a page."""
     _ = request
-    trees = unlock_lint.build_trees(DesignerAction)
+    trees = unlock_lint.build_designer_trees()
     sorted_trees = OrderedDict(sorted(trees.items(), key=lambda t: -len(t[1])))
     unlock_tree = ''
     for k in list(sorted_trees):
@@ -304,7 +304,7 @@ def run_lint(request):
         unlock_tree += '<p></p>'
     unreachable = unlock_lint.get_unreachable_actions(DesignerAction)
     false_unlock = unlock_lint.get_false_unlock_actions(DesignerAction)
-    mismatched_levels = unlock_lint.get_missmatched_level(DesignerAction)
+    mismatched_levels = unlock_lint.get_missmatched_designer_level()
     return HttpResponse(json.dumps({
             "tree": unlock_tree,
             "unreachable": unreachable,

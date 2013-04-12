@@ -7,6 +7,7 @@ Created on Mar 26, 2013
 '''
 import uuid
 from collections import deque
+from apps.widgets.smartgrid_design.models import DesignerAction, DesignerGrid
 
 (_ADD, _DELETE, _INSERT) = range(3)
 (_ROOT, _DEPTH, _WIDTH) = range(3)
@@ -334,6 +335,50 @@ def build_nodes(class_type):
     return nodes
 
 
+def _build_designer_nodes():
+    """Builds a list of all the DesignerAction nodes."""
+    nodes = []
+    for action in DesignerAction.objects.all():
+        locations = DesignerGrid.objects.filter(action=action)
+        if len(locations) == 0:
+            nodes.append(Node(action.slug, action.unlock_condition, level=None,\
+                                  identifier=action.slug))
+        else:
+            for loc in locations:
+                nodes.append(Node(action.slug, action.unlock_condition, loc.level,\
+                                  identifier=action.slug))
+    return nodes
+
+
+def build_designer_trees():
+    """Builds the unlock_trees for the DesignerActions in the Grid."""
+    nodes = _build_designer_nodes()
+    trees = {}
+    for node in nodes:
+        if node.unlock_condition == "True" or node.unlock_condition.find("or True") != -1 \
+        or node.unlock_condition == "False" or node.unlock_condition.find("and False") != -1:
+            t = Tree()
+            t.create_node(node.name, node.unlock_condition, level=node.level, \
+                          identifier=node.identifier)
+            trees[node.name] = t
+    for node in nodes:
+        slugs = get_completed_action_slugs(node)
+        for slug in slugs:
+            for k in list(trees):
+                if trees[k].get_node(slug):
+                    trees[k].add_node(node, slug)
+    # second pass because adding in the wrong order may cause problems
+    for node in nodes:
+        slugs = get_completed_action_slugs(node)
+        for slug in slugs:
+            for k in list(trees):
+                if trees[k].get_node(slug):
+                    trees[k].add_node(node, slug)
+#                else:
+#                    print "%s doesn't have %s in it." % (k, slug)
+    return trees
+
+
 def build_trees(class_type):
     """Build the unlock_trees for the DesignerActions in the Grid."""
     nodes = build_nodes(class_type)
@@ -412,6 +457,24 @@ def get_false_unlock_actions(class_type):
                     node = tree.nodes[node_key]
                     if not node.name in ret and not node.name.startswith('filler'):
                         ret.append(node.name)
+    return ret
+
+
+def get_missmatched_designer_level():
+    """Returns the slug for actions whose parent level is higher than their own."""
+    ret = []
+    trees = build_designer_trees()
+    for k in list(trees):
+        tree = trees[k]
+        for node_key in list(tree.nodes):
+            node = tree.nodes[node_key]
+            if node.level:
+                parent_name = node.parent
+                if parent_name:
+                    parent = tree.nodes[parent_name]
+                    if parent and parent.level and parent.level.priority > node.level.priority:
+                        if node.name not in ret:
+                            ret.append(node.name)
     return ret
 
 
