@@ -54,6 +54,7 @@ function handleActionDrop(event, ui) {
 //		console.log(html);
 		$(this).html(html);
 //		ui.draggable.addClass('hidden');
+		movePaletteAction(slug, levelSlug, column, row);
 	} else if (fromGrid) {
 		var temp = ui.draggable.clone();
 		temp.removeClass('hidden');
@@ -63,7 +64,8 @@ function handleActionDrop(event, ui) {
 		var html = $('<div />').append(temp).html();
 //		console.log(html);
 		$(this).html(html);
-//		ui.draggable.addClass('hidden');		
+//		ui.draggable.addClass('hidden');
+		moveGridAction(slug, levelSlug, oldCol, oldRow, column, row);		
 	} else if (type == "filler") {
 		numFiller += 1;
 		slug = 'filler-' + numFiller;
@@ -72,23 +74,20 @@ function handleActionDrop(event, ui) {
 		var html = $('<div />').append(drop.clone()).html();
 //		console.log(html);
 		$(this).html(html);
+		pk = instantiateGridAction(slug, levelSlug, column, row);		
 	} else  {
 		// From the library
 		var drop = createActionDropDiv(slug, type, row, column, ui.draggable.text(), pk, title);
 		var html = $('<div />').append(drop.clone()).html();
 //		console.log(html);
 		$(this).html(html);
+		pk = instantiateGridAction(slug, levelSlug, column, row);		
 	}
 	$(this).children().draggable({
 		cursor : 'move',
 		start: handleGridStartDrag,
 		helper : 'clone',
 	});		
-	if (fromGrid) {
-		moveGridAction(slug, levelSlug, oldCol, oldRow, column, row);
-	} else {
-		pk = instantiateGridAction(slug, levelSlug, column, row);		
-	}
 }
 
 function handleCategoryDrop(event, ui) {
@@ -109,6 +108,11 @@ function handleCategoryDrop(event, ui) {
 		activateColumn(levelID, column, slug);
 	}
 	instantiateGridCategory(slug, levelSlug, column);
+}
+
+function handleCategoryStartDrag(event, ui) {
+//	console.log('handleCategoryStartDrag(' + event + ', ' + ui + ')');
+	$(this).addClass('hidden');
 }
 
 function handleGridStartDrag(event, ui) {
@@ -191,7 +195,7 @@ function instantiateGridCategory(catSlug, levelSlug, column) {
 }
 
 function instantiateGridAction(actSlug, levelSlug, column, row) {
-//	console.log('instantiateGridAction(' + actSlug + ', ' + levelSlug + ', ' + column + ', ' + row + ')');
+	console.log('instantiateGridAction(' + actSlug + ', ' + levelSlug + ', ' + column + ', ' + row + ')');
     jQuery.ajax({
         url: "/smartgrid_design/newaction/" + actSlug + "/" + levelSlug + "/" + column + "/" + row + "/", 
         success: function(data) {
@@ -216,15 +220,15 @@ function instantiateGridAction(actSlug, levelSlug, column, row) {
 }
 
 function moveGridAction(actSlug, levelSlug, oldColumn, oldRow, column, row) {
-//	console.log('moveGridAction(' + actSlug + ', ' + levelSlug + ', ' + oldColumn + ', ' + oldRow + ', ' + column + ', ' + row + ')');
+	console.log('moveGridAction(' + actSlug + ', ' + levelSlug + ', ' + oldColumn + ', ' + oldRow + ', ' + column + ', ' + row + ')');
     jQuery.ajax({
         url: "/smartgrid_design/moveaction/" + actSlug + "/" + levelSlug + "/" + oldColumn + "/" + oldRow + "/" + column + "/" + row + "/", 
         success: function(data) {
-        	console.log('pk of new Grid Action is ' + data.pk);
+//        	console.log('pk of new Grid Action is ' + data.pk);
         	var div = $('div[data-slug="' + actSlug + '"]:visible > a');
         	var href = div.attr('href');
         	if (href) {
-        		console.log('href = ' + href);
+//        		console.log('href = ' + href);
         		href = href.slice(0, href.length - 1);
         		var index = href.lastIndexOf('/');
         		if (index != -1) {
@@ -236,6 +240,33 @@ function moveGridAction(actSlug, levelSlug, oldColumn, oldRow, column, row) {
         	}
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
+        }
+    });		
+	
+}
+
+function movePaletteAction(actSlug, levelSlug, column, row) {
+	console.log('movePaletteAction(' + actSlug + ', ' + levelSlug + ', ' + column + ', ' + row + ')');
+    jQuery.ajax({
+        url: "/smartgrid_design/paletteaction/" + actSlug + "/" + levelSlug + "/" + column + "/" + row + "/", 
+        success: function(data) {
+//        	console.log('pk of new Grid Action is ' + data.pk);
+        	var div = $('div[data-slug="' + actSlug + '"]:visible > a');
+        	var href = div.attr('href');
+        	if (href) {
+//        		console.log('href = ' + href);
+        		href = href.slice(0, href.length - 1);
+        		var index = href.lastIndexOf('/');
+        		if (index != -1) {
+        			href = href.slice(0, index + 1) + data.pk + '/';
+//        		console.log(href);
+        			div.attr('href', href);
+//        		console.log(div);
+        		}
+        	}
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+        	console.log(XMLHttpRequest + ' - ' + textStatus + ' - ' + errorThrown);
         }
     });		
 	

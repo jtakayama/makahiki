@@ -15,6 +15,10 @@ urlpatterns = patterns('',
         '/(?P<column>[\d]+)/(?P<row>[\d]+)/$',
         'apps.widgets.smartgrid_design.views.instantiate_action',
         name='instantiate_action'),
+    url(r'^paletteaction/(?P<action_slug>[\w\d\-]+)/(?P<level_slug>[\w\d\-]+)' +
+        '/(?P<new_column>[\d]+)/(?P<new_row>[\d]+)/$',
+        'apps.widgets.smartgrid_design.views.move_palette_action',
+        name='move_palette_action'),
     url(r'^moveaction/(?P<action_slug>[\w\d\-]+)/(?P<level_slug>[\w\d\-]+)' +
         '/(?P<old_column>[\d]+)/(?P<old_row>[\d]+)/(?P<new_column>[\d]+)/(?P<new_row>[\d]+)/$',
         'apps.widgets.smartgrid_design.views.move_action',

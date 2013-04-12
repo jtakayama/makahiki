@@ -79,6 +79,19 @@ def duplicate(obj, value=None, field=None, duplicate_order=None):  # pylint: dis
 # pylint: enable=R0914
 
 
+def check_designer_vs_library():
+    """Checks the slugs in the designer vs the library. Returns
+list of slugs in designer not in library."""
+    l = []
+    for des_action in DesignerAction.objects.all():
+        slug = des_action.slug
+        try:
+            get_library_action(slug)
+        except Http404:
+            l.append(slug)
+    return l
+
+
 def is_library(obj):
     """Returns True if the object is a Library instance."""
     cls = type(obj).__name__
@@ -291,6 +304,14 @@ def get_designer_action_slugs():
 def get_designer_category(slug):
     """Return the Smart Grid Game Library Category for the given slug."""
     return get_object_or_404(DesignerCategory, slug=slug)
+
+
+def get_designer_category_slugs():
+    """Returns the DesignerCategory slugs that are currently in the Smart Grid Designer."""
+    slugs = []
+    for cat in DesignerCategoryGrid.objects.all():
+        slugs.append(cat.category.slug)
+    return slugs
 
 
 def get_library_action(slug):

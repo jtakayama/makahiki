@@ -879,7 +879,7 @@
             "point_value": 20,
             "expire_date": null,
             "type": "event",
-            "slug": "kickoff-party",
+            "slug": "kick-off",
             "unlock_condition": "True",
             "description": "It has begun: The Quest for the Kukui Cup 2011!\r\n\r\nIf you've been wondering about the Kukui Cup banners, all will be revealed at the Kickoff Party, hosted by MC Kai and MC Cookie and featuring sick beatz by the infamous DJ Mr Nick. Get there early to score your **free** limited edition Kukui Cup 2011 t-shirt and a **secret high tech gadget** to help you in your quest for energy saving supremacy."
         }
@@ -1055,7 +1055,7 @@
             "point_value": 40,
             "expire_date": null,
             "type": "event",
-            "slug": "reppun-farm",
+            "slug": "off-the-grid",
             "unlock_condition": "True",
             "description": "The Reppun family has been living on their farm and growing taro, coffee, honey and other food in beautiful Waihole valley for over 20 years.  Though they have the Internet, they don't any power lines.  See how they live off the grid in comfort and style through hydro-electric and solar power.  You'll take a bus over to the Windward side, hike into the valley to their farm, and see an amazing blend of old school and next generation Hawaii. Make sure you eat breakfast beforehand; we won't be back until after lunch.\r\n\r\nMake sure to wear clothes and shoes that you don't mind getting wet or muddy on the farm!\r\n\r\nReserve your seat on the bus by clicking the **I want to sign up** button below. \r\n\r\nMeet in the Hale Aloha courtyard, from there we'll get on the bus.  Don't be late!"
         }
@@ -1077,7 +1077,7 @@
             "point_value": 10,
             "expire_date": null,
             "type": "event",
-            "slug": "swag-game-1",
+            "slug": "play-outside-cafe-1",
             "unlock_condition": "True",
             "description": "On your way to dinner?  Stop by the Kukui Cup table outside the Hale Aloha cafeteria to play an energy game.  If you succeed, you can win a **free** prize.  Even if you don't, you can get an Attendance Code and earn some points.  The prizes vary from night to night, so stop by every time and try to collect them all.  The table goes away when all the prizes have been given out, so get there early to maximize your chances!  This is the first of four Play Outside The Cafe events."
         }
@@ -1099,7 +1099,7 @@
             "point_value": 10,
             "expire_date": null,
             "type": "event",
-            "slug": "swag-game-2",
+            "slug": "play-outside-cafe-2",
             "unlock_condition": "True",
             "description": "On your way to dinner?  Stop by the Kukui Cup table outside the Hale Aloha cafeteria to play an energy game.  If you succeed, you can win a free prize.  Even if you don't, you can get an Attendance Code and earn some points.  The prizes vary from night to night, so stop by every time and try to collect them all.  The table goes away when all the prizes have been given out, so get there early to maximize your chances!  This is the second of four Play Outside The Cafe events.\r\n\r\n**Tonight's secret word is \"kilowatt-hour\"**"
         }
@@ -1121,7 +1121,7 @@
             "point_value": 10,
             "expire_date": null,
             "type": "event",
-            "slug": "swag-game-3",
+            "slug": "play-outside-cafe-3",
             "unlock_condition": "True",
             "description": "On your way to dinner?  Stop by the Kukui Cup table outside the Hale Aloha cafeteria to play an energy game.  If you succeed, you can win a free prize.  Even if you don't, you can get an Attendance Code and earn some points.  The prizes vary from night to night, so stop by every time and try to collect them all.  The table goes away when all the prizes have been given out, so get there early to maximize your chances!  This is the third of four Play Outside The Cafe events.\r\n\r\n**You will need to know your lounge's approximate energy use for the day to win today's swag!** Your your lounge's [current energy use](/energy) is available through the website."
         }
@@ -1143,7 +1143,7 @@
             "point_value": 10,
             "expire_date": null,
             "type": "event",
-            "slug": "swag-game-4",
+            "slug": "play-outside-cafe-4",
             "unlock_condition": "True",
             "description": "On your way to dinner?  Stop by the Kukui Cup table outside the Hale Aloha cafeteria to play an energy game.  If you succeed, you can win a free prize.  Even if you don't, you can get an Attendance Code and earn some points.  The prizes vary from night to night, so stop by every time and try to collect them all.  The table goes away when all the prizes have been given out, so get there early to maximize your chances!  This is the final Play Outside The Cafe event.\r\n\r\n**Be prepared to take aim and answer an energy related question!**"
         }
@@ -1451,7 +1451,7 @@
             "point_value": 20,
             "expire_date": null,
             "type": "event",
-            "slug": "organic-farming",
+            "slug": "soft-group",
             "unlock_condition": "True",
             "description": "Your mother always told you to eat your vegetables, but did you ever consider where they came from while you  forced down that last bite of rutabaga? The Sustainable Organic Farm Training (SOFT) club is a student-run organization devoted to getting at the \"roots\" of fresh produce, literally and figuratively. \r\n\r\nAt this workshop you'll get a chance to help out at the farm, taste fresh produce, and discover out what it really means to eat natural, local, organic, sustainable produce! Yum!! "
         }
@@ -1495,7 +1495,7 @@
             "point_value": 20,
             "expire_date": null,
             "type": "event",
-            "slug": "low-energy-eating",
+            "slug": "energy-eating",
             "unlock_condition": "True",
             "description": "Has cafeteria food got you down in the dumps?  Are you no longer amused by mystery meat?  Want to get new ideas for late night munchies?   \r\n\r\nJoin experts from Kokua Market in a discussion of where our food comes from in Hawaii, and inexpensive, residence hall friendly groceries.  You'll sample a variety of free gourmet popcorn toppings and learn how to make your own for just pennies a serving.  \r\n\r\nWe'll even stuff your goodie bag with a custom recipe book to cure those Hale Aloha hunger pangs. "
         }
@@ -1561,7 +1561,7 @@
             "point_value": 20,
             "expire_date": null,
             "type": "event",
-            "slug": "art-music",
+            "slug": "high-energy-art",
             "unlock_condition": "True",
             "description": "    Electric blood flows through the veins of the city\r\n    drip, drip, drip, every drip a drop of oil\r\n    do I flip the switch or does the switch flip me? \r\n\r\nOh. hey there. We just get carried away when we think of slam poetry. And saving electricity. If you feel the same way, join us with [Kealoha](http://www.kealohapoetry.com/), Hawaii's premier slam poet. Afterwards, you'll have a chance to lay down verse of your own with the open mic session and munch on free snacks."
         }
@@ -1605,7 +1605,7 @@
             "point_value": 5,
             "expire_date": null,
             "type": "commitment",
-            "slug": "resuable-bag",
+            "slug": "reusable-bag",
             "unlock_condition": "completed_action(\"cup-secrets\") or completed_action(\"power-energy\")",
             "description": "Commit to bringing and using reusable bags when shopping instead of the paper or plastic ones offered by stores. Making disposable bags requires energy, and often the bags end up in our landfills or worse yet they blow away into the ocean. Using a reusable bag saves energy and keeps trash out of our landfills."
         }
@@ -1803,7 +1803,7 @@
             "point_value": 20,
             "expire_date": null,
             "type": "event",
-            "slug": "efficient-networking",
+            "slug": "your-future",
             "unlock_condition": "True",
             "description": "A [famous British poet](http://en.wikipedia.org/wiki/John_Lennon) once wrote: \"You say you want a revolution? Well, you know, we'd all love to see the plan.\" \r\n\r\nIf you're interested in helping create an energy and sustainability revolution in your classes, university and community, come plan with representatives from [Blue Planet Foundation](http://blueplanetfoundation.org/), [Sustainable UH](http://sustainable.hawaii.edu/), [Surfrider Foundation](http://ww2.surfrider.org/oahu/), [Kokua Hawaii Foundation](http://kokuahawaiifoundation.org/), [College of Engineering](http://www.eng.hawaii.edu/), [School of Architecture](http://www.arch.hawaii.edu/), [Shidler College of Business](http://shidler.hawaii.edu/), [Environmental Studies](http://www.hawaii.edu/envctr/), and more.  \r\n\r\nPlanning the overthrow of our oil-based economy will work up an appetite, so we'll also provide snacks."
         }
@@ -3743,6 +3743,16 @@
         }
     },
     {
+        "pk": 73,
+        "model": "smartgrid_design.designergrid",
+        "fields": {
+            "column": 1,
+            "action": 4,
+            "row": 4,
+            "level": 1
+        }
+    },
+    {
         "pk": 4,
         "model": "smartgrid_design.designergrid",
         "fields": {
@@ -3813,12 +3823,72 @@
         }
     },
     {
+        "pk": 74,
+        "model": "smartgrid_design.designergrid",
+        "fields": {
+            "column": 3,
+            "action": 12,
+            "row": 4,
+            "level": 1
+        }
+    },
+    {
+        "pk": 75,
+        "model": "smartgrid_design.designergrid",
+        "fields": {
+            "column": 4,
+            "action": 13,
+            "row": 1,
+            "level": 1
+        }
+    },
+    {
+        "pk": 76,
+        "model": "smartgrid_design.designergrid",
+        "fields": {
+            "column": 4,
+            "action": 14,
+            "row": 2,
+            "level": 1
+        }
+    },
+    {
+        "pk": 77,
+        "model": "smartgrid_design.designergrid",
+        "fields": {
+            "column": 4,
+            "action": 15,
+            "row": 3,
+            "level": 1
+        }
+    },
+    {
+        "pk": 78,
+        "model": "smartgrid_design.designergrid",
+        "fields": {
+            "column": 4,
+            "action": 16,
+            "row": 4,
+            "level": 1
+        }
+    },
+    {
         "pk": 11,
         "model": "smartgrid_design.designergrid",
         "fields": {
             "column": 5,
             "action": 17,
             "row": 1,
+            "level": 1
+        }
+    },
+    {
+        "pk": 79,
+        "model": "smartgrid_design.designergrid",
+        "fields": {
+            "column": 5,
+            "action": 18,
+            "row": 2,
             "level": 1
         }
     },
@@ -3933,12 +4003,32 @@
         }
     },
     {
+        "pk": 81,
+        "model": "smartgrid_design.designergrid",
+        "fields": {
+            "column": 2,
+            "action": 30,
+            "row": 2,
+            "level": 2
+        }
+    },
+    {
         "pk": 23,
         "model": "smartgrid_design.designergrid",
         "fields": {
             "column": 2,
             "action": 31,
             "row": 3,
+            "level": 2
+        }
+    },
+    {
+        "pk": 84,
+        "model": "smartgrid_design.designergrid",
+        "fields": {
+            "column": 2,
+            "action": 32,
+            "row": 4,
             "level": 2
         }
     },
@@ -3963,12 +4053,32 @@
         }
     },
     {
+        "pk": 82,
+        "model": "smartgrid_design.designergrid",
+        "fields": {
+            "column": 3,
+            "action": 35,
+            "row": 3,
+            "level": 2
+        }
+    },
+    {
         "pk": 26,
         "model": "smartgrid_design.designergrid",
         "fields": {
             "column": 3,
             "action": 36,
             "row": 4,
+            "level": 2
+        }
+    },
+    {
+        "pk": 80,
+        "model": "smartgrid_design.designergrid",
+        "fields": {
+            "column": 4,
+            "action": 37,
+            "row": 1,
             "level": 2
         }
     },
@@ -4049,6 +4159,16 @@
             "column": 6,
             "action": 45,
             "row": 1,
+            "level": 2
+        }
+    },
+    {
+        "pk": 83,
+        "model": "smartgrid_design.designergrid",
+        "fields": {
+            "column": 6,
+            "action": 46,
+            "row": 2,
             "level": 2
         }
     },

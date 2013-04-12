@@ -30,7 +30,7 @@ def supply(request, page_name):
         l.unlock_condition_text = "Unlocked"
         l.save()
 
-    print smartgrid_mgr.get_designer_grid()
+#    print smartgrid_mgr.get_designer_grid()
     return {
         'levels': levels,
         'categories': LibraryCategory.objects.all(),
@@ -44,6 +44,7 @@ def supply(request, page_name):
         'palette': smartgrid_mgr.get_designer_palette(),
         'designer_grid': smartgrid_mgr.get_designer_grid(),
         'smart_grid_actions': smartgrid_mgr.get_designer_action_slugs(),
+        'smart_grid_categories': smartgrid_mgr.get_designer_category_slugs(),
             }
 
 
@@ -200,6 +201,25 @@ def move_action(request, action_slug, level_slug, old_column, old_row, new_colum
             grid.column = new_column
             grid.row = new_row
             grid.save()
+
+    #  Return the pk for the moved action.
+    return HttpResponse(json.dumps({
+            "pk": action.pk,
+            }), mimetype="application/json")
+
+
+def move_palette_action(request, action_slug, level_slug, new_column, new_row):
+    """Moves the Designer Grid Action from the palette to the new column and row."""
+    _ = request
+
+    action = smartgrid_mgr.get_designer_action(action_slug)
+    level = DesignerLevel.objects.get(slug=level_slug)
+    grid = DesignerGrid()
+    grid.level = level
+    grid.column = new_column
+    grid.row = new_row
+    grid.action = action
+    grid.save()
 
     #  Return the pk for the moved action.
     return HttpResponse(json.dumps({

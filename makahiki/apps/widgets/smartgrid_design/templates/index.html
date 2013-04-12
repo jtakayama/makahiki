@@ -85,7 +85,8 @@
 				<div class="ssg-category-selections">
 					<div class="sgg-category-wrapper">
 					{% for category in view_objects.smartgrid_design.categories %}
-					<div class="sgg-library-category draggable" data-pk="{{category.pk}}" data-slug="{{category.slug}}">
+					<div class="sgg-library-category library-draggable {% if category.slug in view_objects.smartgrid_design.smart_grid_categories %}hidden{% endif %}"
+						 data-pk="{{category.pk}}" data-slug="{{category.slug}}">
 						<a class="sgg-category-link" href="/challenge_setting_admin/smartgrid_library/librarycategory/{{category.pk}}/">{{category}}</a>
 					</div>
 					{% endfor %}
@@ -230,6 +231,19 @@ $(document).click(function() {
 			cursor : 'move',
 			helper : 'clone'
 		})
+		$('.category-draggable').draggable({
+			cursor: 'move',
+			start: handleCategoryStartDrag,
+			helper: 'clone',
+			revert: function(dropObj) {
+				if (dropObj == false) {
+					$(this).removeClass('hidden');
+					return true;
+				} else {
+					return false;
+				}
+			},
+		});
 		$('.grid-draggable').draggable({
 			cursor : 'move',
 			start: handleGridStartDrag,
