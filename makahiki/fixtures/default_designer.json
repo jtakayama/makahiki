@@ -636,7 +636,6 @@
         "pk": 1,
         "model": "smartgrid_design.designeraction",
         "fields": {
-            "related_resource": null,
             "social_bonus": 0,
             "video_id": "T37kNTkZCrA",
             "name": "Intro video",
@@ -645,6 +644,7 @@
             "image": "",
             "title": "Watch introduction video",
             "unlock_condition_text": "True",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 20,
             "expire_date": null,
@@ -658,7 +658,6 @@
         "pk": 2,
         "model": "smartgrid_design.designeraction",
         "fields": {
-            "related_resource": null,
             "social_bonus": 0,
             "video_id": "qN-OxaX9enI",
             "name": "Cup Secrets",
@@ -667,6 +666,7 @@
             "image": "",
             "title": "Watch video \"Secrets of the Kukui Cup Masters\"",
             "unlock_condition_text": "Complete Intro video activity",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 10,
             "expire_date": null,
@@ -680,7 +680,6 @@
         "pk": 3,
         "model": "smartgrid_design.designeraction",
         "fields": {
-            "related_resource": "energy",
             "social_bonus": 0,
             "video_id": "hBUg7bsR0d0",
             "name": "Power & Energy",
@@ -689,6 +688,7 @@
             "image": "",
             "title": "Watch video about Power & Energy",
             "unlock_condition_text": "Complete Intro video activity",
+            "related_resource": "energy",
             "embedded_widget": "",
             "point_value": 10,
             "expire_date": null,
@@ -702,7 +702,6 @@
         "pk": 4,
         "model": "smartgrid_design.designeraction",
         "fields": {
-            "related_resource": null,
             "social_bonus": 0,
             "video_id": null,
             "name": "Like Cup",
@@ -711,6 +710,7 @@
             "image": "media/smartgrid/actions/facebook-logo-small.png",
             "title": "Like Kukui Cup on Facebook",
             "unlock_condition_text": "Complete Secrets of the Kukui Cup video activity",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 5,
             "expire_date": null,
@@ -724,7 +724,6 @@
         "pk": 5,
         "model": "smartgrid_design.designeraction",
         "fields": {
-            "related_resource": null,
             "social_bonus": 0,
             "video_id": null,
             "name": "Tweet link",
@@ -733,6 +732,7 @@
             "image": "media/smartgrid/actions/twitter-logo-small.png",
             "title": "Tweet about Kukui Cup",
             "unlock_condition_text": "Complete Secrets of the Kukui Cup video activity",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 5,
             "expire_date": null,
@@ -746,7 +746,6 @@
         "pk": 6,
         "model": "smartgrid_design.designeraction",
         "fields": {
-            "related_resource": null,
             "social_bonus": 10,
             "video_id": "",
             "name": "Door Art",
@@ -755,6 +754,7 @@
             "image": "media/smartgrid/actions/door-art-small.jpg",
             "title": "Door Art Challenge",
             "unlock_condition_text": "Complete Secrets of the Kukui Cup video activity",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 0,
             "expire_date": null,
@@ -768,7 +768,6 @@
         "pk": 7,
         "model": "smartgrid_design.designeraction",
         "fields": {
-            "related_resource": "energy",
             "social_bonus": 5,
             "video_id": null,
             "name": "Turn off lights",
@@ -777,6 +776,7 @@
             "image": "media/smartgrid/actions/lightswitch-sticker.jpg",
             "title": "I will turn off the lights when leaving any room",
             "unlock_condition_text": "Complete Power & Energy or Cup Secrets video activity",
+            "related_resource": "energy",
             "embedded_widget": null,
             "point_value": 5,
             "expire_date": null,
@@ -790,7 +790,6 @@
         "pk": 8,
         "model": "smartgrid_design.designeraction",
         "fields": {
-            "related_resource": "energy",
             "social_bonus": 5,
             "video_id": null,
             "name": "Task lighting",
@@ -799,6 +798,7 @@
             "image": "media/smartgrid/actions/desk-lamp.jpg",
             "title": "I will use task lighting instead of overhead lights",
             "unlock_condition_text": "Complete Power & Energy or Cup Secrets video activity",
+            "related_resource": "energy",
             "embedded_widget": null,
             "point_value": 5,
             "expire_date": null,
@@ -812,7 +812,6 @@
         "pk": 9,
         "model": "smartgrid_design.designeraction",
         "fields": {
-            "related_resource": null,
             "social_bonus": 5,
             "video_id": null,
             "name": "Use sunlight",
@@ -821,6 +820,7 @@
             "image": "media/smartgrid/actions/sun-window.jpg",
             "title": "I will use sunlight instead of electric lighting",
             "unlock_condition_text": "Complete Power & Energy or Cup Secrets video activity",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 5,
             "expire_date": null,
@@ -834,7 +834,6 @@
         "pk": 10,
         "model": "smartgrid_design.designeraction",
         "fields": {
-            "related_resource": "water",
             "social_bonus": 5,
             "video_id": null,
             "name": "Full load laundry",
@@ -843,6 +842,7 @@
             "image": "media/smartgrid/actions/washing-machines.jpg",
             "title": "I will wash only full loads of laundry",
             "unlock_condition_text": "Complete Intro Video",
+            "related_resource": "water",
             "embedded_widget": null,
             "point_value": 5,
             "expire_date": null,
@@ -856,7 +856,6 @@
         "pk": 11,
         "model": "smartgrid_design.designeraction",
         "fields": {
-            "related_resource": null,
             "social_bonus": 5,
             "video_id": null,
             "name": "Reusable bag",
@@ -865,6 +864,7 @@
             "image": "media/smartgrid/actions/KukuiCup-eco-tote-small.jpg",
             "title": "I will bring reusable bags when shopping",
             "unlock_condition_text": "Complete Power & Energy or Cup Secrets video activity",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 5,
             "expire_date": null,
@@ -878,7 +878,6 @@
         "pk": 12,
         "model": "smartgrid_design.designeraction",
         "fields": {
-            "related_resource": null,
             "social_bonus": 0,
             "video_id": null,
             "name": "Virtual Event",
@@ -887,6 +886,7 @@
             "image": "",
             "title": "Attend a virtual event!",
             "unlock_condition_text": "",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 30,
             "expire_date": null,
@@ -900,7 +900,6 @@
         "pk": 13,
         "model": "smartgrid_design.designeraction",
         "fields": {
-            "related_resource": "energy",
             "social_bonus": 0,
             "video_id": "E4MLXlUiRv0",
             "name": "Energy Intuition",
@@ -909,6 +908,7 @@
             "image": "",
             "title": "Watch video on Energy Intuition",
             "unlock_condition_text": "Complete Power & Energy video activity",
+            "related_resource": "energy",
             "embedded_widget": "",
             "point_value": 10,
             "expire_date": null,
@@ -922,7 +922,6 @@
         "pk": 14,
         "model": "smartgrid_design.designeraction",
         "fields": {
-            "related_resource": "energy",
             "social_bonus": 0,
             "video_id": "ZsgmnCxzHao",
             "name": "Lighting video",
@@ -931,6 +930,7 @@
             "image": "",
             "title": "Watch video about Lighting",
             "unlock_condition_text": "Complete Energy Intuition video activity",
+            "related_resource": "energy",
             "embedded_widget": "",
             "point_value": 10,
             "expire_date": null,
@@ -944,7 +944,6 @@
         "pk": 15,
         "model": "smartgrid_design.designeraction",
         "fields": {
-            "related_resource": "energy",
             "social_bonus": 0,
             "video_id": "wc_Cfq9sEoY",
             "name": "Audit Video",
@@ -953,6 +952,7 @@
             "image": "",
             "title": "Watch video on how to audit your energy use",
             "unlock_condition_text": "Complete Energy Intuition video activity",
+            "related_resource": "energy",
             "embedded_widget": null,
             "point_value": 15,
             "expire_date": null,
@@ -963,32 +963,9 @@
         }
     },
     {
-        "pk": 16,
-        "model": "smartgrid_design.designeraction",
-        "fields": {
-            "related_resource": null,
-            "social_bonus": 0,
-            "video_id": null,
-            "name": "Filler-1",
-            "video_source": null,
-            "pub_date": "2012-07-03",
-            "image": "",
-            "title": "Filler 1",
-            "unlock_condition_text": "This cell is here only to fill out the grid. There is no action associated with it.",
-            "embedded_widget": null,
-            "point_value": 0,
-            "expire_date": null,
-            "type": "filler",
-            "slug": "filler-1",
-            "unlock_condition": "False",
-            "description": ""
-        }
-    },
-    {
         "pk": 17,
         "model": "smartgrid_design.designeraction",
         "fields": {
-            "related_resource": "energy",
             "social_bonus": 0,
             "video_id": "",
             "name": "Check energy",
@@ -997,6 +974,7 @@
             "image": "",
             "title": "Examine your lounge's energy use",
             "unlock_condition_text": "Complete Energy Intuition video activity",
+            "related_resource": "energy",
             "embedded_widget": "",
             "point_value": 10,
             "expire_date": null,
@@ -1010,7 +988,6 @@
         "pk": 18,
         "model": "smartgrid_design.designeraction",
         "fields": {
-            "related_resource": "energy",
             "social_bonus": 0,
             "video_id": "",
             "name": "Computer Sleep",
@@ -1019,6 +996,7 @@
             "image": "media/smartgrid/actions/SleepyMacBookPro-small.png",
             "title": "Configure your computer to sleep after inactivity",
             "unlock_condition_text": "Complete Energy Intuition video activity",
+            "related_resource": "energy",
             "embedded_widget": "",
             "point_value": 20,
             "expire_date": null,
@@ -1029,32 +1007,9 @@
         }
     },
     {
-        "pk": 19,
-        "model": "smartgrid_design.designeraction",
-        "fields": {
-            "related_resource": null,
-            "social_bonus": 0,
-            "video_id": null,
-            "name": "Filler-2",
-            "video_source": null,
-            "pub_date": "2012-07-03",
-            "image": "",
-            "title": "Filler 2",
-            "unlock_condition_text": "This cell is here only to fill out the grid. There is no action associated with it.",
-            "embedded_widget": null,
-            "point_value": 0,
-            "expire_date": null,
-            "type": "filler",
-            "slug": "filler-2",
-            "unlock_condition": "False",
-            "description": ""
-        }
-    },
-    {
         "pk": 20,
         "model": "smartgrid_design.designeraction",
         "fields": {
-            "related_resource": "energy",
             "social_bonus": 0,
             "video_id": "",
             "name": "Power Hogs",
@@ -1063,6 +1018,7 @@
             "image": "media/smartgrid/actions/Xbox-label.jpg",
             "title": "Label power hogs in your room",
             "unlock_condition_text": "Complete Energy Intuition video activity",
+            "related_resource": "energy",
             "embedded_widget": "",
             "point_value": 15,
             "expire_date": null,
@@ -1076,7 +1032,6 @@
         "pk": 21,
         "model": "smartgrid_design.designeraction",
         "fields": {
-            "related_resource": null,
             "social_bonus": 0,
             "video_id": "sAClKZPhcPI",
             "name": "Energy Issues",
@@ -1085,6 +1040,7 @@
             "image": "",
             "title": "Watch Energy Generation: What's the fuss?",
             "unlock_condition_text": "Complete Energy Intuition video activity",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 10,
             "expire_date": null,
@@ -1098,7 +1054,6 @@
         "pk": 22,
         "model": "smartgrid_design.designeraction",
         "fields": {
-            "related_resource": null,
             "social_bonus": 0,
             "video_id": "c5lgCDtTzyQ",
             "name": "Energy Now",
@@ -1107,6 +1062,7 @@
             "image": "",
             "title": "Watch Energy Generation: Where are we now?",
             "unlock_condition_text": "Complete Energy Issues video activity",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 10,
             "expire_date": null,
@@ -1120,7 +1076,6 @@
         "pk": 23,
         "model": "smartgrid_design.designeraction",
         "fields": {
-            "related_resource": null,
             "social_bonus": 0,
             "video_id": "QgZ7AEE3ntY",
             "name": "HCEI",
@@ -1129,6 +1084,7 @@
             "image": "",
             "title": "Watch Energy Generation: Hawaii Clean Energy Initiative",
             "unlock_condition_text": "Complete Energy Now video activity",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 10,
             "expire_date": null,
@@ -1142,7 +1098,6 @@
         "pk": 24,
         "model": "smartgrid_design.designeraction",
         "fields": {
-            "related_resource": null,
             "social_bonus": 5,
             "video_id": null,
             "name": "Recycle cans",
@@ -1151,6 +1106,7 @@
             "image": "media/smartgrid/actions/recycling-can-lid.jpg",
             "title": "I will recycle all beverage containers",
             "unlock_condition_text": "Complete Energy Intuition video activity",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 5,
             "expire_date": null,
@@ -1164,7 +1120,6 @@
         "pk": 25,
         "model": "smartgrid_design.designeraction",
         "fields": {
-            "related_resource": null,
             "social_bonus": 0,
             "video_id": "6FeXBOyQerA",
             "name": "Trash video",
@@ -1173,6 +1128,7 @@
             "image": "",
             "title": "Watch Trash is Treasure video",
             "unlock_condition_text": "Complete Energy Intuition video activity",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 10,
             "expire_date": null,
@@ -1186,7 +1142,6 @@
         "pk": 26,
         "model": "smartgrid_design.designeraction",
         "fields": {
-            "related_resource": null,
             "social_bonus": 0,
             "video_id": "wSquej2rFXM",
             "name": "Climate change",
@@ -1195,6 +1150,7 @@
             "image": "",
             "title": "Watch a video about climate change",
             "unlock_condition_text": "Complete Energy Intuition video activity",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 10,
             "expire_date": null,
@@ -1208,7 +1164,6 @@
         "pk": 27,
         "model": "smartgrid_design.designeraction",
         "fields": {
-            "related_resource": null,
             "social_bonus": 0,
             "video_id": "zK_cz7A7qVw",
             "name": "Solar Energy",
@@ -1217,6 +1172,7 @@
             "image": "",
             "title": "Watch video about solar energy",
             "unlock_condition_text": "Complete Energy Intuition video activity",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 10,
             "expire_date": null,
@@ -1227,32 +1183,9 @@
         }
     },
     {
-        "pk": 28,
-        "model": "smartgrid_design.designeraction",
-        "fields": {
-            "related_resource": null,
-            "social_bonus": 0,
-            "video_id": null,
-            "name": "Filler-3",
-            "video_source": null,
-            "pub_date": "2012-07-03",
-            "image": "",
-            "title": "Filler 3",
-            "unlock_condition_text": "This cell is here only to fill out the grid. There is no action associated with it.",
-            "embedded_widget": null,
-            "point_value": 0,
-            "expire_date": null,
-            "type": "filler",
-            "slug": "filler-3",
-            "unlock_condition": "False",
-            "description": ""
-        }
-    },
-    {
         "pk": 29,
         "model": "smartgrid_design.designeraction",
         "fields": {
-            "related_resource": "energy",
             "social_bonus": 5,
             "video_id": null,
             "name": "Pull the plug",
@@ -1261,6 +1194,7 @@
             "image": "",
             "title": "I will do something 'unplugged' every day",
             "unlock_condition_text": "Complete Energy Intuition video activity",
+            "related_resource": "energy",
             "embedded_widget": null,
             "point_value": 5,
             "expire_date": null,
@@ -1274,7 +1208,6 @@
         "pk": 30,
         "model": "smartgrid_design.designeraction",
         "fields": {
-            "related_resource": "energy",
             "social_bonus": 5,
             "video_id": null,
             "name": "Limit TV",
@@ -1283,6 +1216,7 @@
             "image": "",
             "title": "I will limit my TV use to 1 hour a day",
             "unlock_condition_text": "Complete Go Unplugged",
+            "related_resource": "energy",
             "embedded_widget": null,
             "point_value": 5,
             "expire_date": null,
@@ -1296,7 +1230,6 @@
         "pk": 31,
         "model": "smartgrid_design.designeraction",
         "fields": {
-            "related_resource": null,
             "social_bonus": 5,
             "video_id": null,
             "name": "Go meatless",
@@ -1305,6 +1238,7 @@
             "image": "",
             "title": "I will not eat meat",
             "unlock_condition_text": "Complete Limit TV",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 5,
             "expire_date": null,
@@ -1318,7 +1252,6 @@
         "pk": 32,
         "model": "smartgrid_design.designeraction",
         "fields": {
-            "related_resource": null,
             "social_bonus": 10,
             "video_id": "",
             "name": "Letter to Editor",
@@ -1327,6 +1260,7 @@
             "image": "",
             "title": "Write a letter to the editor on a Kukui Cup topic",
             "unlock_condition_text": "Complete Energy Intuition video activity",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 0,
             "expire_date": null,
@@ -1340,7 +1274,6 @@
         "pk": 33,
         "model": "smartgrid_design.designeraction",
         "fields": {
-            "related_resource": null,
             "social_bonus": 10,
             "video_id": "",
             "name": "Write Poem",
@@ -1349,6 +1282,7 @@
             "image": "",
             "title": "Write a poem on a Kukui Cup topic",
             "unlock_condition_text": "Complete Letter to the Editor activity",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 0,
             "expire_date": null,
@@ -1359,32 +1293,9 @@
         }
     },
     {
-        "pk": 34,
-        "model": "smartgrid_design.designeraction",
-        "fields": {
-            "related_resource": null,
-            "social_bonus": 0,
-            "video_id": null,
-            "name": "Filler-4",
-            "video_source": null,
-            "pub_date": "2012-07-03",
-            "image": "",
-            "title": "Filler 4",
-            "unlock_condition_text": "This cell is here only to fill out the grid. There is no action associated with it.",
-            "embedded_widget": null,
-            "point_value": 0,
-            "expire_date": null,
-            "type": "filler",
-            "slug": "filler-4",
-            "unlock_condition": "False",
-            "description": ""
-        }
-    },
-    {
         "pk": 35,
         "model": "smartgrid_design.designeraction",
         "fields": {
-            "related_resource": null,
             "social_bonus": 5,
             "video_id": null,
             "name": "Use stairs",
@@ -1393,6 +1304,7 @@
             "image": "media/smartgrid/actions/stairwell.jpg",
             "title": "I will use stairs instead of elevator",
             "unlock_condition_text": "Complete Energy Intuition video activity",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 5,
             "expire_date": null,
@@ -1406,7 +1318,6 @@
         "pk": 36,
         "model": "smartgrid_design.designeraction",
         "fields": {
-            "related_resource": null,
             "social_bonus": 10,
             "video_id": "",
             "name": "Impactless Date",
@@ -1415,6 +1326,7 @@
             "image": "",
             "title": "Go on a No Impact date",
             "unlock_condition_text": "Complete Turn Off Water commitment",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 10,
             "expire_date": null,
@@ -1428,7 +1340,6 @@
         "pk": 37,
         "model": "smartgrid_design.designeraction",
         "fields": {
-            "related_resource": "water",
             "social_bonus": 5,
             "video_id": null,
             "name": "Turn off sink",
@@ -1437,6 +1348,7 @@
             "image": "media/smartgrid/actions/sink.jpg",
             "title": "I will turn off water when brushing my teeth or shaving",
             "unlock_condition_text": "Complete Use Stairs commitment",
+            "related_resource": "water",
             "embedded_widget": null,
             "point_value": 5,
             "expire_date": null,
@@ -1450,7 +1362,6 @@
         "pk": 38,
         "model": "smartgrid_design.designeraction",
         "fields": {
-            "related_resource": "energy",
             "social_bonus": 0,
             "video_id": "",
             "name": "Line Graph",
@@ -1459,6 +1370,7 @@
             "image": "",
             "title": "Gotta Line On You",
             "unlock_condition_text": "Complete Energy Intuition video activity",
+            "related_resource": "energy",
             "embedded_widget": "viz_chart",
             "point_value": 10,
             "expire_date": null,
@@ -1472,7 +1384,6 @@
         "pk": 39,
         "model": "smartgrid_design.designeraction",
         "fields": {
-            "related_resource": "energy",
             "social_bonus": 0,
             "video_id": "",
             "name": "Hot Spots",
@@ -1481,6 +1392,7 @@
             "image": "",
             "title": "Hitting the Hotspots",
             "unlock_condition_text": "Complete Gotta Line On You activity",
+            "related_resource": "energy",
             "embedded_widget": "viz_hotspots",
             "point_value": 10,
             "expire_date": null,
@@ -1494,7 +1406,6 @@
         "pk": 40,
         "model": "smartgrid_design.designeraction",
         "fields": {
-            "related_resource": "energy",
             "social_bonus": 0,
             "video_id": "",
             "name": "Power Meters",
@@ -1503,6 +1414,7 @@
             "image": "",
             "title": "How Powerful are the Lounges?",
             "unlock_condition_text": "Complete Hitting the HotSpots activity",
+            "related_resource": "energy",
             "embedded_widget": "viz_power_meters",
             "point_value": 10,
             "expire_date": null,
@@ -1888,26 +1800,6 @@
         }
     },
     {
-        "pk": 16,
-        "model": "smartgrid_design.designerfiller",
-        "fields": {}
-    },
-    {
-        "pk": 19,
-        "model": "smartgrid_design.designerfiller",
-        "fields": {}
-    },
-    {
-        "pk": 28,
-        "model": "smartgrid_design.designerfiller",
-        "fields": {}
-    },
-    {
-        "pk": 34,
-        "model": "smartgrid_design.designerfiller",
-        "fields": {}
-    },
-    {
         "pk": 1,
         "model": "smartgrid_design.designercategorygrid",
         "fields": {
@@ -2276,61 +2168,11 @@
         }
     },
     {
-        "pk": 27,
-        "model": "smartgrid_design.designergrid",
-        "fields": {
-            "column": 2,
-            "action": 32,
-            "row": 1,
-            "level": 3
-        }
-    },
-    {
-        "pk": 28,
-        "model": "smartgrid_design.designergrid",
-        "fields": {
-            "column": 3,
-            "action": 35,
-            "row": 1,
-            "level": 3
-        }
-    },
-    {
-        "pk": 29,
-        "model": "smartgrid_design.designergrid",
-        "fields": {
-            "column": 4,
-            "action": 38,
-            "row": 1,
-            "level": 3
-        }
-    },
-    {
         "pk": 30,
         "model": "smartgrid_design.designergrid",
         "fields": {
             "column": 1,
             "action": 30,
-            "row": 2,
-            "level": 3
-        }
-    },
-    {
-        "pk": 31,
-        "model": "smartgrid_design.designergrid",
-        "fields": {
-            "column": 2,
-            "action": 33,
-            "row": 2,
-            "level": 3
-        }
-    },
-    {
-        "pk": 32,
-        "model": "smartgrid_design.designergrid",
-        "fields": {
-            "column": 3,
-            "action": 36,
             "row": 2,
             "level": 3
         }
@@ -2346,6 +2188,46 @@
         }
     },
     {
+        "pk": 27,
+        "model": "smartgrid_design.designergrid",
+        "fields": {
+            "column": 2,
+            "action": 32,
+            "row": 1,
+            "level": 3
+        }
+    },
+    {
+        "pk": 31,
+        "model": "smartgrid_design.designergrid",
+        "fields": {
+            "column": 2,
+            "action": 33,
+            "row": 2,
+            "level": 3
+        }
+    },
+    {
+        "pk": 28,
+        "model": "smartgrid_design.designergrid",
+        "fields": {
+            "column": 3,
+            "action": 35,
+            "row": 1,
+            "level": 3
+        }
+    },
+    {
+        "pk": 32,
+        "model": "smartgrid_design.designergrid",
+        "fields": {
+            "column": 3,
+            "action": 36,
+            "row": 2,
+            "level": 3
+        }
+    },
+    {
         "pk": 34,
         "model": "smartgrid_design.designergrid",
         "fields": {
@@ -2356,12 +2238,12 @@
         }
     },
     {
-        "pk": 35,
+        "pk": 29,
         "model": "smartgrid_design.designergrid",
         "fields": {
             "column": 4,
-            "action": 40,
-            "row": 3,
+            "action": 38,
+            "row": 1,
             "level": 3
         }
     },
@@ -2374,6 +2256,15 @@
             "row": 2,
             "level": 3
         }
+    },
+    {
+        "pk": 35,
+        "model": "smartgrid_design.designergrid",
+        "fields": {
+            "column": 4,
+            "action": 40,
+            "row": 3,
+            "level": 3
+        }
     }
-
 ]

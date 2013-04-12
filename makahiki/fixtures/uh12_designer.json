@@ -1139,28 +1139,6 @@
         }
     },
     {
-        "pk": 183,
-        "model": "smartgrid_design.designeraction",
-        "fields": {
-            "social_bonus": 0,
-            "video_id": null,
-            "name": "Filler 2",
-            "video_source": null,
-            "pub_date": "2012-08-15",
-            "image": "",
-            "title": "Filler 2",
-            "unlock_condition_text": "This cell is here only to fill out the grid. There is no action associated with it.",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 0,
-            "expire_date": null,
-            "type": "filler",
-            "slug": "filler-2",
-            "unlock_condition": "False",
-            "description": ""
-        }
-    },
-    {
         "pk": 119,
         "model": "smartgrid_design.designeraction",
         "fields": {
@@ -1183,50 +1161,6 @@
         }
     },
     {
-        "pk": 198,
-        "model": "smartgrid_design.designeraction",
-        "fields": {
-            "social_bonus": 0,
-            "video_id": null,
-            "name": "Filler 3",
-            "video_source": null,
-            "pub_date": "2012-08-15",
-            "image": "",
-            "title": "Filler 3",
-            "unlock_condition_text": "This cell is here only to fill out the grid. There is no action associated with it.",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 0,
-            "expire_date": null,
-            "type": "filler",
-            "slug": "filler-3",
-            "unlock_condition": "False",
-            "description": ""
-        }
-    },
-    {
-        "pk": 201,
-        "model": "smartgrid_design.designeraction",
-        "fields": {
-            "social_bonus": 0,
-            "video_id": null,
-            "name": "Filler-4",
-            "video_source": null,
-            "pub_date": "2012-07-03",
-            "image": "",
-            "title": "Filler 4",
-            "unlock_condition_text": "This cell is here only to fill out the grid. There is no action associated with it.",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 0,
-            "expire_date": null,
-            "type": "filler",
-            "slug": "filler-4",
-            "unlock_condition": "False",
-            "description": ""
-        }
-    },
-    {
         "pk": 205,
         "model": "smartgrid_design.designeraction",
         "fields": {
@@ -1246,28 +1180,6 @@
             "slug": "diy-workshop",
             "unlock_condition": "True",
             "description": "Develop a Kukui Cup workshop."
-        }
-    },
-    {
-        "pk": 206,
-        "model": "smartgrid_design.designeraction",
-        "fields": {
-            "social_bonus": 0,
-            "video_id": null,
-            "name": "Filler 5",
-            "video_source": null,
-            "pub_date": "2012-08-15",
-            "image": "",
-            "title": "Filler 5",
-            "unlock_condition_text": "This cell is here only to fill out the grid. There is no action associated with it.",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 0,
-            "expire_date": null,
-            "type": "filler",
-            "slug": "filler-5",
-            "unlock_condition": "False",
-            "description": ""
         }
     },
     {
@@ -1422,28 +1334,6 @@
             "slug": "turn-off-music",
             "unlock_condition": "completed_action(\"cup-secrets\") or completed_action(\"power-energy\")",
             "description": "Commit to turning off your music (from computer, stereo, etc) when you leave your room. You save electricity when you turn off your music when you aren't there to enjoy it."
-        }
-    },
-    {
-        "pk": 246,
-        "model": "smartgrid_design.designeraction",
-        "fields": {
-            "social_bonus": 0,
-            "video_id": null,
-            "name": "Filler 14",
-            "video_source": null,
-            "pub_date": "2012-08-15",
-            "image": "",
-            "title": "Filler 14",
-            "unlock_condition_text": "This cell is here only to fill out the grid. There is no action associated with it.",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 0,
-            "expire_date": null,
-            "type": "filler",
-            "slug": "filler-14",
-            "unlock_condition": "False",
-            "description": ""
         }
     },
     {
@@ -1755,6 +1645,28 @@
         }
     },
     {
+        "pk": 239,
+        "model": "smartgrid_design.designeraction",
+        "fields": {
+            "social_bonus": 10,
+            "video_id": null,
+            "name": "Sustainable UH Jan",
+            "video_source": null,
+            "pub_date": "2014-01-22",
+            "image": "",
+            "title": "Sustainable UH Jan",
+            "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
+            "related_resource": null,
+            "embedded_widget": null,
+            "point_value": 20,
+            "expire_date": null,
+            "type": "event",
+            "slug": "sustainable-uh-jan",
+            "unlock_condition": "True",
+            "description": "Sustainable UH Jan"
+        }
+    },
+    {
         "pk": 134,
         "model": "smartgrid_design.designeraction",
         "fields": {
@@ -1840,28 +1752,6 @@
             "slug": "customize-tshirt",
             "unlock_condition": "True",
             "description": "This workshop provides students with materials and advice on how to cut up, paint, stencil, and otherwise customize their Kukui Cup tshirts.   If the student has already received a Kukui Cup tshirt, then they must bring it (or another tshirt) to be customized.  If the student has not already received a Kukui Cup tshirt, then the first 10 attendees w/o a Kukui Cup tshirt will receive one free."
-        }
-    },
-    {
-        "pk": 138,
-        "model": "smartgrid_design.designeraction",
-        "fields": {
-            "social_bonus": 0,
-            "video_id": null,
-            "name": "Filler 1",
-            "video_source": null,
-            "pub_date": "2012-08-15",
-            "image": "",
-            "title": "Filler 1",
-            "unlock_condition_text": "This cell is here only to fill out the grid. There is no action associated with it.",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 0,
-            "expire_date": null,
-            "type": "filler",
-            "slug": "filler-1",
-            "unlock_condition": "False",
-            "description": ""
         }
     },
     {
@@ -2195,6 +2085,28 @@
         }
     },
     {
+        "pk": 240,
+        "model": "smartgrid_design.designeraction",
+        "fields": {
+            "social_bonus": 10,
+            "video_id": null,
+            "name": "Sustain Corps Jan",
+            "video_source": null,
+            "pub_date": "2014-01-22",
+            "image": "",
+            "title": "Sustain Corps Jan",
+            "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
+            "related_resource": null,
+            "embedded_widget": null,
+            "point_value": 20,
+            "expire_date": null,
+            "type": "event",
+            "slug": "sustain-corps-jan",
+            "unlock_condition": "True",
+            "description": "Sustain Corps Jan"
+        }
+    },
+    {
         "pk": 155,
         "model": "smartgrid_design.designeraction",
         "fields": {
@@ -2437,6 +2349,28 @@
         }
     },
     {
+        "pk": 242,
+        "model": "smartgrid_design.designeraction",
+        "fields": {
+            "social_bonus": 0,
+            "video_id": "",
+            "name": "Lobby Legislator",
+            "video_source": null,
+            "pub_date": "2012-08-15",
+            "image": "",
+            "title": "Lobby Legislator",
+            "unlock_condition_text": "",
+            "related_resource": null,
+            "embedded_widget": "",
+            "point_value": 0,
+            "expire_date": null,
+            "type": "activity",
+            "slug": "lobby-legislator",
+            "unlock_condition": "True",
+            "description": "Lobby Legislator"
+        }
+    },
+    {
         "pk": 168,
         "model": "smartgrid_design.designeraction",
         "fields": {
@@ -2676,6 +2610,50 @@
             "slug": "make-art",
             "unlock_condition": "completed_action(\"energy-intuition\")",
             "description": "This activity is an opportunity to creatively explore one of the topics of the Kukui Cup in more depth. For this activity, you will create a **work of art** around one of the subjects used as categories in the Smart Grid such as energy, lighting, or transportation. Note that this activity will require significantly more effort than normal activities, but it is also worth more points. This activity is worth a variable number of points, so the more effort and the higher quality of your art, the more points you will receive.\r\n\r\nThe art you create for this activity should be different from the other options in this category. Here are some ideas:\r\n\r\n* painting\r\n* sculpture\r\n* collage\r\n* sketch\r\n\r\nYou will have to capture your art in some way (scan, photograph, etc) so you can present it to us for verification and scoring."
+        }
+    },
+    {
+        "pk": 243,
+        "model": "smartgrid_design.designeraction",
+        "fields": {
+            "social_bonus": 0,
+            "video_id": "",
+            "name": "Off Campus Hogs",
+            "video_source": null,
+            "pub_date": "2012-08-15",
+            "image": "",
+            "title": "Off Campus Energy Hogs",
+            "unlock_condition_text": "",
+            "related_resource": null,
+            "embedded_widget": "",
+            "point_value": 0,
+            "expire_date": null,
+            "type": "activity",
+            "slug": "campus-hogs",
+            "unlock_condition": "True",
+            "description": "Off Campus Energy Hogs"
+        }
+    },
+    {
+        "pk": 244,
+        "model": "smartgrid_design.designeraction",
+        "fields": {
+            "social_bonus": 0,
+            "video_id": "",
+            "name": "Multi Uni Sustain",
+            "video_source": null,
+            "pub_date": "2012-08-15",
+            "image": "",
+            "title": "Multiple University Sustainability",
+            "unlock_condition_text": "",
+            "related_resource": null,
+            "embedded_widget": "",
+            "point_value": 0,
+            "expire_date": null,
+            "type": "activity",
+            "slug": "multi-uni-sustain",
+            "unlock_condition": "True",
+            "description": "Multiple University Sustainability"
         }
     },
     {
@@ -3163,6 +3141,50 @@
         }
     },
     {
+        "pk": 248,
+        "model": "smartgrid_design.designeraction",
+        "fields": {
+            "social_bonus": 10,
+            "video_id": null,
+            "name": "Cycle Manoa Feb",
+            "video_source": null,
+            "pub_date": "2014-01-22",
+            "image": "",
+            "title": "Cycle Manoa Feb",
+            "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
+            "related_resource": null,
+            "embedded_widget": null,
+            "point_value": 20,
+            "expire_date": null,
+            "type": "event",
+            "slug": "cycle-manoa-feb",
+            "unlock_condition": "True",
+            "description": "Cycle Manoa Feb"
+        }
+    },
+    {
+        "pk": 249,
+        "model": "smartgrid_design.designeraction",
+        "fields": {
+            "social_bonus": 10,
+            "video_id": null,
+            "name": "Sustainable UH Feb",
+            "video_source": null,
+            "pub_date": "2014-01-22",
+            "image": "",
+            "title": "Sustainable UH Feb",
+            "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
+            "related_resource": null,
+            "embedded_widget": null,
+            "point_value": 20,
+            "expire_date": null,
+            "type": "event",
+            "slug": "sustainable-uh-feb",
+            "unlock_condition": "True",
+            "description": "Sustainable UH Feb"
+        }
+    },
+    {
         "pk": 207,
         "model": "smartgrid_design.designeraction",
         "fields": {
@@ -3336,28 +3358,6 @@
             "slug": "sustain-corps-oct",
             "unlock_condition": "True",
             "description": "Sustain Corps Oct"
-        }
-    },
-    {
-        "pk": 216,
-        "model": "smartgrid_design.designeraction",
-        "fields": {
-            "social_bonus": 0,
-            "video_id": null,
-            "name": "Filler 6",
-            "video_source": null,
-            "pub_date": "2012-08-15",
-            "image": "",
-            "title": "Filler 6",
-            "unlock_condition_text": "This cell is here only to fill out the grid. There is no action associated with it.",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 0,
-            "expire_date": null,
-            "type": "filler",
-            "slug": "filler-6",
-            "unlock_condition": "False",
-            "description": ""
         }
     },
     {
@@ -3559,28 +3559,6 @@
         }
     },
     {
-        "pk": 226,
-        "model": "smartgrid_design.designeraction",
-        "fields": {
-            "social_bonus": 0,
-            "video_id": null,
-            "name": "Filler 7",
-            "video_source": null,
-            "pub_date": "2012-08-15",
-            "image": "",
-            "title": "Filler 7",
-            "unlock_condition_text": "This cell is here only to fill out the grid. There is no action associated with it.",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 0,
-            "expire_date": null,
-            "type": "filler",
-            "slug": "filler-7",
-            "unlock_condition": "False",
-            "description": ""
-        }
-    },
-    {
         "pk": 232,
         "model": "smartgrid_design.designeraction",
         "fields": {
@@ -3600,94 +3578,6 @@
             "slug": "course-proj-s13",
             "unlock_condition": "True",
             "description": "Course Proj S13"
-        }
-    },
-    {
-        "pk": 233,
-        "model": "smartgrid_design.designeraction",
-        "fields": {
-            "social_bonus": 0,
-            "video_id": null,
-            "name": "Filler 8",
-            "video_source": null,
-            "pub_date": "2012-08-15",
-            "image": "",
-            "title": "Filler 8",
-            "unlock_condition_text": "This cell is here only to fill out the grid. There is no action associated with it.",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 0,
-            "expire_date": null,
-            "type": "filler",
-            "slug": "filler-8",
-            "unlock_condition": "False",
-            "description": ""
-        }
-    },
-    {
-        "pk": 234,
-        "model": "smartgrid_design.designeraction",
-        "fields": {
-            "social_bonus": 0,
-            "video_id": null,
-            "name": "Filler 9",
-            "video_source": null,
-            "pub_date": "2012-08-15",
-            "image": "",
-            "title": "Filler 9",
-            "unlock_condition_text": "This cell is here only to fill out the grid. There is no action associated with it.",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 0,
-            "expire_date": null,
-            "type": "filler",
-            "slug": "filler-9",
-            "unlock_condition": "False",
-            "description": ""
-        }
-    },
-    {
-        "pk": 235,
-        "model": "smartgrid_design.designeraction",
-        "fields": {
-            "social_bonus": 0,
-            "video_id": null,
-            "name": "Filler 10",
-            "video_source": null,
-            "pub_date": "2012-08-15",
-            "image": "",
-            "title": "Filler 10",
-            "unlock_condition_text": "This cell is here only to fill out the grid. There is no action associated with it.",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 0,
-            "expire_date": null,
-            "type": "filler",
-            "slug": "filler-10",
-            "unlock_condition": "False",
-            "description": ""
-        }
-    },
-    {
-        "pk": 236,
-        "model": "smartgrid_design.designeraction",
-        "fields": {
-            "social_bonus": 0,
-            "video_id": null,
-            "name": "Filler11",
-            "video_source": null,
-            "pub_date": "2012-08-15",
-            "image": "",
-            "title": "Filler 11",
-            "unlock_condition_text": "This cell is here only to fill out the grid. There is no action associated with it.",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 0,
-            "expire_date": null,
-            "type": "filler",
-            "slug": "filler11",
-            "unlock_condition": "False",
-            "description": ""
         }
     },
     {
@@ -3735,204 +3625,6 @@
         }
     },
     {
-        "pk": 239,
-        "model": "smartgrid_design.designeraction",
-        "fields": {
-            "social_bonus": 10,
-            "video_id": null,
-            "name": "Sustainable UH Jan",
-            "video_source": null,
-            "pub_date": "2014-01-22",
-            "image": "",
-            "title": "Sustainable UH Jan",
-            "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 20,
-            "expire_date": null,
-            "type": "event",
-            "slug": "sustainable-uh-jan",
-            "unlock_condition": "True",
-            "description": "Sustainable UH Jan"
-        }
-    },
-    {
-        "pk": 240,
-        "model": "smartgrid_design.designeraction",
-        "fields": {
-            "social_bonus": 10,
-            "video_id": null,
-            "name": "Sustain Corps Jan",
-            "video_source": null,
-            "pub_date": "2014-01-22",
-            "image": "",
-            "title": "Sustain Corps Jan",
-            "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 20,
-            "expire_date": null,
-            "type": "event",
-            "slug": "sustain-corps-jan",
-            "unlock_condition": "True",
-            "description": "Sustain Corps Jan"
-        }
-    },
-    {
-        "pk": 241,
-        "model": "smartgrid_design.designeraction",
-        "fields": {
-            "social_bonus": 0,
-            "video_id": null,
-            "name": "Filler 12",
-            "video_source": null,
-            "pub_date": "2012-08-15",
-            "image": "",
-            "title": "Filler 12",
-            "unlock_condition_text": "This cell is here only to fill out the grid. There is no action associated with it.",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 0,
-            "expire_date": null,
-            "type": "filler",
-            "slug": "filler-12",
-            "unlock_condition": "False",
-            "description": ""
-        }
-    },
-    {
-        "pk": 242,
-        "model": "smartgrid_design.designeraction",
-        "fields": {
-            "social_bonus": 0,
-            "video_id": "",
-            "name": "Lobby Legislator",
-            "video_source": null,
-            "pub_date": "2012-08-15",
-            "image": "",
-            "title": "Lobby Legislator",
-            "unlock_condition_text": "",
-            "related_resource": null,
-            "embedded_widget": "",
-            "point_value": 0,
-            "expire_date": null,
-            "type": "activity",
-            "slug": "lobby-legislator",
-            "unlock_condition": "True",
-            "description": "Lobby Legislator"
-        }
-    },
-    {
-        "pk": 243,
-        "model": "smartgrid_design.designeraction",
-        "fields": {
-            "social_bonus": 0,
-            "video_id": "",
-            "name": "Off Campus Hogs",
-            "video_source": null,
-            "pub_date": "2012-08-15",
-            "image": "",
-            "title": "Off Campus Energy Hogs",
-            "unlock_condition_text": "",
-            "related_resource": null,
-            "embedded_widget": "",
-            "point_value": 0,
-            "expire_date": null,
-            "type": "activity",
-            "slug": "campus-hogs",
-            "unlock_condition": "True",
-            "description": "Off Campus Energy Hogs"
-        }
-    },
-    {
-        "pk": 244,
-        "model": "smartgrid_design.designeraction",
-        "fields": {
-            "social_bonus": 0,
-            "video_id": "",
-            "name": "Multi Uni Sustain",
-            "video_source": null,
-            "pub_date": "2012-08-15",
-            "image": "",
-            "title": "Multiple University Sustainability",
-            "unlock_condition_text": "",
-            "related_resource": null,
-            "embedded_widget": "",
-            "point_value": 0,
-            "expire_date": null,
-            "type": "activity",
-            "slug": "multi-uni-sustain",
-            "unlock_condition": "True",
-            "description": "Multiple University Sustainability"
-        }
-    },
-    {
-        "pk": 245,
-        "model": "smartgrid_design.designeraction",
-        "fields": {
-            "social_bonus": 0,
-            "video_id": null,
-            "name": "Filler 13",
-            "video_source": null,
-            "pub_date": "2012-08-15",
-            "image": "",
-            "title": "Filler 13",
-            "unlock_condition_text": "This cell is here only to fill out the grid. There is no action associated with it.",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 0,
-            "expire_date": null,
-            "type": "filler",
-            "slug": "filler-13",
-            "unlock_condition": "False",
-            "description": ""
-        }
-    },
-    {
-        "pk": 248,
-        "model": "smartgrid_design.designeraction",
-        "fields": {
-            "social_bonus": 10,
-            "video_id": null,
-            "name": "Cycle Manoa Feb",
-            "video_source": null,
-            "pub_date": "2014-01-22",
-            "image": "",
-            "title": "Cycle Manoa Feb",
-            "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 20,
-            "expire_date": null,
-            "type": "event",
-            "slug": "cycle-manoa-feb",
-            "unlock_condition": "True",
-            "description": "Cycle Manoa Feb"
-        }
-    },
-    {
-        "pk": 249,
-        "model": "smartgrid_design.designeraction",
-        "fields": {
-            "social_bonus": 10,
-            "video_id": null,
-            "name": "Sustainable UH Feb",
-            "video_source": null,
-            "pub_date": "2014-01-22",
-            "image": "",
-            "title": "Sustainable UH Feb",
-            "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 20,
-            "expire_date": null,
-            "type": "event",
-            "slug": "sustainable-uh-feb",
-            "unlock_condition": "True",
-            "description": "Sustainable UH Feb"
-        }
-    },
-    {
         "pk": 250,
         "model": "smartgrid_design.designeraction",
         "fields": {
@@ -3952,28 +3644,6 @@
             "slug": "sustain-corps-feb",
             "unlock_condition": "True",
             "description": "Sustain Corps Feb"
-        }
-    },
-    {
-        "pk": 251,
-        "model": "smartgrid_design.designeraction",
-        "fields": {
-            "social_bonus": 0,
-            "video_id": null,
-            "name": "Filler 15",
-            "video_source": null,
-            "pub_date": "2012-08-15",
-            "image": "",
-            "title": "Filler 15",
-            "unlock_condition_text": "This cell is here only to fill out the grid. There is no action associated with it.",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 0,
-            "expire_date": null,
-            "type": "filler",
-            "slug": "filler-15",
-            "unlock_condition": "False",
-            "description": ""
         }
     },
     {
@@ -4197,72 +3867,6 @@
         }
     },
     {
-        "pk": 259,
-        "model": "smartgrid_design.designeraction",
-        "fields": {
-            "social_bonus": 0,
-            "video_id": null,
-            "name": "Filler 16",
-            "video_source": null,
-            "pub_date": "2012-08-15",
-            "image": "",
-            "title": "Filler 16",
-            "unlock_condition_text": "This cell is here only to fill out the grid. There is no action associated with it.",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 0,
-            "expire_date": null,
-            "type": "filler",
-            "slug": "filler-16",
-            "unlock_condition": "False",
-            "description": ""
-        }
-    },
-    {
-        "pk": 260,
-        "model": "smartgrid_design.designeraction",
-        "fields": {
-            "social_bonus": 0,
-            "video_id": null,
-            "name": "Filler 17",
-            "video_source": null,
-            "pub_date": "2012-08-15",
-            "image": "",
-            "title": "Filler 17",
-            "unlock_condition_text": "This cell is here only to fill out the grid. There is no action associated with it.",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 0,
-            "expire_date": null,
-            "type": "filler",
-            "slug": "filler-17",
-            "unlock_condition": "False",
-            "description": ""
-        }
-    },
-    {
-        "pk": 261,
-        "model": "smartgrid_design.designeraction",
-        "fields": {
-            "social_bonus": 0,
-            "video_id": null,
-            "name": "Filler 18",
-            "video_source": null,
-            "pub_date": "2012-08-15",
-            "image": "",
-            "title": "Filler 18",
-            "unlock_condition_text": "This cell is here only to fill out the grid. There is no action associated with it.",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 0,
-            "expire_date": null,
-            "type": "filler",
-            "slug": "filler-18",
-            "unlock_condition": "False",
-            "description": ""
-        }
-    },
-    {
         "pk": 262,
         "model": "smartgrid_design.designeraction",
         "fields": {
@@ -4351,28 +3955,6 @@
         }
     },
     {
-        "pk": 266,
-        "model": "smartgrid_design.designeraction",
-        "fields": {
-            "social_bonus": 0,
-            "video_id": null,
-            "name": "Filler 19",
-            "video_source": null,
-            "pub_date": "2012-08-15",
-            "image": "",
-            "title": "Filler 19",
-            "unlock_condition_text": "This cell is here only to fill out the grid. There is no action associated with it.",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 0,
-            "expire_date": null,
-            "type": "filler",
-            "slug": "filler-19",
-            "unlock_condition": "False",
-            "description": ""
-        }
-    },
-    {
         "pk": 267,
         "model": "smartgrid_design.designeraction",
         "fields": {
@@ -4458,138 +4040,6 @@
             "slug": "sustain-corps-apr",
             "unlock_condition": "True",
             "description": "Sustain Corps Apr"
-        }
-    },
-    {
-        "pk": 271,
-        "model": "smartgrid_design.designeraction",
-        "fields": {
-            "social_bonus": 0,
-            "video_id": null,
-            "name": "Filler 20",
-            "video_source": null,
-            "pub_date": "2012-08-15",
-            "image": "",
-            "title": "Filler 20",
-            "unlock_condition_text": "This cell is here only to fill out the grid. There is no action associated with it.",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 0,
-            "expire_date": null,
-            "type": "filler",
-            "slug": "filler-20",
-            "unlock_condition": "False",
-            "description": ""
-        }
-    },
-    {
-        "pk": 272,
-        "model": "smartgrid_design.designeraction",
-        "fields": {
-            "social_bonus": 0,
-            "video_id": null,
-            "name": "Filler 21",
-            "video_source": null,
-            "pub_date": "2012-08-15",
-            "image": "",
-            "title": "Filler 21",
-            "unlock_condition_text": "This cell is here only to fill out the grid. There is no action associated with it.",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 0,
-            "expire_date": null,
-            "type": "filler",
-            "slug": "filler-21",
-            "unlock_condition": "False",
-            "description": ""
-        }
-    },
-    {
-        "pk": 273,
-        "model": "smartgrid_design.designeraction",
-        "fields": {
-            "social_bonus": 0,
-            "video_id": null,
-            "name": "Filler 22",
-            "video_source": null,
-            "pub_date": "2012-08-15",
-            "image": "",
-            "title": "Filler 22",
-            "unlock_condition_text": "This cell is here only to fill out the grid. There is no action associated with it.",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 0,
-            "expire_date": null,
-            "type": "filler",
-            "slug": "filler-22",
-            "unlock_condition": "False",
-            "description": ""
-        }
-    },
-    {
-        "pk": 274,
-        "model": "smartgrid_design.designeraction",
-        "fields": {
-            "social_bonus": 0,
-            "video_id": null,
-            "name": "Filler 23",
-            "video_source": null,
-            "pub_date": "2012-08-15",
-            "image": "",
-            "title": "Filler 23",
-            "unlock_condition_text": "This cell is here only to fill out the grid. There is no action associated with it.",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 0,
-            "expire_date": null,
-            "type": "filler",
-            "slug": "filler-23",
-            "unlock_condition": "False",
-            "description": ""
-        }
-    },
-    {
-        "pk": 275,
-        "model": "smartgrid_design.designeraction",
-        "fields": {
-            "social_bonus": 0,
-            "video_id": null,
-            "name": "Filler 24",
-            "video_source": null,
-            "pub_date": "2012-08-15",
-            "image": "",
-            "title": "Filler 24",
-            "unlock_condition_text": "This cell is here only to fill out the grid. There is no action associated with it.",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 0,
-            "expire_date": null,
-            "type": "filler",
-            "slug": "filler-24",
-            "unlock_condition": "False",
-            "description": ""
-        }
-    },
-    {
-        "pk": 276,
-        "model": "smartgrid_design.designeraction",
-        "fields": {
-            "social_bonus": 0,
-            "video_id": null,
-            "name": "Filler 25",
-            "video_source": null,
-            "pub_date": "2012-08-15",
-            "image": "",
-            "title": "Filler 25",
-            "unlock_condition_text": "This cell is here only to fill out the grid. There is no action associated with it.",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 0,
-            "expire_date": null,
-            "type": "filler",
-            "slug": "filler-25",
-            "unlock_condition": "False",
-            "description": ""
         }
     },
     {
@@ -4951,6 +4401,18 @@
         }
     },
     {
+        "pk": 242,
+        "model": "smartgrid_design.designeractivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "free",
+            "point_range_start": 5,
+            "confirm_prompt": "Send us a copy of your letter.",
+            "expected_duration": 120,
+            "point_range_end": 50
+        }
+    },
+    {
         "pk": 168,
         "model": "smartgrid_design.designeractivity",
         "fields": {
@@ -4995,6 +4457,30 @@
             "point_range_start": 5,
             "confirm_prompt": "Tell us about the art you created, and upload an image of it.",
             "expected_duration": 360,
+            "point_range_end": 50
+        }
+    },
+    {
+        "pk": 243,
+        "model": "smartgrid_design.designeractivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "free",
+            "point_range_start": 5,
+            "confirm_prompt": "List the energy hogs.",
+            "expected_duration": 120,
+            "point_range_end": 50
+        }
+    },
+    {
+        "pk": 244,
+        "model": "smartgrid_design.designeractivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "free",
+            "point_range_start": 5,
+            "confirm_prompt": "Mutiple University Sustainability",
+            "expected_duration": 480,
             "point_range_end": 50
         }
     },
@@ -5306,42 +4792,6 @@
             "confirm_type": "text",
             "point_range_start": 5,
             "confirm_prompt": "",
-            "expected_duration": 480,
-            "point_range_end": 50
-        }
-    },
-    {
-        "pk": 242,
-        "model": "smartgrid_design.designeractivity",
-        "fields": {
-            "admin_note": null,
-            "confirm_type": "free",
-            "point_range_start": 5,
-            "confirm_prompt": "Send us a copy of your letter.",
-            "expected_duration": 120,
-            "point_range_end": 50
-        }
-    },
-    {
-        "pk": 243,
-        "model": "smartgrid_design.designeractivity",
-        "fields": {
-            "admin_note": null,
-            "confirm_type": "free",
-            "point_range_start": 5,
-            "confirm_prompt": "List the energy hogs.",
-            "expected_duration": 120,
-            "point_range_end": 50
-        }
-    },
-    {
-        "pk": 244,
-        "model": "smartgrid_design.designeractivity",
-        "fields": {
-            "admin_note": null,
-            "confirm_type": "free",
-            "point_range_start": 5,
-            "confirm_prompt": "Mutiple University Sustainability",
             "expected_duration": 480,
             "point_range_end": 50
         }
@@ -6069,131 +5519,6 @@
             "event_location": "",
             "expected_duration": 120
         }
-    },
-    {
-        "pk": 138,
-        "model": "smartgrid_design.designerfiller",
-        "fields": {}
-    },
-    {
-        "pk": 183,
-        "model": "smartgrid_design.designerfiller",
-        "fields": {}
-    },
-    {
-        "pk": 198,
-        "model": "smartgrid_design.designerfiller",
-        "fields": {}
-    },
-    {
-        "pk": 201,
-        "model": "smartgrid_design.designerfiller",
-        "fields": {}
-    },
-    {
-        "pk": 206,
-        "model": "smartgrid_design.designerfiller",
-        "fields": {}
-    },
-    {
-        "pk": 216,
-        "model": "smartgrid_design.designerfiller",
-        "fields": {}
-    },
-    {
-        "pk": 226,
-        "model": "smartgrid_design.designerfiller",
-        "fields": {}
-    },
-    {
-        "pk": 233,
-        "model": "smartgrid_design.designerfiller",
-        "fields": {}
-    },
-    {
-        "pk": 234,
-        "model": "smartgrid_design.designerfiller",
-        "fields": {}
-    },
-    {
-        "pk": 235,
-        "model": "smartgrid_design.designerfiller",
-        "fields": {}
-    },
-    {
-        "pk": 236,
-        "model": "smartgrid_design.designerfiller",
-        "fields": {}
-    },
-    {
-        "pk": 241,
-        "model": "smartgrid_design.designerfiller",
-        "fields": {}
-    },
-    {
-        "pk": 245,
-        "model": "smartgrid_design.designerfiller",
-        "fields": {}
-    },
-    {
-        "pk": 246,
-        "model": "smartgrid_design.designerfiller",
-        "fields": {}
-    },
-    {
-        "pk": 251,
-        "model": "smartgrid_design.designerfiller",
-        "fields": {}
-    },
-    {
-        "pk": 259,
-        "model": "smartgrid_design.designerfiller",
-        "fields": {}
-    },
-    {
-        "pk": 260,
-        "model": "smartgrid_design.designerfiller",
-        "fields": {}
-    },
-    {
-        "pk": 261,
-        "model": "smartgrid_design.designerfiller",
-        "fields": {}
-    },
-    {
-        "pk": 266,
-        "model": "smartgrid_design.designerfiller",
-        "fields": {}
-    },
-    {
-        "pk": 271,
-        "model": "smartgrid_design.designerfiller",
-        "fields": {}
-    },
-    {
-        "pk": 272,
-        "model": "smartgrid_design.designerfiller",
-        "fields": {}
-    },
-    {
-        "pk": 273,
-        "model": "smartgrid_design.designerfiller",
-        "fields": {}
-    },
-    {
-        "pk": 274,
-        "model": "smartgrid_design.designerfiller",
-        "fields": {}
-    },
-    {
-        "pk": 275,
-        "model": "smartgrid_design.designerfiller",
-        "fields": {}
-    },
-    {
-        "pk": 276,
-        "model": "smartgrid_design.designerfiller",
-        "fields": {}
     },
     {
         "pk": 1,
