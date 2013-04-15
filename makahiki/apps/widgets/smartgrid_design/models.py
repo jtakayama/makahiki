@@ -117,7 +117,7 @@ class DesignerCategory(models.Model):
         verbose_name_plural = "categories"
 
     def __unicode__(self):
-        return "{0}".format(self.name)
+        return self.name
 
     def save(self, *args, **kwargs):
         """Custom save method to set fields."""
@@ -213,11 +213,6 @@ class DesignerAction(models.Model):
         default=0,
         help_text="The point value to be awarded."
     )
-
-#    def __init__(self, *args, **kwargs):
-#        """Override the default constructor to set up the type field."""
-#        super(Action, self).__init__(*args, **kwargs)
-#        self.type = self.get_classname()
 
     def get_classname(self):
         """Returns the classname."""

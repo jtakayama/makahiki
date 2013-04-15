@@ -26,12 +26,10 @@ from apps.admin.admin import challenge_designer_site, challenge_manager_site, de
 
 class ActionAdmin(admin.ModelAdmin):
     """abstract admin for action."""
-    actions = ["delete_selected", "increment_priority", "decrement_priority",
-               "change_level", "change_category", "clear_level", "clear_category",
-               "clear_level_category", "copy_action"]
-    list_display = ["slug", "title", "level", "category", "priority", "type", "point_value"]
+    actions = ["delete_selected", "copy_action"]
+    list_display = ["slug", "title", "type", "point_value"]
     search_fields = ["slug", "title"]
-    list_filter = ['type', 'level', 'category']
+    list_filter = ['type', ]
 
     def delete_selected(self, request, queryset):
         """override the delete selected."""
@@ -41,77 +39,11 @@ class ActionAdmin(admin.ModelAdmin):
 
     delete_selected.short_description = "Delete the selected objects."
 
-    def increment_priority(self, request, queryset):
-        """increment priority."""
-        _ = request
-        for obj in queryset:
-            obj.priority += 1
-            obj.save()
-
-    increment_priority.short_description = "Increment selected objects' priority by 1."
-
-    def decrement_priority(self, request, queryset):
-        """decrement priority."""
-        _ = request
-        for obj in queryset:
-            obj.priority -= 1
-            obj.save()
-
-    decrement_priority.short_description = "Decrement selected objects' priority by 1."
-
-    def clear_level(self, request, queryset):
-        """decrement priority."""
-        _ = request
-        for obj in queryset:
-            obj.level = None
-            obj.save()
-
-    clear_level.short_description = "Set the level to (None)."
-
-    def clear_category(self, request, queryset):
-        """decrement priority."""
-        _ = request
-        for obj in queryset:
-            obj.category = None
-            obj.save()
-
-    clear_category.short_description = "Set the category to (None)."
-
-    def clear_level_category(self, request, queryset):
-        """decrement priority."""
-        _ = request
-        for obj in queryset:
-            obj.level = None
-            obj.category = None
-            obj.save()
-
-    clear_level_category.short_description = "Set the level and category to (None)."
-
-    def change_level(self, request, queryset):
-        """change level."""
-        _ = queryset
-        selected = request.POST.getlist(admin.ACTION_CHECKBOX_NAME)
-        return HttpResponseRedirect(reverse("bulk_change", args=("action", "level",)) +
-                                    "?ids=%s" % (",".join(selected)))
-
-    change_level.short_description = "Change the level."
-
-    def change_category(self, request, queryset):
-        """change level."""
-        _ = queryset
-        selected = request.POST.getlist(admin.ACTION_CHECKBOX_NAME)
-        return HttpResponseRedirect(reverse("bulk_change", args=("action", "category",)) +
-                                    "?ids=%s" % (",".join(selected)))
-
-    change_category.short_description = "Change the category."
-
     def copy_action(self, request, queryset):
         """Copy the selected Actions."""
         _ = request
         for obj in queryset:
             obj.id = None
-            obj.level = None
-            obj.category = None
             slug = obj.slug
             obj.slug = slug + "-copy"
             try:
@@ -284,7 +216,6 @@ class ActivityAdmin(admin.ModelAdmin):
                      )}),
         ("Points",
          {"fields": (("point_value", "social_bonus"), ("point_range_start", "point_range_end"), )}),
-        ("Ordering", {"fields": (("level", "category", "priority"), )}),
         ("Admin Note", {'fields': ('admin_note',)}),
         ("Confirmation Type", {'fields': ('confirm_type', 'confirm_prompt')}),
     )
@@ -340,7 +271,6 @@ class CommitmentAdmin(admin.ModelAdmin):
                        ),
             }),
         ("Points", {"fields": (("point_value", 'social_bonus'), )}),
-        ("Ordering", {"fields": (("level", "category", "priority"), )}),
         )
 
     form = CommitmentAdminForm
@@ -427,7 +357,6 @@ class EventAdmin(admin.ModelAdmin):
                      ('unlock_condition', 'unlock_condition_text'),
                      )}),
         ("Points", {"fields": (("point_value", "social_bonus"),)}),
-        ("Ordering", {"fields": (("level", "category", "priority"), )}),
         )
 
     form = EventAdminForm
@@ -473,7 +402,6 @@ class FillerAdmin(admin.ModelAdmin):
                        ('title', ),
                        ),
             }),
-        ("Ordering", {"fields": (("level", "category", "priority"), )}),
         )
     prepopulated_fields = {"slug": ("name",)}
 
@@ -496,18 +424,13 @@ developer_site.register(Filler, FillerAdmin)
 
 class CategoryAdmin(admin.ModelAdmin):
     """Category Admin"""
-    list_display = ["name", "priority"]
+    list_display = ["name", ]
     prepopulated_fields = {"slug": ("name",)}
-
-
-class LimitedCategoryAdmin(CategoryAdmin):
-    """Limited Category Admin. Doesn't have priority."""
-    pass
 
 
 admin.site.register(Category, CategoryAdmin)
 challenge_designer_site.register(Category, CategoryAdmin)
-challenge_manager_site.register(Category, LimitedCategoryAdmin)
+challenge_manager_site.register(Category, CategoryAdmin)
 developer_site.register(Category, CategoryAdmin)
 challenge_mgr.register_designer_game_info_model("Smart Grid Game", Category)
 challenge_mgr.register_developer_game_info_model("Smart Grid Game", Category)

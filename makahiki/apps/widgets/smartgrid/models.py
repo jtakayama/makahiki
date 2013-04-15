@@ -22,6 +22,7 @@ from apps.widgets.badges import badges
 from apps.widgets.notifications.models import UserNotification
 from apps.managers.cache_mgr import cache_mgr
 from apps.widgets.smartgrid import NOSHOW_PENALTY_DAYS, SETUP_WIZARD_ACTIVITY
+from django.core.validators import MaxValueValidator
 
 _MEDIA_LOCATION_ACTION = os.path.join("smartgrid", "actions")
 """location for the uploaded files for actions."""
@@ -102,15 +103,10 @@ class Category(models.Model):
                             help_text="The name of the category (max 255 characters).")
     slug = models.SlugField(help_text="Automatically generated if left blank.",
                             null=True)
-    priority = models.IntegerField(
-        default=1,
-        help_text="Categories with lower values (higher priority) will be listed first."
-    )
 
     class Meta:
         """Meta"""
         verbose_name_plural = "categories"
-        ordering = ("priority",)
 
     def __unicode__(self):
         return self.name
@@ -165,27 +161,20 @@ class Action(models.Model):
         null=True, blank=True,
         max_length=20,
         choices=VIDEO_SOURCE_CHOICES,
-        help_text="The source of the video.")
+        help_text="The source of the video."
+    )
     embedded_widget = models.CharField(
         null=True, blank=True,
         max_length=50,
-        help_text="The name of the embedded widget (optional).")
+        help_text="The name of the embedded widget (optional)."
+    )
     description = models.TextField(
-        help_text="The discription of the action. " + settings.MARKDOWN_TEXT)
+        help_text="The discription of the action. " + settings.MARKDOWN_TEXT
+    )
     type = models.CharField(
         max_length=20,
         choices=TYPE_CHOICES,
         help_text="The type of the actions."
-    )
-    level = models.ForeignKey(Level,
-        null=True, blank=True,
-        help_text="The level of the action.")
-    category = models.ForeignKey(Category,
-        null=True, blank=True,
-        help_text="The category of the action.")
-    priority = models.IntegerField(
-        default=1000,
-        help_text="Actions with lower values (higher priority) will be listed first."
     )
     pub_date = models.DateField(
         default=datetime.date.today(),
@@ -218,11 +207,6 @@ class Action(models.Model):
         help_text="The point value to be awarded."
     )
 
-#    def __init__(self, *args, **kwargs):
-#        """Override the default constructor to set up the type field."""
-#        super(Action, self).__init__(*args, **kwargs)
-#        self.type = self.get_classname()
-
     def get_classname(self):
         """Returns the classname."""
         return self._meta.module_name
@@ -233,10 +217,6 @@ class Action(models.Model):
     def get_action(self, action_type):
         """Returns the concrete action object by type."""
         return action_type.objects.get(action_ptr=self.pk)
-
-    class Meta:
-        """Meta"""
-        ordering = ("level", "category", "priority")
 
 
 class Activity(Action):
@@ -356,6 +336,46 @@ class Event(Action):
 class Filler(Action):
     """Filler action. It is always locked"""
     pass
+
+
+class CategoryGrid(models.Model):
+    """Defines the Category positions in the Smart Grid."""
+    level = models.ForeignKey(Level,
+        help_text="The level of the action."
+    )
+    column = models.IntegerField(
+        default=1,
+        help_text="The column of the Smart Grid this Action is in.",
+        validators=[MaxValueValidator(8)]
+    )
+    category = models.ForeignKey(Category,
+                                 help_text="The Category in this location.")
+
+
+class Grid(models.Model):
+    """Defines the Smart Grid, holds the level, column, row, and Action."""
+    level = models.ForeignKey(Level,
+        help_text="The level of the action."
+    )
+    column = models.IntegerField(
+        default=1,
+        help_text="The column of the Smart Grid this Action is in.",
+        validators=[MaxValueValidator(8)]
+    )
+    row = models.IntegerField(
+        default=1,
+        help_text="The row of the Smart Grid this Action is in.",
+        validators=[MaxValueValidator(8)]
+    )
+    action = models.ForeignKey(Action,
+                               help_text="The Action in this location.")
+
+    class Meta:
+        """Meta"""
+        ordering = ("level", "column", "row")
+
+    def __unicode__(self):
+        return "%s: [%s, %s, %s]" % (self.action, self.level, self.column, self.row)
 
 
 class ActionMember(models.Model):

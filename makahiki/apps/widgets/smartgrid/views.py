@@ -28,8 +28,15 @@ def supply(request, page_name):
 
     user = request.user
 
+    grid = smartgrid.get_level_actions(user)
+    print grid[0][2][0]
+    print "[%s, %s] is_unlock=%s, completed=%s, availability=%s" %\
+     (grid[0][2][0].column, grid[0][2][0].row, grid[0][2][0].is_unlock, grid[0][2][0].completed,
+      grid[0][2][0].availablity)
+    print grid[0][2][0]._meta.module_name
     return {
-        "levels": smartgrid.get_level_actions(user),
+        "levels": smartgrid.get_levels(user),
+        "grid": grid,
         }
 
 

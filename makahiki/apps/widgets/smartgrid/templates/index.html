@@ -1,4 +1,5 @@
 {% load cache %}
+{% load sgg_design_tags %}
 {% cache 1800 smartgrid request.user %}
 
 <div class="content-box-centered">
@@ -36,12 +37,20 @@
         </ul>
         <!-- Tab contents -->
         <div class="tab-content">
-        {% for level in view_objects.smartgrid.levels %}
+        {% for grid_level in view_objects.smartgrid.grid %}
+        	{% with level=grid_level|nth:0 %}
+        	{% with cat_list=grid_level|nth:1 %}
+        	{% with act_list=grid_level|nth:2 %}
+        	{% with columns=grid_level|nth:3 %}
             <div id="sgg-level-{{forloop.counter}}" class="tab-pane">
                 {% if level.is_unlock %}
-                  {% include "level-table.html" with categories=level.cat_list %}
+                  {% include "level-table.html" %}
                 {% endif %}
             </div>
+        	{% endwith %}
+        	{% endwith %}
+        	{% endwith %}
+        	{% endwith %}
         {% endfor %}
         </div>
     </div>
