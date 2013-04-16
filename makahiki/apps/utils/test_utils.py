@@ -84,7 +84,6 @@ def create_event(slug=None):
         event_date=datetime.datetime.today() + datetime.timedelta(days=1),
         unlock_condition=True,
         type="event",
-        level=level,
     )
 
 

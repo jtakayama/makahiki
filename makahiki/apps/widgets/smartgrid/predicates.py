@@ -3,7 +3,7 @@
 from datetime import datetime, timedelta
 from django.db.models.query_utils import Q
 from apps.widgets.smartgrid import smartgrid
-from apps.widgets.smartgrid.models import Action, Event
+from apps.widgets.smartgrid.models import Action, Event, Grid
 
 
 def completed_action(user, slug):
@@ -66,7 +66,10 @@ def completed_some_of(user, some=1, category_slug=None, action_type=None, resour
         return user.actionmember_set.filter(action__related_resource=resource).count() >= some
 
     if level_name:
-        return user.actionmember_set.filter(action__level__name=level_name).count() >= some
+        count = 0
+        for action in Grid.objects.filter(level__name=level_name):
+            count += user.actionmember_set.filter(action=action).count()
+        return count >= some
 
     return user.actionmember_set.all().count() >= some
 
@@ -74,11 +77,13 @@ def completed_some_of(user, some=1, category_slug=None, action_type=None, resour
 def completed_level(user, lvl=1):
     """Returns true if the user has performed all activities successfully, and
       attempted all commitments."""
-    num_completed = user.actionmember_set.filter(
+#    num_completed = user.actionmember_set.filter(
+#        Q(action__type='activity') | Q(action__type='commitment'),
+#        action__level__priority=lvl).count()
+    _ = user
+    num_completed = 0
+    num_level = Grid.objects.filter(
         Q(action__type='activity') | Q(action__type='commitment'),
-        action__level__priority=lvl).count()
-    num_level = Action.objects.filter(
-        Q(type='activity') | Q(type='commitment'),
         level__priority=lvl).count()
 
     # check if there is any activity or commitment

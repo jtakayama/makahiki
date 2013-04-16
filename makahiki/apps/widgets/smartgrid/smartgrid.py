@@ -16,7 +16,7 @@ from apps.utils import utils
 from apps.widgets.notifications.models import NoticeTemplate, UserNotification
 from apps.widgets.smartgrid import NUM_GOLOW_ACTIONS, SETUP_WIZARD_ACTIVITY, NOSHOW_PENALTY_DAYS
 from apps.widgets.smartgrid.models import Action, ActionMember, Level, EmailReminder, \
-    TextReminder
+    TextReminder, CategoryGrid, Grid, Activity, Commitment
 from apps.widgets.smartgrid.models import Event
 from apps.widgets.smartgrid import  MAX_COMMITMENTS
 
@@ -41,7 +41,14 @@ def complete_setup_activity(user):
 
 def get_action(slug):
     """returns the action object by slug."""
-    return get_object_or_404(Action, slug=slug)
+    action = get_object_or_404(Action, slug=slug)
+    if action.type == 'activity':
+        action = Activity.objects.get(slug=slug)
+    elif action.type == 'commitment':
+        action = Commitment.objects.get(slug=slug)
+    elif action.type == 'event':
+        action = Event.objects.get(slug=slug)
+    return action
 
 
 def annotate_action_details(user, action):
@@ -79,7 +86,9 @@ def annotate_action_details(user, action):
         action.completed = True
     else:
         action.member = None
-        action.is_unlock = is_unlock(user, action) and is_level_unlock(user, action.level)
+        action.is_unlock = is_unlock(user, action)
+        for loc in Grid.objects.filter(action=action):
+            action.is_unlock = action.is_unlock and is_level_unlock(user, loc.level)
         action.completed = False
 
     action.availablity = availablity(action)
@@ -111,16 +120,33 @@ def get_completed_actions(user):
     return actions
 
 
-def get_level_actions(user):
-    """Return the level list with the action info in categories"""
-    levels = cache_mgr.get_cache('smartgrid-levels-%s' % user.username)
+def get_levels(user):
+    """Returns the list of annotated levels for the given user."""
+    levels = []
+    completed_actions = get_completed_actions(user)
+    for level in Level.objects.all():
+        level.is_unlock = utils.eval_predicates(level.unlock_condition, user)
+        level.is_complete = True
+        for row in Grid.objects.filter(level=level):
+            action = row.action
+            if action.slug not in completed_actions:
+                level.is_complete = False
+                break
+        levels.append(level)
+    return levels
 
+
+def get_level_actions(user):  # pylint: disable=R0914,R0912,R0915
+    """Returns the smart grid as defined in the Smart Grid Designer. The
+    grid is a list of lists with the format [<Level>, [<CategoryGrid>*],
+    [<Grid>*], [active columns], max_column, max_row]"""
+    levels = cache_mgr.get_cache('smartgrid-levels-%s' % user.username)
     if levels is None:
         completed_actions = get_completed_actions(user)
         levels = []
         for level in Level.objects.all():
             level.is_unlock = utils.eval_predicates(level.unlock_condition, user)
-            if level.is_unlock:
+            if level.is_unlock:  # only include unlocked levels
                 if level.unlock_condition != "True":
                     contents = "%s is unlocked." % level
                     obj, created = UserNotification.objects.\
@@ -130,11 +156,24 @@ def get_level_actions(user):
                     if created:  # only show the notification if it is new
                         obj.display_alert = True
                         obj.save()
+                level_ret = []
                 level.is_complete = True
-                categories = []
-                action_list = None
-                category = None
-                for action in level.action_set.all().select_related("category"):
+                level_ret.append(level)
+                level_ret.append(CategoryGrid.objects.filter(level=level))
+#                level_ret.append(Grid.objects.filter(level=level))
+
+                max_column = 0
+                max_row = 0
+                just_actions = []
+                # update each action
+                for row in Grid.objects.filter(level=level):
+                    action = Action.objects.get(slug=row.action.slug)
+                    action.row = row.row
+                    if row.row > max_row:
+                        max_row = row.row
+                    action.column = row.column
+                    if row.column > max_column:
+                        max_column = row.column
                     if action.slug in completed_actions:
                         action.member = completed_actions[action.slug]
                         action.is_unlock = True
@@ -147,31 +186,32 @@ def get_level_actions(user):
                     # if there is one action is not completed, set the level to in-completed
                     if not action.completed:
                         level.is_complete = False
+                    just_actions.append(action)
+                level_ret.append(just_actions)
+                columns = []
+                for cat in level_ret[1]:
+                    if cat.column not in columns:
+                        columns.append(cat.column)
+                for act in level_ret[2]:
+                    if act.column not in columns:
+                        columns.append(act.column)
+                level_ret.append(columns)
+                level_ret.append(max_column)
+                level_ret.append(max_row)
+                levels.append(level_ret)
+            else:
+                level_ret = []
+                level_ret.append(level)
+                level_ret.append([])
+                level_ret.append([])
+                level_ret.append([])
+                level_ret.append(0)
+                level_ret.append(0)
+                levels.append(level_ret)
 
-                    # the action are ordered by level and category
-                    if category != action.category:
-                        if category:
-                            # a new category
-                            category.task_list = action_list
-                            categories.append(category)
-
-                        action_list = []
-                        category = action.category
-
-                    action_list.append(action)
-
-                if category:
-                    # last category
-                    category.task_list = action_list
-                    categories.append(category)
-
-                level.cat_list = categories
-            levels.append(level)
-
-        # Cache the categories for 30 minutes (or until they are invalidated)
+        # Cache the levels for 30 minutes (or until they are invalidated)
         cache_mgr.set_cache('smartgrid-levels-%s' % user, levels, 1800)
-
-    return levels
+    return levels  # pylint: enable=R0914,R0912,R0915
 
 
 def get_smart_grid():
@@ -266,7 +306,11 @@ def get_available_golow_actions(user, related_resource):
             if action_type == action.type:
                 continue
 
-            if is_unlock(user, action) and is_level_unlock(user, action.level):
+            unlock = is_unlock(user, action)
+            if unlock:
+                for loc in Grid.objects.filter(action=action):
+                    unlock = unlock and is_level_unlock(user, loc.level)
+            if unlock:
                 golow_actions.append(action)
                 action_type = action.type
 
@@ -352,9 +396,11 @@ def get_available_events(user):
 
         unlock_events = []
         for event in events:
-            if is_unlock(user, event) and \
-               is_level_unlock(user, event.level) and \
-               not event.is_event_completed():
+            unlock = is_unlock(user, event) and not event.is_event_completed()
+            if unlock:
+                for loc in Grid.objects.filter(action=event):
+                    unlock = unlock and is_level_unlock(user, loc.level)
+            if unlock:
                 unlock_events.append(event)
 
         events = unlock_events

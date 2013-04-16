@@ -1,146 +1,819 @@
 [
     {
-        "pk": 16,
-        "model": "smartgrid_library.librarycategory",
+        "pk": 44,
+        "model": "smartgrid_library.librarytextpromptquestion",
         "fields": {
-            "name": "Electrimental",
-            "slug": "electrimental"
+            "answer": "kilowatt-hour",
+            "question": "What is the unit of measurement for household energy?",
+            "libraryaction": 2
         }
     },
     {
-        "pk": 30,
-        "model": "smartgrid_library.librarycategory",
+        "pk": 45,
+        "model": "smartgrid_library.librarytextpromptquestion",
         "fields": {
-            "name": "Generation Next",
-            "slug": "generation-next"
+            "answer": "watt",
+            "question": "What is the unit of measurement for power?",
+            "libraryaction": 2
         }
     },
     {
-        "pk": 1,
-        "model": "smartgrid_library.librarycategory",
+        "pk": 46,
+        "model": "smartgrid_library.librarytextpromptquestion",
         "fields": {
-            "name": "Get Started",
-            "slug": "get-started"
+            "answer": "Heat, light",
+            "question": "What are the two things the sun provides?",
+            "libraryaction": 22
         }
     },
     {
-        "pk": 20,
-        "model": "smartgrid_library.librarycategory",
+        "pk": 47,
+        "model": "smartgrid_library.librarytextpromptquestion",
         "fields": {
-            "name": "Get Creative",
-            "slug": "get-creative"
+            "answer": "Ability to run power meter forwards or backwards",
+            "question": "What is net metering?",
+            "libraryaction": 22
         }
     },
     {
-        "pk": 17,
-        "model": "smartgrid_library.librarycategory",
+        "pk": 48,
+        "model": "smartgrid_library.librarytextpromptquestion",
         "fields": {
-            "name": "Let's Get Physical",
-            "slug": "lets-get-physical"
+            "answer": "reuse containers, bring your own container, use reusable bags, etc",
+            "question": "Name one way you can reduce the amount of trash you produce",
+            "libraryaction": 57
         }
     },
     {
-        "pk": 11,
-        "model": "smartgrid_library.librarycategory",
+        "pk": 49,
+        "model": "smartgrid_library.librarytextpromptquestion",
         "fields": {
-            "name": "Just Do It",
-            "slug": "just-do-it"
+            "answer": "power",
+            "question": "What concept in electricity is like a car's speedometer?",
+            "libraryaction": 2
         }
     },
     {
-        "pk": 22,
-        "model": "smartgrid_library.librarycategory",
+        "pk": 50,
+        "model": "smartgrid_library.librarytextpromptquestion",
         "fields": {
-            "name": "Think Smart",
-            "slug": "think-smart"
+            "answer": "energy",
+            "question": "What concept in electricity is like a car's odometer?",
+            "libraryaction": 2
         }
     },
     {
-        "pk": 18,
-        "model": "smartgrid_library.librarycategory",
+        "pk": 51,
+        "model": "smartgrid_library.librarytextpromptquestion",
         "fields": {
-            "name": "Power to Burn?",
-            "slug": "power-burn"
+            "answer": "higher prices, climate change, lost beaches",
+            "question": "What might be some consequences of failing to make changes in Hawaii's current energy generation?",
+            "libraryaction": 18
         }
     },
     {
-        "pk": 12,
-        "model": "smartgrid_library.librarycategory",
+        "pk": 52,
+        "model": "smartgrid_library.librarytextpromptquestion",
         "fields": {
-            "name": "Go Dark",
-            "slug": "go-dark"
+            "answer": "doesn't work at night, or when very cloudy",
+            "question": "What is one limitation of solar power?",
+            "libraryaction": 22
         }
     },
     {
-        "pk": 19,
-        "model": "smartgrid_library.librarycategory",
+        "pk": 53,
+        "model": "smartgrid_library.librarytextpromptquestion",
         "fields": {
-            "name": "Make it So",
-            "slug": "make-it-so"
+            "answer": "less fresh water, less beach, more drought, more floods, more coral bleaching",
+            "question": "What is one expected impact of climate change in Hawaii?",
+            "libraryaction": 26
         }
     },
     {
-        "pk": 15,
-        "model": "smartgrid_library.librarycategory",
+        "pk": 54,
+        "model": "smartgrid_library.librarytextpromptquestion",
         "fields": {
-            "name": "Potpourri",
-            "slug": "potpourri"
+            "answer": "reduce it, get it under 350 ppm",
+            "question": "What should we do about carbon dioxide?",
+            "libraryaction": 26
         }
     },
     {
-        "pk": 29,
-        "model": "smartgrid_library.librarycategory",
+        "pk": 55,
+        "model": "smartgrid_library.librarytextpromptquestion",
         "fields": {
-            "name": "Last Dance",
-            "slug": "last-dance"
+            "answer": "Reduce our energy use, reduce energy footprint",
+            "question": "How can we in Hawaii reduce our carbon footprint?",
+            "libraryaction": 26
         }
     },
     {
-        "pk": 31,
-        "model": "smartgrid_library.librarycategory",
+        "pk": 56,
+        "model": "smartgrid_library.librarytextpromptquestion",
         "fields": {
-            "name": "Energy Wizardry",
-            "slug": "energy-wizardry"
+            "answer": "90%",
+            "question": "How much of Hawaii's energy comes from oil?",
+            "libraryaction": 14
         }
     },
     {
-        "pk": 5,
-        "model": "smartgrid_library.librarycategory",
+        "pk": 57,
+        "model": "smartgrid_library.librarytextpromptquestion",
         "fields": {
-            "name": "Moving on",
-            "slug": "moving-on"
+            "answer": "anything reasonable",
+            "question": "What did you learn from the video?",
+            "libraryaction": 18
         }
     },
     {
-        "pk": 14,
-        "model": "smartgrid_library.librarycategory",
+        "pk": 58,
+        "model": "smartgrid_library.librarytextpromptquestion",
         "fields": {
-            "name": "Energize Yourself",
-            "slug": "energize-yourself"
+            "answer": "Hale Aloha dorms, or Lehua, Ilima, Mokihana, and Lokelani",
+            "question": "Where is the Kukui Cup taking place?",
+            "libraryaction": 14
         }
     },
     {
-        "pk": 25,
-        "model": "smartgrid_library.librarycategory",
+        "pk": 59,
+        "model": "smartgrid_library.librarytextpromptquestion",
         "fields": {
-            "name": "Express Yourself",
-            "slug": "express-yourself"
+            "answer": "freshmen, first-year students, residents of Hale Aloha",
+            "question": "What students can participate?",
+            "libraryaction": 14
         }
     },
     {
-        "pk": 21,
-        "model": "smartgrid_library.librarycategory",
+        "pk": 60,
+        "model": "smartgrid_library.librarytextpromptquestion",
         "fields": {
-            "name": "Be Committed",
-            "slug": "be-committed"
+            "answer": "200 W",
+            "question": "How much power does a game console use?",
+            "libraryaction": 15
         }
     },
     {
-        "pk": 27,
+        "pk": 61,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "1000+ W",
+            "question": "How much does power a microwave use?",
+            "libraryaction": 15
+        }
+    },
+    {
+        "pk": 62,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "175-200 W",
+            "question": "How much power does a solar panel generate?",
+            "libraryaction": 15
+        }
+    },
+    {
+        "pk": 63,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "3 Wh",
+            "question": "How much energy is in a AA battery?",
+            "libraryaction": 15
+        }
+    },
+    {
+        "pk": 64,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "1 kWh",
+            "question": "How much energy does a solar panel generate per day?",
+            "libraryaction": 15
+        }
+    },
+    {
+        "pk": 65,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "1500 kWh",
+            "question": "How much energy does a Hale Aloha tower use per day?",
+            "libraryaction": 15
+        }
+    },
+    {
+        "pk": 66,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "$0.20-$0.30",
+            "question": "How much does a kilowatt-hour cost in Hawaii?",
+            "libraryaction": 15
+        }
+    },
+    {
+        "pk": 67,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "a power plant that turns some of Hawaii's waste into energy",
+            "question": "What is H-POWER?",
+            "libraryaction": 57
+        }
+    },
+    {
+        "pk": 68,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "60%",
+            "question": "What percentage of our trash does H-POWER convert into energy?",
+            "libraryaction": 57
+        }
+    },
+    {
+        "pk": 69,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "prevent/reduce, reuse, recycle",
+            "question": "What are the three components of the trash pyramid?",
+            "libraryaction": 57
+        }
+    },
+    {
+        "pk": 70,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "hair dryer",
+            "question": "Which device uses the most power: mobile phone, laptop, or hair dryer?",
+            "libraryaction": 16
+        }
+    },
+    {
+        "pk": 71,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "so many types available, easier for renewables to be price competitive here",
+            "question": "What is one reason renewable power has great potential in Hawaii?",
+            "libraryaction": 78
+        }
+    },
+    {
+        "pk": 72,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "oil",
+            "question": "What is the main source of energy in Hawaii?",
+            "libraryaction": 78
+        }
+    },
+    {
+        "pk": 73,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "turning off lights, using sunlight",
+            "question": "What is one way to reduce energy use from lighting?",
+            "libraryaction": 77
+        }
+    },
+    {
+        "pk": 74,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "CFL",
+            "question": "Which light source uses more power, compact fluorescent (CFL) or LED?",
+            "libraryaction": 77
+        }
+    },
+    {
+        "pk": 75,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "incandescent",
+            "question": "Which light source uses more power, incandescent or compact fluorescent (CFL)?",
+            "libraryaction": 77
+        }
+    },
+    {
+        "pk": 76,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "vampire power, devices can use energy when powered off",
+            "question": "Why would we measure the power drawn by a device that is off?",
+            "libraryaction": 16
+        }
+    },
+    {
+        "pk": 77,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "Points and Lounge energy consumption",
+            "question": "What are the two ways to \"keep score\" in the Kukui Cup?",
+            "libraryaction": 66
+        }
+    },
+    {
+        "pk": 78,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "Accumulate kukui cup points",
+            "question": "How do you earn raffle tickets?",
+            "libraryaction": 66
+        }
+    },
+    {
+        "pk": 79,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "5",
+            "question": "How many commitments can you have at one time?",
+            "libraryaction": 66
+        }
+    },
+    {
+        "pk": 80,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "no interconnection, small grids, expensive raw materials",
+            "question": "What is one reason why energy costs more in Hawaii?",
+            "libraryaction": 78
+        }
+    },
+    {
+        "pk": 81,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "The rate at which energy is being used.",
+            "question": "What is power?",
+            "libraryaction": 86
+        }
+    },
+    {
+        "pk": 82,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "About 1.",
+            "question": "How many solar panels would be needed to power an XBox?",
+            "libraryaction": 87
+        }
+    },
+    {
+        "pk": 83,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "LED",
+            "question": "If you were a chocolate bunny, would you want to live under an incandescent light or an LED light?",
+            "libraryaction": 88
+        }
+    },
+    {
+        "pk": 84,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "70%",
+            "question": "According to the HCEI, what percentage of our energy should come from clean sources by 2030?",
+            "libraryaction": 91
+        }
+    },
+    {
+        "pk": 85,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "bar",
+            "question": "Foo",
+            "libraryaction": 92
+        }
+    },
+    {
+        "pk": 86,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "They are intermittent, we need power even when it's dark and not windy.",
+            "question": "Why can't solar or wind power supply all of Hawaii's energy needs?",
+            "libraryaction": 93
+        }
+    },
+    {
+        "pk": 87,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "$0.30",
+            "question": "What is the approximate cost of a kilowatt-hour of electricity on Oahu?",
+            "libraryaction": 94
+        }
+    },
+    {
+        "pk": 88,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "wind",
+            "question": "What clean energy project is occurring in Kahuku?",
+            "libraryaction": 95
+        }
+    },
+    {
+        "pk": 89,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "The sun's rays get focused on water, turning it to steam to turn a turbine",
+            "question": "How does a solar thermal electric plant convert sunlight to energy?",
+            "libraryaction": 97
+        }
+    },
+    {
+        "pk": 90,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "60%",
+            "question": "What percentage of Hawaii's energy is used for transportation?",
+            "libraryaction": 99
+        }
+    },
+    {
+        "pk": 91,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "PHEV adds electric motor and batteries that can be charged by plugging in",
+            "question": "Briefly, what are the differences between a conventional car and a plug-in hybrid?",
+            "libraryaction": 101
+        }
+    },
+    {
+        "pk": 92,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "90%",
+            "question": "How much does H-POWER reduce the volume of the opala it processes?",
+            "libraryaction": 107
+        }
+    },
+    {
+        "pk": 93,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "bar",
+            "question": "Foo",
+            "libraryaction": 116
+        }
+    },
+    {
+        "pk": 94,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "Bar",
+            "question": "Foo",
+            "libraryaction": 117
+        }
+    },
+    {
+        "pk": 95,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "50 feet",
+            "question": "If sea levels rise by six inches, how many feet of beach will be lost?",
+            "libraryaction": 121
+        }
+    },
+    {
+        "pk": 96,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "Power is the rate at which energy is used.",
+            "question": "What is the relationship between power and energy?",
+            "libraryaction": 86
+        }
+    },
+    {
+        "pk": 97,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "gone down",
+            "question": "Has Hawaii's oil consumption gone up, down, or stayed the same over the past five years? Why?",
+            "libraryaction": 87
+        }
+    },
+    {
+        "pk": 98,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "about 20 kWh",
+            "question": "How much energy does a typical Hawaii home use in a day?",
+            "libraryaction": 87
+        }
+    },
+    {
+        "pk": 99,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "90%",
+            "question": "What percent of the energy used to power an incandescent bulb is emitted as heat?",
+            "libraryaction": 88
+        }
+    },
+    {
+        "pk": 100,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "They will decrease.",
+            "question": "If we achieve the goals of HCEI, what will happen to our baseline power requirements over the next 20 years?",
+            "libraryaction": 91
+        }
+    },
+    {
+        "pk": 101,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "6 billion dollars.",
+            "question": "How much money do we currently send out of state on oil per year?",
+            "libraryaction": 91
+        }
+    },
+    {
+        "pk": 102,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "We as citizens need to decide what trade-offs we want to make.",
+            "question": "Why can't we just let the electric company solve our energy problems?",
+            "libraryaction": 93
+        }
+    },
+    {
+        "pk": 103,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "Washington",
+            "question": "According to the US Energy Information Office, what state currently has the lowest energy costs?",
+            "libraryaction": 94
+        }
+    },
+    {
+        "pk": 104,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "Petroleum (37%)",
+            "question": "What is the primary source of energy across the United States?",
+            "libraryaction": 94
+        }
+    },
+    {
+        "pk": 105,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "wave",
+            "question": "What clean energy project is occurring in Kaneohe?",
+            "libraryaction": 95
+        }
+    },
+    {
+        "pk": 106,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "About 4,000",
+            "question": "According to the HCEI Year 2 update, how many PV projects were installed in 2010?",
+            "libraryaction": 95
+        }
+    },
+    {
+        "pk": 107,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "Phosphorus and boron",
+            "question": "What two elements are added to silicon to make a solar cell?",
+            "libraryaction": 97
+        }
+    },
+    {
+        "pk": 108,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "solar hot water heater",
+            "question": "What is one common way to use the sun's heat in a home?",
+            "libraryaction": 97
+        }
+    },
+    {
+        "pk": 109,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "Nothing!",
+            "question": "As a UH student, how much does it cost you to ride The Bus?",
+            "libraryaction": 99
+        }
+    },
+    {
+        "pk": 110,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "Google Maps or hea.thebus.org",
+            "question": "How can you find out when the next bus is coming?",
+            "libraryaction": 99
+        }
+    },
+    {
+        "pk": 111,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "Every Wednesday 7-8:30pm or Thursday from 12-2",
+            "question": "When can you fix your bike at Cycle Manoa for free?",
+            "libraryaction": 101
+        }
+    },
+    {
+        "pk": 112,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "The Prius!",
+            "question": "Which has lower emissions, driving a Prius with three passengers or taking the bus?",
+            "libraryaction": 101
+        }
+    },
+    {
+        "pk": 113,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "equivalent to 1 barrel of oil",
+            "question": "How much energy does 1 ton of waste produce in H-POWER?",
+            "libraryaction": 107
+        }
+    },
+    {
+        "pk": 114,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "Place in the Art Building where people can leave or takes stuff for free",
+            "question": "What is the Free Store?",
+            "libraryaction": 107
+        }
+    },
+    {
+        "pk": 115,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "This is a trick question. He says it doesn't matter which side of the debate you take, because regardless of which side is right, we need to take action.",
+            "question": "Which side of the debate on climate change does Greg Craven take in his video, \"How it all ends\"?",
+            "libraryaction": 121
+        }
+    },
+    {
+        "pk": 116,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "Possibilities: the media, under-education, denialism.",
+            "question": "According to the Scientific American article, what are possible reasons why Americans are so ill-informed about climate change?",
+            "libraryaction": 121
+        }
+    },
+    {
+        "pk": 117,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "Equivalent to 250 billion barrels of oil",
+            "question": "How much solar energy do tropical seas absorb in a day?",
+            "libraryaction": 108
+        }
+    },
+    {
+        "pk": 118,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "Use the temperature difference between warm ocean surface and cold depths to spin turbine",
+            "question": "How does OTEC generate energy?",
+            "libraryaction": 108
+        }
+    },
+    {
+        "pk": 119,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "Ocean Thermal Energy Conversion",
+            "question": "What does OTEC stand for?",
+            "libraryaction": 108
+        }
+    },
+    {
+        "pk": 120,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "Provides constant power, not intermittent",
+            "question": "How does OTEC differ from solar and wind energy?",
+            "libraryaction": 108
+        }
+    },
+    {
+        "pk": 122,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "???",
+            "question": "???",
+            "libraryaction": 184
+        }
+    },
+    {
+        "pk": 123,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "???",
+            "question": "???",
+            "libraryaction": 185
+        }
+    },
+    {
+        "pk": 124,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "???",
+            "question": "???",
+            "libraryaction": 186
+        }
+    },
+    {
+        "pk": 125,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "???",
+            "question": "???",
+            "libraryaction": 187
+        }
+    },
+    {
+        "pk": 126,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "???",
+            "question": "???",
+            "libraryaction": 196
+        }
+    },
+    {
+        "pk": 127,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "???",
+            "question": "???",
+            "libraryaction": 197
+        }
+    },
+    {
+        "pk": 128,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "???",
+            "question": "Sust Class S13",
+            "libraryaction": 198
+        }
+    },
+    {
+        "pk": 129,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "???",
+            "question": "Capus Energy Hogs",
+            "libraryaction": 199
+        }
+    },
+    {
+        "pk": 130,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "???",
+            "question": "DIY Video 2",
+            "libraryaction": 206
+        }
+    },
+    {
+        "pk": 131,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "???",
+            "question": "DIY Workshop 2",
+            "libraryaction": 208
+        }
+    },
+    {
+        "pk": 132,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "???",
+            "question": "DIY Sustainability Game",
+            "libraryaction": 209
+        }
+    },
+    {
+        "pk": 133,
+        "model": "smartgrid_library.librarytextpromptquestion",
+        "fields": {
+            "answer": "???",
+            "question": "Course Proj S13",
+            "libraryaction": 210
+        }
+    },
+    {
+        "pk": 34,
         "model": "smartgrid_library.librarycategory",
         "fields": {
-            "name": "Do It To It",
-            "slug": "do-it-it"
+            "name": "Anything Goes",
+            "slug": "anything-goes"
+        }
+    },
+    {
+        "pk": 43,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "April Showers",
+            "slug": "april-showers"
         }
     },
     {
@@ -152,27 +825,171 @@
         }
     },
     {
+        "pk": 21,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "Be Committed",
+            "slug": "be-committed"
+        }
+    },
+    {
+        "pk": 44,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "Be There. Aloha.",
+            "slug": "be-there-aloha"
+        }
+    },
+    {
+        "pk": 33,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "Commitomania",
+            "slug": "commitomania"
+        }
+    },
+    {
+        "pk": 10,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "Creative",
+            "slug": "creative"
+        }
+    },
+    {
+        "pk": 27,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "Do It To It",
+            "slug": "do-it-it"
+        }
+    },
+    {
+        "pk": 35,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "Do It Yourself",
+            "slug": "do-it-yourself"
+        }
+    },
+    {
+        "pk": 16,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "Electrimental",
+            "slug": "electrimental"
+        }
+    },
+    {
+        "pk": 14,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "Energize Yourself",
+            "slug": "energize-yourself"
+        }
+    },
+    {
+        "pk": 31,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "Energy Wizardry",
+            "slug": "energy-wizardry"
+        }
+    },
+    {
+        "pk": 38,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "Eventful",
+            "slug": "eventful"
+        }
+    },
+    {
+        "pk": 36,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "Events",
+            "slug": "events"
+        }
+    },
+    {
+        "pk": 25,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "Express Yourself",
+            "slug": "express-yourself"
+        }
+    },
+    {
+        "pk": 30,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "Generation Next",
+            "slug": "generation-next"
+        }
+    },
+    {
+        "pk": 20,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "Get Creative",
+            "slug": "get-creative"
+        }
+    },
+    {
+        "pk": 1,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "Get Started",
+            "slug": "get-started"
+        }
+    },
+    {
+        "pk": 12,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "Go Dark",
+            "slug": "go-dark"
+        }
+    },
+    {
+        "pk": 11,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "Just Do It",
+            "slug": "just-do-it"
+        }
+    },
+    {
+        "pk": 42,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "Last Chance",
+            "slug": "last-chance"
+        }
+    },
+    {
+        "pk": 29,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "Last Dance",
+            "slug": "last-dance"
+        }
+    },
+    {
+        "pk": 17,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "Let's Get Physical",
+            "slug": "lets-get-physical"
+        }
+    },
+    {
         "pk": 3,
         "model": "smartgrid_library.librarycategory",
         "fields": {
             "name": "Lights Out!",
             "slug": "lights-out"
-        }
-    },
-    {
-        "pk": 23,
-        "model": "smartgrid_library.librarycategory",
-        "fields": {
-            "name": "Water Cycle",
-            "slug": "water-cycle"
-        }
-    },
-    {
-        "pk": 13,
-        "model": "smartgrid_library.librarycategory",
-        "fields": {
-            "name": "Play!",
-            "slug": "play"
         }
     },
     {
@@ -184,35 +1001,11 @@
         }
     },
     {
-        "pk": 24,
+        "pk": 19,
         "model": "smartgrid_library.librarycategory",
         "fields": {
-            "name": "Watts Up?",
-            "slug": "watts"
-        }
-    },
-    {
-        "pk": 28,
-        "model": "smartgrid_library.librarycategory",
-        "fields": {
-            "name": "Moving on",
-            "slug": "moving"
-        }
-    },
-    {
-        "pk": 26,
-        "model": "smartgrid_library.librarycategory",
-        "fields": {
-            "name": "Trail Mix",
-            "slug": "trail-mix"
-        }
-    },
-    {
-        "pk": 6,
-        "model": "smartgrid_library.librarycategory",
-        "fields": {
-            "name": "Opala",
-            "slug": "opala"
+            "name": "Make it So",
+            "slug": "make-it-so"
         }
     },
     {
@@ -224,6 +1017,94 @@
         }
     },
     {
+        "pk": 39,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "More Eventful",
+            "slug": "more-eventful"
+        }
+    },
+    {
+        "pk": 40,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "More Events",
+            "slug": "more-events"
+        }
+    },
+    {
+        "pk": 5,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "Moving on",
+            "slug": "moving-on"
+        }
+    },
+    {
+        "pk": 6,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "Opala",
+            "slug": "opala"
+        }
+    },
+    {
+        "pk": 13,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "Play!",
+            "slug": "play"
+        }
+    },
+    {
+        "pk": 15,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "Potpourri",
+            "slug": "potpourri"
+        }
+    },
+    {
+        "pk": 18,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "Power to Burn?",
+            "slug": "power-burn"
+        }
+    },
+    {
+        "pk": 22,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "Think Smart",
+            "slug": "think-smart"
+        }
+    },
+    {
+        "pk": 26,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "Trail Mix",
+            "slug": "trail-mix"
+        }
+    },
+    {
+        "pk": 23,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "Water Cycle",
+            "slug": "water-cycle"
+        }
+    },
+    {
+        "pk": 24,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "Watts Up?",
+            "slug": "watts"
+        }
+    },
+    {
         "pk": 7,
         "model": "smartgrid_library.librarycategory",
         "fields": {
@@ -232,11 +1113,19 @@
         }
     },
     {
-        "pk": 10,
+        "pk": 32,
         "model": "smartgrid_library.librarycategory",
         "fields": {
-            "name": "Creative",
-            "slug": "creative"
+            "name": "What's Hot",
+            "slug": "whats-hot"
+        }
+    },
+    {
+        "pk": 41,
+        "model": "smartgrid_library.librarycategory",
+        "fields": {
+            "name": "Wild About Watts",
+            "slug": "wild-about-watts"
         }
     },
     {
@@ -250,6 +1139,7 @@
             "image": "media/smartgrid/actions/sun-window.jpg",
             "title": "I will use sunlight instead of electric lighting",
             "unlock_condition_text": "Complete Power & Energy or Cup Secrets video activity",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 5,
             "type": "commitment",
@@ -269,6 +1159,7 @@
             "image": "",
             "title": "Adopt a Building",
             "unlock_condition_text": "",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 20,
             "type": "activity",
@@ -288,6 +1179,7 @@
             "image": "",
             "title": "Course Proj F12",
             "unlock_condition_text": "",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 0,
             "type": "activity",
@@ -307,6 +1199,7 @@
             "image": "",
             "title": "Sust Class S13",
             "unlock_condition_text": "",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 0,
             "type": "activity",
@@ -326,6 +1219,7 @@
             "image": "",
             "title": "Campus Energy Hogs",
             "unlock_condition_text": "",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 0,
             "type": "activity",
@@ -345,6 +1239,7 @@
             "image": "",
             "title": "DIY Commitment 2",
             "unlock_condition_text": "",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 5,
             "type": "commitment",
@@ -364,6 +1259,7 @@
             "image": "",
             "title": "Watch video about Power & Energy",
             "unlock_condition_text": "Complete Intro video activity",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 10,
             "type": "activity",
@@ -383,6 +1279,7 @@
             "image": "",
             "title": "Kickoff Party",
             "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 20,
             "type": "event",
@@ -402,6 +1299,7 @@
             "image": "",
             "title": "Watch video on Energy Intuition",
             "unlock_condition_text": "Complete Power & Energy video activity",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 10,
             "type": "activity",
@@ -421,6 +1319,7 @@
             "image": "media/smartgrid/actions/facebook-logo-small.png",
             "title": "Like Kukui Cup on Facebook",
             "unlock_condition_text": "Complete Secrets of the Kukui Cup video activity",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 5,
             "type": "activity",
@@ -440,6 +1339,7 @@
             "image": "",
             "title": "Sust Class F13",
             "unlock_condition_text": "Complete Sust Class S13",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 0,
             "type": "activity",
@@ -459,6 +1359,7 @@
             "image": "",
             "title": "Watch video \"Secrets of the Kukui Cup Masters\"",
             "unlock_condition_text": "Complete Intro video activity",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 10,
             "type": "activity",
@@ -478,6 +1379,7 @@
             "image": "media/smartgrid/actions/twitter-logo-small.png",
             "title": "Tweet about Kukui Cup",
             "unlock_condition_text": "Complete Secrets of the Kukui Cup video activity",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 5,
             "type": "activity",
@@ -497,6 +1399,7 @@
             "image": "media/smartgrid/actions/door-art-small.jpg",
             "title": "Door Art Challenge",
             "unlock_condition_text": "Complete Secrets of the Kukui Cup video activity",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 0,
             "type": "activity",
@@ -516,6 +1419,7 @@
             "image": "",
             "title": "Refer a friend to the Kukui Cup",
             "unlock_condition_text": "Complete Intro video activity, and wait for Round 2",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 5,
             "type": "activity",
@@ -535,12 +1439,33 @@
             "image": "",
             "title": "Workshop: Sustainable and Organic Farming",
             "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 20,
             "type": "event",
             "slug": "soft-group",
             "unlock_condition": "True",
             "description": "Your mother always told you to eat your vegetables, but did you ever consider where they came from while you  forced down that last bite of rutabaga? The Sustainable Organic Farm Training (SOFT) club is a student-run organization devoted to getting at the \"roots\" of fresh produce, literally and figuratively. At this workshop you'll get a chance to help out at the farm, taste fresh produce, and discover out what it really means to eat natural, local, organic, sustainable produce! Yum!! "
+        }
+    },
+    {
+        "pk": 248,
+        "model": "smartgrid_library.libraryaction",
+        "fields": {
+            "social_bonus": 10,
+            "video_id": null,
+            "name": "Sustainable UH Apr",
+            "video_source": null,
+            "image": "",
+            "title": "Sustainable UH Apr",
+            "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
+            "related_resource": null,
+            "embedded_widget": null,
+            "point_value": 20,
+            "type": "event",
+            "slug": "sustainable-uh-apr",
+            "unlock_condition": "True",
+            "description": "Sustainable UH Apr"
         }
     },
     {
@@ -554,6 +1479,7 @@
             "image": "media/smartgrid/actions/stairwell.jpg",
             "title": "I will use stairs instead of elevator",
             "unlock_condition_text": "Complete Energy Intuition video activity",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 5,
             "type": "commitment",
@@ -573,6 +1499,7 @@
             "image": "",
             "title": "Movie Night",
             "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 20,
             "type": "event",
@@ -592,6 +1519,7 @@
             "image": "",
             "title": "Play Outside Cafe",
             "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 20,
             "type": "event",
@@ -611,6 +1539,7 @@
             "image": "",
             "title": "Play Outside Cafe",
             "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 20,
             "type": "event",
@@ -630,6 +1559,7 @@
             "image": "media/smartgrid/actions/desk-lamp.jpg",
             "title": "I will use task lighting instead of overhead lights",
             "unlock_condition_text": "Complete Power & Energy or Cup Secrets video activity",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 5,
             "type": "commitment",
@@ -649,6 +1579,7 @@
             "image": "media/smartgrid/actions/lightswitch-sticker.jpg",
             "title": "I will turn off the lights when leaving any room",
             "unlock_condition_text": "Complete Power & Energy or Cup Secrets video activity",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 5,
             "type": "commitment",
@@ -668,6 +1599,7 @@
             "image": "",
             "title": "Play Outside Cafe",
             "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 20,
             "type": "event",
@@ -687,6 +1619,7 @@
             "image": "",
             "title": "Play Outside Cafe",
             "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 20,
             "type": "event",
@@ -706,6 +1639,7 @@
             "image": "",
             "title": "Flashmob",
             "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 20,
             "type": "event",
@@ -725,6 +1659,7 @@
             "image": "",
             "title": "Party: Round 1 Awards",
             "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 20,
             "type": "event",
@@ -744,6 +1679,7 @@
             "image": "",
             "title": "Workshop: Energy Scavenger Hunt",
             "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 20,
             "type": "event",
@@ -763,6 +1699,7 @@
             "image": "",
             "title": "Off the grid",
             "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 30,
             "type": "event",
@@ -782,6 +1719,7 @@
             "image": "",
             "title": "Customize your Kukui Cup tshirt",
             "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 20,
             "type": "event",
@@ -801,6 +1739,7 @@
             "image": "",
             "title": "Watch Energy Generation: What's the fuss?",
             "unlock_condition_text": "Complete Energy Intuition video activity",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 10,
             "type": "activity",
@@ -820,6 +1759,7 @@
             "image": "",
             "title": "Sustain Corps Oct",
             "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 20,
             "type": "event",
@@ -839,6 +1779,7 @@
             "image": "",
             "title": "Estimate your room's total daily energy consumption",
             "unlock_condition_text": "Complete room energy audit activity",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 35,
             "type": "activity",
@@ -858,6 +1799,7 @@
             "image": "media/smartgrid/actions/Xbox-label.jpg",
             "title": "Label power hogs in your room",
             "unlock_condition_text": "Complete Energy Intuition video activity",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 15,
             "type": "activity",
@@ -877,6 +1819,7 @@
             "image": "",
             "title": "Sustain Corps Apr",
             "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 20,
             "type": "event",
@@ -896,6 +1839,7 @@
             "image": "",
             "title": "Watch video on how to audit your energy use",
             "unlock_condition_text": "Complete Energy Intuition video activity",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 15,
             "type": "activity",
@@ -915,6 +1859,7 @@
             "image": "media/smartgrid/actions/shower-head.jpg",
             "title": "Measure shower water flow",
             "unlock_condition_text": "Complete Energy Intuition video activity",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 15,
             "type": "activity",
@@ -934,6 +1879,7 @@
             "image": "media/smartgrid/actions/SleepyMacBookPro-small.png",
             "title": "Configure your computer to sleep after inactivity",
             "unlock_condition_text": "Complete Energy Intuition video activity",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 20,
             "type": "activity",
@@ -953,6 +1899,7 @@
             "image": "media/smartgrid/actions/sink.jpg",
             "title": "I will turn off water when brushing my teeth or shaving",
             "unlock_condition_text": "",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 5,
             "type": "commitment",
@@ -972,12 +1919,53 @@
             "image": "",
             "title": "Examine your lounge's energy use",
             "unlock_condition_text": "Complete Energy Intuition video activity",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 10,
             "type": "activity",
             "slug": "check-energy",
             "unlock_condition": "completed_action(\"energy-intuition\")",
             "description": "<!---\r\n<center>![Go Low icon](/site_media/staticimages/icons/icon-go-low-lg.png)</center>\r\n--->\r\n\r\nOne important aspect of the Kukui Cup is the Daily Energy Goal Game, which can be found on the [Go Low](/energy) page. Every lounge is assigned a daily energy goal that represents a 5% reduction in electricity use from what the lounge was using before the competition. The Energy Goal Game shows how much energy your lounge has used so far today, and how that compares to the energy goal. The game also shows some activities that might be helpful in getting your lounge to reduce its energy use.\r\n\r\nFor this activity, you will check out the [Go Low](/energy) page. Read the page over, and come back to here and report three things: is your lounge above or below the energy goal, by how much, and name one activity that might help your lounge conserve energy."
+        }
+    },
+    {
+        "pk": 57,
+        "model": "smartgrid_library.libraryaction",
+        "fields": {
+            "social_bonus": 0,
+            "video_id": "6FeXBOyQerA",
+            "name": "Trash video",
+            "video_source": "youtube",
+            "image": "",
+            "title": "Watch Trash is Treasure video",
+            "unlock_condition_text": "Complete Energy Intuition video activity",
+            "related_resource": null,
+            "embedded_widget": "",
+            "point_value": 10,
+            "type": "activity",
+            "slug": "trash-video",
+            "unlock_condition": "completed_action(\"energy-intuition\")",
+            "description": "Check out this video called Trash is Treasure and maybe change your thinking about trash."
+        }
+    },
+    {
+        "pk": 99,
+        "model": "smartgrid_library.libraryaction",
+        "fields": {
+            "social_bonus": 0,
+            "video_id": "Yt13tkdi_Dk",
+            "name": "Transport Video",
+            "video_source": "youtube",
+            "image": "",
+            "title": "Watch video about transportation energy use",
+            "unlock_condition_text": "Complete Energy Intuition video activity",
+            "related_resource": null,
+            "embedded_widget": "",
+            "point_value": 10,
+            "type": "activity",
+            "slug": "transport-video",
+            "unlock_condition": "completed_action(\"energy-intuition\")",
+            "description": "Watch this video that explains how your choice of transportation impacts your energy use.\r\n"
         }
     },
     {
@@ -991,6 +1979,7 @@
             "image": "media/smartgrid/actions/photo-chain-game.jpg",
             "title": "Play the photo chain game",
             "unlock_condition_text": "Complete Secrets of the Kukui Cup video activity",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 10,
             "type": "activity",
@@ -1010,6 +1999,7 @@
             "image": "",
             "title": "Watch Energy Generation: Where are we now?",
             "unlock_condition_text": "Complete Energy Issues video activity",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 10,
             "type": "activity",
@@ -1029,6 +2019,7 @@
             "image": "",
             "title": "Watch Energy Generation: Hawaii Clean Energy Initiative",
             "unlock_condition_text": "Complete Energy Now video activity",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 10,
             "type": "activity",
@@ -1048,6 +2039,7 @@
             "image": "",
             "title": "Watch video about Lighting",
             "unlock_condition_text": "Complete Energy Intuition video activity",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 10,
             "type": "activity",
@@ -1067,6 +2059,7 @@
             "image": "media/smartgrid/actions/KukuiCup-eco-tote-small.jpg",
             "title": "I will bring reusable bags when shopping",
             "unlock_condition_text": "Complete Power & Energy or Cup Secrets video activity",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 5,
             "type": "commitment",
@@ -1086,6 +2079,7 @@
             "image": "",
             "title": "I will do something 'unplugged' every day",
             "unlock_condition_text": "Complete Energy Intuition video activity",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 5,
             "type": "commitment",
@@ -1105,6 +2099,7 @@
             "image": "",
             "title": "Make a photo blog a Kukui Cup topic",
             "unlock_condition_text": "Complete Energy Intuition video activity, and wait for Round 2",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 0,
             "type": "activity",
@@ -1124,6 +2119,7 @@
             "image": "",
             "title": "I will not eat meat",
             "unlock_condition_text": "",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 5,
             "type": "commitment",
@@ -1143,6 +2139,7 @@
             "image": "media/smartgrid/actions/sink-water.jpg",
             "title": "Measure sink water flow",
             "unlock_condition_text": "Complete Energy Intuition video activity",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 15,
             "type": "activity",
@@ -1162,31 +2159,13 @@
             "image": "",
             "title": "Go on a No Impact date",
             "unlock_condition_text": "Complete Turn Off Water commitment",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 10,
             "type": "activity",
             "slug": "no-impact-date",
             "unlock_condition": "completed_action(\"turn-off-water\")",
             "description": "While traditional ideas of a date include significant consumption, here's your chance to do something radical:  have a good time with a friend while using the minimum amount of electrical energy possible! Use this as an opportunity to be creative: how many different things can you do with a friend while using the least possible energy? Consider your transportation: can you walk, ride a bike, or take public transportation? Consider your food: what can you eat together that is delicious but was grown, delivered, and prepared with minimal energy? Consider your entertainment: what can you do together that is interesting, novel, and fun that does not consume resources?"
-        }
-    },
-    {
-        "pk": 57,
-        "model": "smartgrid_library.libraryaction",
-        "fields": {
-            "social_bonus": 0,
-            "video_id": "6FeXBOyQerA",
-            "name": "Trash video",
-            "video_source": "youtube",
-            "image": "",
-            "title": "Watch Trash is Treasure video",
-            "unlock_condition_text": "Complete Energy Intuition video activity",
-            "embedded_widget": "",
-            "point_value": 10,
-            "type": "activity",
-            "slug": "trash-video",
-            "unlock_condition": "completed_action(\"energy-intuition\")",
-            "description": "Check out this video called Trash is Treasure and maybe change your thinking about trash."
         }
     },
     {
@@ -1200,6 +2179,7 @@
             "image": "",
             "title": "Write a poem on a Kukui Cup topic",
             "unlock_condition_text": "Complete Letter to the Editor activity",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 0,
             "type": "activity",
@@ -1219,6 +2199,7 @@
             "image": "",
             "title": "I will reduce my shower time by 1 minute",
             "unlock_condition_text": "Complete Power & Energy or Cup Secrets video activity",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 5,
             "type": "commitment",
@@ -1238,6 +2219,7 @@
             "image": "media/smartgrid/actions/washing-machines.jpg",
             "title": "I will wash only full loads of laundry",
             "unlock_condition_text": "Complete Intro Video",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 5,
             "type": "commitment",
@@ -1257,6 +2239,7 @@
             "image": "media/smartgrid/actions/TheBus-small.jpg",
             "title": "I will take public transportation",
             "unlock_condition_text": "Complete Power & Energy or Cup Secrets video activity",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 5,
             "type": "commitment",
@@ -1276,6 +2259,7 @@
             "image": "media/smartgrid/actions/dorm-bed.jpg",
             "title": "I will turn off all appliances every night before going to sleep",
             "unlock_condition_text": "Complete Power & Energy or Cup Secrets video activity",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 5,
             "type": "commitment",
@@ -1295,6 +2279,7 @@
             "image": "media/smartgrid/actions/iPod-stereo.jpg",
             "title": "I will turn off my music when leaving my room",
             "unlock_condition_text": "Complete Power & Energy or Cup Secrets video activity",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 5,
             "type": "commitment",
@@ -1314,6 +2299,7 @@
             "image": "media/smartgrid/actions/recycling-can-lid.jpg",
             "title": "I will recycle all beverage containers",
             "unlock_condition_text": "Complete Energy Intuition video activity",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 5,
             "type": "commitment",
@@ -1333,6 +2319,7 @@
             "image": "media/smartgrid/actions/Belkin_Insight-crop.jpg",
             "title": "Find out how much power your stuff uses",
             "unlock_condition_text": "Watch the \"How to audit energy\" video",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 30,
             "type": "activity",
@@ -1352,6 +2339,7 @@
             "image": "",
             "title": "I will wash my laundry in cold water",
             "unlock_condition_text": "Complete Power & Energy or Cup Secrets video activity",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 5,
             "type": "commitment",
@@ -1371,6 +2359,7 @@
             "image": "",
             "title": "Energy Geo Trek across campus",
             "unlock_condition_text": "Complete Energy Intuition video activity",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 0,
             "type": "activity",
@@ -1390,6 +2379,7 @@
             "image": "media/smartgrid/actions/inkjet-printer-small.jpg",
             "title": "I will turn off printer when not printing",
             "unlock_condition_text": "Complete Power & Energy or Cup Secrets video activity",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 5,
             "type": "commitment",
@@ -1409,6 +2399,7 @@
             "image": "",
             "title": "Take a survey about the Kukui Cup",
             "unlock_condition_text": "Wait for Round 3 to start",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 40,
             "type": "activity",
@@ -1428,6 +2419,7 @@
             "image": "",
             "title": "Workshop: Pedalpalooza",
             "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 20,
             "type": "event",
@@ -1447,6 +2439,7 @@
             "image": "",
             "title": "Workshop: High Energy Art and Music",
             "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 20,
             "type": "event",
@@ -1466,6 +2459,7 @@
             "image": "",
             "title": "Workshop: Energy Efficient Eating",
             "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 20,
             "type": "event",
@@ -1485,6 +2479,7 @@
             "image": "",
             "title": "Play Energy City",
             "unlock_condition_text": "",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 20,
             "type": "activity",
@@ -1504,6 +2499,7 @@
             "image": "",
             "title": "Workshop: Energy Efficient Chillaxation",
             "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 20,
             "type": "event",
@@ -1523,6 +2519,7 @@
             "image": "",
             "title": "Excusion to KCC Farmer's Market",
             "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 20,
             "type": "event",
@@ -1542,6 +2539,7 @@
             "image": "",
             "title": "Workshop: Your Sustainable Future",
             "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 20,
             "type": "event",
@@ -1561,6 +2559,7 @@
             "image": "media/smartgrid/actions/CFL-small.jpg",
             "title": "Replace incandescent bulb with compact fluorescent (CFL)",
             "unlock_condition_text": "Complete Lighting video activity",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 10,
             "type": "activity",
@@ -1580,6 +2579,7 @@
             "image": "media/smartgrid/actions/powerstrip.jpg",
             "title": "I will turn off vampire loads using a power strip",
             "unlock_condition_text": "Complete Power & Energy or Cup Secrets video activity",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 5,
             "type": "commitment",
@@ -1599,6 +2599,7 @@
             "image": "",
             "title": "Write a letter to the editor on a Kukui Cup topic",
             "unlock_condition_text": "Complete Energy Intuition video activity",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 0,
             "type": "activity",
@@ -1618,6 +2619,7 @@
             "image": "",
             "title": "I will limit my TV use to 1 hour a day",
             "unlock_condition_text": "Complete Go Unplugged",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 5,
             "type": "commitment",
@@ -1637,6 +2639,7 @@
             "image": "",
             "title": "Create art around a Kukui Cup topic",
             "unlock_condition_text": "Complete Energy Intuition video activity",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 0,
             "type": "activity",
@@ -1656,31 +2659,13 @@
             "image": "",
             "title": "Party: Round 2 Awards",
             "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 20,
             "type": "event",
             "slug": "round-2-party",
             "unlock_condition": "True",
             "description": "If you went to the Kickoff and Round 1 parties (which were, obviously, awesome), you might be thinking you can skip the Round 2 party.  But that would be a huge FAIL because the Round 2 party is going to totally kick it up a notch.  There will be live music by Breath of Fire, speakers from local organizations like Blue Planet Foundation and Sustainable UH, the Go Dark event, awards to Round 2 winners, and some special surprises.   The Round 2 award party is being organized by the Aloha Movement Project so you know it's gonna rock.  "
-        }
-    },
-    {
-        "pk": 99,
-        "model": "smartgrid_library.libraryaction",
-        "fields": {
-            "social_bonus": 0,
-            "video_id": "Yt13tkdi_Dk",
-            "name": "Transport Video",
-            "video_source": "youtube",
-            "image": "",
-            "title": "Watch video about transportation energy use",
-            "unlock_condition_text": "Complete Energy Intuition video activity",
-            "embedded_widget": "",
-            "point_value": 10,
-            "type": "activity",
-            "slug": "transport-video",
-            "unlock_condition": "completed_action(\"energy-intuition\")",
-            "description": "Watch this video that explains how your choice of transportation impacts your energy use.\r\n"
         }
     },
     {
@@ -1694,6 +2679,7 @@
             "image": "",
             "title": "Watch a video about climate change",
             "unlock_condition_text": "Complete Energy Intuition video activity",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 10,
             "type": "activity",
@@ -1713,6 +2699,7 @@
             "image": "",
             "title": "I will turn off water when sudsing and scrubbing in shower",
             "unlock_condition_text": "Complete Power & Energy or Cup Secrets video activity",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 5,
             "type": "commitment",
@@ -1732,6 +2719,7 @@
             "image": "",
             "title": "Watch video about solar energy",
             "unlock_condition_text": "Complete Energy Intuition video activity",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 10,
             "type": "activity",
@@ -1751,6 +2739,7 @@
             "image": "",
             "title": "Sustainable UH Oct",
             "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 20,
             "type": "event",
@@ -1770,6 +2759,7 @@
             "image": "media/smartgrid/actions/Hale-Aloha-1mi.png",
             "title": "I will walk to destinations less than one mile away",
             "unlock_condition_text": "Complete Power & Energy or Cup Secrets video activity",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 5,
             "type": "commitment",
@@ -1789,6 +2779,7 @@
             "image": "",
             "title": "Create Energy Window Art",
             "unlock_condition_text": "Complete Energy Intuition video activity, and wait for Round 2",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 0,
             "type": "activity",
@@ -1808,6 +2799,7 @@
             "image": "",
             "title": "Design next year's Kukui Cup T-shirt",
             "unlock_condition_text": "Complete Energy Intuition video activity",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 0,
             "type": "activity",
@@ -1827,6 +2819,7 @@
             "image": "",
             "title": "Interview someone about a Kukui Cup topic",
             "unlock_condition_text": "Complete Energy Intuition video activity, and wait for Round 2",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 0,
             "type": "activity",
@@ -1846,6 +2839,7 @@
             "image": "",
             "title": "DIY Commitment",
             "unlock_condition_text": "",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 5,
             "type": "commitment",
@@ -1865,6 +2859,7 @@
             "image": "",
             "title": "Do something creative we haven't thought of on a Kukui Cup topic",
             "unlock_condition_text": "Complete Energy Intuition video activity",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 0,
             "type": "activity",
@@ -1884,6 +2879,7 @@
             "image": "",
             "title": "Write a song about a Kukui Cup topic",
             "unlock_condition_text": "Complete Energy Intuition video activity, and wait for Round 2",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 0,
             "type": "activity",
@@ -1903,6 +2899,7 @@
             "image": "",
             "title": "Watch a video about OTEC",
             "unlock_condition_text": "Complete Energy Intuition video activity to start",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 10,
             "type": "activity",
@@ -1922,6 +2919,7 @@
             "image": "media/smartgrid/actions/carpool.jpg",
             "title": "I won't drive alone",
             "unlock_condition_text": "Complete Power & Energy or Cup Secrets video activity",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 5,
             "type": "commitment",
@@ -1941,6 +2939,7 @@
             "image": "",
             "title": "How Powerful are the Lounges?",
             "unlock_condition_text": "Completed the 'Hot Spots' action",
+            "related_resource": null,
             "embedded_widget": "viz_power_meters",
             "point_value": 10,
             "type": "activity",
@@ -1960,6 +2959,7 @@
             "image": "",
             "title": "Surfrider Oct",
             "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 20,
             "type": "event",
@@ -1979,6 +2979,7 @@
             "image": "",
             "title": "Cycle Manoa Oct",
             "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 20,
             "type": "event",
@@ -1998,6 +2999,7 @@
             "image": "",
             "title": "Learn more about the fuss regarding Energy Generation",
             "unlock_condition_text": "Complete Energy Issues video activity, and wait for Round 2",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 15,
             "type": "activity",
@@ -2017,6 +3019,7 @@
             "image": "",
             "title": "Learn more about how Hawaii generates energy now",
             "unlock_condition_text": "Complete Energy Now video activity",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 15,
             "type": "activity",
@@ -2036,6 +3039,7 @@
             "image": "",
             "title": "Learn more about Power & Energy",
             "unlock_condition_text": "Complete Power & Energy video activity and wait for Round 2",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 15,
             "type": "activity",
@@ -2055,6 +3059,7 @@
             "image": "",
             "title": "Do something creative we haven't thought of on a Kukui Cup topic",
             "unlock_condition_text": "",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 0,
             "type": "activity",
@@ -2074,6 +3079,7 @@
             "image": "",
             "title": "Create an RIO",
             "unlock_condition_text": "",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 20,
             "type": "activity",
@@ -2093,6 +3099,7 @@
             "image": "",
             "title": "DIY video",
             "unlock_condition_text": "",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 0,
             "type": "activity",
@@ -2112,6 +3119,7 @@
             "image": "",
             "title": "DIY Excursion",
             "unlock_condition_text": "",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 0,
             "type": "activity",
@@ -2131,6 +3139,7 @@
             "image": "",
             "title": "DIY Workshop",
             "unlock_condition_text": "",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 0,
             "type": "activity",
@@ -2150,6 +3159,7 @@
             "image": "",
             "title": "Gotta Line On You",
             "unlock_condition_text": "Complete Energy Intuition video activity",
+            "related_resource": null,
             "embedded_widget": "viz_chart",
             "point_value": 10,
             "type": "activity",
@@ -2169,6 +3179,7 @@
             "image": "",
             "title": "Hitting the Hotspots",
             "unlock_condition_text": "Complete Gotta Line On You activity",
+            "related_resource": null,
             "embedded_widget": "viz_hotspots",
             "point_value": 10,
             "type": "activity",
@@ -2188,6 +3199,7 @@
             "image": "",
             "title": "The Heat is On",
             "unlock_condition_text": "",
+            "related_resource": null,
             "embedded_widget": "viz_heatmap",
             "point_value": 10,
             "type": "activity",
@@ -2207,6 +3219,7 @@
             "image": "",
             "title": "North Shore Beach Cleanup",
             "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 25,
             "type": "event",
@@ -2226,6 +3239,7 @@
             "image": "",
             "title": "Sustainable UH Nov",
             "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 20,
             "type": "event",
@@ -2245,6 +3259,7 @@
             "image": "",
             "title": "Surfrider Nov",
             "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 20,
             "type": "event",
@@ -2264,6 +3279,7 @@
             "image": "",
             "title": "Cycle Manoa Nov",
             "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 20,
             "type": "event",
@@ -2283,6 +3299,7 @@
             "image": "",
             "title": "Sustain Corps Nov",
             "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 20,
             "type": "event",
@@ -2302,6 +3319,7 @@
             "image": "",
             "title": "DIY Video 2",
             "unlock_condition_text": "",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 0,
             "type": "activity",
@@ -2321,6 +3339,7 @@
             "image": "",
             "title": "DIY Excursion 2",
             "unlock_condition_text": "",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 20,
             "type": "event",
@@ -2340,6 +3359,7 @@
             "image": "",
             "title": "DIY Workshop 2",
             "unlock_condition_text": "",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 0,
             "type": "activity",
@@ -2359,6 +3379,7 @@
             "image": "",
             "title": "DIY Sustainability Game",
             "unlock_condition_text": "",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 0,
             "type": "activity",
@@ -2378,6 +3399,7 @@
             "image": "",
             "title": "Course Proj S13",
             "unlock_condition_text": "",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 0,
             "type": "activity",
@@ -2397,6 +3419,7 @@
             "image": "",
             "title": "Surfrider Jan",
             "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 20,
             "type": "event",
@@ -2416,6 +3439,7 @@
             "image": "",
             "title": "Cycle Manoa Jan",
             "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 20,
             "type": "event",
@@ -2435,6 +3459,7 @@
             "image": "",
             "title": "Sustainable UH Jan",
             "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 20,
             "type": "event",
@@ -2454,6 +3479,7 @@
             "image": "",
             "title": "Sustain Corps Jan",
             "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 20,
             "type": "event",
@@ -2473,6 +3499,7 @@
             "image": "",
             "title": "Lobby Legislator",
             "unlock_condition_text": "",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 0,
             "type": "activity",
@@ -2492,6 +3519,7 @@
             "image": "",
             "title": "Off Campus Energy Hogs",
             "unlock_condition_text": "",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 0,
             "type": "activity",
@@ -2511,6 +3539,7 @@
             "image": "",
             "title": "Multiple University Sustainability",
             "unlock_condition_text": "",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 0,
             "type": "activity",
@@ -2530,6 +3559,7 @@
             "image": "",
             "title": "Surfrider Feb",
             "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 20,
             "type": "event",
@@ -2549,6 +3579,7 @@
             "image": "",
             "title": "Cycle Manoa Feb",
             "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 20,
             "type": "event",
@@ -2568,6 +3599,7 @@
             "image": "",
             "title": "Sustainable UH Feb",
             "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 20,
             "type": "event",
@@ -2587,6 +3619,7 @@
             "image": "",
             "title": "Sustain Corps Feb",
             "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 20,
             "type": "event",
@@ -2606,6 +3639,7 @@
             "image": "",
             "title": "DIY Commitment 3",
             "unlock_condition_text": "Complete DIY Commitment 2",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 5,
             "type": "commitment",
@@ -2625,6 +3659,7 @@
             "image": "",
             "title": "DIY Video 3",
             "unlock_condition_text": "Complet DIY Video 2",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 0,
             "type": "activity",
@@ -2644,6 +3679,7 @@
             "image": "",
             "title": "DIY Excursion 3",
             "unlock_condition_text": "Complete DIY Excursion 2",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 20,
             "type": "event",
@@ -2663,6 +3699,7 @@
             "image": "",
             "title": "DIY Workshop 3",
             "unlock_condition_text": "Complete DIY Workshop 2",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 0,
             "type": "activity",
@@ -2682,6 +3719,7 @@
             "image": "",
             "title": "DIY Sustainability Game 2",
             "unlock_condition_text": "Complete DIY Sustainability Game",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 0,
             "type": "activity",
@@ -2701,6 +3739,7 @@
             "image": "",
             "title": "Course Proj S13 2",
             "unlock_condition_text": "Complete Course Proj S13",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 0,
             "type": "activity",
@@ -2720,6 +3759,7 @@
             "image": "",
             "title": "Surfrider Mar",
             "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 20,
             "type": "event",
@@ -2739,6 +3779,7 @@
             "image": "",
             "title": "Cycle Manoa Mar",
             "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 20,
             "type": "event",
@@ -2758,6 +3799,7 @@
             "image": "",
             "title": "Sustainable UH Mar",
             "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 20,
             "type": "event",
@@ -2777,6 +3819,7 @@
             "image": "",
             "title": "Sustain Corps Mar",
             "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 20,
             "type": "event",
@@ -2796,6 +3839,7 @@
             "image": "",
             "title": "Surfrider Apr",
             "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 20,
             "type": "event",
@@ -2815,31 +3859,13 @@
             "image": "",
             "title": "Cycle Manoa Apr",
             "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 20,
             "type": "event",
             "slug": "cycle-manoa-apr",
             "unlock_condition": "True",
             "description": "Cycle Manoa Apr"
-        }
-    },
-    {
-        "pk": 248,
-        "model": "smartgrid_library.libraryaction",
-        "fields": {
-            "social_bonus": 10,
-            "video_id": null,
-            "name": "Sustainable UH Apr",
-            "video_source": null,
-            "image": "",
-            "title": "Sustainable UH Apr",
-            "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
-            "embedded_widget": null,
-            "point_value": 20,
-            "type": "event",
-            "slug": "sustainable-uh-apr",
-            "unlock_condition": "True",
-            "description": "Sustainable UH Apr"
         }
     },
     {
@@ -2853,6 +3879,7 @@
             "image": "",
             "title": "Learn more about lighting",
             "unlock_condition_text": "Complete Lighting video activity, and wait for Round 2",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 15,
             "type": "activity",
@@ -2872,6 +3899,7 @@
             "image": "",
             "title": "Watch a video about the relationship between water & energy",
             "unlock_condition_text": "This square can't be unlocked (for now)",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 10,
             "type": "activity",
@@ -2891,6 +3919,7 @@
             "image": "",
             "title": "Seek out campus energy waste",
             "unlock_condition_text": "",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 0,
             "type": "activity",
@@ -2910,6 +3939,7 @@
             "image": "",
             "title": "Learn more about opala",
             "unlock_condition_text": "Complete Trash is Treasure video activity",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 15,
             "type": "activity",
@@ -2929,6 +3959,7 @@
             "image": "",
             "title": "Watch introduction video",
             "unlock_condition_text": "True",
+            "related_resource": null,
             "embedded_widget": "",
             "point_value": 20,
             "type": "activity",
@@ -2948,6 +3979,7 @@
             "image": "",
             "title": "Learn more about climate change",
             "unlock_condition_text": "Complete Climate Change video activity, and wait for Round 2",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 15,
             "type": "activity",
@@ -2967,6 +3999,7 @@
             "image": "",
             "title": "Learn more about water & energy",
             "unlock_condition_text": "This square can't be unlocked (for now)",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 15,
             "type": "activity",
@@ -2986,6 +4019,7 @@
             "image": "",
             "title": "Learn more about transportation",
             "unlock_condition_text": "Complete Transport video activity",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 15,
             "type": "activity",
@@ -3005,6 +4039,7 @@
             "image": "",
             "title": "Attend a virtual event!",
             "unlock_condition_text": "",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 30,
             "type": "event",
@@ -3024,6 +4059,7 @@
             "image": "",
             "title": "Make a video on a Kukui Cup topic",
             "unlock_condition_text": "Complete Energy Intuition video activity",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 0,
             "type": "activity",
@@ -3043,6 +4079,7 @@
             "image": "",
             "title": "Energy comparison between group member's homes",
             "unlock_condition_text": "",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 30,
             "type": "activity",
@@ -3062,6 +4099,7 @@
             "image": "",
             "title": "Learn more about Energy Intuition",
             "unlock_condition_text": "Complete Energy Intuition video activity, and wait for Round 2",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 15,
             "type": "activity",
@@ -3081,6 +4119,7 @@
             "image": "",
             "title": "Watch Energy Generation: The Controversies",
             "unlock_condition_text": "This square can't be unlocked (for now)",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 10,
             "type": "activity",
@@ -3100,6 +4139,7 @@
             "image": "media/smartgrid/actions/google-plus-logo.png",
             "title": "Share Kukui Cup link on Google+",
             "unlock_condition_text": "Complete Secrets of the Kukui Cup video activity",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 5,
             "type": "activity",
@@ -3119,6 +4159,7 @@
             "image": "",
             "title": "Learn more about the Hawaii Clean Energy Initiative",
             "unlock_condition_text": "Complete HCEI video activity",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 15,
             "type": "activity",
@@ -3138,6 +4179,7 @@
             "image": "",
             "title": "Help a lounge doing poorly in energy competition",
             "unlock_condition_text": "",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 0,
             "type": "activity",
@@ -3157,6 +4199,7 @@
             "image": "",
             "title": "Learn more about solar energy",
             "unlock_condition_text": "Complete Solar Energy video activity",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 15,
             "type": "activity",
@@ -3176,6 +4219,7 @@
             "image": "",
             "title": "Attend some event related to energy/sustainability",
             "unlock_condition_text": "",
+            "related_resource": null,
             "embedded_widget": null,
             "point_value": 30,
             "type": "activity",
@@ -3188,955 +4232,1040 @@
         "pk": 152,
         "model": "smartgrid_library.libraryaction",
         "fields": {
-            "related_resource": "energy",
             "social_bonus": 0,
             "video_id": null,
-            "unlock_condition": "True",
             "name": "Line Graph",
             "video_source": null,
             "image": "",
-            "embedded_widget": "viz_chart",
             "title": "Gotta Line On You",
-            "point_value": 10,
             "unlock_condition_text": "",
+            "related_resource": "energy",
+            "embedded_widget": "viz_chart",
+            "point_value": 10,
             "type": "activity",
             "slug": "line-graph",
+            "unlock_condition": "True",
             "description": "Check out the Line Graph visualization below, which shows a zoomable chart of energy or power usage for one or more lounges. Come up with answers to the questions below, and submit them:\r\n\r\n1. What interesting differences do you notice in energy use when looking at the 3 different timescales?\r\n2. How different are the graphs of power and energy?\r\n3. Pick 2 lounges and compare their energy use across 2 different time scales.\r\n4. What are your thoughts on this visualization? What are its strengths and weaknesses?"
-        }
-    },
-    {
-        "pk": 14,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 5,
-            "point_range_end": null,
-            "confirm_type": "text",
-            "point_range_start": null,
-            "confirm_prompt": ""
-        }
-    },
-    {
-        "pk": 66,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 5,
-            "point_range_end": null,
-            "confirm_type": "text",
-            "point_range_start": null,
-            "confirm_prompt": ""
-        }
-    },
-    {
-        "pk": 2,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 5,
-            "point_range_end": null,
-            "confirm_type": "text",
-            "point_range_start": null,
-            "confirm_prompt": ""
-        }
-    },
-    {
-        "pk": 15,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 5,
-            "point_range_end": null,
-            "confirm_type": "text",
-            "point_range_start": null,
-            "confirm_prompt": ""
-        }
-    },
-    {
-        "pk": 8,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 5,
-            "point_range_end": null,
-            "confirm_type": "free",
-            "point_range_start": null,
-            "confirm_prompt": "Please tell us your name on Facebook (usually just your real name) so we can confirm that you Liked the page on Facebook."
-        }
-    },
-    {
-        "pk": 9,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 5,
-            "point_range_end": null,
-            "confirm_type": "free",
-            "point_range_start": null,
-            "confirm_prompt": "Please tell us your Twitter username so we can check out your tweet."
-        }
-    },
-    {
-        "pk": 80,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 60,
-            "point_range_end": 15,
-            "confirm_type": "image",
-            "point_range_start": 5,
-            "confirm_prompt": "Please upload the picture of your door art."
-        }
-    },
-    {
-        "pk": 129,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 5,
-            "point_range_end": null,
-            "confirm_type": "free",
-            "point_range_start": null,
-            "confirm_prompt": "Enter the Kukui Cup email address at least one person who used you for the referral bonus."
-        }
-    },
-    {
-        "pk": 85,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 90,
-            "point_range_end": null,
-            "confirm_type": "free",
-            "point_range_start": null,
-            "confirm_prompt": "Enter a list of the appliances in your room, your estimate of the energy each of them consume per day, and the total amount of energy your entire room uses per day (in watt-hours or kilowatt-hours)."
-        }
-    },
-    {
-        "pk": 11,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 15,
-            "point_range_end": null,
-            "confirm_type": "image",
-            "point_range_start": null,
-            "confirm_prompt": "Please upload the photo showing your labels on devices in your room."
-        }
-    },
-    {
-        "pk": 16,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 5,
-            "point_range_end": null,
-            "confirm_type": "text",
-            "point_range_start": null,
-            "confirm_prompt": ""
-        }
-    },
-    {
-        "pk": 65,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 15,
-            "point_range_end": null,
-            "confirm_type": "free",
-            "point_range_start": null,
-            "confirm_prompt": "Enter in the values you recorded for the volume of the container and the number of seconds it took to fill, and also your calculation of the flow rate in gallons per minute."
-        }
-    },
-    {
-        "pk": 7,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 10,
-            "point_range_end": null,
-            "confirm_type": "image",
-            "point_range_start": null,
-            "confirm_prompt": "Please upload the screenshot you took of your new, more energy efficient system settings."
-        }
-    },
-    {
-        "pk": 61,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 10,
-            "point_range_end": null,
-            "confirm_type": "free",
-            "point_range_start": null,
-            "confirm_prompt": "Please report on the following 3 things: is your lounge above or below the energy goal? by how much? name one activity that might help your lounge conserve energy."
-        }
-    },
-    {
-        "pk": 127,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 60,
-            "point_range_end": null,
-            "confirm_type": "free",
-            "point_range_start": null,
-            "confirm_prompt": "Tell us your Flickr name so we can confirm your upload to the group."
-        }
-    },
-    {
-        "pk": 18,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 5,
-            "point_range_end": null,
-            "confirm_type": "text",
-            "point_range_start": null,
-            "confirm_prompt": ""
-        }
-    },
-    {
-        "pk": 78,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 5,
-            "point_range_end": null,
-            "confirm_type": "text",
-            "point_range_start": null,
-            "confirm_prompt": ""
-        }
-    },
-    {
-        "pk": 91,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 5,
-            "point_range_end": null,
-            "confirm_type": "text",
-            "point_range_start": null,
-            "confirm_prompt": ""
-        }
-    },
-    {
-        "pk": 77,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 5,
-            "point_range_end": null,
-            "confirm_type": "text",
-            "point_range_start": null,
-            "confirm_prompt": ""
-        }
-    },
-    {
-        "pk": 137,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 240,
-            "point_range_end": 50,
-            "confirm_type": "free",
-            "point_range_start": 5,
-            "confirm_prompt": "Give us a link to your photo blog."
-        }
-    },
-    {
-        "pk": 118,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 15,
-            "point_range_end": null,
-            "confirm_type": "free",
-            "point_range_start": null,
-            "confirm_prompt": "Enter in the values you recorded for the volume of the container and the number of seconds it took to fill, and also your calculation of the flow rate in gallons per minute."
-        }
-    },
-    {
-        "pk": 109,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 120,
-            "point_range_end": null,
-            "confirm_type": "free_image",
-            "point_range_start": null,
-            "confirm_prompt": "Please describe your no impact date and what you did. Upload a photo of you and your friend doing one of the activities together."
-        }
-    },
-    {
-        "pk": 57,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 5,
-            "point_range_end": null,
-            "confirm_type": "text",
-            "point_range_start": null,
-            "confirm_prompt": ""
-        }
-    },
-    {
-        "pk": 132,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 60,
-            "point_range_end": 50,
-            "confirm_type": "free",
-            "point_range_start": 5,
-            "confirm_prompt": "Please type or paste your poem below"
-        }
-    },
-    {
-        "pk": 21,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 15,
-            "point_range_end": null,
-            "confirm_type": "free",
-            "point_range_start": null,
-            "confirm_prompt": "Enter the name of each of the 5 devices you measured and both the on and off power use values below."
-        }
-    },
-    {
-        "pk": 128,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 120,
-            "point_range_end": 45,
-            "confirm_type": "free",
-            "point_range_start": 5,
-            "confirm_prompt": "Give us a link to your Flickr account so we can verify your uploads"
-        }
-    },
-    {
-        "pk": 96,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 15,
-            "point_range_end": null,
-            "confirm_type": "free",
-            "point_range_start": null,
-            "confirm_prompt": "Type anything below (because our system won't allow a blank answer) to get your points."
-        }
-    },
-    {
-        "pk": 4,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 10,
-            "point_range_end": null,
-            "confirm_type": "image",
-            "point_range_start": null,
-            "confirm_prompt": "Please upload the photo you took, showing both the incandescent bulb you replaced and the CFL you installed."
-        }
-    },
-    {
-        "pk": 133,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 120,
-            "point_range_end": 50,
-            "confirm_type": "free",
-            "point_range_start": 5,
-            "confirm_prompt": "Please tell us what publication you sent your letter to, and paste the contents of the letter."
-        }
-    },
-    {
-        "pk": 138,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 360,
-            "point_range_end": 50,
-            "confirm_type": "free",
-            "point_range_start": 5,
-            "confirm_prompt": "Tell us about the art you created, and upload an image of it."
-        }
-    },
-    {
-        "pk": 99,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 5,
-            "point_range_end": null,
-            "confirm_type": "text",
-            "point_range_start": null,
-            "confirm_prompt": ""
-        }
-    },
-    {
-        "pk": 26,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 5,
-            "point_range_end": null,
-            "confirm_type": "text",
-            "point_range_start": null,
-            "confirm_prompt": ""
-        }
-    },
-    {
-        "pk": 22,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 5,
-            "point_range_end": null,
-            "confirm_type": "text",
-            "point_range_start": null,
-            "confirm_prompt": ""
-        }
-    },
-    {
-        "pk": 131,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 60,
-            "point_range_end": 50,
-            "confirm_type": "free_image",
-            "point_range_start": 5,
-            "confirm_prompt": "Tell us about your concept for the window art, and upload a nice picture of it."
-        }
-    },
-    {
-        "pk": 139,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 120,
-            "point_range_end": 50,
-            "confirm_type": "image",
-            "point_range_start": 5,
-            "confirm_prompt": "Provide us with an image of your design, preferably in JPEG, PDF, or PNG formats."
-        }
-    },
-    {
-        "pk": 136,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 240,
-            "point_range_end": 50,
-            "confirm_type": "free",
-            "point_range_start": 5,
-            "confirm_prompt": "Paste your interview below, or provide us with a link to the results of your hard work."
-        }
-    },
-    {
-        "pk": 140,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 480,
-            "point_range_end": 50,
-            "confirm_type": "free",
-            "point_range_start": 5,
-            "confirm_prompt": "Tell us about what you did, and/or provide us with a link to the results of your hard work."
-        }
-    },
-    {
-        "pk": 135,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 240,
-            "point_range_end": 50,
-            "confirm_type": "free",
-            "point_range_start": 5,
-            "confirm_prompt": "Tell us about the song you wrote, and provide us the song or a link to the results of your hard work."
-        }
-    },
-    {
-        "pk": 108,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 6,
-            "point_range_end": null,
-            "confirm_type": "text",
-            "point_range_start": null,
-            "confirm_prompt": ""
-        }
-    },
-    {
-        "pk": 93,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 15,
-            "point_range_end": null,
-            "confirm_type": "text",
-            "point_range_start": null,
-            "confirm_prompt": ""
-        }
-    },
-    {
-        "pk": 94,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 15,
-            "point_range_end": null,
-            "confirm_type": "text",
-            "point_range_start": null,
-            "confirm_prompt": ""
-        }
-    },
-    {
-        "pk": 134,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 240,
-            "point_range_end": 50,
-            "confirm_type": "free",
-            "point_range_start": 5,
-            "confirm_prompt": "Send us a link to your video."
-        }
-    },
-    {
-        "pk": 86,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 15,
-            "point_range_end": null,
-            "confirm_type": "text",
-            "point_range_start": null,
-            "confirm_prompt": ""
-        }
-    },
-    {
-        "pk": 182,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 480,
-            "point_range_end": 50,
-            "confirm_type": "free",
-            "point_range_start": 5,
-            "confirm_prompt": "Tell us about what you did, and/or provide us with a link to the results of your hard work."
-        }
-    },
-    {
-        "pk": 184,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 30,
-            "point_range_end": null,
-            "confirm_type": "text",
-            "point_range_start": null,
-            "confirm_prompt": ""
-        }
-    },
-    {
-        "pk": 185,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 480,
-            "point_range_end": 50,
-            "confirm_type": "text",
-            "point_range_start": 5,
-            "confirm_prompt": ""
-        }
-    },
-    {
-        "pk": 186,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 480,
-            "point_range_end": 50,
-            "confirm_type": "text",
-            "point_range_start": 5,
-            "confirm_prompt": ""
-        }
-    },
-    {
-        "pk": 187,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 480,
-            "point_range_end": 50,
-            "confirm_type": "text",
-            "point_range_start": 5,
-            "confirm_prompt": ""
-        }
-    },
-    {
-        "pk": 147,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 15,
-            "point_range_end": null,
-            "confirm_type": "free",
-            "point_range_start": null,
-            "confirm_prompt": "Answer these questions:\r\n1. What interesting differences do you notice in energy use when looking at the 3 different timescales?\r\n2. What how different are the graphs of power and energy?\r\n3. Pick 2 lounges and compare their energy use across 2 different time scales.\r\n4. What are your thoughts on this visualization? What are its strengths and weaknesses?"
-        }
-    },
-    {
-        "pk": 141,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 15,
-            "point_range_end": null,
-            "confirm_type": "free",
-            "point_range_start": null,
-            "confirm_prompt": "Answer the following questions:\r\n\r\n1. What hours of the day seem to have the highest energy use? How does that compare to your own energy use patterns?\r\n2. What differences in energy use do you notice between lounges?\r\n3. What are your thoughts on this visualization? What are its strengths and weaknesses?\r\n"
-        }
-    },
-    {
-        "pk": 148,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 15,
-            "point_range_end": null,
-            "confirm_type": "free",
-            "point_range_start": null,
-            "confirm_prompt": "Answer the following questions:\r\n1. Compare the lounges in your tower. How does their power usage compare right now?\r\n2. Pick a particular lounge letter and compare that lounge across the other towers. How does the power consumption differ?\r\n3. What are your thoughts on this visualization? What are its strengths and weaknesses?"
-        }
-    },
-    {
-        "pk": 142,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 15,
-            "point_range_end": null,
-            "confirm_type": "free",
-            "point_range_start": null,
-            "confirm_prompt": "Answer the following questions:\r\n\r\n1. What patterns do you see in the data?\r\n2. Do you notice any spatial patterns?\r\n3. What are your thoughts on this visualization? What are its strengths and weaknesses?"
-        }
-    },
-    {
-        "pk": 150,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 60,
-            "point_range_end": null,
-            "confirm_type": "image",
-            "point_range_start": null,
-            "confirm_prompt": "Upload the screen shot of the energy city game that shows you are playing the game."
         }
     },
     {
         "pk": 196,
         "model": "smartgrid_library.libraryactivity",
         "fields": {
-            "expected_duration": 360,
-            "point_range_end": null,
+            "admin_note": null,
             "confirm_type": "text",
             "point_range_start": null,
-            "confirm_prompt": ""
+            "confirm_prompt": "",
+            "expected_duration": 360,
+            "point_range_end": null
         }
     },
     {
         "pk": 197,
         "model": "smartgrid_library.libraryactivity",
         "fields": {
-            "expected_duration": 120,
-            "point_range_end": 50,
+            "admin_note": null,
             "confirm_type": "text",
             "point_range_start": 5,
-            "confirm_prompt": ""
+            "confirm_prompt": "",
+            "expected_duration": 120,
+            "point_range_end": 50
         }
     },
     {
         "pk": 198,
         "model": "smartgrid_library.libraryactivity",
         "fields": {
-            "expected_duration": 120,
-            "point_range_end": 50,
+            "admin_note": null,
             "confirm_type": "text",
             "point_range_start": 5,
-            "confirm_prompt": ""
+            "confirm_prompt": "",
+            "expected_duration": 120,
+            "point_range_end": 50
         }
     },
     {
         "pk": 199,
         "model": "smartgrid_library.libraryactivity",
         "fields": {
+            "admin_note": null,
+            "confirm_type": "text",
+            "point_range_start": 5,
+            "confirm_prompt": "",
             "expected_duration": 120,
-            "point_range_end": 50,
+            "point_range_end": 50
+        }
+    },
+    {
+        "pk": 2,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
             "confirm_type": "text",
-            "point_range_start": 5,
-            "confirm_prompt": ""
+            "point_range_start": null,
+            "confirm_prompt": "",
+            "expected_duration": 5,
+            "point_range_end": null
         }
     },
     {
-        "pk": 206,
+        "pk": 15,
         "model": "smartgrid_library.libraryactivity",
         "fields": {
-            "expected_duration": 480,
-            "point_range_end": 50,
+            "admin_note": null,
             "confirm_type": "text",
-            "point_range_start": 5,
-            "confirm_prompt": ""
+            "point_range_start": null,
+            "confirm_prompt": "",
+            "expected_duration": 5,
+            "point_range_end": null
         }
     },
     {
-        "pk": 208,
+        "pk": 8,
         "model": "smartgrid_library.libraryactivity",
         "fields": {
-            "expected_duration": 480,
-            "point_range_end": 50,
-            "confirm_type": "text",
-            "point_range_start": 5,
-            "confirm_prompt": ""
-        }
-    },
-    {
-        "pk": 209,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 480,
-            "point_range_end": 50,
-            "confirm_type": "text",
-            "point_range_start": 5,
-            "confirm_prompt": ""
-        }
-    },
-    {
-        "pk": 210,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 480,
-            "point_range_end": 50,
-            "confirm_type": "text",
-            "point_range_start": 5,
-            "confirm_prompt": ""
-        }
-    },
-    {
-        "pk": 220,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 120,
-            "point_range_end": 50,
+            "admin_note": null,
             "confirm_type": "free",
-            "point_range_start": 5,
-            "confirm_prompt": "Send us a copy of your letter."
-        }
-    },
-    {
-        "pk": 221,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 120,
-            "point_range_end": 50,
-            "confirm_type": "free",
-            "point_range_start": 5,
-            "confirm_prompt": "List the energy hogs."
-        }
-    },
-    {
-        "pk": 223,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 480,
-            "point_range_end": 50,
-            "confirm_type": "free",
-            "point_range_start": 5,
-            "confirm_prompt": "Mutiple University Sustainability"
-        }
-    },
-    {
-        "pk": 232,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 480,
-            "point_range_end": 50,
-            "confirm_type": "free",
-            "point_range_start": 5,
-            "confirm_prompt": "Upload your video"
-        }
-    },
-    {
-        "pk": 234,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 480,
-            "point_range_end": 50,
-            "confirm_type": "free",
-            "point_range_start": 5,
-            "confirm_prompt": "DIY Workshop 3"
-        }
-    },
-    {
-        "pk": 236,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 480,
-            "point_range_end": 50,
-            "confirm_type": "free",
-            "point_range_start": 5,
-            "confirm_prompt": "DIY Sustain Game 2"
-        }
-    },
-    {
-        "pk": 237,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 480,
-            "point_range_end": 50,
-            "confirm_type": "free",
-            "point_range_start": 5,
-            "confirm_prompt": "Course Proj S13 2"
+            "point_range_start": null,
+            "confirm_prompt": "Please tell us your name on Facebook (usually just your real name) so we can confirm that you Liked the page on Facebook.",
+            "expected_duration": 5,
+            "point_range_end": null
         }
     },
     {
         "pk": 238,
         "model": "smartgrid_library.libraryactivity",
         "fields": {
-            "expected_duration": 480,
-            "point_range_end": 50,
+            "admin_note": null,
             "confirm_type": "free",
             "point_range_start": 5,
-            "confirm_prompt": "Sust Class F13"
+            "confirm_prompt": "Sust Class F13",
+            "expected_duration": 480,
+            "point_range_end": 50
+        }
+    },
+    {
+        "pk": 66,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "text",
+            "point_range_start": null,
+            "confirm_prompt": "",
+            "expected_duration": 5,
+            "point_range_end": null
+        }
+    },
+    {
+        "pk": 9,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "free",
+            "point_range_start": null,
+            "confirm_prompt": "Please tell us your Twitter username so we can check out your tweet.",
+            "expected_duration": 5,
+            "point_range_end": null
+        }
+    },
+    {
+        "pk": 80,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "image",
+            "point_range_start": 5,
+            "confirm_prompt": "Please upload the picture of your door art.",
+            "expected_duration": 60,
+            "point_range_end": 15
+        }
+    },
+    {
+        "pk": 129,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "free",
+            "point_range_start": null,
+            "confirm_prompt": "Enter the Kukui Cup email address at least one person who used you for the referral bonus.",
+            "expected_duration": 5,
+            "point_range_end": null
+        }
+    },
+    {
+        "pk": 18,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "text",
+            "point_range_start": null,
+            "confirm_prompt": "",
+            "expected_duration": 5,
+            "point_range_end": null
+        }
+    },
+    {
+        "pk": 85,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "free",
+            "point_range_start": null,
+            "confirm_prompt": "Enter a list of the appliances in your room, your estimate of the energy each of them consume per day, and the total amount of energy your entire room uses per day (in watt-hours or kilowatt-hours).",
+            "expected_duration": 90,
+            "point_range_end": null
+        }
+    },
+    {
+        "pk": 11,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "image",
+            "point_range_start": null,
+            "confirm_prompt": "Please upload the photo showing your labels on devices in your room.",
+            "expected_duration": 15,
+            "point_range_end": null
+        }
+    },
+    {
+        "pk": 16,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "text",
+            "point_range_start": null,
+            "confirm_prompt": "",
+            "expected_duration": 5,
+            "point_range_end": null
+        }
+    },
+    {
+        "pk": 65,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "free",
+            "point_range_start": null,
+            "confirm_prompt": "Enter in the values you recorded for the volume of the container and the number of seconds it took to fill, and also your calculation of the flow rate in gallons per minute.",
+            "expected_duration": 15,
+            "point_range_end": null
+        }
+    },
+    {
+        "pk": 7,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "image",
+            "point_range_start": null,
+            "confirm_prompt": "Please upload the screenshot you took of your new, more energy efficient system settings.",
+            "expected_duration": 10,
+            "point_range_end": null
+        }
+    },
+    {
+        "pk": 61,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "free",
+            "point_range_start": null,
+            "confirm_prompt": "Please report on the following 3 things: is your lounge above or below the energy goal? by how much? name one activity that might help your lounge conserve energy.",
+            "expected_duration": 10,
+            "point_range_end": null
+        }
+    },
+    {
+        "pk": 57,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "text",
+            "point_range_start": null,
+            "confirm_prompt": "",
+            "expected_duration": 5,
+            "point_range_end": null
+        }
+    },
+    {
+        "pk": 99,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "text",
+            "point_range_start": null,
+            "confirm_prompt": "",
+            "expected_duration": 5,
+            "point_range_end": null
+        }
+    },
+    {
+        "pk": 127,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "free",
+            "point_range_start": null,
+            "confirm_prompt": "Tell us your Flickr name so we can confirm your upload to the group.",
+            "expected_duration": 60,
+            "point_range_end": null
+        }
+    },
+    {
+        "pk": 78,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "text",
+            "point_range_start": null,
+            "confirm_prompt": "",
+            "expected_duration": 5,
+            "point_range_end": null
+        }
+    },
+    {
+        "pk": 91,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "text",
+            "point_range_start": null,
+            "confirm_prompt": "",
+            "expected_duration": 5,
+            "point_range_end": null
+        }
+    },
+    {
+        "pk": 77,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "text",
+            "point_range_start": null,
+            "confirm_prompt": "",
+            "expected_duration": 5,
+            "point_range_end": null
+        }
+    },
+    {
+        "pk": 137,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "free",
+            "point_range_start": 5,
+            "confirm_prompt": "Give us a link to your photo blog.",
+            "expected_duration": 240,
+            "point_range_end": 50
+        }
+    },
+    {
+        "pk": 118,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "free",
+            "point_range_start": null,
+            "confirm_prompt": "Enter in the values you recorded for the volume of the container and the number of seconds it took to fill, and also your calculation of the flow rate in gallons per minute.",
+            "expected_duration": 15,
+            "point_range_end": null
+        }
+    },
+    {
+        "pk": 109,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "free_image",
+            "point_range_start": null,
+            "confirm_prompt": "Please describe your no impact date and what you did. Upload a photo of you and your friend doing one of the activities together.",
+            "expected_duration": 120,
+            "point_range_end": null
+        }
+    },
+    {
+        "pk": 132,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "free",
+            "point_range_start": 5,
+            "confirm_prompt": "Please type or paste your poem below",
+            "expected_duration": 60,
+            "point_range_end": 50
+        }
+    },
+    {
+        "pk": 21,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "free",
+            "point_range_start": null,
+            "confirm_prompt": "Enter the name of each of the 5 devices you measured and both the on and off power use values below.",
+            "expected_duration": 15,
+            "point_range_end": null
+        }
+    },
+    {
+        "pk": 128,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "free",
+            "point_range_start": 5,
+            "confirm_prompt": "Give us a link to your Flickr account so we can verify your uploads",
+            "expected_duration": 120,
+            "point_range_end": 45
+        }
+    },
+    {
+        "pk": 96,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "free",
+            "point_range_start": null,
+            "confirm_prompt": "Type anything below (because our system won't allow a blank answer) to get your points.",
+            "expected_duration": 15,
+            "point_range_end": null
+        }
+    },
+    {
+        "pk": 150,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "image",
+            "point_range_start": null,
+            "confirm_prompt": "Upload the screen shot of the energy city game that shows you are playing the game.",
+            "expected_duration": 60,
+            "point_range_end": null
+        }
+    },
+    {
+        "pk": 4,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "image",
+            "point_range_start": null,
+            "confirm_prompt": "Please upload the photo you took, showing both the incandescent bulb you replaced and the CFL you installed.",
+            "expected_duration": 10,
+            "point_range_end": null
+        }
+    },
+    {
+        "pk": 133,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "free",
+            "point_range_start": 5,
+            "confirm_prompt": "Please tell us what publication you sent your letter to, and paste the contents of the letter.",
+            "expected_duration": 120,
+            "point_range_end": 50
+        }
+    },
+    {
+        "pk": 138,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "free",
+            "point_range_start": 5,
+            "confirm_prompt": "Tell us about the art you created, and upload an image of it.",
+            "expected_duration": 360,
+            "point_range_end": 50
+        }
+    },
+    {
+        "pk": 26,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "text",
+            "point_range_start": null,
+            "confirm_prompt": "",
+            "expected_duration": 5,
+            "point_range_end": null
+        }
+    },
+    {
+        "pk": 22,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "text",
+            "point_range_start": null,
+            "confirm_prompt": "",
+            "expected_duration": 5,
+            "point_range_end": null
+        }
+    },
+    {
+        "pk": 131,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "free_image",
+            "point_range_start": 5,
+            "confirm_prompt": "Tell us about your concept for the window art, and upload a nice picture of it.",
+            "expected_duration": 60,
+            "point_range_end": 50
+        }
+    },
+    {
+        "pk": 139,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "image",
+            "point_range_start": 5,
+            "confirm_prompt": "Provide us with an image of your design, preferably in JPEG, PDF, or PNG formats.",
+            "expected_duration": 120,
+            "point_range_end": 50
+        }
+    },
+    {
+        "pk": 136,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "free",
+            "point_range_start": 5,
+            "confirm_prompt": "Paste your interview below, or provide us with a link to the results of your hard work.",
+            "expected_duration": 240,
+            "point_range_end": 50
+        }
+    },
+    {
+        "pk": 140,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "free",
+            "point_range_start": 5,
+            "confirm_prompt": "Tell us about what you did, and/or provide us with a link to the results of your hard work.",
+            "expected_duration": 480,
+            "point_range_end": 50
+        }
+    },
+    {
+        "pk": 135,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "free",
+            "point_range_start": 5,
+            "confirm_prompt": "Tell us about the song you wrote, and provide us the song or a link to the results of your hard work.",
+            "expected_duration": 240,
+            "point_range_end": 50
+        }
+    },
+    {
+        "pk": 108,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "text",
+            "point_range_start": null,
+            "confirm_prompt": "",
+            "expected_duration": 6,
+            "point_range_end": null
+        }
+    },
+    {
+        "pk": 148,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "free",
+            "point_range_start": null,
+            "confirm_prompt": "Answer the following questions:\r\n1. Compare the lounges in your tower. How does their power usage compare right now?\r\n2. Pick a particular lounge letter and compare that lounge across the other towers. How does the power consumption differ?\r\n3. What are your thoughts on this visualization? What are its strengths and weaknesses?",
+            "expected_duration": 15,
+            "point_range_end": null
+        }
+    },
+    {
+        "pk": 93,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "text",
+            "point_range_start": null,
+            "confirm_prompt": "",
+            "expected_duration": 15,
+            "point_range_end": null
+        }
+    },
+    {
+        "pk": 94,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "text",
+            "point_range_start": null,
+            "confirm_prompt": "",
+            "expected_duration": 15,
+            "point_range_end": null
+        }
+    },
+    {
+        "pk": 86,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "text",
+            "point_range_start": null,
+            "confirm_prompt": "",
+            "expected_duration": 15,
+            "point_range_end": null
+        }
+    },
+    {
+        "pk": 182,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "free",
+            "point_range_start": 5,
+            "confirm_prompt": "Tell us about what you did, and/or provide us with a link to the results of your hard work.",
+            "expected_duration": 480,
+            "point_range_end": 50
+        }
+    },
+    {
+        "pk": 184,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "text",
+            "point_range_start": null,
+            "confirm_prompt": "",
+            "expected_duration": 30,
+            "point_range_end": null
+        }
+    },
+    {
+        "pk": 185,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "text",
+            "point_range_start": 5,
+            "confirm_prompt": "",
+            "expected_duration": 480,
+            "point_range_end": 50
+        }
+    },
+    {
+        "pk": 186,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "text",
+            "point_range_start": 5,
+            "confirm_prompt": "",
+            "expected_duration": 480,
+            "point_range_end": 50
+        }
+    },
+    {
+        "pk": 187,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "text",
+            "point_range_start": 5,
+            "confirm_prompt": "",
+            "expected_duration": 480,
+            "point_range_end": 50
+        }
+    },
+    {
+        "pk": 147,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "free",
+            "point_range_start": null,
+            "confirm_prompt": "Answer these questions:\r\n1. What interesting differences do you notice in energy use when looking at the 3 different timescales?\r\n2. What how different are the graphs of power and energy?\r\n3. Pick 2 lounges and compare their energy use across 2 different time scales.\r\n4. What are your thoughts on this visualization? What are its strengths and weaknesses?",
+            "expected_duration": 15,
+            "point_range_end": null
+        }
+    },
+    {
+        "pk": 141,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "free",
+            "point_range_start": null,
+            "confirm_prompt": "Answer the following questions:\r\n\r\n1. What hours of the day seem to have the highest energy use? How does that compare to your own energy use patterns?\r\n2. What differences in energy use do you notice between lounges?\r\n3. What are your thoughts on this visualization? What are its strengths and weaknesses?\r\n",
+            "expected_duration": 15,
+            "point_range_end": null
+        }
+    },
+    {
+        "pk": 142,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "free",
+            "point_range_start": null,
+            "confirm_prompt": "Answer the following questions:\r\n\r\n1. What patterns do you see in the data?\r\n2. Do you notice any spatial patterns?\r\n3. What are your thoughts on this visualization? What are its strengths and weaknesses?",
+            "expected_duration": 15,
+            "point_range_end": null
+        }
+    },
+    {
+        "pk": 206,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "text",
+            "point_range_start": 5,
+            "confirm_prompt": "",
+            "expected_duration": 480,
+            "point_range_end": 50
+        }
+    },
+    {
+        "pk": 208,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "text",
+            "point_range_start": 5,
+            "confirm_prompt": "",
+            "expected_duration": 480,
+            "point_range_end": 50
+        }
+    },
+    {
+        "pk": 209,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "text",
+            "point_range_start": 5,
+            "confirm_prompt": "",
+            "expected_duration": 480,
+            "point_range_end": 50
+        }
+    },
+    {
+        "pk": 210,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "text",
+            "point_range_start": 5,
+            "confirm_prompt": "",
+            "expected_duration": 480,
+            "point_range_end": 50
+        }
+    },
+    {
+        "pk": 220,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "free",
+            "point_range_start": 5,
+            "confirm_prompt": "Send us a copy of your letter.",
+            "expected_duration": 120,
+            "point_range_end": 50
+        }
+    },
+    {
+        "pk": 221,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "free",
+            "point_range_start": 5,
+            "confirm_prompt": "List the energy hogs.",
+            "expected_duration": 120,
+            "point_range_end": 50
+        }
+    },
+    {
+        "pk": 223,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "free",
+            "point_range_start": 5,
+            "confirm_prompt": "Mutiple University Sustainability",
+            "expected_duration": 480,
+            "point_range_end": 50
+        }
+    },
+    {
+        "pk": 232,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "free",
+            "point_range_start": 5,
+            "confirm_prompt": "Upload your video",
+            "expected_duration": 480,
+            "point_range_end": 50
+        }
+    },
+    {
+        "pk": 234,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "free",
+            "point_range_start": 5,
+            "confirm_prompt": "DIY Workshop 3",
+            "expected_duration": 480,
+            "point_range_end": 50
+        }
+    },
+    {
+        "pk": 236,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "free",
+            "point_range_start": 5,
+            "confirm_prompt": "DIY Sustain Game 2",
+            "expected_duration": 480,
+            "point_range_end": 50
+        }
+    },
+    {
+        "pk": 237,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "free",
+            "point_range_start": 5,
+            "confirm_prompt": "Course Proj S13 2",
+            "expected_duration": 480,
+            "point_range_end": 50
         }
     },
     {
         "pk": 88,
         "model": "smartgrid_library.libraryactivity",
         "fields": {
-            "expected_duration": 15,
-            "point_range_end": null,
+            "admin_note": null,
             "confirm_type": "text",
             "point_range_start": null,
-            "confirm_prompt": ""
-        }
-    },
-    {
-        "pk": 143,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 120,
-            "point_range_end": 50,
-            "confirm_type": "free",
-            "point_range_start": 5,
-            "confirm_prompt": "Provide us a list of the places you found energy being wasted on campus, and your suggestion on how to stop each one."
+            "confirm_prompt": "",
+            "expected_duration": 15,
+            "point_range_end": null
         }
     },
     {
         "pk": 116,
         "model": "smartgrid_library.libraryactivity",
         "fields": {
-            "expected_duration": 5,
-            "point_range_end": null,
+            "admin_note": null,
             "confirm_type": "text",
             "point_range_start": null,
-            "confirm_prompt": ""
+            "confirm_prompt": "",
+            "expected_duration": 5,
+            "point_range_end": null
+        }
+    },
+    {
+        "pk": 143,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "free",
+            "point_range_start": 5,
+            "confirm_prompt": "Provide us a list of the places you found energy being wasted on campus, and your suggestion on how to stop each one.",
+            "expected_duration": 120,
+            "point_range_end": 50
         }
     },
     {
         "pk": 107,
         "model": "smartgrid_library.libraryactivity",
         "fields": {
-            "expected_duration": 15,
-            "point_range_end": null,
+            "admin_note": null,
             "confirm_type": "text",
             "point_range_start": null,
-            "confirm_prompt": ""
+            "confirm_prompt": "",
+            "expected_duration": 15,
+            "point_range_end": null
+        }
+    },
+    {
+        "pk": 14,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "text",
+            "point_range_start": null,
+            "confirm_prompt": "",
+            "expected_duration": 5,
+            "point_range_end": null
         }
     },
     {
         "pk": 121,
         "model": "smartgrid_library.libraryactivity",
         "fields": {
-            "expected_duration": 15,
-            "point_range_end": null,
+            "admin_note": null,
             "confirm_type": "text",
             "point_range_start": null,
-            "confirm_prompt": ""
+            "confirm_prompt": "",
+            "expected_duration": 15,
+            "point_range_end": null
         }
     },
     {
         "pk": 117,
         "model": "smartgrid_library.libraryactivity",
         "fields": {
-            "expected_duration": 15,
-            "point_range_end": null,
+            "admin_note": null,
             "confirm_type": "text",
             "point_range_start": null,
-            "confirm_prompt": ""
+            "confirm_prompt": "",
+            "expected_duration": 15,
+            "point_range_end": null
         }
     },
     {
         "pk": 101,
         "model": "smartgrid_library.libraryactivity",
         "fields": {
+            "admin_note": null,
+            "confirm_type": "text",
+            "point_range_start": null,
+            "confirm_prompt": "",
             "expected_duration": 15,
-            "point_range_end": null,
-            "confirm_type": "text",
-            "point_range_start": null,
-            "confirm_prompt": ""
+            "point_range_end": null
         }
     },
     {
-        "pk": 92,
+        "pk": 134,
         "model": "smartgrid_library.libraryactivity",
         "fields": {
-            "expected_duration": 5,
-            "point_range_end": null,
-            "confirm_type": "text",
-            "point_range_start": null,
-            "confirm_prompt": ""
-        }
-    },
-    {
-        "pk": 87,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 15,
-            "point_range_end": null,
-            "confirm_type": "text",
-            "point_range_start": null,
-            "confirm_prompt": ""
-        }
-    },
-    {
-        "pk": 10,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 5,
-            "point_range_end": null,
+            "admin_note": null,
             "confirm_type": "free",
-            "point_range_start": null,
-            "confirm_prompt": "Please paste the URL of your Google+ profile."
-        }
-    },
-    {
-        "pk": 95,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 15,
-            "point_range_end": null,
-            "confirm_type": "text",
-            "point_range_start": null,
-            "confirm_prompt": ""
-        }
-    },
-    {
-        "pk": 145,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
+            "point_range_start": 5,
+            "confirm_prompt": "Send us a link to your video.",
             "expected_duration": 240,
-            "point_range_end": 50,
-            "confirm_type": "free",
-            "point_range_start": 15,
-            "confirm_prompt": "Tell us: which lounge you decided to help out, who you spoke to there, what you did, and how much energy you think you are helping them to save."
-        }
-    },
-    {
-        "pk": 146,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "expected_duration": 180,
-            "point_range_end": null,
-            "confirm_type": "free",
-            "point_range_start": null,
-            "confirm_prompt": "Foo"
+            "point_range_end": 50
         }
     },
     {
         "pk": 144,
         "model": "smartgrid_library.libraryactivity",
         "fields": {
-            "expected_duration": 120,
-            "point_range_end": null,
+            "admin_note": null,
             "confirm_type": "free",
             "point_range_start": null,
-            "confirm_prompt": "Submit the results of your energy comparison across families. What have you learned?"
+            "confirm_prompt": "Submit the results of your energy comparison across families. What have you learned?",
+            "expected_duration": 120,
+            "point_range_end": null
+        }
+    },
+    {
+        "pk": 87,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "text",
+            "point_range_start": null,
+            "confirm_prompt": "",
+            "expected_duration": 15,
+            "point_range_end": null
+        }
+    },
+    {
+        "pk": 92,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "text",
+            "point_range_start": null,
+            "confirm_prompt": "",
+            "expected_duration": 5,
+            "point_range_end": null
+        }
+    },
+    {
+        "pk": 10,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "free",
+            "point_range_start": null,
+            "confirm_prompt": "Please paste the URL of your Google+ profile.",
+            "expected_duration": 5,
+            "point_range_end": null
+        }
+    },
+    {
+        "pk": 95,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "text",
+            "point_range_start": null,
+            "confirm_prompt": "",
+            "expected_duration": 15,
+            "point_range_end": null
+        }
+    },
+    {
+        "pk": 145,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "free",
+            "point_range_start": 15,
+            "confirm_prompt": "Tell us: which lounge you decided to help out, who you spoke to there, what you did, and how much energy you think you are helping them to save.",
+            "expected_duration": 240,
+            "point_range_end": 50
         }
     },
     {
         "pk": 97,
         "model": "smartgrid_library.libraryactivity",
         "fields": {
-            "expected_duration": 15,
-            "point_range_end": null,
+            "admin_note": null,
             "confirm_type": "text",
             "point_range_start": null,
-            "confirm_prompt": ""
+            "confirm_prompt": "",
+            "expected_duration": 15,
+            "point_range_end": null
+        }
+    },
+    {
+        "pk": 146,
+        "model": "smartgrid_library.libraryactivity",
+        "fields": {
+            "admin_note": null,
+            "confirm_type": "free",
+            "point_range_start": null,
+            "confirm_prompt": "Foo",
+            "expected_duration": 180,
+            "point_range_end": null
         }
     },
     {
         "pk": 152,
         "model": "smartgrid_library.libraryactivity",
         "fields": {
-            "expected_duration": 15,
-            "point_range_end": null,
+            "admin_note": null,
             "confirm_type": "free",
             "point_range_start": null,
-            "confirm_prompt": "Answer these questions:\r\n\r\n1.  What interesting differences do you notice in energy use when looking at the 3 different timescales?\r\n2.  What how different are the graphs of power and energy?\r\n3.  Pick 2 lounges and compare their energy use across 2 different time scales.\r\n4.  What are your thoughts on this visualization? What are its strengths and weaknesses?"
+            "confirm_prompt": "Answer these questions:\r\n\r\n1.  What interesting differences do you notice in energy use when looking at the 3 different timescales?\r\n2.  What how different are the graphs of power and energy?\r\n3.  Pick 2 lounges and compare their energy use across 2 different time scales.\r\n4.  What are your thoughts on this visualization? What are its strengths and weaknesses?",
+            "expected_duration": 15,
+            "point_range_end": null
         }
     },
     {
@@ -4635,806 +5764,5 @@
         "fields": {
             "expected_duration": 1
         }
-    },
-    {
-        "pk": 44,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 2,
-            "answer": "kilowatt-hour",
-            "question": "What is the unit of measurement for household energy?"
-        }
-    },
-    {
-        "pk": 45,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 2,
-            "answer": "watt",
-            "question": "What is the unit of measurement for power?"
-        }
-    },
-    {
-        "pk": 46,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 22,
-            "answer": "Heat, light",
-            "question": "What are the two things the sun provides?"
-        }
-    },
-    {
-        "pk": 47,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 22,
-            "answer": "Ability to run power meter forwards or backwards",
-            "question": "What is net metering?"
-        }
-    },
-    {
-        "pk": 48,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 57,
-            "answer": "reuse containers, bring your own container, use reusable bags, etc",
-            "question": "Name one way you can reduce the amount of trash you produce"
-        }
-    },
-    {
-        "pk": 49,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 2,
-            "answer": "power",
-            "question": "What concept in electricity is like a car's speedometer?"
-        }
-    },
-    {
-        "pk": 50,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 2,
-            "answer": "energy",
-            "question": "What concept in electricity is like a car's odometer?"
-        }
-    },
-    {
-        "pk": 51,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 18,
-            "answer": "higher prices, climate change, lost beaches",
-            "question": "What might be some consequences of failing to make changes in Hawaii's current energy generation?"
-        }
-    },
-    {
-        "pk": 52,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 22,
-            "answer": "doesn't work at night, or when very cloudy",
-            "question": "What is one limitation of solar power?"
-        }
-    },
-    {
-        "pk": 53,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 26,
-            "answer": "less fresh water, less beach, more drought, more floods, more coral bleaching",
-            "question": "What is one expected impact of climate change in Hawaii?"
-        }
-    },
-    {
-        "pk": 54,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 26,
-            "answer": "reduce it, get it under 350 ppm",
-            "question": "What should we do about carbon dioxide?"
-        }
-    },
-    {
-        "pk": 55,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 26,
-            "answer": "Reduce our energy use, reduce energy footprint",
-            "question": "How can we in Hawaii reduce our carbon footprint?"
-        }
-    },
-    {
-        "pk": 56,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 14,
-            "answer": "90%",
-            "question": "How much of Hawaii's energy comes from oil?"
-        }
-    },
-    {
-        "pk": 57,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 18,
-            "answer": "anything reasonable",
-            "question": "What did you learn from the video?"
-        }
-    },
-    {
-        "pk": 58,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 14,
-            "answer": "Hale Aloha dorms, or Lehua, Ilima, Mokihana, and Lokelani",
-            "question": "Where is the Kukui Cup taking place?"
-        }
-    },
-    {
-        "pk": 59,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 14,
-            "answer": "freshmen, first-year students, residents of Hale Aloha",
-            "question": "What students can participate?"
-        }
-    },
-    {
-        "pk": 60,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 15,
-            "answer": "200 W",
-            "question": "How much power does a game console use?"
-        }
-    },
-    {
-        "pk": 61,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 15,
-            "answer": "1000+ W",
-            "question": "How much does power a microwave use?"
-        }
-    },
-    {
-        "pk": 62,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 15,
-            "answer": "175-200 W",
-            "question": "How much power does a solar panel generate?"
-        }
-    },
-    {
-        "pk": 63,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 15,
-            "answer": "3 Wh",
-            "question": "How much energy is in a AA battery?"
-        }
-    },
-    {
-        "pk": 64,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 15,
-            "answer": "1 kWh",
-            "question": "How much energy does a solar panel generate per day?"
-        }
-    },
-    {
-        "pk": 65,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 15,
-            "answer": "1500 kWh",
-            "question": "How much energy does a Hale Aloha tower use per day?"
-        }
-    },
-    {
-        "pk": 66,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 15,
-            "answer": "$0.20-$0.30",
-            "question": "How much does a kilowatt-hour cost in Hawaii?"
-        }
-    },
-    {
-        "pk": 67,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 57,
-            "answer": "a power plant that turns some of Hawaii's waste into energy",
-            "question": "What is H-POWER?"
-        }
-    },
-    {
-        "pk": 68,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 57,
-            "answer": "60%",
-            "question": "What percentage of our trash does H-POWER convert into energy?"
-        }
-    },
-    {
-        "pk": 69,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 57,
-            "answer": "prevent/reduce, reuse, recycle",
-            "question": "What are the three components of the trash pyramid?"
-        }
-    },
-    {
-        "pk": 70,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 16,
-            "answer": "hair dryer",
-            "question": "Which device uses the most power: mobile phone, laptop, or hair dryer?"
-        }
-    },
-    {
-        "pk": 71,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 78,
-            "answer": "so many types available, easier for renewables to be price competitive here",
-            "question": "What is one reason renewable power has great potential in Hawaii?"
-        }
-    },
-    {
-        "pk": 72,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 78,
-            "answer": "oil",
-            "question": "What is the main source of energy in Hawaii?"
-        }
-    },
-    {
-        "pk": 73,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 77,
-            "answer": "turning off lights, using sunlight",
-            "question": "What is one way to reduce energy use from lighting?"
-        }
-    },
-    {
-        "pk": 74,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 77,
-            "answer": "CFL",
-            "question": "Which light source uses more power, compact fluorescent (CFL) or LED?"
-        }
-    },
-    {
-        "pk": 75,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 77,
-            "answer": "incandescent",
-            "question": "Which light source uses more power, incandescent or compact fluorescent (CFL)?"
-        }
-    },
-    {
-        "pk": 76,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 16,
-            "answer": "vampire power, devices can use energy when powered off",
-            "question": "Why would we measure the power drawn by a device that is off?"
-        }
-    },
-    {
-        "pk": 77,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 66,
-            "answer": "Points and Lounge energy consumption",
-            "question": "What are the two ways to \"keep score\" in the Kukui Cup?"
-        }
-    },
-    {
-        "pk": 78,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 66,
-            "answer": "Accumulate kukui cup points",
-            "question": "How do you earn raffle tickets?"
-        }
-    },
-    {
-        "pk": 79,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 66,
-            "answer": "5",
-            "question": "How many commitments can you have at one time?"
-        }
-    },
-    {
-        "pk": 80,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 78,
-            "answer": "no interconnection, small grids, expensive raw materials",
-            "question": "What is one reason why energy costs more in Hawaii?"
-        }
-    },
-    {
-        "pk": 81,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 86,
-            "answer": "The rate at which energy is being used.",
-            "question": "What is power?"
-        }
-    },
-    {
-        "pk": 82,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 87,
-            "answer": "About 1.",
-            "question": "How many solar panels would be needed to power an XBox?"
-        }
-    },
-    {
-        "pk": 83,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 88,
-            "answer": "LED",
-            "question": "If you were a chocolate bunny, would you want to live under an incandescent light or an LED light?"
-        }
-    },
-    {
-        "pk": 84,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 91,
-            "answer": "70%",
-            "question": "According to the HCEI, what percentage of our energy should come from clean sources by 2030?"
-        }
-    },
-    {
-        "pk": 85,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 92,
-            "answer": "bar",
-            "question": "Foo"
-        }
-    },
-    {
-        "pk": 86,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 93,
-            "answer": "They are intermittent, we need power even when it's dark and not windy.",
-            "question": "Why can't solar or wind power supply all of Hawaii's energy needs?"
-        }
-    },
-    {
-        "pk": 87,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 94,
-            "answer": "$0.30",
-            "question": "What is the approximate cost of a kilowatt-hour of electricity on Oahu?"
-        }
-    },
-    {
-        "pk": 88,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 95,
-            "answer": "wind",
-            "question": "What clean energy project is occurring in Kahuku?"
-        }
-    },
-    {
-        "pk": 89,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 97,
-            "answer": "The sun's rays get focused on water, turning it to steam to turn a turbine",
-            "question": "How does a solar thermal electric plant convert sunlight to energy?"
-        }
-    },
-    {
-        "pk": 90,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 99,
-            "answer": "60%",
-            "question": "What percentage of Hawaii's energy is used for transportation?"
-        }
-    },
-    {
-        "pk": 91,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 101,
-            "answer": "PHEV adds electric motor and batteries that can be charged by plugging in",
-            "question": "Briefly, what are the differences between a conventional car and a plug-in hybrid?"
-        }
-    },
-    {
-        "pk": 92,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 107,
-            "answer": "90%",
-            "question": "How much does H-POWER reduce the volume of the opala it processes?"
-        }
-    },
-    {
-        "pk": 93,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 116,
-            "answer": "bar",
-            "question": "Foo"
-        }
-    },
-    {
-        "pk": 94,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 117,
-            "answer": "Bar",
-            "question": "Foo"
-        }
-    },
-    {
-        "pk": 95,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 121,
-            "answer": "50 feet",
-            "question": "If sea levels rise by six inches, how many feet of beach will be lost?"
-        }
-    },
-    {
-        "pk": 96,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 86,
-            "answer": "Power is the rate at which energy is used.",
-            "question": "What is the relationship between power and energy?"
-        }
-    },
-    {
-        "pk": 97,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 87,
-            "answer": "gone down",
-            "question": "Has Hawaii's oil consumption gone up, down, or stayed the same over the past five years? Why?"
-        }
-    },
-    {
-        "pk": 98,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 87,
-            "answer": "about 20 kWh",
-            "question": "How much energy does a typical Hawaii home use in a day?"
-        }
-    },
-    {
-        "pk": 99,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 88,
-            "answer": "90%",
-            "question": "What percent of the energy used to power an incandescent bulb is emitted as heat?"
-        }
-    },
-    {
-        "pk": 100,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 91,
-            "answer": "They will decrease.",
-            "question": "If we achieve the goals of HCEI, what will happen to our baseline power requirements over the next 20 years?"
-        }
-    },
-    {
-        "pk": 101,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 91,
-            "answer": "6 billion dollars.",
-            "question": "How much money do we currently send out of state on oil per year?"
-        }
-    },
-    {
-        "pk": 102,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 93,
-            "answer": "We as citizens need to decide what trade-offs we want to make.",
-            "question": "Why can't we just let the electric company solve our energy problems?"
-        }
-    },
-    {
-        "pk": 103,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 94,
-            "answer": "Washington",
-            "question": "According to the US Energy Information Office, what state currently has the lowest energy costs?"
-        }
-    },
-    {
-        "pk": 104,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 94,
-            "answer": "Petroleum (37%)",
-            "question": "What is the primary source of energy across the United States?"
-        }
-    },
-    {
-        "pk": 105,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 95,
-            "answer": "wave",
-            "question": "What clean energy project is occurring in Kaneohe?"
-        }
-    },
-    {
-        "pk": 106,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 95,
-            "answer": "About 4,000",
-            "question": "According to the HCEI Year 2 update, how many PV projects were installed in 2010?"
-        }
-    },
-    {
-        "pk": 107,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 97,
-            "answer": "Phosphorus and boron",
-            "question": "What two elements are added to silicon to make a solar cell?"
-        }
-    },
-    {
-        "pk": 108,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 97,
-            "answer": "solar hot water heater",
-            "question": "What is one common way to use the sun's heat in a home?"
-        }
-    },
-    {
-        "pk": 109,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 99,
-            "answer": "Nothing!",
-            "question": "As a UH student, how much does it cost you to ride The Bus?"
-        }
-    },
-    {
-        "pk": 110,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 99,
-            "answer": "Google Maps or hea.thebus.org",
-            "question": "How can you find out when the next bus is coming?"
-        }
-    },
-    {
-        "pk": 111,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 101,
-            "answer": "Every Wednesday 7-8:30pm or Thursday from 12-2",
-            "question": "When can you fix your bike at Cycle Manoa for free?"
-        }
-    },
-    {
-        "pk": 112,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 101,
-            "answer": "The Prius!",
-            "question": "Which has lower emissions, driving a Prius with three passengers or taking the bus?"
-        }
-    },
-    {
-        "pk": 113,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 107,
-            "answer": "equivalent to 1 barrel of oil",
-            "question": "How much energy does 1 ton of waste produce in H-POWER?"
-        }
-    },
-    {
-        "pk": 114,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 107,
-            "answer": "Place in the Art Building where people can leave or takes stuff for free",
-            "question": "What is the Free Store?"
-        }
-    },
-    {
-        "pk": 115,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 121,
-            "answer": "This is a trick question. He says it doesn't matter which side of the debate you take, because regardless of which side is right, we need to take action.",
-            "question": "Which side of the debate on climate change does Greg Craven take in his video, \"How it all ends\"?"
-        }
-    },
-    {
-        "pk": 116,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 121,
-            "answer": "Possibilities: the media, under-education, denialism.",
-            "question": "According to the Scientific American article, what are possible reasons why Americans are so ill-informed about climate change?"
-        }
-    },
-    {
-        "pk": 117,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 108,
-            "answer": "Equivalent to 250 billion barrels of oil",
-            "question": "How much solar energy do tropical seas absorb in a day?"
-        }
-    },
-    {
-        "pk": 118,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 108,
-            "answer": "Use the temperature difference between warm ocean surface and cold depths to spin turbine",
-            "question": "How does OTEC generate energy?"
-        }
-    },
-    {
-        "pk": 119,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 108,
-            "answer": "Ocean Thermal Energy Conversion",
-            "question": "What does OTEC stand for?"
-        }
-    },
-    {
-        "pk": 120,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 108,
-            "answer": "Provides constant power, not intermittent",
-            "question": "How does OTEC differ from solar and wind energy?"
-        }
-    },
-    {
-        "pk": 122,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 184,
-            "answer": "???",
-            "question": "???"
-        }
-    },
-    {
-        "pk": 123,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 185,
-            "answer": "???",
-            "question": "???"
-        }
-    },
-    {
-        "pk": 124,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 186,
-            "answer": "???",
-            "question": "???"
-        }
-    },
-    {
-        "pk": 125,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 187,
-            "answer": "???",
-            "question": "???"
-        }
-    },
-    {
-        "pk": 126,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 196,
-            "answer": "???",
-            "question": "???"
-        }
-    },
-    {
-        "pk": 127,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 197,
-            "answer": "???",
-            "question": "???"
-        }
-    },
-    {
-        "pk": 128,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 198,
-            "answer": "???",
-            "question": "Sust Class S13"
-        }
-    },
-    {
-        "pk": 129,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 199,
-            "answer": "???",
-            "question": "Capus Energy Hogs"
-        }
-    },
-    {
-        "pk": 130,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 206,
-            "answer": "???",
-            "question": "DIY Video 2"
-        }
-    },
-    {
-        "pk": 131,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 208,
-            "answer": "???",
-            "question": "DIY Workshop 2"
-        }
-    },
-    {
-        "pk": 132,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 209,
-            "answer": "???",
-            "question": "DIY Sustainability Game"
-        }
-    },
-    {
-        "pk": 133,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "libraryaction": 210,
-            "answer": "???",
-            "question": "Course Proj S13"
-        }
-    }    
+    }
 ]

@@ -85,14 +85,10 @@ a.sgg-category {
 }
 
 .ssg-category-selections {
-//    border: 1px solid #000;
-//    border-radius: 8px;
-//    -moz-border-radius: 8px;
-//    -webkit-border-radius: 8px;
-    margin: 10px auto 5px auto;
     text-align: center;
-	overflow-x: auto;
-	overflow-y: hidden;	
+	display: block;
+	height: 80px;
+	overflow: scroll;	
 	padding-bottom: 2px;
 }
 
@@ -269,8 +265,8 @@ a.sgg-category {
     color: @sgg-header-font-color;
     float: left;
     overflow: hidden;
-    margin: 0 2px 0 2px;
-    padding: 0;
+    margin: 2px;
+    padding: 2px;
     height: 64px;
     width: 64px;
     vertical-align: middle;
@@ -280,7 +276,6 @@ a.sgg-category {
     -moz-border-radius: 8px;
     -webkit-border-radius: 8px;
     text-transform: capitalize;
-    display: inline-block;
 }
 
 .sgg-dropzone {

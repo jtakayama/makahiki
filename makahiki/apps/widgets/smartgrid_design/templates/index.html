@@ -85,7 +85,8 @@
 				<div class="ssg-category-selections">
 					<div class="sgg-category-wrapper">
 					{% for category in view_objects.smartgrid_design.categories %}
-					<div class="sgg-library-category draggable" data-pk="{{category.pk}}" data-slug="{{category.slug}}">
+					<div class="sgg-library-category library-draggable {% if category.slug in view_objects.smartgrid_design.smart_grid_categories %}hidden{% endif %}"
+						 data-pk="{{category.pk}}" data-slug="{{category.slug}}">
 						<a class="sgg-category-link" href="/challenge_setting_admin/smartgrid_library/librarycategory/{{category.pk}}/">{{category}}</a>
 					</div>
 					{% endfor %}
@@ -150,17 +151,25 @@ $(document).click(function() {
 </script>
 	    	    	<!-- Tab contents -->
         			<div id="sgg-grid" class="tab-content">
-        			{% for level in view_objects.smartgrid_design.smart_grid %}
+        			{% for level in view_objects.smartgrid_design.designer_grid %}
+    	    			{% with lvl=level|nth:0 %}
+    	    			{% with cat_list=level|nth:1 %}
+    	    			{% with act_list=level|nth:2 %}
+    	    			{% with columns=level|nth:3 %}
             			<div id="sgg-level-{{forloop.counter}}" 
 	           			{% if forloop.counter == 1 %}
 							  class="tab-pane active"
         	    		{% else %}
             				  class="tab-pane"
 						{% endif %}            		
-							  data-level="{{level.name}}"
-							  data-levelslug="{{level.slug}}">
+							  data-level="{{lvl.name}}"
+							  data-levelslug="{{lvl.slug}}">
 						{% include "sgg_grid.html" %}
 						</div>
+        				{% endwith %}
+        				{% endwith %}
+        				{% endwith %}
+        				{% endwith %}
 					{% endfor %}
 					</div>
 				</div>
@@ -222,30 +231,39 @@ $(document).click(function() {
 			cursor : 'move',
 			helper : 'clone'
 		})
+		$('.category-draggable').draggable({
+			cursor: 'move',
+			start: handleCategoryStartDrag,
+			helper: 'clone',
+			revert: function(dropObj) {
+				if (dropObj == false) {
+					$(this).removeClass('hidden');
+					return true;
+				} else {
+					return false;
+				}
+			},
+		});
 		$('.grid-draggable').draggable({
 			cursor : 'move',
-			start: handleLibraryStartDrag,
+			start: handleGridStartDrag,
 			helper : 'clone',
 			revert : function(dropObj) {
 				// console.log("revert for grid draggable");
 				// if false then no drop object
 				if (dropObj == false) {
 					// revert the grid-draggable
+					$(this).removeClass('hidden');
 					return true;
 				} else {
-					// var answer = confirm('Remove this item from the Smart Grid?');
-					// if (answer) {
-						var type = $(dropObj).attr('class');
-						var first = type.split(" ")[0];
-						console.log(first);
-						if (first == 'sgg-palette') {
-							handlePaletteDrop($(this));
-						} else if (first == 'sgg-right-palette') {
-							handlePaletteDrop($(this));
-						}
-						return false;
-					// }
-					// return !answer;
+					var type = $(dropObj).attr('class');
+					var first = type.split(" ")[0];
+					if (first == 'sgg-palette') {
+						handlePaletteDrop($(this));
+					} else if (first == 'sgg-right-palette') {
+						handlePaletteDrop($(this));
+					}
+					return false;
 				}
 			},
 		});
@@ -265,7 +283,8 @@ $(document).click(function() {
 		})
 		$('.palette-draggable').draggable({
 			cursor : 'move',
-			helper : 'original', // should be clone, but then the drop in the grid isn't working
+			start: handlePaletteStartDrag,
+			helper : 'clone', // should be clone, but then the drop in the grid isn't working
 		})
 		$('.sgg-category-slot').droppable({
 			accept : '.sgg-library-category',

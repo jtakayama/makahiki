@@ -27,7 +27,7 @@
                 <b>Estimated duration</b> : {{ action.expected_duration }} <br/>
                 <b>Space(s) still available</b> : {{ action.available_seat }}
             {% else %}
-                <b>Estimated time required</b> : {{ action.expected_duration }} <br/>
+                <b>Estimated time required</b> : {{ action.expected_duration }} minute{% if action.expected_duration > 1 %}s{% endif %} <br/>
             {% endif %}
         {% endif %}
         <p/>

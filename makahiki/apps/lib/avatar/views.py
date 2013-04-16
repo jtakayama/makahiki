@@ -121,8 +121,7 @@ def change(request, extra_context=None, next_override=None):
                 file_error = "Uploaded file is larger than 2 MB."
 
         if 'choice' in request.POST and primary_avatar_form.is_valid():
-            avatar = Avatar.objects.get(id=
-            primary_avatar_form.cleaned_data['choice'])
+            avatar = Avatar.objects.get(id=primary_avatar_form.cleaned_data['choice'])
             avatar.primary = True
             avatar.save()
 
