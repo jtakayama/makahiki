@@ -3,7 +3,7 @@
 from datetime import datetime, timedelta
 from django.db.models.query_utils import Q
 from apps.widgets.smartgrid import smartgrid
-from apps.widgets.smartgrid.models import Action, Event, Grid
+from apps.widgets.smartgrid.models import Action, Event, Grid, CategoryGrid
 
 
 def completed_action(user, slug):
@@ -132,8 +132,12 @@ def approved_some_of(user, some=1, category_slug=None, action_type=None, resourc
     """Returns true if some actions of the specified type is approved."""
 
     if category_slug:
-        return user.actionmember_set.filter(action__category__slug=category_slug,
-                                            approval_status="approved").count() >= some
+        count = 0
+        for cat in CategoryGrid.objects.filter(category__slug=category_slug):
+            for grid in Grid.objects.filter(level=cat.level, column=cat.column):
+                count += user.actionmember_set.filter(action=grid.action,
+                                                      approval_status="approved").count()
+        return count >= some
 
     if action_type:
         return user.actionmember_set.filter(action__type=action_type,
@@ -144,8 +148,11 @@ def approved_some_of(user, some=1, category_slug=None, action_type=None, resourc
                                             approval_status="approved").count() >= some
 
     if level_name:
-        return user.actionmember_set.filter(action__level__name=level_name,
-                                            approval_status="approved").count() >= some
+        count = 0
+        for action in Grid.objects.filter(level__name=level_name):
+            count += user.actionmember_set.filter(action=action,
+                                                  approval_status="approved").count()
+        return count >= some
 
     return user.actionmember_set.filter(approval_status="approved").count() >= some
 
