@@ -317,24 +317,6 @@ And the structure of the subtree is maintained from the old tree."""
         return "<Tree: %s>" % (self.root)
 
 
-def build_nodes(class_type):
-    """Builds nodes from all the Actions in the class_type, it should be LibraryAction,
-    DesignerAction or Action."""
-    # build nodes for all the actions in the grid.
-    nodes = []
-    for action in class_type.objects.all():
-        try:
-            if action.level and action.category:
-#                print action.slug
-                node = Node(action.slug, action.unlock_condition, level=action.level, \
-                            identifier=action.slug)
-                node.level = action.level
-                nodes.append(node)
-        except AttributeError:
-            nodes.append(Node(action.slug, action.unlock_condition, identifier=action.slug))
-    return nodes
-
-
 def _build_designer_nodes():
     """Builds a list of all the DesignerAction nodes."""
     nodes = []
@@ -379,37 +361,6 @@ def build_designer_trees():
     return trees
 
 
-def build_trees(class_type):
-    """Build the unlock_trees for the DesignerActions in the Grid."""
-    nodes = build_nodes(class_type)
-    trees = {}
-    # loop through the nodes looking for possible root nodes. unlock_condition = True or False
-    for node in nodes:
-        if node.unlock_condition == "True" or node.unlock_condition.find("or True") != -1 \
-        or node.unlock_condition == "False" or node.unlock_condition.find("and False") != -1:
-            t = Tree()
-            t.create_node(node.name, node.unlock_condition, level=node.level, \
-                          identifier=node.identifier)
-            trees[node.name] = t
-
-    for node in nodes:
-        slugs = get_completed_action_slugs(node)
-        for slug in slugs:
-            for k in list(trees):
-                if trees[k].get_node(slug):
-                    trees[k].add_node(node, slug)
-    # second pass because adding in the wrong order may cause problems
-    for node in nodes:
-        slugs = get_completed_action_slugs(node)
-        for slug in slugs:
-            for k in list(trees):
-                if trees[k].get_node(slug):
-                    trees[k].add_node(node, slug)
-#                else:
-#                    print "%s doesn't have %s in it." % (k, slug)
-    return trees
-
-
 def get_completed_action_slugs(node):
     """Returns the action slugs from the given node's unlock_condition."""
     ret = []
@@ -423,13 +374,12 @@ def get_completed_action_slugs(node):
     return ret
 
 
-def get_unreachable_actions(class_type):
-    """Returns the slug for actions that are not in any tree for the given class_type
-    Should be either martgrid_design.DesignerAction or smartgrid.Action.  These actions are not
-    reachable so they will not be unlocked."""
+def get_unreachable_designer_actions():
+    """Returns the slug for actions that are not in any tree for DesignerActions
+    These actions are not reachable so they will not be unlocked."""
     ret = []
-    nodes = build_nodes(class_type)
-    trees = build_trees(class_type)
+    nodes = _build_designer_nodes()
+    trees = build_designer_trees()
     # check all the nodes
     for node in nodes:
         in_tree = False
@@ -442,11 +392,10 @@ def get_unreachable_actions(class_type):
     return ret
 
 
-def get_false_unlock_actions(class_type):
-    """Returns the slug for actions whose root unlock_condition is False for the given
-    class_type. class_type must be either smartgrid_design.DesignerAction or smartgrid.Action."""
+def get_false_unlock_designer_actions():
+    """Returns the slug for DesignerActions whose root unlock_condition is False."""
     ret = []
-    trees = build_trees(class_type)
+    trees = build_designer_trees()
     for k in list(trees):
         tree = trees[k]
         root = tree.get_node(tree.root)
@@ -473,25 +422,6 @@ def get_missmatched_designer_level():
                 if parent_name:
                     parent = tree.nodes[parent_name]
                     if parent and parent.level and parent.level.priority > node.level.priority:
-                        if node.name not in ret:
-                            ret.append(node.name)
-    return ret
-
-
-def get_missmatched_level(class_type):
-    """Returns the slug for actions whose parent level is higher than their own.
-    class_type must be either smartgrid_design.DesignerAction or smartgrid.Action."""
-    ret = []
-    trees = build_trees(class_type)
-    for k in list(trees):
-        tree = trees[k]
-        for node_key in list(tree.nodes):
-            node = tree.nodes[node_key]
-            if node.level:
-                parent_name = node.parent
-                if parent_name:
-                    parent = tree.nodes[parent_name]
-                    if parent and parent.level.priority > node.level.priority:
                         if node.name not in ret:
                             ret.append(node.name)
     return ret

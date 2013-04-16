@@ -42,11 +42,15 @@
         	{% with cat_list=grid_level|nth:1 %}
         	{% with act_list=grid_level|nth:2 %}
         	{% with columns=grid_level|nth:3 %}
+        	{% with max_col=grid_level|nth:4 %}
+        	{% with max_row=grid_level|nth:5 %}
             <div id="sgg-level-{{forloop.counter}}" class="tab-pane">
                 {% if level.is_unlock %}
                   {% include "level-table.html" %}
                 {% endif %}
             </div>
+        	{% endwith %}
+        	{% endwith %}
         	{% endwith %}
         	{% endwith %}
         	{% endwith %}

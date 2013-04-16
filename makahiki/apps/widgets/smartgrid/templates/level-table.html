@@ -1,7 +1,7 @@
 {% load sgg_design_tags %}
 <table class="activities-grid">
 	<tr><!-- Start header -->
-    {% for i in 8|get_range %}
+    {% for i in max_col|get_range %}
     	<td><div class="category-holder">
         {% for cat in cat_list %}
 	       	{% if i|add:"1" == cat.column %}
@@ -13,9 +13,9 @@
         </div></td>
     {% endfor %}
     </tr><!-- End header -->
-    {% for r in 8|get_range %}
+    {% for r in max_row|get_range %}
     <tr>
-    	{% for c in 8|get_range %}
+    	{% for c in max_col|get_range %}
     	<td>
     		{% for act in act_list %}
     			{% if r|add:"1" == act.row and c|add:"1" == act.column %}
