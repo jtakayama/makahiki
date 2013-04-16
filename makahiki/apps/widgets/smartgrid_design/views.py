@@ -12,7 +12,7 @@ from apps.widgets.smartgrid_library.models import LibraryActivity, LibraryEvent,
     LibraryCommitment, LibraryCategory
 from apps.managers.smartgrid_mgr import smartgrid_mgr, unlock_lint
 import json
-from apps.widgets.smartgrid_design.models import DesignerLevel, DesignerCategory, DesignerAction,\
+from apps.widgets.smartgrid_design.models import DesignerLevel, DesignerCategory, DesignerAction, \
     DesignerGrid, DesignerCategoryGrid
 from collections import OrderedDict
 
@@ -302,8 +302,8 @@ def run_lint(request):
     for k in list(sorted_trees):
         unlock_tree += sorted_trees[k].tohtmlstring()
         unlock_tree += '<p></p>'
-    unreachable = unlock_lint.get_unreachable_actions(DesignerAction)
-    false_unlock = unlock_lint.get_false_unlock_actions(DesignerAction)
+    unreachable = unlock_lint.get_unreachable_designer_actions()
+    false_unlock = unlock_lint.get_false_unlock_designer_actions()
     mismatched_levels = unlock_lint.get_missmatched_designer_level()
     return HttpResponse(json.dumps({
             "tree": unlock_tree,

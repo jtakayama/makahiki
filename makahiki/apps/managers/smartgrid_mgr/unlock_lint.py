@@ -323,11 +323,11 @@ def _build_designer_nodes():
     for action in DesignerAction.objects.all():
         locations = DesignerGrid.objects.filter(action=action)
         if len(locations) == 0:
-            nodes.append(Node(action.slug, action.unlock_condition, level=None,\
+            nodes.append(Node(action.slug, action.unlock_condition, level=None, \
                                   identifier=action.slug))
         else:
             for loc in locations:
-                nodes.append(Node(action.slug, action.unlock_condition, loc.level,\
+                nodes.append(Node(action.slug, action.unlock_condition, loc.level, \
                                   identifier=action.slug))
     return nodes
 

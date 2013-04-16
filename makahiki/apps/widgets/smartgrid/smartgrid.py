@@ -136,7 +136,7 @@ def get_levels(user):
     return levels
 
 
-def get_level_actions(user):
+def get_level_actions(user):  # pylint: disable=R0914,R0912,R0915
     """Returns the smart grid as defined in the Smart Grid Designer. The
     grid is a list of lists with the format [<Level>, [<CategoryGrid>*],
     [<Grid>*], [active columns], max_column, max_row]"""
@@ -186,7 +186,6 @@ def get_level_actions(user):
                     # if there is one action is not completed, set the level to in-completed
                     if not action.completed:
                         level.is_complete = False
-#                    print "Action:%s %s %s" % (action.is_unlock, action.availablity, action.completed)
                     just_actions.append(action)
                 level_ret.append(just_actions)
                 columns = []
@@ -212,68 +211,7 @@ def get_level_actions(user):
 
         # Cache the levels for 30 minutes (or until they are invalidated)
         cache_mgr.set_cache('smartgrid-levels-%s' % user, levels, 1800)
-    return levels
-
-#    """Return the level list with the action info in categories"""
-#    levels = cache_mgr.get_cache('smartgrid-levels-%s' % user.username)
-#
-#    if levels is None:
-#        completed_actions = get_completed_actions(user)
-#        levels = []
-#        for level in Level.objects.all():
-#            level.is_unlock = utils.eval_predicates(level.unlock_condition, user)
-#            if level.is_unlock:
-#                if level.unlock_condition != "True":
-#                    contents = "%s is unlocked." % level
-#                    obj, created = UserNotification.objects.\
-#                        get_or_create(recipient=user,
-#                                      contents=contents,
-#                                      level=UserNotification.LEVEL_CHOICES[2][0])
-#                    if created:  # only show the notification if it is new
-#                        obj.display_alert = True
-#                        obj.save()
-#                level.is_complete = True
-#                categories = []
-#                action_list = None
-#                category = None
-#                for action in level.action_set.all().select_related("category"):
-#                    if action.slug in completed_actions:
-#                        action.member = completed_actions[action.slug]
-#                        action.is_unlock = True
-#                        action.completed = True
-#                    else:
-#                        action.is_unlock = is_unlock(user, action)
-#                        action.completed = False
-#
-#                    action.availablity = availablity(action)
-#                    # if there is one action is not completed, set the level to in-completed
-#                    if not action.completed:
-#                        level.is_complete = False
-#
-#                    # the action are ordered by level and category
-#                    if category != action.category:
-#                        if category:
-#                            # a new category
-#                            category.task_list = action_list
-#                            categories.append(category)
-#
-#                        action_list = []
-#                        category = action.category
-#
-#                    action_list.append(action)
-#
-#                if category:
-#                    # last category
-#                    category.task_list = action_list
-#                    categories.append(category)
-#
-#                level.cat_list = categories
-#            levels.append(level)
-#
-#        # Cache the categories for 30 minutes (or until they are invalidated)
-#        cache_mgr.set_cache('smartgrid-levels-%s' % user, levels, 1800)
-#
-#    return levels
+    return levels  # pylint: enable=R0914,R0912,R0915
 
 
 def get_smart_grid():

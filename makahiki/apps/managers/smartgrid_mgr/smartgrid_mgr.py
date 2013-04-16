@@ -140,8 +140,10 @@ def _copy_action_fields(orig, copy):  # pylint: disable=R0912
         copy_fields.append(f.name)
         if isinstance(f, ForeignKey):
             fks.append(f.name)
-    print copy_fields
+#     print copy_fields
+    orig_fields = []
     for f in orig._meta.fields:
+        orig_fields.append(f.name)
         if f.name in copy_fields:
             if f.name != 'id':
                 if f.name not in fks:
@@ -151,6 +153,7 @@ def _copy_action_fields(orig, copy):  # pylint: disable=R0912
                     print f.name
                     value = getattr(orig, f.name)
                     setattr(copy, f.name, value)
+#     print orig_fields
     copy.save()  # pylint: enable=R0912
 
 
@@ -524,7 +527,7 @@ def deploy_designer_to_smartgrid():
         instantiate_grid_category_from_designer(cat)
     # deploy the actions
     for action in DesignerAction.objects.all():
-        instantiate_grid_action_from_designer(action)
+        instantiate_grid_action_from_designer(get_designer_action(action.slug))
     # deploy the Levels
     for level in DesignerLevel.objects.all():
         instantiate_grid_level_from_designer(level)

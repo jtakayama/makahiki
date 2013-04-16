@@ -89,7 +89,6 @@ class QuestConditionsTest(TransactionTestCase):
             pub_date=datetime.datetime.today(),
             expire_date=datetime.datetime.today() + datetime.timedelta(days=7),
             confirm_type="text",
-            category=category,
         )
         activity.save()
 
