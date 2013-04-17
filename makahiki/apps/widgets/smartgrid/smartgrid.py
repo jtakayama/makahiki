@@ -162,7 +162,7 @@ def get_level_actions(user):  # pylint: disable=R0914,R0912,R0915
                 level_ret.append(CategoryGrid.objects.filter(level=level))
 #                level_ret.append(Grid.objects.filter(level=level))
 
-                max_column = 0
+                max_column = len(CategoryGrid.objects.filter(level=level))
                 max_row = 0
                 just_actions = []
                 # update each action
