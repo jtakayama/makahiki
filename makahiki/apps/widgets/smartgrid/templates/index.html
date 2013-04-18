@@ -39,7 +39,7 @@
         <div class="tab-content">
         {% for grid_level in view_objects.smartgrid.grid %}
         	{% with level=grid_level|nth:0 %}
-        	{% with cat_list=grid_level|nth:1 %}
+        	{% with col_list=grid_level|nth:1 %}
         	{% with act_list=grid_level|nth:2 %}
         	{% with columns=grid_level|nth:3 %}
         	{% with max_col=grid_level|nth:4 %}

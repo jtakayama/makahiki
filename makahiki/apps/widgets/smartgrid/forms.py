@@ -4,7 +4,7 @@ from django import forms
 from django.forms.util import ErrorList
 
 from apps.widgets.smartgrid.models import ConfirmationCode, TextReminder, Level, \
-    Category
+    ColumnName
 from apps.managers.player_mgr import player_mgr
 from apps.widgets.smartgrid_library.models import LibraryQuestionChoice
 
@@ -18,7 +18,7 @@ class GenerateCodeForm(forms.Form):
 class ChangeLevelForm(forms.Form):
     """change level form."""
     level_choice = forms.ModelChoiceField(queryset=Level.objects.all(), required=True)
-    category_choice = forms.ModelChoiceField(queryset=Category.objects.all(), required=True)
+    column_choice = forms.ModelChoiceField(queryset=ColumnName.objects.all(), required=True)
 
 
 class ActivityTextForm(forms.Form):

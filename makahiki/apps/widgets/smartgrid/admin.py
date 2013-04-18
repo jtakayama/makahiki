@@ -7,7 +7,7 @@ import markdown
 from apps.managers.cache_mgr import cache_mgr
 from apps.managers.challenge_mgr import challenge_mgr
 from apps.utils import utils
-from apps.widgets.smartgrid.models import ActionMember, Activity, Category, Event, \
+from apps.widgets.smartgrid.models import ActionMember, Activity, ColumnName, Event, \
                                      Commitment, ConfirmationCode, TextPromptQuestion, \
                                      QuestionChoice, Level, Action, Filler, \
                                      EmailReminder, TextReminder
@@ -422,18 +422,18 @@ challenge_manager_site.register(Filler, FillerAdmin)
 developer_site.register(Filler, FillerAdmin)
 
 
-class CategoryAdmin(admin.ModelAdmin):
-    """Category Admin"""
+class ColumnNameAdmin(admin.ModelAdmin):
+    """ColumnName Admin"""
     list_display = ["name", ]
     prepopulated_fields = {"slug": ("name",)}
 
 
-admin.site.register(Category, CategoryAdmin)
-challenge_designer_site.register(Category, CategoryAdmin)
-challenge_manager_site.register(Category, CategoryAdmin)
-developer_site.register(Category, CategoryAdmin)
-challenge_mgr.register_designer_game_info_model("Smart Grid Game", Category)
-challenge_mgr.register_developer_game_info_model("Smart Grid Game", Category)
+admin.site.register(ColumnName, ColumnNameAdmin)
+challenge_designer_site.register(ColumnName, ColumnNameAdmin)
+challenge_manager_site.register(ColumnName, ColumnNameAdmin)
+developer_site.register(ColumnName, ColumnNameAdmin)
+challenge_mgr.register_designer_game_info_model("Smart Grid Game", ColumnName)
+challenge_mgr.register_developer_game_info_model("Smart Grid Game", ColumnName)
 
 
 class LevelAdminForm(forms.ModelForm):

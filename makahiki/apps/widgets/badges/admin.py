@@ -6,7 +6,7 @@ from apps.admin.admin import challenge_designer_site, challenge_manager_site, de
 
 
 class BadgeAdmin(admin.ModelAdmin):
-    """Category Admin"""
+    """Badge Admin"""
     list_display = ["name", "points", "award_condition", "award_trigger", "priority"]
     fields = ["name", "slug", "label", "description", "hint", "points", "priority",
               "award_condition", "award_trigger", "theme"]

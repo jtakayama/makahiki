@@ -97,23 +97,19 @@ class Level(models.Model):
         cache_mgr.clear()
 
 
-class Category(models.Model):
-    """Categories used to group actions."""
+class ColumnName(models.Model):
+    """ColumnNames are used to group actions in the Smart Grid."""
     name = models.CharField(max_length=255,
-                            help_text="The name of the category (max 255 characters).")
+                            help_text="The name of the column (max 255 characters).")
     slug = models.SlugField(help_text="Automatically generated if left blank.",
                             null=True)
-
-    class Meta:
-        """Meta"""
-        verbose_name_plural = "categories"
 
     def __unicode__(self):
         return self.name
 
     def save(self, *args, **kwargs):
         """Custom save method to set fields."""
-        super(Category, self).save(args, kwargs)
+        super(ColumnName, self).save(args, kwargs)
         cache_mgr.clear()
 
 
@@ -338,8 +334,8 @@ class Filler(Action):
     pass
 
 
-class CategoryGrid(models.Model):
-    """Defines the Category positions in the Smart Grid."""
+class ColumnGrid(models.Model):
+    """Defines the ColumnName positions in the Smart Grid."""
     level = models.ForeignKey(Level,
         help_text="The level of the action."
     )
@@ -348,8 +344,8 @@ class CategoryGrid(models.Model):
         help_text="The column of the Smart Grid this Action is in.",
         validators=[MaxValueValidator(8)]
     )
-    category = models.ForeignKey(Category,
-                                 help_text="The Category in this location.")
+    name = models.ForeignKey(ColumnName,
+                             help_text="The ColumnName in this location.")
 
 
 class Grid(models.Model):

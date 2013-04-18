@@ -394,7 +394,7 @@
     },
     {
         "pk": 1,
-        "model": "smartgrid.category",
+        "model": "smartgrid.columnname",
         "fields": {
             "name": "Electrimental",
             "slug": "electrimental"
@@ -402,7 +402,7 @@
     },
     {
         "pk": 2,
-        "model": "smartgrid.category",
+        "model": "smartgrid.columnname",
         "fields": {
             "name": "Generation Next",
             "slug": "generation-next"
@@ -410,7 +410,7 @@
     },
     {
         "pk": 3,
-        "model": "smartgrid.category",
+        "model": "smartgrid.columnname",
         "fields": {
             "name": "Get Started",
             "slug": "get-started"
@@ -418,7 +418,7 @@
     },
     {
         "pk": 4,
-        "model": "smartgrid.category",
+        "model": "smartgrid.columnname",
         "fields": {
             "name": "Get Creative",
             "slug": "get-creative"
@@ -426,7 +426,7 @@
     },
     {
         "pk": 5,
-        "model": "smartgrid.category",
+        "model": "smartgrid.columnname",
         "fields": {
             "name": "Let's Get Physical",
             "slug": "lets-get-physical"
@@ -434,7 +434,7 @@
     },
     {
         "pk": 6,
-        "model": "smartgrid.category",
+        "model": "smartgrid.columnname",
         "fields": {
             "name": "Just Do It",
             "slug": "just-do-it"
@@ -442,7 +442,7 @@
     },
     {
         "pk": 7,
-        "model": "smartgrid.category",
+        "model": "smartgrid.columnname",
         "fields": {
             "name": "Think Smart",
             "slug": "think-smart"
@@ -450,7 +450,7 @@
     },
     {
         "pk": 8,
-        "model": "smartgrid.category",
+        "model": "smartgrid.columnname",
         "fields": {
             "name": "Power to Burn?",
             "slug": "power-burn"
@@ -458,7 +458,7 @@
     },
     {
         "pk": 9,
-        "model": "smartgrid.category",
+        "model": "smartgrid.columnname",
         "fields": {
             "name": "Go Dark",
             "slug": "go-dark"
@@ -466,7 +466,7 @@
     },
     {
         "pk": 10,
-        "model": "smartgrid.category",
+        "model": "smartgrid.columnname",
         "fields": {
             "name": "Make it So",
             "slug": "make-it-so"
@@ -474,7 +474,7 @@
     },
     {
         "pk": 11,
-        "model": "smartgrid.category",
+        "model": "smartgrid.columnname",
         "fields": {
             "name": "Potpourri",
             "slug": "potpourri"
@@ -482,7 +482,7 @@
     },
     {
         "pk": 12,
-        "model": "smartgrid.category",
+        "model": "smartgrid.columnname",
         "fields": {
             "name": "Last Dance",
             "slug": "last-dance"
@@ -490,7 +490,7 @@
     },
     {
         "pk": 13,
-        "model": "smartgrid.category",
+        "model": "smartgrid.columnname",
         "fields": {
             "name": "Energy Wizardry",
             "slug": "energy-wizardry"
@@ -498,7 +498,7 @@
     },
     {
         "pk": 14,
-        "model": "smartgrid.category",
+        "model": "smartgrid.columnname",
         "fields": {
             "name": "Moving on",
             "slug": "moving-on"
@@ -506,7 +506,7 @@
     },
     {
         "pk": 15,
-        "model": "smartgrid.category",
+        "model": "smartgrid.columnname",
         "fields": {
             "name": "Energize Yourself",
             "slug": "energize-yourself"
@@ -514,7 +514,7 @@
     },
     {
         "pk": 16,
-        "model": "smartgrid.category",
+        "model": "smartgrid.columnname",
         "fields": {
             "name": "Express Yourself",
             "slug": "express-yourself"
@@ -522,7 +522,7 @@
     },
     {
         "pk": 17,
-        "model": "smartgrid.category",
+        "model": "smartgrid.columnname",
         "fields": {
             "name": "Be Committed",
             "slug": "be-committed"
@@ -530,7 +530,7 @@
     },
     {
         "pk": 18,
-        "model": "smartgrid.category",
+        "model": "smartgrid.columnname",
         "fields": {
             "name": "Do It To It",
             "slug": "do-it-it"
@@ -538,7 +538,7 @@
     },
     {
         "pk": 19,
-        "model": "smartgrid.category",
+        "model": "smartgrid.columnname",
         "fields": {
             "name": "Basic Energy",
             "slug": "basic-energy"
@@ -546,7 +546,7 @@
     },
     {
         "pk": 20,
-        "model": "smartgrid.category",
+        "model": "smartgrid.columnname",
         "fields": {
             "name": "Lights Out!",
             "slug": "lights-out"
@@ -554,7 +554,7 @@
     },
     {
         "pk": 21,
-        "model": "smartgrid.category",
+        "model": "smartgrid.columnname",
         "fields": {
             "name": "Water Cycle",
             "slug": "water-cycle"
@@ -562,7 +562,7 @@
     },
     {
         "pk": 22,
-        "model": "smartgrid.category",
+        "model": "smartgrid.columnname",
         "fields": {
             "name": "Play!",
             "slug": "play"
@@ -570,7 +570,7 @@
     },
     {
         "pk": 23,
-        "model": "smartgrid.category",
+        "model": "smartgrid.columnname",
         "fields": {
             "name": "Make Watts",
             "slug": "make-watts"
@@ -578,7 +578,7 @@
     },
     {
         "pk": 24,
-        "model": "smartgrid.category",
+        "model": "smartgrid.columnname",
         "fields": {
             "name": "Watts Up?",
             "slug": "watts"
@@ -586,7 +586,7 @@
     },
     {
         "pk": 25,
-        "model": "smartgrid.category",
+        "model": "smartgrid.columnname",
         "fields": {
             "name": "Moving on",
             "slug": "moving"
@@ -594,7 +594,7 @@
     },
     {
         "pk": 26,
-        "model": "smartgrid.category",
+        "model": "smartgrid.columnname",
         "fields": {
             "name": "Trail Mix",
             "slug": "trail-mix"
@@ -602,7 +602,7 @@
     },
     {
         "pk": 27,
-        "model": "smartgrid.category",
+        "model": "smartgrid.columnname",
         "fields": {
             "name": "Opala",
             "slug": "opala"
@@ -610,7 +610,7 @@
     },
     {
         "pk": 28,
-        "model": "smartgrid.category",
+        "model": "smartgrid.columnname",
         "fields": {
             "name": "Mixed Bag",
             "slug": "mixed-bag"
@@ -618,7 +618,7 @@
     },
     {
         "pk": 29,
-        "model": "smartgrid.category",
+        "model": "smartgrid.columnname",
         "fields": {
             "name": "Wet and Wild",
             "slug": "wet-and-wild"
@@ -626,7 +626,7 @@
     },
     {
         "pk": 30,
-        "model": "smartgrid.category",
+        "model": "smartgrid.columnname",
         "fields": {
             "name": "Creative",
             "slug": "creative"
@@ -1801,109 +1801,109 @@
     },
     {
         "pk": 13,
-        "model": "smartgrid.categorygrid",
+        "model": "smartgrid.columngrid",
         "fields": {
             "column": 1,
-            "category": 3,
+            "name": 3,
             "level": 1
         }
     },
     {
         "pk": 14,
-        "model": "smartgrid.categorygrid",
+        "model": "smartgrid.columngrid",
         "fields": {
             "column": 2,
-            "category": 6,
+            "name": 6,
             "level": 1
         }
     },
     {
         "pk": 15,
-        "model": "smartgrid.categorygrid",
+        "model": "smartgrid.columngrid",
         "fields": {
             "column": 3,
-            "category": 9,
+            "name": 9,
             "level": 1
         }
     },
     {
         "pk": 16,
-        "model": "smartgrid.categorygrid",
+        "model": "smartgrid.columngrid",
         "fields": {
             "column": 4,
-            "category": 10,
+            "name": 10,
             "level": 1
         }
     },
     {
         "pk": 17,
-        "model": "smartgrid.categorygrid",
+        "model": "smartgrid.columngrid",
         "fields": {
             "column": 1,
-            "category": 1,
+            "name": 1,
             "level": 2
         }
     },
     {
         "pk": 18,
-        "model": "smartgrid.categorygrid",
+        "model": "smartgrid.columngrid",
         "fields": {
             "column": 2,
-            "category": 5,
+            "name": 5,
             "level": 2
         }
     },
     {
         "pk": 19,
-        "model": "smartgrid.categorygrid",
+        "model": "smartgrid.columngrid",
         "fields": {
             "column": 3,
-            "category": 8,
+            "name": 8,
             "level": 2
         }
     },
     {
         "pk": 20,
-        "model": "smartgrid.categorygrid",
+        "model": "smartgrid.columngrid",
         "fields": {
             "column": 4,
-            "category": 11,
+            "name": 11,
             "level": 2
         }
     },
     {
         "pk": 21,
-        "model": "smartgrid.categorygrid",
+        "model": "smartgrid.columngrid",
         "fields": {
             "column": 1,
-            "category": 2,
+            "name": 2,
             "level": 3
         }
     },
     {
         "pk": 22,
-        "model": "smartgrid.categorygrid",
+        "model": "smartgrid.columngrid",
         "fields": {
             "column": 2,
-            "category": 4,
+            "name": 4,
             "level": 3
         }
     },
     {
         "pk": 23,
-        "model": "smartgrid.categorygrid",
+        "model": "smartgrid.columngrid",
         "fields": {
             "column": 3,
-            "category": 7,
+            "name": 7,
             "level": 3
         }
     },
     {
         "pk": 24,
-        "model": "smartgrid.categorygrid",
+        "model": "smartgrid.columngrid",
         "fields": {
             "column": 4,
-            "category": 12,
+            "name": 12,
             "level": 3
         }
     },

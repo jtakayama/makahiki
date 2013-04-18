@@ -18,20 +18,10 @@
                 <ul>
                 {% for obj in actions %}
                     <li> {{ obj.title }} -
-                        {% if attribute == "level" %}
-                          {{ obj.level }}
-                        {% elif attribute == "category" %}
-                          {{ obj.category }}
-                        {% endif %}
                     </li>
                 {% endfor %}
                 </ul>
                 Please select a {{ attribute }} to change to: <br/>
-                {% if attribute == "level" %}
-                    {{ form.level_choice }}
-                {% elif attribute == "category" %}
-                    {{ form.category_choice }}
-                {% endif %}
                 <input type="submit" value="Change" />
             </div>
         </form>

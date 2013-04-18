@@ -105,23 +105,19 @@ class DesignerLevel(models.Model):
         cache_mgr.clear()
 
 
-class DesignerCategory(models.Model):
-    """Categories used to group actions."""
+class DesignerColumnName(models.Model):
+    """ColumnNames used to group actions in the Smart Grid Designer."""
     name = models.CharField(max_length=255,
-                            help_text="The name of the category (max 255 characters).")
+                            help_text="The name of the column (max 255 characters).")
     slug = models.SlugField(help_text="Automatically generated if left blank.",
                             null=True)
-
-    class Meta:
-        """Meta"""
-        verbose_name_plural = "categories"
 
     def __unicode__(self):
         return self.name
 
     def save(self, *args, **kwargs):
         """Custom save method to set fields."""
-        super(DesignerCategory, self).save(args, kwargs)
+        super(DesignerColumnName, self).save(args, kwargs)
         cache_mgr.clear()
 
 
@@ -345,8 +341,8 @@ class DesignerFiller(DesignerAction):
     pass
 
 
-class DesignerCategoryGrid(models.Model):
-    """Defines the DesignerCategory positions in the Designer Grid."""
+class DesignerColumnGrid(models.Model):
+    """Defines the DesignerColumn positions in the Designer Grid."""
     level = models.ForeignKey(DesignerLevel,
         help_text="The level of the action."
     )
@@ -355,8 +351,8 @@ class DesignerCategoryGrid(models.Model):
         help_text="The column of the Smart Grid this Action is in.",
         validators=[MaxValueValidator(8)]
     )
-    category = models.ForeignKey(DesignerCategory,
-                                 help_text="The Category in this location.")
+    name = models.ForeignKey(DesignerColumnName,
+                                 help_text="The name of the column in this location.")
 
 
 class DesignerGrid(models.Model):

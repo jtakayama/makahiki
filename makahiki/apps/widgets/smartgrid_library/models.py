@@ -36,16 +36,15 @@ class LibraryQuestionChoice(models.Model):
         return self.choice
 
 
-class LibraryCategory(models.Model):
-    """Categories used to group actions."""
+class LibraryColumnName(models.Model):
+    """Defined ColumnNames used to group actions in the Smart Grid Game."""
     name = models.CharField(max_length=255,
-                            help_text="The name of the category (max 255 characters).")
+                            help_text="The name of the column (max 255 characters).")
     slug = models.SlugField(help_text="Automatically generated if left blank.",
                             null=True)
 
     class Meta:
         """Meta"""
-        verbose_name_plural = "library categories"
         ordering = ("name",)
 
     def __unicode__(self):
@@ -53,7 +52,7 @@ class LibraryCategory(models.Model):
 
     def save(self, *args, **kwargs):
         """Custom save method to set fields."""
-        super(LibraryCategory, self).save(args, kwargs)
+        super(LibraryColumnName, self).save(args, kwargs)
         cache_mgr.clear()
 
 

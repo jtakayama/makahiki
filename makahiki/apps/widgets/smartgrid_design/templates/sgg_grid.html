@@ -2,14 +2,14 @@
 
 <div class="sgg_grid">
 	<div class="sgg-dropzone">
-		<div id="category-dropzone" class="sgg-category-dropzone">
+		<div id="column-dropzone" class="sgg-column-dropzone">
 			<table class="designer-table">
 				<tr>
 					{% for i in 8|get_range %}
-					<td><div class="sgg-category-slot" data-column={{i|add:1}}>
+					<td><div class="sgg-column-slot" data-column={{i|add:1}}>
 					{% for cat in cat_list %}
 						{% if i|add:"1" == cat.column %}
-						<div id="category-menu-{{cat.category.slug}}" class="sgg-level-popup-menu">
+						<div id="column-menu-{{cat.name.slug}}" class="sgg-level-popup-menu">
 							<ul>
 								<li><a href="#{{forloop.counter}}" class="sgg-action"
 								rel="tooltip" 
@@ -17,26 +17,26 @@
 								</li>
 							</ul>
 						</div> 
-					<div id="category-{{cat.category.slug}}" data-slug="{{cat.category.slug}}" class="sgg-category grid-draggable" 
-						 data-priority={{i}} data-pk={{cat.category.pk}} data-level="sgg-level-{{lvl.priority}}">
+					<div id="column-{{cat.name.slug}}" data-slug="{{cat.name.slug}}" class="sgg-column grid-draggable" 
+						 data-priority={{i}} data-pk={{cat.name.pk}} data-level="sgg-level-{{lvl.priority}}">
 						 <br/>
-						 <a class="sgg-category-link" href="/challenge_setting_admin/smartgrid_design/designercategory/{{cat.category.pk}}/">
-						 {{cat.category.name}}</a>
+						 <a class="sgg-column-link" href="/challenge_setting_admin/smartgrid_design/designercolumnname/{{cat.name.pk}}/">
+						 {{cat.name.name}}</a>
 						 <br/>
 					</div>
 <script type="text/javascript">
-	$("#category-{{cat.category.slug}}").bind("contextmenu", function(e) {
-		$('#category-menu-{{cat.category.slug}}').css({
+	$("#column-{{cat.column.slug}}").bind("contextmenu", function(e) {
+		$('#column-menu-{{cat.name.slug}}').css({
 			top: e.pageY+'px',
 			left: e.pageX+'px'
 		}).show();
 		return false;
 	});
-	$("#category-menu-{{cat.category.slug}}").click(function() {
+	$("#column-menu-{{cat.name.slug}}").click(function() {
 		$(this).hide();
 	});
 	$(document).click(function() {
-		$("#category-menu-{{cat.category.slug}}").hide();
+		$("#column-menu-{{cat.name.slug}}").hide();
 	});
 </script>
 						{% endif %}
@@ -65,7 +65,7 @@
 							{% if r|add:"1" == act.row and c|add:"1" == act.column %}
 							<div data-slug="{{act.action.slug}}" class="sgg-action sgg-{{act.action.type}}-cell grid-draggable"
                    		   		 data-type="{{act.action.type}}" data-row="{{r|add:1}}" data-column="{{c|add:1}}" 
-                   		   		 data-category="{{cat.slug}}" data-pk={{act.action.pk}} data-unlock="{{act.action.unlock_condition}}">
+                   		   		 data-pk={{act.action.pk}} data-unlock="{{act.action.unlock_condition}}">
                    		   			<br/>
                    		   			<a href="/challenge_setting_admin/smartgrid_design/designer{{act.action.type}}/{{act.action.pk}}/"
 									   class="sgg-action" ref="tooltip" title="{{act.action.title}}">{{act.action.name}}</a><br/>

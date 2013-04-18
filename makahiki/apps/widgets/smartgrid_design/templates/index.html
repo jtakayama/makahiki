@@ -3,7 +3,7 @@
 <div class="content-box">
 	<div class="content-box-title">Smart Grid Game Designer</div>
 	<div id="content" class="content-box-contents">
-				<p>Drag the Categories to create columns. Then Drag the Activities,
+				<p>Drag the ColumnNames to create columns. Then Drag the Activities,
 				Commitments, Events, or filler to fill the Grid. Use the palette to temporarily
 				store Smart Grid Actions. You can revert to the current Smart Grid Game by pressing the "Revert to current Smart Grid Game" button. 
 				This will erase any changes you have made to the Designer.  When you are happy with the grid, publish the
@@ -59,7 +59,7 @@
 			<div class="designer-sidebar designer-right">
 				<div class="sgg-right-palette palette-dropzone"><u>Palette</u></br>
 					<div style="text-align: left;padding-left: 5px;">Actions with no
-						Level or Category. These do not appear in the Smart Grid Game. Use 
+						Level or Column. These do not appear in the Smart Grid Game. Use 
 						this space to move actions from level to level or temporarily remove the
 						action from the Smart Grid Game.</div>
 						{% for action in view_objects.smartgrid_design.palette %}
@@ -73,21 +73,21 @@
 				</div>			
 			</div>
 			<div class="designer-center">
-				<div class="sgg-category-title">
-					<h5>Categories:</h5>
+				<div class="sgg-column-title">
+					<h5>Column Names:</h5>
 				</div>
 				<div class="content-box-contents">
-					<a href="/challenge_admin/smartgrid_library/librarycategory/"
-						rel="tooltip" title="Switch to category editing page.">
-						<div class="btn btn-widget">Edit Categories</div></a>
-					Drag the category to the top row of the grid below. You cannot have the same category twice in the same level.
+					<a href="/challenge_admin/smartgrid_library/librarycolumnname/"
+						rel="tooltip" title="Switch to column name editing page.">
+						<div class="btn btn-widget">Edit Column Names</div></a>
+					Drag the column name to the top row of the grid below. You cannot have the same name twice in the same level.
 				</div>
-				<div class="ssg-category-selections">
-					<div class="sgg-category-wrapper">
-					{% for category in view_objects.smartgrid_design.categories %}
-					<div class="sgg-library-category library-draggable {% if category.slug in view_objects.smartgrid_design.smart_grid_categories %}hidden{% endif %}"
-						 data-pk="{{category.pk}}" data-slug="{{category.slug}}">
-						<a class="sgg-category-link" href="/challenge_setting_admin/smartgrid_library/librarycategory/{{category.pk}}/">{{category}}</a>
+				<div class="ssg-column-selections">
+					<div class="sgg-column-wrapper">
+					{% for column in view_objects.smartgrid_design.columns %}
+					<div class="sgg-library-column library-draggable {% if column.slug in view_objects.smartgrid_design.smart_grid_categories %}hidden{% endif %}"
+						 data-pk="{{column.pk}}" data-slug="{{column.slug}}">
+						<a class="sgg-column-link" href="/challenge_setting_admin/smartgrid_library/librarycolumnname/{{column.pk}}/">{{column}}</a>
 					</div>
 					{% endfor %}
 					</div>
@@ -231,9 +231,9 @@ $(document).click(function() {
 			cursor : 'move',
 			helper : 'clone'
 		})
-		$('.category-draggable').draggable({
+		$('.column-draggable').draggable({
 			cursor: 'move',
-			start: handleCategoryStartDrag,
+			start: handleColumnStartDrag,
 			helper: 'clone',
 			revert: function(dropObj) {
 				if (dropObj == false) {
@@ -286,9 +286,9 @@ $(document).click(function() {
 			start: handlePaletteStartDrag,
 			helper : 'clone', // should be clone, but then the drop in the grid isn't working
 		})
-		$('.sgg-category-slot').droppable({
-			accept : '.sgg-library-category',
-			drop : handleCategoryDrop
+		$('.sgg-column-slot').droppable({
+			accept : '.sgg-library-column',
+			drop : handleColumnDrop
 		});
 		$('.sgg-action-slot').droppable({
 			accept : '.sgg-action',

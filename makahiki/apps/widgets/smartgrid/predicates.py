@@ -3,7 +3,7 @@
 from datetime import datetime, timedelta
 from django.db.models.query_utils import Q
 from apps.widgets.smartgrid import smartgrid
-from apps.widgets.smartgrid.models import Action, Event, Grid, CategoryGrid
+from apps.widgets.smartgrid.models import Action, Event, Grid, ColumnGrid
 
 
 def completed_action(user, slug):
@@ -133,7 +133,7 @@ def approved_some_of(user, some=1, category_slug=None, action_type=None, resourc
 
     if category_slug:
         count = 0
-        for cat in CategoryGrid.objects.filter(category__slug=category_slug):
+        for cat in ColumnGrid.objects.filter(category__slug=category_slug):
             for grid in Grid.objects.filter(level=cat.level, column=cat.column):
                 count += user.actionmember_set.filter(action=grid.action,
                                                       approval_status="approved").count()

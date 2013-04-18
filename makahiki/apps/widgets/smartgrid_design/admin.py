@@ -1,6 +1,5 @@
 """Admin definition for Smart Grid Game widget."""
 from django.db import models
-from django.http import HttpResponseRedirect
 from apps.managers.cache_mgr import cache_mgr
 from apps.managers.challenge_mgr import challenge_mgr
 from apps.utils import utils
@@ -12,18 +11,16 @@ from django import forms
 from django.forms.models import BaseInlineFormSet
 from django.forms.util import ErrorList
 from django.forms import TextInput, Textarea
-from django.core.urlresolvers import reverse
 from django.db.utils import IntegrityError
 from apps.admin.admin import challenge_designer_site, challenge_manager_site, developer_site
 from apps.widgets.smartgrid_design.models import DesignerAction, DesignerActivity, \
     DesignerTextPromptQuestion, DesignerCommitment, DesignerEvent, DesignerFiller, \
-    DesignerCategory, DesignerLevel, DesignerQuestionChoice, DesignerGrid
+    DesignerColumnName, DesignerLevel, DesignerQuestionChoice
 
 
 class DesignerActionAdmin(admin.ModelAdmin):
     """abstract admin for action."""
-    actions = ["delete_selected", "change_level", "change_column", "change_row",
-               "clear_from_grid", "copy_action"]
+    actions = ["delete_selected", "copy_action"]
     list_display = ["slug", "title", "type", "point_value"]
     search_fields = ["slug", "title"]
     list_filter = ['type', ]
@@ -35,43 +32,6 @@ class DesignerActionAdmin(admin.ModelAdmin):
             obj.delete()
 
     delete_selected.short_description = "Delete the selected objects."
-
-    def clear_from_grid(self, request, queryset):
-        """Removes selected actions from the Designer Grid."""
-        _ = request
-        for obj in queryset:
-            grid = DesignerGrid.objects.filter(action=obj)
-            for g in grid:
-                g.delete()
-
-    clear_from_grid.short_description = "Remove selected Actions from Designer Grid."
-
-    def change_level(self, request, queryset):
-        """change level."""
-        _ = queryset
-        selected = request.POST.getlist(admin.ACTION_CHECKBOX_NAME)
-        return HttpResponseRedirect(reverse("bulk_change", args=("action", "level",)) +
-                                    "?ids=%s" % (",".join(selected)))
-
-    change_level.short_description = "Change the level."
-
-    def change_column(self, request, queryset):
-        """change column."""
-        _ = queryset
-        selected = request.POST.getlist(admin.ACTION_CHECKBOX_NAME)
-        return HttpResponseRedirect(reverse("bulk_change", args=("action", "column",)) +
-                                    "?ids=%s" % (",".join(selected)))
-
-    change_column.short_description = "Change the column."
-
-    def change_row(self, request, queryset):
-        """change row."""
-        _ = queryset
-        selected = request.POST.getlist(admin.ACTION_CHECKBOX_NAME)
-        return HttpResponseRedirect(reverse("bulk_change", args=("action", "row",)) +
-                                    "?ids=%s" % (",".join(selected)))
-
-    change_row.short_description = "Change the row."
 
     def copy_action(self, request, queryset):
         """Copy the selected Actions."""
@@ -458,16 +418,15 @@ challenge_manager_site.register(DesignerFiller, DesignerFillerAdmin)
 developer_site.register(DesignerFiller, DesignerFillerAdmin)
 
 
-class DesignerCategoryAdmin(admin.ModelAdmin):
-    """Category Admin"""
+class DesignerColumnNameAdmin(admin.ModelAdmin):
+    """DesignerColumnName Administration"""
     list_display = ["name", ]
     prepopulated_fields = {"slug": ("name",)}
 
-
-admin.site.register(DesignerCategory, DesignerCategoryAdmin)
-challenge_designer_site.register(DesignerCategory, DesignerCategoryAdmin)
-challenge_manager_site.register(DesignerCategory, DesignerCategoryAdmin)
-developer_site.register(DesignerCategory, DesignerCategoryAdmin)
+admin.site.register(DesignerColumnName, DesignerColumnNameAdmin)
+challenge_designer_site.register(DesignerColumnName, DesignerColumnNameAdmin)
+challenge_manager_site.register(DesignerColumnName, DesignerColumnNameAdmin)
+developer_site.register(DesignerColumnName, DesignerColumnNameAdmin)
 
 
 class DesignerLevelAdminForm(forms.ModelForm):

@@ -1,19 +1,19 @@
 """Provides the view of the widget."""
-from apps.widgets.smartgrid.models import Level, Category, Filler
+from apps.widgets.smartgrid.models import Filler
 from django.views.decorators.cache import never_cache
 from django.contrib.auth.decorators import login_required
 from apps.widgets.smartgrid import smartgrid
 from django.http import HttpResponseRedirect, Http404, HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template.context import RequestContext
-from apps.widgets.smartgrid_design.forms import SggUpdateForm, RevertToSmartgridForm, \
+from apps.widgets.smartgrid_design.forms import RevertToSmartgridForm, \
     DeployToSmartgridForm, ExampleGridsForm
 from apps.widgets.smartgrid_library.models import LibraryActivity, LibraryEvent, \
-    LibraryCommitment, LibraryCategory
+    LibraryCommitment, LibraryColumnName
 from apps.managers.smartgrid_mgr import smartgrid_mgr, unlock_lint
 import json
-from apps.widgets.smartgrid_design.models import DesignerLevel, DesignerCategory, DesignerAction, \
-    DesignerGrid, DesignerCategoryGrid
+from apps.widgets.smartgrid_design.models import DesignerLevel, DesignerColumnName, \
+    DesignerAction, DesignerGrid, DesignerColumnGrid
 from collections import OrderedDict
 
 
@@ -33,7 +33,7 @@ def supply(request, page_name):
 #    print smartgrid_mgr.get_designer_grid()
     return {
         'levels': levels,
-        'categories': LibraryCategory.objects.all(),
+        'columns': LibraryColumnName.objects.all(),
         'activities': LibraryActivity.objects.all(),
         'commitments': LibraryCommitment.objects.all(),
         'events': LibraryEvent.objects.all(),
@@ -44,7 +44,7 @@ def supply(request, page_name):
         'palette': smartgrid_mgr.get_designer_palette(),
         'designer_grid': smartgrid_mgr.get_designer_grid(),
         'smart_grid_actions': smartgrid_mgr.get_designer_action_slugs(),
-        'smart_grid_categories': smartgrid_mgr.get_designer_category_slugs(),
+        'smart_grid_columns': smartgrid_mgr.get_designer_column_name_slugs(),
             }
 
 
@@ -85,95 +85,37 @@ def view_action(request, action_type, slug):
         }, context_instance=RequestContext(request))
 
 
-def update_sgg(request):
-    """Handles the SggUpdateForm from the 'Save SGG' button."""
-    if request.method == "POST":
-        form = SggUpdateForm(request.POST)
-        if form.is_valid():
-            categories = form.cleaned_data['category_updates']
-            actions = form.cleaned_data['action_updates']
-
-            num_levels = len(categories)
-            if num_levels > 0:
-                for lvl in xrange(0, num_levels):
-                    level_cats = categories[lvl][1]
-                    for i in xrange(0, len(level_cats), 4):
-                        category = Category.objects.get(slug=level_cats[i])
-                        category.priority = level_cats[i + 1]
-                        category.name = level_cats[i + 2]
-                        category.save()
-
-                # clear the existing actions
-#                for action in Action.objects.all():
-#                    action.category = None
-#                    action.level = None
-#                    action.save()
-
-#            num_levels = len(actions)
-            for lvl in xrange(0, num_levels):
-                level = Level.objects.get(name=actions[lvl][0])
-                level_actions = actions[lvl][1]
-                for i in xrange(0, len(level_actions), 6):
-                    #slug = level_actions[i]
-                    #type = level_actions[i + 1]
-                    #cat_slug = level_actions[i + 2]
-                    #priority = level_actions[i + 3] * 10
-                    #text = level_actions[i + 4]
-                    #pk = level_actions[i + 5]
-                    category = Category.objects.get(slug=level_actions[i + 2])
-                    if level_actions[i].startswith('filler'):
-                        try:
-                            action = Filler.objects.get(slug=level_actions[i])
-                        except Filler.DoesNotExist:
-                            action = Filler(name=level_actions[i + 4], slug=level_actions[i], \
-                                            title=level_actions[i + 4], type='filler', \
-                                            level=level, \
-                                            category=category, priority=level_actions[i + 3] * 10)
-                    else:
-                        action = smartgrid.get_action(level_actions[i])
-                    action.level = level
-                    action.category = category
-                    action.priority = level_actions[i + 3] * 10
-                    action.save()
-
-            response = HttpResponseRedirect("/sgg_designer/")
-            return response
-
-    raise Http404
-
-
-def instantiate_category(request, cat_slug, level_slug, column):
-    """Instantiates the Smart Grid Game Category from the Library Category in the
-    given level and with the given level and column."""
+def instantiate_column(request, col_slug, level_slug, column):
+    """Instantiates the DesignerColumnName from the LibraryColumnName and places it in the
+    Grid at the given level and column."""
     _ = request
     _ = level_slug
-    lib_cat = LibraryCategory.objects.get(slug=cat_slug)
-#    level = Level.objects.get(slug=level_slug)
+    lib_col = LibraryColumnName.objects.get(slug=col_slug)
     try:
-        category = get_object_or_404(DesignerCategory, slug=cat_slug)
+        col_name = get_object_or_404(DesignerColumnName, slug=col_slug)
     except Http404:
-        category = DesignerCategory()
+        col_name = DesignerColumnName()
 
-    category.name = lib_cat.name
-    category.slug = lib_cat.slug
-    category.save()
+    col_name.name = lib_col.name
+    col_name.slug = lib_col.slug
+    col_name.save()
 
     level = get_object_or_404(DesignerLevel, slug=level_slug)
-    grid = DesignerCategoryGrid()
+    grid = DesignerColumnGrid()
     grid.level = level
     grid.column = column
-    grid.category = category
+    grid.name = col_name
     grid.save()
 
-    #  Return the new pk for the instantiated category.
+    #  Return the new pk for the instantiated DesignerColumnName.
     return HttpResponse(json.dumps({
-            "pk": category.pk,
+            "pk": col_name.pk,
             }), mimetype="application/json")
 
 
 def instantiate_action(request, action_slug, level_slug, column, row):
     """Instantiated the Smart Grid Game Action from the Library Action with the
-    given level, category, and priority."""
+    given level, column, and row."""
     _ = request
     grid_action = smartgrid_mgr.instantiate_designer_from_library(action_slug)
     level = DesignerLevel.objects.get(slug=level_slug)
@@ -236,17 +178,17 @@ def delete_action(request, action_slug):
     return response
 
 
-def delete_category(request, cat_slug):
-    """Deletes the given Smart Grid Game Category."""
+def delete_column(request, col_slug):
+    """Deletes the DesignerColumnName for the given col_slug."""
     _ = request
-    category = get_object_or_404(Category, slug=cat_slug)
-    category.delete()
+    column = get_object_or_404(DesignerColumnName, slug=col_slug)
+    column.delete()
     response = HttpResponseRedirect("/sgg_designer/")
     return response
 
 
 def clear_from_grid(request, action_slug):
-    """Clears the Level, Category, and priority for the given DesignerAction."""
+    """Removes the DesignerAction for the given action_slug from the DesignerGrid."""
     _ = request
     action = smartgrid_mgr.get_designer_action(action_slug)
     for grid in DesignerGrid.objects.filter(action=action):

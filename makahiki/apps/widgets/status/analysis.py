@@ -268,7 +268,7 @@ def calculate_action_stats():
 
     output += 'action_type,total_actions\n'
 
-    actions = Action.objects.filter(level__isnull=False, category__isnull=False)
+    actions = Action.objects.all()
 
     output += "%s,%d\n" % (
         "activity", actions.filter(type="activity").count()

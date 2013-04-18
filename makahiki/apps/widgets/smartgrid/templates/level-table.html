@@ -2,11 +2,11 @@
 <table class="activities-grid">
 	<tr><!-- Start header -->
     {% for i in max_col|get_range %}
-    	<td><div class="category-holder">
-        {% for cat in cat_list %}
-	       	{% if i|add:"1" == cat.column %}
-    	    <div class="activity-category">
-        	    <h5> {{ cat.category.name }}</h5>
+    	<td><div class="column-holder">
+        {% for col in col_list %}
+	       	{% if i|add:"1" == col.column %}
+    	    <div class="activity-column">
+        	    <h5> {{ col.name }}</h5>
             </div>
             {% endif %}
         {% endfor %}

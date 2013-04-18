@@ -24,12 +24,6 @@ class ListFormField(forms.Field):
         return ast.literal_eval(value)
 
 
-class SggUpdateForm(forms.Form):
-    """Form for holding the SGG updates."""
-    category_updates = ListFormField(widget=forms.HiddenInput)
-    action_updates = ListFormField(widget=forms.HiddenInput)
-
-
 class RevertToSmartgridForm(forms.Form):
     """Form for ensuring no cross-site scripting for reverting designer."""
     pass

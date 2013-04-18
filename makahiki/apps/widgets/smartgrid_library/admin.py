@@ -10,7 +10,7 @@ from django.forms.models import BaseInlineFormSet
 from django.forms.util import ErrorList
 from django.forms import TextInput, Textarea
 from apps.admin.admin import challenge_designer_site, challenge_manager_site, developer_site
-from apps.widgets.smartgrid_library.models import LibraryTextPromptQuestion, LibraryCategory, \
+from apps.widgets.smartgrid_library.models import LibraryTextPromptQuestion, LibraryColumnName, \
     LibraryActivity, LibraryQuestionChoice, LibraryEvent, LibraryCommitment, LibraryAction
 from django.db.utils import IntegrityError
 from apps.widgets.smartgrid_library.views import library_action_admin_list, library_action_admin
@@ -58,20 +58,20 @@ challenge_mgr.register_developer_challenge_info_model("Smart Grid Game Library",
                                                       LibraryAction, 2)
 
 
-class LibraryCategoryAdmin(admin.ModelAdmin):
-    """LibraryCategory Admin."""
+class LibraryColumnNameAdmin(admin.ModelAdmin):
+    """LibraryColumnName Admin."""
     list_display = ["name"]
     prepopulated_fields = {"slug": ("name",)}
     fields = ["name", "slug"]
 
-admin.site.register(LibraryCategory, LibraryCategoryAdmin)
-challenge_designer_site.register(LibraryCategory, LibraryCategoryAdmin)
-challenge_manager_site.register(LibraryCategory, LibraryCategoryAdmin)
-developer_site.register(LibraryCategory, LibraryCategoryAdmin)
+admin.site.register(LibraryColumnName, LibraryColumnNameAdmin)
+challenge_designer_site.register(LibraryColumnName, LibraryColumnNameAdmin)
+challenge_manager_site.register(LibraryColumnName, LibraryColumnNameAdmin)
+developer_site.register(LibraryColumnName, LibraryColumnNameAdmin)
 challenge_mgr.register_designer_challenge_info_model("Smart Grid Game Library", 4, \
-                                                     LibraryCategory, 1)
+                                                     LibraryColumnName, 1)
 challenge_mgr.register_developer_challenge_info_model("Smart Grid Game Library", 4, \
-                                                      LibraryCategory, 1)
+                                                      LibraryColumnName, 1)
 
 
 class LibraryActivityAdminForm(forms.ModelForm):

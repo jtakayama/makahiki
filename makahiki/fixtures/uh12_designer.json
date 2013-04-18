@@ -672,7 +672,7 @@
     },
     {
         "pk": 83,
-        "model": "smartgrid_design.designercategory",
+        "model": "smartgrid_design.designercolumnname",
         "fields": {
             "name": "Lights Out!",
             "slug": "lights-out"
@@ -680,7 +680,7 @@
     },
     {
         "pk": 44,
-        "model": "smartgrid_design.designercategory",
+        "model": "smartgrid_design.designercolumnname",
         "fields": {
             "name": "Electrimental",
             "slug": "electrimental"
@@ -688,7 +688,7 @@
     },
     {
         "pk": 45,
-        "model": "smartgrid_design.designercategory",
+        "model": "smartgrid_design.designercolumnname",
         "fields": {
             "name": "Be Committed",
             "slug": "be-committed"
@@ -696,7 +696,7 @@
     },
     {
         "pk": 46,
-        "model": "smartgrid_design.designercategory",
+        "model": "smartgrid_design.designercolumnname",
         "fields": {
             "name": "Get Started",
             "slug": "get-started"
@@ -704,7 +704,7 @@
     },
     {
         "pk": 47,
-        "model": "smartgrid_design.designercategory",
+        "model": "smartgrid_design.designercolumnname",
         "fields": {
             "name": "Get Creative",
             "slug": "get-creative"
@@ -712,7 +712,7 @@
     },
     {
         "pk": 49,
-        "model": "smartgrid_design.designercategory",
+        "model": "smartgrid_design.designercolumnname",
         "fields": {
             "name": "Do It Yourself!",
             "slug": "do-it-yourself"
@@ -720,7 +720,7 @@
     },
     {
         "pk": 50,
-        "model": "smartgrid_design.designercategory",
+        "model": "smartgrid_design.designercolumnname",
         "fields": {
             "name": "Commitomania",
             "slug": "commitomania"
@@ -728,7 +728,7 @@
     },
     {
         "pk": 51,
-        "model": "smartgrid_design.designercategory",
+        "model": "smartgrid_design.designercolumnname",
         "fields": {
             "name": "Do It To It",
             "slug": "do-it-it"
@@ -736,7 +736,7 @@
     },
     {
         "pk": 52,
-        "model": "smartgrid_design.designercategory",
+        "model": "smartgrid_design.designercolumnname",
         "fields": {
             "name": "Just Do It",
             "slug": "just-do-it"
@@ -744,7 +744,7 @@
     },
     {
         "pk": 53,
-        "model": "smartgrid_design.designercategory",
+        "model": "smartgrid_design.designercolumnname",
         "fields": {
             "name": "Let's Get Physical",
             "slug": "lets-get-physical"
@@ -752,7 +752,7 @@
     },
     {
         "pk": 54,
-        "model": "smartgrid_design.designercategory",
+        "model": "smartgrid_design.designercolumnname",
         "fields": {
             "name": "Express Yourself",
             "slug": "express-yourself"
@@ -760,7 +760,7 @@
     },
     {
         "pk": 55,
-        "model": "smartgrid_design.designercategory",
+        "model": "smartgrid_design.designercolumnname",
         "fields": {
             "name": "Energy Wizardry",
             "slug": "energy-wizardry"
@@ -768,7 +768,7 @@
     },
     {
         "pk": 56,
-        "model": "smartgrid_design.designercategory",
+        "model": "smartgrid_design.designercolumnname",
         "fields": {
             "name": "Last Dance",
             "slug": "last-dance"
@@ -776,7 +776,7 @@
     },
     {
         "pk": 57,
-        "model": "smartgrid_design.designercategory",
+        "model": "smartgrid_design.designercolumnname",
         "fields": {
             "name": "Moving on",
             "slug": "moving-on"
@@ -784,7 +784,7 @@
     },
     {
         "pk": 58,
-        "model": "smartgrid_design.designercategory",
+        "model": "smartgrid_design.designercolumnname",
         "fields": {
             "name": "Moving on",
             "slug": "moving"
@@ -792,7 +792,7 @@
     },
     {
         "pk": 59,
-        "model": "smartgrid_design.designercategory",
+        "model": "smartgrid_design.designercolumnname",
         "fields": {
             "name": "Anything Goes",
             "slug": "anything-goes"
@@ -800,7 +800,7 @@
     },
     {
         "pk": 60,
-        "model": "smartgrid_design.designercategory",
+        "model": "smartgrid_design.designercolumnname",
         "fields": {
             "name": "Go Dark",
             "slug": "go-dark"
@@ -808,7 +808,7 @@
     },
     {
         "pk": 61,
-        "model": "smartgrid_design.designercategory",
+        "model": "smartgrid_design.designercolumnname",
         "fields": {
             "name": "Water Cycle",
             "slug": "water-cycle"
@@ -816,7 +816,7 @@
     },
     {
         "pk": 62,
-        "model": "smartgrid_design.designercategory",
+        "model": "smartgrid_design.designercolumnname",
         "fields": {
             "name": "Last Chance",
             "slug": "last-chance"
@@ -824,7 +824,7 @@
     },
     {
         "pk": 63,
-        "model": "smartgrid_design.designercategory",
+        "model": "smartgrid_design.designercolumnname",
         "fields": {
             "name": "Eventful",
             "slug": "eventful"
@@ -832,7 +832,7 @@
     },
     {
         "pk": 64,
-        "model": "smartgrid_design.designercategory",
+        "model": "smartgrid_design.designercolumnname",
         "fields": {
             "name": "Events",
             "slug": "events"
@@ -840,7 +840,7 @@
     },
     {
         "pk": 65,
-        "model": "smartgrid_design.designercategory",
+        "model": "smartgrid_design.designercolumnname",
         "fields": {
             "name": "Power to Burn?",
             "slug": "power-burn"
@@ -848,7 +848,7 @@
     },
     {
         "pk": 66,
-        "model": "smartgrid_design.designercategory",
+        "model": "smartgrid_design.designercolumnname",
         "fields": {
             "name": "Play!",
             "slug": "play"
@@ -856,7 +856,7 @@
     },
     {
         "pk": 67,
-        "model": "smartgrid_design.designercategory",
+        "model": "smartgrid_design.designercolumnname",
         "fields": {
             "name": "Generation Next",
             "slug": "generation-next"
@@ -864,7 +864,7 @@
     },
     {
         "pk": 68,
-        "model": "smartgrid_design.designercategory",
+        "model": "smartgrid_design.designercolumnname",
         "fields": {
             "name": "Wild About Watts",
             "slug": "wild-about-watts"
@@ -872,7 +872,7 @@
     },
     {
         "pk": 69,
-        "model": "smartgrid_design.designercategory",
+        "model": "smartgrid_design.designercolumnname",
         "fields": {
             "name": "April Showers",
             "slug": "april-showers"
@@ -880,7 +880,7 @@
     },
     {
         "pk": 70,
-        "model": "smartgrid_design.designercategory",
+        "model": "smartgrid_design.designercolumnname",
         "fields": {
             "name": "Potpourri",
             "slug": "potpourri"
@@ -888,7 +888,7 @@
     },
     {
         "pk": 71,
-        "model": "smartgrid_design.designercategory",
+        "model": "smartgrid_design.designercolumnname",
         "fields": {
             "name": "Watts Up?",
             "slug": "watts"
@@ -896,7 +896,7 @@
     },
     {
         "pk": 72,
-        "model": "smartgrid_design.designercategory",
+        "model": "smartgrid_design.designercolumnname",
         "fields": {
             "name": "Trail Mix",
             "slug": "trail-mix"
@@ -904,7 +904,7 @@
     },
     {
         "pk": 73,
-        "model": "smartgrid_design.designercategory",
+        "model": "smartgrid_design.designercolumnname",
         "fields": {
             "name": "What's Hot",
             "slug": "whats-hot"
@@ -912,7 +912,7 @@
     },
     {
         "pk": 74,
-        "model": "smartgrid_design.designercategory",
+        "model": "smartgrid_design.designercolumnname",
         "fields": {
             "name": "Make it So",
             "slug": "make-it-so"
@@ -920,7 +920,7 @@
     },
     {
         "pk": 75,
-        "model": "smartgrid_design.designercategory",
+        "model": "smartgrid_design.designercolumnname",
         "fields": {
             "name": "Mixed Bag",
             "slug": "mixed-bag"
@@ -928,7 +928,7 @@
     },
     {
         "pk": 76,
-        "model": "smartgrid_design.designercategory",
+        "model": "smartgrid_design.designercolumnname",
         "fields": {
             "name": "More EventFul",
             "slug": "more-eventful"
@@ -936,7 +936,7 @@
     },
     {
         "pk": 77,
-        "model": "smartgrid_design.designercategory",
+        "model": "smartgrid_design.designercolumnname",
         "fields": {
             "name": "More Events",
             "slug": "more-events"
@@ -944,7 +944,7 @@
     },
     {
         "pk": 78,
-        "model": "smartgrid_design.designercategory",
+        "model": "smartgrid_design.designercolumnname",
         "fields": {
             "name": "Think Smart",
             "slug": "think-smart"
@@ -952,7 +952,7 @@
     },
     {
         "pk": 79,
-        "model": "smartgrid_design.designercategory",
+        "model": "smartgrid_design.designercolumnname",
         "fields": {
             "name": "Be There. Aloha.",
             "slug": "be-there-aloha"
@@ -960,7 +960,7 @@
     },
     {
         "pk": 80,
-        "model": "smartgrid_design.designercategory",
+        "model": "smartgrid_design.designercolumnname",
         "fields": {
             "name": "Wet and Wild",
             "slug": "wet-and-wild"
@@ -968,7 +968,7 @@
     },
     {
         "pk": 81,
-        "model": "smartgrid_design.designercategory",
+        "model": "smartgrid_design.designercolumnname",
         "fields": {
             "name": "Creative",
             "slug": "creative"
@@ -976,7 +976,7 @@
     },
     {
         "pk": 84,
-        "model": "smartgrid_design.designercategory",
+        "model": "smartgrid_design.designercolumnname",
         "fields": {
             "name": "Make Watts",
             "slug": "make-watts"
@@ -984,7 +984,7 @@
     },
     {
         "pk": 48,
-        "model": "smartgrid_design.designercategory",
+        "model": "smartgrid_design.designercolumnname",
         "fields": {
             "name": "Energize Yourself",
             "slug": "energize-yourself"
@@ -992,7 +992,7 @@
     },
     {
         "pk": 85,
-        "model": "smartgrid_design.designercategory",
+        "model": "smartgrid_design.designercolumnname",
         "fields": {
             "name": "Opala",
             "slug": "opala"
@@ -1000,7 +1000,7 @@
     },
     {
         "pk": 82,
-        "model": "smartgrid_design.designercategory",
+        "model": "smartgrid_design.designercolumnname",
         "fields": {
             "name": "Basic Energy",
             "slug": "basic-energy"
@@ -5522,316 +5522,316 @@
     },
     {
         "pk": 1,
-        "model": "smartgrid_design.designercategorygrid",
+        "model": "smartgrid_design.designercolumngrid",
         "fields": {
             "column": 1,
-            "category": 46,
+            "name": 46,
             "level": 8
         }
     },
     {
         "pk": 2,
-        "model": "smartgrid_design.designercategorygrid",
+        "model": "smartgrid_design.designercolumngrid",
         "fields": {
             "column": 2,
-            "category": 52,
+            "name": 52,
             "level": 8
         }
     },
     {
         "pk": 3,
-        "model": "smartgrid_design.designercategorygrid",
+        "model": "smartgrid_design.designercolumngrid",
         "fields": {
             "column": 3,
-            "category": 60,
+            "name": 60,
             "level": 8
         }
     },
     {
         "pk": 4,
-        "model": "smartgrid_design.designercategorygrid",
+        "model": "smartgrid_design.designercolumngrid",
         "fields": {
             "column": 4,
-            "category": 66,
+            "name": 66,
             "level": 8
         }
     },
     {
         "pk": 5,
-        "model": "smartgrid_design.designercategorygrid",
+        "model": "smartgrid_design.designercolumngrid",
         "fields": {
             "column": 5,
-            "category": 74,
+            "name": 74,
             "level": 8
         }
     },
     {
         "pk": 6,
-        "model": "smartgrid_design.designercategorygrid",
+        "model": "smartgrid_design.designercolumngrid",
         "fields": {
             "column": 1,
-            "category": 44,
+            "name": 44,
             "level": 9
         }
     },
     {
         "pk": 7,
-        "model": "smartgrid_design.designercategorygrid",
+        "model": "smartgrid_design.designercolumngrid",
         "fields": {
             "column": 2,
-            "category": 53,
+            "name": 53,
             "level": 9
         }
     },
     {
         "pk": 8,
-        "model": "smartgrid_design.designercategorygrid",
+        "model": "smartgrid_design.designercolumngrid",
         "fields": {
             "column": 3,
-            "category": 65,
+            "name": 65,
             "level": 9
         }
     },
     {
         "pk": 9,
-        "model": "smartgrid_design.designercategorygrid",
+        "model": "smartgrid_design.designercolumngrid",
         "fields": {
             "column": 4,
-            "category": 71,
+            "name": 71,
             "level": 9
         }
     },
     {
         "pk": 10,
-        "model": "smartgrid_design.designercategorygrid",
+        "model": "smartgrid_design.designercolumngrid",
         "fields": {
             "column": 5,
-            "category": 78,
+            "name": 78,
             "level": 9
         }
     },
     {
         "pk": 11,
-        "model": "smartgrid_design.designercategorygrid",
+        "model": "smartgrid_design.designercolumngrid",
         "fields": {
             "column": 1,
-            "category": 45,
+            "name": 45,
             "level": 10
         }
     },
     {
         "pk": 12,
-        "model": "smartgrid_design.designercategorygrid",
+        "model": "smartgrid_design.designercolumngrid",
         "fields": {
             "column": 2,
-            "category": 51,
+            "name": 51,
             "level": 10
         }
     },
     {
         "pk": 13,
-        "model": "smartgrid_design.designercategorygrid",
+        "model": "smartgrid_design.designercolumngrid",
         "fields": {
             "column": 3,
-            "category": 61,
+            "name": 61,
             "level": 10
         }
     },
     {
         "pk": 14,
-        "model": "smartgrid_design.designercategorygrid",
+        "model": "smartgrid_design.designercolumngrid",
         "fields": {
             "column": 4,
-            "category": 72,
+            "name": 72,
             "level": 10
         }
     },
     {
         "pk": 15,
-        "model": "smartgrid_design.designercategorygrid",
+        "model": "smartgrid_design.designercolumngrid",
         "fields": {
             "column": 5,
-            "category": 73,
+            "name": 73,
             "level": 10
         }
     },
     {
         "pk": 16,
-        "model": "smartgrid_design.designercategorygrid",
+        "model": "smartgrid_design.designercolumngrid",
         "fields": {
             "column": 1,
-            "category": 50,
+            "name": 50,
             "level": 11
         }
     },
     {
         "pk": 17,
-        "model": "smartgrid_design.designercategorygrid",
+        "model": "smartgrid_design.designercolumngrid",
         "fields": {
             "column": 2,
-            "category": 54,
+            "name": 54,
             "level": 11
         }
     },
     {
         "pk": 18,
-        "model": "smartgrid_design.designercategorygrid",
+        "model": "smartgrid_design.designercolumngrid",
         "fields": {
             "column": 3,
-            "category": 59,
+            "name": 59,
             "level": 11
         }
     },
     {
         "pk": 19,
-        "model": "smartgrid_design.designercategorygrid",
+        "model": "smartgrid_design.designercolumngrid",
         "fields": {
             "column": 4,
-            "category": 67,
+            "name": 67,
             "level": 11
         }
     },
     {
         "pk": 20,
-        "model": "smartgrid_design.designercategorygrid",
+        "model": "smartgrid_design.designercolumngrid",
         "fields": {
             "column": 5,
-            "category": 75,
+            "name": 75,
             "level": 11
         }
     },
     {
         "pk": 21,
-        "model": "smartgrid_design.designercategorygrid",
+        "model": "smartgrid_design.designercolumngrid",
         "fields": {
             "column": 1,
-            "category": 49,
+            "name": 49,
             "level": 12
         }
     },
     {
         "pk": 22,
-        "model": "smartgrid_design.designercategorygrid",
+        "model": "smartgrid_design.designercolumngrid",
         "fields": {
             "column": 2,
-            "category": 55,
+            "name": 55,
             "level": 12
         }
     },
     {
         "pk": 23,
-        "model": "smartgrid_design.designercategorygrid",
+        "model": "smartgrid_design.designercolumngrid",
         "fields": {
             "column": 3,
-            "category": 64,
+            "name": 64,
             "level": 12
         }
     },
     {
         "pk": 24,
-        "model": "smartgrid_design.designercategorygrid",
+        "model": "smartgrid_design.designercolumngrid",
         "fields": {
             "column": 4,
-            "category": 68,
+            "name": 68,
             "level": 12
         }
     },
     {
         "pk": 25,
-        "model": "smartgrid_design.designercategorygrid",
+        "model": "smartgrid_design.designercolumngrid",
         "fields": {
             "column": 5,
-            "category": 77,
+            "name": 77,
             "level": 12
         }
     },
     {
         "pk": 26,
-        "model": "smartgrid_design.designercategorygrid",
+        "model": "smartgrid_design.designercolumngrid",
         "fields": {
             "column": 1,
-            "category": 56,
+            "name": 56,
             "level": 13
         }
     },
     {
         "pk": 27,
-        "model": "smartgrid_design.designercategorygrid",
+        "model": "smartgrid_design.designercolumngrid",
         "fields": {
             "column": 2,
-            "category": 63,
+            "name": 63,
             "level": 13
         }
     },
     {
         "pk": 28,
-        "model": "smartgrid_design.designercategorygrid",
+        "model": "smartgrid_design.designercolumngrid",
         "fields": {
             "column": 3,
-            "category": 70,
+            "name": 70,
             "level": 13
         }
     },
     {
         "pk": 29,
-        "model": "smartgrid_design.designercategorygrid",
+        "model": "smartgrid_design.designercolumngrid",
         "fields": {
             "column": 4,
-            "category": 76,
+            "name": 76,
             "level": 13
         }
     },
     {
         "pk": 30,
-        "model": "smartgrid_design.designercategorygrid",
+        "model": "smartgrid_design.designercolumngrid",
         "fields": {
             "column": 5,
-            "category": 48,
+            "name": 48,
             "level": 13
         }
     },
     {
         "pk": 31,
-        "model": "smartgrid_design.designercategorygrid",
+        "model": "smartgrid_design.designercolumngrid",
         "fields": {
             "column": 1,
-            "category": 47,
+            "name": 47,
             "level": 14
         }
     },
     {
         "pk": 32,
-        "model": "smartgrid_design.designercategorygrid",
+        "model": "smartgrid_design.designercolumngrid",
         "fields": {
             "column": 2,
-            "category": 57,
+            "name": 57,
             "level": 14
         }
     },
     {
         "pk": 33,
-        "model": "smartgrid_design.designercategorygrid",
+        "model": "smartgrid_design.designercolumngrid",
         "fields": {
             "column": 3,
-            "category": 62,
+            "name": 62,
             "level": 14
         }
     },
     {
         "pk": 34,
-        "model": "smartgrid_design.designercategorygrid",
+        "model": "smartgrid_design.designercolumngrid",
         "fields": {
             "column": 4,
-            "category": 69,
+            "name": 69,
             "level": 14
         }
     },
     {
         "pk": 35,
-        "model": "smartgrid_design.designercategorygrid",
+        "model": "smartgrid_design.designercolumngrid",
         "fields": {
             "column": 5,
-            "category": 79,
+            "name": 79,
             "level": 14
         }
     },

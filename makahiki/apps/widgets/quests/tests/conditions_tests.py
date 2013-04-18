@@ -16,7 +16,7 @@ from apps.utils import test_utils
 from apps.widgets.badges import badges
 
 from apps.widgets.quests.quests import possibly_completed_quests, get_quests
-from apps.widgets.smartgrid.models import Activity, ActionMember, Commitment, Category
+from apps.widgets.smartgrid.models import Activity, ActionMember, Commitment, ColumnName
 from apps.lib.avatar import create_default_thumbnails
 from apps.lib.avatar.models import Avatar, avatar_file_path
 from apps.widgets.raffle.models import RafflePrize, RaffleTicket
@@ -76,8 +76,8 @@ class QuestConditionsTest(TransactionTestCase):
 
     def testNumTasksCompleted(self):
         """Test that completing an activity works with approved_some_of and has_action."""
-        category = Category(name="Test category", slug="test-category")
-        category.save()
+        column = ColumnName(name="Test column", slug="test-column")
+        column.save()
         activity = Activity(
             type="activity",
             name="Test",
@@ -95,13 +95,13 @@ class QuestConditionsTest(TransactionTestCase):
         # Test activities
         member = ActionMember(user=self.user, action=activity, approval_status="pending")
         member.save()
-        self.assertFalse(approved_some_of(self.user, 1, category_slug=category.slug),
+        self.assertFalse(approved_some_of(self.user, 1, category_slug=column.slug),
             "User with pending activity should not have completed a task.")
         self.assertFalse(approved_some_of(self.user, 1),
             "User with pending activity should not have completed a task.")
 
         # Test within context of a quest
-        self.quest.unlock_conditions = "approved_some_of(1, category_slug='test-category')"
+        self.quest.unlock_conditions = "approved_some_of(1, category_slug='test-column')"
         self.quest.save()
         quests = get_quests(self.user)
         self.assertTrue(self.quest not in quests,
@@ -120,7 +120,7 @@ class QuestConditionsTest(TransactionTestCase):
         self.assertTrue(self.quest in quests["available_quests"],
             "User should be able to participate in this quest.")
 
-        self.quest.unlock_conditions = "approved_some_of(1, category_slug='test-category')"
+        self.quest.unlock_conditions = "approved_some_of(1, category_slug='test-column')"
         self.quest.save()
         quests = get_quests(self.user)
         self.assertTrue(self.quest in quests["available_quests"],
@@ -128,7 +128,7 @@ class QuestConditionsTest(TransactionTestCase):
 
         # Test as a completion condition.
         self.quest.accept(self.user)
-        self.quest.completion_conditions = "approved_some_of(2, category_slug='test-category')"
+        self.quest.completion_conditions = "approved_some_of(2, category_slug='test-column')"
         self.quest.save()
         completed_quests = possibly_completed_quests(self.user)
         self.assertTrue(self.quest not in completed_quests,
@@ -140,7 +140,7 @@ class QuestConditionsTest(TransactionTestCase):
         self.assertTrue(self.quest not in completed_quests,
             "User should not be able to complete the quest.")
 
-        self.quest.completion_conditions = "approved_some_of(1, category_slug='test-category')"
+        self.quest.completion_conditions = "approved_some_of(1, category_slug='test-column')"
         self.quest.save()
         completed_quests = possibly_completed_quests(self.user)
         self.assertTrue(self.quest in completed_quests, "User should have completed the quest.")

@@ -90,8 +90,8 @@ function handleActionDrop(event, ui) {
 	});		
 }
 
-function handleCategoryDrop(event, ui) {
-	log.debug('handleCategoryDrop()');
+function handleColumnDrop(event, ui) {
+	log.debug('handleColumnDrop()');
 	var levelID = findLevelID(this);
 	var column = $(this).attr('data-column');
 	var slug = ui.draggable.attr('data-slug');
@@ -102,16 +102,16 @@ function handleCategoryDrop(event, ui) {
 		deactivateColumn(levelID, column);
 	}
 	else {
-		var drop = createCategoryDropDiv(slug, column, ui.draggable.text(), trim2(pk));
+		var drop = createColumnDropDiv(slug, column, ui.draggable.text(), trim2(pk));
 		var html = $('<div />').append(drop.clone()).html();
 		$(this).html(html);
 		activateColumn(levelID, column, slug);
 	}
-	instantiateGridCategory(slug, levelSlug, column);
+	instantiateGridColumn(slug, levelSlug, column);
 }
 
-function handleCategoryStartDrag(event, ui) {
-	log.debug('handleCategoryStartDrag(' + event + ', ' + ui + ')');
+function handleColumnStartDrag(event, ui) {
+	log.debug('handleColumnStartDrag(' + event + ', ' + ui + ')');
 	$(this).addClass('hidden');
 }
 
@@ -141,7 +141,7 @@ function handlePaletteDrop(obj) {
 		text = trim2(text);
 	}
 //	log.debug("slug = " + slug);
-	clearLevelCategoryPriority(slug);
+	clearLevelColumnPriority(slug);
 	var drop = createPaletteDropDiv(slug, type, text, pk, title);
 //	log.debug(drop.html());
 	$('.sgg-right-palette').append(drop);
@@ -156,27 +156,27 @@ function handlePaletteDrop(obj) {
 }
 
 /**
- * Returns a jQuery object that represents the dropped Category.
- * @param slug a String the category's slug.
- * @param column an int the column the category is dropped into.
- * @param text a String the name of the Category.
- * @returns a jQuery object representing the dropped Category. It can be added to the page.
+ * Returns a jQuery object that represents the dropped ColumnName.
+ * @param slug a String the ColumnName's slug.
+ * @param column an int the column the ColumnName is dropped into.
+ * @param text a String the name of the column.
+ * @returns a jQuery object representing the dropped ColumnName. It can be added to the page.
  */
-function createCategoryDropDiv(slug, column, text, id) {
-	log.debug("createCategoryDropDiv(" + slug + ", " + column + ", " + text + ", " + id + ")");
-	var drop = $('<div data-slug=' + trim1(slug) + ' class="sgg-category grid-draggable" ' +
-			'data-priority=' + column + '><br />' + '<a class="sgg-category-link" ' +
-			'href="/challenge_admin/smartgrid/category/' + id + '/">'
+function createColumnDropDiv(slug, column, text, id) {
+	log.debug("createColumnDropDiv(" + slug + ", " + column + ", " + text + ", " + id + ")");
+	var drop = $('<div data-slug=' + trim1(slug) + ' class="sgg-column grid-draggable" ' +
+			'data-priority=' + column + '><br />' + '<a class="sgg-column-link" ' +
+			'href="/challenge_admin/smartgrid/columnname/' + id + '/">'
 			+ trim2(text) + '</a><br /></div>');
 	return drop;
 } 
 
-function instantiateGridCategory(catSlug, levelSlug, column) {
-	log.debug('instantiateGridCategory(' + catSlug + ', ' + levelSlug + ', ' + column + ')');
+function instantiateGridColumn(colSlug, levelSlug, column) {
+	log.debug('instantiateGridColumn(' + colSlug + ', ' + levelSlug + ', ' + column + ')');
     jQuery.ajax({
-        url: "/smartgrid_design/newcat/" + catSlug + "/" + levelSlug + "/" + column + "/", 
+        url: "/smartgrid_design/newcol/" + colSlug + "/" + levelSlug + "/" + column + "/", 
         success: function(data) {
-//        	log.debug('pk of Grid Category is ' + data.pk);
+//        	log.debug('pk of Grid ColumnName is ' + data.pk);
         	var div = $('div[data-slug="' + catSlug + '"]:visible > a');
         	var href = div.attr('href');
         	href = href.slice(0, href.length - 1);
@@ -421,11 +421,10 @@ function deleteGridAction(actionSlug) {
     });	
 }
 
-function deleteGridCategory(catSlug) {
-	log.debug("deleteGridCategory(" + catSlug + ")");
-//	$.get("/smartgrid_design/delete_category/" + catSlug + "/");	
+function deleteGridColumn(colSlug) {
+	log.debug("deleteGridColumn(" + colSlug + ")");
     jQuery.ajax({
-        url: "/smartgrid_design/delete_category/" + catSlug + "/", 
+        url: "/smartgrid_design/delete_column/" + colSlug + "/", 
         success: function(data) {
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -433,8 +432,8 @@ function deleteGridCategory(catSlug) {
     });	
 }
 
-function clearLevelCategoryPriority(actionSlug) {
-	log.debug("clearLevelCategoryPriority(" + actionSlug + ")");
+function clearLevelColumnPriority(actionSlug) {
+	log.debug("clearLevelColumnPriority(" + actionSlug + ")");
     jQuery.ajax({
         url: "/smartgrid_design/clear_from_grid/" + actionSlug + "/", 
         success: function(data) {

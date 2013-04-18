@@ -16,7 +16,7 @@ from apps.utils import utils
 from apps.widgets.notifications.models import NoticeTemplate, UserNotification
 from apps.widgets.smartgrid import NUM_GOLOW_ACTIONS, SETUP_WIZARD_ACTIVITY, NOSHOW_PENALTY_DAYS
 from apps.widgets.smartgrid.models import Action, ActionMember, Level, EmailReminder, \
-    TextReminder, CategoryGrid, Grid, Activity, Commitment
+    TextReminder, ColumnGrid, Grid, Activity, Commitment
 from apps.widgets.smartgrid.models import Event
 from apps.widgets.smartgrid import  MAX_COMMITMENTS
 
@@ -138,7 +138,7 @@ def get_levels(user):
 
 def get_level_actions(user):  # pylint: disable=R0914,R0912,R0915
     """Returns the smart grid as defined in the Smart Grid Designer. The
-    grid is a list of lists with the format [<Level>, [<CategoryGrid>*],
+    grid is a list of lists with the format [<Level>, [<ColumnGrid>*],
     [<Grid>*], [active columns], max_column, max_row]"""
     levels = cache_mgr.get_cache('smartgrid-levels-%s' % user.username)
     if levels is None:
@@ -159,10 +159,10 @@ def get_level_actions(user):  # pylint: disable=R0914,R0912,R0915
                 level_ret = []
                 level.is_complete = True
                 level_ret.append(level)
-                level_ret.append(CategoryGrid.objects.filter(level=level))
+                level_ret.append(ColumnGrid.objects.filter(level=level))
 #                level_ret.append(Grid.objects.filter(level=level))
 
-                max_column = len(CategoryGrid.objects.filter(level=level))
+                max_column = len(ColumnGrid.objects.filter(level=level))
                 max_row = 0
                 just_actions = []
                 # update each action
@@ -218,39 +218,27 @@ def get_smart_grid():
     """Returns the currently defined smart grid."""
     levels = []
     for level in Level.objects.all():
-        categories = []
-        action_list = None
-        category = None
-        for action in level.action_set.all().select_related("category"):
-            # the action are ordered by level and category
-            if category != action.category:
-                if category:
-                    # a new category
-                    category.task_list = action_list
-                    categories.append(category)
-
-                action_list = []
-                category = action.category
-
-            action_list.append(action)
-
-        if category:
-            # last category
-            category.task_list = action_list
-            categories.append(category)
-
-        level.cat_list = categories
+        columns = []
+        col_name = None
+        for col_grid in ColumnGrid.objects.filter(level=level):
+            col_name = col_grid.name
+            col_name.task_list = []
+            col = col_grid.column
+            for act_grid in Grid.objects.filter(level=level, column=col):
+                col_name.task_list.append(act_grid.action)
+            columns.append(col_name)
+        level.col_list = columns
         levels.append(level)
-
     return levels
 
 
 def get_smart_grid_action_slugs():
     """Returns the Actions that are currently in the Smart Grid."""
     action_list = []
-    for level in Level.objects.all():
-        for action in level.action_set.all().select_related('category'):
-            action_list.append(action.slug)
+    for grid in Grid.objects.all():
+        slug = grid.action.slug
+        if slug not in action_list:
+            action_list.append(slug)
     return action_list
 
 
@@ -336,7 +324,7 @@ def afterPublished(user, action_slug):
         return False
 
 
-def is_unlock(user, action):
+def is_unlock(user, action):  # FIXME: Need to work this one out.
     """Returns the unlock status of the user action."""
     levels = cache_mgr.get_cache('smartgrid-levels-%s' % user.username)
     if levels is None:
