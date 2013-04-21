@@ -6,12 +6,12 @@ from apps.widgets.smartgrid import smartgrid
 from apps.widgets.smartgrid.models import Action, Event, Grid, ColumnGrid
 
 
-def completed_action(user, slug):
+def submitted_action(user, slug):
     """Returns true if the user complete the action."""
-    return slug in smartgrid.get_completed_actions(user)
+    return slug in smartgrid.get_submitted_actions(user)
 
 
-def completed_all_of(user, category_slug=None, action_type=None, resource=None, level_name=None):
+def submitted_all_of(user, category_slug=None, action_type=None, resource=None, level_name=None):
     """Returns true if completed all of the specified type."""
 
     if category_slug:
@@ -38,21 +38,21 @@ def completed_all_of(user, category_slug=None, action_type=None, resource=None, 
     return not count and user.actionmember_set.all().count() == count
 
 
-def completed_some_of_level(user, some=1, level_name=None):
+def submitted_some_of_level(user, some=1, level_name=None):
     """Returns true if completed some of the specified level."""
-    return completed_some_of(user, some=some, level_name=level_name)
+    return submitted_some_of(user, some=some, level_name=level_name)
 
 
-def completed_some_full_spectrum(user, some=1):
+def submitted_some_full_spectrum(user, some=1):
     """Returns true if the user has completed some activities, commitments, and
     events."""
-    ret = completed_some_of(user, some=some, action_type='activity')
-    ret = ret and completed_some_of(user, some=some, action_type='commitment')
-    ret = ret and completed_some_of(user, some=some, action_type='event')
+    ret = submitted_some_of(user, some=some, action_type='activity')
+    ret = ret and submitted_some_of(user, some=some, action_type='commitment')
+    ret = ret and submitted_some_of(user, some=some, action_type='event')
     return ret
 
 
-def completed_some_of(user, some=1, category_slug=None, action_type=None, resource=None,
+def submitted_some_of(user, some=1, category_slug=None, action_type=None, resource=None,
                       level_name=None):
     """Returns true if completed some of the specified type.
     some is default to 1 if not specified."""
@@ -74,7 +74,7 @@ def completed_some_of(user, some=1, category_slug=None, action_type=None, resour
     return user.actionmember_set.all().count() >= some
 
 
-def completed_level(user, lvl=1):
+def submitted_level(user, lvl=1):
     """Returns true if the user has performed all activities successfully, and
       attempted all commitments."""
 #    num_completed = user.actionmember_set.filter(
@@ -133,7 +133,7 @@ def approved_some_of(user, some=1, category_slug=None, action_type=None, resourc
 
     if category_slug:
         count = 0
-        for cat in ColumnGrid.objects.filter(category__slug=category_slug):
+        for cat in ColumnGrid.objects.filter(name__slug=category_slug):
             for grid in Grid.objects.filter(level=cat.level, column=cat.column):
                 count += user.actionmember_set.filter(action=grid.action,
                                                       approval_status="approved").count()

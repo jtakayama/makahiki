@@ -377,7 +377,7 @@
             "priority": 2,
             "unlock_condition_text": "Complete at least two Level 1 actions including the Power & Energy activity.",
             "name": "Level 2",
-            "unlock_condition": "completed_some_of_level(2, \"Level 1\") and completed_action(\"power-energy\")",
+            "unlock_condition": "submitted_some_of_level(2, \"Level 1\") and submitted_action(\"power-energy\")",
             "slug": "level-2"
         }
     },
@@ -388,7 +388,7 @@
             "priority": 3,
             "unlock_condition_text": "Complete at least two Level 2 actions",
             "name": "Level 3",
-            "unlock_condition": "completed_some_of_level(2, \"Level 2\")",
+            "unlock_condition": "submitted_some_of_level(2, \"Level 2\")",
             "slug": "level-3"
         }
     },
@@ -650,7 +650,7 @@
             "expire_date": null,
             "type": "commitment",
             "slug": "task-lighting",
-            "unlock_condition": "completed_action(\"cup-secrets\") or completed_action(\"power-energy\")",
+            "unlock_condition": "submitted_action(\"cup-secrets\") or submitted_action(\"power-energy\")",
             "description": "Commit to using task lighting (like a desk lamp) instead of overhead room lights when possible. Often overhead lights provide more light than you need, or might not provide the light where you need it. Using a desk lamp will reduce your electricity use while giving you the light you need, where you need it."
         }
     },
@@ -672,7 +672,7 @@
             "expire_date": null,
             "type": "commitment",
             "slug": "go-unplugged",
-            "unlock_condition": "completed_action(\"energy-intuition\")",
+            "unlock_condition": "submitted_action(\"energy-intuition\")",
             "description": "Commit to turning off your computer/TV/game console and doing something that doesn't require electricity instead every day. There are many things you can do both on and off campus that don't require electricity, go find them!"
         }
     },
@@ -694,7 +694,7 @@
             "expire_date": null,
             "type": "commitment",
             "slug": "use-sunlight",
-            "unlock_condition": "completed_action(\"cup-secrets\") or completed_action(\"power-energy\")",
+            "unlock_condition": "submitted_action(\"cup-secrets\") or submitted_action(\"power-energy\")",
             "description": "Commit to using sunlight from windows or outdoors instead of turning on electric lighting. This can mean opening shades instead of turning on the lights, and/or planning your day so that tasks that require light (like reading books) are done during the day."
         }
     },
@@ -738,7 +738,7 @@
             "expire_date": null,
             "type": "activity",
             "slug": "cup-secrets",
-            "unlock_condition": "completed_action(\"intro-video\")",
+            "unlock_condition": "submitted_action(\"intro-video\")",
             "description": "Watch this video that provides some hints on how to get the most out of the Kukui Cup."
         }
     },
@@ -760,7 +760,7 @@
             "expire_date": null,
             "type": "activity",
             "slug": "power-energy",
-            "unlock_condition": "completed_action(\"intro-video\")",
+            "unlock_condition": "submitted_action(\"intro-video\")",
             "description": "Watch this video explaining the difference between power and energy.\r\n"
         }
     },
@@ -782,7 +782,7 @@
             "expire_date": null,
             "type": "activity",
             "slug": "like-cup",
-            "unlock_condition": "completed_action(\"cup-secrets\")",
+            "unlock_condition": "submitted_action(\"cup-secrets\")",
             "description": "Show support for the Kukui Cup by Liking the <a href=\"https://www.facebook.com/kukuicup\" target=\"_blank\">Kukui Cup page on Facebook</a> (it will open in a new window). Follow the link, click on the \"Like\" button, and then back on this page click the **I Did This!** button. You will be prompted for your name on Facebook so we can verify your Like.\r\n\r\nFor you eager beavers that have already liked the Kukui Cup before the competition started, you can get points too. Just click **I Did This!** and tell us your Facebook name."
         }
     },
@@ -804,7 +804,7 @@
             "expire_date": null,
             "type": "activity",
             "slug": "tweet-link",
-            "unlock_condition": "completed_action(\"cup-secrets\")",
+            "unlock_condition": "submitted_action(\"cup-secrets\")",
             "description": "If you use Twitter, tweet a link to the Kukui Cup website by pressing this button (will open in a new window) so other folks will learn about the competition:\r\n\r\n<center><a href=\"https://twitter.com/share\" class=\"twitter-share-button\" data-url=\"http://kukuicup.manoa.hawaii.edu/\" data-text=\"I'm on the quest for the Kukui Cup! #kukuicup\" data-count=\"none\" data-via=\"kukuicup\">Tweet Kukui Cup</a><script type=\"text/javascript\" src=\"//platform.twitter.com/widgets.js\"></script></center>\r\n\r\nOnce you have tweeted, come back to this page and click the \"I Did This!\" button. You will be prompted for your Twitter username so we can confirm your tweet."
         }
     },
@@ -826,7 +826,7 @@
             "expire_date": null,
             "type": "activity",
             "slug": "door-art",
-            "unlock_condition": "completed_action(\"cup-secrets\")",
+            "unlock_condition": "submitted_action(\"cup-secrets\")",
             "description": "Show your support for the Kukui Cup by decorating your door in an \"energy conscious\" fashion. You can do any of the following: include Kukui Cup logos or screen shots, invent new tag lines, show pictures related to energy, or anything else that communicates energy consciousness. When completed, take a photo of your door and click the **I Did This** button to submit the picture. Based on the awesomeness of your design, you will get between 5-15 points!\r\n\r\n<!---\r\nIf you want to show off your mad skillz, in addition to uploading your photo to us, you can publicly post your door art picture to the <a href=\"http://www.flickr.com/groups/kukuicup-2011-door-art/\" target=\"_blank\">Kukui Cup 2011 Door Art Flickr group</a> (will open in a new window). If you don't already have a Flickr account, you can sign up for one for free.\r\n--->"
         }
     },
@@ -848,7 +848,7 @@
             "expire_date": null,
             "type": "commitment",
             "slug": "turn-off-lights",
-            "unlock_condition": "completed_action(\"cup-secrets\") or completed_action(\"power-energy\")",
+            "unlock_condition": "submitted_action(\"cup-secrets\") or submitted_action(\"power-energy\")",
             "description": "Leaving lights on wastes energy for no purpose. Commit to turning off the lights when leaving any room."
         }
     },
@@ -870,7 +870,7 @@
             "expire_date": null,
             "type": "commitment",
             "slug": "full-load-laundry",
-            "unlock_condition": "completed_action(\"intro-video\")",
+            "unlock_condition": "submitted_action(\"intro-video\")",
             "description": "Commit to always washing full loads of laundry. Washing less than a full load is less efficient, leading to more electricity and water being used per piece of laundry washed."
         }
     },
@@ -892,7 +892,7 @@
             "expire_date": null,
             "type": "commitment",
             "slug": "reusable-bag",
-            "unlock_condition": "completed_action(\"cup-secrets\") or completed_action(\"power-energy\")",
+            "unlock_condition": "submitted_action(\"cup-secrets\") or submitted_action(\"power-energy\")",
             "description": "Commit to bringing and using reusable bags when shopping instead of the paper or plastic ones offered by stores. Making disposable bags requires energy, and often the bags end up in our landfills or worse yet they blow away into the ocean. Using a reusable bag saves energy and keeps trash out of our landfills."
         }
     },
@@ -936,7 +936,7 @@
             "expire_date": null,
             "type": "activity",
             "slug": "energy-intuition",
-            "unlock_condition": "completed_action(\"power-energy\")",
+            "unlock_condition": "submitted_action(\"power-energy\")",
             "description": "Watch this video about improving your energy intuition.\r\n"
         }
     },
@@ -958,7 +958,7 @@
             "expire_date": null,
             "type": "activity",
             "slug": "lighting-video",
-            "unlock_condition": "completed_action(\"energy-intuition\")",
+            "unlock_condition": "submitted_action(\"energy-intuition\")",
             "description": "Watch this video about the ways we use energy to generate light.\r\n"
         }
     },
@@ -980,7 +980,7 @@
             "expire_date": null,
             "type": "activity",
             "slug": "audit-video",
-            "unlock_condition": "completed_action(\"energy-intuition\")",
+            "unlock_condition": "submitted_action(\"energy-intuition\")",
             "description": "Watch this video that explains how to figure out how much energy your stuff uses.\r\n"
         }
     },
@@ -1002,7 +1002,7 @@
             "expire_date": null,
             "type": "activity",
             "slug": "check-energy",
-            "unlock_condition": "completed_action(\"energy-intuition\")",
+            "unlock_condition": "submitted_action(\"energy-intuition\")",
             "description": "<!---\r\n<center>![Go Low icon](/site_media/staticimages/icons/icon-go-low-lg.png)</center>\r\n--->\r\n\r\nOne important aspect of the Kukui Cup is the Daily Energy Goal Game, which can be found on the [Go Low](/energy) page. Every lounge is assigned a daily energy goal that represents a 5% reduction in electricity use from what the lounge was using before the competition. The Energy Goal Game shows how much energy your lounge has used so far today, and how that compares to the energy goal. The game also shows some activities that might be helpful in getting your lounge to reduce its energy use.\r\n\r\nFor this activity, you will check out the [Go Low](/energy) page. Read the page over, and come back to here and report three things: is your lounge above or below the energy goal, by how much, and name one activity that might help your lounge conserve energy."
         }
     },
@@ -1024,7 +1024,7 @@
             "expire_date": null,
             "type": "activity",
             "slug": "computer-sleep",
-            "unlock_condition": "completed_action(\"energy-intuition\")",
+            "unlock_condition": "submitted_action(\"energy-intuition\")",
             "description": "Configure your computer and any external monitor to sleep after 20 minutes of inactivity (or less). You can find instructions on enabling sleep functionality at the [EnergySTAR website](http://www.energystar.gov/index.cfm?c=power_mgt.pr_power_mgt_users).\r\n\r\nOnce you have changed your settings, please take a screenshot showing the new settings for use in verification:\r\n\r\n  * [How to take a screenshot on Windows](http://www.wikihow.com/Take-a-Screenshot-in-Microsoft-Windows)\r\n  * [How to take a screenshot on Mac OS X](/help/faq/how-screenshot-mac/)"
         }
     },
@@ -1046,7 +1046,7 @@
             "expire_date": null,
             "type": "activity",
             "slug": "power-hogs",
-            "unlock_condition": "completed_action(\"energy-intuition\")",
+            "unlock_condition": "submitted_action(\"energy-intuition\")",
             "description": "<!---\r\nThis is a followup activity to the [energy audit](/activities/activity/audit-room/) activity. If you haven't performed that activity, do it first and keep your notes around for this activity.\r\n--->\r\n\r\nMake a label for each device in your room that shows the number of watts consumed when on and off, and put it close to the power switch for those devices that have them. You'll need a portable energy meter such as a Belkin Conserve Insight to do this.\r\n\r\nOnce you have made the labels, take a photo of the labels of as many devices as you can fit in one picture to be used for verification."
         }
     },
@@ -1068,7 +1068,7 @@
             "expire_date": null,
             "type": "activity",
             "slug": "energy-gen-1",
-            "unlock_condition": "completed_action(\"energy-intuition\")",
+            "unlock_condition": "submitted_action(\"energy-intuition\")",
             "description": "Watch this video that talks about how we generate our energy in Hawaii, and what the fuss is about.\r\n"
         }
     },
@@ -1090,7 +1090,7 @@
             "expire_date": null,
             "type": "activity",
             "slug": "energy-gen-2",
-            "unlock_condition": "completed_action(\"energy-gen-1\")",
+            "unlock_condition": "submitted_action(\"energy-gen-1\")",
             "description": "Watch this video that talks about how we generate our energy in Hawaii right now, and how that differs from the mainland US."
         }
     },
@@ -1112,7 +1112,7 @@
             "expire_date": null,
             "type": "activity",
             "slug": "energy-gen-3",
-            "unlock_condition": "completed_action(\"energy-gen-2\")",
+            "unlock_condition": "submitted_action(\"energy-gen-2\")",
             "description": "Watch this video that talks about the Hawaii Clean Energy Initiative, a plan for increasing clean energy use in Hawaii.\r\n"
         }
     },
@@ -1134,7 +1134,7 @@
             "expire_date": null,
             "type": "commitment",
             "slug": "recycle-cans",
-            "unlock_condition": "completed_action(\"energy-intuition\")",
+            "unlock_condition": "submitted_action(\"energy-intuition\")",
             "description": "Commit to recycling all (recyclable) beverage containers at one of the recycling bins on campus or around town. Making things from recycled materials generally costs less and uses less energy than making them from raw materials."
         }
     },
@@ -1156,7 +1156,7 @@
             "expire_date": null,
             "type": "activity",
             "slug": "trash-video",
-            "unlock_condition": "completed_action(\"energy-intuition\")",
+            "unlock_condition": "submitted_action(\"energy-intuition\")",
             "description": "Check out this video called Trash is Treasure and maybe change your thinking about trash."
         }
     },
@@ -1178,7 +1178,7 @@
             "expire_date": null,
             "type": "activity",
             "slug": "climate-change",
-            "unlock_condition": "completed_action(\"energy-intuition\")",
+            "unlock_condition": "submitted_action(\"energy-intuition\")",
             "description": "Watch this video talking about climate change and how it will affect Hawaii.\r\n"
         }
     },
@@ -1200,7 +1200,7 @@
             "expire_date": null,
             "type": "activity",
             "slug": "solar-energy",
-            "unlock_condition": "completed_action(\"energy-intuition\")",
+            "unlock_condition": "submitted_action(\"energy-intuition\")",
             "description": "Watch this video that explains how we can get energy directly from the sun.\r\n"
         }
     },
@@ -1222,7 +1222,7 @@
             "expire_date": null,
             "type": "commitment",
             "slug": "limit-tv",
-            "unlock_condition": "completed_action(\"go-unplugged\")",
+            "unlock_condition": "submitted_action(\"go-unplugged\")",
             "description": "Commit to using your TV (watching shows, movies, playing games) for less than 1 hour per day. Widescreen TVs use a lot of electricity, so putting a limit on how much you use them will reduce your electricity use."
         }
     },
@@ -1244,7 +1244,7 @@
             "expire_date": null,
             "type": "commitment",
             "slug": "no-meat",
-            "unlock_condition": "completed_action(\"limit-tv\")",
+            "unlock_condition": "submitted_action(\"limit-tv\")",
             "description": "Commit to not eating any meat (beef, pork, chicken, fish, shellfish, etc) during the commitment period. Producing meat (beef in particular) uses a great deal of energy, and produces a great deal of greenhouse gasses. A vegetarian diet uses less energy and emits less greenhouse gas. There are many of vegetarian food options both on campus and around Honolulu, try them out!"
         }
     },
@@ -1266,7 +1266,7 @@
             "expire_date": null,
             "type": "activity",
             "slug": "letter-editor",
-            "unlock_condition": "completed_action(\"energy-intuition\")",
+            "unlock_condition": "submitted_action(\"energy-intuition\")",
             "description": "This activity is an opportunity to creatively explore one of the topics of the Kukui Cup in more depth. For this activity, you will write a **letter to the editor** of a local publication on the subject of one of the categories from the Smart Grid such as energy, lighting, transportation, etc. Note that this activity will require significantly more effort than normal activities, but it is also worth more points. This activity is worth a variable number of points, so the more effort and the higher quality of your letter, the more points you will receive.\r\n\r\nSome local publications you might write to:\r\n\r\n* [Honolulu Weekly](http://honoluluweekly.com/contact-us/)\r\n* [Star-Advertiser](http://www.staradvertiser.com/info/Star-Advertiser_Letter_to_the_Editor.html)\r\n* [MidWeek](http://www.midweek.com/content/columns/lte_article/letters_to_the_editor1031/) (scroll to bottom for submission info)"
         }
     },
@@ -1288,7 +1288,7 @@
             "expire_date": null,
             "type": "activity",
             "slug": "write-poem",
-            "unlock_condition": "completed_action(\"letter-editor\")",
+            "unlock_condition": "submitted_action(\"letter-editor\")",
             "description": "This activity is an opportunity to creatively explore one of the topics of the Kukui Cup in more depth. For this activity, you will write a **poem** (or limerick or haiku) on the subject of one of the categories from the Smart Grid such as energy, lighting, transportation, etc. Note that this activity will require significantly more effort than normal activities, but it is also worth more points. This activity is worth a variable number of points, so the more effort and the higher quality of your poem, the more points you will receive."
         }
     },
@@ -1310,7 +1310,7 @@
             "expire_date": null,
             "type": "commitment",
             "slug": "use-stairs",
-            "unlock_condition": "completed_action(\"energy-intuition\")",
+            "unlock_condition": "submitted_action(\"energy-intuition\")",
             "description": "Commit to using the stairs instead of elevators during your day, whenever that is feasible. Elevators use electricity, so by using the stairs you will save some energy. Also, using the stairs is good exercise!"
         }
     },
@@ -1332,7 +1332,7 @@
             "expire_date": null,
             "type": "activity",
             "slug": "no-impact-date",
-            "unlock_condition": "completed_action(\"turn-off-water\")",
+            "unlock_condition": "submitted_action(\"turn-off-water\")",
             "description": "While traditional ideas of a date include significant consumption, here's your chance to do something radical:  have a good time with a friend while using the minimum amount of electrical energy possible! Use this as an opportunity to be creative: how many different things can you do with a friend while using the least possible energy? Consider your transportation: can you walk, ride a bike, or take public transportation? Consider your food: what can you eat together that is delicious but was grown, delivered, and prepared with minimal energy? Consider your entertainment: what can you do together that is interesting, novel, and fun that does not consume resources?"
         }
     },
@@ -1354,7 +1354,7 @@
             "expire_date": null,
             "type": "commitment",
             "slug": "turn-off-water",
-            "unlock_condition": "completed_action(\"use-stairs\")",
+            "unlock_condition": "submitted_action(\"use-stairs\")",
             "description": "Commit to turning off water at sinks when you aren't actually using the water, such as when brushing your teeth, shaving, applying makeup, etc. Clean water is a valuable resource that shouldn't be wasted. Also pumping water from the ground into a building, heating it, and then treating the used water takes energy, so reducing the amount of water used saves energy."
         }
     },
@@ -1376,7 +1376,7 @@
             "expire_date": null,
             "type": "activity",
             "slug": "line-graph",
-            "unlock_condition": "completed_action(\"energy-intuition\")",
+            "unlock_condition": "submitted_action(\"energy-intuition\")",
             "description": "Check out the Line Graph visualization below, which shows a zoomable chart of energy or power usage for one or more lounges. Come up with answers to the questions below, and submit them:\r\n\r\n1. What interesting differences do you notice in energy use when looking at the 3 different timescales?\r\n2. How different are the graphs of power and energy?\r\n3. Pick 2 lounges and compare their energy use across 2 different time scales.\r\n4. What are your thoughts on this visualization? What are its strengths and weaknesses?"
         }
     },
@@ -1398,7 +1398,7 @@
             "expire_date": null,
             "type": "activity",
             "slug": "hot-spots",
-            "unlock_condition": "completed_action(\"line-graph\")",
+            "unlock_condition": "submitted_action(\"line-graph\")",
             "description": "Check out the Hot Spot visualization below, which shows hourly energy use over a weeklong period for a particular lounge. Come up with answers to the questions below, and submit them below:\r\n\r\n1. What hours of the day seem to have the highest energy use? How does that compare to your own energy use patterns?\r\n2. What differences in energy use do you notice between lounges?\r\n3. What are your thoughts on this visualization? What are its strengths and weaknesses?"
         }
     },
@@ -1420,7 +1420,7 @@
             "expire_date": null,
             "type": "activity",
             "slug": "power-meters",
-            "unlock_condition": "completed_action(\"hot-spots\")",
+            "unlock_condition": "submitted_action(\"hot-spots\")",
             "description": "Check out the Power Meter visualization below on the Canopy page, which shows the real-time power usage 5 selectable lounges. Come up with answers to the questions below, and submit them:\r\n\r\n1. Compare the 5 lounges in your tower. How does their power usage compare right now?\r\n2. Pick a particular lounge letter and compare that lounge across the 4 towers. How does the power consumption differ?\r\n3. What are your thoughts on this visualization? What are its strengths and weaknesses?"
         }
     },

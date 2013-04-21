@@ -344,14 +344,14 @@ def build_designer_trees():
                           identifier=node.identifier)
             trees[node.name] = t
     for node in nodes:
-        slugs = get_completed_action_slugs(node)
+        slugs = get_submitted_action_slugs(node)
         for slug in slugs:
             for k in list(trees):
                 if trees[k].get_node(slug):
                     trees[k].add_node(node, slug)
     # second pass because adding in the wrong order may cause problems
     for node in nodes:
-        slugs = get_completed_action_slugs(node)
+        slugs = get_submitted_action_slugs(node)
         for slug in slugs:
             for k in list(trees):
                 if trees[k].get_node(slug):
@@ -361,10 +361,10 @@ def build_designer_trees():
     return trees
 
 
-def get_completed_action_slugs(node):
+def get_submitted_action_slugs(node):
     """Returns the action slugs from the given node's unlock_condition."""
     ret = []
-    l = node.unlock_condition.split('completed_action(')
+    l = node.unlock_condition.split('submitted_action(')
     if len(l) > 1:
         index = l[1].find(')')
         ret.append(l[1][:index].strip('"\''))

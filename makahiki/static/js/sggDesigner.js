@@ -523,9 +523,9 @@ function isCompoundUnlock(unlock) {
 	return false;
 }
 
-function isCompletedAction(unlock) {
+function isSubmittedAction(unlock) {
 	if (unlock) {
-		var str = "completed_action(";
+		var str = "submitted_action(";
 		return unlock.slice(0, str.length) == str;
 	}
 	return false;
@@ -538,7 +538,7 @@ function getSlugFromUnlock(unlock) {
 	if (unlock == "False") {
 		return "F";
 	}
-	if (isCompletedAction(unlock)) {
+	if (isSubmittedAction(unlock)) {
 		var slug = unlock.slice(17, -1);
 		return slug;
 	}
@@ -580,7 +580,7 @@ function createUnlockStr(unlockCondText) {
 			}
 		}
 		unlockText += "]";
-	} else if (isCompletedAction(unlockCondText)) {
+	} else if (isSubmittedAction(unlockCondText)) {
 		var unlockSlug = getSlugFromUnlock(trim1(unlockCondText));
 		var pk = findPkForSlug(unlockSlug);
 		if (isSlugInGrid(unlockSlug)) {

@@ -100,7 +100,7 @@ def get_action_members(action):
     return ActionMember.objects.filter(action=action)
 
 
-def get_completed_actions(user):
+def get_submitted_actions(user):
     """returns the completed action for the user. It is stored as a dict of action slugs and
     its member status."""
     actions = cache_mgr.get_cache('smartgrid-completed-%s' % user.username)
@@ -123,13 +123,13 @@ def get_completed_actions(user):
 def get_levels(user):
     """Returns the list of annotated levels for the given user."""
     levels = []
-    completed_actions = get_completed_actions(user)
+    submitted_actions = get_submitted_actions(user)
     for level in Level.objects.all():
         level.is_unlock = utils.eval_predicates(level.unlock_condition, user)
         level.is_complete = True
         for row in Grid.objects.filter(level=level):
             action = row.action
-            if action.slug not in completed_actions:
+            if action.slug not in submitted_actions:
                 level.is_complete = False
                 break
         levels.append(level)
@@ -142,7 +142,7 @@ def get_level_actions(user):  # pylint: disable=R0914,R0912,R0915
     [<Grid>*], [active columns], max_column, max_row]"""
     levels = cache_mgr.get_cache('smartgrid-levels-%s' % user.username)
     if levels is None:
-        completed_actions = get_completed_actions(user)
+        submitted_actions = get_submitted_actions(user)
         levels = []
         for level in Level.objects.all():
             level.is_unlock = utils.eval_predicates(level.unlock_condition, user)
@@ -174,8 +174,8 @@ def get_level_actions(user):  # pylint: disable=R0914,R0912,R0915
                     action.column = row.column
                     if row.column > max_column:
                         max_column = row.column
-                    if action.slug in completed_actions:
-                        action.member = completed_actions[action.slug]
+                    if action.slug in submitted_actions:
+                        action.member = submitted_actions[action.slug]
                         action.is_unlock = True
                         action.completed = True
                     else:
@@ -324,19 +324,18 @@ def afterPublished(user, action_slug):
         return False
 
 
-def is_unlock(user, action):  # FIXME: Need to work this one out.
+def is_unlock(user, action):
     """Returns the unlock status of the user action."""
     levels = cache_mgr.get_cache('smartgrid-levels-%s' % user.username)
-    if levels is None:
+    if levels is None:  # not cached, just check
         return eval_unlock(user, action)
 
+    # cached format of levels is [[<Level>, [<ColumnGrid>*],
+    #  [<Grid>*], [active columns], max_column, max_row]+]
     for level in levels:
-        if hasattr(level, "cat_list"):
-            for cat in level.cat_list:
-                if cat.id == action.category_id:
-                    for t in cat.task_list:
-                        if t.id == action.id:
-                            return t.is_unlock
+        for grid in level[2]:
+            if grid.action.id == action.id:
+                return grid.action.is_unlock
 
     return False
 
