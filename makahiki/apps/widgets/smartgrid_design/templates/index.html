@@ -1,23 +1,22 @@
 {% load sgg_design_tags %}
 
 <div class="content-box">
-	<div class="content-box-title">Smart Grid Game Designer</div>
+	<div class="content-box-title">Smart Grid Game Designer
+       <a href="#" style="float: right">
+            <img src="{{ STATIC_URL}}images/icons/icon-help-sm.png" width="20" align="center"
+                 title="Click to get help about this window"
+                 onclick="toggleHelp(event, 'widget', 'smart-grid-game-designer'); return false;"
+                    /></a>
+ 	</div>
 	<div id="content" class="content-box-contents">
-				<p>Drag the ColumnNames to create columns. Then Drag the Activities,
-				Commitments, Events, or filler to fill the Grid. Use the palette to temporarily
-				store Smart Grid Actions. You can revert to the current Smart Grid Game by pressing the "Revert to current Smart Grid Game" button. 
-				This will erase any changes you have made to the Designer.  When you are happy with the grid, publish the
-				changes to the Smart Grid Game by pressing the "Publish changes to Smart Grid Game" button. This will overwrite
-				the current Smart Grid Game.</p>
 		<div class="container-fluid">
 			<div class="designer-sidebar designer-left">
-				<div class="row-fluid">
-					<div class="span4">
-						<div class="sgg-action sgg-filler draggable" data-type="filler"><br>filler<br></div>
-					</div>
-				</div>
+				<a class="widget-help" href="#">
+		   			<img src="{{ STATIC_URL}}images/icons/icon-help-sm.png" width="20" align="center"
+        				 title="Click to get help about this window"
+                		 onclick="toggleHelp(event, 'widget', 'smart-grid-library-actions'); return false;"/>
+                </a>
 				<div class="tabbable">
-					Drag the activity, commitment, or event to a empty slot in the grid to the right.
 					<legend>Library Actions</legend>
 					<ul class="nav nav-tabs">
 						<li class="active"><a href="#activities" data-toggle="tab">Activities</a></li>
@@ -57,30 +56,38 @@
 				</div>
 			</div>
 			<div class="designer-sidebar designer-right">
-				<div class="sgg-right-palette palette-dropzone"><u>Palette</u></br>
-					<div style="text-align: left;padding-left: 5px;">Actions with no
-						Level or Column. These do not appear in the Smart Grid Game. Use 
-						this space to move actions from level to level or temporarily remove the
-						action from the Smart Grid Game.</div>
-						{% for action in view_objects.smartgrid_design.palette %}
+				<a class="widget-help" href="#" >
+		        	<img src="{{ STATIC_URL}}images/icons/icon-help-sm.png" width="20" align="center"
+    			         title="Click to get help about this window"
+           	   			 onclick="toggleHelp(event, 'widget', 'smart-grid-action-palette'); return false;"/>
+               	</a>
+				<div class="tabbable">
+					<legend>Action Palette</legend>
+					<div class="sgg-right-palette palette-dropzone">
+							{% for action in view_objects.smartgrid_design.palette %}
 							<div data-slug="{{action.slug}}" class="sgg-action sgg-{{action.type}}-palette palette-draggable"
-                   		   			 data-type="{{action.type}}" data-pk={{action.pk}} data-unlock="{{action.unlock_condition}}">
-                   		   			<br/>
-                   		   			<a href="/challenge_setting_admin/smartgrid_design/designer{{action.type}}/{{action.pk}}/"
-									   class="sgg-action" ref="tooltip" title="{{action.title}}">{{action.name}}</a><br/>
+           			   			 data-type="{{action.type}}" data-pk={{action.pk}} data-unlock="{{action.unlock_condition}}">
+           		   				<br/>
+           		   				<a href="/challenge_setting_admin/smartgrid_design/designer{{action.type}}/{{action.pk}}/"
+								   class="sgg-action" ref="tooltip" title="{{action.title}}">{{action.name}}</a><br/>
 							</div>								
 						{% endfor %}						
-				</div>			
+					</div>			
+				</div>
 			</div>
 			<div class="designer-center">
 				<div class="sgg-column-title">
+					<a class="widget-help" href="#" >
+			        	<img src="{{ STATIC_URL}}images/icons/icon-help-sm.png" width="20" align="center"
+    				         title="Click to get help about this window"
+           		   			 onclick="toggleHelp(event, 'widget', 'smart-grid-library-columns'); return false;"/>
+               		</a>
 					<h5>Column Names:</h5>
 				</div>
 				<div class="content-box-contents">
 					<a href="/challenge_admin/smartgrid_library/librarycolumnname/"
 						rel="tooltip" title="Switch to column name editing page.">
 						<div class="btn btn-widget">Edit Column Names</div></a>
-					Drag the column name to the top row of the grid below. You cannot have the same name twice in the same level.
 				</div>
 				<div class="ssg-column-selections">
 					<div class="sgg-column-wrapper">
@@ -178,7 +185,13 @@ $(document).click(function() {
 		<div class="row-fluid">
 			<div class="span3">
 				<div class="content-box">
-					<div class="content-box-title">Differences between Designer and Grid:</div>
+					<div class="content-box-title">Differences between Designer and Grid:
+						<a class="widget-help" href="#">
+				   			<img src="{{ STATIC_URL}}images/icons/icon-help-sm.png" width="20" align="center"
+        						 title="Click to get help about this window"
+                				 onclick="toggleHelp(event, 'widget', 'smart-grid-designer-diff'); return false;"/>
+                		</a>
+					</div>
 					<div class="content-box-contents">
 						<p></p>
 						<a href="#" onclick="getDesignerDiff();return false;">
@@ -191,12 +204,18 @@ $(document).click(function() {
 			</div>		
 			<div class="span6">
 				<div class="content-box">
-					<div class="content-box-title">Unlock Condition Lint:</div>
+					<div class="content-box-title">Unlock Condition Checker:
+						<a class="widget-help" href="#">
+				   			<img src="{{ STATIC_URL}}images/icons/icon-help-sm.png" width="20" align="center"
+        						 title="Click to get help about this window"
+                				 onclick="toggleHelp(event, 'widget', 'smart-grid-unlock-check'); return false;"/>
+                		</a>					
+					</div>
 					<div class="content-box-contents">
 						<p></p>
 						<a href="#" onclick="runDesignerLint();return false;">
 							<div class="btn btn-widget" rel="tooltip" 
-								title="Runs unlock condition lint on the Designer Grid Actions.">Run Designer Lint</div>
+								title="Runs unlock condition checker on the Designer Grid Actions.">Run Unlock Condition Checker</div>
 						</a>
 						<div id="designer-lint"></div>
 					</div>
@@ -204,7 +223,13 @@ $(document).click(function() {
 			</div>
 			<div class="span3">
 				<div class="content-box">
-					<div class="content-box-title">Load Example Grids:</div>
+					<div class="content-box-title">Load Example Grids:
+						<a class="widget-help" href="#">
+				   			<img src="{{ STATIC_URL}}images/icons/icon-help-sm.png" width="20" align="center"
+        						 title="Click to get help about this window"
+                				 onclick="toggleHelp(event, 'widget', 'smart-grid-load-example'); return false;"/>
+                		</a>					
+					</div>
 					<div class="content-box-contents">
 						Choose an example grid from the choices below.
 		        		<form id="example-grid-form" action="{% url load_example_grid %}" method="post">
