@@ -22,11 +22,13 @@ class Node(object):
     """Node in unlock condition tree. Name is the slug of the action, parent is slug of
     condition dependance."""
 
-    def __init__(self, name, unlock_condition, level=None, identifier=None, expanded=True):
+    def __init__(self, name, pk, action_type, unlock_condition, level=None, identifier=None, expanded=True):
         """initializer."""
         self.__identifier = (str(uuid.uuid1()) if identifier is None else
                              sanitize_string(str(identifier)))
         self.name = name
+        self.pk = pk
+        self.action_type = action_type
         self.unlock_condition = unlock_condition
         self.level = level
         self.expanded = expanded
@@ -41,6 +43,10 @@ class Node(object):
 
     def __repr__(self):
         return "<Node: %s[%s]>" % (self.name, self.unlock_condition)
+
+    def admin_link(self):
+        """returns the hardcoded link to edit the action."""
+        return "<a href='/challenge_setting_admin/smartgrid_design/designer%s/%s/'>%s</a>" % (self.action_type, self.pk, self.name)
 
     @property
     def identifier(self):
@@ -108,9 +114,9 @@ class Tree(object):
         self.__update_children(parent, node.identifier, _ADD)
         node.parent = parent
 
-    def create_node(self, name, unlock_condition, level=None, identifier=None, parent=None):
+    def create_node(self, name, pk, action_type, unlock_condition, level=None, identifier=None, parent=None):
         """Create a child node for the node indicated by the 'parent' parameter"""
-        node = Node(name, unlock_condition, level=level, identifier=identifier)
+        node = Node(name, pk, action_type, unlock_condition, level=level, identifier=identifier)
         self.add_node(node, parent)
         return node
 
@@ -262,7 +268,7 @@ for constructing the Nodes Stack push and pop nodes with additional level info."
 #            print "process = {0} lvl{1}".format(current_node, lvl)
 
             label = "{0}: <b>{1}</b>[{2}]".format(current_node.level, \
-                                                  current_node.name, current_node.unlock_condition)
+                                                  current_node.admin_link(), current_node.unlock_condition)
             if lvl == _ROOT:
                 s += label + '<br/>'
             else:
@@ -323,11 +329,11 @@ def _build_designer_nodes():
     for action in DesignerAction.objects.all():
         locations = DesignerGrid.objects.filter(action=action)
         if len(locations) == 0:
-            nodes.append(Node(action.slug, action.unlock_condition, level=None, \
+            nodes.append(Node(action.slug, action.pk, action.type, action.unlock_condition, level=None, \
                                   identifier=action.slug))
         else:
             for loc in locations:
-                nodes.append(Node(action.slug, action.unlock_condition, loc.level, \
+                nodes.append(Node(action.slug, action.pk, action.type, action.unlock_condition, loc.level, \
                                   identifier=action.slug))
     return nodes
 
@@ -340,7 +346,7 @@ def build_designer_trees():
         if node.unlock_condition == "True" or node.unlock_condition.find("or True") != -1 \
         or node.unlock_condition == "False" or node.unlock_condition.find("and False") != -1:
             t = Tree()
-            t.create_node(node.name, node.unlock_condition, level=node.level, \
+            t.create_node(node.name, node.pk, node.action_type, node.unlock_condition, level=node.level, \
                           identifier=node.identifier)
             trees[node.name] = t
     for node in nodes:
@@ -422,6 +428,6 @@ def get_missmatched_designer_level():
                 if parent_name:
                     parent = tree.nodes[parent_name]
                     if parent and parent.level and parent.level.priority > node.level.priority:
-                        if node.name not in ret:
-                            ret.append(node.name)
+                        if node.admin_link() not in ret:
+                            ret.append(node.admin_link())
     return ret
