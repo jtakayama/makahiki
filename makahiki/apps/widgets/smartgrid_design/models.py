@@ -354,6 +354,10 @@ class DesignerColumnGrid(models.Model):
     name = models.ForeignKey(DesignerColumnName,
                                  help_text="The name of the column in this location.")
 
+    class Meta:
+        """meta."""
+        unique_together = ('level', 'name')
+
 
 class DesignerGrid(models.Model):
     """Defines the Designer Smart Grid, holds the level, column, row, and DesignerAction."""
