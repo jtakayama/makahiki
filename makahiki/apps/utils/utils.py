@@ -24,7 +24,7 @@ def get_challenge_mgr_predicates():
 def get_smartgrid_predicates():
     """Returns the predicates defined in smartgrid module."""
     from apps.widgets.smartgrid.predicates import submitted_action, approved_action, \
-        submitted_some_of, submitted_some_of_level, submitted_all_of, submitted_level, \
+        submitted_some_of, submitted_some_of_level, submitted_all_of, completed_level, \
         unlock_on_date, unlock_on_event, approved_all_of, approved_some_of, \
         social_bonus_count, submitted_some_full_spectrum
     return {
@@ -32,7 +32,7 @@ def get_smartgrid_predicates():
             "submitted_some_of": submitted_some_of,
             "submitted_some_of_level": submitted_some_of_level,
             "submitted_all_of": submitted_all_of,
-            "submitted_level": submitted_level,
+            "completed_level": completed_level,
             "unlock_on_date": unlock_on_date,
             "unlock_on_event": unlock_on_event,
             "approved_action": approved_action,

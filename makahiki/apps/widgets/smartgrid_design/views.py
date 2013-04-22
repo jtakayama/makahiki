@@ -216,7 +216,8 @@ def publish_to_grid(request):
     if request.method == 'POST':
         form = DeployToSmartgridForm(request.POST)
         if form.is_valid():
-            smartgrid_mgr.deploy_designer_to_smartgrid()
+            use_filler = form.cleaned_data['use_filler']
+            smartgrid_mgr.deploy_designer_to_smartgrid(use_filler)
     response = HttpResponseRedirect("/sgg_designer/")
     return response
 

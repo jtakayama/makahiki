@@ -31,7 +31,8 @@ class RevertToSmartgridForm(forms.Form):
 
 class DeployToSmartgridForm(forms.Form):
     """Form for ensuring no cross-site for publishing the designer to the smartgrid."""
-    pass
+    use_filler = forms.BooleanField()
+
 
 
 class ExampleGridsForm(forms.Form):

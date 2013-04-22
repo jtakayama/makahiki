@@ -485,14 +485,16 @@ def copy_smartgrid_to_designer():
 
 def clear_smartgrid():
     """Removes all the location information for the Smart Grid.
-    Does not affect the Smart Grid Actions."""
+    Deletes the existing levels.  Does not affect the Smart Grid Actions."""
+    for level in Level.objects.all():
+        level.delete()
     for row in ColumnGrid.objects.all():
         row.delete()
     for row in Grid.objects.all():
         row.delete()
 
 
-def deploy_designer_to_smartgrid():
+def deploy_designer_to_smartgrid(use_filler):
     """Clears the current Smart Grid Game and copies the designer instances to the
     Smart Grid Game. Clearing the grid does not delete the actions just clears their
     Levels and Categories."""
@@ -521,8 +523,44 @@ def deploy_designer_to_smartgrid():
         row.level = get_smartgrid_level(des_row.level.slug)
         row.action = get_smartgrid_action(des_row.action.slug)
         row.save()
+    if use_filler:
+        # need to instantiate the filler objects and put them in the grid.
+        filler_count = len(Filler.objects.all())
+        sizes = get_smart_grid_size()
+        for slug in list(sizes):
+            level = Level.objects.get(slug=slug)
+            for c in range(1, sizes[slug][0] + 1):
+                for r in range(1, sizes[slug][1] + 1):
+                    cell = Grid.objects.filter(level=level, column=c, row=r)
+                    if not cell:
+                        filler_count += 1
+                        name = 'Filler %s' % filler_count
+                        filler_slug = 'filler-%s' % filler_count
+                        filler = Filler(name=name, slug=filler_slug, type='filler', title=name)
+                        filler.save()
+                        grid = Grid(level=level, column=c, row=r, action=filler)
+                        grid.save()
 
 
+def get_smart_grid_size():
+    """Returns the maximum columns and rows for each level in the smartgrid as a dictionary with
+    the keys being the level slug and values being [num_column, num_row]."""
+    ret = {}
+    for level in Level.objects.all():
+        num_column = 0
+        for grid in ColumnGrid.objects.filter(level=level):
+            if grid.column > num_column:
+                num_column = grid.column
+        num_row = 0
+        for grid in Grid.objects.filter(level=level):
+            if grid.column > num_column:
+                num_column = grid.column
+            if grid.row > num_row:
+                num_row = grid.row
+        ret[level.slug] = [num_column, num_row]
+
+    return ret
+        
 def is_diff_between_designer_and_grid_action(slug):
     """Returns True if there is a difference between the Designer Action and
     Grid Action with the given slug."""

@@ -74,7 +74,7 @@ def submitted_some_of(user, some=1, category_slug=None, action_type=None, resour
     return user.actionmember_set.all().count() >= some
 
 
-def submitted_level(user, lvl=1):
+def completed_level(user, lvl=1):
     """Returns true if the user has performed all activities successfully, and
       attempted all commitments."""
 #    num_completed = user.actionmember_set.filter(
@@ -82,9 +82,14 @@ def submitted_level(user, lvl=1):
 #        action__level__priority=lvl).count()
     _ = user
     num_completed = 0
-    num_level = Grid.objects.filter(
+    level_actions = Grid.objects.filter(
         Q(action__type='activity') | Q(action__type='commitment'),
-        level__priority=lvl).count()
+        level__priority=lvl)
+    for grid in level_actions:
+        actionmember = user.actionmember_set.filter(action=grid.action)
+        if actionmember:
+            num_completed += 1
+    num_level = level_actions.count()
 
     # check if there is any activity or commitment
     if not num_level:

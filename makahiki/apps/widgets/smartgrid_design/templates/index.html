@@ -102,7 +102,7 @@
 		        </div>
 				<div class="right">
 					<form id="publish-form" action="{% url publish_to_grid %}" method="post">
-   	    		  		{% csrf_token %} {{ view_objects.smartgrid_design.publish_form.as_p }}
+   	    		  		{% csrf_token %} Use Fillers: {{ view_objects.smartgrid_design.publish_form.use_filler }}
        	  				<input id="designer-publish" class="btn btn-widget" rel="tooltip" 
 							title="Publish changes made in the designer to the Smart Grid Game."
 							type="submit" value="Publish changes to Smart Grid Game" /> 
