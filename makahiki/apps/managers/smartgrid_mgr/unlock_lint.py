@@ -329,8 +329,9 @@ def _build_designer_nodes():
     for action in DesignerAction.objects.all():
         locations = DesignerGrid.objects.filter(action=action)
         if len(locations) == 0:
-            nodes.append(Node(action.slug, action.pk, action.type, action.unlock_condition, level=None, \
-                                  identifier=action.slug))
+#             nodes.append(Node(action.slug, action.pk, action.type, action.unlock_condition, level=None, \
+#                                   identifier=action.slug))
+            pass
         else:
             for loc in locations:
                 nodes.append(Node(action.slug, action.pk, action.type, action.unlock_condition, loc.level, \
@@ -394,7 +395,7 @@ def get_unreachable_designer_actions():
             if tree.get_node(node.identifier):
                 in_tree = True
         if not in_tree:
-            ret.append("%s: %s" % (node.identifier, node.unlock_condition))
+            ret.append("%s: %s" % (node.admin_link(), node.unlock_condition))
     return ret
 
 

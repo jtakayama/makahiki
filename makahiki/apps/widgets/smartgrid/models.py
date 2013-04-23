@@ -371,7 +371,7 @@ class Grid(models.Model):
         ordering = ("level", "column", "row")
 
     def __unicode__(self):
-        return "%s: [%s, %s, %s]" % (self.action, self.level, self.column, self.row)
+        return "%s: [%s, x=%s, y=%s]" % (self.action, self.level, self.column, self.row)
 
 
 class ActionMember(models.Model):

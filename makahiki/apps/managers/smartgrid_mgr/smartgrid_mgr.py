@@ -157,6 +157,11 @@ def _copy_action_fields(orig, copy):  # pylint: disable=R0912
     copy.save()  # pylint: enable=R0912
 
 
+def _admin_link(action):
+    """returns the hardcoded link to edit the action."""
+    return "<a href='/challenge_setting_admin/smartgrid_design/designer%s/%s/'>%s</a>" % (action.type, action.pk, action.name)
+
+
 def instantiate_designer_column_from_library(slug):
     """Instantiates a DesignerColumnName from the LibraryColumnName with the given slug."""
     lib_cat = get_object_or_404(LibraryColumnName, slug=slug)
@@ -316,13 +321,13 @@ def get_designer_action(slug):
     action = get_object_or_404(DesignerAction, slug=slug)
     pk = action.pk
     if action.type == 'activity':
-        return DesignerActivity.objects.get(pk=pk)
+        return DesignerActivity.objects.get(slug=slug)
     if action.type == 'commitment':
-        return DesignerCommitment.objects.get(pk=pk)
+        return DesignerCommitment.objects.get(slug=slug)
     if action.type == 'event':
-        return DesignerEvent.objects.get(pk=pk)
+        return DesignerEvent.objects.get(slug=slug)
     if action.type == 'filler':
-        return DesignerFiller.objects.get(pk=pk)
+        return DesignerFiller.objects.get(slug=slug)
     return action
 
 
@@ -622,6 +627,19 @@ def diff_between_designer_and_grid_action(slug):  # pylint: disable=R0912
             designer_val = getattr(designer, f.name)
             if grid_val != designer_val:
                 diff.append(f.name)
+    des_loc = DesignerGrid.objects.filter(action=designer)
+    grid_loc = Grid.objects.filter(action=grid)
+    if len(des_loc) == 1 and len(grid_loc) == 1:
+        if des_loc[0].level.slug != grid_loc[0].level.slug:
+            diff.append("moved from level %s to %s" % (grid_loc[0].level, des_loc[0].level))
+        if des_loc[0].column != grid_loc[0].column:
+            diff.append("column changed from %s to %s" % (grid_loc[0].column, des_loc[0].column))
+        if des_loc[0].row != grid_loc[0].row:
+            diff.append("row changed from %s to %s" % (grid_loc[0].row, des_loc[0].row))
+    if len(des_loc) == 1 and len(grid_loc) == 0:
+        diff.append("moved to %s from the palette" % des_loc[0].get_loc_str())
+    if len(des_loc) == 0 and len(grid_loc) == 1:
+        diff.append("moved out of the grid to the palette")
     return diff  # pylint: enable=R0912
 
 
@@ -634,7 +652,7 @@ def diff_between_designer_and_grid():
         diff = diff_between_designer_and_grid_action(slug)
         if len(diff) > 0:
             inner = []
-            inner.append(action.name)
+            inner.append(_admin_link(action))
             inner.append(diff)
             ret.append(inner)
     return ret

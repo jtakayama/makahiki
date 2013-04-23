@@ -138,7 +138,8 @@ def move_action(request, action_slug, level_slug, old_column, old_row, new_colum
     _ = level_slug
 
     action = smartgrid_mgr.get_designer_action(action_slug)
-    for grid in DesignerGrid.objects.filter(action=action):
+    level = smartgrid_mgr.get_designer_level(level_slug)
+    for grid in DesignerGrid.objects.filter(action=action, level=level):
         if grid.column == int(old_column) and grid.row == int(old_row):
             grid.column = new_column
             grid.row = new_row
