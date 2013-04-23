@@ -34,6 +34,10 @@ class DeployToSmartgridForm(forms.Form):
     use_filler = forms.BooleanField()
 
 
+class DeleteLevelForm(forms.Form):
+    """Form for ensuring no cross-site scripting for deleting a level in the designer."""
+    pass
+
 
 class ExampleGridsForm(forms.Form):
     """Form for choosing between different example Smart Grid designs."""

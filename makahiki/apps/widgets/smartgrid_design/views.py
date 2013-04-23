@@ -7,7 +7,7 @@ from django.http import HttpResponseRedirect, Http404, HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template.context import RequestContext
 from apps.widgets.smartgrid_design.forms import RevertToSmartgridForm, \
-    DeployToSmartgridForm, ExampleGridsForm
+    DeployToSmartgridForm, ExampleGridsForm, DeleteLevelForm
 from apps.widgets.smartgrid_library.models import LibraryActivity, LibraryEvent, \
     LibraryCommitment, LibraryColumnName
 from apps.managers.smartgrid_mgr import smartgrid_mgr, unlock_lint
@@ -264,3 +264,13 @@ def get_diff(request):
     return HttpResponse(json.dumps({
             "diff": diff,
             }), mimetype="application/json")
+
+
+def delete_level(request, level_slug):
+    """foo"""
+    if request.method == 'POST':
+        form = DeleteLevelForm(request.POST)
+        if form.is_valid():
+            print 'delete level'
+    response = HttpResponseRedirect("/sgg_designer/")
+    return response

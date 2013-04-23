@@ -122,9 +122,11 @@
 						<div id="level-tab-menu-{{forloop.counter}}" class="sgg-level-popup-menu">
 							<ul>
 								<li><a href="#" class="sgg-action">Add new level</a>
-								<li><a href="#{{forloop.counter}}" class="sgg-action"
-								rel="tooltip" 
-								title="Delete this level moving all actions to the palette.">Delete {{level.name}}</a></li>
+								<li><form id='delete-level-{{forloop.counter}}-form' action="{% url delete_level level.slug %}" method="post">
+								{% csrf_token %}
+								<input id="delete-level-{{forloop.counter}}" rel="tooltip" title="Delete this level moving all actions to the palette."
+									type="submit" value="Delete {{level.name}}" />
+								</form>
 							</ul>
 						</div> 
 						{% if forloop.counter == 1 %}
