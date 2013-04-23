@@ -319,7 +319,6 @@ def instantiate_grid_action_from_designer(designer_action):
 def get_designer_action(slug):
     """Returns the Smart Grid Game Designer Action for the given slug."""
     action = get_object_or_404(DesignerAction, slug=slug)
-    pk = action.pk
     if action.type == 'activity':
         return DesignerActivity.objects.get(slug=slug)
     if action.type == 'commitment':

@@ -7,13 +7,13 @@ from django.http import HttpResponseRedirect, Http404, HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template.context import RequestContext
 from apps.widgets.smartgrid_design.forms import RevertToSmartgridForm, \
-    DeployToSmartgridForm, ExampleGridsForm, DeleteLevelForm, AddLevelForm
+    DeployToSmartgridForm, ExampleGridsForm, DeleteLevelForm, AddLevelForm, EventDateForm
 from apps.widgets.smartgrid_library.models import LibraryActivity, LibraryEvent, \
     LibraryCommitment, LibraryColumnName
 from apps.managers.smartgrid_mgr import smartgrid_mgr, unlock_lint
 import json
 from apps.widgets.smartgrid_design.models import DesignerLevel, DesignerColumnName, \
-    DesignerAction, DesignerGrid, DesignerColumnGrid
+    DesignerAction, DesignerGrid, DesignerColumnGrid, DesignerEvent
 from collections import OrderedDict
 from django.template.defaultfilters import slugify
 
@@ -44,6 +44,7 @@ def supply(request, page_name):
         'example_grid_form': ExampleGridsForm(),
         'add_level_form': AddLevelForm(),
         'delete_level_form': DeleteLevelForm(),
+        'event_date_form': EventDateForm(),
         'palette': smartgrid_mgr.get_designer_palette(),
         'designer_grid': smartgrid_mgr.get_designer_grid(),
         'smart_grid_actions': smartgrid_mgr.get_designer_action_slugs(),
@@ -300,5 +301,20 @@ def add_level(request):
             level = DesignerLevel(name=form.cleaned_data['level_name'], slug=slug, \
                                   priority=max_priority)
             level.save()
+    response = HttpResponseRedirect("/sgg_designer/")
+    return response
+
+
+def set_event_date(request):
+    """Sets the event date from the EventDateForm."""
+    if request.method == 'POST':
+        form = EventDateForm(request.POST)
+        if form.is_valid():
+            event_slug = form.cleaned_data['event_slug']
+            event = smartgrid_mgr.get_designer_action(event_slug)
+            event_date = form.cleaned_data['event_date']
+            event.event_date = event_date
+            event.event_location = form.cleaned_data['location']
+            event.save()
     response = HttpResponseRedirect("/sgg_designer/")
     return response

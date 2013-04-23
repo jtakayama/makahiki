@@ -1,4 +1,5 @@
 {% load sgg_design_tags %}
+<script src="{{STATIC_URL}}js/jquery-ui-timepicker-addon.js"></script>
 
 <div class="content-box">
 	<div class="content-box-title">Smart Grid Game Designer
@@ -281,6 +282,24 @@ $(document).click(function() {
     </div>
 </div>
 
+<div class="modal hide fade" id="eventDateChooser">
+    <div class="modal-header">
+        <a class="close" data-dismiss="modal">x</a>
+        <h3>Choose Event Date</h3>
+    </div>
+    <div class="modal-body" id="modal-body">	
+    	<div id="eventName"></div>
+    	<form id='set-event-date-form' action="{% url set_designer_event_date %}" method="post">
+    		{% csrf_token %}{{view_objects.smartgrid_design.event_date_form.as_p}}
+			<input class="btn btn-widget" rel="tooltip" title="Set the event's date."
+					type="submit" value="Set Date" />
+		        <a href="#" class="btn btn-widget" data-dismiss="modal">Cancel</a>
+    	</form>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn btn-widget" data-dismiss="modal">Cancel</a>
+    </div>
+</div>
 
 <script type="text/javascript">
 	$(init);
@@ -389,4 +408,9 @@ $(document).click(function() {
         modalElement.css('margin-top', (modalElement.outerHeight() / 2) * -1);
         modalElement.modal('show');		
 	}
+	
+	  $(function() {
+		  $('#id_event_date').datetimepicker({ dateFormat: 'yy-mm-dd', timeFormat: 'hh:mm:ss' });
+	  });
+
 </script>

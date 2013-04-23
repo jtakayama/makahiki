@@ -52,5 +52,8 @@ urlpatterns = patterns('',
         name='delete_designer_level'),
     url(r'^add_level/$',
         'apps.widgets.smartgrid_design.views.add_level',
-        name='add_designer_level')
+        name='add_designer_level'),
+    url(r'^set_event_date/$',
+        'apps.widgets.smartgrid_design.views.set_event_date',
+        name='set_designer_event_date'),
 )

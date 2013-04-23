@@ -82,6 +82,22 @@ function handleActionDrop(event, ui) {
 //		log.debug(html);
 		$(this).html(html);
 		pk = instantiateGridAction(slug, levelSlug, column, row);		
+		if (type == 'event') {
+			log.debug('set event date');
+	        var modalElement = $('#eventDateChooser');
+			var text = "Select the date and time for " + title;
+			modalElement.find('#eventName').html(text);
+			modalElement.find('input#id_event_slug').val(slug);
+	        
+	        modalElement.modal({
+	            backdrop: true,
+	            keyboard: true,
+	            show: false
+	        }); 
+	        modalElement.css('margin-top', (modalElement.outerHeight() / 2) * -1);
+	        modalElement.modal('show');		
+			
+		}
 	}
 	$(this).children().draggable({
 		cursor : 'move',

@@ -39,6 +39,13 @@ class DeleteLevelForm(forms.Form):
     level_slug = forms.CharField(max_length=25, help_text="Level slug", widget=forms.HiddenInput)
 
 
+class EventDateForm(forms.Form):
+    """Form for ensuring no cross-site scripting for setting event dates in the designer."""
+    event_slug = forms.CharField(max_length=25, widget=forms.HiddenInput)
+    event_date = forms.DateTimeField()
+    location = forms.CharField(max_length=40)
+
+
 class AddLevelForm(forms.Form):
     """Form for adding a DesignerLevel. Ensures no cross-site scripting to create new levels."""
     level_name = forms.CharField(max_length=25, help_text="Level Name, must be unique.")
