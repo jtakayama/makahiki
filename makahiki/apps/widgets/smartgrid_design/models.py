@@ -358,6 +358,9 @@ class DesignerColumnGrid(models.Model):
         """meta."""
         unique_together = ('level', 'name')
 
+    def __unicode__(self):
+        return "DesignerColumn: %s [%s, x=%s]" % (self.name, self.level, self.column)
+
 
 class DesignerGrid(models.Model):
     """Defines the Designer Smart Grid, holds the level, column, row, and DesignerAction."""

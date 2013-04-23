@@ -7,7 +7,7 @@ from django.http import HttpResponseRedirect, Http404, HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template.context import RequestContext
 from apps.widgets.smartgrid_design.forms import RevertToSmartgridForm, \
-    DeployToSmartgridForm, ExampleGridsForm, DeleteLevelForm
+    DeployToSmartgridForm, ExampleGridsForm, DeleteLevelForm, AddLevelForm
 from apps.widgets.smartgrid_library.models import LibraryActivity, LibraryEvent, \
     LibraryCommitment, LibraryColumnName
 from apps.managers.smartgrid_mgr import smartgrid_mgr, unlock_lint
@@ -15,6 +15,7 @@ import json
 from apps.widgets.smartgrid_design.models import DesignerLevel, DesignerColumnName, \
     DesignerAction, DesignerGrid, DesignerColumnGrid
 from collections import OrderedDict
+from django.template.defaultfilters import slugify
 
 
 def supply(request, page_name):
@@ -41,6 +42,8 @@ def supply(request, page_name):
         'reset_form': RevertToSmartgridForm(),
         'publish_form': DeployToSmartgridForm(),
         'example_grid_form': ExampleGridsForm(),
+        'add_level_form': AddLevelForm(),
+        'delete_level_form': DeleteLevelForm(),
         'palette': smartgrid_mgr.get_designer_palette(),
         'designer_grid': smartgrid_mgr.get_designer_grid(),
         'smart_grid_actions': smartgrid_mgr.get_designer_action_slugs(),
@@ -266,11 +269,36 @@ def get_diff(request):
             }), mimetype="application/json")
 
 
-def delete_level(request, level_slug):
-    """foo"""
+def delete_level(request):
+    """Deletes the DesignerLevel for the given level_slug and removes all the location
+    information for the level."""
     if request.method == 'POST':
         form = DeleteLevelForm(request.POST)
         if form.is_valid():
-            print 'delete level'
+            level_slug = form.cleaned_data['level_slug']
+            level = DesignerLevel.objects.get(slug=level_slug)
+            for grid in DesignerColumnGrid.objects.filter(level=level):
+                grid.delete()
+            for grid in DesignerGrid.objects.filter(level=level):
+                grid.delete()
+            level.delete()
+    response = HttpResponseRedirect("/sgg_designer/")
+    return response
+
+
+def add_level(request):
+    """Creates a new level."""
+    if request.method == 'POST':
+        form = AddLevelForm(request.POST)
+        if form.is_valid():
+            max_priority = 0
+            for level in DesignerLevel.objects.all():
+                if max_priority < level.priority:
+                    max_priority = level.priority
+            max_priority += 1
+            slug = slugify(form.cleaned_data['level_name'])
+            level = DesignerLevel(name=form.cleaned_data['level_name'], slug=slug, \
+                                  priority=max_priority)
+            level.save()
     response = HttpResponseRedirect("/sgg_designer/")
     return response

@@ -36,7 +36,12 @@ class DeployToSmartgridForm(forms.Form):
 
 class DeleteLevelForm(forms.Form):
     """Form for ensuring no cross-site scripting for deleting a level in the designer."""
-    pass
+    level_slug = forms.CharField(max_length=25, help_text="Level slug", widget=forms.HiddenInput)
+
+
+class AddLevelForm(forms.Form):
+    """Form for adding a DesignerLevel. Ensures no cross-site scripting to create new levels."""
+    level_name = forms.CharField(max_length=25, help_text="Level Name, must be unique.")
 
 
 class ExampleGridsForm(forms.Form):

@@ -47,7 +47,10 @@ urlpatterns = patterns('',
     url(r'^get_diff/$',
         'apps.widgets.smartgrid_design.views.get_diff',
         name='designer_diff'),
-    url(r'^delete_level/(?P<level_slug>[\w\d\-]+)/$',
+    url(r'^delete_level/$',
         'apps.widgets.smartgrid_design.views.delete_level',
-        name='delete_level'),
+        name='delete_designer_level'),
+    url(r'^add_level/$',
+        'apps.widgets.smartgrid_design.views.add_level',
+        name='add_designer_level')
 )

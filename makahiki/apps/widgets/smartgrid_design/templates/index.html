@@ -121,12 +121,8 @@
 					{% for level in view_objects.smartgrid_design.levels %}
 						<div id="level-tab-menu-{{forloop.counter}}" class="sgg-level-popup-menu">
 							<ul>
-								<li><a href="#" class="sgg-action">Add new level</a>
-								<li><form id='delete-level-{{forloop.counter}}-form' action="{% url delete_level level.slug %}" method="post">
-								{% csrf_token %}
-								<input id="delete-level-{{forloop.counter}}" rel="tooltip" title="Delete this level moving all actions to the palette."
-									type="submit" value="Delete {{level.name}}" />
-								</form>
+								<li><a href="#" class="sgg-action" onclick="addLevelDialog();return false;">Add new level</a>
+								<li><a href="#" class="sgg-action" onclick="deleteLevelDialog(event, '{{level.name}}', '{{level.slug}}');return false;">Delete {{level}}</a>
 							</ul>
 						</div> 
 						{% if forloop.counter == 1 %}
@@ -247,6 +243,45 @@ $(document).click(function() {
 	</div>
 </div>
 
+<div class="modal hide fade" id="levelAddModal">
+    <div class="modal-header">
+        <a class="close" data-dismiss="modal">x</a>
+        <h3>Add Level</h3>
+    </div>
+    <div class="modal-body" id="modal-body">
+        <p>
+        	<form id="addLevelForm" action="{% url add_designer_level %}" method="post">
+				{% csrf_token %} {{ view_objects.smartgrid_design.add_level_form.as_p }}
+				<input class="btn btn-widget" rel="tooltip" title="Create a new DesignerLevel with the given name."
+					type="submit" value="Add Level" />
+			</form>
+        </p>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn btn-widget" data-dismiss="modal">Close</a>
+    </div>
+</div>
+<div class="modal hide fade" id="levelDeleteModal">
+    <div class="modal-header">
+        <a class="close" data-dismiss="modal">x</a>
+        <h3>Delete Level</h3>
+    </div>
+    <div class="modal-body" id="modal-body">
+        <p><div id="levelName"></div>
+   			<form id='delete-level-form' action="{% url delete_designer_level %}" method="post">
+				{% csrf_token %} {{view_objects.smartgrid_design.delete_level_form.as_p }}
+				<input class="btn btn-widget" rel="tooltip" title="Delete this level moving all actions to the palette."
+					type="submit" value="Yes" />
+		        <a href="#" class="btn btn-widget" data-dismiss="modal">No</a>
+			</form>        
+        </p>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn btn-widget" data-dismiss="modal">Cancel</a>
+    </div>
+</div>
+
+
 <script type="text/javascript">
 	$(init);
 
@@ -327,5 +362,31 @@ $(document).click(function() {
 		$('.trash-dropzone').droppable({
 		})
 	}
+	
+	function addLevelDialog(event) {
+        var modalElement = $('#levelAddModal');
+        
+        modalElement.modal({
+            backdrop: true,
+            keyboard: true,
+            show: false
+        }); 
+        modalElement.css('margin-top', (modalElement.outerHeight() / 2) * -1);
+        modalElement.modal('show');		
+	}
 
+	function deleteLevelDialog(event, levelName, levelSlug) {
+		var modalElement = $('#levelDeleteModal');
+		var text = "Are you sure you want to delete " + levelName + "?";
+		modalElement.find('#levelName').html(text);
+		modalElement.find('input#id_level_slug').val(levelSlug);
+
+		modalElement.modal({
+            backdrop: true,
+            keyboard: true,
+            show: false
+        }); 
+        modalElement.css('margin-top', (modalElement.outerHeight() / 2) * -1);
+        modalElement.modal('show');		
+	}
 </script>
