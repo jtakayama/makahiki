@@ -159,7 +159,8 @@ def _copy_action_fields(orig, copy):  # pylint: disable=R0912
 
 def _admin_link(action):
     """returns the hardcoded link to edit the action."""
-    return "<a href='/challenge_setting_admin/smartgrid_design/designer%s/%s/'>%s</a>" % (action.type, action.pk, action.name)
+    return "<a href='/challenge_setting_admin/smartgrid_design/designer%s/%s/'>%s</a>" % \
+        (action.type, action.pk, action.name)
 
 
 def instantiate_designer_column_from_library(slug):
@@ -482,9 +483,24 @@ def copy_smartgrid_to_designer():
         except Http404:
             des_col = DesignerColumnName()
         _copy_fields(col, des_col)
+    # Copy the location information
+    for grid in ColumnGrid.objects.all():
+        col = DesignerColumnGrid()
+        col.level = get_designer_level(grid.level.slug)
+        col.column = grid.column
+        col.name = get_designer_column_name(grid.name.slug)
+        col.save()
     # Copy the Actions
     for action in Action.objects.all():
         instantiate_designer_from_grid(action.slug)
+    # Copy the location information
+    for grid in Grid.objects.all():
+        loc = DesignerGrid()
+        loc.level = get_designer_level(grid.level.slug)
+        loc.column = grid.column
+        loc.row = grid.row
+        loc.action = get_designer_action(grid.action.slug)
+        loc.save()
 
 
 def clear_smartgrid():
@@ -498,7 +514,7 @@ def clear_smartgrid():
         row.delete()
 
 
-def deploy_designer_to_smartgrid(use_filler):
+def deploy_designer_to_smartgrid(use_filler):  # pylint: disable=R0914
     """Clears the current Smart Grid Game and copies the designer instances to the
     Smart Grid Game. Clearing the grid does not delete the actions just clears their
     Levels and Categories."""
@@ -543,7 +559,7 @@ def deploy_designer_to_smartgrid(use_filler):
                         filler = Filler(name=name, slug=filler_slug, type='filler', title=name)
                         filler.save()
                         grid = Grid(level=level, column=c, row=r, action=filler)
-                        grid.save()
+                        grid.save()  # pylint: enable=R0914
 
 
 def get_smart_grid_size():
@@ -564,7 +580,8 @@ def get_smart_grid_size():
         ret[level.slug] = [num_column, num_row]
 
     return ret
-        
+
+
 def is_diff_between_designer_and_grid_action(slug):
     """Returns True if there is a difference between the Designer Action and
     Grid Action with the given slug."""

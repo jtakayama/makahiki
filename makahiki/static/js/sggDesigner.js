@@ -328,6 +328,8 @@ function runDesignerLint() {
 			var false_unlock = data.false_unlock;
 			var trees = data.tree;
 			var mismatched = data.mismatched_levels;
+			var pub_date = data.pub_date;
+			log.debug(pub_date);
 			var lintDiv = $('#designer-lint');
 			var html = '';
 			if (unreachable.length > 0) {
@@ -353,6 +355,14 @@ function runDesignerLint() {
 						'</b> is locked because it depends on an action with a False unlock condition</li>';
 				}
 				html += '</ul>';				
+			}
+			if (pub_date.length > 0) {
+				html += '<ul>';
+				for (var i = 0; i < pub_date.length; i++) {
+					html += '<li>Warning <b>' + pub_date[i] +
+						'</b>\'s publication or expiration date are outside the competition</li>';
+				}
+				html += '</ul>';
 			}
 			html += 'Unlock Condition Dependency:<div class="sgg-unlock-lint">';
 			html += trees;

@@ -7,7 +7,9 @@ Created on Mar 26, 2013
 '''
 import uuid
 from collections import deque
-from apps.widgets.smartgrid_design.models import DesignerAction, DesignerGrid
+from apps.widgets.smartgrid_design.models import DesignerAction, DesignerGrid, DesignerEvent
+from apps.managers.challenge_mgr.models import RoundSetting
+from apps.managers.challenge_mgr import challenge_mgr
 
 (_ADD, _DELETE, _INSERT) = range(3)
 (_ROOT, _DEPTH, _WIDTH) = range(3)
@@ -18,11 +20,12 @@ def sanitize_string(s):
     return s.strip().replace(" ", "_")
 
 
-class Node(object):
+class Node(object):  # pylint: disable=R0902
     """Node in unlock condition tree. Name is the slug of the action, parent is slug of
     condition dependance."""
 
-    def __init__(self, name, pk, action_type, unlock_condition, level=None, identifier=None, expanded=True):
+    def __init__(self, name, pk, action_type, unlock_condition, level=None, identifier=None, \
+                 expanded=True):
         """initializer."""
         self.__identifier = (str(uuid.uuid1()) if identifier is None else
                              sanitize_string(str(identifier)))
@@ -46,7 +49,8 @@ class Node(object):
 
     def admin_link(self):
         """returns the hardcoded link to edit the action."""
-        return "<a href='/challenge_setting_admin/smartgrid_design/designer%s/%s/'>%s</a>" % (self.action_type, self.pk, self.name)
+        return "<a href='/challenge_setting_admin/smartgrid_design/designer%s/%s/'>%s</a>" % \
+            (self.action_type, self.pk, self.name)
 
     @property
     def identifier(self):
@@ -86,6 +90,7 @@ class Node(object):
                 self.__children.remove(sane)
         elif mode is _INSERT:
             self.__children = [sane]
+# pylint: enable=R0902
 
 
 class MultipleRootError(Exception):
@@ -114,7 +119,8 @@ class Tree(object):
         self.__update_children(parent, node.identifier, _ADD)
         node.parent = parent
 
-    def create_node(self, name, pk, action_type, unlock_condition, level=None, identifier=None, parent=None):
+    def create_node(self, name, pk, action_type, unlock_condition, level=None, identifier=None, \
+                    parent=None):
         """Create a child node for the node indicated by the 'parent' parameter"""
         node = Node(name, pk, action_type, unlock_condition, level=level, identifier=identifier)
         self.add_node(node, parent)
@@ -268,7 +274,8 @@ for constructing the Nodes Stack push and pop nodes with additional level info."
 #            print "process = {0} lvl{1}".format(current_node, lvl)
 
             label = "{0}: <b>{1}</b>[{2}]".format(current_node.level, \
-                                                  current_node.admin_link(), current_node.unlock_condition)
+                                                  current_node.admin_link(), \
+                                                  current_node.unlock_condition)
             if lvl == _ROOT:
                 s += label + '<br/>'
             else:
@@ -329,14 +336,25 @@ def _build_designer_nodes():
     for action in DesignerAction.objects.all():
         locations = DesignerGrid.objects.filter(action=action)
         if len(locations) == 0:
-#             nodes.append(Node(action.slug, action.pk, action.type, action.unlock_condition, level=None, \
-#                                   identifier=action.slug))
             pass
         else:
             for loc in locations:
-                nodes.append(Node(action.slug, action.pk, action.type, action.unlock_condition, loc.level, \
-                                  identifier=action.slug))
+                nodes.append(Node(action.slug, action.pk, action.type, action.unlock_condition, \
+                                  loc.level, identifier=action.slug))
     return nodes
+
+
+def _is_in_round(date, roundsetting):
+    """Returns True if the given date is in the given round."""
+    return date >= roundsetting.start and date <= roundsetting.end
+
+
+def _is_in_challenge(date):
+    """Returns True if the given date is in any of the roundsettings."""
+    ret = False
+    for r in RoundSetting.objects.all():
+        ret = ret or _is_in_round(date, r)
+    return ret
 
 
 def build_designer_trees():
@@ -347,8 +365,8 @@ def build_designer_trees():
         if node.unlock_condition == "True" or node.unlock_condition.find("or True") != -1 \
         or node.unlock_condition == "False" or node.unlock_condition.find("and False") != -1:
             t = Tree()
-            t.create_node(node.name, node.pk, node.action_type, node.unlock_condition, level=node.level, \
-                          identifier=node.identifier)
+            t.create_node(node.name, node.pk, node.action_type, node.unlock_condition, \
+                          level=node.level, identifier=node.identifier)
             trees[node.name] = t
     for node in nodes:
         slugs = get_submitted_action_slugs(node)
@@ -431,4 +449,32 @@ def get_missmatched_designer_level():
                     if parent and parent.level and parent.level.priority > node.level.priority:
                         if node.admin_link() not in ret:
                             ret.append(node.admin_link())
+    return ret
+
+
+def check_pub_exp_dates():
+    """Returns a list of DesignerAction slugs whose pub_date or exp_date are not in the
+     challenge."""
+    ret = []
+    trees = build_designer_trees()
+    challenge_start = challenge_mgr.get_challenge_start()
+    challenge_end = challenge_mgr.get_challenge_end()
+    # check only DesignerActions in the grid?
+    for action in DesignerAction.objects.all():
+        if action.pub_date > challenge_end.date() or (action.expire_date and \
+                                                      action.expire_date < challenge_start.date()):
+            for k in list(trees):
+                tree = trees[k]
+                node = tree.get_node(action.slug)
+                if node:
+                    ret.append(node.admin_link())
+    return ret
+
+
+def check_event_dates():
+    """Returns a list of DesignerEvent slugs whose event date are not in the challenge."""
+    ret = []
+    for event in DesignerEvent.objects.all():
+        if not _is_in_challenge(event.event_date):
+            ret.append(event.slug)
     return ret

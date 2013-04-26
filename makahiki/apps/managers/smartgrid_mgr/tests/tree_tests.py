@@ -19,14 +19,14 @@ class TestTree(unittest.TestCase):
     def test_initialization(self):
         """Test initialization of a tree."""
         tree = Tree()
-        tree.create_node("Harry", "True", "harry")  # root node
-        tree.create_node("Jane", "True", "jane", parent="harry")
-        tree.create_node("Bill", "True", "bill", parent="harry")
-        tree.create_node("Diane", "True", "diane", parent="jane")
-        tree.create_node("George", "True", "george", parent="diane")
-        tree.create_node("Mary", "True", "mary", parent="diane")
-        tree.create_node("Jill", "True", "jill", parent="george")
-        tree.create_node("Mark", "True", "mark", parent="jane")
+        tree.create_node("Harry", 1, 'event', "True", "harry")  # root node
+        tree.create_node("Jane", 2, 'event', "True", "jane", parent="harry")
+        tree.create_node("Bill", 3, 'event', "True", "bill", parent="harry")
+        tree.create_node("Diane", 1, 'event', "True", "diane", parent="jane")
+        tree.create_node("George", 1, 'event', "True", "george", parent="diane")
+        tree.create_node("Mary", 1, 'event', "True", "mary", parent="diane")
+        tree.create_node("Jill", 1, 'event', "True", "jill", parent="george")
+        tree.create_node("Mark", 1, 'event', "True", "mark", parent="jane")
         tree.show()
         print("=" * 80)
         for node in tree.expand_tree(mode=_DEPTH):

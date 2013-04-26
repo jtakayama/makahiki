@@ -13,7 +13,7 @@ from apps.widgets.smartgrid_library.models import LibraryActivity, LibraryEvent,
 from apps.managers.smartgrid_mgr import smartgrid_mgr, unlock_lint
 import json
 from apps.widgets.smartgrid_design.models import DesignerLevel, DesignerColumnName, \
-    DesignerAction, DesignerGrid, DesignerColumnGrid, DesignerEvent
+    DesignerAction, DesignerGrid, DesignerColumnGrid
 from collections import OrderedDict
 from django.template.defaultfilters import slugify
 
@@ -197,7 +197,6 @@ def clear_from_grid(request, action_slug):
     _ = request
     action = smartgrid_mgr.get_designer_action(action_slug)
     for grid in DesignerGrid.objects.filter(action=action):
-        print grid
         grid.delete()
     response = HttpResponseRedirect("/sgg_designer/")
     return response
@@ -258,6 +257,7 @@ def run_lint(request):
             "unreachable": unreachable,
             "false_unlock": false_unlock,
             "mismatched_levels": mismatched_levels,
+            "pub_date": unlock_lint.check_pub_exp_dates(),
             }), mimetype="application/json")
 
 

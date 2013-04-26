@@ -388,4 +388,5 @@ class DesignerGrid(models.Model):
         return "%s: [%s, x=%s, y=%s]" % (self.action, self.level, self.column, self.row)
 
     def get_loc_str(self):
+        """Returns the location of this grid object as a string."""
         return "[%s, x=%s, y=%s]" % (self.level, self.column, self.row)

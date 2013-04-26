@@ -12,7 +12,7 @@ class Test(unittest.TestCase):
 
     def setUp(self):
         """set up a Node."""
-        self.node1 = Node("Test One", "True", identifier="ide ntifier 1 ")
+        self.node1 = Node("Test One", 1, 'event', "True", identifier="ide ntifier 1 ")
 
     def tearDown(self):
         """Empty tearDown."""
