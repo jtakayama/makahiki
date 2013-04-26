@@ -282,135 +282,163 @@ own challenges:
 your layout.  Each action should appear once and only once on the grid.  If you define
 multiple Levels, you need to create a separate grid for each Level.
 
-Implementing your Smart Grid Game
----------------------------------
+Implementing your Smart Grid Game with the Designer
+---------------------------------------------------
 
 Once you have finished with the design of your Smart Grid Game, it is time to implement it
 in the system.  
 
-The following screenshot is an overview of the smart grid game admin widget:
+The Smart Grid Game Designer introduces two new concepts to the Smart Grid Game, a library and the designer. You already know about Activities, Commitments, and Events.
 
-.. figure:: figs/configuration/configuration-game-admin-smartgrid-game-1.png
-   :width: 600 px
+The Smart Grid is live, players can see the Smart Grid Game. If the designer want to change the Smart Grid Game they shouldn't directly edit the Smart Grid since the players can see any changes in real time.
+To get around this issue the Designer introduces the concepts of a Library and the Designer.  
+
+   * The Library holds the generic actions without any dates or locations. The Library is a resuable set of actions for any Kukui Cup.
+   
+   * The Designer holds specific grids that can be published to the Smart Grid Game. Designer Actions have dates and locations.  Designers can adjust the Designer Grid, adding or removing actions, columns and levels and players will not see the changes until they are published. 
+
+Draging a Library item into the Designer Grid creates a new Designer item from the Library item. Currently we don't have a way of dragging a Designer item into the Library.
+
+Makahiki has a Smart Grid Game Designer to help you build your Smart Grid Game. To get to the
+Designer click on the "sgg conf" button on the Navigation bar.  The right hand most icons shown
+the figure below. 
+
+.. figure:: figs/configuration/configuration-game-admin-smartgrid-game-toolbar.png
+   :width: 600px
+   :align: center
+
+ 
+The Smart Grid Game Designer (Designer) has two rows, Designer Widget and Smart Grid Game Validation tools. 
+
+Designer Widget
+***************
+The first row is the Smart Grid Game Designer Widget shown in the next figure.
+
+.. figure:: figs/configuration/configuration-game-admin-smartgrid-game-designer.png
+   :width: 600px
    :align: center
 
 
-Implement the Levels
-********************
+The Designer Widget has three columns, Library Actions, Designer Grid, and Palette.  The Library 
+Actions Column holds a library of Activities, Commitments, and Events. These actions are sorted
+into three tabs, Activities, Cmnts, Events, shown in the next figure.
 
-Begin the implementation process by specifying the set of levels in your SGG. 
-Click on the "Levels" link in the admin widget, a page similar to the following should appear:
-
-.. figure:: figs/configuration/configuration-game-admin-smartgrid-game-level-list.png
-   :width: 600 px
+.. figure:: figs/configuration/configuration-game-admin-smartgrid-game-library-actions.png
+   :width: 300px
    :align: center
 
-This is the list of levels for the smart grid game. Clicking on the name link will bring up the following screen to edit or change the level:
+These are actions we've used in previous Kukui Cups and are good examples.  Clicking on the name
+of an action takes you to the admin interface where you can edit the action. 
 
-.. figure:: figs/configuration/configuration-game-admin-smartgrid-game-level-change.png
-   :width: 600 px
+.. note:: If you edit the action and hit save you will not return to the Designer page.  Use the Navbar to return to the Designer. 
+
+You can drag these library actions into the Designer Grid. 
+
+.. figure:: figs/configuration/configuration-game-admin-smartgrid-game-designer-grid.png
+   :width: 600px
    :align: center
 
-The name of the level is the label shown in the smart grid game. The priority orders the levels, 
-lowest to highest. The unlock condition is a :ref:`section-predicates` that will unlock the level. 
-The unlock text is the help text presented to the player explaining what they need to accomplish to 
-unlock the level.
+The Designer Grid has three sections, library column names, control buttons, and grid. 
 
-You can also click on the "Add level" button in the list page to create a new level.
+ * The Library Column Names holds the predefined column names we've used in previous Kukui Cups.  You can drag these columns to the grid activating the column.
 
-Remember to click the Save button at the bottom of the page when finished to save your changes.
+ * The control buttons allow you to revert to the current Smart Grid Game or Publish the contents of the Designer to the Smart Grid Game.
 
+   - Reverting to the current Smart Grid Game erases the contents of the Designer and copies the Smart Grid Game into the Designer.
 
-Implement the Categories
-************************
+   - Publishing the Designer clears the Smart Grid Game and loads it with the contents of the Designer.  The Smart Grid Game is live any players will immediately see the changes to the Smart Grid Game. The 'Use Fillers' checkbox allows you to fill the empty spaces in the grid with "Filler" squares.
+   
+ * The Grid represents the Smart Grid Game. Levels are on the left (They are at the top of the Smart Grid Game).  Each level has up to eight columns and eight rows holding the grid of actions. Clicking on the column names or grid actions takes you to an editor. Again note if you hit save you are not returned to the Designer.   
+ 
 
-The next step is to specify the category titles in your SGG. Similar to the  configuration of 
-levels, you click the "Categories" link to change an existing category or 
-add a new category for the smart grid game.
+The third column of the Designer Widget is the Action Palette.  The Action Palette hold Actions that are not currently in the Smart Grid Game, but may be used at a later time.  It is also useful for moving an action from one level to another.
 
-.. figure:: figs/configuration/configuration-game-admin-smartgrid-game-category-list.png
-   :width: 600 px
+.. figure:: figs/configuration/configuration-game-admin-smartgrid-game-designer-palette.png
+   :width: 300px
    :align: center
 
-This is the list of possible categories for the smart grid game. Clicking on the name link, will 
-bring up the following screen to edit or change the category, as shown in the following screenshot:
+Smart Grid Game Validation Tools
+********************************
+The second row is a set of Smart Grid Game Validation Tools shown in the next figure.
 
-.. figure:: figs/configuration/configuration-game-admin-smartgrid-game-category-change.png
-   :width: 600 px
+.. figure:: figs/configuration/configuration-game-admin-smartgrid-game-designer-validation.png
+   :width: 600px
    :align: center
 
-The name is the label used in the smart grid game, the slug is referenced by smart grid actions to 
-determine which category the action belongs to. The priority determines how the categories are layed 
-out in the smart grid game, lowest to highest.
+The three validation tools are Designer Difference, Unlock Condition Checker, and Load Example Grid.
 
-Remember to click the Save button at the bottom of the page when finished to save your changes.
+* Designer Difference: Pressing the 'Run Designer Diff' button causes Makahiki to compare the Designer Grid and the current Smart Grid. Makahiki presents results of the comparison in the box below the button.
 
+* Unlock Condition Checker: Pressing the 'Run Unlock Condition Checker' button tells Makahiki to check the unlock conditions of the Designer Grid. Makahiki presents the results in the box below the button. The checker tells you if there are any actions that cannot be unlocked, actions who depend on actions in a higher level, and actions with bad dates.
 
-Implement the actions
-*********************
+* Load Example Grid: This tool allows you to load different example Smart Grids.  Loading an example grid deletes the current content of the Designer.
 
-The next step is to specify the actions for your smart grid game. It is the most complicated and time consuming part, depending on the size and complexity of your smart grid game.
+Using The Smart Grid Game Designer
+**********************************
+The easiest way to use the Smart Grid Game Designer is to start with the current Smart Grid contents. Press the "Revert to current Smart Grid Game" button. This will load the current Smart Grid into the Designer.
 
-By clicking on the "Actions" link, you will see a page similar to the following:
+**Editing Levels:**
 
-.. figure:: figs/configuration/configuration-game-admin-smartgrid-game-action-list.png
-   :width: 600 px
+* Right mouse click on any of the Levels to get a popup menu. The menu allows you to delete the current level or create a new level. 
+
+.. figure:: figs/configuration/configuration-game-admin-smartgrid-designer-level-edit.png
+   :width: 300px
    :align: center
+ 
+ 
+- Deleting a level moves all the actions in the level to the palette.
+  
+- Adding a new level creates an empty level. Just supply the unique new level name.
 
-You can see that the actions are uniquely identified by their slug. They are organized in the order of "Level, Category, and Priority", which corresponding to the layout of the smart grid. You can select (use the checkbox on the left of the action) some actions, then click on the "Action" dropdown, to perform several group operations to the selected actions, such as changing their levels, increase priority etc.
-
-You can also click on the "Slug" link to change the content of the action, as shown in the following screenshot:
-
-.. figure:: figs/configuration/configuration-game-admin-smartgrid-game-action-change.png
-   :width: 600 px
+.. figure:: figs/configuration/configuration-game-admin-smartgrid-designer-new-level.png
+   :width: 500px
    :align: center
+ 
+ 
+**Filling a new level:**
 
-Remember to click the Save button at the bottom of the page when finished to save your changes.
-
-
-Implement a new activity
-************************
-
-You can click on the "Add Activity" button on the top right corner of the page to add a new activity that normally requires player submit the answer and response.
-
-The following page is an example of an activity type action:
-
-.. figure:: figs/configuration/configuration-game-admin-smartgrid-game-activity.png
-   :width: 600 px
+.. figure:: figs/configuration/configuration-game-admin-smartgrid-designer-empty-level.png
+   :width: 600px
    :align: center
+ 
+1. Drag a column name to the first row of the Designer Grid. This will enable the column. Column names must be unique per level. Keep dragging column names untill you are satisfied with the columns.
 
-Remember to click the Save button at the bottom of the page when finished to save your changes.
-
-
-Implement a new event/excursion
-*******************************
-
-You can click on the "Add Event/Excursion" button on the top right corner of the page to add a new event or excursion.
-
-The following page is an example of an event type action:
-
-.. figure:: figs/configuration/configuration-game-admin-smartgrid-game-event.png
-   :width: 600 px
+.. figure:: figs/configuration/configuration-game-admin-smartgrid-designer-columns.png
+   :width: 600px
    :align: center
+ 
+2. Drag a Library Activity, Commitment, or Event into the enabled columns.  This will create a Designer Activity, Commitment, or Event. When you drag an Event, Makahiki will ask you for the Event date and location.
 
-For an excursion, the "is excursion" checkbox should be set.
-
-Remember to click the Save button at the bottom of the page when finished to save your changes.
-
-
-Implement a new commitment
-**************************
-
-You can click on the "Add Commitment" button on the top right corner of the page to add a new commitment.
-
-The following page is an example of a commitment type action:
-
-.. figure:: figs/configuration/configuration-game-admin-smartgrid-game-commitment.png
-   :width: 600 px
+.. figure:: figs/configuration/configuration-game-admin-smartgrid-designer-event-dialog.png
+   :width: 500px
    :align: center
+ 
+The finished level:
 
-Remember to click the Save button at the bottom of the page when finished to save your changes.
+.. figure:: figs/configuration/configuration-game-admin-smartgrid-designer-lvl-5.png
+   :width: 600px
+   :align: center
+ 
+3. (Optional, but recommended) Edit the Desginer Actions by clicking on the action names.  Make sure the contents of the actions is what you want. Pay attention to the unlock_conditions.
 
+  
+4. Check your Designer Grid by running the Unlock Condition Checker.  Fix any errors. Check the warnings they may be issues or not.
+
+.. figure:: figs/configuration/configuration-game-admin-smartgrid-designer-unlock1.png
+   :width: 500px
+   :align: center
+ 
+  
+In this example the event publication dates for many of the events are after the competition ends, so they will not be unlocked during the competition.
+
+Scroll down in the window to see the dependancy tree.
+
+.. figure:: figs/configuration/configuration-game-admin-smartgrid-designer-unlock2.png
+   :width: 500px
+   :align: center
+ 
+
+5. Publish your Designer Grid to the Smart Grid Game by pressing the 'Publish changes to Smart Grid Game'.  If you want fillers in your grid make sure the "Use Fillers" checkbox is checked when you publish. Otherwise the empty grid locaiton will be empty in the Smart Grid Game.
 
 Verifying your Smart Grid Game
 ------------------------------
@@ -422,6 +450,4 @@ sure that new actions get unlocked appropriately.
 For large scale challenges, we recommend that you run a prior "pilot" challenge in which you select just a few
 people to play through the game and look for problems with your design. 
 
-
-
-
+**Coming Soon** Designer play tester.

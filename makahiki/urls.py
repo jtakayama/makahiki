@@ -25,6 +25,7 @@ urlpatterns = patterns('',
     url(r'^win/$', "apps.pages.views.index", name="win_index"),
     url(r'^advanced/$', 'apps.pages.views.index', name="advanced_index"),
     url(r'^status/$', 'apps.pages.views.index', name="status_index"),
+    url(r'^sgg_designer/$', 'apps.pages.views.index', name='smartgrid_design'),
     url(r'^pages/clear_cache/$', 'apps.pages.views.clear_cache', name="clear_cache"),
 
     # system level

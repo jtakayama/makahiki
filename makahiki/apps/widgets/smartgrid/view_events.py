@@ -216,7 +216,7 @@ def _check_attend_code(user, form):
         if code.action.event.event_date > datetime.datetime.today():
             message = "The Event has not occurred, Please wait till after the event date to submit."
         elif code.action in user.action_set.filter(actionmember__award_date__isnull=False):
-            message = "You have already redeemed a code for this event/excursion."
+            message = "You have already redeemed a code for this event."
         elif not code.is_active:
             message = "This code has already been used."
         elif code.action.social_bonus:

@@ -16,7 +16,7 @@ from apps.utils import utils
 from apps.widgets.notifications.models import NoticeTemplate, UserNotification
 from apps.widgets.smartgrid import NUM_GOLOW_ACTIONS, SETUP_WIZARD_ACTIVITY, NOSHOW_PENALTY_DAYS
 from apps.widgets.smartgrid.models import Action, ActionMember, Level, EmailReminder, \
-    TextReminder
+    TextReminder, ColumnGrid, Grid, Activity, Commitment
 from apps.widgets.smartgrid.models import Event
 from apps.widgets.smartgrid import  MAX_COMMITMENTS
 
@@ -41,7 +41,14 @@ def complete_setup_activity(user):
 
 def get_action(slug):
     """returns the action object by slug."""
-    return get_object_or_404(Action, slug=slug)
+    action = get_object_or_404(Action, slug=slug)
+    if action.type == 'activity':
+        action = Activity.objects.get(slug=slug)
+    elif action.type == 'commitment':
+        action = Commitment.objects.get(slug=slug)
+    elif action.type == 'event':
+        action = Event.objects.get(slug=slug)
+    return action
 
 
 def annotate_action_details(user, action):
@@ -50,16 +57,16 @@ def annotate_action_details(user, action):
         members = ActionMember.objects.filter(user=user, action=action).order_by("-submission_date")
 
         # calculate the task duration
-        action.duration = action.commitment.duration
+        action.duration = action.commitment.commitment_length
     else:
         members = ActionMember.objects.filter(user=user, action=action)
 
         # calculate the task duration
         if action.type == "activity":
-            duration = action.activity.duration
+            duration = action.activity.expected_duration
         else:  # is event
             if action.type in ("event", "excursion"):
-                duration = action.event.duration
+                duration = action.event.expected_duration
             else:
                 duration = 0
 
@@ -79,7 +86,9 @@ def annotate_action_details(user, action):
         action.completed = True
     else:
         action.member = None
-        action.is_unlock = is_unlock(user, action) and is_level_unlock(user, action.level)
+        action.is_unlock = is_unlock(user, action)
+        for loc in Grid.objects.filter(action=action):
+            action.is_unlock = action.is_unlock and is_level_unlock(user, loc.level)
         action.completed = False
 
     action.availablity = availablity(action)
@@ -91,7 +100,7 @@ def get_action_members(action):
     return ActionMember.objects.filter(action=action)
 
 
-def get_completed_actions(user):
+def get_submitted_actions(user):
     """returns the completed action for the user. It is stored as a dict of action slugs and
     its member status."""
     actions = cache_mgr.get_cache('smartgrid-completed-%s' % user.username)
@@ -111,16 +120,33 @@ def get_completed_actions(user):
     return actions
 
 
-def get_level_actions(user):
-    """Return the level list with the action info in categories"""
-    levels = cache_mgr.get_cache('smartgrid-levels-%s' % user.username)
+def get_levels(user):
+    """Returns the list of annotated levels for the given user."""
+    levels = []
+    submitted_actions = get_submitted_actions(user)
+    for level in Level.objects.all():
+        level.is_unlock = utils.eval_predicates(level.unlock_condition, user)
+        level.is_complete = True
+        for row in Grid.objects.filter(level=level):
+            action = row.action
+            if action.slug not in submitted_actions:
+                level.is_complete = False
+                break
+        levels.append(level)
+    return levels
 
+
+def get_level_actions(user):  # pylint: disable=R0914,R0912,R0915
+    """Returns the smart grid as defined in the Smart Grid Designer. The
+    grid is a list of lists with the format [<Level>, [<ColumnGrid>*],
+    [<Grid>*], [active columns], max_column, max_row]"""
+    levels = cache_mgr.get_cache('smartgrid-levels-%s' % user.username)
     if levels is None:
-        completed_actions = get_completed_actions(user)
+        submitted_actions = get_submitted_actions(user)
         levels = []
         for level in Level.objects.all():
             level.is_unlock = utils.eval_predicates(level.unlock_condition, user)
-            if level.is_unlock:
+            if level.is_unlock:  # only include unlocked levels
                 if level.unlock_condition != "True":
                     contents = "%s is unlocked." % level
                     obj, created = UserNotification.objects.\
@@ -130,13 +156,26 @@ def get_level_actions(user):
                     if created:  # only show the notification if it is new
                         obj.display_alert = True
                         obj.save()
+                level_ret = []
                 level.is_complete = True
-                categories = []
-                action_list = None
-                category = None
-                for action in level.action_set.all().select_related("category"):
-                    if action.slug in completed_actions:
-                        action.member = completed_actions[action.slug]
+                level_ret.append(level)
+                level_ret.append(ColumnGrid.objects.filter(level=level))
+#                level_ret.append(Grid.objects.filter(level=level))
+
+                max_column = len(ColumnGrid.objects.filter(level=level))
+                max_row = 0
+                just_actions = []
+                # update each action
+                for row in Grid.objects.filter(level=level):
+                    action = Action.objects.get(slug=row.action.slug)
+                    action.row = row.row
+                    if row.row > max_row:
+                        max_row = row.row
+                    action.column = row.column
+                    if row.column > max_column:
+                        max_column = row.column
+                    if action.slug in submitted_actions:
+                        action.member = submitted_actions[action.slug]
                         action.is_unlock = True
                         action.completed = True
                     else:
@@ -147,31 +186,60 @@ def get_level_actions(user):
                     # if there is one action is not completed, set the level to in-completed
                     if not action.completed:
                         level.is_complete = False
+                    just_actions.append(action)
+                level_ret.append(just_actions)
+                columns = []
+                for cat in level_ret[1]:
+                    if cat.column not in columns:
+                        columns.append(cat.column)
+                for act in level_ret[2]:
+                    if act.column not in columns:
+                        columns.append(act.column)
+                level_ret.append(columns)
+                level_ret.append(max_column)
+                level_ret.append(max_row)
+                levels.append(level_ret)
+            else:
+                level_ret = []
+                level_ret.append(level)
+                level_ret.append([])
+                level_ret.append([])
+                level_ret.append([])
+                level_ret.append(0)
+                level_ret.append(0)
+                levels.append(level_ret)
 
-                    # the action are ordered by level and category
-                    if category != action.category:
-                        if category:
-                            # a new category
-                            category.task_list = action_list
-                            categories.append(category)
-
-                        action_list = []
-                        category = action.category
-
-                    action_list.append(action)
-
-                if category:
-                    # last category
-                    category.task_list = action_list
-                    categories.append(category)
-
-                level.cat_list = categories
-            levels.append(level)
-
-        # Cache the categories for 30 minutes (or until they are invalidated)
+        # Cache the levels for 30 minutes (or until they are invalidated)
         cache_mgr.set_cache('smartgrid-levels-%s' % user, levels, 1800)
+    return levels  # pylint: enable=R0914,R0912,R0915
 
+
+def get_smart_grid():
+    """Returns the currently defined smart grid."""
+    levels = []
+    for level in Level.objects.all():
+        columns = []
+        col_name = None
+        for col_grid in ColumnGrid.objects.filter(level=level):
+            col_name = col_grid.name
+            col_name.task_list = []
+            col = col_grid.column
+            for act_grid in Grid.objects.filter(level=level, column=col):
+                col_name.task_list.append(act_grid.action)
+            columns.append(col_name)
+        level.col_list = columns
+        levels.append(level)
     return levels
+
+
+def get_smart_grid_action_slugs():
+    """Returns the Actions that are currently in the Smart Grid."""
+    action_list = []
+    for grid in Grid.objects.all():
+        slug = grid.action.slug
+        if slug not in action_list:
+            action_list.append(slug)
+    return action_list
 
 
 def get_popular_actions(action_type, approval_status, num_results=None):
@@ -226,7 +294,11 @@ def get_available_golow_actions(user, related_resource):
             if action_type == action.type:
                 continue
 
-            if is_unlock(user, action) and is_level_unlock(user, action.level):
+            unlock = is_unlock(user, action)
+            if unlock:
+                for loc in Grid.objects.filter(action=action):
+                    unlock = unlock and is_level_unlock(user, loc.level)
+            if unlock:
                 golow_actions.append(action)
                 action_type = action.type
 
@@ -243,7 +315,7 @@ def is_level_unlock(user, level):
 
 
 def afterPublished(user, action_slug):
-    """Return true if the event/excursion has been published"""
+    """Return true if the event has been published"""
     _ = user
     try:
         action = Action.objects.get(slug=action_slug)
@@ -255,16 +327,15 @@ def afterPublished(user, action_slug):
 def is_unlock(user, action):
     """Returns the unlock status of the user action."""
     levels = cache_mgr.get_cache('smartgrid-levels-%s' % user.username)
-    if levels is None:
+    if levels is None:  # not cached, just check
         return eval_unlock(user, action)
 
+    # cached format of levels is [[<Level>, [<ColumnGrid>*],
+    #  [<Grid>*], [active columns], max_column, max_row]+]
     for level in levels:
-        if hasattr(level, "cat_list"):
-            for cat in level.cat_list:
-                if cat.id == action.category_id:
-                    for t in cat.task_list:
-                        if t.id == action.id:
-                            return t.is_unlock
+        for grid in level[2]:
+            if grid.action.id == action.id:
+                return grid.action.is_unlock
 
     return False
 
@@ -312,9 +383,11 @@ def get_available_events(user):
 
         unlock_events = []
         for event in events:
-            if is_unlock(user, event) and \
-               is_level_unlock(user, event.level) and \
-               not event.is_event_completed():
+            unlock = is_unlock(user, event) and not event.is_event_completed()
+            if unlock:
+                for loc in Grid.objects.filter(action=event):
+                    unlock = unlock and is_level_unlock(user, loc.level)
+            if unlock:
                 unlock_events.append(event)
 
         events = unlock_events
@@ -476,9 +549,9 @@ def process_rsvp():
                     reverse("activity_task", args=(action.type, action.slug,)),
                     action.title)
                 message += "<p/>Because you signed up for the "\
-                           "event/excursion, if you do not enter the "\
+                           "event, if you do not enter the "\
                            "confirmation code within %d days after the "\
-                           "event/excursion, a total of %d points (%d point "\
+                           "event, a total of %d points (%d point "\
                            "signup bonus plus %d point no-show penalty) will "\
                            "be deducted from your total points. So please "\
                            "enter your confirmation code early to avoid the "\
@@ -489,7 +562,7 @@ def process_rsvp():
                     signup_points,
                 )
                 message += "<p/><p/>Kukui Cup Administrators"
-            subject = "[Kukui Cup] Reminder to enter your event/excursion confirmation code"
+            subject = "[Kukui Cup] Reminder to enter your event confirmation code"
             UserNotification.create_email_notification(user.email, subject,
                                                        message, message)
             print "sent post event email reminder to %s for %s" % (

@@ -405,6 +405,28 @@ def in_competition(submission_date=None):
     return get_round_name(submission_date) is not None
 
 
+def get_challenge_start():
+    """Returns the start of the earliest round."""
+    start = None
+    for r in RoundSetting.objects.all():
+        if start == None:
+            start = r.start
+        if start > r.start:
+            start = r.start
+    return start
+
+
+def get_challenge_end():
+    """Returns the end of the latest round."""
+    end = None
+    for r in RoundSetting.objects.all():
+        if end == None:
+            end = r.end
+        if end < r.end:
+            end = r.end
+    return end
+
+
 def get_designer_challenge_info_models():
     """Returns the challenge info models."""
     return get_challenge_models(_designer_challenge_info_models)

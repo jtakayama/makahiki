@@ -22,6 +22,7 @@ from apps.widgets.badges import badges
 from apps.widgets.notifications.models import UserNotification
 from apps.managers.cache_mgr import cache_mgr
 from apps.widgets.smartgrid import NOSHOW_PENALTY_DAYS, SETUP_WIZARD_ACTIVITY
+from django.core.validators import MaxValueValidator
 
 _MEDIA_LOCATION_ACTION = os.path.join("smartgrid", "actions")
 """location for the uploaded files for actions."""
@@ -36,61 +37,6 @@ def activity_image_file_path(instance=None, filename=None, user=None):
         user = user or instance.user
     return os.path.join(settings.MAKAHIKI_MEDIA_PREFIX, _MEDIA_LOCATION_MEMBER,
                         user.username, filename)
-
-
-class Level(models.Model):
-    """Associates the actions to different levels."""
-    name = models.CharField(max_length=50,
-                            help_text="The name of the level.")
-    priority = models.IntegerField(
-        default=1,
-        help_text="Levels with lower values (higher priority) will be listed first."
-    )
-    unlock_condition = models.CharField(
-        max_length=400, null=True, blank=True,
-        help_text="if the condition is True, the level will be unlocked. " +
-                   settings.PREDICATE_DOC_TEXT)
-    unlock_condition_text = models.CharField(
-        max_length=400, null=True, blank=True,
-        help_text="The description of the unlock condition.")
-    admin_tool_tip = "Smart Grid Level"
-
-    def __unicode__(self):
-        return self.name
-
-    class Meta:
-        """Meta"""
-        ordering = ("priority",)
-
-    def save(self, *args, **kwargs):
-        """Custom save method to set fields."""
-        super(Level, self).save(args, kwargs)
-        cache_mgr.clear()
-
-
-class Category(models.Model):
-    """Categories used to group actions."""
-    name = models.CharField(max_length=255,
-                            help_text="The name of the category (max 255 characters).")
-    slug = models.SlugField(help_text="Automatically generated if left blank.",
-                            null=True)
-    priority = models.IntegerField(
-        default=1,
-        help_text="Categories with lower values (higher priority) will be listed first."
-    )
-
-    class Meta:
-        """Meta"""
-        verbose_name_plural = "categories"
-        ordering = ("priority",)
-
-    def __unicode__(self):
-        return self.name
-
-    def save(self, *args, **kwargs):
-        """Custom save method to set fields."""
-        super(Category, self).save(args, kwargs)
-        cache_mgr.clear()
 
 
 class TextPromptQuestion(models.Model):
@@ -119,51 +65,52 @@ class QuestionChoice(models.Model):
         return self.choice
 
 
-class ConfirmationCode(models.Model):
-    """Represents confirmation codes for activities."""
-    action = models.ForeignKey("Action")
-    code = models.CharField(max_length=50, unique=True, db_index=True,
-                            help_text="The confirmation code.")
-    is_active = models.BooleanField(default=True, editable=False,
-                                    help_text="Is the confirmation code still active?")
-    user = models.ForeignKey(User, null=True, blank=True,
-                             help_text="The user who claimed the code.")
-    create_date = models.DateTimeField(default=datetime.datetime.now(),
-                                   verbose_name="Date created",
-                                   help_text="Date the code was created.")
-    printed_or_distributed = models.BooleanField(default=False, editable=True,
-                                help_text="Has the code been printed or distributed.")
+class Level(models.Model):
+    """Associates the actions to different levels."""
+    name = models.CharField(max_length=50,
+                            help_text="The name of the level.")
+    slug = models.SlugField(help_text="Automatically generated if left blank.",
+                            null=True)
+    priority = models.IntegerField(
+        default=1,
+        help_text="Levels with lower values (higher priority) will be listed first."
+    )
+    unlock_condition = models.CharField(
+        max_length=400, null=True, blank=True,
+        help_text="if the condition is True, the level will be unlocked. " +
+                   settings.PREDICATE_DOC_TEXT)
+    unlock_condition_text = models.CharField(
+        max_length=400, null=True, blank=True,
+        help_text="The description of the unlock condition.")
+    admin_tool_tip = "Smart Grid Level"
 
-    @staticmethod
-    def generate_codes_for_activity(event, num_codes):
-        """Generates a set of random codes for the activity."""
-        values = 'abcdefghijkmnpqrstuvwxyz234789'
+    def __unicode__(self):
+        return self.name
 
-        # Use the first non-dash component of the slug.
-        components = event.slug.split('-')
-        header = components[0]
-        # Need to see if there are other codes with this header.
-        index = 1
-        while ConfirmationCode.objects.filter(code__istartswith=header).exclude(
-            action=event).count() > 0 and index < len(components):
-            header += components[index]
-            index += 1
+    class Meta:
+        """Meta"""
+        ordering = ("priority",)
 
-        header += "-"
-        for _ in range(0, num_codes):
-            code = ConfirmationCode(action=event, code=header)
-            valid = False
-            while not valid:
-                for value in random.sample(values, 5):
-                    code.code += value
-                try:
-                    # print code.code
-                    # Throws exception if the code is a duplicate.
-                    code.save()
-                    valid = True
-                except IntegrityError:
-                    # Try again.
-                    code.code = header
+    def save(self, *args, **kwargs):
+        """Custom save method to set fields."""
+        super(Level, self).save(args, kwargs)
+        cache_mgr.clear()
+
+
+class ColumnName(models.Model):
+    """ColumnNames are used to group actions in the Smart Grid."""
+    name = models.CharField(max_length=255,
+                            help_text="The name of the column (max 255 characters).")
+    slug = models.SlugField(help_text="Automatically generated if left blank.",
+                            null=True)
+
+    def __unicode__(self):
+        return self.name
+
+    def save(self, *args, **kwargs):
+        """Custom save method to set fields."""
+        super(ColumnName, self).save(args, kwargs)
+        cache_mgr.clear()
 
 
 class Action(models.Model):
@@ -172,10 +119,8 @@ class Action(models.Model):
         ('activity', 'Activity'),
         ('commitment', 'Commitment'),
         ('event', 'Event'),
-        ('excursion', 'Excursion'),
         ('filler', 'Filler'),
         )
-
     RESOURCE_CHOICES = (
         ('energy', 'Energy'),
         ('water', 'Water'),
@@ -212,27 +157,20 @@ class Action(models.Model):
         null=True, blank=True,
         max_length=20,
         choices=VIDEO_SOURCE_CHOICES,
-        help_text="The source of the video.")
+        help_text="The source of the video."
+    )
     embedded_widget = models.CharField(
         null=True, blank=True,
         max_length=50,
-        help_text="The name of the embedded widget (optional).")
+        help_text="The name of the embedded widget (optional)."
+    )
     description = models.TextField(
-        help_text="The discription of the action. " + settings.MARKDOWN_TEXT)
+        help_text="The discription of the action. " + settings.MARKDOWN_TEXT
+    )
     type = models.CharField(
         max_length=20,
         choices=TYPE_CHOICES,
         help_text="The type of the actions."
-    )
-    level = models.ForeignKey(Level,
-        null=True, blank=True,
-        help_text="The level of the action.")
-    category = models.ForeignKey(Category,
-        null=True, blank=True,
-        help_text="The category of the action.")
-    priority = models.IntegerField(
-        default=1000,
-        help_text="Actions with lower values (higher priority) will be listed first."
     )
     pub_date = models.DateField(
         default=datetime.date.today(),
@@ -264,7 +202,10 @@ class Action(models.Model):
         default=0,
         help_text="The point value to be awarded."
     )
-    admin_tool_tip = "Smart Grid Game Actions"
+
+    def get_classname(self):
+        """Returns the classname."""
+        return self._meta.module_name
 
     def __unicode__(self):
         return "%s: %s" % (self.type.capitalize(), self.title)
@@ -272,24 +213,6 @@ class Action(models.Model):
     def get_action(self, action_type):
         """Returns the concrete action object by type."""
         return action_type.objects.get(action_ptr=self.pk)
-
-    class Meta:
-        """Meta"""
-        ordering = ("level", "category", "priority")
-
-
-class Filler(Action):
-    """Filler action. It is always locked"""
-    pass
-
-
-class Commitment(Action):
-    """Commitments involve non-verifiable actions that a user can commit to.
-    Typically, they will be worth fewer points than activities."""
-    duration = models.IntegerField(
-        default=5,
-        help_text="Duration of commitment, in days."
-    )
 
 
 class Activity(Action):
@@ -304,7 +227,7 @@ class Activity(Action):
         ('free_image', 'Free Response and Image Upload'),
         )
 
-    duration = models.IntegerField(
+    expected_duration = models.IntegerField(
         verbose_name="Expected activity duration",
         help_text="Time (in minutes) that the activity is expected to take."
     )
@@ -363,10 +286,19 @@ class Activity(Action):
         verbose_name_plural = "Activities"
 
 
+class Commitment(Action):
+    """Commitments involve non-verifiable actions that a user can commit to.
+    Typically, they will be worth fewer points than activities."""
+    commitment_length = models.IntegerField(
+        default=5,
+        help_text="Duration of commitment, in days."
+    )
+
+
 class Event(Action):
     """Events will be verified by confirmation code. It includes events and excursions."""
 
-    duration = models.IntegerField(
+    expected_duration = models.IntegerField(
         verbose_name="Expected activity duration",
         help_text="Time (in minutes) that the activity is expected to take."
     )
@@ -388,8 +320,6 @@ class Event(Action):
         help_text="Specify the max number of seats available to the event."
     )
 
-    is_excursion = models.BooleanField(default=False, help_text="Is excursion?")
-
     def is_event_completed(self):
         """Determines if the event is completed."""
         if self.event_date:
@@ -397,6 +327,51 @@ class Event(Action):
             if result.days >= 0 and result.seconds >= 0:
                 return True
         return False
+
+
+class Filler(Action):
+    """Filler action. It is always locked"""
+    pass
+
+
+class ColumnGrid(models.Model):
+    """Defines the ColumnName positions in the Smart Grid."""
+    level = models.ForeignKey(Level,
+        help_text="The level of the action."
+    )
+    column = models.IntegerField(
+        default=1,
+        help_text="The column of the Smart Grid this Action is in.",
+        validators=[MaxValueValidator(8)]
+    )
+    name = models.ForeignKey(ColumnName,
+                             help_text="The ColumnName in this location.")
+
+
+class Grid(models.Model):
+    """Defines the Smart Grid, holds the level, column, row, and Action."""
+    level = models.ForeignKey(Level,
+        help_text="The level of the action."
+    )
+    column = models.IntegerField(
+        default=1,
+        help_text="The column of the Smart Grid this Action is in.",
+        validators=[MaxValueValidator(8)]
+    )
+    row = models.IntegerField(
+        default=1,
+        help_text="The row of the Smart Grid this Action is in.",
+        validators=[MaxValueValidator(8)]
+    )
+    action = models.ForeignKey(Action,
+                               help_text="The Action in this location.")
+
+    class Meta:
+        """Meta"""
+        ordering = ("level", "column", "row")
+
+    def __unicode__(self):
+        return "%s: [%s, x=%s, y=%s]" % (self.action, self.level, self.column, self.row)
 
 
 class ActionMember(models.Model):
@@ -514,7 +489,7 @@ class ActionMember(models.Model):
 
                 if self.action.type == "commitment" and not self.completion_date:
                     self.completion_date = self.submission_date + \
-                        datetime.timedelta(days=self.action.commitment.duration)
+                        datetime.timedelta(days=self.action.commitment.commitment_length)
 
                 super(ActionMember, self).save(args, kwargs)
 
@@ -625,7 +600,7 @@ class ActionMember(models.Model):
                                                self)
 
     def _award_possible_reverse_penalty_points(self):
-        """ reverse event/excursion noshow penalty."""
+        """ reverse event noshow penalty."""
         if self._has_noshow_penalty():
             message = "%s (Reverse No Show Penalty)" % self.action
             self.user.get_profile().add_points(
@@ -878,3 +853,50 @@ class TextReminder(Reminder):
             UserNotification.create_email_notification(email, "", message)
             self.sent = True
             self.save()
+
+
+class ConfirmationCode(models.Model):
+    """Represents confirmation codes for activities."""
+    action = models.ForeignKey(Action)
+    code = models.CharField(max_length=50, unique=True, db_index=True,
+                            help_text="The confirmation code.")
+    is_active = models.BooleanField(default=True, editable=False,
+                                    help_text="Is the confirmation code still active?")
+    user = models.ForeignKey(User, null=True, blank=True,
+                             help_text="The user who claimed the code.")
+    create_date = models.DateTimeField(default=datetime.datetime.now(),
+                                   verbose_name="Date created",
+                                   help_text="Date the code was created.")
+    printed_or_distributed = models.BooleanField(default=False, editable=True,
+                                help_text="Has the code been printed or distributed.")
+
+    @staticmethod
+    def generate_codes_for_activity(event, num_codes):
+        """Generates a set of random codes for the activity."""
+        values = 'abcdefghijkmnpqrstuvwxyz234789'
+
+        # Use the first non-dash component of the slug.
+        components = event.slug.split('-')
+        header = components[0]
+        # Need to see if there are other codes with this header.
+        index = 1
+        while ConfirmationCode.objects.filter(code__istartswith=header).exclude(
+            action=event).count() > 0 and index < len(components):
+            header += components[index]
+            index += 1
+
+        header += "-"
+        for _ in range(0, num_codes):
+            code = ConfirmationCode(action=event, code=header)
+            valid = False
+            while not valid:
+                for value in random.sample(values, 5):
+                    code.code += value
+                try:
+                    # print code.code
+                    # Throws exception if the code is a duplicate.
+                    code.save()
+                    valid = True
+                except IntegrityError:
+                    # Try again.
+                    code.code = header

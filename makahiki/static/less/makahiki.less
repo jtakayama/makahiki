@@ -51,6 +51,10 @@ a .news {
     background: url("../images/icons/icon-news.png");}
 a .news:hover { background-position: 54px 0px;}
 
+a .sgg_designer {
+	display:block; width:54px; height:54px;
+	background: url("../images/no_login_avatar.png");}
+	
 a .win {
     display:block; width:54px; height:54px;
     background: url("../images/icons/icon-win.png");}
@@ -761,6 +765,12 @@ ul {
     width: auto;
 }
 
+.widget-help {
+	float: right;
+	margin-top: 2px;
+	margin-right: 2px;
+}
+
 #canopy-about {
     padding: 5px 10px;
 }
@@ -896,6 +906,18 @@ td ul.errorlist li {
 //    }
 //}
 
+/* css for timepicker */
+.ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
+.ui-timepicker-div dl { text-align: left; }
+.ui-timepicker-div dl dt { height: 25px; margin-bottom: -25px; }
+.ui-timepicker-div dl dd { margin: 0 10px 10px 65px; }
+.ui-timepicker-div td { font-size: 90%; }
+.ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
+
+.ui-timepicker-rtl{ direction: rtl; }
+.ui-timepicker-rtl dl { text-align: right; }
+.ui-timepicker-rtl dl dd { margin: 0 65px 10px 10px; }
+
 @import "lib-change-avatar.less"; 
 @import "widget-action-feedback";
 @import "widget-badge-scoreboard.less";
@@ -916,6 +938,7 @@ td ul.errorlist li {
 @import "widget-resource-goal.less";
 @import "widget-resource-scoreboard.less";
 @import "widget-scoreboard.less";
+@import "widget-sgg-design.less";
 @import "widget-smartgrid.less";
 @import "widget-status-iframe.less";
 @import "widget-team-members.less";

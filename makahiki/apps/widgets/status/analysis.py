@@ -234,7 +234,7 @@ def calculate_action_stats():
 
     output += 'action_type,total_actions\n'
 
-    actions = Action.objects.filter(level__isnull=False, category__isnull=False)
+    actions = Action.objects.all()  # was only actions in the grid. need to address?
 
     output += "%s,%d\n" % (
         "activity", actions.filter(type="activity").count()
@@ -242,14 +242,14 @@ def calculate_action_stats():
 
     output += "%s,%d\n" % (
         "event", actions.filter(type="event").count()
-    )
+        )
     output += "%s,%d\n" % (
         "excursion", actions.filter(type="excursion").count()
-    )
+        )
 
     output += "%s,%d\n" % (
         "commitment", actions.filter(type="commitment").count()
-    )
+        )
 
     return output
 

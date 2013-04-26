@@ -119,6 +119,7 @@ def load_data(manage_command, instance_type, fixture_path):
 
     print "loading base data..."
     load_fixtures(manage_command, fixture_path, "base_")
+    load_fixtures(manage_command, fixture_path, "smartgrid_")
 
     if instance_type == "default":
         print "setting up default data..."

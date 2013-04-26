@@ -6,7 +6,7 @@ from apps.admin.admin import challenge_designer_site, challenge_manager_site, de
 
 
 class GroupAdmin(admin.ModelAdmin):
-    """Category Admin"""
+    """Group Admin"""
     list_display = ["name", ]
     page_text = "Groups are optional in this challenge."
 
@@ -17,7 +17,7 @@ developer_site.register(Group, GroupAdmin)
 
 
 class TeamAdmin(admin.ModelAdmin):
-    """Category Admin"""
+    """Team Admin"""
     list_display = ["name", "size", "group"]
     fields = ["name", "size", "group"]
 

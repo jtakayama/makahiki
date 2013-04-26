@@ -17,8 +17,8 @@ from apps.widgets.smartgrid import smartgrid, view_commitments, view_events, vie
     view_reminders
 from apps.widgets.action_feedback.models import ActionFeedback
 from apps.widgets.smartgrid.forms import ChangeLevelForm
-from apps.widgets.smartgrid.models import Action, Level, Category
 from apps.widgets.quests.quests import get_quests
+from apps.widgets.smartgrid.models import Action
 
 
 def supply(request, page_name):
@@ -27,8 +27,15 @@ def supply(request, page_name):
 
     user = request.user
 
+    grid = smartgrid.get_level_actions(user)
+#     print grid[0][2][0]
+#     print "[%s, %s] is_unlock=%s, completed=%s, availability=%s, max_columns=%s, max_rows=%s" %\
+#      (grid[0][2][0].column, grid[0][2][0].row, grid[0][2][0].is_unlock, grid[0][2][0].completed,
+#       grid[0][2][0].availablity, grid[0][4], grid[0][5])
+#     print grid[0][2][0]._meta.module_name
     return {
-        "levels": smartgrid.get_level_actions(user),
+        "levels": smartgrid.get_levels(user),
+        "grid": grid,
         }
 
 
@@ -147,23 +154,6 @@ def bulk_change(request, action_type, attribute):
         actions.append(Action.objects.get(pk=pk))
 
     if request.method == "POST":
-        if attribute == "level":
-            level = request.POST["level_choice"]
-            for action in actions:
-                if level:
-                    action.level = Level.objects.get(pk=level)
-                else:
-                    action.level = None
-                action.save()
-        elif attribute == "category":
-            category = request.POST["category_choice"]
-            for action in actions:
-                if category:
-                    action.category = Category.objects.get(pk=category)
-                else:
-                    action.category = None
-                action.save()
-
         return HttpResponseRedirect("/admin/smartgrid/%s/" % action_type)
     else:
         form = ChangeLevelForm(initial={"ids": action_ids})
@@ -181,7 +171,7 @@ def action_admin(request, pk):
     """handle the action admin."""
     _ = request
     action = Action.objects.get(pk=pk)
-    action_type = action.type if action.type != "excursion" else "event"
+    action_type = action.type
 
     return HttpResponseRedirect("/admin/smartgrid/%s/%s/" % (action_type, pk))
 
