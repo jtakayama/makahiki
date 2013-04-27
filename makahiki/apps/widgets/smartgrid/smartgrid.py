@@ -333,9 +333,9 @@ def is_unlock(user, action):
     # cached format of levels is [[<Level>, [<ColumnGrid>*],
     #  [<Grid>*], [active columns], max_column, max_row]+]
     for level in levels:
-        for grid in level[2]:
-            if grid.action.id == action.id:
-                return grid.action.is_unlock
+        for a in level[2]:
+            if a.id == action.id:
+                return a.is_unlock
 
     return False
 
