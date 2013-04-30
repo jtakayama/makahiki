@@ -10,6 +10,11 @@ from collections import deque
 from apps.widgets.smartgrid_design.models import DesignerAction, DesignerGrid, DesignerEvent
 from apps.managers.challenge_mgr.models import RoundSetting
 from apps.managers.challenge_mgr import challenge_mgr
+from apps.widgets.smartgrid_library.models import LibraryAction
+import re
+import urllib2
+from urllib2 import HTTPError, URLError
+from apps.widgets.smartgrid.models import Action
 
 (_ADD, _DELETE, _INSERT) = range(3)
 (_ROOT, _DEPTH, _WIDTH) = range(3)
@@ -357,6 +362,23 @@ def _is_in_challenge(date):
     return ret
 
 
+def _get_urls(text):
+    """Returns a list of the urls in the text."""
+    ret = []
+    urls = re.\
+        findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', \
+                 text.lower())
+    for url in urls:
+        if url.endswith(')') or url.endswith('>'):
+            url = url[: -1]
+        if url.endswith('),') or url.endswith(').'):
+            url = url[: -2]
+        if url.endswith(')</center'):
+            url = url[: -9]
+        ret.append(url)
+    return ret
+
+
 def build_designer_trees():
     """Builds the unlock_trees for the DesignerActions in the Grid."""
     nodes = _build_designer_nodes()
@@ -477,4 +499,55 @@ def check_event_dates():
     for event in DesignerEvent.objects.all():
         if not _is_in_challenge(event.event_date):
             ret.append(event.slug)
+    return ret
+
+
+def check_library_urls():
+    """Loops over all the LibraryActions looking for URLs in their description and checking
+    them to ensure they return a valid HTTP status code."""
+    ret = []
+    for action in LibraryAction.objects.all():
+        urls = _get_urls(action.description)
+        for url in urls:
+            req = urllib2.Request(url)
+            try:
+                urllib2.urlopen(req)
+            except HTTPError as e:
+                ret.append("%s url %s raised %s" % (action, url, e))
+            except URLError as e1:
+                ret.append("%s url %s raised %s" % (action, url, e1))
+    return ret
+
+
+def check_designer_urls():
+    """Loops over all the DesignerActions looking for URLs in their description and checking
+    them to ensure they return a valid HTTP status code."""
+    ret = []
+    for action in DesignerAction.objects.all():
+        urls = _get_urls(action.description)
+        for url in urls:
+            req = urllib2.Request(url)
+            try:
+                urllib2.urlopen(req)
+            except HTTPError as e:
+                ret.append("%s url %s raised %s" % (action, url, e))
+            except URLError as e1:
+                ret.append("%s url %s raised %s" % (action, url, e1))
+    return ret
+
+
+def check_grid_urls():
+    """Loops over all the Actions looking for URLs in their description and checking
+    them to ensure they return a valid HTTP status code."""
+    ret = []
+    for action in Action.objects.all():
+        urls = _get_urls(action.description)
+        for url in urls:
+            req = urllib2.Request(url)
+            try:
+                urllib2.urlopen(req)
+            except HTTPError as e:
+                ret.append("%s url %s raised %s" % (action, url, e))
+            except URLError as e1:
+                ret.append("%s url %s raised %s" % (action, url, e1))
     return ret
