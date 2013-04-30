@@ -49,6 +49,7 @@ class EventDateForm(forms.Form):
 class AddLevelForm(forms.Form):
     """Form for adding a DesignerLevel. Ensures no cross-site scripting to create new levels."""
     level_name = forms.CharField(max_length=25, help_text="Level Name, must be unique.")
+    unlock_condition = forms.CharField(max_length=40, help_text="Unlock Condition for the Level")
 
 
 class ExampleGridsForm(forms.Form):
