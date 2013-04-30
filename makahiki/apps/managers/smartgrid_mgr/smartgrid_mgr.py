@@ -309,10 +309,12 @@ def instantiate_grid_action_from_designer(designer_action):
 
     # Copy all the DesignerTextPropmtQuestions
     for question in DesignerTextPromptQuestion.objects.filter(action=designer_action):
-        des_obj = TextPromptQuestion()
-        _copy_fields_no_foriegn_keys(question, des_obj)
-        des_obj.action = get_smartgrid_action(designer_action.slug)
-        des_obj.save()
+        old_ques = TextPromptQuestion.objects.filter(action=grid_action, question=question.question, \
+                                                     answer=question.answer)
+        if len(old_ques) == 0:
+            tqp = TextPromptQuestion(action=grid_action, question=question.question, \
+                                     answer=question.answer)
+            tqp.save()
 
     return grid_action
 
@@ -518,6 +520,7 @@ def deploy_designer_to_smartgrid(use_filler):  # pylint: disable=R0914
     """Clears the current Smart Grid Game and copies the designer instances to the
     Smart Grid Game. Clearing the grid does not delete the actions just clears their
     Levels and Categories."""
+    print "foobar"
     clear_smartgrid()
     # deploy the ColumnNames
     for col in DesignerColumnName.objects.all():
