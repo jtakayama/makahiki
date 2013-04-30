@@ -309,7 +309,8 @@ def instantiate_grid_action_from_designer(designer_action):
 
     # Copy all the DesignerTextPropmtQuestions
     for question in DesignerTextPromptQuestion.objects.filter(action=designer_action):
-        old_ques = TextPromptQuestion.objects.filter(action=grid_action, question=question.question, \
+        old_ques = TextPromptQuestion.objects.filter(action=grid_action, \
+                                                     question=question.question, \
                                                      answer=question.answer)
         if len(old_ques) == 0:
             tqp = TextPromptQuestion(action=grid_action, question=question.question, \
