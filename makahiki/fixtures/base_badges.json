@@ -215,7 +215,7 @@
             "priority": 60,
             "theme": "2",
             "award_trigger": "smartgrid",
-            "award_condition": "all_of(action_type='commitment')",
+            "award_condition": "submitted_all_of(action_type='commitment')",
             "slug": "ultra-committed",
             "name": "Ultra Committed"
         }

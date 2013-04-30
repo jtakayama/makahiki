@@ -285,7 +285,7 @@ def get_available_golow_actions(user, related_resource):
             Q(expire_date__isnull=True) | Q(expire_date__gte=datetime.date.today()),
             related_resource=related_resource,
             pub_date__lte=datetime.date.today(),
-        ).order_by("type", "priority")
+        ).order_by("type", "name")
 
         # pick one activity per type, until reach NUM_GOLOW_ACTIONS
         action_type = None

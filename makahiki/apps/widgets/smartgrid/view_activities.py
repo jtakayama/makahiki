@@ -8,11 +8,11 @@ from django.contrib import messages
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 
-from apps.widgets.smartgrid.models import ActionMember, activity_image_file_path
+from apps.widgets.smartgrid.models import ActionMember, \
+    TextPromptQuestion, activity_image_file_path
 from apps.widgets.smartgrid.forms import   ActivityFreeResponseForm, \
                                     ActivityImageForm, ActivityTextForm, \
                                     ActivityFreeResponseImageForm
-from apps.widgets.smartgrid.models import TextPromptQuestion
 
 
 def view(request, action):
