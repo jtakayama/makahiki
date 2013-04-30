@@ -617,7 +617,7 @@ class ActionMemberAdmin(admin.ModelAdmin):
         "action", "submission_date", "user_link", "approval_status", "short_question",
         "short_response")
 
-    list_filter = ["approval_status", ]
+    list_filter = ["approval_status", "action__type"]
     actions = ["approve_selected", "delete_selected"]
     search_fields = ["action__slug", "action__title", "user__username"]
 

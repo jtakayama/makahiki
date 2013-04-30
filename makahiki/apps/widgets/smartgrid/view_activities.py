@@ -8,11 +8,11 @@ from django.contrib import messages
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 
-from apps.widgets.smartgrid.models import ActionMember, activity_image_file_path
+from apps.widgets.smartgrid.models import ActionMember, \
+    TextPromptQuestion, activity_image_file_path
 from apps.widgets.smartgrid.forms import   ActivityFreeResponseForm, \
                                     ActivityImageForm, ActivityTextForm, \
                                     ActivityFreeResponseImageForm
-from apps.widgets.smartgrid_library.models import LibraryTextPromptQuestion
 
 
 def view(request, action):
@@ -79,7 +79,7 @@ def add(request, activity):
                 action_member.approval_status = "pending"
             # Attach text prompt question if one is provided
             elif "question" in form.cleaned_data:
-                action_member.question = LibraryTextPromptQuestion.objects.get(
+                action_member.question = TextPromptQuestion.objects.get(
                     pk=form.cleaned_data["question"])
                 action_member.response = form.cleaned_data["response"]
                 action_member.approval_status = "pending"
@@ -106,7 +106,7 @@ def add(request, activity):
         form.form_title = "Get your points"
         if activity.confirm_type == "text":
             qid = form.data["question"]
-            question = LibraryTextPromptQuestion.objects.get(pk=qid)
+            question = TextPromptQuestion.objects.get(pk=qid)
             form.action_question = question
         return render_to_response("task.html", {
             "action": activity,
