@@ -16,6 +16,7 @@ from apps.widgets.smartgrid_design.models import DesignerLevel, DesignerColumnNa
     DesignerAction, DesignerGrid, DesignerColumnGrid
 from collections import OrderedDict
 from django.template.defaultfilters import slugify
+from apps.utils import utils
 
 
 def supply(request, page_name):
@@ -300,6 +301,11 @@ def add_level(request):
             slug = slugify(form.cleaned_data['level_name'])
             level = DesignerLevel(name=form.cleaned_data['level_name'], slug=slug, \
                                   priority=max_priority)
+            predicate = form.cleaned_data['unlock_condition']
+            if not utils.validate_predicates(predicate):
+                level.unlock_condition = predicate
+            else:
+                level.unlock_condition = 'False'  # What is the correct default value?
             level.save()
     response = HttpResponseRedirect("/sgg_designer/")
     return response
