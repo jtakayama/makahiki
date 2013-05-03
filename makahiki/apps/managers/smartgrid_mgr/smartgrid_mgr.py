@@ -131,32 +131,6 @@ def _copy_fields_no_foriegn_keys(orig, copy):
             setattr(copy, f.name, value)
 
 
-def _copy_action_fields(orig, copy):  # pylint: disable=R0912
-    """Copies the field values from orig to copy and saves the copy."""
-    # Find all FKs on model that point to a related_model.
-    fks = []
-    copy_fields = []
-    for f in copy._meta.fields:
-        copy_fields.append(f.name)
-        if isinstance(f, ForeignKey):
-            fks.append(f.name)
-#     print copy_fields
-    orig_fields = []
-    for f in orig._meta.fields:
-        orig_fields.append(f.name)
-        if f.name in copy_fields:
-            if f.name != 'id':
-                if f.name not in fks:
-                    value = getattr(orig, f.name)
-                    setattr(copy, f.name, value)
-                else:
-                    print f.name
-                    value = getattr(orig, f.name)
-                    setattr(copy, f.name, value)
-#     print orig_fields
-    copy.save()  # pylint: enable=R0912
-
-
 def _admin_link(action):
     """returns the hardcoded link to edit the action."""
     return "<a href='/challenge_setting_admin/smartgrid_design/designer%s/%s/'>%s</a>" % \
@@ -202,7 +176,7 @@ def instantiate_designer_from_library(slug):
     else:  # use the existing instance.
         design_obj = exist_obj
 
-    _copy_action_fields(lib_obj, design_obj)
+    _copy_fields(lib_obj, design_obj)
 
     # Copy all the LibraryTextPropmtQuestions
     for question in LibraryTextPromptQuestion.objects.filter(libraryaction=lib_obj):
@@ -239,19 +213,15 @@ def instantiate_designer_from_grid(slug):
     if old_obj == None:
         if action_type == 'activity':
             designer_obj = DesignerActivity()
-            grid_obj = Activity.objects.get(slug=slug)
         if action_type == 'commitment':
             designer_obj = DesignerCommitment()
-            grid_obj = Commitment.objects.get(slug=slug)
         if action_type == 'event':
             designer_obj = DesignerEvent()
-            grid_obj = Event.objects.get(slug=slug)
         if action_type == 'filler':
             designer_obj = DesignerFiller()
-            grid_obj = Filler.objects.get(slug=slug)
     else:
         designer_obj = old_obj
-    _copy_action_fields(grid_obj, designer_obj)
+    _copy_fields(grid_obj, designer_obj)
 
     # Copy all the TextPropmtQuestions
     for question in TextPromptQuestion.objects.filter(action=grid_obj):
@@ -305,7 +275,7 @@ def instantiate_grid_action_from_designer(designer_action):
             grid_action = Filler()
     else:
         grid_action = old_obj
-    _copy_action_fields(designer_action, grid_action)
+    _copy_fields(designer_action, grid_action)
 
     # Copy all the DesignerTextPropmtQuestions
     for question in DesignerTextPromptQuestion.objects.filter(action=designer_action):
@@ -382,18 +352,14 @@ def get_library_column_name(slug):
 def get_smartgrid_action(slug):
     """returns the action object by slug."""
     action = get_object_or_404(Action, slug=slug)
-    pk = action.pk
     if action.type == 'activity':
-        try:
-            return Activity.objects.get(pk=pk)
-        except Activity.DoesNotExist:
-            print "%s, pk = %s" % (slug, pk)
+        return Activity.objects.get(slug=slug)
     if action.type == 'commitment':
-        return Commitment.objects.get(pk=pk)
+        return Commitment.objects.get(slug=slug)
     if action.type == 'event':
-        return Event.objects.get(pk=pk)
+        return Event.objects.get(slug=slug)
     if action.type == 'filler':
-        return Filler.objects.get(pk=pk)
+        return Filler.objects.get(slug=slug)
     return action
 
 
