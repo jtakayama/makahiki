@@ -15,15 +15,31 @@ from django.db.utils import IntegrityError
 from apps.admin.admin import challenge_designer_site, challenge_manager_site, developer_site
 from apps.widgets.smartgrid_design.models import DesignerAction, DesignerActivity, \
     DesignerTextPromptQuestion, DesignerCommitment, DesignerEvent, DesignerFiller, \
-    DesignerColumnName, DesignerLevel, DesignerQuestionChoice
+    DesignerColumnName, DesignerLevel, DesignerQuestionChoice, Draft
+
+
+class DesignerDraftAdmin(admin.ModelAdmin):
+    """Admin for Drafts."""
+    list_display = ["name", ]
+    prepopulated_fields = {"slug": ("name",)}
+
+
+admin.site.register(Draft, DesignerDraftAdmin)
+challenge_designer_site.register(Draft, DesignerDraftAdmin)
+challenge_manager_site.register(Draft, DesignerDraftAdmin)
+developer_site.register(Draft, DesignerDraftAdmin)
+challenge_mgr.register_designer_challenge_info_model("Smart Grid Game Designer", 5, \
+                                                     Draft, 1)
+challenge_mgr.register_developer_challenge_info_model("Smart Grid Game Designer", 4, \
+                                                      Draft, 1)
 
 
 class DesignerActionAdmin(admin.ModelAdmin):
     """abstract admin for action."""
     actions = ["delete_selected", "copy_action"]
-    list_display = ["slug", "title", "type", "point_value"]
-    search_fields = ["slug", "title"]
-    list_filter = ['type', ]
+    list_display = ["draft", "slug", "title", "type", "point_value"]
+    search_fields = ["draft", "slug", "title"]
+    list_filter = ['draft', 'type', ]
 
     def delete_selected(self, request, queryset):
         """override the delete selected."""

@@ -52,6 +52,11 @@ class AddLevelForm(forms.Form):
     unlock_condition = forms.CharField(max_length=40, help_text="Unlock Condition for the Level")
 
 
+class NewDraftForm(forms.Form):
+    """Form for adding a new Smart Grid Game Draft in the designer."""
+    draft_name = forms.CharField(max_length=50, help_text="The name of the Draft Smart Grid Game")
+
+
 class ExampleGridsForm(forms.Form):
     """Form for choosing between different example Smart Grid designs."""
     TYPE_CHOICES = (
