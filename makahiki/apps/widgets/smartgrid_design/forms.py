@@ -26,7 +26,7 @@ class ListFormField(forms.Field):
 
 class RevertToSmartgridForm(forms.Form):
     """Form for ensuring no cross-site scripting for reverting designer."""
-    pass
+    designer_draft = forms.CharField(max_length=50, help_text="The Designer Draft to use.")
 
 
 class DeployToSmartgridForm(forms.Form):
@@ -69,3 +69,4 @@ class ExampleGridsForm(forms.Form):
     grid = forms.ChoiceField(
         choices=TYPE_CHOICES,
         )
+    designer_draft = forms.CharField(max_length=50, help_text="The Designer Draft to use.")

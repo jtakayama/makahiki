@@ -14,7 +14,7 @@ from apps.widgets.smartgrid_library.models import LibraryAction, LibraryActivity
 from django.http import Http404
 from apps.widgets.smartgrid_design.models import DesignerAction, DesignerColumnName, \
     DesignerActivity, DesignerCommitment, DesignerEvent, DesignerFiller, DesignerLevel,\
-    DesignerTextPromptQuestion, DesignerGrid, DesignerColumnGrid
+    DesignerTextPromptQuestion, DesignerGrid, DesignerColumnGrid, Draft
 import os
 from django.core.management import call_command
 
@@ -137,27 +137,29 @@ def _admin_link(action):
         (action.type, action.pk, action.name)
 
 
-def instantiate_designer_column_from_library(slug):
-    """Instantiates a DesignerColumnName from the LibraryColumnName with the given slug."""
+def instantiate_designer_column_from_library(draft, slug):
+    """Instantiates a DesignerColumnName from the LibraryColumnName with the given draft and
+    slug."""
     lib_cat = get_object_or_404(LibraryColumnName, slug=slug)
     des_col = None
     try:
-        des_col = get_object_or_404(DesignerColumnName, slug=slug)
+        des_col = get_object_or_404(DesignerColumnName, draft=draft, slug=slug)
     except Http404:
         des_col = DesignerColumnName()
+        des_col.draft = draft
     _copy_fields(lib_cat, des_col)
     return des_col
 
 
-def instantiate_designer_from_library(slug):
+def instantiate_designer_action_from_library(draft, slug):
     """Instantiates a Smart Grid Game Design instance from the Smart Grid Game Library instance.
-    slug is the slug value for the library instance. If the Design instance exists it is over
-    written."""
+    draft is the draft to use. slug is the slug value for the library instance. If the Design
+    instance exists it is over written."""
     lib_obj = get_library_action(slug)
     action_type = lib_obj.type
     exist_obj = None
     try:
-        exist_obj = get_designer_action(slug)
+        exist_obj = get_designer_action(draft, slug)
     except Http404:
         exist_obj = None
     design_obj = None
@@ -173,6 +175,7 @@ def instantiate_designer_from_library(slug):
             lib_obj = LibraryEvent.objects.get(slug=slug)
         if action_type == 'filler':
             design_obj = DesignerFiller()
+        design_obj.draft = draft
     else:  # use the existing instance.
         design_obj = exist_obj
 
@@ -180,33 +183,53 @@ def instantiate_designer_from_library(slug):
 
     # Copy all the LibraryTextPropmtQuestions
     for question in LibraryTextPromptQuestion.objects.filter(libraryaction=lib_obj):
-        des_obj = DesignerTextPromptQuestion()
+        try:
+            des_obj = get_object_or_404(DesignerTextPromptQuestion, action=design_obj, \
+                                        question=question.question, answer=question.answer, \
+                                        draft=draft)
+        except Http404:
+            des_obj = DesignerTextPromptQuestion()
         _copy_fields_no_foriegn_keys(question, des_obj)
-        des_obj.action = get_designer_action(slug)
+        des_obj.action = get_designer_action(draft, slug)
+        des_obj.draft = draft
         des_obj.save()
 
     return design_obj
 
 
-def instantiate_designer_column_from_grid(slug):
-    """Creates a DesignerColumnName from the ColumnName with the given slug."""
-    cat = get_object_or_404(ColumnName, slug=slug)
-    des_cat = None
+def instantiate_designer_level_from_smartgrid(draft, slug):
+    """Creates or over writes a DesignerLevel for the given designer draft and level slug."""
+    level = get_object_or_404(Level, slug=slug)
     try:
-        des_cat = get_object_or_404(DesignerColumnName, slug=slug)
+        des_level = get_object_or_404(DesignerLevel, draft=draft, slug=slug)
     except Http404:
-        des_cat = DesignerColumnName()
-    _copy_fields(cat, des_cat)
-    return des_cat
+        des_level = DesignerLevel()
+        des_level.draft = draft
+    _copy_fields(level, des_level)
+
+    return des_level
 
 
-def instantiate_designer_from_grid(slug):
-    """Creates a designer instance from the Smart Grid instance."""
+def instantiate_designer_column_from_smartgrid(draft, slug):
+    """Creates a DesignerColumnName from the ColumnName with the given slug."""
+    col = get_object_or_404(ColumnName, slug=slug)
+    des_col = None
+    try:
+        des_col = get_object_or_404(DesignerColumnName, draft=draft, slug=slug)
+    except Http404:
+        des_col = DesignerColumnName()
+        des_col.draft = draft
+    _copy_fields(col, des_col)
+    return des_col
+
+
+def instantiate_designer_action_from_smartgrid(draft, slug):
+    """Creates a designer instance from the Smart Grid instance with the given draft."""
     grid_obj = get_smartgrid_action(slug)
     action_type = grid_obj.type
     old_obj = None
     try:
-        old_obj = get_designer_action(slug)
+        old_obj = get_designer_action(draft, slug)
     except Http404:
         old_obj = None
     designer_obj = None
@@ -219,48 +242,56 @@ def instantiate_designer_from_grid(slug):
             designer_obj = DesignerEvent()
         if action_type == 'filler':
             designer_obj = DesignerFiller()
+        designer_obj.draft = draft
     else:
         designer_obj = old_obj
     _copy_fields(grid_obj, designer_obj)
 
     # Copy all the TextPropmtQuestions
     for question in TextPromptQuestion.objects.filter(action=grid_obj):
-        des_obj = DesignerTextPromptQuestion()
+        try:
+            des_obj = get_object_or_404(DesignerTextPromptQuestion, action=designer_obj, \
+                                        question=question.question, answer=question.answer, \
+                                        draft=draft)
+        except Http404:
+            des_obj = DesignerTextPromptQuestion()
         _copy_fields_no_foriegn_keys(question, des_obj)
-        des_obj.action = get_designer_action(slug)
+        des_obj.action = get_designer_action(draft, slug)
+        des_obj.draft = draft
         des_obj.save()
 
     return designer_obj
 
 
-def instantiate_grid_level_from_designer(designer_level):
+def instantiate_smartgrid_level_from_designer(des_level):
     """Creates a Smart Grid Level from the DesignerLevel."""
     level = None
     try:
-        level = get_smartgrid_level(designer_level.slug)
+        level = get_smartgrid_level(des_level.slug)
     except Http404:
         level = Level()
-    _copy_fields(designer_level, level)
+    _copy_fields(des_level, level)
     return level
 
 
-def instantiate_grid_column_from_designer(designer_col):
+def instantiate_smartgrid_column_from_designer(des_col):
     """Creates a Smart Grid ColumnName from the DesignerColumnName."""
     col = None
     try:
-        col = get_smartgrid_column_name(designer_col.slug)
+        col = get_smartgrid_column_name(des_col.slug)
     except Http404:
         col = ColumnName()
-    _copy_fields(designer_col, col)
+    _copy_fields(des_col, col)
     return col
 
 
-def instantiate_grid_action_from_designer(designer_action):
+def instantiate_smartgrid_action_from_designer(draft, slug):
     """Creates a Smart Grid instance from the designer instance."""
-    action_type = designer_action.type
+    des_action = get_designer_action(draft, slug)
+    action_type = des_action.type
     old_obj = None
     try:
-        old_obj = get_smartgrid_action(designer_action.slug)
+        old_obj = get_smartgrid_action(slug)
     except Http404:
         old_obj = None
     grid_action = None
@@ -275,10 +306,10 @@ def instantiate_grid_action_from_designer(designer_action):
             grid_action = Filler()
     else:
         grid_action = old_obj
-    _copy_fields(designer_action, grid_action)
+    _copy_fields_no_foriegn_keys(des_action, grid_action)
 
     # Copy all the DesignerTextPropmtQuestions
-    for question in DesignerTextPromptQuestion.objects.filter(action=designer_action):
+    for question in DesignerTextPromptQuestion.objects.filter(draft=draft, action=des_action):
         old_ques = TextPromptQuestion.objects.filter(action=grid_action, \
                                                      question=question.question, \
                                                      answer=question.answer)
@@ -290,32 +321,33 @@ def instantiate_grid_action_from_designer(designer_action):
     return grid_action
 
 
-def get_designer_action(slug):
-    """Returns the Smart Grid Game Designer Action for the given slug."""
-    action = get_object_or_404(DesignerAction, slug=slug)
+def get_designer_action(draft, slug):
+    """Returns the Smart Grid Game Designer Action for the given draft and slug or throws
+    Http404 exception if the DesignerAction doesn't exist."""
+    action = get_object_or_404(DesignerAction, draft=draft, slug=slug)
     if action.type == 'activity':
-        return DesignerActivity.objects.get(slug=slug)
+        return DesignerActivity.objects.get(draft=draft, slug=slug)
     if action.type == 'commitment':
-        return DesignerCommitment.objects.get(slug=slug)
+        return DesignerCommitment.objects.get(draft=draft, slug=slug)
     if action.type == 'event':
-        return DesignerEvent.objects.get(slug=slug)
+        return DesignerEvent.objects.get(draft=draft, slug=slug)
     if action.type == 'filler':
-        return DesignerFiller.objects.get(slug=slug)
+        return DesignerFiller.objects.get(draft=draft, slug=slug)
     return action
 
 
-def get_designer_action_slugs():
-    """Returns the DesignerAction slugs that are currently in the Smart Grid Designer.
-    This includes the actions in the palette that don't have levels or categories."""
+def get_designer_action_slugs(draft):
+    """Returns the DesignerAction slugs that are currently in the Smart Grid Designer
+    for the given draft. This includes the actions in the palette."""
     action_list = []
-    for action in DesignerAction.objects.all():
+    for action in DesignerAction.objects.filter(draft=draft):
         action_list.append(action.slug)
     return action_list
 
 
-def get_designer_column_name(slug):
+def get_designer_column_name(draft, slug):
     """Return the Smart Grid Game DesignerColumnName for the given slug."""
-    return get_object_or_404(DesignerColumnName, slug=slug)
+    return get_object_or_404(DesignerColumnName, draft=draft, slug=slug)
 
 
 def get_designer_column_name_slugs():
@@ -326,9 +358,14 @@ def get_designer_column_name_slugs():
     return slugs
 
 
-def get_designer_level(slug):
+def get_designer_draft(slug):
+    """Returns the Draft for the given slug or Http404 exception."""
+    return get_object_or_404(Draft, slug=slug)
+
+
+def get_designer_level(draft, slug):
     """Return the DesignerLevel for the given slug."""
-    return get_object_or_404(DesignerLevel, slug=slug)
+    return get_object_or_404(DesignerLevel, draft=draft, slug=slug)
 
 
 def get_library_action(slug):
@@ -420,55 +457,57 @@ def get_designer_palette():
     return palette
 
 
-def clear_designer():
+def clear_designer(draft):
     """Deletes all the instances in the designer."""
-    for obj in DesignerLevel.objects.all():
+    for obj in DesignerLevel.objects.filter(draft=draft):
         obj.delete()
-    for obj in DesignerColumnName.objects.all():
+    for obj in DesignerColumnName.objects.filter(draft=draft):
         obj.delete()
-    for obj in DesignerAction.objects.all():
+    for obj in DesignerAction.objects.filter(draft=draft):
         obj.delete()
-    for obj in DesignerColumnGrid.objects.all():
+    for obj in DesignerColumnGrid.objects.filter(draft=draft):
         obj.delete()
-    for obj in DesignerGrid.objects.all():
+    for obj in DesignerGrid.objects.filter(draft=draft):
         obj.delete()
 
 
-def copy_smartgrid_to_designer():
-    """Copies the current Smart Grid Game to the designer instances."""
+def copy_smartgrid_to_designer(draft):
+    """Copies the current Smart Grid Game to the given designer draft."""
     # Clear out the Designer
-    clear_designer()
+    clear_designer(draft)
     # Copy the levels
     for lvl in Level.objects.all():
         try:
-            des_lvl = get_object_or_404(DesignerLevel, slug=lvl.slug)
+            des_lvl = get_object_or_404(DesignerLevel, draft=draft, slug=lvl.slug)
         except Http404:
             des_lvl = DesignerLevel()
+            des_lvl.draft = draft
         _copy_fields(lvl, des_lvl)
     # Copy the ColumnNames
     for col in ColumnName.objects.all():
         try:
-            des_col = get_object_or_404(DesignerColumnName, slug=col.slug)
+            des_col = get_object_or_404(DesignerColumnName, draft=draft, slug=col.slug)
         except Http404:
             des_col = DesignerColumnName()
+            des_col.draft = draft
         _copy_fields(col, des_col)
     # Copy the location information
     for grid in ColumnGrid.objects.all():
         col = DesignerColumnGrid()
-        col.level = get_designer_level(grid.level.slug)
+        col.level = get_designer_level(draft, grid.level.slug)
         col.column = grid.column
-        col.name = get_designer_column_name(grid.name.slug)
+        col.name = get_designer_column_name(draft, grid.name.slug)
         col.save()
     # Copy the Actions
     for action in Action.objects.all():
-        instantiate_designer_from_grid(action.slug)
+        instantiate_designer_action_from_smartgrid(draft, action.slug)
     # Copy the location information
     for grid in Grid.objects.all():
         loc = DesignerGrid()
-        loc.level = get_designer_level(grid.level.slug)
+        loc.level = get_designer_level(draft, grid.level.slug)
         loc.column = grid.column
         loc.row = grid.row
-        loc.action = get_designer_action(grid.action.slug)
+        loc.action = get_designer_action(draft, grid.action.slug)
         loc.save()
 
 
@@ -477,36 +516,37 @@ def clear_smartgrid():
     Deletes the existing levels.  Does not affect the Smart Grid Actions."""
     for level in Level.objects.all():
         level.delete()
+    for col in ColumnName.objects.all():
+        col.delete()
     for row in ColumnGrid.objects.all():
         row.delete()
     for row in Grid.objects.all():
         row.delete()
 
 
-def deploy_designer_to_smartgrid(use_filler):  # pylint: disable=R0914
+def deploy_designer_to_smartgrid(draft, use_filler):  # pylint: disable=R0914
     """Clears the current Smart Grid Game and copies the designer instances to the
     Smart Grid Game. Clearing the grid does not delete the actions just clears their
     Levels and Categories."""
-    print "foobar"
     clear_smartgrid()
-    # deploy the ColumnNames
-    for col in DesignerColumnName.objects.all():
-        instantiate_grid_column_from_designer(col)
-    # deploy the actions
-    for action in DesignerAction.objects.all():
-        instantiate_grid_action_from_designer(get_designer_action(action.slug))
     # deploy the Levels
-    for level in DesignerLevel.objects.all():
-        instantiate_grid_level_from_designer(level)
+    for level in DesignerLevel.objects.filter(draft=draft):
+        instantiate_smartgrid_level_from_designer(level)
+    # deploy the ColumnNames
+    for col in DesignerColumnName.objects.filter(draft=draft):
+        instantiate_smartgrid_column_from_designer(col)
+    # deploy the actions
+    for action in DesignerAction.objects.filter(draft=draft):
+        instantiate_smartgrid_action_from_designer(draft, action.slug)
     # set the ColumnGrid objects.
-    for des_col in DesignerColumnGrid.objects.all():
+    for des_col in DesignerColumnGrid.objects.filter(draft=draft):
         col = ColumnGrid()
         col.column = des_col.column
         col.level = get_smartgrid_level(des_col.level.slug)
         col.name = get_smartgrid_column_name(des_col.name.slug)
         col.save()
     # set the Grid objects.
-    for des_row in DesignerGrid.objects.all():
+    for des_row in DesignerGrid.objects.filter(draft=draft):
         row = Grid()
         row.row = des_row.row
         row.column = des_row.column
@@ -644,7 +684,7 @@ def diff_between_designer_and_grid():
     return ret
 
 
-def load_example_grid(example_name):
+def load_example_grid(draft, example_name):
     """Loads the Designer with the given example grid. If example_name doesn't exist, nothing
     is changed."""
 #    manage_py = script_utils.manage_py_command()
@@ -655,7 +695,7 @@ def load_example_grid(example_name):
     for name in os.listdir(fixture_path):
         if name.startswith(example_name) and name.endswith("_designer.json"):
             # examples exists so clear the designer
-            clear_designer()
+            clear_designer(draft)
             # load the example
             fixture = os.path.join(fixture_path, name)
             call_command('loaddata', '-v 0', fixture)

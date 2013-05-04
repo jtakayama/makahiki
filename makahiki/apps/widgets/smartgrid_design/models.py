@@ -115,7 +115,10 @@ class DesignerLevel(models.Model):
                               null=True)
 
     def __unicode__(self):
-        return self.name
+        if self.draft:
+            return "%s (%s)" % (self.name, self.draft.name)
+        else:
+            return "%s ()" % self.name
 
     class Meta:
         """Meta"""
@@ -138,7 +141,10 @@ class DesignerColumnName(models.Model):
                               null=True)
 
     def __unicode__(self):
-        return self.name
+        if self.draft:
+            return "%s (%s)" % (self.name, self.draft.name)
+        else:
+            return "%s ()" % self.name
 
     def save(self, *args, **kwargs):
         """Custom save method to set fields."""
@@ -247,9 +253,9 @@ class DesignerAction(models.Model):
 
     def __unicode__(self):
         if self.draft:
-            return "Draft '%s' - %s: %s" % (self.draft.name, self.type.capitalize(), self.title)
+            return "%s: %s (%s)" % (self.type.capitalize(), self.title, self.draft.name)
         else:
-            return "Draft '' - %s: %s" % (self.type.capitalize(), self.title)
+            return "%s: %s ()" % (self.type.capitalize(), self.title)
 
     def get_action(self, action_type):
         """Returns the concrete action object by type."""
@@ -397,13 +403,13 @@ class DesignerColumnGrid(models.Model):
 
     def __unicode__(self):
         if self.draft:
-            return "Draft '%s' DesignerColumn: %s [%s, x=%s]" % (self.draft.name, self.name, \
-                                                                 self.level, \
-                                                                 self.column)
+            return "DesignerColumn: %s [%s, x=%s] (%s)" % (self.name, \
+                                                           self.level, \
+                                                           self.column, self.draft.name)
         else:
-            return "Draft '' DesignerColumn: %s [%s, x=%s]" % (self.name, \
-                                                               self.level, \
-                                                               self.column)
+            return "DesignerColumn: %s [%s, x=%s] ()" % (self.name, \
+                                                         self.level, \
+                                                         self.column)
 
 
 class DesignerGrid(models.Model):
@@ -434,11 +440,11 @@ class DesignerGrid(models.Model):
 
     def __unicode__(self):
         if self.draft:
-            return "Draft '%s' %s: [%s, x=%s, y=%s]" % (self.draft.name, self.action, self.level, \
-                                                      self.column, self.row)
+            return "%s: [%s, x=%s, y=%s] (%s)" % (self.action, self.level, \
+                                                  self.column, self.row, self.draft.name)
         else:
-            return "Draft '' %s: [%s, x=%s, y=%s]" % (self.action, self.level, \
-                                                      self.column, self.row)
+            return "%s: [%s, x=%s, y=%s] ()" % (self.action, self.level, \
+                                                self.column, self.row)
 
     def get_loc_str(self):
         """Returns the location of this grid object as a string."""

@@ -118,11 +118,12 @@ def instantiate_column(request, col_slug, level_slug, column):
             }), mimetype="application/json")
 
 
-def instantiate_action(request, action_slug, level_slug, column, row):
+def instantiate_action(request, action_slug, level_slug, column, row, draft_slug):
     """Instantiated the Smart Grid Game Action from the Library Action with the
     given level, column, and row."""
     _ = request
-    grid_action = smartgrid_mgr.instantiate_designer_from_library(action_slug)
+    draft = smartgrid_mgr.get_designer_draft(draft_slug)
+    grid_action = smartgrid_mgr.instantiate_designer_action_from_library(draft, action_slug)
     level = DesignerLevel.objects.get(slug=level_slug)
     grid = DesignerGrid()
     grid.level = level
@@ -209,7 +210,8 @@ def revert_to_grid(request):
     if request.method == 'POST':  # If the form has been submitted...
         form = RevertToSmartgridForm(request.POST)  # A form bound to the POST data
         if form.is_valid():  # All validation rules pass
-            smartgrid_mgr.clear_designer()
+            draft = smartgrid_mgr.get_designer_draft(form.cleaned_data['designer_draft'])
+            smartgrid_mgr.clear_designer(draft)
             smartgrid_mgr.copy_smartgrid_to_designer()
     response = HttpResponseRedirect("/sgg_designer/")
     return response
@@ -233,10 +235,11 @@ def load_example_grid(request):
         form = ExampleGridsForm(request.POST)
         if form.is_valid():
             example_name = form.cleaned_data['grid']
+            draft = smartgrid_mgr.get_designer_draft(form.cleaned_data['designer_draft'])
             if example_name == 'empty':
-                smartgrid_mgr.clear_designer()
+                smartgrid_mgr.clear_designer(draft)
             else:
-                smartgrid_mgr.load_example_grid(example_name)
+                smartgrid_mgr.load_example_grid(draft, example_name)
     response = HttpResponseRedirect("/sgg_designer/")
     return response
 
