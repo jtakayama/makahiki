@@ -13,7 +13,7 @@ from apps.widgets.smartgrid_library.models import LibraryActivity, LibraryEvent,
 from apps.managers.smartgrid_mgr import smartgrid_mgr, unlock_lint
 import json
 from apps.widgets.smartgrid_design.models import DesignerLevel, DesignerColumnName, \
-    DesignerAction, DesignerGrid, DesignerColumnGrid
+    DesignerAction, DesignerGrid, DesignerColumnGrid, Draft
 from collections import OrderedDict
 from django.template.defaultfilters import slugify
 from apps.utils import utils
@@ -23,6 +23,8 @@ def supply(request, page_name):
     """ supply view_objects for widget rendering."""
     _ = request
     _ = page_name
+    draft_slug = request.REQUEST['draft']
+    draft = smartgrid_mgr.get_designer_draft(draft_slug)
     levels = DesignerLevel.objects.all()
     if len(levels) == 0:  # need to create default level
         l = DesignerLevel()
@@ -31,9 +33,11 @@ def supply(request, page_name):
         l.unlock_condition = "True"
         l.unlock_condition_text = "Unlocked"
         l.save()
+        levels.append(l)
 
-#    print smartgrid_mgr.get_designer_grid()
     return {
+        'draft': draft,
+        'draft_choices': Draft.objects.all(),
         'levels': levels,
         'columns': LibraryColumnName.objects.all(),
         'activities': LibraryActivity.objects.all(),
@@ -46,10 +50,10 @@ def supply(request, page_name):
         'add_level_form': AddLevelForm(),
         'delete_level_form': DeleteLevelForm(),
         'event_date_form': EventDateForm(),
-        'palette': smartgrid_mgr.get_designer_palette(),
-        'designer_grid': smartgrid_mgr.get_designer_grid(),
-        'smart_grid_actions': smartgrid_mgr.get_designer_action_slugs(),
-        'smart_grid_columns': smartgrid_mgr.get_designer_column_name_slugs(),
+        'palette': smartgrid_mgr.get_designer_palette(draft),
+        'designer_grid': smartgrid_mgr.get_designer_grid(draft),
+        'smart_grid_actions': smartgrid_mgr.get_designer_action_slugs(draft),
+        'smart_grid_columns': smartgrid_mgr.get_designer_column_name_slugs(draft),
             }
 
 

@@ -2,7 +2,7 @@
 <script src="{{STATIC_URL}}js/jquery-ui-timepicker-addon.js"></script>
 
 <div class="content-box">
-	<div class="content-box-title">Smart Grid Game Designer
+	<div class="content-box-title">Smart Grid Game Designer ({{ view_objects.smartgrid_design.draft.name }})
        <a href="#" style="float: right">
             <img src="{{ STATIC_URL}}images/icons/icon-help-sm.png" width="20" align="center"
                  title="Click to get help about this window"
@@ -77,6 +77,13 @@
 				</div>
 			</div>
 			<div class="designer-center">
+				<div class="sgg-draft-choice">Choose Designer Draft</br>
+					<select name="designer_draft_choice">
+					{% for draft in view_objects.smartgrid_design.draft_choices %}
+						<option value="{{draft.slug}}" {% if view_objects.smartgrid_design.draft == draft %}selected{% endif %}>{{draft.name}}</option>
+					{% endfor %}
+					</select>
+				</div>
 				<div class="sgg-column-title">
 					<a class="widget-help" href="#" >
 			        	<img src="{{ STATIC_URL}}images/icons/icon-help-sm.png" width="20" align="center"
@@ -303,7 +310,7 @@ $(document).click(function() {
 
 <script type="text/javascript">
 	$(init);
-
+	var currentDraft = {{view_objects.smartgrid_design.draft.name}};
 	var numFiller = {{view_objects.smartgrid_design.fillers|length}};
 		
 	// See sggDesigner.js for most of the functionality.

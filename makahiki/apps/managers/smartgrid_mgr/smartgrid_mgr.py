@@ -350,11 +350,11 @@ def get_designer_column_name(draft, slug):
     return get_object_or_404(DesignerColumnName, draft=draft, slug=slug)
 
 
-def get_designer_column_name_slugs():
+def get_designer_column_name_slugs(draft):
     """Returns the DesignerColumnName slugs that are currently in the Smart Grid Designer."""
     slugs = []
-    for cat in DesignerColumnGrid.objects.all():
-        slugs.append(cat.name.slug)
+    for col in DesignerColumnGrid.objects.filter(draft=draft):
+        slugs.append(col.name.slug)
     return slugs
 
 
@@ -425,12 +425,12 @@ def get_smartgrid():
     return levels
 
 
-def get_designer_grid():
+def get_designer_grid(draft):
     """Returns the smart grid as defined in the Smart Grid Designer. The
     grid is a list of lists with the format [<DesignerLevel>, [<DesignerColumnName>*],
     [<DesignerAction>*], [active columns]"""
     ret = []
-    for level in DesignerLevel.objects.all():
+    for level in DesignerLevel.objects.filter(draft=draft):
         level_ret = []
         level_ret.append(level)
         level_ret.append(DesignerColumnGrid.objects.filter(level=level))
@@ -447,11 +447,11 @@ def get_designer_grid():
     return ret
 
 
-def get_designer_palette():
+def get_designer_palette(draft):
     """Returns the DesignerActions with no Level or no Column.  These actions will not
     appear in the grid if published."""
     palette = []
-    for action in DesignerAction.objects.all():
+    for action in DesignerAction.objects.filter(draft=draft):
         if len(DesignerGrid.objects.filter(action=action)) == 0:
             palette.append(action)
     return palette
