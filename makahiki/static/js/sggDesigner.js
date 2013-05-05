@@ -11,7 +11,7 @@ if (typeof String.prototype.endsWith != 'function') {
 }
 
 function handleActionDrop(event, ui) {
-	log.debug('handleActionDrop()');
+	log.debug('handleActionDrop(' + currentDraft + ')');
 	var column = $(this).attr('data-column');
 	var row = $(this).attr('data-row');
 	var oldCol = ui.draggable.attr('data-column');
@@ -188,9 +188,11 @@ function createColumnDropDiv(slug, column, text, id) {
 } 
 
 function instantiateGridColumn(colSlug, levelSlug, column) {
-	log.debug('instantiateGridColumn(' + colSlug + ', ' + levelSlug + ', ' + column + ')');
+	log.debug('instantiateGridColumn(' + colSlug + ', ' + levelSlug + ', ' + column + ', ' +
+			  currentDraft + ')');
     jQuery.ajax({
-        url: "/smartgrid_design/newcol/" + colSlug + "/" + levelSlug + "/" + column + "/", 
+        url: "/smartgrid_design/newcol/" + colSlug + "/" + levelSlug + "/" + column + "/" + 
+        	trim2(currentDraft) + "/", 
         success: function(data) {
 //        	log.debug('pk of Grid ColumnName is ' + data.pk);
         	var div = $('div[data-slug="' + catSlug + '"]:visible > a');
@@ -211,9 +213,11 @@ function instantiateGridColumn(colSlug, levelSlug, column) {
 }
 
 function instantiateGridAction(actSlug, levelSlug, column, row) {
-	log.debug('instantiateGridAction(' + actSlug + ', ' + levelSlug + ', ' + column + ', ' + row + ')');
+	log.debug('instantiateGridAction(' + actSlug + ', ' + levelSlug + ', ' + column + ', ' + row +
+			   ', ' + trim2(currentDraft) + ')');
     jQuery.ajax({
-        url: "/smartgrid_design/newaction/" + actSlug + "/" + levelSlug + "/" + column + "/" + row + "/", 
+        url: "/smartgrid_design/newaction/" + actSlug + "/" + levelSlug + "/" + column + "/" + 
+        	row + "/" + trim2(currentDraft) + "/", 
         success: function(data) {
 //        	log.debug('pk of new Grid Action is ' + data.pk);
         	var div = $('div[data-slug="' + actSlug + '"]:visible > a');
@@ -236,9 +240,11 @@ function instantiateGridAction(actSlug, levelSlug, column, row) {
 }
 
 function moveGridAction(actSlug, levelSlug, oldColumn, oldRow, column, row) {
-	log.debug('moveGridAction(' + actSlug + ', ' + levelSlug + ', ' + oldColumn + ', ' + oldRow + ', ' + column + ', ' + row + ')');
+	log.debug('moveGridAction(' + actSlug + ', ' + levelSlug + ', ' + oldColumn + ', ' +
+			   oldRow + ', ' + column + ', ' + row + ')');
     jQuery.ajax({
-        url: "/smartgrid_design/moveaction/" + actSlug + "/" + levelSlug + "/" + oldColumn + "/" + oldRow + "/" + column + "/" + row + "/", 
+        url: "/smartgrid_design/moveaction/" + actSlug + "/" + levelSlug + "/" + oldColumn + "/" +
+        	oldRow + "/" + column + "/" + row + "/" + trim2(currentDraft) + "/", 
         success: function(data) {
 //        	log.debug('pk of new Grid Action is ' + data.pk);
         	var div = $('div[data-slug="' + actSlug + '"]:visible > a');
@@ -262,9 +268,11 @@ function moveGridAction(actSlug, levelSlug, oldColumn, oldRow, column, row) {
 }
 
 function movePaletteAction(actSlug, levelSlug, column, row) {
-	log.debug('movePaletteAction(' + actSlug + ', ' + levelSlug + ', ' + column + ', ' + row + ')');
+	log.debug('movePaletteAction(' + actSlug + ', ' + levelSlug + ', ' + column + ', ' + row + 
+			   ', ' + trim2(currentDraft) + ')');
     jQuery.ajax({
-        url: "/smartgrid_design/paletteaction/" + actSlug + "/" + levelSlug + "/" + column + "/" + row + "/", 
+        url: "/smartgrid_design/paletteaction/" + actSlug + "/" + levelSlug + "/" + column + "/" + 
+        	row + "/" + trim2(currentDraft) + "/", 
         success: function(data) {
 //        	log.debug('pk of new Grid Action is ' + data.pk);
         	var div = $('div[data-slug="' + actSlug + '"]:visible > a');
@@ -289,9 +297,9 @@ function movePaletteAction(actSlug, levelSlug, column, row) {
 }
 
 function getDesignerDiff() {
-	log.debug('getDesignerDiff()');
+	log.debug('getDesignerDiff(' + trim2(currentDraft) + ')');
 	jQuery.ajax({
-		url: "/smartgrid_design/get_diff/",
+		url: "/smartgrid_design/get_diff/" + trim2(currentDraft) + "/",
 		success: function(data) {
 			var diff = data.diff;
 			var numDiff = diff.length;
@@ -320,9 +328,9 @@ function getDesignerDiff() {
 }
 
 function runDesignerLint() {
-	log.debug('runDesignerLint()');
+	log.debug('runDesignerLint(' + trim2(currentDraft) + ')');
 	jQuery.ajax({
-		url: "/smartgrid_design/run_lint/",
+		url: "/smartgrid_design/run_lint/" + trim2(currentDraft) + "/",
 		success: function(data) {
 			var unreachable = data.unreachable;
 			var false_unlock = data.false_unlock;
@@ -436,10 +444,10 @@ function deactivateColumn(levelID, column) {
 }
 
 function deleteGridAction(actionSlug) {
-	log.debug("deleteGridAction(" + actionSlug + ")");
+	log.debug("deleteGridAction(" + actionSlug + ', ' + trim2(currentDraft) + ")");
 //	$.get("/smartgrid_design/delete_action/" + actionSlug + "/");	
     jQuery.ajax({
-        url: "/smartgrid_design/delete_action/" + actionSlug + "/", 
+        url: "/smartgrid_design/delete_action/" + actionSlug + "/" + trim2(currentDraft) + "/", 
         success: function(data) {
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -448,9 +456,9 @@ function deleteGridAction(actionSlug) {
 }
 
 function deleteGridColumn(colSlug) {
-	log.debug("deleteGridColumn(" + colSlug + ")");
+	log.debug("deleteGridColumn(" + colSlug + ', ' + trim2(currentDraft) + ")");
     jQuery.ajax({
-        url: "/smartgrid_design/delete_column/" + colSlug + "/", 
+        url: "/smartgrid_design/delete_column/" + colSlug + "/" + trim2(currentDraft) + "/", 
         success: function(data) {
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -459,9 +467,9 @@ function deleteGridColumn(colSlug) {
 }
 
 function clearLevelColumnPriority(actionSlug) {
-	log.debug("clearLevelColumnPriority(" + actionSlug + ")");
+	log.debug("clearLevelColumnPriority(" + actionSlug + ', ' + trim2(currentDraft) + ")");
     jQuery.ajax({
-        url: "/smartgrid_design/clear_from_grid/" + actionSlug + "/", 
+        url: "/smartgrid_design/clear_from_grid/" + actionSlug + "/" + trim2(currentDraft) + "/", 
         success: function(data) {
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {

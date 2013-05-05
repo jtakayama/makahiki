@@ -3,8 +3,8 @@ from apps.widgets.smartgrid.models import Filler
 from django.views.decorators.cache import never_cache
 from django.contrib.auth.decorators import login_required
 from apps.widgets.smartgrid import smartgrid
-from django.http import HttpResponseRedirect, Http404, HttpResponse
-from django.shortcuts import render_to_response, get_object_or_404
+from django.http import HttpResponseRedirect, HttpResponse, Http404
+from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 from apps.widgets.smartgrid_design.forms import RevertToSmartgridForm, \
     DeployToSmartgridForm, ExampleGridsForm, DeleteLevelForm, AddLevelForm, EventDateForm
@@ -12,7 +12,7 @@ from apps.widgets.smartgrid_library.models import LibraryActivity, LibraryEvent,
     LibraryCommitment, LibraryColumnName
 from apps.managers.smartgrid_mgr import smartgrid_mgr, unlock_lint
 import json
-from apps.widgets.smartgrid_design.models import DesignerLevel, DesignerColumnName, \
+from apps.widgets.smartgrid_design.models import DesignerLevel, \
     DesignerAction, DesignerGrid, DesignerColumnGrid, Draft
 from collections import OrderedDict
 from django.template.defaultfilters import slugify
@@ -23,9 +23,15 @@ def supply(request, page_name):
     """ supply view_objects for widget rendering."""
     _ = request
     _ = page_name
-    draft_slug = request.REQUEST['draft']
-    draft = smartgrid_mgr.get_designer_draft(draft_slug)
-    levels = DesignerLevel.objects.all()
+    try:
+        draft_slug = request.REQUEST['draft']
+    except KeyError:
+        draft_slug = 'default'
+    try:
+        draft = smartgrid_mgr.get_designer_draft(draft_slug)
+    except Http404:
+        draft = smartgrid_mgr.get_designer_draft('default')
+    levels = DesignerLevel.objects.filter(draft=draft)
     if len(levels) == 0:  # need to create default level
         l = DesignerLevel()
         l.name = "Level 1"  # no name
@@ -33,7 +39,8 @@ def supply(request, page_name):
         l.unlock_condition = "True"
         l.unlock_condition_text = "Unlocked"
         l.save()
-        levels.append(l)
+    levels = DesignerLevel.objects.filter(draft=draft)
+
 
     return {
         'draft': draft,
@@ -94,31 +101,23 @@ def view_action(request, action_type, slug):
         }, context_instance=RequestContext(request))
 
 
-def instantiate_column(request, col_slug, level_slug, column):
+def instantiate_column(request, col_slug, level_slug, column, draft_slug):
     """Instantiates the DesignerColumnName from the LibraryColumnName and places it in the
     Grid at the given level and column."""
     _ = request
-    _ = level_slug
-    lib_col = LibraryColumnName.objects.get(slug=col_slug)
-    try:
-        col_name = get_object_or_404(DesignerColumnName, slug=col_slug)
-    except Http404:
-        col_name = DesignerColumnName()
+    draft = smartgrid_mgr.get_designer_draft(draft_slug)
+    col = smartgrid_mgr.instantiate_designer_column_from_library(draft, col_slug)
 
-    col_name.name = lib_col.name
-    col_name.slug = lib_col.slug
-    col_name.save()
-
-    level = get_object_or_404(DesignerLevel, slug=level_slug)
+    level = smartgrid_mgr.get_designer_level(draft, level_slug)
     grid = DesignerColumnGrid()
     grid.level = level
     grid.column = column
-    grid.name = col_name
+    grid.name = col
     grid.save()
 
     #  Return the new pk for the instantiated DesignerColumnName.
     return HttpResponse(json.dumps({
-            "pk": col_name.pk,
+            "pk": col.pk,
             }), mimetype="application/json")
 
 
@@ -128,7 +127,7 @@ def instantiate_action(request, action_slug, level_slug, column, row, draft_slug
     _ = request
     draft = smartgrid_mgr.get_designer_draft(draft_slug)
     grid_action = smartgrid_mgr.instantiate_designer_action_from_library(draft, action_slug)
-    level = DesignerLevel.objects.get(slug=level_slug)
+    level = smartgrid_mgr.get_designer_level(draft, level_slug)
     grid = DesignerGrid()
     grid.level = level
     grid.column = column
@@ -142,14 +141,15 @@ def instantiate_action(request, action_slug, level_slug, column, row, draft_slug
             }), mimetype="application/json")
 
 
-def move_action(request, action_slug, level_slug, old_column, old_row, new_column, new_row):
+def move_action(request, action_slug, level_slug, old_column, old_row, new_column, new_row, \
+                draft_slug):
     """Moves the Designer Grid Action from the old column and row to the new column and row."""
     _ = request
     _ = level_slug
-
-    action = smartgrid_mgr.get_designer_action(action_slug)
-    level = smartgrid_mgr.get_designer_level(level_slug)
-    for grid in DesignerGrid.objects.filter(action=action, level=level):
+    draft = smartgrid_mgr.get_designer_draft(draft_slug)
+    action = smartgrid_mgr.get_designer_action(draft, action_slug)
+    level = smartgrid_mgr.get_designer_level(draft, level_slug)
+    for grid in DesignerGrid.objects.filter(draft=draft, action=action, level=level):
         if grid.column == int(old_column) and grid.row == int(old_row):
             grid.column = new_column
             grid.row = new_row
@@ -161,17 +161,18 @@ def move_action(request, action_slug, level_slug, old_column, old_row, new_colum
             }), mimetype="application/json")
 
 
-def move_palette_action(request, action_slug, level_slug, new_column, new_row):
+def move_palette_action(request, action_slug, level_slug, new_column, new_row, draft_slug):
     """Moves the Designer Grid Action from the palette to the new column and row."""
     _ = request
-
-    action = smartgrid_mgr.get_designer_action(action_slug)
-    level = DesignerLevel.objects.get(slug=level_slug)
+    draft = smartgrid_mgr.get_designer_draft(draft_slug)
+    action = smartgrid_mgr.get_designer_action(draft, action_slug)
+    level = smartgrid_mgr.get_designer_level(draft, level_slug)
     grid = DesignerGrid()
     grid.level = level
     grid.column = new_column
     grid.row = new_row
     grid.action = action
+    grid.draft = draft
     grid.save()
 
     #  Return the pk for the moved action.
@@ -180,154 +181,163 @@ def move_palette_action(request, action_slug, level_slug, new_column, new_row):
             }), mimetype="application/json")
 
 
-def delete_action(request, action_slug):
+def delete_action(request, action_slug, draft_slug):
     """Deletes the given Smart Grid Game Action."""
     _ = request
-    action = smartgrid.get_action(action_slug)
+    draft = smartgrid_mgr.get_designer_draft(draft_slug)
+    action = smartgrid.get_action(draft, action_slug)
     action.delete()
-    response = HttpResponseRedirect("/sgg_designer/")
+    response = HttpResponseRedirect("/sgg_designer/?draft=%s" % draft.slug)
     return response
 
 
-def delete_column(request, col_slug):
+def delete_column(request, col_slug, draft_slug):
     """Deletes the DesignerColumnName for the given col_slug."""
     _ = request
-    column = get_object_or_404(DesignerColumnName, slug=col_slug)
+    draft = smartgrid_mgr.get_designer_draft(draft_slug)
+    column = smartgrid_mgr.get_designer_column_name(draft, col_slug)
     column.delete()
-    response = HttpResponseRedirect("/sgg_designer/")
+    response = HttpResponseRedirect("/sgg_designer/?draft=%s" % draft.slug)
     return response
 
 
-def clear_from_grid(request, action_slug):
+def clear_from_grid(request, action_slug, draft_slug):
     """Removes the DesignerAction for the given action_slug from the DesignerGrid."""
     _ = request
-    action = smartgrid_mgr.get_designer_action(action_slug)
-    for grid in DesignerGrid.objects.filter(action=action):
+    draft = smartgrid_mgr.get_designer_draft(draft_slug)
+    action = smartgrid_mgr.get_designer_action(draft, action_slug)
+    for grid in DesignerGrid.objects.filter(draft=draft, action=action):
         grid.delete()
-    response = HttpResponseRedirect("/sgg_designer/")
+    response = HttpResponseRedirect("/sgg_designer/?draft=%s" % draft.slug)
     return response
 
 
-def revert_to_grid(request):
+def revert_to_grid(request, draft_slug):
     """Deletes all the DesignerActions and creates new DesignerActions from the current Smart
     Grid Game instances."""
+    draft = smartgrid_mgr.get_designer_draft(draft_slug)
     if request.method == 'POST':  # If the form has been submitted...
         form = RevertToSmartgridForm(request.POST)  # A form bound to the POST data
         if form.is_valid():  # All validation rules pass
-            draft = smartgrid_mgr.get_designer_draft(form.cleaned_data['designer_draft'])
             smartgrid_mgr.clear_designer(draft)
-            smartgrid_mgr.copy_smartgrid_to_designer()
-    response = HttpResponseRedirect("/sgg_designer/")
+            smartgrid_mgr.copy_smartgrid_to_designer(draft)
+    response = HttpResponseRedirect("/sgg_designer/?draft=%s" % draft.slug)
     return response
 
 
-def publish_to_grid(request):
+def publish_to_grid(request, draft_slug):
     """Clears all the current Smart Grid Instances and Copies the DesignerActions to the Smart
     Grid Game."""
+    draft = smartgrid_mgr.get_designer_draft(draft_slug)
     if request.method == 'POST':
         form = DeployToSmartgridForm(request.POST)
         if form.is_valid():
             use_filler = form.cleaned_data['use_filler']
-            smartgrid_mgr.deploy_designer_to_smartgrid(use_filler)
-    response = HttpResponseRedirect("/sgg_designer/")
+            smartgrid_mgr.deploy_designer_to_smartgrid(draft, use_filler)
+    response = HttpResponseRedirect("/sgg_designer/?draft=%s" % draft.slug)
     return response
 
 
-def load_example_grid(request):
+def load_example_grid(request, draft_slug):
     """Clears the Designer and loads the example grid with the given name."""
+    draft = smartgrid_mgr.get_designer_draft(draft_slug)
     if request.method == 'POST':
         form = ExampleGridsForm(request.POST)
         if form.is_valid():
             example_name = form.cleaned_data['grid']
-            draft = smartgrid_mgr.get_designer_draft(form.cleaned_data['designer_draft'])
             if example_name == 'empty':
                 smartgrid_mgr.clear_designer(draft)
             else:
                 smartgrid_mgr.load_example_grid(draft, example_name)
-    response = HttpResponseRedirect("/sgg_designer/")
+    response = HttpResponseRedirect("/sgg_designer/?draft=%s" % draft.slug)
     return response
 
 
-def run_lint(request):
+def run_lint(request, draft_slug):
     """Runs unlock_lint over the DesignerActions and shows the results in a page."""
     _ = request
-    trees = unlock_lint.build_designer_trees()
+    draft = smartgrid_mgr.get_designer_draft(draft_slug)
+    trees = unlock_lint.build_designer_trees(draft)
     sorted_trees = OrderedDict(sorted(trees.items(), key=lambda t: -len(t[1])))
     unlock_tree = ''
     for k in list(sorted_trees):
         unlock_tree += sorted_trees[k].tohtmlstring()
         unlock_tree += '<p></p>'
-    unreachable = unlock_lint.get_unreachable_designer_actions()
-    false_unlock = unlock_lint.get_false_unlock_designer_actions()
-    mismatched_levels = unlock_lint.get_missmatched_designer_level()
+    unreachable = unlock_lint.get_unreachable_designer_actions(draft)
+    false_unlock = unlock_lint.get_false_unlock_designer_actions(draft)
+    mismatched_levels = unlock_lint.get_missmatched_designer_level(draft)
     return HttpResponse(json.dumps({
             "tree": unlock_tree,
             "unreachable": unreachable,
             "false_unlock": false_unlock,
             "mismatched_levels": mismatched_levels,
-            "pub_date": unlock_lint.check_pub_exp_dates(),
+            "pub_date": unlock_lint.check_pub_exp_dates(draft),
             }), mimetype="application/json")
 
 
-def get_diff(request):
+def get_diff(request, draft_slug):
     """Returns the difference between the designer grid and the Smart Grid as a string."""
     _ = request
-    diff = smartgrid_mgr.diff_between_designer_and_grid()
+    draft = smartgrid_mgr.get_designer_draft(draft_slug)
+    diff = smartgrid_mgr.diff_between_designer_and_grid(draft)
     return HttpResponse(json.dumps({
             "diff": diff,
             }), mimetype="application/json")
 
 
-def delete_level(request):
+def delete_level(request, draft_slug):
     """Deletes the DesignerLevel for the given level_slug and removes all the location
     information for the level."""
+    draft = smartgrid_mgr.get_designer_draft(draft_slug)
     if request.method == 'POST':
         form = DeleteLevelForm(request.POST)
         if form.is_valid():
             level_slug = form.cleaned_data['level_slug']
-            level = DesignerLevel.objects.get(slug=level_slug)
-            for grid in DesignerColumnGrid.objects.filter(level=level):
+            level = smartgrid_mgr.get_designer_level(draft, slug=level_slug)
+            for grid in DesignerColumnGrid.objects.filter(draft=draft, level=level):
                 grid.delete()
-            for grid in DesignerGrid.objects.filter(level=level):
+            for grid in DesignerGrid.objects.filter(draft=draft, level=level):
                 grid.delete()
             level.delete()
-    response = HttpResponseRedirect("/sgg_designer/")
+    response = HttpResponseRedirect("/sgg_designer/?draft=%s" % draft.slug)
     return response
 
 
-def add_level(request):
+def add_level(request, draft_slug):
     """Creates a new level."""
+    draft = smartgrid_mgr.get_designer_draft(draft_slug)
     if request.method == 'POST':
         form = AddLevelForm(request.POST)
         if form.is_valid():
             max_priority = 0
-            for level in DesignerLevel.objects.all():
+            for level in DesignerLevel.objects.filter(draft=draft):
                 if max_priority < level.priority:
                     max_priority = level.priority
             max_priority += 1
             slug = slugify(form.cleaned_data['level_name'])
             level = DesignerLevel(name=form.cleaned_data['level_name'], slug=slug, \
-                                  priority=max_priority)
+                                  priority=max_priority, draft=draft)
             predicate = form.cleaned_data['unlock_condition']
             if not utils.validate_predicates(predicate):
                 level.unlock_condition = predicate
             else:
                 level.unlock_condition = 'False'  # What is the correct default value?
             level.save()
-    response = HttpResponseRedirect("/sgg_designer/")
+    response = HttpResponseRedirect("/sgg_designer/?draft=%s" % draft.slug)
     return response
 
 
-def set_event_date(request):
+def set_event_date(request, draft_slug):
     """Sets the event date from the EventDateForm."""
+    draft = smartgrid_mgr.get_designer_draft(draft_slug)
     if request.method == 'POST':
         form = EventDateForm(request.POST)
         if form.is_valid():
             event_slug = form.cleaned_data['event_slug']
-            event = smartgrid_mgr.get_designer_action(event_slug)
+            event = smartgrid_mgr.get_designer_action(draft=draft, slug=event_slug)
             event_date = form.cleaned_data['event_date']
             event.event_date = event_date
             event.event_location = form.cleaned_data['location']
             event.save()
-    response = HttpResponseRedirect("/sgg_designer/")
+    response = HttpResponseRedirect("/sgg_designer/?draft=%s" % draft.slug)
     return response

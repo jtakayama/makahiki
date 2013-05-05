@@ -79,11 +79,11 @@ def duplicate(obj, value=None, field=None, duplicate_order=None):  # pylint: dis
 # pylint: enable=R0914
 
 
-def check_designer_vs_library():
+def check_designer_vs_library(draft):
     """Checks the slugs in the designer vs the library. Returns
 list of slugs in designer not in library."""
     l = []
-    for des_action in DesignerAction.objects.all():
+    for des_action in DesignerAction.objects.filter(draft=draft):
         slug = des_action.slug
         try:
             get_library_action(slug)
@@ -497,6 +497,7 @@ def copy_smartgrid_to_designer(draft):
         col.level = get_designer_level(draft, grid.level.slug)
         col.column = grid.column
         col.name = get_designer_column_name(draft, grid.name.slug)
+        col.draft = draft
         col.save()
     # Copy the Actions
     for action in Action.objects.all():
@@ -508,6 +509,7 @@ def copy_smartgrid_to_designer(draft):
         loc.column = grid.column
         loc.row = grid.row
         loc.action = get_designer_action(draft, grid.action.slug)
+        loc.draft = draft
         loc.save()
 
 
@@ -669,11 +671,11 @@ def diff_between_designer_and_grid_action(slug):  # pylint: disable=R0912
     return diff  # pylint: enable=R0912
 
 
-def diff_between_designer_and_grid():
+def diff_between_designer_and_grid(draft):
     """Returns a list of the action slugs and the changes for those slugs between the
     designer actions and smartgrid actions."""
     ret = []
-    for action in DesignerAction.objects.all():
+    for action in DesignerAction.objects.filter(draft=draft):
         slug = action.slug
         diff = diff_between_designer_and_grid_action(slug)
         if len(diff) > 0:

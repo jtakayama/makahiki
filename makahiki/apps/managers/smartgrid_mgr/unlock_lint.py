@@ -335,11 +335,11 @@ And the structure of the subtree is maintained from the old tree."""
         return "<Tree: %s>" % (self.root)
 
 
-def _build_designer_nodes():
+def _build_designer_nodes(draft):
     """Builds a list of all the DesignerAction nodes."""
     nodes = []
-    for action in DesignerAction.objects.all():
-        locations = DesignerGrid.objects.filter(action=action)
+    for action in DesignerAction.objects.filter(draft=draft):
+        locations = DesignerGrid.objects.filter(draft=draft, action=action)
         if len(locations) == 0:
             pass
         else:
@@ -379,9 +379,9 @@ def _get_urls(text):
     return ret
 
 
-def build_designer_trees():
+def build_designer_trees(draft):
     """Builds the unlock_trees for the DesignerActions in the Grid."""
-    nodes = _build_designer_nodes()
+    nodes = _build_designer_nodes(draft)
     trees = {}
     for node in nodes:
         if node.unlock_condition == "True" or node.unlock_condition.find("or True") != -1 \
@@ -421,12 +421,12 @@ def get_submitted_action_slugs(node):
     return ret
 
 
-def get_unreachable_designer_actions():
+def get_unreachable_designer_actions(draft):
     """Returns the slug for actions that are not in any tree for DesignerActions
     These actions are not reachable so they will not be unlocked."""
     ret = []
-    nodes = _build_designer_nodes()
-    trees = build_designer_trees()
+    nodes = _build_designer_nodes(draft)
+    trees = build_designer_trees(draft)
     # check all the nodes
     for node in nodes:
         in_tree = False
@@ -439,10 +439,10 @@ def get_unreachable_designer_actions():
     return ret
 
 
-def get_false_unlock_designer_actions():
+def get_false_unlock_designer_actions(draft):
     """Returns the slug for DesignerActions whose root unlock_condition is False."""
     ret = []
-    trees = build_designer_trees()
+    trees = build_designer_trees(draft)
     for k in list(trees):
         tree = trees[k]
         root = tree.get_node(tree.root)
@@ -456,10 +456,10 @@ def get_false_unlock_designer_actions():
     return ret
 
 
-def get_missmatched_designer_level():
+def get_missmatched_designer_level(draft):
     """Returns the slug for actions whose parent level is higher than their own."""
     ret = []
-    trees = build_designer_trees()
+    trees = build_designer_trees(draft)
     for k in list(trees):
         tree = trees[k]
         for node_key in list(tree.nodes):
@@ -474,15 +474,15 @@ def get_missmatched_designer_level():
     return ret
 
 
-def check_pub_exp_dates():
+def check_pub_exp_dates(draft):
     """Returns a list of DesignerAction slugs whose pub_date or exp_date are not in the
      challenge."""
     ret = []
-    trees = build_designer_trees()
+    trees = build_designer_trees(draft)
     challenge_start = challenge_mgr.get_challenge_start()
     challenge_end = challenge_mgr.get_challenge_end()
     # check only DesignerActions in the grid?
-    for action in DesignerAction.objects.all():
+    for action in DesignerAction.objects.filter(draft=draft):
         if action.pub_date > challenge_end.date() or (action.expire_date and \
                                                       action.expire_date < challenge_start.date()):
             for k in list(trees):
@@ -519,11 +519,11 @@ def check_library_urls():
     return ret
 
 
-def check_designer_urls():
+def check_designer_urls(draft):
     """Loops over all the DesignerActions looking for URLs in their description and checking
     them to ensure they return a valid HTTP status code."""
     ret = []
-    for action in DesignerAction.objects.all():
+    for action in DesignerAction.objects.filter(draft=draft):
         urls = _get_urls(action.description)
         for url in urls:
             req = urllib2.Request(url)

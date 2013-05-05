@@ -77,12 +77,13 @@
 				</div>
 			</div>
 			<div class="designer-center">
-				<div class="sgg-draft-choice">Choose Designer Draft</br>
-					<select name="designer_draft_choice">
+				<div class="sgg-draft-choice">Choose Designer Draft
+					<select name="designer_draft_choice" id="draft_choices">
 					{% for draft in view_objects.smartgrid_design.draft_choices %}
 						<option value="{{draft.slug}}" {% if view_objects.smartgrid_design.draft == draft %}selected{% endif %}>{{draft.name}}</option>
 					{% endfor %}
 					</select>
+					<a href="#" class="btn btn-widget" onclick="switchDraft();return false;">Load Draft</a>
 				</div>
 				<div class="sgg-column-title">
 					<a class="widget-help" href="#" >
@@ -108,7 +109,7 @@
 					</div>
 				</div>
 				<div class="left">
-					<form id="revert-form" action="{% url revert_to_grid %}" method="post">
+					<form id="revert-form" action="{% url revert_to_grid view_objects.smartgrid_design.draft.slug %}" method="post">
    		    	  		{% csrf_token %} {{ view_objects.smartgrid_design.reset_form.as_p }}
        		  			<input class="btn btn-widget" rel="tooltip" 
 							title="Deletes all changes made in the designer and loads the current Smart Grid Game." 
@@ -116,7 +117,7 @@
 		        	</form> 
 		        </div>
 				<div class="right">
-					<form id="publish-form" action="{% url publish_to_grid %}" method="post">
+					<form id="publish-form" action="{% url publish_to_grid view_objects.smartgrid_design.draft.slug %}" method="post">
    	    		  		{% csrf_token %} Use Fillers: {{ view_objects.smartgrid_design.publish_form.use_filler }}
        	  				<input id="designer-publish" class="btn btn-widget" rel="tooltip" 
 							title="Publish changes made in the designer to the Smart Grid Game."
@@ -238,7 +239,7 @@ $(document).click(function() {
 					</div>
 					<div class="content-box-contents">
 						Choose an example grid from the choices below.
-		        		<form id="example-grid-form" action="{% url load_example_grid %}" method="post">
+		        		<form id="example-grid-form" action="{% url load_example_grid view_objects.smartgrid_design.draft.slug %}" method="post">
 	    	    			{% csrf_token %} {{ view_objects.smartgrid_design.example_grid_form.as_p }}
           					<input class="btn btn-widget" rel="tooltip" 
 								title="Load example grid into the designer."
@@ -258,7 +259,7 @@ $(document).click(function() {
     </div>
     <div class="modal-body" id="modal-body">
         <p>
-        	<form id="addLevelForm" action="{% url add_designer_level %}" method="post">
+        	<form id="addLevelForm" action="{% url add_designer_level view_objects.smartgrid_design.draft.slug %}" method="post">
 				{% csrf_token %} {{ view_objects.smartgrid_design.add_level_form.as_p }}
 				<input class="btn btn-widget" rel="tooltip" title="Create a new DesignerLevel with the given name."
 					type="submit" value="Add Level" />
@@ -276,7 +277,7 @@ $(document).click(function() {
     </div>
     <div class="modal-body" id="modal-body">
         <p><div id="levelName"></div>
-   			<form id='delete-level-form' action="{% url delete_designer_level %}" method="post">
+   			<form id='delete-level-form' action="{% url delete_designer_level view_objects.smartgrid_design.draft.slug %}" method="post">
 				{% csrf_token %} {{view_objects.smartgrid_design.delete_level_form.as_p }}
 				<input class="btn btn-widget" rel="tooltip" title="Delete this level moving all actions to the palette."
 					type="submit" value="Yes" />
@@ -296,7 +297,7 @@ $(document).click(function() {
     </div>
     <div class="modal-body" id="modal-body">	
     	<div id="eventName"></div>
-    	<form id='set-event-date-form' action="{% url set_designer_event_date %}" method="post">
+    	<form id='set-event-date-form' action="{% url set_designer_event_date view_objects.smartgrid_design.draft.slug %}" method="post">
     		{% csrf_token %}{{view_objects.smartgrid_design.event_date_form.as_p}}
 			<input class="btn btn-widget" rel="tooltip" title="Set the event's date."
 					type="submit" value="Set Date" />
@@ -310,7 +311,7 @@ $(document).click(function() {
 
 <script type="text/javascript">
 	$(init);
-	var currentDraft = {{view_objects.smartgrid_design.draft.name}};
+	var currentDraft = "{{view_objects.smartgrid_design.draft.slug}}";
 	var numFiller = {{view_objects.smartgrid_design.fillers|length}};
 		
 	// See sggDesigner.js for most of the functionality.
@@ -387,6 +388,14 @@ $(document).click(function() {
 		})
 		$('.trash-dropzone').droppable({
 		})
+	}
+	
+	function switchDraft() {
+		var choices = document.getElementById('draft_choices');
+		var draftChoice = choices.options[choices.selectedIndex].value
+		if (currentDraft != draftChoice) {
+			window.location.href = "/sgg_designer/?draft=" + draftChoice;
+		}
 	}
 	
 	function addLevelDialog(event) {
