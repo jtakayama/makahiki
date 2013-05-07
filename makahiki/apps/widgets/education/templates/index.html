@@ -14,19 +14,19 @@
 		<ul id="education-tabs" class="nav nav-tabs">
 			<li class="">
 				<a href="#available"
-				   class="level-unlocked" data-toggle="tab" 
+				   class="action-tab" data-toggle="tab" 
 				   style="padding-right: 6px; padding-left: 6px;" 
 				   rel="tooltip" title="Actions You can try.">Available Actions</a>
 			</li>
 			<li class="">
 				<a href="#pending"
-				   class="level-unlocked" data-toggle="tab" 
+				   class="action-tab" data-toggle="tab" 
 				   style="padding-right: 6px; padding-left: 6px;" 
 				   rel="tooltip" title="Actions You've submitted for approval.">Pending Actions</a>
 			</li>
 			<li class="">
 				<a href="#completed"
-				   class="level-unlocked" data-toggle="tab" 
+				   class="action-tab" data-toggle="tab" 
 				   style="padding-right: 6px; padding-left: 6px;" 
 				   rel="tooltip" title="Actions You've finished.">Completed Actions</a>
 			</li>
@@ -34,134 +34,119 @@
         <!-- Tab contents -->
         <div class="tab-content">
 			<div id="available" class="tab-pane">
-				<h5>Activities:</h5>
-				<ul>
+				<h3>Activities:</h3>
+				<table class="table-ninety table-striped">
 				{% for action in view_objects.education.available_activities %}
-					<li>
-						<a href="{% url education_task action.type action.slug %}"
-						   title="{{action.title}}" rel="tooltip">
-						   <table>
-						     <tr>
-						     	<td width='90%'>
+					<tr>
+				     	<td width='90%'>
+							<a href="{% url education_task action.type action.slug %}"
+							   class="action-link"
+							   title="{{action}}" rel="tooltip">
 						   			<b>{{action.title}}</b>
-						   		</td>
-						   		<td width="10%">
+						   	</a>
+				   		</td>
+						<td width="10%" class="column-number">
 						   {% if action.point_value %}
 						   <b>{{action.point_value}}</b>
 						   {% else %}
 						   <b>{{action.point_range_start}} - {{action.point_range_end}}</b>
 						   {% endif %}
-						   		</td>
-						   	 </tr>
-						   </table>
-						</a>
-					</li>
+						</td>
+					</tr>
 				{% endfor %}
-				</ul>
-				<h5>Commiments:</h5>
-				<ul>
+				</table>
+				<h3>Commiments:</h3>
+				<table class="table-ninety table-striped">
 				{% for action in view_objects.education.available_commitments %}
-					<li>
-						<a href="{% url education_task action.type action.slug %}"
-						   title="{{action.title}}" rel="tooltip">
-						   <table>
-						     <tr>
-						     	<td width='90%'>
+					<tr>
+				     	<td width='90%'>
+							<a href="{% url education_task action.type action.slug %}"
+							   class="action-link"
+							   title="{{action}}" rel="tooltip">
 						   			<b>{{action.title}}</b>
-						   		</td>
-						   		<td width="10%">
+						   	</a>
+				   		</td>
+						<td width="10%" class="column-number">
 						   {% if action.point_value %}
 						   <b>{{action.point_value}}</b>
 						   {% else %}
 						   <b>{{action.point_range_start}} - {{action.point_range_end}}</b>
 						   {% endif %}
-						   		</td>
-						   	 </tr>
-						   </table>
-						</a>
-					</li>  
+						</td>
+					</tr>
 				{% endfor %}
-				</ul>
-				<h5>Events:</h5>
-				<ul>
+				</table>
+				<h3>Events:</h3>
+				<table class="table-ninety table-striped">
 				{% for action in view_objects.education.available_events %}
-					<li>
-						<a href="{% url education_task action.type action.slug %}"
-						   title="{{action.title}}" rel="tooltip">
-						   <table>
-						     <tr>
-						     	<td width='90%'>
+					<tr>
+				     	<td width='90%'>
+							<a href="{% url education_task action.type action.slug %}"
+							   class="action-link"
+							   title="{{action}}" rel="tooltip">
 						   			<b>{{action.title}}</b>
-						   		</td>
-						   		<td width="10%">
+						   	</a>
+				   		</td>
+						<td width="10%" class="column-number">
 						   {% if action.point_value %}
 						   <b>{{action.point_value}}</b>
 						   {% else %}
 						   <b>{{action.point_range_start}} - {{action.point_range_end}}</b>
 						   {% endif %}
-						   		</td>
-						   	 </tr>
-						   </table>
-						</a>
-					</li>
+						</td>
+					</tr>
 				{% empty %}
-				<li>There are no available actions. Check back later.</li>
+					<tr><td>There are no available events. Check back later.</td></tr>
 				{% endfor %}
-				</ul>
+				</table>
 			</div>
 			<div id="pending" class="tab-pane">
-				<ul>
+				<table class="table table-striped">
 			{% for action in view_objects.education.pending %}
-					<li>
-						<a href="{% url education_task action.type action.slug %}"
-						   title="{{action.title}}" rel="tooltip">
-						   <table>
-						     <tr>
-						     	<td width='90%'>
-						   			<b>{{action}}</b>
-						   		</td>
-						   		<td width="10%">
+					<tr>
+				     	<td width='90%'>
+							<a href="{% url education_task action.type action.slug %}"
+							   class="action-link"
+							   title="{{action}}" rel="tooltip">
+						   			<b>{{action.title}}</b>
+						   	</a>
+				   		</td>
+						<td width="10%" class="column-number">
 						   {% if action.point_value %}
 						   <b>{{action.point_value}}</b>
 						   {% else %}
 						   <b>{{action.point_range_start}} - {{action.point_range_end}}</b>
 						   {% endif %}
-						   		</td>
-						   	 </tr>
-						   </table>
-						</a>
-					</li>
+						</td>
+					</tr>
 			{% empty %}
-				<li>You've not submitted any actions yet. Go try some!</li>
+				<tr><td>You've not submitted any actions yet. Go try some!</td></tr>
 			{% endfor%}
-				</ul>
+				</table>
 			</div>
 			<div id="completed" class="tab-pane">
-				<ul>
+				<table class="table table-striped">
 			{% for action in view_objects.education.completed %}
-					<li>
-						<a href="{% url education_task action.type action.slug %}"
-						   title="{{action.title}}" rel="tooltip">
-						   <table>
-						     <tr>
-						     	<td width='90%'>
-						   			<b>{{action}}</b>
-						   		</td>
-						   		<td width="10%">
+					<tr>
+				     	<td width='90%'>
+							<a href="{% url education_task action.type action.slug %}"
+							   class="action-link"
+							   title="{{action}}" rel="tooltip">
+						   			<b>{{action.title}}</b>
+						   	</a>
+				   		</td>
+						<td width="10%" class="column-number">
 						   {% if action.point_value %}
 						   <b>{{action.point_value}}</b>
 						   {% else %}
 						   <b>{{action.point_range_start}} - {{action.point_range_end}}</b>
 						   {% endif %}
-						   		</td>
-						   	 </tr>
-						   </table>
-						</a>
-					</li>
+						</td>
+					</tr>
 			{% empty %}
-				<li>You've not completed any actions yet. Go try some!</li>
+				<tr><td>You've not completed any actions yet. Go try some!</td></tr>
 			{% endfor %}
-				</ul>
+				</table>
 			</div>
 		</div>		
 	</div>
