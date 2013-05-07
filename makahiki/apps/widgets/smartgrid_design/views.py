@@ -41,7 +41,6 @@ def supply(request, page_name):
         l.save()
     levels = DesignerLevel.objects.filter(draft=draft)
 
-
     return {
         'draft': draft,
         'draft_choices': Draft.objects.all(),
