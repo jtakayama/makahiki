@@ -129,6 +129,7 @@ def _copy_fields_no_foriegn_keys(orig, copy):
         if f.name != 'id' and not f.name in fks:
             value = getattr(orig, f.name)
             setattr(copy, f.name, value)
+    copy.save()
 
 
 def _admin_link(action):
@@ -594,15 +595,15 @@ def get_smart_grid_size():
     return ret
 
 
-def is_diff_between_designer_and_grid_action(slug):
+def is_diff_between_designer_and_grid_action(draft, action_slug):
     """Returns True if there is a difference between the Designer Action and
     Grid Action with the given slug."""
-    grid = get_smartgrid_action(slug)
+    grid = get_smartgrid_action(action_slug)
     fks = []
     for f in grid._meta.fields:
         if isinstance(f, ForeignKey):
             fks.append(f.name)
-    designer = get_designer_action(slug)
+    designer = get_designer_action(draft, action_slug)
     for f in grid._meta.fields:
         if f.name in fks:
             if not f.name.endswith('_ptr'):
@@ -618,16 +619,16 @@ def is_diff_between_designer_and_grid_action(slug):
     return False
 
 
-def diff_between_designer_and_grid_action(slug):  # pylint: disable=R0912
+def diff_between_designer_and_grid_action(draft, action_slug):  # pylint: disable=R0912
     """Returns a list of the fields that are different between the Designer Action and
     Grid Action with the given slug."""
     grid = None
     designer = None
     t = 'action'
     try:
-        designer = get_designer_action(slug)
+        designer = get_designer_action(draft, action_slug)
         t = designer.type
-        grid = get_smartgrid_action(slug)
+        grid = get_smartgrid_action(action_slug)
         t = grid.type
         fks = []
         for f in grid._meta.fields:
@@ -677,7 +678,7 @@ def diff_between_designer_and_grid(draft):
     ret = []
     for action in DesignerAction.objects.filter(draft=draft):
         slug = action.slug
-        diff = diff_between_designer_and_grid_action(slug)
+        diff = diff_between_designer_and_grid_action(draft, slug)
         if len(diff) > 0:
             inner = []
             inner.append(_admin_link(action))

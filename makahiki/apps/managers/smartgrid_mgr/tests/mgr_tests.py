@@ -5,12 +5,12 @@ Created on May 4, 2013
 '''
 import unittest
 from django.http import Http404
-from apps.widgets.smartgrid_design.models import Draft, DesignerLevel, DesignerTextPromptQuestion,\
+from apps.widgets.smartgrid_design.models import Draft, DesignerLevel, DesignerTextPromptQuestion, \
     DesignerAction, DesignerColumnName, DesignerColumnGrid, DesignerGrid
 from django.shortcuts import get_object_or_404
 from apps.managers.smartgrid_mgr import smartgrid_mgr
 from apps.widgets.smartgrid_library.models import LibraryTextPromptQuestion
-from apps.widgets.smartgrid.models import TextPromptQuestion, Level, ColumnName, Action, Grid
+from apps.widgets.smartgrid.models import TextPromptQuestion, Level, ColumnName, Grid
 
 
 class Test(unittest.TestCase):

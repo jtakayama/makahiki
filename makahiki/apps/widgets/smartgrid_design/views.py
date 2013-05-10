@@ -38,6 +38,7 @@ def supply(request, page_name):
         l.slug = "default"
         l.unlock_condition = "True"
         l.unlock_condition_text = "Unlocked"
+        l.draft = draft
         l.save()
     levels = DesignerLevel.objects.filter(draft=draft)
 
@@ -112,6 +113,7 @@ def instantiate_column(request, col_slug, level_slug, column, draft_slug):
     grid.level = level
     grid.column = column
     grid.name = col
+    grid.draft = draft
     grid.save()
 
     #  Return the new pk for the instantiated DesignerColumnName.
@@ -132,6 +134,7 @@ def instantiate_action(request, action_slug, level_slug, column, row, draft_slug
     grid.column = column
     grid.row = row
     grid.action = grid_action
+    grid.draft = draft
     grid.save()
 
     #  Return the new pk for the instantiated action.
@@ -184,9 +187,9 @@ def delete_action(request, action_slug, draft_slug):
     """Deletes the given Smart Grid Game Action."""
     _ = request
     draft = smartgrid_mgr.get_designer_draft(draft_slug)
-    action = smartgrid.get_action(draft, action_slug)
+    action = smartgrid_mgr.get_designer_action(draft, action_slug)
     action.delete()
-    response = HttpResponseRedirect("/sgg_designer/?draft=%s" % draft.slug)
+    response = HttpResponse("/sgg_designer/?draft=%s" % draft.slug)
     return response
 
 
@@ -196,7 +199,7 @@ def delete_column(request, col_slug, draft_slug):
     draft = smartgrid_mgr.get_designer_draft(draft_slug)
     column = smartgrid_mgr.get_designer_column_name(draft, col_slug)
     column.delete()
-    response = HttpResponseRedirect("/sgg_designer/?draft=%s" % draft.slug)
+    response = HttpResponse("/sgg_designer/?draft=%s" % draft.slug)
     return response
 
 
@@ -207,7 +210,7 @@ def clear_from_grid(request, action_slug, draft_slug):
     action = smartgrid_mgr.get_designer_action(draft, action_slug)
     for grid in DesignerGrid.objects.filter(draft=draft, action=action):
         grid.delete()
-    response = HttpResponseRedirect("/sgg_designer/?draft=%s" % draft.slug)
+    response = HttpResponse("/sgg_designer/?draft=%s" % draft.slug)
     return response
 
 
