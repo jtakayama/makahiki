@@ -12,6 +12,23 @@ from apps.widgets.quests.models import Quest
 from apps.widgets.smartgrid.models import Event, Activity, Level
 
 
+def setup_superuser(username, password):
+    """creates a superuser"""
+    user = User.objects.create_user(username=username, email=username + "@test.com",
+                                    password=password)
+    user.is_staff = True
+    user.is_superuser = True
+    user.save()
+    group, _ = Group.objects.get_or_create(name="testgroup")
+    team, _ = Team.objects.get_or_create(name="test_team", group=group)
+    profile = user.get_profile()
+    profile.team = team
+    profile.setup_complete = True
+    profile.setup_profile = True
+    profile.save()
+    return user
+
+
 def setup_user(username, password):
     """setup test user"""
     user = User.objects.create_user(username=username, email=username + "@test.com",
