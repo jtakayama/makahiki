@@ -124,6 +124,7 @@ function handleColumnDrop(event, ui) {
 		activateColumn(levelID, column, slug);
 	}
 	instantiateGridColumn(slug, levelSlug, column);
+	location.reload(true);
 }
 
 function handleColumnStartDrag(event, ui) {
@@ -179,11 +180,23 @@ function handlePaletteDrop(obj) {
  * @returns a jQuery object representing the dropped ColumnName. It can be added to the page.
  */
 function createColumnDropDiv(slug, column, text, id) {
-	log.debug("createColumnDropDiv(" + slug + ", " + column + ", " + text + ", " + id + ")");
-	var drop = $('<div data-slug=' + trim1(slug) + ' class="sgg-column grid-draggable" ' +
-			'data-priority=' + column + '><br />' + '<a class="sgg-column-link" ' +
-			'href="/challenge_admin/smartgrid/columnname/' + id + '/">'
-			+ trim2(text) + '</a><br /></div>');
+	log.debug("createColumnDropDiv(" + trim1(slug) + ", " + column + ", " + text + ", " + id + ")");
+	var drop = $('<div id="column-menu-'+ trim1(slug) + '"  class="sgg-level-popup-menu"><ul>' +
+	'<li><a href="#" class="sgg-action" onclick="deleteGridColumn(\''+ trim1(slug) + '\'); return false;"' +
+	'rel="tooltip" title="Delete this column from the level. Moves all the actions in the column to the palette">Delete column {{cat.name}}</a>' +
+	'</li></ul></div>' + 
+	'<div id="column-' + trim1(slug) + '" data-slug=' + trim1(slug) + ' class="sgg-column grid-draggable" ' +
+	'data-priority=' + column + '><br />' + '<a class="sgg-column-link" ' +
+	'href="/challenge_setting_admin/smartgrid_design/designercolumnname/' + id + '/">' +
+	trim2(text) + '</a><br /></div>' + 
+	'<script type="text/javascript">' +
+	'$("#column-' + trim1(slug) + '").bind("contextmenu", function(e) {' +
+	'$("#column-menu-' + trim1(slug) + '").css({top: e.pageY+"px",left: e.pageX+"px"}).show();' +
+	'return false;});' +
+	'$("#column-menu-' + trim1(slug) + '").click(function() {$(this).hide();});' +
+	'$(document).click(function() {$("#column-menu-{{cat.name.slug}}").hide();});' +
+	'</script>');
+	
 	return drop;
 } 
 
@@ -195,7 +208,7 @@ function instantiateGridColumn(colSlug, levelSlug, column) {
         	trim2(currentDraft) + "/", 
         success: function(data) {
 //        	log.debug('pk of Grid ColumnName is ' + data.pk);
-        	var div = $('div[data-slug="' + catSlug + '"]:visible > a');
+        	var div = $('div[data-slug="' + colSlug + '"]:visible > a');
         	var href = div.attr('href');
         	href = href.slice(0, href.length - 1);
         	var index = href.lastIndexOf('/');
@@ -460,6 +473,7 @@ function deleteGridColumn(colSlug) {
     jQuery.ajax({
         url: "/smartgrid_design/delete_column/" + colSlug + "/" + trim2(currentDraft) + "/", 
         success: function(data) {
+        	location.reload(true);
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
         }

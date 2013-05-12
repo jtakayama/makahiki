@@ -14,6 +14,7 @@ from apps.widgets.smartgrid_library.models import LibraryTextPromptQuestion, Lib
     LibraryActivity, LibraryQuestionChoice, LibraryEvent, LibraryCommitment, LibraryAction
 from django.db.utils import IntegrityError
 from apps.widgets.smartgrid_library.views import library_action_admin_list, library_action_admin
+from django.http import HttpResponseRedirect
 
 
 class LibraryActionAdmin(admin.ModelAdmin):
@@ -241,6 +242,16 @@ class LibraryActivityAdmin(admin.ModelAdmin):
     def get_urls(self):
         return redirect_urls(self, "changelist")
 
+    def response_change(self, request, obj):
+        """This makes the response go to the newly created model's change page
+        without using reverse"""
+        return HttpResponseRedirect("/sgg_designer/")
+
+    def response_add(self, request, obj, post_url_continue=None):
+        """This makes the response go to the newly created model's change page
+        without using reverse"""
+        return HttpResponseRedirect("/sgg_designer/")
+
 
 admin.site.register(LibraryActivity, LibraryActivityAdmin)
 challenge_designer_site.register(LibraryActivity, LibraryActivityAdmin)
@@ -296,6 +307,16 @@ class LibraryCommitmentAdmin(admin.ModelAdmin):
         """override the url definition."""
         return redirect_urls(self, "changelist")
 
+    def response_change(self, request, obj):
+        """This makes the response go to the newly created model's change page
+        without using reverse"""
+        return HttpResponseRedirect("/sgg_designer/")
+
+    def response_add(self, request, obj, post_url_continue=None):
+        """This makes the response go to the newly created model's change page
+        without using reverse"""
+        return HttpResponseRedirect("/sgg_designer/")
+
 
 admin.site.register(LibraryCommitment, LibraryCommitmentAdmin)
 challenge_designer_site.register(LibraryCommitment, LibraryCommitmentAdmin)
@@ -349,6 +370,16 @@ class LibraryEventAdmin(admin.ModelAdmin):
 
     def get_urls(self):
         return redirect_urls(self, "changelist")
+
+    def response_change(self, request, obj):
+        """This makes the response go to the newly created model's change page
+        without using reverse"""
+        return HttpResponseRedirect("/sgg_designer/")
+
+    def response_add(self, request, obj, post_url_continue=None):
+        """This makes the response go to the newly created model's change page
+        without using reverse"""
+        return HttpResponseRedirect("/sgg_designer/")
 
 
 admin.site.register(LibraryEvent, LibraryEventAdmin)

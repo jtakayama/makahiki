@@ -11,8 +11,9 @@
 						{% if i|add:"1" == cat.column %}
 						<div id="column-menu-{{cat.name.slug}}" class="sgg-level-popup-menu">
 							<ul>
-								<li><a href="#{{forloop.counter}}" class="sgg-action"
-								rel="tooltip" 
+								<li><a href="#" class="sgg-action"
+									   onclick="deleteGridColumn('{{cat.name.slug}}'); return false;"
+									   rel="tooltip" 
 								title="Delete this column from the level. Moves all the actions in the column to the palette">Delete column {{cat.name}}</a>
 								</li>
 							</ul>
@@ -25,7 +26,7 @@
 						 <br/>
 					</div>
 <script type="text/javascript">
-	$("#column-{{cat.column.slug}}").bind("contextmenu", function(e) {
+	$("#column-{{cat.name.slug}}").bind("contextmenu", function(e) {
 		$('#column-menu-{{cat.name.slug}}').css({
 			top: e.pageY+'px',
 			left: e.pageX+'px'

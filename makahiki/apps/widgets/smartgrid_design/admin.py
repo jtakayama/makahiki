@@ -243,7 +243,12 @@ class DesignerActivityAdmin(admin.ModelAdmin):
     def get_urls(self):
         return redirect_urls(self, "changelist")
 
-    def response_change(self, request, obj, post_url_continue=None):
+    def response_change(self, request, obj):
+        """This makes the response go to the newly created model's change page
+        without using reverse"""
+        return HttpResponseRedirect("/sgg_designer/?draft=%s" % obj.draft.slug)
+
+    def response_add(self, request, obj, post_url_continue=None):
         """This makes the response go to the newly created model's change page
         without using reverse"""
         return HttpResponseRedirect("/sgg_designer/?draft=%s" % obj.draft.slug)
@@ -300,7 +305,12 @@ class DesignerCommitmentAdmin(admin.ModelAdmin):
         """override the url definition."""
         return redirect_urls(self, "changelist")
 
-    def response_change(self, request, obj, post_url_continue=None):
+    def response_change(self, request, obj):
+        """This makes the response go to the newly created model's change page
+        without using reverse"""
+        return HttpResponseRedirect("/sgg_designer/?draft=%s" % obj.draft.slug)
+
+    def response_add(self, request, obj, post_url_continue=None):
         """This makes the response go to the newly created model's change page
         without using reverse"""
         return HttpResponseRedirect("/sgg_designer/?draft=%s" % obj.draft.slug)
@@ -390,7 +400,12 @@ class DesignerEventAdmin(admin.ModelAdmin):
     def get_urls(self):
         return redirect_urls(self, "changelist")
 
-    def response_change(self, request, obj, post_url_continue=None):
+    def response_change(self, request, obj):
+        """This makes the response go to the newly created model's change page
+        without using reverse"""
+        return HttpResponseRedirect("/sgg_designer/?draft=%s" % obj.draft.slug)
+
+    def response_add(self, request, obj, post_url_continue=None):
         """This makes the response go to the newly created model's change page
         without using reverse"""
         return HttpResponseRedirect("/sgg_designer/?draft=%s" % obj.draft.slug)
@@ -442,7 +457,12 @@ class DesignerFillerAdmin(admin.ModelAdmin):
         """override the url definition."""
         return redirect_urls(self, "changelist")
 
-    def response_change(self, request, obj, post_url_continue=None):
+    def response_change(self, request, obj):
+        """This makes the response go to the newly created model's change page
+        without using reverse"""
+        return HttpResponseRedirect("/sgg_designer/?draft=%s" % obj.draft.slug)
+
+    def response_add(self, request, obj, post_url_continue=None):
         """This makes the response go to the newly created model's change page
         without using reverse"""
         return HttpResponseRedirect("/sgg_designer/?draft=%s" % obj.draft.slug)
@@ -458,6 +478,17 @@ class DesignerColumnNameAdmin(admin.ModelAdmin):
     """DesignerColumnName Administration"""
     list_display = ["name", ]
     prepopulated_fields = {"slug": ("name",)}
+
+    def response_change(self, request, obj):
+        """This makes the response go to the newly created model's change page
+        without using reverse"""
+        return HttpResponseRedirect("/sgg_designer/?draft=%s" % obj.draft.slug)
+
+    def response_add(self, request, obj, post_url_continue=None):
+        """This makes the response go to the newly created model's change page
+        without using reverse"""
+        return HttpResponseRedirect("/sgg_designer/?draft=%s" % obj.draft.slug)
+
 
 admin.site.register(DesignerColumnName, DesignerColumnNameAdmin)
 challenge_designer_site.register(DesignerColumnName, DesignerColumnNameAdmin)
@@ -483,6 +514,16 @@ class DesignerLevelAdmin(admin.ModelAdmin):
     list_display = ["name", "priority", "unlock_condition"]
     form = DesignerLevelAdminForm
     prepopulated_fields = {"slug": ("name",)}
+
+    def response_change(self, request, obj):
+        """This makes the response go to the newly created model's change page
+        without using reverse"""
+        return HttpResponseRedirect("/sgg_designer/?draft=%s" % obj.draft.slug)
+
+    def response_add(self, request, obj, post_url_continue=None):
+        """This makes the response go to the newly created model's change page
+        without using reverse"""
+        return HttpResponseRedirect("/sgg_designer/?draft=%s" % obj.draft.slug)
 
 
 admin.site.register(DesignerLevel, DesignerLevelAdmin)
