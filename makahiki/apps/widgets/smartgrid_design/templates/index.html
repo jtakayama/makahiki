@@ -29,7 +29,7 @@
 							{% for action in view_objects.smartgrid_design.activities %}		
 							<div data-slug="{{action.slug}}" data-type="{{action.type}}" data-pk="{{action.pk}}"
 								data-unlock="{{action.unlock_condition}}"
-								class="sgg-action sgg-library-action sgg-activity library-draggable {% if action.slug in view_objects.smartgrid_design.smart_grid_actions %}hidden{% endif %}">
+								class="sgg-action sgg-library-action sgg-activity library-draggable {% if action.slug in view_objects.smartgrid_design.designer_actions %}hidden{% endif %}">
 								<a href="/challenge_setting_admin/smartgrid_library/library{{action.type}}/{{action.pk}}/"
 									class="sgg-action" ref="tooltip" title="{{action.title}}">{{action.name}}</a>
 							</div>
@@ -38,7 +38,7 @@
 						<div id="commitments" class="sgg-action-selections tab-pane">
 							{% for action in view_objects.smartgrid_design.commitments %}
 							<div data-slug="{{action.slug}}" data-type="{{action.type}}" data-pk="{{action.pk}}"
-								class="sgg-action sgg-library-action sgg-commitment library-draggable {% if action.slug in view_objects.smartgrid_design.smart_grid_actions %}hidden{% endif %}">
+								class="sgg-action sgg-library-action sgg-commitment library-draggable {% if action.slug in view_objects.smartgrid_design.designer_actions %}hidden{% endif %}">
 								<a href="/challenge_setting_admin/smartgrid_library/library{{action.type}}/{{action.pk}}/"
 									class="sgg-action" ref="tooltip" title="{{action.title}}">{{action.name}}</a>
 							</div>
@@ -47,7 +47,7 @@
 						<div id="events" class="sgg-action-selections tab-pane">
 							{% for action in view_objects.smartgrid_design.events %}
 							<div data-slug="{{action.slug}}" data-type="{{action.type}}" data-pk="{{action.pk}}"
-								class="sgg-action sgg-library-action sgg-event library-draggable {% if action.slug in view_objects.smartgrid_design.smart_grid_actions %}hidden{% endif %}">
+								class="sgg-action sgg-library-action sgg-event library-draggable {% if action.slug in view_objects.smartgrid_design.designer_actions %}hidden{% endif %}">
 								<a href="/challenge_setting_admin/smartgrid_library/library{{action.type}}/{{action.pk}}/"
 									class="sgg-action" ref="tooltip" title="{{action.title}}">{{action.name}}</a>
 							</div>
@@ -77,13 +77,14 @@
 				</div>
 			</div>
 			<div class="designer-center">
-				<div class="sgg-draft-choice">Choose Designer Draft
+				<div class="sgg-draft-choice">Choose Draft
 					<select name="designer_draft_choice" id="draft_choices">
 					{% for draft in view_objects.smartgrid_design.draft_choices %}
 						<option value="{{draft.slug}}" {% if view_objects.smartgrid_design.draft == draft %}selected{% endif %}>{{draft.name}}</option>
 					{% endfor %}
 					</select>
 					<a href="#" class="btn btn-widget" onclick="switchDraft();return false;">Load Draft</a>
+					<a href="#" class="btn btn-widget" onclick="newDraftDialog(event);return false;">Create New Draft</a>
 				</div>
 				<div class="sgg-column-title">
 					<a class="widget-help" href="#" >
@@ -101,7 +102,7 @@
 				<div class="ssg-column-selections">
 					<div class="sgg-column-wrapper">
 					{% for column in view_objects.smartgrid_design.columns %}
-					<div class="sgg-library-column library-draggable {% if column.slug in view_objects.smartgrid_design.smart_grid_categories %}hidden{% endif %}"
+					<div class="sgg-library-column library-draggable {% if column.slug in view_objects.smartgrid_design.designer_columns %}hidden{% endif %}"
 						 data-pk="{{column.pk}}" data-slug="{{column.slug}}">
 						<a class="sgg-column-link" href="/challenge_setting_admin/smartgrid_library/librarycolumnname/{{column.pk}}/">{{column}}</a>
 					</div>
@@ -309,6 +310,24 @@ $(document).click(function() {
     </div>
 </div>
 
+<div class="modal hide fade" id="newDraftName">
+	<div class="modal-header">
+        <a class="close" data-dismiss="modal">x</a>
+        <h3>Enter New Draft Name</h3>
+	</div>
+	<div class="modal-body">
+	<form id='new-draft-name-form' action="{% url new_draft %}" method="post">
+		{% csrf_token %}{{view_objects.smartgrid_design.new_draft_form.as_p}}
+			<input class="btn btn-widget" rel="tooltip" title="Set the new draft's name."
+					type="submit" value="Set Draft Name" />
+		    <a href="#" class="btn btn-widget" data-dismiss="modal">Cancel</a>		
+	</form>
+	</div>
+    <div class="modal-footer">
+        <a href="#" class="btn btn-widget" data-dismiss="modal">Cancel</a>
+    </div>
+</div>
+
 <script type="text/javascript">
 	$(init);
 	var currentDraft = "{{view_objects.smartgrid_design.draft.slug}}";
@@ -398,6 +417,18 @@ $(document).click(function() {
 		}
 	}
 	
+	function newDraftDialog(event) {
+		var modalElement = $('#newDraftName')
+        modalElement.modal({
+            backdrop: true,
+            keyboard: true,
+            show: false
+        }); 
+        modalElement.css('margin-top', (modalElement.outerHeight() / 2) * -1);
+        modalElement.modal('show');		
+		
+	}
+
 	function addLevelDialog(event) {
         var modalElement = $('#levelAddModal');
         

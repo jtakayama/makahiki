@@ -7,7 +7,8 @@ from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 from apps.widgets.smartgrid_design.forms import RevertToSmartgridForm, \
-    DeployToSmartgridForm, ExampleGridsForm, DeleteLevelForm, AddLevelForm, EventDateForm
+    DeployToSmartgridForm, ExampleGridsForm, DeleteLevelForm, AddLevelForm, EventDateForm,\
+    NewDraftForm
 from apps.widgets.smartgrid_library.models import LibraryActivity, LibraryEvent, \
     LibraryCommitment, LibraryColumnName
 from apps.managers.smartgrid_mgr import smartgrid_mgr, unlock_lint
@@ -57,10 +58,11 @@ def supply(request, page_name):
         'add_level_form': AddLevelForm(),
         'delete_level_form': DeleteLevelForm(),
         'event_date_form': EventDateForm(),
+        'new_draft_form': NewDraftForm(),
         'palette': smartgrid_mgr.get_designer_palette(draft),
         'designer_grid': smartgrid_mgr.get_designer_grid(draft),
-        'smart_grid_actions': smartgrid_mgr.get_designer_action_slugs(draft),
-        'smart_grid_columns': smartgrid_mgr.get_designer_column_name_slugs(draft),
+        'designer_actions': smartgrid_mgr.get_designer_action_slugs(draft),
+        'designer_columns': smartgrid_mgr.get_designer_column_name_slugs(draft),
             }
 
 
@@ -341,5 +343,21 @@ def set_event_date(request, draft_slug):
             event.event_date = event_date
             event.event_location = form.cleaned_data['location']
             event.save()
+    response = HttpResponseRedirect("/sgg_designer/?draft=%s" % draft.slug)
+    return response
+
+
+def new_draft(request):
+    """Creates a new Draft from the given draft name if the Draft doesn't already exist."""
+    if request.method == 'POST':
+        form = NewDraftForm(request.POST)
+        if form.is_valid():
+            draft_name = form.cleaned_data['draft_name']
+            draft_slug = slugify(draft_name)
+            try:
+                draft = smartgrid_mgr.get_designer_draft(draft_slug)
+            except Http404:
+                draft = Draft(name=draft_name, slug=draft_slug)
+                draft.save()
     response = HttpResponseRedirect("/sgg_designer/?draft=%s" % draft.slug)
     return response

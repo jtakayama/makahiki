@@ -58,4 +58,7 @@ urlpatterns = patterns('',
     url(r'^set_event_date/(?P<draft_slug>[\w\d-]+)/$',
         'apps.widgets.smartgrid_design.views.set_event_date',
         name='set_designer_event_date'),
+    url(r'^new_draft/$',
+        'apps.widgets.smartgrid_design.views.new_draft',
+        name='new_draft'),
 )
