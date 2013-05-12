@@ -26,12 +26,11 @@ class ListFormField(forms.Field):
 
 class RevertToSmartgridForm(forms.Form):
     """Form for ensuring no cross-site scripting for reverting designer."""
-    pass
 
 
 class DeployToSmartgridForm(forms.Form):
     """Form for ensuring no cross-site for publishing the designer to the smartgrid."""
-    use_filler = forms.BooleanField()
+    use_filler = forms.BooleanField(required=False)
 
 
 class DeleteLevelForm(forms.Form):
@@ -50,6 +49,11 @@ class AddLevelForm(forms.Form):
     """Form for adding a DesignerLevel. Ensures no cross-site scripting to create new levels."""
     level_name = forms.CharField(max_length=25, help_text="Level Name, must be unique.")
     unlock_condition = forms.CharField(max_length=40, help_text="Unlock Condition for the Level")
+
+
+class NewDraftForm(forms.Form):
+    """Form for adding a new Smart Grid Game Draft in the designer."""
+    draft_name = forms.CharField(max_length=50, help_text="The name of the Draft Smart Grid Game")
 
 
 class ExampleGridsForm(forms.Form):
