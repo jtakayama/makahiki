@@ -16,6 +16,7 @@ from apps.admin.admin import challenge_designer_site, challenge_manager_site, de
 from apps.widgets.smartgrid_design.models import DesignerAction, DesignerActivity, \
     DesignerTextPromptQuestion, DesignerCommitment, DesignerEvent, DesignerFiller, \
     DesignerColumnName, DesignerLevel, DesignerQuestionChoice, Draft
+from django.http import HttpResponseRedirect
 
 
 class DesignerDraftAdmin(admin.ModelAdmin):
@@ -242,6 +243,10 @@ class DesignerActivityAdmin(admin.ModelAdmin):
     def get_urls(self):
         return redirect_urls(self, "changelist")
 
+    def response_change(self, request, obj, post_url_continue=None):
+        """This makes the response go to the newly created model's change page
+        without using reverse"""
+        return HttpResponseRedirect("/sgg_designer/?draft=%s" % obj.draft.slug)
 
 admin.site.register(DesignerActivity, DesignerActivityAdmin)
 challenge_designer_site.register(DesignerActivity, DesignerActivityAdmin)
@@ -294,6 +299,11 @@ class DesignerCommitmentAdmin(admin.ModelAdmin):
     def get_urls(self):
         """override the url definition."""
         return redirect_urls(self, "changelist")
+
+    def response_change(self, request, obj, post_url_continue=None):
+        """This makes the response go to the newly created model's change page
+        without using reverse"""
+        return HttpResponseRedirect("/sgg_designer/?draft=%s" % obj.draft.slug)
 
 
 admin.site.register(DesignerCommitment, DesignerCommitmentAdmin)
@@ -380,6 +390,11 @@ class DesignerEventAdmin(admin.ModelAdmin):
     def get_urls(self):
         return redirect_urls(self, "changelist")
 
+    def response_change(self, request, obj, post_url_continue=None):
+        """This makes the response go to the newly created model's change page
+        without using reverse"""
+        return HttpResponseRedirect("/sgg_designer/?draft=%s" % obj.draft.slug)
+
 
 admin.site.register(DesignerEvent, DesignerEventAdmin)
 challenge_designer_site.register(DesignerEvent, DesignerEventAdmin)
@@ -426,6 +441,11 @@ class DesignerFillerAdmin(admin.ModelAdmin):
     def get_urls(self):
         """override the url definition."""
         return redirect_urls(self, "changelist")
+
+    def response_change(self, request, obj, post_url_continue=None):
+        """This makes the response go to the newly created model's change page
+        without using reverse"""
+        return HttpResponseRedirect("/sgg_designer/?draft=%s" % obj.draft.slug)
 
 
 admin.site.register(DesignerFiller, DesignerFillerAdmin)
