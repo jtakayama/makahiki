@@ -145,6 +145,15 @@ def instantiate_action(request, action_slug, level_slug, column, row, draft_slug
             }), mimetype="application/json")
 
 
+def copy_action(request, action_slug, draft_slug):
+    """Copies the given DesignerAction into the palette for the given draft."""
+    _ = request
+    draft = smartgrid_mgr.get_designer_draft(draft_slug)
+    smartgrid_mgr.copy_designer_action(draft, action_slug)
+    response = HttpResponse("/sgg_designer/?draft=%s" % draft.slug)
+    return response
+
+
 def move_action(request, action_slug, level_slug, old_column, old_row, new_column, new_row, \
                 draft_slug):
     """Moves the Designer Grid Action from the old column and row to the new column and row."""

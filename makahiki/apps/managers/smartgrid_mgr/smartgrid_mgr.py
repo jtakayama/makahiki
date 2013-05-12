@@ -137,6 +137,63 @@ def _admin_link(action):
         (action.type, action.pk, action.name)
 
 
+def __slug_has_copy_num(slug):
+    """Returns True if the given slug has a copy number.  Copy numbers are defined as slug-#."""
+    parts = slug.split('-')
+    last = parts[len(parts) - 1]
+    return last.isdigit()
+
+
+def __get_copy_num(slug):
+    """Returns the number at the end of the given slug (e.g. intro-video returns -1,
+    play-outside-cafe-1 returns 1."""
+    parts = slug.split('-')
+    last = parts[len(parts) - 1]
+    if last.isdigit():
+        return int(last)
+    else:
+        return -1
+
+
+def __get_slug_wo_copy_num(slug):
+    """Returns the slug prefix without the copy number. For slugs without copy numbers returns
+    the slug-."""
+    if __slug_has_copy_num(slug):
+        return slug[: slug.rfind('-') + 1]
+    else:
+        return "%s-" % slug
+
+
+def __get_next_library_copy_slug(slug):
+    """Returns the next available copy slug. Copy slugs have the copy_num appended to the slug
+    prefix."""
+    copy_num = __get_copy_num(slug)
+    slug_prefix = __get_slug_wo_copy_num(slug)
+    done = False
+    while not done:
+        try:
+            copy_num += 1
+            get_library_action('%s%d' % (slug_prefix, copy_num))
+        except Http404:
+            done = True
+    return '%s%d' % (slug_prefix, copy_num)
+
+
+def __get_next_designer_copy_slug(draft, slug):
+    """Returns the next available copy slug. Copy slugs have the copy_num appended to the slug
+    prefix."""
+    copy_num = __get_copy_num(slug)
+    slug_prefix = __get_slug_wo_copy_num(slug)
+    done = False
+    while not done:
+        try:
+            copy_num += 1
+            get_designer_action(draft, '%s%d' % (slug_prefix, copy_num))
+        except Http404:
+            done = True
+    return '%s%d' % (slug_prefix, copy_num)
+
+
 def instantiate_designer_column_from_library(draft, slug):
     """Instantiates a DesignerColumnName from the LibraryColumnName with the given draft and
     slug."""
@@ -320,6 +377,26 @@ def instantiate_smartgrid_action_from_designer(draft, slug):
             tqp.save()
 
     return grid_action
+
+
+def copy_library_action(slug):
+    """Copies the LibraryAction with the given slug."""
+    action = get_library_action(slug)
+    copy_slug = __get_next_library_copy_slug(slug)
+    action.pk = None
+    action.slug = copy_slug
+    action.save()
+    return action
+
+
+def copy_designer_action(draft, slug):
+    """Copies the DesignerAction with the given slug."""
+    action = get_designer_action(draft, slug)
+    copy_slug = __get_next_designer_copy_slug(draft, slug)
+    action.pk = None
+    action.slug = copy_slug
+    action.save()
+    return action
 
 
 def get_designer_action(draft, slug):
