@@ -11,10 +11,13 @@ from django.shortcuts import get_object_or_404
 from apps.managers.smartgrid_mgr import smartgrid_mgr
 from apps.widgets.smartgrid_library.models import LibraryTextPromptQuestion
 from apps.widgets.smartgrid.models import TextPromptQuestion, Level, ColumnName, Grid
+from django.test.testcases import TransactionTestCase
 
 
-class Test(unittest.TestCase):
+class Test(TransactionTestCase):
     """Test cases for smartgrid_mgr."""
+    fixtures = ['smartgrid_library', 'base_settings.json', 'test_smartgrid.json', \
+                'test_designer.json']
 
     def __create_cams_draft(self):
         """Creates Cam's Draft smartgrid with two levels, three columns, three actions"""
@@ -75,6 +78,7 @@ class Test(unittest.TestCase):
             self.designer_level = get_object_or_404(DesignerLevel, slug='level-1')
         except Http404:
             self.designer_level = DesignerLevel(name="Level 1", slug="level-1", priority=1)
+            self.designer_level.draft = self.draft
             self.designer_level.save()
 
     def tearDown(self):
@@ -159,11 +163,11 @@ class Test(unittest.TestCase):
             draft = Draft(name='Temp', slug='temp')
             draft.save()
         smartgrid_mgr.copy_smartgrid_to_designer(draft)
-        self.assertEqual(len(DesignerLevel.objects.filter(draft=draft)), 2, \
-                         "Expecting 2 levels got %s" % \
+        self.assertEqual(len(DesignerLevel.objects.filter(draft=draft)), 4, \
+                         "Expecting 4 levels got %s" % \
                          len(DesignerLevel.objects.filter(draft=draft)))
-        self.assertEqual(len(DesignerColumnName.objects.filter(draft=draft)), 3, \
-                         "Expecting 3 ColumnNames got %s" % \
+        self.assertEqual(len(DesignerColumnName.objects.filter(draft=draft)), 30, \
+                         "Expecting 30 ColumnNames got %s" % \
                          len(DesignerColumnName.objects.filter(draft=draft)))
         self.assertEqual(len(DesignerAction.objects.filter(draft=draft)), 84, \
                          "Expecting 84 Actions got %s" % \

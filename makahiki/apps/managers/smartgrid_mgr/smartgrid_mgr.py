@@ -129,7 +129,6 @@ def _copy_fields_no_foriegn_keys(orig, copy):
         if f.name != 'id' and not f.name in fks:
             value = getattr(orig, f.name)
             setattr(copy, f.name, value)
-    copy.save()
 
 
 def _admin_link(action):
@@ -308,6 +307,7 @@ def instantiate_smartgrid_action_from_designer(draft, slug):
     else:
         grid_action = old_obj
     _copy_fields_no_foriegn_keys(des_action, grid_action)
+    grid_action.save()
 
     # Copy all the DesignerTextPropmtQuestions
     for question in DesignerTextPromptQuestion.objects.filter(draft=draft, action=des_action):
