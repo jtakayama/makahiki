@@ -124,7 +124,7 @@ function handleColumnDrop(event, ui) {
 		activateColumn(levelID, column, slug);
 	}
 	instantiateGridColumn(slug, levelSlug, column);
-	location.reload(true);
+//	location.reload(true);
 }
 
 function handleColumnStartDrag(event, ui) {
@@ -490,6 +490,29 @@ function clearLevelColumnPriority(actionSlug) {
         }
     });	
 	
+}
+
+function copyLibraryAction(actionSlug) {
+	log.debug("copyLibraryAction(" + actionSlug + ', ' + trim2(currentDraft) + ")");
+    jQuery.ajax({
+        url: "/smartgrid_design/copy_library_action/" + actionSlug + "/" + trim2(currentDraft) + "/", 
+        success: function(data) {
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+        }
+    });	
+	
+}
+
+function copyDesignerAction(actionSlug) {
+	log.debug("copyDesignerAction(" + actionSlug + ', ' + trim2(currentDraft) + ")");
+    jQuery.ajax({
+        url: "/smartgrid_design/copy_designer_action/" + actionSlug + "/" + trim2(currentDraft) + "/", 
+        success: function(data) {
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+        }
+    });		
 }
 
 /**

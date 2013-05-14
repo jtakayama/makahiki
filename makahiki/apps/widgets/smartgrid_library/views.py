@@ -38,7 +38,7 @@ def library_action_admin_list(request):
     return HttpResponseRedirect("/admin/smartgrid_library/libraryaction/")
 
 
-def copy_action(request, draft_slug, action_slug):
+def copy_action(request, action_slug, draft_slug):
     """Copies the LibraryAction for the given action_slug."""
     _ = request
     smartgrid_mgr.copy_library_action(action_slug)

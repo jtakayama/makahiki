@@ -26,8 +26,13 @@
 					</ul>
 					<div class="tab-content">
 						<div id="activities" class="sgg-action-selections tab-pane active">
-							{% for action in view_objects.smartgrid_design.activities %}		
-							<div data-slug="{{action.slug}}" data-type="{{action.type}}" data-pk="{{action.pk}}"
+							{% for action in view_objects.smartgrid_design.activities %}
+							<div id="activity-menu-{{action.slug}}" class="sgg-level-popup-menu">
+								<ul>
+									<li><a href="#" class="sgg-action" onclick="copyLibraryAction('{{action.slug}}');return false;">Copy {{action.name}}</a>
+								</ul>
+							</div>			
+							<div id="library-{{action.slug}}" data-slug="{{action.slug}}" data-type="{{action.type}}" data-pk="{{action.pk}}"
 								data-unlock="{{action.unlock_condition}}"
 								class="sgg-action sgg-library-action sgg-activity library-draggable {% if action.slug in view_objects.smartgrid_design.designer_actions %}hidden{% endif %}">
 								<a href="/challenge_setting_admin/smartgrid_library/library{{action.type}}/{{action.pk}}/"
@@ -37,7 +42,12 @@
 						</div>
 						<div id="commitments" class="sgg-action-selections tab-pane">
 							{% for action in view_objects.smartgrid_design.commitments %}
-							<div data-slug="{{action.slug}}" data-type="{{action.type}}" data-pk="{{action.pk}}"
+							<div id="activity-menu-{{action.slug}}" class="sgg-level-popup-menu">
+								<ul>
+									<li><a href="#" class="sgg-action" onclick="copyLibraryAction('{{action.slug}}');return false;">Copy {{action.name}}</a>
+								</ul>
+							</div>			
+							<div id="library-{{action.slug}}" data-slug="{{action.slug}}" data-type="{{action.type}}" data-pk="{{action.pk}}"
 								class="sgg-action sgg-library-action sgg-commitment library-draggable {% if action.slug in view_objects.smartgrid_design.designer_actions %}hidden{% endif %}">
 								<a href="/challenge_setting_admin/smartgrid_library/library{{action.type}}/{{action.pk}}/"
 									class="sgg-action" ref="tooltip" title="{{action.title}}">{{action.name}}</a>
@@ -46,7 +56,12 @@
 						</div>
 						<div id="events" class="sgg-action-selections tab-pane">
 							{% for action in view_objects.smartgrid_design.events %}
-							<div data-slug="{{action.slug}}" data-type="{{action.type}}" data-pk="{{action.pk}}"
+							<div id="activity-menu-{{action.slug}}" class="sgg-level-popup-menu">
+								<ul>
+									<li><a href="#" class="sgg-action" onclick="copyLibraryAction('{{action.slug}}');return false;">Copy {{action.name}}</a>
+								</ul>
+							</div>			
+							<div id="library-{{action.slug}}" data-slug="{{action.slug}}" data-type="{{action.type}}" data-pk="{{action.pk}}"
 								class="sgg-action sgg-library-action sgg-event library-draggable {% if action.slug in view_objects.smartgrid_design.designer_actions %}hidden{% endif %}">
 								<a href="/challenge_setting_admin/smartgrid_library/library{{action.type}}/{{action.pk}}/"
 									class="sgg-action" ref="tooltip" title="{{action.title}}">{{action.name}}</a>
@@ -56,6 +71,60 @@
 					</div>
 				</div>
 			</div>
+<script type="text/javascript">
+{% for action in view_objects.smartgrid_design.activities %}
+$("#library-{{action.slug}}").bind("contextmenu", function(e) {
+	var y = e.pageY - 250;
+	var x = e.pageX - 30;
+    $('#activity-menu-{{action.slug}}').css({
+        top: y+'px',
+        left: x+'px'
+    }).show();
+    return false;
+});
+$("#activity-menu-{{action.slug}}").click(function() {
+    $(this).hide();
+});
+$(document).click(function() {
+    $("#activity-menu-{{action.slug}}").hide();
+});
+{% endfor %}
+{% for action in view_objects.smartgrid_design.commitments %}
+$("#library-{{action.slug}}").bind("contextmenu", function(e) {
+	var y = e.pageY - 250;
+	var x = e.pageX - 30;
+    $('#activity-menu-{{action.slug}}').css({
+        top: y+'px',
+        left: x+'px'
+    }).show();
+    return false;
+});
+$("#activity-menu-{{action.slug}}").click(function() {
+    $(this).hide();
+});
+$(document).click(function() {
+    $("#activity-menu-{{action.slug}}").hide();
+});
+{% endfor %}
+{% for action in view_objects.smartgrid_design.events %}
+$("#library-{{action.slug}}").bind("contextmenu", function(e) {
+	var y = e.pageY - 250;
+	var x = e.pageX - 30;
+    $('#activity-menu-{{action.slug}}').css({
+        top: y+'px',
+        left: x+'px'
+    }).show();
+    return false;
+});
+$("#activity-menu-{{action.slug}}").click(function() {
+    $(this).hide();
+});
+$(document).click(function() {
+    $("#activity-menu-{{action.slug}}").hide();
+});
+{% endfor %}
+</script>
+			
 			<div class="designer-sidebar designer-right">
 				<a class="widget-help" href="#" >
 		        	<img src="{{ STATIC_URL}}images/icons/icon-help-sm.png" width="20" align="center"
@@ -77,14 +146,15 @@
 				</div>
 			</div>
 			<div class="designer-center">
-				<div class="sgg-draft-choice">Choose Draft
+				<div class="sgg-draft-choice">Choose Draft:
 					<select name="designer_draft_choice" id="draft_choices">
 					{% for draft in view_objects.smartgrid_design.draft_choices %}
 						<option value="{{draft.slug}}" {% if view_objects.smartgrid_design.draft == draft %}selected{% endif %}>{{draft.name}}</option>
 					{% endfor %}
 					</select>
-					<a href="#" class="btn btn-widget" onclick="switchDraft();return false;">Load Draft</a>
-					<a href="#" class="btn btn-widget" onclick="newDraftDialog(event);return false;">Create New Draft</a>
+					<a href="#" class="btn btn-widget" onclick="switchDraft();return false;">Select Draft</a>
+					<a href="#" class="btn btn-widget" onclick="newDraftDialog(event);return false;">New Draft</a>
+					<a href="#" class="btn btn-widget" onclick="loadTemplate(event); return false;">Load Template</a>
 				</div>
 				<div class="sgg-column-title">
 					<a class="widget-help" href="#" >
@@ -134,7 +204,7 @@
 								<li><a href="#" class="sgg-action" onclick="addLevelDialog();return false;">Add new level</a>
 								<li><a href="#" class="sgg-action" onclick="deleteLevelDialog(event, '{{level.name}}', '{{level.slug}}');return false;">Delete {{level}}</a>
 							</ul>
-						</div> 
+						</div>
 						{% if forloop.counter == 1 %}
 						<li id="level-tab-{{forloop.counter}}" class="active">
 						{% else %}

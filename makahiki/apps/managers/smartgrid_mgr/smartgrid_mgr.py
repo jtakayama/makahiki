@@ -382,21 +382,39 @@ def instantiate_smartgrid_action_from_designer(draft, slug):
 def copy_library_action(slug):
     """Copies the LibraryAction with the given slug."""
     action = get_library_action(slug)
+    action_type = action.type
+    if action_type == 'activity':
+        obj = LibraryActivity()
+    elif action_type == 'commitment':
+        obj = LibraryCommitment()
+    elif action_type == 'event':
+        obj = LibraryEvent()
+    _copy_fields(action, obj)
     copy_slug = __get_next_library_copy_slug(slug)
-    action.pk = None
-    action.slug = copy_slug
-    action.save()
-    return action
+    obj.slug = copy_slug
+    obj.pk = None
+    obj.id = None
+    obj.save()
+    return obj
 
 
 def copy_designer_action(draft, slug):
     """Copies the DesignerAction with the given slug."""
     action = get_designer_action(draft, slug)
+    action_type = action.type
+    if action_type == 'activity':
+        obj = DesignerActivity()
+    elif action_type == 'commitment':
+        obj = DesignerCommitment()
+    elif action_type == 'event':
+        obj = DesignerEvent()
+    _copy_fields(action, obj)
     copy_slug = __get_next_designer_copy_slug(draft, slug)
-    action.pk = None
-    action.slug = copy_slug
-    action.save()
-    return action
+    obj.slug = copy_slug
+    obj.pk = None
+    obj.id = None
+    obj.save()
+    return obj
 
 
 def get_designer_action(draft, slug):
@@ -449,13 +467,12 @@ def get_designer_level(draft, slug):
 def get_library_action(slug):
     """Returns the Smart Grid Game Library Action for the given slug."""
     action = get_object_or_404(LibraryAction, slug=slug)
-    pk = action.pk
     if action.type == 'activity':
-        return LibraryActivity.objects.get(pk=pk)
+        return LibraryActivity.objects.get(slug=slug)
     if action.type == 'commitment':
-        return LibraryCommitment.objects.get(pk=pk)
+        return LibraryCommitment.objects.get(slug=slug)
     if action.type == 'event':
-        return LibraryEvent.objects.get(pk=pk)
+        return LibraryEvent.objects.get(slug=slug)
     return action
 
 
