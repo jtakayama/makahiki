@@ -1,20 +1,11 @@
 [
     {
         "pk": 1,
-        "model": "smartgrid_design.draft",
-        "fields": {
-            "name": "Default",
-            "slug": "default"
-        }
-    },
-    {
-        "pk": 1,
         "model": "smartgrid_design.designertextpromptquestion",
         "fields": {
             "action": 1,
             "answer": "freshmen, first-year students, residents of Hale Aloha",
-            "question": "What students can participate?",
-            "draft": 1
+            "question": "What students can participate?"
         }
     },
     {
@@ -23,8 +14,7 @@
         "fields": {
             "action": 1,
             "answer": "Hale Aloha dorms, or Lehua, Ilima, Mokihana, and Lokelani",
-            "question": "Where is the Kukui Cup taking place?",
-            "draft": 1
+            "question": "Where is the Kukui Cup taking place?"
         }
     },
     {
@@ -33,8 +23,7 @@
         "fields": {
             "action": 1,
             "answer": "90%",
-            "question": "How much of Hawaii's energy comes from oil?",
-            "draft": 1
+            "question": "How much of Hawaii's energy comes from oil?"
         }
     },
     {
@@ -43,8 +32,7 @@
         "fields": {
             "action": 2,
             "answer": "5",
-            "question": "How many commitments can you have at one time?",
-            "draft": 1
+            "question": "How many commitments can you have at one time?"
         }
     },
     {
@@ -53,8 +41,7 @@
         "fields": {
             "action": 2,
             "answer": "Accumulate kukui cup points",
-            "question": "How do you earn raffle tickets?",
-            "draft": 1
+            "question": "How do you earn raffle tickets?"
         }
     },
     {
@@ -63,8 +50,7 @@
         "fields": {
             "action": 2,
             "answer": "Points and Lounge energy consumption",
-            "question": "What are the two ways to \"keep score\" in the Kukui Cup?",
-            "draft": 1
+            "question": "What are the two ways to \"keep score\" in the Kukui Cup?"
         }
     },
     {
@@ -73,8 +59,7 @@
         "fields": {
             "action": 3,
             "answer": "energy",
-            "question": "What concept in electricity is like a car's odometer?",
-            "draft": 1
+            "question": "What concept in electricity is like a car's odometer?"
         }
     },
     {
@@ -83,8 +68,7 @@
         "fields": {
             "action": 3,
             "answer": "power",
-            "question": "What concept in electricity is like a car's speedometer?",
-            "draft": 1
+            "question": "What concept in electricity is like a car's speedometer?"
         }
     },
     {
@@ -93,8 +77,7 @@
         "fields": {
             "action": 3,
             "answer": "watt",
-            "question": "What is the unit of measurement for power?",
-            "draft": 1
+            "question": "What is the unit of measurement for power?"
         }
     },
     {
@@ -103,8 +86,7 @@
         "fields": {
             "action": 3,
             "answer": "kilowatt-hour",
-            "question": "What is the unit of measurement for household energy?",
-            "draft": 1
+            "question": "What is the unit of measurement for household energy?"
         }
     },
     {
@@ -113,8 +95,7 @@
         "fields": {
             "action": 17,
             "answer": "$0.20-$0.30",
-            "question": "How much does a kilowatt-hour cost in Hawaii?",
-            "draft": 1
+            "question": "How much does a kilowatt-hour cost in Hawaii?"
         }
     },
     {
@@ -123,8 +104,7 @@
         "fields": {
             "action": 17,
             "answer": "1500 kWh",
-            "question": "How much energy does a Hale Aloha tower use per day?",
-            "draft": 1
+            "question": "How much energy does a Hale Aloha tower use per day?"
         }
     },
     {
@@ -133,8 +113,7 @@
         "fields": {
             "action": 17,
             "answer": "1 kWh",
-            "question": "How much energy does a solar panel generate per day?",
-            "draft": 1
+            "question": "How much energy does a solar panel generate per day?"
         }
     },
     {
@@ -143,8 +122,7 @@
         "fields": {
             "action": 17,
             "answer": "3 Wh",
-            "question": "How much energy is in a AA battery?",
-            "draft": 1
+            "question": "How much energy is in a AA battery?"
         }
     },
     {
@@ -153,8 +131,7 @@
         "fields": {
             "action": 17,
             "answer": "175-200 W",
-            "question": "How much power does a solar panel generate?",
-            "draft": 1
+            "question": "How much power does a solar panel generate?"
         }
     },
     {
@@ -163,8 +140,7 @@
         "fields": {
             "action": 17,
             "answer": "1000+ W",
-            "question": "How much does power a microwave use?",
-            "draft": 1
+            "question": "How much does power a microwave use?"
         }
     },
     {
@@ -173,8 +149,7 @@
         "fields": {
             "action": 17,
             "answer": "200 W",
-            "question": "How much power does a game console use?",
-            "draft": 1
+            "question": "How much power does a game console use?"
         }
     },
     {
@@ -183,8 +158,7 @@
         "fields": {
             "action": 27,
             "answer": "vampire power, devices can use energy when powered off",
-            "question": "Why would we measure the power drawn by a device that is off?",
-            "draft": 1
+            "question": "Why would we measure the power drawn by a device that is off?"
         }
     },
     {
@@ -193,8 +167,7 @@
         "fields": {
             "action": 27,
             "answer": "hair dryer",
-            "question": "Which device uses the most power: mobile phone, laptop, or hair dryer?",
-            "draft": 1
+            "question": "Which device uses the most power: mobile phone, laptop, or hair dryer?"
         }
     },
     {
@@ -203,8 +176,7 @@
         "fields": {
             "action": 33,
             "answer": "anything reasonable",
-            "question": "What did you learn from the video?",
-            "draft": 1
+            "question": "What did you learn from the video?"
         }
     },
     {
@@ -213,8 +185,7 @@
         "fields": {
             "action": 33,
             "answer": "higher prices, climate change, lost beaches",
-            "question": "What might be some consequences of failing to make changes in Hawaii's current energy generation?",
-            "draft": 1
+            "question": "What might be some consequences of failing to make changes in Hawaii's current energy generation?"
         }
     },
     {
@@ -223,8 +194,7 @@
         "fields": {
             "action": 45,
             "answer": "incandescent",
-            "question": "Which light source uses more power, incandescent or compact fluorescent (CFL)?",
-            "draft": 1
+            "question": "Which light source uses more power, incandescent or compact fluorescent (CFL)?"
         }
     },
     {
@@ -233,8 +203,7 @@
         "fields": {
             "action": 45,
             "answer": "CFL",
-            "question": "Which light source uses more power, compact fluorescent (CFL) or LED?",
-            "draft": 1
+            "question": "Which light source uses more power, compact fluorescent (CFL) or LED?"
         }
     },
     {
@@ -243,8 +212,7 @@
         "fields": {
             "action": 45,
             "answer": "turning off lights, using sunlight",
-            "question": "What is one way to reduce energy use from lighting?",
-            "draft": 1
+            "question": "What is one way to reduce energy use from lighting?"
         }
     },
     {
@@ -253,8 +221,7 @@
         "fields": {
             "action": 59,
             "answer": "prevent/reduce, reuse, recycle",
-            "question": "What are the three components of the trash pyramid?",
-            "draft": 1
+            "question": "What are the three components of the trash pyramid?"
         }
     },
     {
@@ -263,8 +230,7 @@
         "fields": {
             "action": 59,
             "answer": "60%",
-            "question": "What percentage of our trash does H-POWER convert into energy?",
-            "draft": 1
+            "question": "What percentage of our trash does H-POWER convert into energy?"
         }
     },
     {
@@ -273,8 +239,7 @@
         "fields": {
             "action": 59,
             "answer": "a power plant that turns some of Hawaii's waste into energy",
-            "question": "What is H-POWER?",
-            "draft": 1
+            "question": "What is H-POWER?"
         }
     },
     {
@@ -283,8 +248,7 @@
         "fields": {
             "action": 59,
             "answer": "reuse containers, bring your own container, use reusable bags, etc",
-            "question": "Name one way you can reduce the amount of trash you produce",
-            "draft": 1
+            "question": "Name one way you can reduce the amount of trash you produce"
         }
     },
     {
@@ -293,8 +257,7 @@
         "fields": {
             "action": 60,
             "answer": "Reduce our energy use, reduce energy footprint",
-            "question": "How can we in Hawaii reduce our carbon footprint?",
-            "draft": 1
+            "question": "How can we in Hawaii reduce our carbon footprint?"
         }
     },
     {
@@ -303,8 +266,7 @@
         "fields": {
             "action": 60,
             "answer": "reduce it, get it under 350 ppm",
-            "question": "What should we do about carbon dioxide?",
-            "draft": 1
+            "question": "What should we do about carbon dioxide?"
         }
     },
     {
@@ -313,8 +275,7 @@
         "fields": {
             "action": 60,
             "answer": "less fresh water, less beach, more drought, more floods, more coral bleaching",
-            "question": "What is one expected impact of climate change in Hawaii?",
-            "draft": 1
+            "question": "What is one expected impact of climate change in Hawaii?"
         }
     },
     {
@@ -323,8 +284,7 @@
         "fields": {
             "action": 61,
             "answer": "no interconnection, small grids, expensive raw materials",
-            "question": "What is one reason why energy costs more in Hawaii?",
-            "draft": 1
+            "question": "What is one reason why energy costs more in Hawaii?"
         }
     },
     {
@@ -333,8 +293,7 @@
         "fields": {
             "action": 61,
             "answer": "oil",
-            "question": "What is the main source of energy in Hawaii?",
-            "draft": 1
+            "question": "What is the main source of energy in Hawaii?"
         }
     },
     {
@@ -343,8 +302,7 @@
         "fields": {
             "action": 61,
             "answer": "so many types available, easier for renewables to be price competitive here",
-            "question": "What is one reason renewable power has great potential in Hawaii?",
-            "draft": 1
+            "question": "What is one reason renewable power has great potential in Hawaii?"
         }
     },
     {
@@ -353,8 +311,7 @@
         "fields": {
             "action": 71,
             "answer": "Power is the rate at which energy is used.",
-            "question": "What is the relationship between power and energy?",
-            "draft": 1
+            "question": "What is the relationship between power and energy?"
         }
     },
     {
@@ -363,8 +320,7 @@
         "fields": {
             "action": 71,
             "answer": "The rate at which energy is being used.",
-            "question": "What is power?",
-            "draft": 1
+            "question": "What is power?"
         }
     },
     {
@@ -373,8 +329,7 @@
         "fields": {
             "action": 72,
             "answer": "about 20 kWh",
-            "question": "How much energy does a typical Hawaii home use in a day?",
-            "draft": 1
+            "question": "How much energy does a typical Hawaii home use in a day?"
         }
     },
     {
@@ -383,8 +338,7 @@
         "fields": {
             "action": 72,
             "answer": "gone down",
-            "question": "Has Hawaii's oil consumption gone up, down, or stayed the same over the past five years? Why?",
-            "draft": 1
+            "question": "Has Hawaii's oil consumption gone up, down, or stayed the same over the past five years? Why?"
         }
     },
     {
@@ -393,8 +347,7 @@
         "fields": {
             "action": 72,
             "answer": "About 1.",
-            "question": "How many solar panels would be needed to power an XBox?",
-            "draft": 1
+            "question": "How many solar panels would be needed to power an XBox?"
         }
     },
     {
@@ -403,8 +356,7 @@
         "fields": {
             "action": 74,
             "answer": "doesn't work at night, or when very cloudy",
-            "question": "What is one limitation of solar power?",
-            "draft": 1
+            "question": "What is one limitation of solar power?"
         }
     },
     {
@@ -413,8 +365,7 @@
         "fields": {
             "action": 74,
             "answer": "Ability to run power meter forwards or backwards",
-            "question": "What is net metering?",
-            "draft": 1
+            "question": "What is net metering?"
         }
     },
     {
@@ -423,8 +374,7 @@
         "fields": {
             "action": 74,
             "answer": "Heat, light",
-            "question": "What are the two things the sun provides?",
-            "draft": 1
+            "question": "What are the two things the sun provides?"
         }
     },
     {
@@ -433,8 +383,7 @@
         "fields": {
             "action": 78,
             "answer": "Provides constant power, not intermittent",
-            "question": "How does OTEC differ from solar and wind energy?",
-            "draft": 1
+            "question": "How does OTEC differ from solar and wind energy?"
         }
     },
     {
@@ -443,8 +392,7 @@
         "fields": {
             "action": 78,
             "answer": "Ocean Thermal Energy Conversion",
-            "question": "What does OTEC stand for?",
-            "draft": 1
+            "question": "What does OTEC stand for?"
         }
     },
     {
@@ -453,8 +401,7 @@
         "fields": {
             "action": 78,
             "answer": "Use the temperature difference between warm ocean surface and cold depths to spin turbine",
-            "question": "How does OTEC generate energy?",
-            "draft": 1
+            "question": "How does OTEC generate energy?"
         }
     },
     {
@@ -463,8 +410,7 @@
         "fields": {
             "action": 78,
             "answer": "Equivalent to 250 billion barrels of oil",
-            "question": "How much solar energy do tropical seas absorb in a day?",
-            "draft": 1
+            "question": "How much solar energy do tropical seas absorb in a day?"
         }
     },
     {
@@ -473,8 +419,7 @@
         "fields": {
             "action": 79,
             "answer": "We as citizens need to decide what trade-offs we want to make.",
-            "question": "Why can't we just let the electric company solve our energy problems?",
-            "draft": 1
+            "question": "Why can't we just let the electric company solve our energy problems?"
         }
     },
     {
@@ -483,8 +428,7 @@
         "fields": {
             "action": 79,
             "answer": "They are intermittent, we need power even when it's dark and not windy.",
-            "question": "Why can't solar or wind power supply all of Hawaii's energy needs?",
-            "draft": 1
+            "question": "Why can't solar or wind power supply all of Hawaii's energy needs?"
         }
     },
     {
@@ -493,8 +437,7 @@
         "fields": {
             "action": 80,
             "answer": "Petroleum (37%)",
-            "question": "What is the primary source of energy across the United States?",
-            "draft": 1
+            "question": "What is the primary source of energy across the United States?"
         }
     },
     {
@@ -503,8 +446,7 @@
         "fields": {
             "action": 80,
             "answer": "Washington",
-            "question": "According to the US Energy Information Office, what state currently has the lowest energy costs?",
-            "draft": 1
+            "question": "According to the US Energy Information Office, what state currently has the lowest energy costs?"
         }
     },
     {
@@ -513,8 +455,7 @@
         "fields": {
             "action": 80,
             "answer": "$0.30",
-            "question": "What is the approximate cost of a kilowatt-hour of electricity on Oahu?",
-            "draft": 1
+            "question": "What is the approximate cost of a kilowatt-hour of electricity on Oahu?"
         }
     },
     {
@@ -523,8 +464,7 @@
         "fields": {
             "action": 81,
             "answer": "6 billion dollars.",
-            "question": "How much money do we currently send out of state on oil per year?",
-            "draft": 1
+            "question": "How much money do we currently send out of state on oil per year?"
         }
     },
     {
@@ -533,8 +473,7 @@
         "fields": {
             "action": 81,
             "answer": "They will decrease.",
-            "question": "If we achieve the goals of HCEI, what will happen to our baseline power requirements over the next 20 years?",
-            "draft": 1
+            "question": "If we achieve the goals of HCEI, what will happen to our baseline power requirements over the next 20 years?"
         }
     },
     {
@@ -543,8 +482,7 @@
         "fields": {
             "action": 81,
             "answer": "70%",
-            "question": "According to the HCEI, what percentage of our energy should come from clean sources by 2030?",
-            "draft": 1
+            "question": "According to the HCEI, what percentage of our energy should come from clean sources by 2030?"
         }
     },
     {
@@ -553,8 +491,7 @@
         "fields": {
             "action": 83,
             "answer": "Google Maps or hea.thebus.org",
-            "question": "How can you find out when the next bus is coming?",
-            "draft": 1
+            "question": "How can you find out when the next bus is coming?"
         }
     },
     {
@@ -563,8 +500,7 @@
         "fields": {
             "action": 83,
             "answer": "Nothing!",
-            "question": "As a UH student, how much does it cost you to ride The Bus?",
-            "draft": 1
+            "question": "As a UH student, how much does it cost you to ride The Bus?"
         }
     },
     {
@@ -573,8 +509,7 @@
         "fields": {
             "action": 83,
             "answer": "60%",
-            "question": "What percentage of Hawaii's energy is used for transportation?",
-            "draft": 1
+            "question": "What percentage of Hawaii's energy is used for transportation?"
         }
     },
     {
@@ -584,7 +519,6 @@
             "name": "Level 1",
             "slug": "level-1",
             "priority": 1,
-            "draft": 1,
             "unlock_condition_text": null,
             "unlock_condition": "True"
         }
@@ -596,7 +530,6 @@
             "name": "Level 2",
             "slug": "level-2",
             "priority": 2,
-            "draft": 1,
             "unlock_condition_text": "complete all level 1 activities and attempt all level 1 commitments",
             "unlock_condition": "completed_level(1)"
         }
@@ -608,7 +541,6 @@
             "name": "Level 3",
             "slug": "level-3",
             "priority": 3,
-            "draft": 1,
             "unlock_condition_text": "complete all level 2 activities and attempt all level 2 commitments",
             "unlock_condition": "completed_level(2)"
         }
@@ -620,7 +552,6 @@
             "name": "Level 4",
             "slug": "level-4",
             "priority": 4,
-            "draft": 1,
             "unlock_condition_text": "complete all level 3 activities and attempt all level 3 commitments",
             "unlock_condition": "completed_level(3)"
         }
@@ -629,7 +560,6 @@
         "pk": 1,
         "model": "smartgrid_design.designercolumnname",
         "fields": {
-            "draft": 1,
             "name": "Get Started",
             "slug": "get-started"
         }
@@ -638,7 +568,6 @@
         "pk": 2,
         "model": "smartgrid_design.designercolumnname",
         "fields": {
-            "draft": 1,
             "name": "Electrimental",
             "slug": "electrimental"
         }
@@ -647,7 +576,6 @@
         "pk": 3,
         "model": "smartgrid_design.designercolumnname",
         "fields": {
-            "draft": 1,
             "name": "Do It To It",
             "slug": "do-it-it"
         }
@@ -656,7 +584,6 @@
         "pk": 4,
         "model": "smartgrid_design.designercolumnname",
         "fields": {
-            "draft": 1,
             "name": "Be Committed",
             "slug": "be-committed"
         }
@@ -665,7 +592,6 @@
         "pk": 5,
         "model": "smartgrid_design.designercolumnname",
         "fields": {
-            "draft": 1,
             "name": "Let's Get Physical",
             "slug": "lets-get-physical"
         }
@@ -674,7 +600,6 @@
         "pk": 6,
         "model": "smartgrid_design.designercolumnname",
         "fields": {
-            "draft": 1,
             "name": "Basic Energy",
             "slug": "basic-energy"
         }
@@ -683,7 +608,6 @@
         "pk": 7,
         "model": "smartgrid_design.designercolumnname",
         "fields": {
-            "draft": 1,
             "name": "Just Do It",
             "slug": "just-do-it"
         }
@@ -692,7 +616,6 @@
         "pk": 8,
         "model": "smartgrid_design.designercolumnname",
         "fields": {
-            "draft": 1,
             "name": "Think Smart",
             "slug": "think-smart"
         }
@@ -701,7 +624,6 @@
         "pk": 9,
         "model": "smartgrid_design.designercolumnname",
         "fields": {
-            "draft": 1,
             "name": "Moving on",
             "slug": "moving"
         }
@@ -710,7 +632,6 @@
         "pk": 10,
         "model": "smartgrid_design.designercolumnname",
         "fields": {
-            "draft": 1,
             "name": "Last Dance",
             "slug": "last-dance"
         }
@@ -719,7 +640,6 @@
         "pk": 11,
         "model": "smartgrid_design.designercolumnname",
         "fields": {
-            "draft": 1,
             "name": "Power to Burn?",
             "slug": "power-burn"
         }
@@ -728,7 +648,6 @@
         "pk": 12,
         "model": "smartgrid_design.designercolumnname",
         "fields": {
-            "draft": 1,
             "name": "Go Dark",
             "slug": "go-dark"
         }
@@ -737,7 +656,6 @@
         "pk": 13,
         "model": "smartgrid_design.designercolumnname",
         "fields": {
-            "draft": 1,
             "name": "Lights Out!",
             "slug": "lights-out"
         }
@@ -746,7 +664,6 @@
         "pk": 14,
         "model": "smartgrid_design.designercolumnname",
         "fields": {
-            "draft": 1,
             "name": "Water Cycle",
             "slug": "water-cycle"
         }
@@ -755,7 +672,6 @@
         "pk": 15,
         "model": "smartgrid_design.designercolumnname",
         "fields": {
-            "draft": 1,
             "name": "Make Watts",
             "slug": "make-watts"
         }
@@ -764,7 +680,6 @@
         "pk": 16,
         "model": "smartgrid_design.designercolumnname",
         "fields": {
-            "draft": 1,
             "name": "Play!",
             "slug": "play"
         }
@@ -773,7 +688,6 @@
         "pk": 17,
         "model": "smartgrid_design.designercolumnname",
         "fields": {
-            "draft": 1,
             "name": "Make it So",
             "slug": "make-it-so"
         }
@@ -782,7 +696,6 @@
         "pk": 18,
         "model": "smartgrid_design.designercolumnname",
         "fields": {
-            "draft": 1,
             "name": "Generation Next",
             "slug": "generation-next"
         }
@@ -791,7 +704,6 @@
         "pk": 19,
         "model": "smartgrid_design.designercolumnname",
         "fields": {
-            "draft": 1,
             "name": "Watts Up?",
             "slug": "watts"
         }
@@ -800,7 +712,6 @@
         "pk": 20,
         "model": "smartgrid_design.designercolumnname",
         "fields": {
-            "draft": 1,
             "name": "Get Creative",
             "slug": "get-creative"
         }
@@ -809,7 +720,6 @@
         "pk": 21,
         "model": "smartgrid_design.designercolumnname",
         "fields": {
-            "draft": 1,
             "name": "Energize Yourself",
             "slug": "energize-yourself"
         }
@@ -818,7 +728,6 @@
         "pk": 22,
         "model": "smartgrid_design.designercolumnname",
         "fields": {
-            "draft": 1,
             "name": "Energy Wizardry",
             "slug": "energy-wizardry"
         }
@@ -827,7 +736,6 @@
         "pk": 23,
         "model": "smartgrid_design.designercolumnname",
         "fields": {
-            "draft": 1,
             "name": "Moving on",
             "slug": "moving-on"
         }
@@ -836,7 +744,6 @@
         "pk": 24,
         "model": "smartgrid_design.designercolumnname",
         "fields": {
-            "draft": 1,
             "name": "Express Yourself",
             "slug": "express-yourself"
         }
@@ -845,7 +752,6 @@
         "pk": 25,
         "model": "smartgrid_design.designercolumnname",
         "fields": {
-            "draft": 1,
             "name": "Trail Mix",
             "slug": "trail-mix"
         }
@@ -854,7 +760,6 @@
         "pk": 26,
         "model": "smartgrid_design.designercolumnname",
         "fields": {
-            "draft": 1,
             "name": "Mixed Bag",
             "slug": "mixed-bag"
         }
@@ -863,7 +768,6 @@
         "pk": 27,
         "model": "smartgrid_design.designercolumnname",
         "fields": {
-            "draft": 1,
             "name": "Potpourri",
             "slug": "potpourri"
         }
@@ -872,7 +776,6 @@
         "pk": 28,
         "model": "smartgrid_design.designercolumnname",
         "fields": {
-            "draft": 1,
             "name": "Opala",
             "slug": "opala"
         }
@@ -881,7 +784,6 @@
         "pk": 29,
         "model": "smartgrid_design.designercolumnname",
         "fields": {
-            "draft": 1,
             "name": "Wet and Wild",
             "slug": "wet-and-wild"
         }
@@ -890,7 +792,6 @@
         "pk": 30,
         "model": "smartgrid_design.designercolumnname",
         "fields": {
-            "draft": 1,
             "name": "Creative",
             "slug": "creative"
         }
@@ -910,7 +811,6 @@
             "related_resource": null,
             "embedded_widget": null,
             "point_value": 20,
-            "draft": 1,
             "expire_date": null,
             "type": "activity",
             "slug": "intro-video",
@@ -933,7 +833,6 @@
             "related_resource": "energy",
             "embedded_widget": null,
             "point_value": 10,
-            "draft": 1,
             "expire_date": null,
             "type": "activity",
             "slug": "power-energy",
@@ -956,7 +855,6 @@
             "related_resource": null,
             "embedded_widget": null,
             "point_value": 20,
-            "draft": 1,
             "expire_date": null,
             "type": "event",
             "slug": "kick-off",
@@ -979,7 +877,6 @@
             "related_resource": null,
             "embedded_widget": null,
             "point_value": 5,
-            "draft": 1,
             "expire_date": null,
             "type": "activity",
             "slug": "tweet-link",
@@ -1002,7 +899,6 @@
             "related_resource": null,
             "embedded_widget": null,
             "point_value": 0,
-            "draft": 1,
             "expire_date": null,
             "type": "activity",
             "slug": "door-art",
@@ -1025,7 +921,6 @@
             "related_resource": "energy",
             "embedded_widget": null,
             "point_value": 5,
-            "draft": 1,
             "expire_date": null,
             "type": "commitment",
             "slug": "turn-off-lights",
@@ -1048,7 +943,6 @@
             "related_resource": "energy",
             "embedded_widget": null,
             "point_value": 5,
-            "draft": 1,
             "expire_date": null,
             "type": "commitment",
             "slug": "task-lighting",
@@ -1071,7 +965,6 @@
             "related_resource": null,
             "embedded_widget": null,
             "point_value": 5,
-            "draft": 1,
             "expire_date": null,
             "type": "commitment",
             "slug": "use-sunlight",
@@ -1094,7 +987,6 @@
             "related_resource": null,
             "embedded_widget": null,
             "point_value": 0,
-            "draft": 1,
             "expire_date": null,
             "type": "event",
             "slug": "customize-tshirt",
@@ -1117,7 +1009,6 @@
             "related_resource": null,
             "embedded_widget": null,
             "point_value": 10,
-            "draft": 1,
             "expire_date": null,
             "type": "event",
             "slug": "play-outside-cafe-1",
@@ -1140,7 +1031,6 @@
             "related_resource": null,
             "embedded_widget": null,
             "point_value": 10,
-            "draft": 1,
             "expire_date": null,
             "type": "event",
             "slug": "play-outside-cafe-2",
@@ -1163,7 +1053,6 @@
             "related_resource": null,
             "embedded_widget": null,
             "point_value": 10,
-            "draft": 1,
             "expire_date": null,
             "type": "event",
             "slug": "play-outside-cafe-3",
@@ -1186,7 +1075,6 @@
             "related_resource": null,
             "embedded_widget": null,
             "point_value": 10,
-            "draft": 1,
             "expire_date": null,
             "type": "event",
             "slug": "play-outside-cafe-4",
@@ -1209,7 +1097,6 @@
             "related_resource": "energy",
             "embedded_widget": null,
             "point_value": 10,
-            "draft": 1,
             "expire_date": null,
             "type": "activity",
             "slug": "energy-intuition",
@@ -1232,7 +1119,6 @@
             "related_resource": null,
             "embedded_widget": null,
             "point_value": 30,
-            "draft": 1,
             "expire_date": null,
             "type": "event",
             "slug": "wind-farm",
@@ -1255,7 +1141,6 @@
             "related_resource": "energy",
             "embedded_widget": null,
             "point_value": 20,
-            "draft": 1,
             "expire_date": null,
             "type": "event",
             "slug": "energy-hunt",
@@ -1278,7 +1163,6 @@
             "related_resource": null,
             "embedded_widget": null,
             "point_value": 20,
-            "draft": 1,
             "expire_date": null,
             "type": "event",
             "slug": "design-flashmob",
@@ -1301,7 +1185,6 @@
             "related_resource": null,
             "embedded_widget": null,
             "point_value": 5,
-            "draft": 1,
             "expire_date": null,
             "type": "commitment",
             "slug": "use-stairs",
@@ -1324,7 +1207,6 @@
             "related_resource": "water",
             "embedded_widget": null,
             "point_value": 5,
-            "draft": 1,
             "expire_date": null,
             "type": "commitment",
             "slug": "turn-off-water",
@@ -1347,7 +1229,6 @@
             "related_resource": "energy",
             "embedded_widget": null,
             "point_value": 15,
-            "draft": 1,
             "expire_date": null,
             "type": "activity",
             "slug": "power-hogs",
@@ -1370,7 +1251,6 @@
             "related_resource": "energy",
             "embedded_widget": null,
             "point_value": 15,
-            "draft": 1,
             "expire_date": null,
             "type": "activity",
             "slug": "audit-video",
@@ -1393,7 +1273,6 @@
             "related_resource": null,
             "embedded_widget": null,
             "point_value": 20,
-            "draft": 1,
             "expire_date": null,
             "type": "event",
             "slug": "round-1-party",
@@ -1416,7 +1295,6 @@
             "related_resource": null,
             "embedded_widget": null,
             "point_value": 20,
-            "draft": 1,
             "expire_date": null,
             "type": "event",
             "slug": "pedalpalooza",
@@ -1439,7 +1317,6 @@
             "related_resource": null,
             "embedded_widget": null,
             "point_value": 20,
-            "draft": 1,
             "expire_date": null,
             "type": "event",
             "slug": "soft-group",
@@ -1462,7 +1339,6 @@
             "related_resource": "energy",
             "embedded_widget": null,
             "point_value": 10,
-            "draft": 1,
             "expire_date": null,
             "type": "activity",
             "slug": "check-energy",
@@ -1485,7 +1361,6 @@
             "related_resource": null,
             "embedded_widget": null,
             "point_value": 20,
-            "draft": 1,
             "expire_date": null,
             "type": "event",
             "slug": "energy-eating",
@@ -1508,7 +1383,6 @@
             "related_resource": null,
             "embedded_widget": null,
             "point_value": 10,
-            "draft": 1,
             "expire_date": null,
             "type": "activity",
             "slug": "energy-gen-1",
@@ -1531,7 +1405,6 @@
             "related_resource": null,
             "embedded_widget": null,
             "point_value": 20,
-            "draft": 1,
             "expire_date": null,
             "type": "event",
             "slug": "high-energy-art",
@@ -1554,7 +1427,6 @@
             "related_resource": null,
             "embedded_widget": null,
             "point_value": 20,
-            "draft": 1,
             "expire_date": null,
             "type": "event",
             "slug": "chillaxation",
@@ -1577,7 +1449,6 @@
             "related_resource": null,
             "embedded_widget": null,
             "point_value": 5,
-            "draft": 1,
             "expire_date": null,
             "type": "commitment",
             "slug": "reusable-bag",
@@ -1600,7 +1471,6 @@
             "related_resource": "energy",
             "embedded_widget": null,
             "point_value": 5,
-            "draft": 1,
             "expire_date": null,
             "type": "commitment",
             "slug": "go-unplugged",
@@ -1623,7 +1493,6 @@
             "related_resource": "energy",
             "embedded_widget": null,
             "point_value": 5,
-            "draft": 1,
             "expire_date": null,
             "type": "commitment",
             "slug": "limit-tv",
@@ -1646,7 +1515,6 @@
             "related_resource": null,
             "embedded_widget": null,
             "point_value": 5,
-            "draft": 1,
             "expire_date": null,
             "type": "commitment",
             "slug": "no-meat",
@@ -1669,7 +1537,6 @@
             "related_resource": null,
             "embedded_widget": null,
             "point_value": 0,
-            "draft": 1,
             "expire_date": null,
             "type": "activity",
             "slug": "photo-blog",
@@ -1692,7 +1559,6 @@
             "related_resource": null,
             "embedded_widget": null,
             "point_value": 0,
-            "draft": 1,
             "expire_date": null,
             "type": "activity",
             "slug": "make-art",
@@ -1715,7 +1581,6 @@
             "related_resource": "energy",
             "embedded_widget": null,
             "point_value": 10,
-            "draft": 1,
             "expire_date": null,
             "type": "activity",
             "slug": "lighting-video",
@@ -1738,7 +1603,6 @@
             "related_resource": null,
             "embedded_widget": null,
             "point_value": 20,
-            "draft": 1,
             "expire_date": null,
             "type": "event",
             "slug": "your-future",
@@ -1761,7 +1625,6 @@
             "related_resource": null,
             "embedded_widget": null,
             "point_value": 5,
-            "draft": 1,
             "expire_date": null,
             "type": "commitment",
             "slug": "recycle-cans",
@@ -1784,7 +1647,6 @@
             "related_resource": "water",
             "embedded_widget": null,
             "point_value": 5,
-            "draft": 1,
             "expire_date": null,
             "type": "commitment",
             "slug": "reduce-shower-time",
@@ -1807,7 +1669,6 @@
             "related_resource": null,
             "embedded_widget": null,
             "point_value": 5,
-            "draft": 1,
             "expire_date": null,
             "type": "commitment",
             "slug": "take-bus",
@@ -1830,7 +1691,6 @@
             "related_resource": "energy",
             "embedded_widget": null,
             "point_value": 5,
-            "draft": 1,
             "expire_date": null,
             "type": "commitment",
             "slug": "off-b4-bed",
@@ -1853,7 +1713,6 @@
             "related_resource": "energy",
             "embedded_widget": null,
             "point_value": 5,
-            "draft": 1,
             "expire_date": null,
             "type": "commitment",
             "slug": "turn-off-music",
@@ -1876,7 +1735,6 @@
             "related_resource": "energy",
             "embedded_widget": null,
             "point_value": 30,
-            "draft": 1,
             "expire_date": null,
             "type": "activity",
             "slug": "audit-room",
@@ -1899,7 +1757,6 @@
             "related_resource": null,
             "embedded_widget": null,
             "point_value": 0,
-            "draft": 1,
             "expire_date": null,
             "type": "activity",
             "slug": "geo-trek",
@@ -1922,7 +1779,6 @@
             "related_resource": null,
             "embedded_widget": null,
             "point_value": 5,
-            "draft": 1,
             "expire_date": null,
             "type": "commitment",
             "slug": "printer-off",
@@ -1945,7 +1801,6 @@
             "related_resource": "water",
             "embedded_widget": null,
             "point_value": 15,
-            "draft": 1,
             "expire_date": null,
             "type": "activity",
             "slug": "sink-flow",
@@ -1968,7 +1823,6 @@
             "related_resource": null,
             "embedded_widget": null,
             "point_value": 10,
-            "draft": 1,
             "expire_date": null,
             "type": "activity",
             "slug": "trash-video",
@@ -1991,7 +1845,6 @@
             "related_resource": null,
             "embedded_widget": null,
             "point_value": 10,
-            "draft": 1,
             "expire_date": null,
             "type": "activity",
             "slug": "climate-change",
@@ -2014,7 +1867,6 @@
             "related_resource": null,
             "embedded_widget": null,
             "point_value": 10,
-            "draft": 1,
             "expire_date": null,
             "type": "activity",
             "slug": "energy-gen-2",
@@ -2037,7 +1889,6 @@
             "related_resource": "energy",
             "embedded_widget": "",
             "point_value": 20,
-            "draft": 1,
             "expire_date": null,
             "type": "activity",
             "slug": "energy-city",
@@ -2060,7 +1911,6 @@
             "related_resource": null,
             "embedded_widget": null,
             "point_value": 10,
-            "draft": 1,
             "expire_date": null,
             "type": "activity",
             "slug": "cfl-bulb",
@@ -2083,7 +1933,6 @@
             "related_resource": null,
             "embedded_widget": null,
             "point_value": 0,
-            "draft": 1,
             "expire_date": null,
             "type": "activity",
             "slug": "design-tshirt",
@@ -2106,7 +1955,6 @@
             "related_resource": null,
             "embedded_widget": null,
             "point_value": 0,
-            "draft": 1,
             "expire_date": null,
             "type": "activity",
             "slug": "interview",
@@ -2129,7 +1977,6 @@
             "related_resource": null,
             "embedded_widget": null,
             "point_value": 0,
-            "draft": 1,
             "expire_date": null,
             "type": "activity",
             "slug": "make-video",
@@ -2152,7 +1999,6 @@
             "related_resource": null,
             "embedded_widget": null,
             "point_value": 20,
-            "draft": 1,
             "expire_date": null,
             "type": "event",
             "slug": "round-2-party",
@@ -2175,7 +2021,6 @@
             "related_resource": null,
             "embedded_widget": null,
             "point_value": 40,
-            "draft": 1,
             "expire_date": null,
             "type": "activity",
             "slug": "take-survey",
@@ -2198,7 +2043,6 @@
             "related_resource": "energy",
             "embedded_widget": null,
             "point_value": 15,
-            "draft": 1,
             "expire_date": null,
             "type": "activity",
             "slug": "energy-intuition-2",
@@ -2221,7 +2065,6 @@
             "related_resource": "water",
             "embedded_widget": null,
             "point_value": 5,
-            "draft": 1,
             "expire_date": null,
             "type": "commitment",
             "slug": "turn-off-shower",
@@ -2244,7 +2087,6 @@
             "related_resource": null,
             "embedded_widget": null,
             "point_value": 10,
-            "draft": 1,
             "expire_date": null,
             "type": "activity",
             "slug": "solar-energy",
@@ -2267,7 +2109,6 @@
             "related_resource": "water",
             "embedded_widget": null,
             "point_value": 5,
-            "draft": 1,
             "expire_date": null,
             "type": "commitment",
             "slug": "full-load-laundry",
@@ -2290,7 +2131,6 @@
             "related_resource": null,
             "embedded_widget": null,
             "point_value": 0,
-            "draft": 1,
             "expire_date": null,
             "type": "activity",
             "slug": "wildcard",
@@ -2313,7 +2153,6 @@
             "related_resource": null,
             "embedded_widget": null,
             "point_value": 0,
-            "draft": 1,
             "expire_date": null,
             "type": "activity",
             "slug": "write-song",
@@ -2336,7 +2175,6 @@
             "related_resource": null,
             "embedded_widget": null,
             "point_value": 10,
-            "draft": 1,
             "expire_date": null,
             "type": "activity",
             "slug": "otec-video",
@@ -2359,7 +2197,6 @@
             "related_resource": null,
             "embedded_widget": null,
             "point_value": 10,
-            "draft": 1,
             "expire_date": null,
             "type": "activity",
             "slug": "cup-secrets",
@@ -2382,7 +2219,6 @@
             "related_resource": null,
             "embedded_widget": null,
             "point_value": 5,
-            "draft": 1,
             "expire_date": null,
             "type": "activity",
             "slug": "like-cup",
@@ -2405,7 +2241,6 @@
             "related_resource": null,
             "embedded_widget": null,
             "point_value": 5,
-            "draft": 1,
             "expire_date": null,
             "type": "activity",
             "slug": "refer-friend",
@@ -2428,7 +2263,6 @@
             "related_resource": null,
             "embedded_widget": null,
             "point_value": 40,
-            "draft": 1,
             "expire_date": null,
             "type": "event",
             "slug": "off-the-grid",
@@ -2451,7 +2285,6 @@
             "related_resource": null,
             "embedded_widget": null,
             "point_value": 20,
-            "draft": 1,
             "expire_date": null,
             "type": "event",
             "slug": "movie-night",
@@ -2474,7 +2307,6 @@
             "related_resource": null,
             "embedded_widget": null,
             "point_value": 10,
-            "draft": 1,
             "expire_date": null,
             "type": "activity",
             "slug": "energy-gen-3",
@@ -2497,7 +2329,6 @@
             "related_resource": null,
             "embedded_widget": null,
             "point_value": 5,
-            "draft": 1,
             "expire_date": null,
             "type": "commitment",
             "slug": "walk",
@@ -2520,7 +2351,6 @@
             "related_resource": null,
             "embedded_widget": null,
             "point_value": 10,
-            "draft": 1,
             "expire_date": null,
             "type": "activity",
             "slug": "transport-video",
@@ -2543,7 +2373,6 @@
             "related_resource": null,
             "embedded_widget": null,
             "point_value": 5,
-            "draft": 1,
             "expire_date": null,
             "type": "commitment",
             "slug": "car-pool",
@@ -2566,7 +2395,6 @@
             "related_resource": null,
             "embedded_widget": null,
             "point_value": 35,
-            "draft": 1,
             "expire_date": null,
             "type": "activity",
             "slug": "room-energy",
@@ -2589,7 +2417,6 @@
             "related_resource": "energy",
             "embedded_widget": null,
             "point_value": 20,
-            "draft": 1,
             "expire_date": null,
             "type": "activity",
             "slug": "computer-sleep",
@@ -2612,7 +2439,6 @@
             "related_resource": null,
             "embedded_widget": null,
             "point_value": 0,
-            "draft": 1,
             "expire_date": null,
             "type": "activity",
             "slug": "letter-editor",
@@ -2635,7 +2461,6 @@
             "related_resource": null,
             "embedded_widget": null,
             "point_value": 0,
-            "draft": 1,
             "expire_date": null,
             "type": "activity",
             "slug": "write-poem",
@@ -2658,7 +2483,6 @@
             "related_resource": null,
             "embedded_widget": null,
             "point_value": 10,
-            "draft": 1,
             "expire_date": null,
             "type": "activity",
             "slug": "photo-chain",
@@ -2681,7 +2505,6 @@
             "related_resource": null,
             "embedded_widget": null,
             "point_value": 10,
-            "draft": 1,
             "expire_date": null,
             "type": "activity",
             "slug": "no-impact-date",
@@ -2704,7 +2527,6 @@
             "related_resource": "water",
             "embedded_widget": null,
             "point_value": 15,
-            "draft": 1,
             "expire_date": null,
             "type": "activity",
             "slug": "shower-flow",
@@ -2727,7 +2549,6 @@
             "related_resource": "energy",
             "embedded_widget": null,
             "point_value": 5,
-            "draft": 1,
             "expire_date": null,
             "type": "commitment",
             "slug": "turn-off-vampires",
@@ -2750,7 +2571,6 @@
             "related_resource": null,
             "embedded_widget": null,
             "point_value": 0,
-            "draft": 1,
             "expire_date": null,
             "type": "activity",
             "slug": "window-art",
@@ -2773,7 +2593,6 @@
             "related_resource": null,
             "embedded_widget": null,
             "point_value": 15,
-            "draft": 1,
             "expire_date": null,
             "type": "activity",
             "slug": "power-energy-2",
@@ -2796,7 +2615,6 @@
             "related_resource": null,
             "embedded_widget": null,
             "point_value": 15,
-            "draft": 1,
             "expire_date": null,
             "type": "activity",
             "slug": "energy-gen-1-2",
@@ -2819,7 +2637,6 @@
             "related_resource": null,
             "embedded_widget": null,
             "point_value": 15,
-            "draft": 1,
             "expire_date": null,
             "type": "activity",
             "slug": "energy-gen-2-2",
@@ -3702,7 +3519,6 @@
         "model": "smartgrid_design.designercolumngrid",
         "fields": {
             "column": 1,
-            "draft": 1,
             "name": 1,
             "level": 1
         }
@@ -3712,7 +3528,6 @@
         "model": "smartgrid_design.designercolumngrid",
         "fields": {
             "column": 2,
-            "draft": 1,
             "name": 7,
             "level": 1
         }
@@ -3722,7 +3537,6 @@
         "model": "smartgrid_design.designercolumngrid",
         "fields": {
             "column": 3,
-            "draft": 1,
             "name": 12,
             "level": 1
         }
@@ -3732,7 +3546,6 @@
         "model": "smartgrid_design.designercolumngrid",
         "fields": {
             "column": 4,
-            "draft": 1,
             "name": 16,
             "level": 1
         }
@@ -3742,7 +3555,6 @@
         "model": "smartgrid_design.designercolumngrid",
         "fields": {
             "column": 5,
-            "draft": 1,
             "name": 21,
             "level": 1
         }
@@ -3752,7 +3564,6 @@
         "model": "smartgrid_design.designercolumngrid",
         "fields": {
             "column": 6,
-            "draft": 1,
             "name": 27,
             "level": 1
         }
@@ -3762,7 +3573,6 @@
         "model": "smartgrid_design.designercolumngrid",
         "fields": {
             "column": 1,
-            "draft": 1,
             "name": 2,
             "level": 2
         }
@@ -3772,7 +3582,6 @@
         "model": "smartgrid_design.designercolumngrid",
         "fields": {
             "column": 2,
-            "draft": 1,
             "name": 5,
             "level": 2
         }
@@ -3782,7 +3591,6 @@
         "model": "smartgrid_design.designercolumngrid",
         "fields": {
             "column": 3,
-            "draft": 1,
             "name": 11,
             "level": 2
         }
@@ -3792,7 +3600,6 @@
         "model": "smartgrid_design.designercolumngrid",
         "fields": {
             "column": 4,
-            "draft": 1,
             "name": 17,
             "level": 2
         }
@@ -3802,7 +3609,6 @@
         "model": "smartgrid_design.designercolumngrid",
         "fields": {
             "column": 5,
-            "draft": 1,
             "name": 20,
             "level": 2
         }
@@ -3812,7 +3618,6 @@
         "model": "smartgrid_design.designercolumngrid",
         "fields": {
             "column": 6,
-            "draft": 1,
             "name": 26,
             "level": 2
         }
@@ -3822,7 +3627,6 @@
         "model": "smartgrid_design.designercolumngrid",
         "fields": {
             "column": 1,
-            "draft": 1,
             "name": 4,
             "level": 3
         }
@@ -3832,7 +3636,6 @@
         "model": "smartgrid_design.designercolumngrid",
         "fields": {
             "column": 2,
-            "draft": 1,
             "name": 8,
             "level": 3
         }
@@ -3842,7 +3645,6 @@
         "model": "smartgrid_design.designercolumngrid",
         "fields": {
             "column": 3,
-            "draft": 1,
             "name": 14,
             "level": 3
         }
@@ -3852,7 +3654,6 @@
         "model": "smartgrid_design.designercolumngrid",
         "fields": {
             "column": 4,
-            "draft": 1,
             "name": 19,
             "level": 3
         }
@@ -3862,7 +3663,6 @@
         "model": "smartgrid_design.designercolumngrid",
         "fields": {
             "column": 6,
-            "draft": 1,
             "name": 25,
             "level": 3
         }
@@ -3872,7 +3672,6 @@
         "model": "smartgrid_design.designercolumngrid",
         "fields": {
             "column": 5,
-            "draft": 1,
             "name": 24,
             "level": 3
         }
@@ -3882,7 +3681,6 @@
         "model": "smartgrid_design.designercolumngrid",
         "fields": {
             "column": 1,
-            "draft": 1,
             "name": 3,
             "level": 4
         }
@@ -3892,7 +3690,6 @@
         "model": "smartgrid_design.designercolumngrid",
         "fields": {
             "column": 2,
-            "draft": 1,
             "name": 10,
             "level": 4
         }
@@ -3902,7 +3699,6 @@
         "model": "smartgrid_design.designercolumngrid",
         "fields": {
             "column": 3,
-            "draft": 1,
             "name": 18,
             "level": 4
         }
@@ -3912,7 +3708,6 @@
         "model": "smartgrid_design.designercolumngrid",
         "fields": {
             "column": 4,
-            "draft": 1,
             "name": 9,
             "level": 4
         }
@@ -3924,7 +3719,6 @@
             "column": 1,
             "action": 1,
             "row": 1,
-            "draft": 1,
             "level": 1
         }
     },
@@ -3935,7 +3729,6 @@
             "column": 1,
             "action": 2,
             "row": 2,
-            "draft": 1,
             "level": 1
         }
     },
@@ -3946,7 +3739,6 @@
             "column": 1,
             "action": 3,
             "row": 3,
-            "draft": 1,
             "level": 1
         }
     },
@@ -3957,7 +3749,6 @@
             "column": 1,
             "action": 4,
             "row": 4,
-            "draft": 1,
             "level": 1
         }
     },
@@ -3968,7 +3759,6 @@
             "column": 2,
             "action": 5,
             "row": 1,
-            "draft": 1,
             "level": 1
         }
     },
@@ -3979,7 +3769,6 @@
             "column": 2,
             "action": 6,
             "row": 2,
-            "draft": 1,
             "level": 1
         }
     },
@@ -3990,7 +3779,6 @@
             "column": 2,
             "action": 7,
             "row": 3,
-            "draft": 1,
             "level": 1
         }
     },
@@ -4001,7 +3789,6 @@
             "column": 2,
             "action": 8,
             "row": 4,
-            "draft": 1,
             "level": 1
         }
     },
@@ -4012,7 +3799,6 @@
             "column": 3,
             "action": 9,
             "row": 1,
-            "draft": 1,
             "level": 1
         }
     },
@@ -4023,7 +3809,6 @@
             "column": 3,
             "action": 10,
             "row": 2,
-            "draft": 1,
             "level": 1
         }
     },
@@ -4034,7 +3819,6 @@
             "column": 3,
             "action": 11,
             "row": 3,
-            "draft": 1,
             "level": 1
         }
     },
@@ -4045,7 +3829,6 @@
             "column": 3,
             "action": 12,
             "row": 4,
-            "draft": 1,
             "level": 1
         }
     },
@@ -4056,7 +3839,6 @@
             "column": 4,
             "action": 13,
             "row": 1,
-            "draft": 1,
             "level": 1
         }
     },
@@ -4067,7 +3849,6 @@
             "column": 4,
             "action": 14,
             "row": 2,
-            "draft": 1,
             "level": 1
         }
     },
@@ -4078,7 +3859,6 @@
             "column": 4,
             "action": 15,
             "row": 3,
-            "draft": 1,
             "level": 1
         }
     },
@@ -4089,7 +3869,6 @@
             "column": 4,
             "action": 16,
             "row": 4,
-            "draft": 1,
             "level": 1
         }
     },
@@ -4100,7 +3879,6 @@
             "column": 5,
             "action": 17,
             "row": 1,
-            "draft": 1,
             "level": 1
         }
     },
@@ -4111,7 +3889,6 @@
             "column": 5,
             "action": 18,
             "row": 2,
-            "draft": 1,
             "level": 1
         }
     },
@@ -4122,7 +3899,6 @@
             "column": 5,
             "action": 19,
             "row": 3,
-            "draft": 1,
             "level": 1
         }
     },
@@ -4133,7 +3909,6 @@
             "column": 5,
             "action": 20,
             "row": 4,
-            "draft": 1,
             "level": 1
         }
     },
@@ -4144,7 +3919,6 @@
             "column": 6,
             "action": 21,
             "row": 1,
-            "draft": 1,
             "level": 1
         }
     },
@@ -4155,7 +3929,6 @@
             "column": 6,
             "action": 22,
             "row": 2,
-            "draft": 1,
             "level": 1
         }
     },
@@ -4166,7 +3939,6 @@
             "column": 6,
             "action": 23,
             "row": 3,
-            "draft": 1,
             "level": 1
         }
     },
@@ -4177,7 +3949,6 @@
             "column": 6,
             "action": 24,
             "row": 4,
-            "draft": 1,
             "level": 1
         }
     },
@@ -4188,7 +3959,6 @@
             "column": 1,
             "action": 25,
             "row": 1,
-            "draft": 1,
             "level": 2
         }
     },
@@ -4199,7 +3969,6 @@
             "column": 1,
             "action": 26,
             "row": 2,
-            "draft": 1,
             "level": 2
         }
     },
@@ -4210,7 +3979,6 @@
             "column": 1,
             "action": 27,
             "row": 3,
-            "draft": 1,
             "level": 2
         }
     },
@@ -4221,7 +3989,6 @@
             "column": 1,
             "action": 28,
             "row": 4,
-            "draft": 1,
             "level": 2
         }
     },
@@ -4232,7 +3999,6 @@
             "column": 2,
             "action": 29,
             "row": 1,
-            "draft": 1,
             "level": 2
         }
     },
@@ -4243,7 +4009,6 @@
             "column": 2,
             "action": 30,
             "row": 2,
-            "draft": 1,
             "level": 2
         }
     },
@@ -4254,7 +4019,6 @@
             "column": 2,
             "action": 31,
             "row": 3,
-            "draft": 1,
             "level": 2
         }
     },
@@ -4265,7 +4029,6 @@
             "column": 2,
             "action": 32,
             "row": 4,
-            "draft": 1,
             "level": 2
         }
     },
@@ -4276,7 +4039,6 @@
             "column": 3,
             "action": 33,
             "row": 1,
-            "draft": 1,
             "level": 2
         }
     },
@@ -4287,7 +4049,6 @@
             "column": 3,
             "action": 34,
             "row": 2,
-            "draft": 1,
             "level": 2
         }
     },
@@ -4298,7 +4059,6 @@
             "column": 3,
             "action": 35,
             "row": 3,
-            "draft": 1,
             "level": 2
         }
     },
@@ -4309,7 +4069,6 @@
             "column": 3,
             "action": 36,
             "row": 4,
-            "draft": 1,
             "level": 2
         }
     },
@@ -4320,7 +4079,6 @@
             "column": 4,
             "action": 37,
             "row": 1,
-            "draft": 1,
             "level": 2
         }
     },
@@ -4331,7 +4089,6 @@
             "column": 4,
             "action": 38,
             "row": 2,
-            "draft": 1,
             "level": 2
         }
     },
@@ -4342,7 +4099,6 @@
             "column": 4,
             "action": 39,
             "row": 3,
-            "draft": 1,
             "level": 2
         }
     },
@@ -4353,7 +4109,6 @@
             "column": 4,
             "action": 40,
             "row": 4,
-            "draft": 1,
             "level": 2
         }
     },
@@ -4364,7 +4119,6 @@
             "column": 5,
             "action": 41,
             "row": 1,
-            "draft": 1,
             "level": 2
         }
     },
@@ -4375,7 +4129,6 @@
             "column": 5,
             "action": 42,
             "row": 2,
-            "draft": 1,
             "level": 2
         }
     },
@@ -4386,7 +4139,6 @@
             "column": 5,
             "action": 43,
             "row": 3,
-            "draft": 1,
             "level": 2
         }
     },
@@ -4397,7 +4149,6 @@
             "column": 5,
             "action": 44,
             "row": 4,
-            "draft": 1,
             "level": 2
         }
     },
@@ -4408,7 +4159,6 @@
             "column": 6,
             "action": 45,
             "row": 1,
-            "draft": 1,
             "level": 2
         }
     },
@@ -4419,7 +4169,6 @@
             "column": 6,
             "action": 46,
             "row": 2,
-            "draft": 1,
             "level": 2
         }
     },
@@ -4430,7 +4179,6 @@
             "column": 6,
             "action": 47,
             "row": 3,
-            "draft": 1,
             "level": 2
         }
     },
@@ -4441,7 +4189,6 @@
             "column": 6,
             "action": 48,
             "row": 4,
-            "draft": 1,
             "level": 2
         }
     },
@@ -4452,7 +4199,6 @@
             "column": 1,
             "action": 49,
             "row": 1,
-            "draft": 1,
             "level": 3
         }
     },
@@ -4463,7 +4209,6 @@
             "column": 1,
             "action": 50,
             "row": 2,
-            "draft": 1,
             "level": 3
         }
     },
@@ -4474,7 +4219,6 @@
             "column": 1,
             "action": 51,
             "row": 3,
-            "draft": 1,
             "level": 3
         }
     },
@@ -4485,7 +4229,6 @@
             "column": 1,
             "action": 52,
             "row": 4,
-            "draft": 1,
             "level": 3
         }
     },
@@ -4496,7 +4239,6 @@
             "column": 2,
             "action": 53,
             "row": 1,
-            "draft": 1,
             "level": 3
         }
     },
@@ -4507,7 +4249,6 @@
             "column": 2,
             "action": 54,
             "row": 2,
-            "draft": 1,
             "level": 3
         }
     },
@@ -4518,7 +4259,6 @@
             "column": 2,
             "action": 55,
             "row": 3,
-            "draft": 1,
             "level": 3
         }
     },
@@ -4529,7 +4269,6 @@
             "column": 2,
             "action": 56,
             "row": 4,
-            "draft": 1,
             "level": 3
         }
     },
@@ -4540,7 +4279,6 @@
             "column": 3,
             "action": 57,
             "row": 1,
-            "draft": 1,
             "level": 3
         }
     },
@@ -4551,7 +4289,6 @@
             "column": 3,
             "action": 58,
             "row": 2,
-            "draft": 1,
             "level": 3
         }
     },
@@ -4562,7 +4299,6 @@
             "column": 3,
             "action": 59,
             "row": 3,
-            "draft": 1,
             "level": 3
         }
     },
@@ -4573,7 +4309,6 @@
             "column": 3,
             "action": 60,
             "row": 4,
-            "draft": 1,
             "level": 3
         }
     },
@@ -4584,7 +4319,6 @@
             "column": 4,
             "action": 61,
             "row": 1,
-            "draft": 1,
             "level": 3
         }
     },
@@ -4595,7 +4329,6 @@
             "column": 4,
             "action": 62,
             "row": 2,
-            "draft": 1,
             "level": 3
         }
     },
@@ -4606,7 +4339,6 @@
             "column": 4,
             "action": 63,
             "row": 3,
-            "draft": 1,
             "level": 3
         }
     },
@@ -4617,7 +4349,6 @@
             "column": 4,
             "action": 64,
             "row": 4,
-            "draft": 1,
             "level": 3
         }
     },
@@ -4628,7 +4359,6 @@
             "column": 5,
             "action": 65,
             "row": 1,
-            "draft": 1,
             "level": 3
         }
     },
@@ -4639,7 +4369,6 @@
             "column": 5,
             "action": 66,
             "row": 2,
-            "draft": 1,
             "level": 3
         }
     },
@@ -4650,7 +4379,6 @@
             "column": 5,
             "action": 67,
             "row": 3,
-            "draft": 1,
             "level": 3
         }
     },
@@ -4661,7 +4389,6 @@
             "column": 5,
             "action": 68,
             "row": 4,
-            "draft": 1,
             "level": 3
         }
     },
@@ -4672,7 +4399,6 @@
             "column": 6,
             "action": 69,
             "row": 1,
-            "draft": 1,
             "level": 3
         }
     },
@@ -4683,7 +4409,6 @@
             "column": 6,
             "action": 70,
             "row": 2,
-            "draft": 1,
             "level": 3
         }
     },
@@ -4694,7 +4419,6 @@
             "column": 6,
             "action": 71,
             "row": 3,
-            "draft": 1,
             "level": 3
         }
     },
@@ -4705,7 +4429,6 @@
             "column": 6,
             "action": 72,
             "row": 4,
-            "draft": 1,
             "level": 3
         }
     },
@@ -4716,7 +4439,6 @@
             "column": 1,
             "action": 73,
             "row": 1,
-            "draft": 1,
             "level": 4
         }
     },
@@ -4727,7 +4449,6 @@
             "column": 1,
             "action": 74,
             "row": 2,
-            "draft": 1,
             "level": 4
         }
     },
@@ -4738,7 +4459,6 @@
             "column": 1,
             "action": 75,
             "row": 3,
-            "draft": 1,
             "level": 4
         }
     },
@@ -4749,7 +4469,6 @@
             "column": 2,
             "action": 76,
             "row": 1,
-            "draft": 1,
             "level": 4
         }
     },
@@ -4760,7 +4479,6 @@
             "column": 2,
             "action": 77,
             "row": 2,
-            "draft": 1,
             "level": 4
         }
     },
@@ -4771,7 +4489,6 @@
             "column": 2,
             "action": 78,
             "row": 3,
-            "draft": 1,
             "level": 4
         }
     },
@@ -4782,7 +4499,6 @@
             "column": 3,
             "action": 79,
             "row": 1,
-            "draft": 1,
             "level": 4
         }
     },
@@ -4793,7 +4509,6 @@
             "column": 3,
             "action": 80,
             "row": 2,
-            "draft": 1,
             "level": 4
         }
     },
@@ -4804,7 +4519,6 @@
             "column": 3,
             "action": 81,
             "row": 3,
-            "draft": 1,
             "level": 4
         }
     },
@@ -4815,7 +4529,6 @@
             "column": 4,
             "action": 82,
             "row": 1,
-            "draft": 1,
             "level": 4
         }
     },
@@ -4826,7 +4539,6 @@
             "column": 4,
             "action": 83,
             "row": 2,
-            "draft": 1,
             "level": 4
         }
     },
@@ -4837,7 +4549,6 @@
             "column": 4,
             "action": 84,
             "row": 3,
-            "draft": 1,
             "level": 4
         }
     }

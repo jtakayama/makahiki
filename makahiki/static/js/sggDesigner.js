@@ -513,6 +513,19 @@ function copyDesignerAction(actionSlug) {
         error: function(XMLHttpRequest, textStatus, errorThrown) {
         }
     });		
+    location.reload(true);
+}
+
+function deleteDesignerAction(actionSlug) {
+	log.debug("deleteDesignerAction(" + actionSlug + ', ' + trim2(currentDraft) + ")");
+    jQuery.ajax({
+        url: "/smartgrid_design/delete_designer_action/" + actionSlug + "/" + trim2(currentDraft) + "/", 
+        success: function(data) {
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+        }
+    });			
+    location.reload(true);
 }
 
 /**

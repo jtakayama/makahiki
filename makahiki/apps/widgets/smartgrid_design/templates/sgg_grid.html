@@ -64,13 +64,36 @@
 							data-column="{{ c|add:'1' }}" data-row="{{ r|add:'1' }}">
 						{% for act in act_list %}
 							{% if r|add:"1" == act.row and c|add:"1" == act.column %}
-							<div data-slug="{{act.action.slug}}" class="sgg-action sgg-{{act.action.type}}-cell grid-draggable"
+							<div id="designer-activity-menu-{{act.action.slug}}" class="sgg-level-popup-menu">
+								<ul>
+									<li><a href="#" class="sgg-action" onclick="copyDesignerAction('{{act.action.slug}}');return false;">Copy {{act.action.name}}</a>
+									<li><a href="#" class="sgg-action" onclick="deleteDesignerAction('{{act.action.slug}}');return false;">Delete {{act.action.name}}</a>
+								</ul>
+							</div>										
+							<div id="designer-{{act.action.slug}}" data-slug="{{act.action.slug}}" class="sgg-action sgg-{{act.action.type}}-cell grid-draggable"
                    		   		 data-type="{{act.action.type}}" data-row="{{r|add:1}}" data-column="{{c|add:1}}" 
                    		   		 data-pk={{act.action.pk}} data-unlock="{{act.action.unlock_condition}}">
                    		   			<br/>
                    		   			<a href="/challenge_setting_admin/smartgrid_design/designer{{act.action.type}}/{{act.action.pk}}/"
 									   class="sgg-action" ref="tooltip" title="{{act.action.title}}">{{act.action.name}}</a><br/>
-								</div>									
+								</div>		
+<script type="text/javascript">
+$("#designer-{{act.action.slug}}").bind("contextmenu", function(e) {
+	var y = e.pageY;
+	var x = e.pageX;
+    $('#designer-activity-menu-{{act.action.slug}}').css({
+        top: y+'px',
+        left: x+'px'
+    }).show();
+    return false;
+});
+$("#designer-activity-menu-{{act.action.slug}}").click(function() {
+    $(this).hide();
+});
+$(document).click(function() {
+    $("#designer-activity-menu-{{act.action.slug}}").hide();
+});
+</script>			
 							{% endif %}
 						{% endfor %}
 						</div>

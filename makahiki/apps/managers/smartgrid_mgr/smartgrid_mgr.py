@@ -395,6 +395,17 @@ def copy_library_action(slug):
     obj.pk = None
     obj.id = None
     obj.save()
+    # Copy all the LibraryTextPropmtQuestions
+    for question in LibraryTextPromptQuestion.objects.filter(libraryaction=action):
+        try:
+            des_obj = get_object_or_404(LibraryTextPromptQuestion, action=obj, \
+                                        question=question.question, answer=question.answer)
+        except Http404:
+            des_obj = LibraryTextPromptQuestion()
+        _copy_fields_no_foriegn_keys(question, des_obj)
+        des_obj.action = obj
+        des_obj.save()
+
     return obj
 
 
@@ -414,6 +425,19 @@ def copy_designer_action(draft, slug):
     obj.pk = None
     obj.id = None
     obj.save()
+    # Copy all the DesignerTextPropmtQuestions
+    for question in DesignerTextPromptQuestion.objects.filter(action=action, draft=draft):
+        try:
+            des_obj = get_object_or_404(DesignerTextPromptQuestion, action=obj, \
+                                        question=question.question, answer=question.answer, \
+                                        draft=draft)
+        except Http404:
+            des_obj = DesignerTextPromptQuestion()
+        _copy_fields_no_foriegn_keys(question, des_obj)
+        des_obj.action = obj
+        des_obj.draft = draft
+        des_obj.save()
+
     return obj
 
 
@@ -797,3 +821,22 @@ def load_example_grid(draft, example_name):
             fixture = os.path.join(fixture_path, name)
             call_command('loaddata', '-v 0', fixture)
 #            os.system("%s loaddata -v 0 %s" % (manage_command, fixture))
+    # Since the fixture doesn't assign the draft we need to do that now.
+    for obj in DesignerTextPromptQuestion.objects.filter(draft=None):
+        obj.draft = draft
+        obj.save()
+    for obj in DesignerLevel.objects.filter(draft=None):
+        obj.draft = draft
+        obj.save()
+    for obj in DesignerColumnName.objects.filter(draft=None):
+        obj.draft = draft
+        obj.save()
+    for obj in DesignerAction.objects.filter(draft=None):
+        obj.draft = draft
+        obj.save()
+    for obj in DesignerColumnGrid.objects.filter(draft=None):
+        obj.draft = draft
+        obj.save()
+    for obj in DesignerGrid.objects.filter(draft=None):
+        obj.draft = draft
+        obj.save()

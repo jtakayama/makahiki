@@ -253,6 +253,7 @@ class DesignerActivityAdmin(admin.ModelAdmin):
         without using reverse"""
         return HttpResponseRedirect("/sgg_designer/?draft=%s" % obj.draft.slug)
 
+
 admin.site.register(DesignerActivity, DesignerActivityAdmin)
 challenge_designer_site.register(DesignerActivity, DesignerActivityAdmin)
 challenge_manager_site.register(DesignerActivity, DesignerActivityAdmin)

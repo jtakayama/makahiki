@@ -68,3 +68,18 @@ class ExampleGridsForm(forms.Form):
     grid = forms.ChoiceField(
         choices=TYPE_CHOICES,
         )
+
+
+class LoadTemplateForm(forms.Form):
+    """Form for loading a template into a draft."""
+    TYPE_CHOICES = (
+        ('empty', 'Empty Grid'),
+        ('demo', 'Demo'),
+        ('default', 'Default'),
+        ('uh12', 'KukuiCup/UH 12'),
+        ('test', 'Test Grid'),
+        )
+    template = forms.ChoiceField(
+        choices=TYPE_CHOICES,
+        )
+    draft_name = forms.CharField(max_length=50, help_text="The name of the Draft Smart Grid Game")

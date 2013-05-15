@@ -27,7 +27,7 @@
 					<div class="tab-content">
 						<div id="activities" class="sgg-action-selections tab-pane active">
 							{% for action in view_objects.smartgrid_design.activities %}
-							<div id="activity-menu-{{action.slug}}" class="sgg-level-popup-menu">
+							<div id="library-activity-menu-{{action.slug}}" class="sgg-level-popup-menu">
 								<ul>
 									<li><a href="#" class="sgg-action" onclick="copyLibraryAction('{{action.slug}}');return false;">Copy {{action.name}}</a>
 								</ul>
@@ -42,7 +42,7 @@
 						</div>
 						<div id="commitments" class="sgg-action-selections tab-pane">
 							{% for action in view_objects.smartgrid_design.commitments %}
-							<div id="activity-menu-{{action.slug}}" class="sgg-level-popup-menu">
+							<div id="library-activity-menu-{{action.slug}}" class="sgg-level-popup-menu">
 								<ul>
 									<li><a href="#" class="sgg-action" onclick="copyLibraryAction('{{action.slug}}');return false;">Copy {{action.name}}</a>
 								</ul>
@@ -56,7 +56,7 @@
 						</div>
 						<div id="events" class="sgg-action-selections tab-pane">
 							{% for action in view_objects.smartgrid_design.events %}
-							<div id="activity-menu-{{action.slug}}" class="sgg-level-popup-menu">
+							<div id="library-activity-menu-{{action.slug}}" class="sgg-level-popup-menu">
 								<ul>
 									<li><a href="#" class="sgg-action" onclick="copyLibraryAction('{{action.slug}}');return false;">Copy {{action.name}}</a>
 								</ul>
@@ -76,51 +76,53 @@
 $("#library-{{action.slug}}").bind("contextmenu", function(e) {
 	var y = e.pageY - 250;
 	var x = e.pageX - 30;
-    $('#activity-menu-{{action.slug}}').css({
+    $('#library-activity-menu-{{action.slug}}').css({
         top: y+'px',
         left: x+'px'
     }).show();
     return false;
 });
-$("#activity-menu-{{action.slug}}").click(function() {
+$("#library-activity-menu-{{action.slug}}").click(function() {
     $(this).hide();
 });
 $(document).click(function() {
-    $("#activity-menu-{{action.slug}}").hide();
+    $("#library-activity-menu-{{action.slug}}").hide();
 });
 {% endfor %}
 {% for action in view_objects.smartgrid_design.commitments %}
 $("#library-{{action.slug}}").bind("contextmenu", function(e) {
 	var y = e.pageY - 250;
 	var x = e.pageX - 30;
-    $('#activity-menu-{{action.slug}}').css({
+    $('#library-activity-menu-{{action.slug}}').css({
         top: y+'px',
         left: x+'px'
     }).show();
     return false;
 });
-$("#activity-menu-{{action.slug}}").click(function() {
+$("#library-activity-menu-{{action.slug}}").click(function() {
     $(this).hide();
 });
 $(document).click(function() {
-    $("#activity-menu-{{action.slug}}").hide();
+    $("#library-activity-menu-{{action.slug}}").hide();
 });
 {% endfor %}
 {% for action in view_objects.smartgrid_design.events %}
 $("#library-{{action.slug}}").bind("contextmenu", function(e) {
+	//log.debug('['+ e.pageX + ', '+ e.pageY +']');
 	var y = e.pageY - 250;
 	var x = e.pageX - 30;
-    $('#activity-menu-{{action.slug}}').css({
+	//log.debug('['+ x + ', '+ y +']');
+    $('#library-activity-menu-{{action.slug}}').css({
         top: y+'px',
         left: x+'px'
     }).show();
     return false;
 });
-$("#activity-menu-{{action.slug}}").click(function() {
+$("#library-activity-menu-{{action.slug}}").click(function() {
     $(this).hide();
 });
 $(document).click(function() {
-    $("#activity-menu-{{action.slug}}").hide();
+    $("#library-activity-menu-{{action.slug}}").hide();
 });
 {% endfor %}
 </script>
@@ -135,12 +137,38 @@ $(document).click(function() {
 					<legend>Action Palette</legend>
 					<div class="sgg-right-palette palette-dropzone">
 							{% for action in view_objects.smartgrid_design.palette %}
-							<div data-slug="{{action.slug}}" class="sgg-action sgg-{{action.type}}-palette palette-draggable"
+							<div id="designer-activity-menu-{{action.slug}}" class="sgg-level-popup-menu">
+								<ul>
+									<li><a href="#" class="sgg-action" onclick="copyDesignerAction('{{action.slug}}');return false;">Copy {{action.name}}</a>
+									<li><a href="#" class="sgg-action" onclick="deleteDesignerAction('{{action.slug}}');return false;">Delete {{action.name}}</a>
+								</ul>
+							</div>										
+							<div id="designer-{{action.slug}}" data-slug="{{action.slug}}" class="sgg-action sgg-{{action.type}}-palette palette-draggable"
            			   			 data-type="{{action.type}}" data-pk={{action.pk}} data-unlock="{{action.unlock_condition}}">
            		   				<br/>
            		   				<a href="/challenge_setting_admin/smartgrid_design/designer{{action.type}}/{{action.pk}}/"
 								   class="sgg-action" ref="tooltip" title="{{action.title}}">{{action.name}}</a><br/>
 							</div>								
+<script type="text/javascript">
+$("#designer-{{action.slug}}").bind("contextmenu", function(e) {
+	//log.debug('page['+ e.pageX + ', '+ e.pageY +']');
+	//log.debug('screen['+ e.screenX + ', '+ e.screenY +']');
+	var y = e.pageY - 250;
+	var x = e.pageX - 1110;
+	//log.debug('['+ x + ', '+ y +']');
+    $('#designer-activity-menu-{{action.slug}}').css({
+        top: y+'px',
+        left: x+'px'
+    }).show();
+    return false;
+});
+$("#designer-activity-menu-{{action.slug}}").click(function() {
+    $(this).hide();
+});
+$(document).click(function() {
+    $("#designer-activity-menu-{{action.slug}}").hide();
+});
+</script>			
 						{% endfor %}						
 					</div>			
 				</div>
@@ -153,8 +181,7 @@ $(document).click(function() {
 					{% endfor %}
 					</select>
 					<a href="#" class="btn btn-widget" onclick="switchDraft();return false;">Select Draft</a>
-					<a href="#" class="btn btn-widget" onclick="newDraftDialog(event);return false;">New Draft</a>
-					<a href="#" class="btn btn-widget" onclick="loadTemplate(event); return false;">Load Template</a>
+					<a href="#" class="btn btn-widget" onclick="loadTemplate(event); return false;">New Draft</a>
 				</div>
 				<div class="sgg-column-title">
 					<a class="widget-help" href="#" >
@@ -180,20 +207,24 @@ $(document).click(function() {
 					</div>
 				</div>
 				<div class="left">
+					{% if view_objects.smartgrid_design.draft %}
 					<form id="revert-form" action="{% url revert_to_grid view_objects.smartgrid_design.draft.slug %}" method="post">
    		    	  		{% csrf_token %} {{ view_objects.smartgrid_design.reset_form.as_p }}
        		  			<input class="btn btn-widget" rel="tooltip" 
 							title="Deletes all changes made in the designer and loads the current Smart Grid Game." 
 							type="submit" value="Revert to current Smart Grid Game" /> 
 		        	</form> 
+		        	{% endif %}
 		        </div>
 				<div class="right">
+					{% if view_objects.smartgrid_design.draft %}
 					<form id="publish-form" action="{% url publish_to_grid view_objects.smartgrid_design.draft.slug %}" method="post">
    	    		  		{% csrf_token %} Use Fillers: {{ view_objects.smartgrid_design.publish_form.use_filler }}
        	  				<input id="designer-publish" class="btn btn-widget" rel="tooltip" 
 							title="Publish changes made in the designer to the Smart Grid Game."
 							type="submit" value="Publish changes to Smart Grid Game" /> 
-			        </form> 			
+			        </form>
+			        {% endif %} 			
 		        </div>	
 				<div id="designer_levels" class="tabbable tabs-left">
 					<!-- Tabs for the levels -->
@@ -299,30 +330,28 @@ $(document).click(function() {
 					</div>
 				</div>
 			</div>
-			<div class="span3">
-				<div class="content-box">
-					<div class="content-box-title">Load Example Grids:
-						<a class="widget-help" href="#">
-				   			<img src="{{ STATIC_URL}}images/icons/icon-help-sm.png" width="20" align="center"
-        						 title="Click to get help about this window"
-                				 onclick="toggleHelp(event, 'widget', 'smart-grid-load-example'); return false;"/>
-                		</a>					
-					</div>
-					<div class="content-box-contents">
-						Choose an example grid from the choices below.
-		        		<form id="example-grid-form" action="{% url load_example_grid view_objects.smartgrid_design.draft.slug %}" method="post">
-	    	    			{% csrf_token %} {{ view_objects.smartgrid_design.example_grid_form.as_p }}
-          					<input class="btn btn-widget" rel="tooltip" 
-								title="Load example grid into the designer."
-								type="submit" value="Load Example Grid" /> 		        	
-	    	    		</form>
-	        		</div>
-	        	</div>
-			</div>
 		</div>
 	</div>
 </div>
 
+<div class="modal hide fade" id="loadTemplateModal">
+    <div class="modal-header">
+        <a class="close" data-dismiss="modal">x</a>
+        <h3>New Draft</h3>
+    </div>
+    <div class="modal-body" id="modal-body">
+		Choose an example template from the choices below.
+		<form id="load-template-form" action="{% url load_template %}" method="post">
+	    	{% csrf_token %} {{ view_objects.smartgrid_design.load_template_form.as_p }}
+        	<input class="btn btn-widget" rel="tooltip" 
+        		title="Load example template into the designer."
+				type="submit" value="Create New Draft" /> 		        	
+		</form>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn btn-widget" data-dismiss="modal">Close</a>
+    </div>
+</div>
 <div class="modal hide fade" id="levelAddModal">
     <div class="modal-header">
         <a class="close" data-dismiss="modal">x</a>
@@ -330,11 +359,13 @@ $(document).click(function() {
     </div>
     <div class="modal-body" id="modal-body">
         <p>
+        	{% if view_objects.smartgrid_design.draft %}
         	<form id="addLevelForm" action="{% url add_designer_level view_objects.smartgrid_design.draft.slug %}" method="post">
 				{% csrf_token %} {{ view_objects.smartgrid_design.add_level_form.as_p }}
 				<input class="btn btn-widget" rel="tooltip" title="Create a new DesignerLevel with the given name."
 					type="submit" value="Add Level" />
 			</form>
+			{% endif %}
         </p>
     </div>
     <div class="modal-footer">
@@ -348,19 +379,20 @@ $(document).click(function() {
     </div>
     <div class="modal-body" id="modal-body">
         <p><div id="levelName"></div>
+        	{% if view_objects.smartgrid_design.draft %}
    			<form id='delete-level-form' action="{% url delete_designer_level view_objects.smartgrid_design.draft.slug %}" method="post">
 				{% csrf_token %} {{view_objects.smartgrid_design.delete_level_form.as_p }}
 				<input class="btn btn-widget" rel="tooltip" title="Delete this level moving all actions to the palette."
 					type="submit" value="Yes" />
 		        <a href="#" class="btn btn-widget" data-dismiss="modal">No</a>
-			</form>        
+			</form>
+			{% endif %}        
         </p>
     </div>
     <div class="modal-footer">
         <a href="#" class="btn btn-widget" data-dismiss="modal">Cancel</a>
     </div>
 </div>
-
 <div class="modal hide fade" id="eventDateChooser">
     <div class="modal-header">
         <a class="close" data-dismiss="modal">x</a>
@@ -368,18 +400,19 @@ $(document).click(function() {
     </div>
     <div class="modal-body" id="modal-body">	
     	<div id="eventName"></div>
+       	{% if view_objects.smartgrid_design.draft %}
     	<form id='set-event-date-form' action="{% url set_designer_event_date view_objects.smartgrid_design.draft.slug %}" method="post">
     		{% csrf_token %}{{view_objects.smartgrid_design.event_date_form.as_p}}
 			<input class="btn btn-widget" rel="tooltip" title="Set the event's date."
 					type="submit" value="Set Date" />
 		        <a href="#" class="btn btn-widget" data-dismiss="modal">Cancel</a>
     	</form>
+    	{% endif %}
     </div>
     <div class="modal-footer">
         <a href="#" class="btn btn-widget" data-dismiss="modal">Cancel</a>
     </div>
 </div>
-
 <div class="modal hide fade" id="newDraftName">
 	<div class="modal-header">
         <a class="close" data-dismiss="modal">x</a>
@@ -402,7 +435,13 @@ $(document).click(function() {
 	$(init);
 	var currentDraft = "{{view_objects.smartgrid_design.draft.slug}}";
 	var numFiller = {{view_objects.smartgrid_design.fillers|length}};
-		
+	
+    $(document).ready(function () {
+		var numDrafts = {{view_objects.smartgrid_design.draft_choices|length}}
+		if (numDrafts == 0) {
+			loadTemplate();
+		}
+    });
 	// See sggDesigner.js for most of the functionality.
 	function init() {
 		$('.draggable').draggable({
@@ -511,6 +550,18 @@ $(document).click(function() {
         modalElement.modal('show');		
 	}
 
+	function loadTemplate(event) {
+        var modalElement = $('#loadTemplateModal');
+        
+        modalElement.modal({
+            backdrop: true,
+            keyboard: true,
+            show: false
+        }); 
+        modalElement.css('margin-top', (modalElement.outerHeight() / 2) * -1);
+        modalElement.modal('show');				
+	}
+	
 	function deleteLevelDialog(event, levelName, levelSlug) {
 		var modalElement = $('#levelDeleteModal');
 		var text = "Are you sure you want to delete " + levelName + "?";

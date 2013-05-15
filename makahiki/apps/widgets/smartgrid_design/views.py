@@ -8,7 +8,7 @@ from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 from apps.widgets.smartgrid_design.forms import RevertToSmartgridForm, \
     DeployToSmartgridForm, ExampleGridsForm, DeleteLevelForm, AddLevelForm, EventDateForm,\
-    NewDraftForm
+    NewDraftForm, LoadTemplateForm
 from apps.widgets.smartgrid_library.models import LibraryActivity, LibraryEvent, \
     LibraryCommitment, LibraryColumnName
 from apps.managers.smartgrid_mgr import smartgrid_mgr, unlock_lint
@@ -24,28 +24,32 @@ def supply(request, page_name):
     """ supply view_objects for widget rendering."""
     _ = request
     _ = page_name
-    try:
-        draft_slug = request.REQUEST['draft']
-    except KeyError:
-        draft_slug = 'default'
-    try:
-        draft = smartgrid_mgr.get_designer_draft(draft_slug)
-    except Http404:
-        draft = smartgrid_mgr.get_designer_draft('default')
-    levels = DesignerLevel.objects.filter(draft=draft)
-    if len(levels) == 0:  # need to create default level
-        l = DesignerLevel()
-        l.name = "Level 1"  # no name
-        l.slug = "default"
-        l.unlock_condition = "True"
-        l.unlock_condition_text = "Unlocked"
-        l.draft = draft
-        l.save()
-    levels = DesignerLevel.objects.filter(draft=draft)
+    draft_choices = Draft.objects.all()
+    draft = None
+    levels = []
+    if len(draft_choices) != 0:
+        try:
+            draft_slug = request.REQUEST['draft']
+        except KeyError:
+            draft_slug = draft_choices[0].slug
+        try:
+            draft = smartgrid_mgr.get_designer_draft(draft_slug)
+        except Http404:
+            draft = smartgrid_mgr.get_designer_draft('default')
+        levels = DesignerLevel.objects.filter(draft=draft)
+        if len(levels) == 0:  # need to create default level
+            l = DesignerLevel()
+            l.name = "Level 1"  # no name
+            l.slug = "default"
+            l.unlock_condition = "True"
+            l.unlock_condition_text = "Unlocked"
+            l.draft = draft
+            l.save()
+        levels = DesignerLevel.objects.filter(draft=draft)
 
     return {
         'draft': draft,
-        'draft_choices': Draft.objects.all(),
+        'draft_choices': draft_choices,
         'levels': levels,
         'columns': LibraryColumnName.objects.all(),
         'activities': LibraryActivity.objects.all(),
@@ -59,6 +63,7 @@ def supply(request, page_name):
         'delete_level_form': DeleteLevelForm(),
         'event_date_form': EventDateForm(),
         'new_draft_form': NewDraftForm(),
+        'load_template_form': LoadTemplateForm(),
         'palette': smartgrid_mgr.get_designer_palette(draft),
         'designer_grid': smartgrid_mgr.get_designer_grid(draft),
         'designer_actions': smartgrid_mgr.get_designer_action_slugs(draft),
@@ -150,7 +155,7 @@ def copy_action(request, action_slug, draft_slug):
     _ = request
     draft = smartgrid_mgr.get_designer_draft(draft_slug)
     smartgrid_mgr.copy_designer_action(draft, action_slug)
-    response = HttpResponse("/sgg_designer/?draft=%s" % draft.slug)
+    response = HttpResponseRedirect("/sgg_designer/?draft=%s" % draft.slug)
     return response
 
 
@@ -200,7 +205,7 @@ def delete_action(request, action_slug, draft_slug):
     draft = smartgrid_mgr.get_designer_draft(draft_slug)
     action = smartgrid_mgr.get_designer_action(draft, action_slug)
     action.delete()
-    response = HttpResponse("/sgg_designer/?draft=%s" % draft.slug)
+    response = HttpResponseRedirect("/sgg_designer/?draft=%s" % draft.slug)
     return response
 
 
@@ -262,6 +267,27 @@ def load_example_grid(request, draft_slug):
                 smartgrid_mgr.clear_designer(draft)
             else:
                 smartgrid_mgr.load_example_grid(draft, example_name)
+    response = HttpResponseRedirect("/sgg_designer/?draft=%s" % draft.slug)
+    return response
+
+
+def load_template(request):
+    """Loads a template into the given draft."""
+    if request.method == 'POST':
+        form = LoadTemplateForm(request.POST)
+        if form.is_valid():
+            draft_name = form.cleaned_data['draft_name']
+            template_name = form.cleaned_data['template']
+            draft_slug = slugify(draft_name)
+            try:
+                draft = smartgrid_mgr.get_designer_draft(draft_slug)
+            except Http404:
+                draft = Draft(name=draft_name, slug=draft_slug)
+                draft.save()
+            smartgrid_mgr.clear_designer(draft)
+            if template_name != 'empty':
+                smartgrid_mgr.clear_designer(draft=None)
+                smartgrid_mgr.load_example_grid(draft, template_name)
     response = HttpResponseRedirect("/sgg_designer/?draft=%s" % draft.slug)
     return response
 
