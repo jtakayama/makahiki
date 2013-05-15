@@ -261,6 +261,11 @@ class DesignerAction(models.Model):
         """Returns the concrete action object by type."""
         return action_type.objects.get(action_ptr=self.pk)
 
+    def admin_link(self):
+        """returns the hardcoded link to edit the action."""
+        return "<a href='/challenge_setting_admin/smartgrid_design/designer%s/%s/'>%s</a>" % \
+            (self.action_type, self.pk, self.name)
+
 
 class DesignerActivity(DesignerAction):
     """Activities involve verifiable actions that users commit to.  These actions can be
