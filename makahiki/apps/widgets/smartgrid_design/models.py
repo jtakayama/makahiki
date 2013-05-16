@@ -264,7 +264,7 @@ class DesignerAction(models.Model):
     def admin_link(self):
         """returns the hardcoded link to edit the action."""
         return "<a href='/challenge_setting_admin/smartgrid_design/designer%s/%s/'>%s</a>" % \
-            (self.action_type, self.pk, self.name)
+            (self.type, self.pk, self.name)
 
 
 class DesignerActivity(DesignerAction):
