@@ -15,13 +15,13 @@ class Error(object):
         self.message = message
 
     def __unicode__(self):
-        return "Error: %s on %s" % (self.message, self.action)
+        return "Error: %s %s" % (self.action.admin_link(), self.message)
 
     def __str__(self):
-        return "Error: %s on %s" % (self.message, self.action)
+        return "Error: %s - %s" % (self.action.admin_link(), self.message)
 
-    def __repr__(self):
-        return "<Error: %s[%s]>" % (self.action, self.message)
+#     def __repr__(self):
+#         return "<Error: %s[%s]>" % (self.action, self.message)
 
     def get_admin_link(self):
         """Returns the action's admin link."""
@@ -39,7 +39,7 @@ class Warn(object):
         return "Warning: %s on %s" % (self.message, self.action)
 
     def __str__(self):
-        return "Warning: %s on %s" % (self.message, self.action)
+        return "Warning: %s - %s" % (self.action.admin_link(), self.message)
 
     def __repr__(self):
         return "<Warning: %s[%s]>" % (self.action, self.message)

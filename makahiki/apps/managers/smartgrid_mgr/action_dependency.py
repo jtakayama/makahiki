@@ -29,6 +29,17 @@ def __build_designer_nodes(draft):
     return nodes
 
 
+def __build_designer_grid_nodes(draft):
+    """Creates a list of ActionNodes for the DesignerActions in the Designer grid for the given
+    Draft."""
+    nodes = []
+    for action in DesignerAction.objects.filter(draft=draft):
+        locations = DesignerGrid.objects.filter(draft=draft, action=action)
+        for loc in locations:
+            nodes.append(ActionNode(action, level=loc.level, identifier=action.slug))
+    return nodes
+
+
 def __get_submitted_action_slugs(node):
     """Returns the action slugs for submitted_action predicates in the given node's
     unlock_condition."""
@@ -93,12 +104,20 @@ def build_library_trees():
 
 def build_designer_grid_trees(draft):
     """Builds the DependencyTrees for the DesignerActions in the DesignerGrid."""
-    nodes = __build_designer_nodes(draft)
+    nodes = __build_designer_grid_nodes(draft)
     trees = {}
     for node in nodes:
-        t = DependencyTree()
-        t.create_node(node.action, level=node.level, identifier=node.identifier)
-        trees[node.identifier] = t
+        if node.unlock_condition == "True" or node.unlock_condition.find("or True") != -1 \
+        or node.unlock_condition == "False" or node.unlock_condition.find("and False") != -1:
+            t = DependencyTree()
+            t.create_node(node.action, level=node.level, identifier=node.identifier)
+            trees[node.identifier] = t
+    for node in nodes:
+        slugs = __get_dependent_action_slugs(node)
+        for slug in slugs:
+            for k in list(trees):
+                if trees[k].get_node(slug):
+                    trees[k].add_node(node, slug)
     for node in nodes:
         slugs = __get_dependent_action_slugs(node)
         for slug in slugs:
@@ -117,7 +136,7 @@ def build_designer_grid_trees(draft):
 def check_unreachable_designer_actions(draft):
     """Returns a list of Errors for each unreachable DesignerAction in the draft."""
     ret = []
-    nodes = __build_designer_nodes(draft)
+    nodes = __build_designer_grid_nodes(draft)
     trees = build_designer_grid_trees(draft)
     # check all the nodes
     for node in nodes:
@@ -127,7 +146,8 @@ def check_unreachable_designer_actions(draft):
             if tree.get_node(node.identifier):
                 in_tree = True
         if not in_tree:
-            ret.append(Error(message="Action not reachable/unlockable", action=node.action))
+            ret.append(Error(message="Action not reachable/unlockable [%s]" % \
+                             node.action.unlock_condition, action=node.action))
     return ret
 
 

@@ -186,53 +186,42 @@ def full_designer_check(draft):
     ret['warnings'] = []
     d = check_pub_exp_dates(draft)
     for e in d['errors']:
-        ret['errors'].append(e)
+        ret['errors'].append(str(str(e)))
     for w in d['warnings']:
-        ret['warnings'].append(w)
+        ret['warnings'].append(str(w))
     d = check_grid_pub_exp_dates(draft)
     for e in d['errors']:
-        ret['errors'].append(e)
+        ret['errors'].append(str(e))
     for w in d['warnings']:
-        ret['warnings'].append(w)
+        ret['warnings'].append(str(w))
     d = check_event_dates(draft)
     for e in d:
-        ret['errors'].append(e)
+        ret['errors'].append(str(e))
     d = check_grid_event_dates(draft)
     for e in d:
-        ret['errors'].append(e)
+        ret['errors'].append(str(e))
     d = check_designer_unlock_dates(draft)
     for e in d['errors']:
-        ret['errors'].append(e)
+        ret['errors'].append(str(e))
     for w in d['warnings']:
-        ret['warnings'].append(w)
+        ret['warnings'].append(str(w))
     for w in check_designer_urls(draft):
-        ret['warnings'].append(w)
+        ret['warnings'].append(str(w))
     for e in action_dependency.check_unreachable_designer_actions(draft):
-        ret['errors'].append(e)
+        ret['errors'].append(str(e))
     for w in action_dependency.check_false_unlock_designer_actions(draft):
-        ret['warnings'].append(w)
+        ret['warnings'].append(str(w))
     return ret
 
 
 def designer_errors(draft):
     """Returns the errors detected in the Designer."""
-    ret = []
-    d = check_pub_exp_dates(draft)
-    for e in d['errors']:
-        ret.append(e)
-    d = check_grid_pub_exp_dates(draft)
-    for e in d['errors']:
-        ret.append(e)
-    for e in check_event_dates(draft):
-        ret.append(e)
-    for e in check_grid_event_dates(draft):
-        ret.append(e)
-    d = check_designer_unlock_dates(draft)
-    for e in d['errors']:
-        ret.append(e)
-    for e in action_dependency.check_unreachable_designer_actions(draft):
-        ret.append(e)
-    return ret
+    return quick_designer_check(draft=draft)['errors']
+
+
+def designer_warnings(draft):
+    """Returns the warnings detected in the Designer draft."""
+    return quick_designer_check(draft=draft)['warnings']
 
 
 def quick_designer_check(draft):
@@ -240,31 +229,23 @@ def quick_designer_check(draft):
     ret = {}
     ret['errors'] = []
     ret['warnings'] = []
-    d = check_pub_exp_dates(draft)
-    for e in d['errors']:
-        ret['errors'].append(e)
-    for w in d['warnings']:
-        ret['warnings'].append(w)
     d = check_grid_pub_exp_dates(draft)
     for e in d['errors']:
-        ret['errors'].append(e)
+        ret['errors'].append(str(e))
     for w in d['warnings']:
-        ret['warnings'].append(w)
-    d = check_event_dates(draft)
-    for e in d:
-        ret['errors'].append(e)
+        ret['warnings'].append(str(w))
     d = check_grid_event_dates(draft)
     for e in d:
-        ret['errors'].append(e)
+        ret['errors'].append(str(e))
     d = check_designer_unlock_dates(draft)
     for e in d['errors']:
-        ret['errors'].append(e)
+        ret['errors'].append(str(e))
     for w in d['warnings']:
-        ret['warnings'].append(w)
+        ret['warnings'].append(str(w))
     for e in action_dependency.check_unreachable_designer_actions(draft):
-        ret['errors'].append(e)
+        ret['errors'].append(str(e))
     for w in action_dependency.check_false_unlock_designer_actions(draft):
-        ret['warnings'].append(w)
+        ret['warnings'].append(str(w))
     return ret
 
 
@@ -317,15 +298,15 @@ def full_library_check():
     ret['warnings'] = []
     d = check_library_unlock_dates()
     for e in d['errors']:
-        ret['errors'].append(e)
+        ret['errors'].append(str(e))
     for w in d['warnings']:
-        ret['warnings'].append(w)
+        ret['warnings'].append(str(w))
     for w in check_library_urls():
-        ret['warnings'].append(w)
+        ret['warnings'].append(str(w))
     for e in action_dependency.check_unreachable_library_actions():
-        ret['errors'].append(e)
+        ret['errors'].append(str(e))
     for w in action_dependency.check_false_unlock_library_actions():
-        ret['warnings'].append(w)
+        ret['warnings'].append(str(w))
     return ret
 
 
@@ -336,13 +317,13 @@ def quick_library_check():
     ret['warnings'] = []
     d = check_library_unlock_dates()
     for e in d['errors']:
-        ret['errors'].append(e)
+        ret['errors'].append(str(e))
     for w in d['warnings']:
-        ret['warnings'].append(w)
+        ret['warnings'].append(str(w))
     for e in action_dependency.check_unreachable_library_actions():
-        ret['errors'].append(e)
+        ret['errors'].append(str(e))
     for w in action_dependency.check_false_unlock_library_actions():
-        ret['warnings'].append(w)
+        ret['warnings'].append(str(w))
     return ret
 
 
@@ -350,7 +331,7 @@ def library_errors():
     ret = []
     d = check_library_unlock_dates()
     for e in d['errors']:
-        ret.append(e)
+        ret.append(str(e))
     for e in action_dependency.check_unreachable_library_actions():
-        ret.append(e)
+        ret.append(str(e))
     return ret
