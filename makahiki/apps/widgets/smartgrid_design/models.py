@@ -141,10 +141,7 @@ class DesignerColumnName(models.Model):
                               null=True)
 
     def __unicode__(self):
-        if self.draft:
-            return "%s (%s)" % (self.name, self.draft.name)
-        else:
-            return "%s ()" % self.name
+        return "%s (%s)" % (self.name, self.draft)
 
     def save(self, *args, **kwargs):
         """Custom save method to set fields."""

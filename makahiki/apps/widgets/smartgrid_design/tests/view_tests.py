@@ -13,6 +13,7 @@ from apps.widgets.smartgrid_design.models import DesignerColumnGrid, DesignerLev
     DesignerGrid
 from django.http import Http404
 from apps.widgets.smartgrid.models import Level, Activity, ColumnName, ColumnGrid, Grid
+from apps.widgets.smartgrid_design.forms import ExampleGridsForm
 
 
 class ViewTests(TransactionTestCase):
@@ -168,7 +169,7 @@ class ViewTests(TransactionTestCase):
         response = self.client.get(reverse('delete_designer_action', \
                                            args=(self.action_slug,
                                                  self.draft_slug)))
-        self.failUnlessEqual(response.status_code, 200)
+        self.failUnlessEqual(response.status_code, 302)
         draft = smartgrid_mgr.get_designer_draft(self.draft_slug)
         try:
             smartgrid_mgr.get_designer_action(draft, self.action_slug)
@@ -310,7 +311,10 @@ class ViewTests(TransactionTestCase):
         self.failUnlessEqual(loc.row, 2, "Wrong row for action")
 
 #     def testLoadExampleGrid(self):
-#         self.fail("Not implemented")
+#         foo = self.client.get(reverse('load_example_grid', args=('foo',))).form
+#         print foo
+#         self.failUnlessEqual(9, 200)
+
 
 #     def testRunLint(self):
 #         self.fail("Not implemented")

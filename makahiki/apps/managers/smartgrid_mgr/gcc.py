@@ -13,7 +13,7 @@ import re
 from apps.widgets.smartgrid_library.models import LibraryAction
 import urllib2
 from urllib2 import HTTPError, URLError
-from apps.managers.smartgrid_mgr.gcc_model import Error, Warn
+from apps.managers.smartgrid_mgr.gcc_model import Error, Warn, _ERRORS, _WARNINGS
 
 
 def __is_in_round(date, roundsetting):
@@ -62,25 +62,25 @@ def check_pub_exp_dates(draft):
     """Returns a dictionary of Errors and Warnings for DesignerActions whose pub_date or
      exp_date are not in the challenge."""
     ret = {}
-    ret['errors'] = []
-    ret['warnings'] = []
+    ret[_ERRORS] = []
+    ret[_WARNINGS] = []
     challenge_start = challenge_mgr.get_challenge_start()
     challenge_end = challenge_mgr.get_challenge_end()
     for action in DesignerAction.objects.filter(draft=draft):
         if action.pub_date > challenge_end.date():
-            ret['errors'].append(Error(message="Publication Date after end of Challenge", \
+            ret[_ERRORS].append(Error(message="Publication Date after end of Challenge", \
                                        action=action))
         if action.expire_date and \
             datetime.combine(action.expire_date, time(0, 0)) < \
             challenge_start.date():
-            ret['errors'].append(Error(message="Expiration date before beginning of Challenge", \
+            ret[_ERRORS].append(Error(message="Expiration date before beginning of Challenge", \
                                        action=action))
         if not __is_in_rounds(datetime.combine(action.pub_date, time(0, 0))):
-            ret['warnings'].append(Warn(message="Publication Date isn't in a round", \
+            ret[_WARNINGS].append(Warn(message="Publication Date isn't in a round", \
                                         action=action))
         if action.expire_date and not \
             __is_in_rounds(datetime.combine(action.expire_date, time(0, 0))):
-            ret['warnings'].append(Warn(message="Expiration Date isn't in a round", \
+            ret[_WARNINGS].append(Warn(message="Expiration Date isn't in a round", \
                                         action=action))
     return ret
 
@@ -89,25 +89,25 @@ def check_grid_pub_exp_dates(draft):
     """Returns a dictionary of Errors and Warnings for DesignerActions in the grid whose pub_date or
      exp_date are not in the challenge."""
     ret = {}
-    ret['errors'] = []
-    ret['warnings'] = []
+    ret[_ERRORS] = []
+    ret[_WARNINGS] = []
     challenge_start = challenge_mgr.get_challenge_start()
     challenge_end = challenge_mgr.get_challenge_end()
     for loc in DesignerGrid.objects.filter(draft=draft):
         if loc.action.pub_date > challenge_end.date():
-            ret['errors'].append(Error(message="Publication Date after end of Challenge", \
+            ret[_ERRORS].append(Error(message="Publication Date after end of Challenge", \
                                        action=loc.action))
         if loc.action.expire_date and \
             datetime.combine(loc.action.expire_date, time(0, 0)) < \
             challenge_start.date():
-            ret['errors'].append(Error(message="Expiration date before beginning of Challenge", \
+            ret[_ERRORS].append(Error(message="Expiration date before beginning of Challenge", \
                                        action=loc.action))
         if not __is_in_rounds(datetime.combine(loc.action.pub_date, time(0, 0))):
-            ret['warnings'].append(Warn(message="Publication Date isn't in a round", \
+            ret[_WARNINGS].append(Warn(message="Publication Date isn't in a round", \
                                         action=loc.action))
         if loc.action.expire_date and not \
             __is_in_rounds(datetime.combine(loc.action.expire_date, time(0, 0))):
-            ret['warnings'].append(Warn(message="Expiration Date isn't in a round", \
+            ret[_WARNINGS].append(Warn(message="Expiration Date isn't in a round", \
                                         action=loc.action))
     return ret
 
@@ -142,8 +142,8 @@ def check_designer_unlock_dates(draft):
     """Checks all the DesignerAction unlock_conditions looking for unlock_on_date predicates.
     Checks the dates in the predicate to ensure they are in the challenge."""
     ret = {}
-    ret['errors'] = []
-    ret['warnings'] = []
+    ret[_ERRORS] = []
+    ret[_WARNINGS] = []
     for action in DesignerAction.objects.filter(draft=draft):
         l = action.unlock_condition.split('unlock_on_date(')
         if len(l) > 1:
@@ -151,10 +151,10 @@ def check_designer_unlock_dates(draft):
             date_string = l[1][:index].strip('"\'')
             unlock_date = datetime.strptime(date_string, "%m/%d/%y")
             if __is_after_challenge(datetime.combine(unlock_date, time(0, 0))):
-                ret['errors'].append(Error(message="unlock date is after challenge end", \
+                ret[_ERRORS].append(Error(message="unlock date is after challenge end", \
                                            action=action))
             if not __is_in_rounds(datetime.combine(unlock_date, time(0, 0))):
-                ret['warnings'].append(Warn(message="unlock date is not in a round", \
+                ret[_WARNINGS].append(Warn(message="unlock date is not in a round", \
                                             action=action))
 
     return ret
@@ -182,70 +182,70 @@ def check_designer_urls(draft):
 def full_designer_check(draft):
     """Runs all the designer checks (slow)."""
     ret = {}
-    ret['errors'] = []
-    ret['warnings'] = []
+    ret[_ERRORS] = []
+    ret[_WARNINGS] = []
     d = check_pub_exp_dates(draft)
-    for e in d['errors']:
-        ret['errors'].append(str(str(e)))
-    for w in d['warnings']:
-        ret['warnings'].append(str(w))
+    for e in d[_ERRORS]:
+        ret[_ERRORS].append(str(str(e)))
+    for w in d[_WARNINGS]:
+        ret[_WARNINGS].append(str(w))
     d = check_grid_pub_exp_dates(draft)
-    for e in d['errors']:
-        ret['errors'].append(str(e))
-    for w in d['warnings']:
-        ret['warnings'].append(str(w))
+    for e in d[_ERRORS]:
+        ret[_ERRORS].append(str(e))
+    for w in d[_WARNINGS]:
+        ret[_WARNINGS].append(str(w))
     d = check_event_dates(draft)
     for e in d:
-        ret['errors'].append(str(e))
+        ret[_ERRORS].append(str(e))
     d = check_grid_event_dates(draft)
     for e in d:
-        ret['errors'].append(str(e))
+        ret[_ERRORS].append(str(e))
     d = check_designer_unlock_dates(draft)
-    for e in d['errors']:
-        ret['errors'].append(str(e))
-    for w in d['warnings']:
-        ret['warnings'].append(str(w))
+    for e in d[_ERRORS]:
+        ret[_ERRORS].append(str(e))
+    for w in d[_WARNINGS]:
+        ret[_WARNINGS].append(str(w))
     for w in check_designer_urls(draft):
-        ret['warnings'].append(str(w))
+        ret[_WARNINGS].append(str(w))
     for e in action_dependency.check_unreachable_designer_actions(draft):
-        ret['errors'].append(str(e))
+        ret[_ERRORS].append(str(e))
     for w in action_dependency.check_false_unlock_designer_actions(draft):
-        ret['warnings'].append(str(w))
+        ret[_WARNINGS].append(str(w))
     return ret
 
 
 def designer_errors(draft):
     """Returns the errors detected in the Designer."""
-    return quick_designer_check(draft=draft)['errors']
+    return quick_designer_check(draft=draft)[_ERRORS]
 
 
 def designer_warnings(draft):
     """Returns the warnings detected in the Designer draft."""
-    return quick_designer_check(draft=draft)['warnings']
+    return quick_designer_check(draft=draft)[_WARNINGS]
 
 
 def quick_designer_check(draft):
     """Quick test."""
     ret = {}
-    ret['errors'] = []
-    ret['warnings'] = []
+    ret[_ERRORS] = []
+    ret[_WARNINGS] = []
     d = check_grid_pub_exp_dates(draft)
-    for e in d['errors']:
-        ret['errors'].append(str(e))
-    for w in d['warnings']:
-        ret['warnings'].append(str(w))
+    for e in d[_ERRORS]:
+        ret[_ERRORS].append(str(e))
+    for w in d[_WARNINGS]:
+        ret[_WARNINGS].append(str(w))
     d = check_grid_event_dates(draft)
     for e in d:
-        ret['errors'].append(str(e))
+        ret[_ERRORS].append(str(e))
     d = check_designer_unlock_dates(draft)
-    for e in d['errors']:
-        ret['errors'].append(str(e))
-    for w in d['warnings']:
-        ret['warnings'].append(str(w))
+    for e in d[_ERRORS]:
+        ret[_ERRORS].append(str(e))
+    for w in d[_WARNINGS]:
+        ret[_WARNINGS].append(str(w))
     for e in action_dependency.check_unreachable_designer_actions(draft):
-        ret['errors'].append(str(e))
+        ret[_ERRORS].append(str(e))
     for w in action_dependency.check_false_unlock_designer_actions(draft):
-        ret['warnings'].append(str(w))
+        ret[_WARNINGS].append(str(w))
     return ret
 
 
@@ -253,8 +253,8 @@ def check_library_unlock_dates():
     """Checks all the LibraryAction unlock_conditions looking for unlock_on_date predicates.
     Checks the dates in the predicate to ensure they are in the challenge."""
     ret = {}
-    ret['errors'] = []
-    ret['warnings'] = []
+    ret[_ERRORS] = []
+    ret[_WARNINGS] = []
     for action in LibraryAction.objects.all():
         l = action.unlock_condition.split('unlock_on_date(')
         if len(l) > 1:
@@ -262,10 +262,10 @@ def check_library_unlock_dates():
             date_string = l[1][:index].strip('"\'')
             unlock_date = datetime.strptime(date_string, "%m/%d/%y")
             if not __is_in_challenge(datetime.combine(unlock_date, time(0, 0))):
-                ret['errors'].append(Error(message="unlock date is not in challenge", \
+                ret[_ERRORS].append(Error(message="unlock date is not in challenge", \
                                            action=action))
             if not __is_in_rounds(datetime.combine(unlock_date, time(0, 0))):
-                ret['warnings'].append(Warn(message="unlock date is not in a round", \
+                ret[_WARNINGS].append(Warn(message="unlock date is not in a round", \
                                             action=action))
 
     return ret
@@ -294,44 +294,39 @@ def full_library_check():
     """Runs all the consistency checks on the library returning a dictionary with the Errors and
     Warnings."""
     ret = {}
-    ret['errors'] = []
-    ret['warnings'] = []
+    ret[_ERRORS] = []
+    ret[_WARNINGS] = []
     d = check_library_unlock_dates()
-    for e in d['errors']:
-        ret['errors'].append(str(e))
-    for w in d['warnings']:
-        ret['warnings'].append(str(w))
+    for e in d[_ERRORS]:
+        ret[_ERRORS].append(str(e))
+    for w in d[_WARNINGS]:
+        ret[_WARNINGS].append(str(w))
     for w in check_library_urls():
-        ret['warnings'].append(str(w))
+        ret[_WARNINGS].append(str(w))
     for e in action_dependency.check_unreachable_library_actions():
-        ret['errors'].append(str(e))
+        ret[_ERRORS].append(str(e))
     for w in action_dependency.check_false_unlock_library_actions():
-        ret['warnings'].append(str(w))
+        ret[_WARNINGS].append(str(w))
     return ret
 
 
 def quick_library_check():
     """Runs the faster checks, not urls."""
     ret = {}
-    ret['errors'] = []
-    ret['warnings'] = []
+    ret[_ERRORS] = []
+    ret[_WARNINGS] = []
     d = check_library_unlock_dates()
-    for e in d['errors']:
-        ret['errors'].append(str(e))
-    for w in d['warnings']:
-        ret['warnings'].append(str(w))
+    for e in d[_ERRORS]:
+        ret[_ERRORS].append(str(e))
+    for w in d[_WARNINGS]:
+        ret[_WARNINGS].append(str(w))
     for e in action_dependency.check_unreachable_library_actions():
-        ret['errors'].append(str(e))
+        ret[_ERRORS].append(str(e))
     for w in action_dependency.check_false_unlock_library_actions():
-        ret['warnings'].append(str(w))
+        ret[_WARNINGS].append(str(w))
     return ret
 
 
 def library_errors():
-    ret = []
-    d = check_library_unlock_dates()
-    for e in d['errors']:
-        ret.append(str(e))
-    for e in action_dependency.check_unreachable_library_actions():
-        ret.append(str(e))
-    return ret
+    ret = quick_library_check()
+    return ret[_ERRORS]

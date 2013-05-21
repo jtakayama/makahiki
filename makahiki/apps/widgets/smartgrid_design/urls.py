@@ -73,4 +73,7 @@ urlpatterns = patterns('',
     url(r'^load_template/$',
         'apps.widgets.smartgrid_design.views.load_template',
         name='load_template'),
+    url(r'^load_first_template/$',
+        'apps.widgets.smartgrid_design.views.load_first_template',
+        name='load_first_template'),
 )

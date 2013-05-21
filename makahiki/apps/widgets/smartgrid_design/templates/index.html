@@ -347,6 +347,24 @@ $(document).click(function() {
 	</div>
 </div>
 
+<div class="modal hide fade" id="loadFirstTemplateModal">
+    <div class="modal-header">
+        <a class="close" data-dismiss="modal">x</a>
+        <h3>First Draft</h3>
+    </div>
+    <div class="modal-body" id="modal-body">
+		Choose an example template from the choices below.
+		<form id="load-template-form" action="{% url load_first_template %}" method="post">
+	    	{% csrf_token %} {{ view_objects.smartgrid_design.load_template_form.as_p }}
+        	<input class="btn btn-widget" rel="tooltip" 
+        		title="Load example template into the designer."
+				type="submit" value="Create New Draft" /> 		        	
+		</form>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn btn-widget" data-dismiss="modal">Close</a>
+    </div>
+</div>
 <div class="modal hide fade" id="loadTemplateModal">
     <div class="modal-header">
         <a class="close" data-dismiss="modal">x</a>
@@ -452,7 +470,7 @@ $(document).click(function() {
     $(document).ready(function () {
 		var numDrafts = {{view_objects.smartgrid_design.draft_choices|length}}
 		if (numDrafts == 0) {
-			loadTemplate();
+			loadFirstTemplate();
 		}
     });
 	// See sggDesigner.js for most of the functionality.
@@ -563,6 +581,18 @@ $(document).click(function() {
         modalElement.modal('show');		
 	}
 
+	function loadFirstTemplate(event) {
+        var modalElement = $('#loadFirstTemplateModal');
+        
+        modalElement.modal({
+            backdrop: true,
+            keyboard: true,
+            show: false
+        }); 
+        modalElement.css('margin-top', (modalElement.outerHeight() / 2) * -1);
+        modalElement.modal('show');						
+	}
+	
 	function loadTemplate(event) {
         var modalElement = $('#loadTemplateModal');
         

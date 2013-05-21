@@ -11,7 +11,7 @@ from apps.widgets.smartgrid_design.forms import RevertToSmartgridForm, \
     NewDraftForm, LoadTemplateForm
 from apps.widgets.smartgrid_library.models import LibraryActivity, LibraryEvent, \
     LibraryCommitment, LibraryColumnName
-from apps.managers.smartgrid_mgr import smartgrid_mgr, unlock_lint, gcc, action_dependency
+from apps.managers.smartgrid_mgr import smartgrid_mgr, gcc, action_dependency
 import json
 from apps.widgets.smartgrid_design.models import DesignerLevel, \
     DesignerAction, DesignerGrid, DesignerColumnGrid, Draft
@@ -271,8 +271,36 @@ def load_example_grid(request, draft_slug):
     return response
 
 
+def load_first_template(request):
+    """Loads the first template into the Designer."""
+    print "load_first_template()"
+    if request.method == 'POST':
+        form = LoadTemplateForm(request.POST)
+        if form.is_valid():
+            # load the largest so wont overwrite objects when we load real one.
+            draft_name = form.cleaned_data['draft_name']
+            template_name = form.cleaned_data['template']
+            draft_slug = slugify(draft_name)
+            try:
+                draft = smartgrid_mgr.get_designer_draft(draft_slug)
+            except Http404:
+                draft = Draft(name=draft_name, slug=draft_slug)
+                draft.save()
+            foo = Draft(name="delete-me-soon12341", slug='delete-me-soon12341')
+            foo.save()
+            smartgrid_mgr.load_example_grid(draft=foo, example_name='uh12')
+            smartgrid_mgr.clear_designer(draft)
+            if template_name != 'empty':
+                smartgrid_mgr.clear_designer(draft=None)
+                smartgrid_mgr.load_example_grid(draft, template_name)
+            foo.delete()
+    response = HttpResponseRedirect("/sgg_designer/?draft=%s" % draft.slug)
+    return response
+
+
 def load_template(request):
     """Loads a template into the given draft."""
+    print "load_template()"
     if request.method == 'POST':
         form = LoadTemplateForm(request.POST)
         if form.is_valid():

@@ -49,6 +49,8 @@ class Warn(object):
         return self.action.admin_link()
 (_ADD, _DELETE, _INSERT) = range(3)
 (_ROOT, _DEPTH, _WIDTH) = range(3)
+_ERRORS = 'errors'
+_WARNINGS = 'warnings'
 
 
 class ActionNode(object):
