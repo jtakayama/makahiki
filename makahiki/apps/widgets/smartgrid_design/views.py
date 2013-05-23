@@ -46,6 +46,10 @@ def supply(request, page_name):
             l.draft = draft
             l.save()
         levels = DesignerLevel.objects.filter(draft=draft)
+        ts = action_dependency.build_designer_grid_trees(draft)
+        tree_list = []
+        for k in  list(ts):
+            tree_list.append(ts[k].tohtmlstring())
 
     return {
         'draft': draft,
@@ -68,6 +72,9 @@ def supply(request, page_name):
         'designer_grid': smartgrid_mgr.get_designer_grid(draft),
         'designer_actions': smartgrid_mgr.get_designer_action_slugs(draft),
         'designer_columns': smartgrid_mgr.get_designer_column_name_slugs(draft),
+        'errors': gcc.designer_errors(draft=draft),
+        'warnings': gcc.designer_warnings(draft=draft),
+        'trees': tree_list,
             }
 
 
@@ -327,10 +334,9 @@ def run_lint(request, draft_slug):
     errors = gcc.designer_errors(draft=draft)
     warnings = gcc.designer_warnings(draft=draft)
     trees = action_dependency.build_designer_grid_trees(draft)
-    sorted_trees = OrderedDict(sorted(trees.items(), key=lambda t: -len(t[1])))
     unlock_tree = ''
-    for k in list(sorted_trees):
-        unlock_tree += sorted_trees[k].tohtmlstring()
+    for k in list(trees):
+        unlock_tree += trees[k].tohtmlstring()
         unlock_tree += '<p></p>'
     return HttpResponse(json.dumps({
             "errors": errors,

@@ -6,6 +6,7 @@ Created on May 16, 2013
 from apps.widgets.smartgrid_library.models import LibraryAction
 from apps.widgets.smartgrid_design.models import DesignerAction, DesignerGrid
 from apps.managers.smartgrid_mgr.gcc_model import ActionNode, DependencyTree, Error, Warn
+from collections import OrderedDict
 
 
 def __build_library_nodes():
@@ -112,25 +113,16 @@ def build_designer_grid_trees(draft):
             t = DependencyTree()
             t.create_node(node.action, level=node.level, identifier=node.identifier)
             trees[node.identifier] = t
-    for node in nodes:
-        slugs = __get_dependent_action_slugs(node)
-        for slug in slugs:
-            for k in list(trees):
-                if trees[k].get_node(slug):
-                    trees[k].add_node(node, slug)
-    for node in nodes:
-        slugs = __get_dependent_action_slugs(node)
-        for slug in slugs:
-            for k in list(trees):
-                if trees[k].get_node(slug):
-                    trees[k].add_node(node, slug)
-    for node in nodes:
-        slugs = __get_dependent_action_slugs(node)
-        for slug in slugs:
-            for k in list(trees):
-                if trees[k].get_node(slug):
-                    trees[k].add_node(node, slug)
-    return trees
+    for i in range(10):
+        _ = i
+        for node in nodes:
+            slugs = __get_dependent_action_slugs(node)
+            for slug in slugs:
+                for k in list(trees):
+                    if trees[k].get_node(slug):
+                        trees[k].add_node(node, slug)
+    sorted_trees = OrderedDict(sorted(trees.items(), key=lambda t: -len(t[1])))
+    return sorted_trees
 
 
 def check_unreachable_designer_actions(draft):
@@ -160,7 +152,7 @@ def check_false_unlock_designer_actions(draft):
         tree = trees[k]
         root = tree.get_node(tree.root)
         if root:
-            if root.unlock_condition == "False" or root.unlock_condition.find("and False"):
+            if root.unlock_condition == "False" or root.unlock_condition.find("and False") != -1:
                 for node_key in list(tree.nodes):
                     node = tree.nodes[node_key]
                     if not node.action in false_actions and not node.action.type == 'filler':
@@ -173,7 +165,6 @@ def check_false_unlock_designer_actions(draft):
 def check_missmatched_designer_level(draft):
     """Returns a list of Warnings for actions whose parent level is higher than their own."""
     ret = []
-    actions = []
     trees = build_designer_grid_trees(draft)
     for k in list(trees):
         tree = trees[k]
@@ -184,10 +175,9 @@ def check_missmatched_designer_level(draft):
                 if parent_name:
                     parent = tree.nodes[parent_name]
                     if parent and parent.level and parent.level.priority > node.level.priority:
-                        if node.action not in actions:
-                            actions.append(node.action)
-    for action in actions:
-        ret.append(Warn(message="Depends on action with higher level", action=action))
+                        message = "Depends on action %s with higher level %s" % (parent, \
+                                                                                 parent.level)
+                        ret.append(Warn(message=message, action=node.action))
     return ret
 
 

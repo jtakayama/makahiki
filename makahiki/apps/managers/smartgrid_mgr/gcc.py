@@ -95,20 +95,25 @@ def check_grid_pub_exp_dates(draft):
     challenge_end = challenge_mgr.get_challenge_end()
     for loc in DesignerGrid.objects.filter(draft=draft):
         if loc.action.pub_date > challenge_end.date():
-            ret[_ERRORS].append(Error(message="Publication Date after end of Challenge", \
+            message = "Publication Date %s after end of Challenge %s" % (loc.action.pub_date, \
+                                                                         challenge_end.date())
+            ret[_ERRORS].append(Error(message=message, \
                                        action=loc.action))
         if loc.action.expire_date and \
-            datetime.combine(loc.action.expire_date, time(0, 0)) < \
+            loc.action.expire_date < \
             challenge_start.date():
-            ret[_ERRORS].append(Error(message="Expiration date before beginning of Challenge", \
+            message = "Expiration date %s is before beginning of Challenge %s" % ()
+            ret[_ERRORS].append(Error(message=message, \
                                        action=loc.action))
-        if not __is_in_rounds(datetime.combine(loc.action.pub_date, time(0, 0))):
-            ret[_WARNINGS].append(Warn(message="Publication Date isn't in a round", \
-                                        action=loc.action))
-        if loc.action.expire_date and not \
-            __is_in_rounds(datetime.combine(loc.action.expire_date, time(0, 0))):
-            ret[_WARNINGS].append(Warn(message="Expiration Date isn't in a round", \
-                                        action=loc.action))
+#         if not __is_in_rounds(datetime.combine(loc.action.pub_date, time(0, 0))):
+#             message = "Publication Date %s isn't in a round" % loc.action.pub_date
+#             ret[_WARNINGS].append(Warn(message=message, \
+#                                         action=loc.action))
+#         if loc.action.expire_date and not \
+#             __is_in_rounds(datetime.combine(loc.action.expire_date, time(0, 0))):
+#             message = "Expiration Date isn't in a round" % loc.action.expire_date
+#             ret[_WARNINGS].append(Warn(message=message, \
+#                                         action=loc.action))
     return ret
 
 
@@ -132,9 +137,13 @@ def check_grid_event_dates(draft):
         if loc.action.type == 'event':
             event = smartgrid_mgr.get_designer_action(draft=draft, slug=loc.action.slug)
             if not __is_in_rounds(event.event_date):
-                ret.append(Error(message="Event date isn't in a round", action=event))
+                message = "Event date %s isn't in a round" % event.event_date.date()
+                ret.append(Error(message=message, action=event))
             if not __is_in_challenge(event.event_date):
-                ret.append(Error(message="Event date isn't in the challenge", action=event))
+                message = "Event date %s isn't in the challenge %s - %s" % \
+                (event.event_date.date(), challenge_mgr.get_challenge_start().date(), \
+                 challenge_mgr.get_challenge_end().date())
+                ret.append(Error(message=message, action=event))
     return ret
 
 
@@ -151,10 +160,13 @@ def check_designer_unlock_dates(draft):
             date_string = l[1][:index].strip('"\'')
             unlock_date = datetime.strptime(date_string, "%m/%d/%y")
             if __is_after_challenge(datetime.combine(unlock_date, time(0, 0))):
-                ret[_ERRORS].append(Error(message="unlock date is after challenge end", \
-                                           action=action))
+                message = "unlock date %s is after challenge end %s" % (unlock_date.date(), \
+                                                                        challenge_mgr.\
+                                                                        get_challenge_end().date())
+                ret[_ERRORS].append(Error(message=message, action=action))
             if not __is_in_rounds(datetime.combine(unlock_date, time(0, 0))):
-                ret[_WARNINGS].append(Warn(message="unlock date is not in a round", \
+                message = "unlock date %s is not in a round" % unlock_date.date()
+                ret[_WARNINGS].append(Warn(message=message, \
                                             action=action))
 
     return ret
@@ -211,6 +223,8 @@ def full_designer_check(draft):
         ret[_ERRORS].append(str(e))
     for w in action_dependency.check_false_unlock_designer_actions(draft):
         ret[_WARNINGS].append(str(w))
+    for w in action_dependency.check_missmatched_designer_level(draft):
+        ret[_WARNINGS].append(str(w))
     return ret
 
 
@@ -245,6 +259,8 @@ def quick_designer_check(draft):
     for e in action_dependency.check_unreachable_designer_actions(draft):
         ret[_ERRORS].append(str(e))
     for w in action_dependency.check_false_unlock_designer_actions(draft):
+        ret[_WARNINGS].append(str(w))
+    for w in action_dependency.check_missmatched_designer_level(draft):
         ret[_WARNINGS].append(str(w))
     return ret
 

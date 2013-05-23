@@ -292,7 +292,86 @@ $(document).click(function() {
 			</div>
 		</div>
 		<div class="row-fluid">
-			<div class="span3">
+			<div class="span6">
+				<div class="content-box">
+					<div class="content-box-title">Grid Consistency Checker:
+						<a class="widget-help" href="#">
+				   			<img src="{{ STATIC_URL}}images/icons/icon-help-sm.png" width="20" align="center"
+        						 title="Click to get help about this window"
+                				 onclick="toggleHelp(event, 'widget', 'smart-grid-unlock-check'); return false;"/>
+                		</a>					
+					</div>
+					<div class="content-box-contents">
+						<p></p>
+						<a href="#" onclick="runDesignerLint();return false;">
+							<div class="btn btn-widget" rel="tooltip" 
+								title="Runs consistency checker on the Designer Grid Actions.">Re-Run Grid Consistency Checker</div>
+						</a>
+						<div id="designer-lint">
+						{% with errors=view_objects.smartgrid_design.errors %}
+						{% with warnings=view_objects.smartgrid_design.warnings %}
+							<div id="error-title" class="lint-title">{% if errors %}
+								<b>Error Summary: {{errors|length}} error{% if errors|length > 1 or errors|length == 0 %}s{% endif %}</b>{% endif %}
+							</div>
+							<div id="lint-errors" class="lint-body">
+								<ul>
+								{% for error in errors %}
+									<li><b>{{error|safe}}</b></li>
+								{% endfor %}
+								</ul>
+							</div>
+							<div id="warning-title" class="lint_title">
+							{% if warnings %}
+								<b>Warning Summary: {{warnings|length}} warning{% if warnings|length > 1 or warnings|length == 0 %}s{% endif %}</b>
+							{% else %}
+								<b>No Warnings.</b>
+							{% endif %}
+							</div>
+								<button id="hideWarnings" class="btn btn-widget">Hide Warning Details</button>
+<script> 
+$("#hideWarnings").click(function () {
+$("#lint-warnings").toggle();
+if ($('#hideWarnings').text() == 'Hide Warning Details') {
+	$('#hideWarnings').text('Show Warning Details');
+} else {
+	$('#hideWarnings').text('Hide Warning Details');	
+}
+});
+</script>							
+							<div id="lint-warnings" class="lint-body">
+								<ul>
+								{% for warning in warnings %}
+									<li><b>{{warning|safe}}</b></li>
+								{% endfor %}
+								</ul>							
+							</div>
+						{% endwith %}
+						{% endwith %}
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="span6">
+				<div class="content-box">
+					<div class="content-box-title">Action Dependency Trees</div>
+					<div class="content-box-contents">
+						<div id="designer-lint" class="lint-tall-body">
+						{% with trees=view_objects.smartgrid_design.trees %}			
+							<div id="dependency-trees">
+							{% for tree in trees %}
+								{{tree|safe}}
+								<p></p>
+							{% endfor %}
+							</div>
+						{% endwith %}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row-fluid">
+			<div class="span3"></div>
+			<div class="span6">
 				<div class="content-box">
 					<div class="content-box-title">Differences between Designer and Grid:
 						<a class="widget-help" href="#">
@@ -311,38 +390,6 @@ $(document).click(function() {
 					</div>
 				</div>
 			</div>		
-			<div class="span6">
-				<div class="content-box">
-					<div class="content-box-title">Unlock Condition Checker:
-						<a class="widget-help" href="#">
-				   			<img src="{{ STATIC_URL}}images/icons/icon-help-sm.png" width="20" align="center"
-        						 title="Click to get help about this window"
-                				 onclick="toggleHelp(event, 'widget', 'smart-grid-unlock-check'); return false;"/>
-                		</a>					
-					</div>
-					<div class="content-box-contents">
-						<p></p>
-						<a href="#" onclick="runDesignerLint();return false;">
-							<div class="btn btn-widget" rel="tooltip" 
-								title="Runs unlock condition checker on the Designer Grid Actions.">Run Unlock Condition Checker</div>
-						</a>
-						<div id="designer-lint">
-							<div id="lint-errors"></div>
-							<div id="lint-warnings"></div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="span3">
-				<div class="content-box">
-					<div class="content-box-title">Action Dependency Trees</div>
-					<div class="content-box-contents">
-						<div id="designer-lint">					
-							<div id="dependency-trees"></div>
-						</div>
-					</div>
-				</div>
-			</div>
 		</div>
 	</div>
 </div>

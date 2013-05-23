@@ -342,14 +342,30 @@ function getDesignerDiff() {
 
 function runDesignerLint() {
 	log.debug('runDesignerLint(' + trim2(currentDraft) + ')');
+	var errorTitle = $('#error-title');
+	errorTitle.html('');
+	var errorDiv = $('#lint-errors');
+	errorDiv.html('');
+	var warningTitle = $('#warning-title');
+	warningTitle.html('');
+	var warningDiv = $('#lint-warnings');
+	warningDiv.html('');
+	var treeDiv = $('#dependency-trees');
+	treeDiv.html('');
 	jQuery.ajax({
 		url: "/smartgrid_design/run_lint/" + trim2(currentDraft) + "/",
 		success: function(data) {
 			var errors = data.errors;
 			var warnings = data.warnings;
 			var trees = data.dependency_trees;
-			var lintDiv = $('#lint-errors');
 			var html = '';
+			html += '<b>Error Summary: ' + errors.length + ' error';
+			if (errors.length > 1 || errors.length == 0) {
+				html += 's';
+			}
+			html += '</b>';
+			errorTitle.html(html);
+			html = '';
 			if (errors.length > 0) {
 				html += '<ul>';
 				for (var i = 0; i < errors.length; i++) {
@@ -358,8 +374,14 @@ function runDesignerLint() {
 				}
 				html += '</ul>';
 			}
-			lintDiv.html(html);
-			lintDiv = $('#lint-warnings');
+			errorDiv.html(html);
+			html = '';
+			html += '<b>Warning Summary: ' + warnings.length + ' warning';
+			if (warnings.length > 1 || warnings.length == 0) {
+				html += 's';
+			}
+			html += '</b>';
+			warningTitle.html(html);
 			html = '';
 			if (warnings.length > 0) {
 				html += '<ul>';
@@ -369,8 +391,7 @@ function runDesignerLint() {
 				}
 				html += '</ul>';
 			}
-			lintDiv.html(html);
-			var treeDiv = $('#dependency-trees');
+			warningDiv.html(html);
 			html = trees;
 			treeDiv.html(html);
 			
