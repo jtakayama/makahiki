@@ -409,6 +409,53 @@ def copy_library_action(slug):
     return obj
 
 
+def copy_draft(from_draft, to_draft):
+    """Copies all the items in from_draft to copy_draft."""
+#     print "copy_draft(%s, %s)" % (from_draft, to_draft)
+    clear_designer(to_draft)
+    # levels
+    for level in DesignerLevel.objects.filter(draft=from_draft):
+        copy = DesignerLevel(draft=to_draft)
+        _copy_fields_no_foriegn_keys(level, copy)
+        copy.save()
+    # ColumnNames
+    for column in DesignerColumnName.objects.filter(draft=from_draft):
+        copy = DesignerColumnName(draft=to_draft)
+        _copy_fields_no_foriegn_keys(column, copy)
+        copy.save()
+    # DesignerColumnGrid
+    for loc in DesignerColumnGrid.objects.filter(draft=from_draft):
+        level = get_designer_level(to_draft, loc.level.slug)
+        column = get_designer_column_name(to_draft, loc.name.slug)
+        copy = DesignerColumnGrid(draft=to_draft, name=column, level=level)
+        _copy_fields_no_foriegn_keys(loc, copy)
+        copy.save()
+    # DesignerActions
+    for action in DesignerAction.objects.filter(draft=from_draft):
+        action = get_designer_action(from_draft, action.slug)
+        if action.type == 'activity':
+            copy = DesignerActivity(draft=to_draft)
+        elif action.type == 'commitment':
+            copy = DesignerCommitment(draft=to_draft)
+        elif action.type == 'event':
+            copy = DesignerEvent(draft=to_draft)
+        _copy_fields_no_foriegn_keys(action, copy)
+        copy.save()
+        # Copy all the DesignerTextPropmtQuestions
+        for question in DesignerTextPromptQuestion.objects.filter(action=action, draft=from_draft):
+            des_obj = DesignerTextPromptQuestion(action=copy, draft=to_draft)
+            _copy_fields_no_foriegn_keys(question, des_obj)
+            des_obj.save()
+    # DesignerGrid
+    for loc in DesignerGrid.objects.filter(draft=from_draft):
+        level = get_designer_level(to_draft, loc.level.slug)
+        action = get_designer_action(to_draft, loc.action.slug)
+        copy = DesignerGrid(level=level, draft=to_draft, action=action)
+        _copy_fields_no_foriegn_keys(loc, copy)
+        copy.save()
+    return to_draft
+
+
 def copy_designer_action(draft, slug):
     """Copies the DesignerAction with the given slug."""
     action = get_designer_action(draft, slug)
@@ -427,12 +474,7 @@ def copy_designer_action(draft, slug):
     obj.save()
     # Copy all the DesignerTextPropmtQuestions
     for question in DesignerTextPromptQuestion.objects.filter(action=action, draft=draft):
-        try:
-            des_obj = get_object_or_404(DesignerTextPromptQuestion, action=obj, \
-                                        question=question.question, answer=question.answer, \
-                                        draft=draft)
-        except Http404:
-            des_obj = DesignerTextPromptQuestion()
+        des_obj = DesignerTextPromptQuestion()
         _copy_fields_no_foriegn_keys(question, des_obj)
         des_obj.action = obj
         des_obj.draft = draft
@@ -552,8 +594,8 @@ def get_designer_grid(draft):
     for level in DesignerLevel.objects.filter(draft=draft):
         level_ret = []
         level_ret.append(level)
-        level_ret.append(DesignerColumnGrid.objects.filter(level=level))
-        level_ret.append(DesignerGrid.objects.filter(level=level))
+        level_ret.append(DesignerColumnGrid.objects.filter(draft=draft, level=level))
+        level_ret.append(DesignerGrid.objects.filter(draft=draft, level=level))
         columns = []
         for cat in level_ret[1]:
             if cat.column not in columns:
@@ -577,7 +619,8 @@ def get_designer_palette(draft):
 
 
 def clear_designer(draft):
-    """Deletes all the instances in the designer."""
+    """Deletes all the instances in the designer draft. Only do this rarely."""
+#     print "clear_designer(%s)" % draft
     for obj in DesignerLevel.objects.filter(draft=draft):
         obj.delete()
     for obj in DesignerColumnName.objects.filter(draft=draft):
@@ -588,6 +631,13 @@ def clear_designer(draft):
         obj.delete()
     for obj in DesignerGrid.objects.filter(draft=draft):
         obj.delete()
+
+
+def __clear_drafts():
+    """Deletes all the Drafts and their objects. This includes the Draft 'None'."""
+    for draft in Draft.objects.all():
+        draft.delete()
+    clear_designer(draft=None)
 
 
 def copy_smartgrid_to_designer(draft):
@@ -808,10 +858,12 @@ def diff_between_designer_and_grid(draft):
 def load_example_grid(draft, example_name):
     """Loads the Designer with the given example grid. If example_name doesn't exist, nothing
     is changed."""
+#     print "load_example_grid(%s, %s)" % (draft, example_name)
 #    manage_py = script_utils.manage_py_command()
 #    manage_command = "python " + manage_py
     fixture_path = "fixtures"
 
+    loaded = False
     # Check to see if there is an example.
     for name in os.listdir(fixture_path):
         if name.startswith(example_name) and name.endswith("_designer.json"):
@@ -820,23 +872,9 @@ def load_example_grid(draft, example_name):
             # load the example
             fixture = os.path.join(fixture_path, name)
             call_command('loaddata', '-v 0', fixture)
+            loaded = True
 #            os.system("%s loaddata -v 0 %s" % (manage_command, fixture))
-    # Since the fixture doesn't assign the draft we need to do that now.
-    for obj in DesignerTextPromptQuestion.objects.filter(draft=None):
-        obj.draft = draft
-        obj.save()
-    for obj in DesignerLevel.objects.filter(draft=None):
-        obj.draft = draft
-        obj.save()
-    for obj in DesignerColumnName.objects.filter(draft=None):
-        obj.draft = draft
-        obj.save()
-    for obj in DesignerAction.objects.filter(draft=None):
-        obj.draft = draft
-        obj.save()
-    for obj in DesignerColumnGrid.objects.filter(draft=None):
-        obj.draft = draft
-        obj.save()
-    for obj in DesignerGrid.objects.filter(draft=None):
-        obj.draft = draft
-        obj.save()
+    if loaded:
+        # Need to copy everything from None to the draft
+        copy_draft(from_draft=None, to_draft=draft)
+#     clear_designer(draft=None)

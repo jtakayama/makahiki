@@ -54,8 +54,8 @@ def set_competition_round():
     challenge_mgr.init()
 
 
-def set_two_rounds():
-    """set two rounds for this test. current date is in round 2"""
+def set_three_rounds():
+    """set three rounds for this test. current date is in round 2"""
     start = datetime.datetime.today() - datetime.timedelta(days=8)
     end1 = start + datetime.timedelta(days=7)
     end2 = end1 + datetime.timedelta(days=7)

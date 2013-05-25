@@ -1,6 +1,6 @@
 '''Provides the Education Game functionality.
 Created on May 7, 2013
-@author: Carm Moore
+@author: Cam Moore
 '''
 from apps.widgets.smartgrid.models import ActionMember, Grid
 from apps.widgets.smartgrid import smartgrid, view_commitments, view_activities, view_events, \

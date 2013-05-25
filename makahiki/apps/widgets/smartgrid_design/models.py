@@ -141,10 +141,7 @@ class DesignerColumnName(models.Model):
                               null=True)
 
     def __unicode__(self):
-        if self.draft:
-            return "%s (%s)" % (self.name, self.draft.name)
-        else:
-            return "%s ()" % self.name
+        return "%s (%s)" % (self.name, self.draft)
 
     def save(self, *args, **kwargs):
         """Custom save method to set fields."""
@@ -260,6 +257,11 @@ class DesignerAction(models.Model):
     def get_action(self, action_type):
         """Returns the concrete action object by type."""
         return action_type.objects.get(action_ptr=self.pk)
+
+    def admin_link(self):
+        """returns the hardcoded link to edit the action."""
+        return "<a href='/challenge_setting_admin/smartgrid_design/designer%s/%s/'>%s</a>" % \
+            (self.type, self.pk, self.name)
 
 
 class DesignerActivity(DesignerAction):

@@ -87,7 +87,7 @@ class PrizesFunctionalTestCase(TransactionTestCase):
         """Test that the leaders are displayed correctly in round 2."""
 
         print "testLeadersInRound2.1 prize count %d" % Prize.objects.count()
-        test_utils.set_two_rounds()
+        test_utils.set_three_rounds()
         print "testLeadersInRound2.2 prize count %d" % Prize.objects.count()
         test_utils.setup_round_prize("Round 1", "team_overall", "energy")
         test_utils.setup_round_prize("Round 2", "team_overall", "energy")

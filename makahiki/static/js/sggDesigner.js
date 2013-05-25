@@ -342,53 +342,59 @@ function getDesignerDiff() {
 
 function runDesignerLint() {
 	log.debug('runDesignerLint(' + trim2(currentDraft) + ')');
+	var errorTitle = $('#error-title');
+	errorTitle.html('');
+	var errorDiv = $('#lint-errors');
+	errorDiv.html('');
+	var warningTitle = $('#warning-title');
+	warningTitle.html('');
+	var warningDiv = $('#lint-warnings');
+	warningDiv.html('');
+	var treeDiv = $('#dependency-trees');
+	treeDiv.html('');
 	jQuery.ajax({
 		url: "/smartgrid_design/run_lint/" + trim2(currentDraft) + "/",
 		success: function(data) {
-			var unreachable = data.unreachable;
-			var false_unlock = data.false_unlock;
-			var trees = data.tree;
-			var mismatched = data.mismatched_levels;
-			var pub_date = data.pub_date;
-			log.debug(pub_date);
-			var lintDiv = $('#designer-lint');
+			var errors = data.errors;
+			var warnings = data.warnings;
+			var trees = data.dependency_trees;
 			var html = '';
-			if (unreachable.length > 0) {
+			html += '<b>Error Summary: ' + errors.length + ' error';
+			if (errors.length > 1 || errors.length == 0) {
+				html += 's';
+			}
+			html += '</b>';
+			errorTitle.html(html);
+			html = '';
+			if (errors.length > 0) {
 				html += '<ul>';
-				for (var i = 0; i < unreachable.length; i++) {
-					html += '<li><b>' + unreachable[i] + 
-						'</b> is unreachable due to unlock condition dependencies</li>';
+				for (var i = 0; i < errors.length; i++) {
+					html += '<li><b>' + errors[i] + 
+						'</b></li>';
 				}
 				html += '</ul>';
 			}
-			if (mismatched.length > 0) {
+			errorDiv.html(html);
+			html = '';
+			html += '<b>Warning Summary: ' + warnings.length + ' warning';
+			if (warnings.length > 1 || warnings.length == 0) {
+				html += 's';
+			}
+			html += '</b>';
+			warningTitle.html(html);
+			html = '';
+			if (warnings.length > 0) {
 				html += '<ul>';
-				for (var i = 0; i < mismatched.length; i++) {
-					html += '<li>Warning <b>' + mismatched[i] + 
-						'</b> depends on an action in a higher level</li>';
+				for (var i = 0; i < warnings.length; i++) {
+					html += '<li><b>' + warnings[i] + 
+						'</b></li>';
 				}
 				html += '</ul>';
 			}
-			if (false_unlock.length > 0) {
-				html += '<ul>';
-				for (var i = 0; i < false_unlock.length; i++) {
-					html += '<li>Warning <b>' + false_unlock[i] + 
-						'</b> is locked because it depends on an action with a False unlock condition</li>';
-				}
-				html += '</ul>';				
-			}
-			if (pub_date.length > 0) {
-				html += '<ul>';
-				for (var i = 0; i < pub_date.length; i++) {
-					html += '<li>Warning <b>' + pub_date[i] +
-						'</b>\'s publication or expiration date are outside the competition</li>';
-				}
-				html += '</ul>';
-			}
-			html += 'Unlock Condition Dependency:<div class="sgg-unlock-lint">';
-			html += trees;
-			html += '</div>';
-			lintDiv.html(html);
+			warningDiv.html(html);
+			html = trees;
+			treeDiv.html(html);
+			
 		}
 	})
 }

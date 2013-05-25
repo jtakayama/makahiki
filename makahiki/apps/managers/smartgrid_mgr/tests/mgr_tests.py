@@ -190,6 +190,19 @@ class Test(TransactionTestCase):
         self.assertEqual(len(DesignerAction.objects.filter(draft=draft)), 84, \
                          "Expecting 84 Actions got %s" % \
                          len(DesignerAction.objects.filter(draft=draft)))
+        val = len(DesignerGrid.objects.filter(draft=draft))
+        ans = 84
+        self.assertEqual(val, ans, "Expecting %s got %s" % (ans, val))
+        try:
+            draft = get_object_or_404(Draft, slug='temp3')
+        except Http404:
+            draft = Draft(name='Temp3', slug='temp3')
+            draft.save()
+#         smartgrid_mgr.load_example_grid(draft, 'demo')
+#         val = len(DesignerLevel.objects.filter(draft=draft))
+#         ans = 3
+#         self.assertEqual(val, ans, "Expecting %s got %s" % (ans, val))
+#         val = len(DesignerColumnName.objects.filter(draft=draft))
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
