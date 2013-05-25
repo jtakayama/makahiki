@@ -123,6 +123,13 @@ class Test(TransactionTestCase):
         self.assertEqual(ans, value, "Expecting %s missmatched level warnings got %s" % \
                          (value, ans))
 
+    def testDesignerPredicates(self):
+        """Tests gcc.check_designer_predicates(draft=None)."""
+        errors = gcc.check_designer_predicates(draft=None)
+        value = 0
+        ans = len(errors)
+        self.assertEqual(value, ans, "Expecting %s got %s" % (value, ans))
+
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

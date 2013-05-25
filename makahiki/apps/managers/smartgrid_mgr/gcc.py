@@ -5,7 +5,8 @@ Created on May 15, 2013
 @author: Cam Moore
 '''
 from apps.managers.challenge_mgr import challenge_mgr
-from apps.widgets.smartgrid_design.models import DesignerAction, DesignerEvent, DesignerGrid
+from apps.widgets.smartgrid_design.models import DesignerAction, DesignerEvent, DesignerGrid, \
+    DesignerLevel
 from apps.managers.challenge_mgr.models import RoundSetting
 from datetime import datetime, time
 from apps.managers.smartgrid_mgr import smartgrid_mgr, action_dependency
@@ -14,6 +15,7 @@ from apps.widgets.smartgrid_library.models import LibraryAction
 import urllib2
 from urllib2 import HTTPError, URLError
 from apps.managers.smartgrid_mgr.gcc_model import Error, Warn, _ERRORS, _WARNINGS
+from apps.utils import utils
 
 
 def __is_in_round(date, roundsetting):
@@ -41,6 +43,14 @@ def __is_after_challenge(date):
     return date > challenge_mgr.get_challenge_end()
 
 
+def __is_boolean_logic(token):
+    """Returns True if the token is boolean logic operator ('and', 'or', 'not') or ('True',
+    'False')."""
+    if token:
+        return token.lower() in ['and', 'or', 'not', 'true', 'false']
+    return False
+
+
 def __get_urls(text):
     """Returns a list of the urls in the text."""
     ret = []
@@ -55,6 +65,33 @@ def __get_urls(text):
         if url.endswith(')</center'):
             url = url[: -9]
         ret.append(url)
+    return ret
+
+
+def __get_predicate(token):
+    """Returns the predicate if any in the given token.  Predicates are defined as the string
+    before '('.  e.g. the predicate in 'submitted_action(intro-video)' is submitted_action."""
+    if token and token.find('(') != -1:
+        return token[:token.find('(')]
+    return None
+
+
+def __check_predicates(action):
+    """Checks the unlock_condition string of the given action ensuring that the predicates in the
+    string are valid Makahiki predicates and that it has boolean logic only. Returns a list of
+    Errors. Does not evaluate the predicates or test that the logic is correct."""
+    ret = []
+    unlock_condition = action.unlock_condition
+    valid_predicates = utils.get_defined_predicates()
+    if unlock_condition:
+        for token in unlock_condition.split():
+            if __is_boolean_logic(token):
+                pass
+            else:
+                predicate = __get_predicate(token)
+                if predicate not in valid_predicates.keys():
+                    message = "%s is not a defined Makahiki predicate" % predicate
+                    ret.append(Error(message=message, action=action))
     return ret
 
 
@@ -192,6 +229,19 @@ def check_designer_urls(draft):
     return ret
 
 
+def check_designer_predicates(draft):
+    """Checks the Designer items' unlock_condition ensuring the predicates are defined.  This does
+    not evaluate the predicates, just ensures that the predicates are defined."""
+    ret = []
+    for action in DesignerAction.objects.filter(draft=draft):
+        for issue in __check_predicates(action):
+            ret.append(issue)
+    for level in DesignerLevel.objects.filter(draft=draft):
+        for issue in __check_predicates(level):
+            ret.append(issue)
+    return ret
+
+
 def check_unreachable_designer_actions(draft):
     """Checks for unreachable actions and returns a list of Errors indicating which actions are
     unreachable."""
@@ -213,6 +263,9 @@ def run_designer_checks(draft, settings):  # pylint: disable=R0912
     ret = {}
     ret[_ERRORS] = []
     ret[_WARNINGS] = []
+    # cannot turn off checking the predicates.
+    for e in check_designer_predicates(draft):
+        ret[_ERRORS].append(e)
     if settings.check_pub_dates:
         d = check_grid_pub_exp_dates(draft)
         for e in d[_ERRORS]:
@@ -347,6 +400,15 @@ def check_library_urls():
             except URLError as e1:
                 msg = "url %s raised error %s" % (url, e1)
                 ret.append(Warn(message=msg, action=action))
+    return ret
+
+
+def check_library_predicates():
+    """Checks all the Library items' predicates."""
+    ret = []
+    for action in LibraryAction.objects.all():
+        for issue in __check_predicates(action):
+            ret.append(issue)
     return ret
 
 
