@@ -5,9 +5,10 @@ Created on May 15, 2013
 '''
 import unittest
 from django.test.testcases import TransactionTestCase
-from apps.managers.smartgrid_mgr import gcc
+from apps.managers.smartgrid_mgr import gcc, action_dependency
 from apps.utils import test_utils
-from apps.widgets.smartgrid_design.models import DesignerEvent, DesignerAction
+from apps.widgets.smartgrid_design.models import DesignerEvent, DesignerAction, DesignerGrid,\
+    DesignerLevel, DesignerActivity
 
 
 class Test(TransactionTestCase):
@@ -39,10 +40,12 @@ class Test(TransactionTestCase):
     def testCheckGridPubDates(self):
         """Tests gcc.check_grid_pub_exp_dates(draft=None)."""
         e = gcc.check_grid_pub_exp_dates(draft=None)
-        num_events = len(DesignerAction.objects.filter(draft=None))
-        self.assertEqual(1, len(e['errors']), "Expecting %s got %s" % (1, len(e['errors'])))
-        self.assertEqual(num_events, len(e['warnings']), \
-                         "Expecting %s got %s" % (num_events, len(e['warnings'])))
+        len(DesignerAction.objects.filter(draft=None))
+        ans = 1
+        self.assertEqual(ans, len(e['errors']), "Expecting %s got %s" % (ans, len(e['errors'])))
+        ans = 0
+        self.assertEqual(ans, len(e['warnings']), \
+                         "Expecting %s got %s" % (ans, len(e['warnings'])))
 
     def testCheckGridEventDates(self):
         """Tests gcc.check_grid_event_dates(draft=None)."""
@@ -103,15 +106,30 @@ class Test(TransactionTestCase):
     def testQuickDesigner(self):
         """Tests gcc.quick_designer_check()"""
         d = gcc.quick_designer_check(draft=None)
-        print d
-        self.assertEqual(len(d['warnings']), 253, "Expected 253 got %s" % len(d['warnings']))
-        self.assertEqual(len(d['errors']), 79, "Expected 79 got %s" % len(d['errors']))
+        ans = 3
+        value = len(d['warnings'])
+        print d['warnings']
+        self.assertEqual(value, ans, "Expected %s got %s" % (ans, value))
+        ans = 41
+        value = len(d['errors'])
+        self.assertEqual(value, ans, "Expected %s got %s" % (ans, value))
 
     def testDesignerErrors(self):
         """Tests gcc.designer_errors(draft)."""
         d = gcc.designer_errors(draft=None)
-        print d
-        self.assertEqual(len(d), 79, "Expecting 79 got %s" % len(d))
+        ans = 41
+        value = len(d)
+        self.assertEqual(value, ans, "Expecting %s got %s" % (ans, value))
+
+    def testDesignerLevel(self):
+        """Tests action_dependency.check_missmatched_designer_level()"""
+        # move lighting video to level 4 so cfl is dependent on higher level
+        warnings = action_dependency.check_missmatched_designer_level(draft=None)
+        value = 2
+        ans = len(warnings)
+        print warnings
+        self.assertEqual(ans, value, "Expecting %s missmatched level warnings got %s" % \
+                         (value, ans))
 
 
 if __name__ == "__main__":

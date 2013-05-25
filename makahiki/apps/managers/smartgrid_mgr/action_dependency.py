@@ -1,7 +1,7 @@
 '''Dependency checking functionality for Library, Designer and Smartgrid Actions.
 Created on May 16, 2013
 
-@author: Carm Moore
+@author: Cam Moore
 '''
 from apps.widgets.smartgrid_library.models import LibraryAction
 from apps.widgets.smartgrid_design.models import DesignerAction, DesignerGrid
@@ -175,8 +175,8 @@ def check_missmatched_designer_level(draft):
                 if parent_name:
                     parent = tree.nodes[parent_name]
                     if parent and parent.level and parent.level.priority > node.level.priority:
-                        message = "Depends on action %s with higher level %s" % (parent, \
-                                                                                 parent.level)
+                        message = "with %s Depends on action %s with higher level %s" % \
+                            (node.level, parent.admin_link(), parent.level)
                         ret.append(Warn(message=message, action=node.action))
     return ret
 

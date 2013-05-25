@@ -1,7 +1,7 @@
 '''Defines the common object used by the Grid Consistency Checker.
 Created on May 19, 2013
 
-@author: Carm Moore
+@author: Cam Moore
 '''
 from collections import deque
 from django.template.defaultfilters import slugify
@@ -67,10 +67,11 @@ class ActionNode(object):
         self.__children = []
 
     def __unicode__(self):
-        return "%s[%s]" % (self.action, self.action.unlock_condition)
+        return "%s[%s]:%s" % (self.action, self.action.unlock_condition, self.level)
 
     def __str__(self):
-        return "%s[%s]" % (self.action, self.action.unlock_condition)
+        return "%s[%s]:%s" % (self.action, self.action.unlock_condition, self.level, \
+                                    self.__parent)
 
     def __repr__(self):
         return "<ActionNode: %s[%s]>" % (self.action, self.action.unlock_condition)
@@ -153,6 +154,7 @@ class DependencyTree(object):
         except KeyError:
             self.nodes.update({node.identifier: node})
         self.__update_children(parent, node.identifier, _ADD)
+        node.parent = parent
 
     def create_node(self, action, level=None, identifier=None, parent=None):
         """Create a child ActionNode for the ActionNode indicated by the 'parent' parameter."""

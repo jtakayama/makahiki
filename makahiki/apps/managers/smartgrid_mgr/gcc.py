@@ -2,7 +2,7 @@
 reports Errors and Warnings.
 Created on May 15, 2013
 
-@author: Carm Moore
+@author: Cam Moore
 '''
 from apps.managers.challenge_mgr import challenge_mgr
 from apps.widgets.smartgrid_design.models import DesignerAction, DesignerEvent, DesignerGrid
@@ -188,6 +188,58 @@ def check_designer_urls(draft):
             except URLError as e1:
                 msg = "url %s raised error %s" % (url, e1)
                 ret.append(Warn(message=msg, action=action))
+    return ret
+
+
+def check_unreachable_designer_actions(draft):
+    """Checks for unreachable actions and returns a list of Errors indicating which actions are
+    unreachable."""
+    return action_dependency.check_unreachable_designer_actions(draft)
+
+
+def check_false_unlock_conditions(draft):
+    """Checks for actions that depend on actions with False unlock_conditions."""
+    return action_dependency.check_false_unlock_designer_actions(draft)
+
+
+def check_mismatched_designer_level(draft):
+    """Checks for actions that depend on actions in a higher level."""
+    return action_dependency.check_missmatched_designer_level(draft)
+
+
+def run_designer_checks(draft, settings):
+    """Runs the checks that the user set in their GccSettings."""
+    ret = {}
+    ret[_ERRORS] = []
+    ret[_WARNINGS] = []
+    if settings.check_pub_dates:
+        d = check_grid_pub_exp_dates(draft)
+        for e in d[_ERRORS]:
+            ret[_ERRORS].append(str(e))
+        for w in d[_WARNINGS]:
+            ret[_WARNINGS].append(str(w))
+    if settings.check_event_dates:
+        d = check_grid_event_dates(draft)
+        for e in d:
+            ret[_ERRORS].append(str(e))
+    if settings.check_unlock_dates:
+        d = check_designer_unlock_dates(draft)
+        for e in d[_ERRORS]:
+            ret[_ERRORS].append(str(e))
+        for w in d[_WARNINGS]:
+            ret[_WARNINGS].append(str(w))
+    if settings.check_description_urls:
+        for w in check_designer_urls(draft):
+            ret[_WARNINGS].append(str(w))
+    if settings.check_unreachable:
+        for e in action_dependency.check_unreachable_designer_actions(draft):
+            ret[_ERRORS].append(str(e))
+    if settings.check_false_unlocks:
+        for w in action_dependency.check_false_unlock_designer_actions(draft):
+            ret[_WARNINGS].append(str(w))
+    if settings.check_mismatchec_levels:
+        for w in action_dependency.check_missmatched_designer_level(draft):
+            ret[_WARNINGS].append(str(w))
     return ret
 
 
