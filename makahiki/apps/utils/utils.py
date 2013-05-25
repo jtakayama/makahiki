@@ -63,6 +63,15 @@ def get_player_mgr_predicates():
         }
 
 
+def get_defined_predicates():
+    """Returns the predicates defined in Makahiki as a dictionary."""
+    ret = {}
+    ret.update(get_player_mgr_predicates())
+    ret.update(get_challenge_mgr_predicates())
+    ret.update(get_smartgrid_predicates())
+    return ret
+
+
 def eval_predicates(predicates, user):
     """Returns the boolean evaluation result of the predicates against the user."""
 
