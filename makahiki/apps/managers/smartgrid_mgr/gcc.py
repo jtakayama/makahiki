@@ -5,7 +5,7 @@ Created on May 15, 2013
 @author: Cam Moore
 '''
 from apps.managers.challenge_mgr import challenge_mgr
-from apps.widgets.smartgrid_design.models import DesignerAction, DesignerEvent, DesignerGrid,\
+from apps.widgets.smartgrid_design.models import DesignerAction, DesignerEvent, DesignerGrid, \
     DesignerLevel
 from apps.managers.challenge_mgr.models import RoundSetting
 from datetime import datetime, time
@@ -44,7 +44,7 @@ def __is_after_challenge(date):
 
 
 def __is_boolean_logic(token):
-    """Returns True if the token is boolean logic operator ('and', 'or', 'not') or ('True', 
+    """Returns True if the token is boolean logic operator ('and', 'or', 'not') or ('True',
     'False')."""
     if token:
         return token.lower() in ['and', 'or', 'not', 'true', 'false']
