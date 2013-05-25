@@ -409,51 +409,51 @@ def copy_library_action(slug):
     return obj
 
 
-def copy_draft(from_draft, copy_draft):
+def copy_draft(from_draft, to_draft):
     """Copies all the items in from_draft to copy_draft."""
-#     print "copy_draft(%s, %s)" % (from_draft, copy_draft)
-    clear_designer(copy_draft)
+#     print "copy_draft(%s, %s)" % (from_draft, to_draft)
+    clear_designer(to_draft)
     # levels
     for level in DesignerLevel.objects.filter(draft=from_draft):
-        copy = DesignerLevel(draft=copy_draft)
+        copy = DesignerLevel(draft=to_draft)
         _copy_fields_no_foriegn_keys(level, copy)
         copy.save()
     # ColumnNames
     for column in DesignerColumnName.objects.filter(draft=from_draft):
-        copy = DesignerColumnName(draft=copy_draft)
+        copy = DesignerColumnName(draft=to_draft)
         _copy_fields_no_foriegn_keys(column, copy)
         copy.save()
     # DesignerColumnGrid
     for loc in DesignerColumnGrid.objects.filter(draft=from_draft):
-        level = get_designer_level(copy_draft, loc.level.slug)
-        column = get_designer_column_name(copy_draft, loc.name.slug)
-        copy = DesignerColumnGrid(draft=copy_draft, name=column, level=level)
+        level = get_designer_level(to_draft, loc.level.slug)
+        column = get_designer_column_name(to_draft, loc.name.slug)
+        copy = DesignerColumnGrid(draft=to_draft, name=column, level=level)
         _copy_fields_no_foriegn_keys(loc, copy)
         copy.save()
     # DesignerActions
     for action in DesignerAction.objects.filter(draft=from_draft):
         action = get_designer_action(from_draft, action.slug)
         if action.type == 'activity':
-            copy = DesignerActivity(draft=copy_draft)
+            copy = DesignerActivity(draft=to_draft)
         elif action.type == 'commitment':
-            copy = DesignerCommitment(draft=copy_draft)
+            copy = DesignerCommitment(draft=to_draft)
         elif action.type == 'event':
-            copy = DesignerEvent(draft=copy_draft)
+            copy = DesignerEvent(draft=to_draft)
         _copy_fields_no_foriegn_keys(action, copy)
         copy.save()
         # Copy all the DesignerTextPropmtQuestions
         for question in DesignerTextPromptQuestion.objects.filter(action=action, draft=from_draft):
-            des_obj = DesignerTextPromptQuestion(action=copy, draft=copy_draft)
+            des_obj = DesignerTextPromptQuestion(action=copy, draft=to_draft)
             _copy_fields_no_foriegn_keys(question, des_obj)
             des_obj.save()
     # DesignerGrid
     for loc in DesignerGrid.objects.filter(draft=from_draft):
-        level = get_designer_level(copy_draft, loc.level.slug)
-        action = get_designer_action(copy_draft, loc.action.slug)
-        copy = DesignerGrid(level=level, draft=copy_draft, action=action)
+        level = get_designer_level(to_draft, loc.level.slug)
+        action = get_designer_action(to_draft, loc.action.slug)
+        copy = DesignerGrid(level=level, draft=to_draft, action=action)
         _copy_fields_no_foriegn_keys(loc, copy)
         copy.save()
-    return copy_draft
+    return to_draft
 
 
 def copy_designer_action(draft, slug):
@@ -876,5 +876,5 @@ def load_example_grid(draft, example_name):
 #            os.system("%s loaddata -v 0 %s" % (manage_command, fixture))
     if loaded:
         # Need to copy everything from None to the draft
-        copy_draft(from_draft=None, copy_draft=draft)
+        copy_draft(from_draft=None, to_draft=draft)
 #     clear_designer(draft=None)

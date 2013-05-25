@@ -70,8 +70,7 @@ class ActionNode(object):
         return "%s[%s]:%s" % (self.action, self.action.unlock_condition, self.level)
 
     def __str__(self):
-        return "%s[%s]:%s" % (self.action, self.action.unlock_condition, self.level, \
-                                    self.__parent)
+        return "%s[%s]:%s" % (self.action, self.action.unlock_condition, self.level)
 
     def __repr__(self):
         return "<ActionNode: %s[%s]>" % (self.action, self.action.unlock_condition)
@@ -274,7 +273,8 @@ for constructing the Nodes Stack push and pop nodes with additional level info."
 
         if nid is None:
             nid = self.root
-        label = "{0}:{1}[{2}]".format(self[nid].level, self[nid].action, self[nid].action.unlock_condition)
+        label = "{0}:{1}[{2}]".format(self[nid].level, self[nid].action, \
+                                      self[nid].action.unlock_condition)
 
         queue = self[nid].children
         #print level

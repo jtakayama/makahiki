@@ -13,7 +13,6 @@ from apps.widgets.smartgrid_design.models import DesignerColumnGrid, DesignerLev
     DesignerGrid
 from django.http import Http404
 from apps.widgets.smartgrid.models import Level, Activity, ColumnName, ColumnGrid, Grid
-from apps.widgets.smartgrid_design.forms import ExampleGridsForm
 
 
 class ViewTests(TransactionTestCase):

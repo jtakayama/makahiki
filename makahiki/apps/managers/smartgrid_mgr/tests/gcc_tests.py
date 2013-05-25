@@ -7,8 +7,7 @@ import unittest
 from django.test.testcases import TransactionTestCase
 from apps.managers.smartgrid_mgr import gcc, action_dependency
 from apps.utils import test_utils
-from apps.widgets.smartgrid_design.models import DesignerEvent, DesignerAction, DesignerGrid,\
-    DesignerLevel, DesignerActivity
+from apps.widgets.smartgrid_design.models import DesignerEvent, DesignerAction
 
 
 class Test(TransactionTestCase):
@@ -113,13 +112,6 @@ class Test(TransactionTestCase):
         ans = 41
         value = len(d['errors'])
         self.assertEqual(value, ans, "Expected %s got %s" % (ans, value))
-
-    def testDesignerErrors(self):
-        """Tests gcc.designer_errors(draft)."""
-        d = gcc.designer_errors(draft=None)
-        ans = 41
-        value = len(d)
-        self.assertEqual(value, ans, "Expecting %s got %s" % (ans, value))
 
     def testDesignerLevel(self):
         """Tests action_dependency.check_missmatched_designer_level()"""

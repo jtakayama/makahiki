@@ -307,6 +307,12 @@ $(document).click(function() {
 							<div class="btn btn-widget" rel="tooltip" 
 								title="Runs consistency checker on the Designer Grid Actions.">Re-Run Grid Consistency Checker</div>
 						</a>
+						<a href="#" onclick="changeSettings();return false;">
+							<div class="btn btn-widget" rel="tooltip" 
+								title="Change the Grid Consistency Checker's settings.">
+								<img src="{{ STATIC_URL }}images/Settings-32.png" width=20 align="center"/>
+								Settings</div>
+						</a>
 						<div id="designer-lint">
 						{% with errors=view_objects.smartgrid_design.errors %}
 						{% with warnings=view_objects.smartgrid_design.warnings %}
@@ -424,6 +430,24 @@ if ($('#hideWarnings').text() == 'Hide Warning Details') {
         	<input class="btn btn-widget" rel="tooltip" 
         		title="Load example template into the designer."
 				type="submit" value="Create New Draft" /> 		        	
+		</form>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn btn-widget" data-dismiss="modal">Close</a>
+    </div>
+</div>
+<div class="modal hide fade" id="gccSettingsModal">
+    <div class="modal-header">
+        <a class="close" data-dismiss="modal">x</a>
+        <h3>Grid Consistency Checker Settings</h3>
+    </div>
+    <div class="modal-body" id="modal-body">
+		Choose an example template from the choices below.
+		<form id="load-template-form" action="{% url change_settings view_objects.smartgrid_design.draft.slug %}" method="post">
+	    	{% csrf_token %} {{ view_objects.smartgrid_design.gcc_settings_form.as_p }}
+        	<input class="btn btn-widget" rel="tooltip" 
+        		title="Change the Grid Consistency Checker Settings."
+				type="submit" value="Change Settings" /> 		        	
 		</form>
     </div>
     <div class="modal-footer">
@@ -628,6 +652,17 @@ if ($('#hideWarnings').text() == 'Hide Warning Details') {
         modalElement.modal('show');		
 	}
 
+	function changeSettings(event) {
+		var modalElement = $('#gccSettingsModal');	
+        modalElement.modal({
+            backdrop: true,
+            keyboard: true,
+            show: false
+        }); 
+        modalElement.css('margin-top', (modalElement.outerHeight() / 2) * -1);
+        modalElement.modal('show');		
+	}
+	
 	function loadFirstTemplate(event) {
         var modalElement = $('#loadFirstTemplateModal');
         

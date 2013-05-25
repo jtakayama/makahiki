@@ -15,15 +15,18 @@ from apps.managers.smartgrid_mgr import smartgrid_mgr, gcc, action_dependency
 import json
 from apps.widgets.smartgrid_design.models import DesignerLevel, \
     DesignerAction, DesignerGrid, DesignerColumnGrid, Draft
-from collections import OrderedDict
 from django.template.defaultfilters import slugify
 from apps.utils import utils
+from apps.managers.smartgrid_mgr.forms import GccSettingsForm
+from apps.managers.smartgrid_mgr.models import GccSettings
+from apps.managers.smartgrid_mgr.gcc_model import _ERRORS, _WARNINGS
 
 
 def supply(request, page_name):
     """ supply view_objects for widget rendering."""
-    _ = request
     _ = page_name
+    user = request.user
+    gcc_settings, _ = GccSettings.objects.get_or_create(user=user)
     draft_choices = Draft.objects.all()
     draft = None
     levels = []
@@ -50,6 +53,7 @@ def supply(request, page_name):
         tree_list = []
         for k in  list(ts):
             tree_list.append(ts[k].tohtmlstring())
+    results = gcc.run_designer_checks(draft, gcc_settings)
 
     return {
         'draft': draft,
@@ -68,12 +72,13 @@ def supply(request, page_name):
         'event_date_form': EventDateForm(),
         'new_draft_form': NewDraftForm(),
         'load_template_form': LoadTemplateForm(),
+        'gcc_settings_form': GccSettingsForm(instance=gcc_settings),
         'palette': smartgrid_mgr.get_designer_palette(draft),
         'designer_grid': smartgrid_mgr.get_designer_grid(draft),
         'designer_actions': smartgrid_mgr.get_designer_action_slugs(draft),
         'designer_columns': smartgrid_mgr.get_designer_column_name_slugs(draft),
-        'errors': gcc.designer_errors(draft=draft),
-        'warnings': gcc.designer_warnings(draft=draft),
+        'errors': results[_ERRORS],
+        'warnings': results[_WARNINGS],
         'trees': tree_list,
             }
 
@@ -293,14 +298,14 @@ def load_first_template(request):
             except Http404:
                 draft = Draft(name=draft_name, slug=draft_slug)
                 draft.save()
-            foo = Draft(name="delete-me-soon12341", slug='delete-me-soon12341')
-            foo.save()
-            smartgrid_mgr.load_example_grid(draft=foo, example_name='uh12')
+            delete_me = Draft(name="delete-me-soon12341", slug='delete-me-soon12341')
+            delete_me.save()
+            smartgrid_mgr.load_example_grid(draft=delete_me, example_name='uh12')
             smartgrid_mgr.clear_designer(draft)
             if template_name != 'empty':
                 smartgrid_mgr.clear_designer(draft=None)
                 smartgrid_mgr.load_example_grid(draft, template_name)
-            foo.delete()
+            delete_me.delete()
     response = HttpResponseRedirect("/sgg_designer/?draft=%s" % draft.slug)
     return response
 
@@ -329,18 +334,18 @@ def load_template(request):
 
 def run_lint(request, draft_slug):
     """Runs unlock_lint over the DesignerActions and shows the results in a page."""
-    _ = request
+    user = request.user
     draft = smartgrid_mgr.get_designer_draft(draft_slug)
-    errors = gcc.designer_errors(draft=draft)
-    warnings = gcc.designer_warnings(draft=draft)
+    settings = GccSettings.objects.get_or_create(user=user)
+    results = gcc.run_designer_checks(draft, settings)
     trees = action_dependency.build_designer_grid_trees(draft)
     unlock_tree = ''
     for k in list(trees):
         unlock_tree += trees[k].tohtmlstring()
         unlock_tree += '<p></p>'
     return HttpResponse(json.dumps({
-            "errors": errors,
-            "warnings": warnings,
+            "errors": results[_ERRORS],
+            "warnings": results[_WARNINGS],
             "dependency_trees": unlock_tree,
             }), mimetype="application/json")
 
@@ -426,4 +431,16 @@ def new_draft(request):
                 draft = Draft(name=draft_name, slug=draft_slug)
                 draft.save()
     response = HttpResponseRedirect("/sgg_designer/?draft=%s" % draft.slug)
+    return response
+
+
+def change_settings(request, draft_slug):
+    """Changes the GccSettings for the user."""
+    user = request.user
+    settings, _ = GccSettings.objects.get_or_create(user=user)
+    if request.method == "POST":
+        form = GccSettingsForm(request.POST, instance=settings)
+        if form.is_valid():
+            form.save()
+    response = HttpResponseRedirect("/sgg_designer/?draft=%s" % draft_slug)
     return response

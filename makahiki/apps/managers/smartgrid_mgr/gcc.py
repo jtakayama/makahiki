@@ -102,7 +102,8 @@ def check_grid_pub_exp_dates(draft):
         if loc.action.expire_date and \
             loc.action.expire_date < \
             challenge_start.date():
-            message = "Expiration date %s is before beginning of Challenge %s" % ()
+            message = "Expiration date %s is before beginning of Challenge %s" % \
+            (loc.action.expire_date, challenge_start.date())
             ret[_ERRORS].append(Error(message=message, \
                                        action=loc.action))
 #         if not __is_in_rounds(datetime.combine(loc.action.pub_date, time(0, 0))):
@@ -154,20 +155,20 @@ def check_designer_unlock_dates(draft):
     ret[_ERRORS] = []
     ret[_WARNINGS] = []
     for action in DesignerAction.objects.filter(draft=draft):
-        l = action.unlock_condition.split('unlock_on_date(')
-        if len(l) > 1:
-            index = l[1].find(')')
-            date_string = l[1][:index].strip('"\'')
-            unlock_date = datetime.strptime(date_string, "%m/%d/%y")
-            if __is_after_challenge(datetime.combine(unlock_date, time(0, 0))):
-                message = "unlock date %s is after challenge end %s" % (unlock_date.date(), \
-                                                                        challenge_mgr.\
-                                                                        get_challenge_end().date())
-                ret[_ERRORS].append(Error(message=message, action=action))
-            if not __is_in_rounds(datetime.combine(unlock_date, time(0, 0))):
-                message = "unlock date %s is not in a round" % unlock_date.date()
-                ret[_WARNINGS].append(Warn(message=message, \
-                                            action=action))
+        if action.unlock_condition:
+            l = action.unlock_condition.split('unlock_on_date(')
+            if len(l) > 1:
+                index = l[1].find(')')
+                date_string = l[1][:index].strip('"\'')
+                unlock_date = datetime.strptime(date_string, "%m/%d/%y")
+                if __is_after_challenge(datetime.combine(unlock_date, time(0, 0))):
+                    message = "unlock date %s is after challenge end %s" % \
+                    (unlock_date.date(), challenge_mgr.get_challenge_end().date())
+                    ret[_ERRORS].append(Error(message=message, action=action))
+                if not __is_in_rounds(datetime.combine(unlock_date, time(0, 0))):
+                    message = "unlock date %s is not in a round" % unlock_date.date()
+                    ret[_WARNINGS].append(Warn(message=message, \
+                                                action=action))
 
     return ret
 
@@ -207,7 +208,7 @@ def check_mismatched_designer_level(draft):
     return action_dependency.check_missmatched_designer_level(draft)
 
 
-def run_designer_checks(draft, settings):
+def run_designer_checks(draft, settings):  # pylint: disable=R0912
     """Runs the checks that the user set in their GccSettings."""
     ret = {}
     ret[_ERRORS] = []
@@ -237,10 +238,11 @@ def run_designer_checks(draft, settings):
     if settings.check_false_unlocks:
         for w in action_dependency.check_false_unlock_designer_actions(draft):
             ret[_WARNINGS].append(str(w))
-    if settings.check_mismatchec_levels:
+    if settings.check_mismatched_levels:
         for w in action_dependency.check_missmatched_designer_level(draft):
             ret[_WARNINGS].append(str(w))
     return ret
+# pylint: enable=R0912
 
 
 def full_designer_check(draft):
@@ -278,16 +280,6 @@ def full_designer_check(draft):
     for w in action_dependency.check_missmatched_designer_level(draft):
         ret[_WARNINGS].append(str(w))
     return ret
-
-
-def designer_errors(draft):
-    """Returns the errors detected in the Designer."""
-    return quick_designer_check(draft=draft)[_ERRORS]
-
-
-def designer_warnings(draft):
-    """Returns the warnings detected in the Designer draft."""
-    return quick_designer_check(draft=draft)[_WARNINGS]
 
 
 def quick_designer_check(draft):
@@ -396,5 +388,6 @@ def quick_library_check():
 
 
 def library_errors():
+    """Returns the errors found in the Library items."""
     ret = quick_library_check()
     return ret[_ERRORS]

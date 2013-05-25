@@ -45,26 +45,28 @@ def __get_submitted_action_slugs(node):
     """Returns the action slugs for submitted_action predicates in the given node's
     unlock_condition."""
     ret = []
-    l = node.unlock_condition.split('submitted_action(')
-    if len(l) > 1:
-        index = l[1].find(')')
-        ret.append(l[1][:index].strip('"\''))
-        if len(l) > 2:
+    if node.unlock_condition:
+        l = node.unlock_condition.split('submitted_action(')
+        if len(l) > 1:
             index = l[1].find(')')
-            ret.append(l[2][:index].strip('"\''))
+            ret.append(l[1][:index].strip('"\''))
+            if len(l) > 2:
+                index = l[1].find(')')
+                ret.append(l[2][:index].strip('"\''))
     return ret
 
 
 def __get_approved_action_slugs(node):
     """Returns the action slugs for approved_action predicates in the node's unlock_condition."""
     ret = []
-    l = node.unlock_condition.split('approved_action(')
-    if len(l) > 1:
-        index = l[1].find(')')
-        ret.append(l[1][:index].strip('"\''))
-        if len(l) > 2:
+    if node.unlock_condition:
+        l = node.unlock_condition.split('approved_action(')
+        if len(l) > 1:
             index = l[1].find(')')
-            ret.append(l[2][:index].strip('"\''))
+            ret.append(l[1][:index].strip('"\''))
+            if len(l) > 2:
+                index = l[1].find(')')
+                ret.append(l[2][:index].strip('"\''))
     return ret
 
 
@@ -108,11 +110,12 @@ def build_designer_grid_trees(draft):
     nodes = __build_designer_grid_nodes(draft)
     trees = {}
     for node in nodes:
-        if node.unlock_condition == "True" or node.unlock_condition.find("or True") != -1 \
-        or node.unlock_condition == "False" or node.unlock_condition.find("and False") != -1:
-            t = DependencyTree()
-            t.create_node(node.action, level=node.level, identifier=node.identifier)
-            trees[node.identifier] = t
+        if node.unlock_condition:
+            if node.unlock_condition == "True" or node.unlock_condition.find("or True") != -1 \
+            or node.unlock_condition == "False" or node.unlock_condition.find("and False") != -1:
+                t = DependencyTree()
+                t.create_node(node.action, level=node.level, identifier=node.identifier)
+                trees[node.identifier] = t
     for i in range(10):
         _ = i
         for node in nodes:
