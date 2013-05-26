@@ -336,7 +336,7 @@ def run_lint(request, draft_slug):
     """Runs unlock_lint over the DesignerActions and shows the results in a page."""
     user = request.user
     draft = smartgrid_mgr.get_designer_draft(draft_slug)
-    settings = GccSettings.objects.get_or_create(user=user)
+    settings, _ = GccSettings.objects.get_or_create(user=user)
     results = gcc.run_designer_checks(draft, settings)
     trees = action_dependency.build_designer_grid_trees(draft)
     unlock_tree = ''

@@ -114,6 +114,11 @@ class DesignerLevel(models.Model):
                               blank=True,
                               null=True)
 
+    def admin_link(self):
+        """returns the hardcoded link to edit the action."""
+        return "<a href='/challenge_setting_admin/smartgrid_design/designerlevel/%s/'>%s</a>" % \
+            (self.pk, self.name)
+
     def __unicode__(self):
         if self.draft:
             return "%s (%s)" % (self.name, self.draft.name)

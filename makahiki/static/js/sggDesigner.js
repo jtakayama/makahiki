@@ -399,6 +399,82 @@ function runDesignerLint() {
 	})
 }
 
+function tryToPublish(event) {
+	log.debug('tryToPublish()');
+	jQuery.ajax({
+		url: "/smartgrid_design/run_lint/" + trim2(currentDraft) + "/",
+		success: function(data) {
+			var errors = data.errors;
+			var warnings = data.warnings;
+			if (errors.length > 0) {
+				// fail publish
+				var errorDiv = $('#publish-errors');
+				var html = '';
+				html += '<b>Error Summary: ' + errors.length + ' error';
+				if (errors.length > 1 || errors.length == 0) {
+					html += 's';
+				}
+				html += '</b>';
+				if (errors.length > 0) {
+					html += '<ul>';
+					for (var i = 0; i < errors.length; i++) {
+						html += '<li><b>' + errors[i] + 
+							'</b></li>';
+					}
+					html += '</ul>';
+				}
+				errorDiv.html(html);
+				var modalElement = $('#publishGridErrorModal');
+		        modalElement.modal({
+		            backdrop: true,
+		            keyboard: true,
+		            show: false
+		        }); 
+		        modalElement.css('margin-top', (modalElement.outerHeight() / 2) * -1);
+		        modalElement.modal('show');						
+			} else if (warnings.length > 0) {
+				// check to see if publish
+				var errorDiv = $('#publish-warnings');
+				var html = '';
+				html += 'There were ' + warnings.length + ' warninigs do you want to publish?<p></p>'
+				html += '<b>Warning Summary: ' + warningss.length + ' error';
+				if (warnings.length > 1 || warnings.length == 0) {
+					html += 's';
+				}
+				html += '</b>';
+				if (warnings.length > 0) {
+					html += '<ul>';
+					for (var i = 0; i < warnings.length; i++) {
+						html += '<li><b>' + warnings[i] + 
+							'</b></li>';
+					}
+					html += '</ul>';
+				}
+				errorDiv.html(html);
+				var modalElement = $('#publishGridModal');
+		        modalElement.modal({
+		            backdrop: true,
+		            keyboard: true,
+		            show: false
+		        }); 
+		        modalElement.css('margin-top', (modalElement.outerHeight() / 2) * -1);
+		        modalElement.modal('show');						
+			} else {
+				// publish
+				var modalElement = $('#publishGridModal');
+		        modalElement.modal({
+		            backdrop: true,
+		            keyboard: true,
+		            show: false
+		        }); 
+		        modalElement.css('margin-top', (modalElement.outerHeight() / 2) * -1);
+		        modalElement.modal('show');						
+			}
+			log.debug('ran gcc found ' + errors.length + ' errors and ' + warnings.length + ' warnings.');
+		}
+	});
+}
+
 /**
  * Returns a jQuery object that represents the dropped Action.
  * @param slug a String the Action slug.

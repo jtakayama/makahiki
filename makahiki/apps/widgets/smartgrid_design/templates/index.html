@@ -218,12 +218,10 @@ $(document).click(function() {
 		        </div>
 				<div class="right">
 					{% if view_objects.smartgrid_design.draft %}
-					<form id="publish-form" action="{% url publish_to_grid view_objects.smartgrid_design.draft.slug %}" method="post">
-   	    		  		{% csrf_token %} Use Fillers: {{ view_objects.smartgrid_design.publish_form.use_filler }}
-       	  				<input id="designer-publish" class="btn btn-widget" rel="tooltip" 
-							title="Publish changes made in the designer to the Smart Grid Game."
-							type="submit" value="Publish changes to Smart Grid Game" /> 
-			        </form>
+					<a id="publish-check" href="#" class="btn btn-widget" onclick="tryToPublish();return false;" 
+					style="margin: 4px 2px 4px 2px;padding: 4px 2px 4px 2px;"
+					rel="tooltip"
+					title="This will run the Grid Consistency Checks before publishing.">Publish Draft ({{view_objects.smartgrid_design.draft}})</a>
 			        {% endif %} 			
 		        </div>	
 				<div id="designer_levels" class="tabbable tabs-left">
@@ -530,6 +528,36 @@ if ($('#hideWarnings').text() == 'Hide Warning Details') {
     <div class="modal-footer">
         <a href="#" class="btn btn-widget" data-dismiss="modal">Cancel</a>
     </div>
+</div>
+
+<div class="modal hide fade" id="publishGridModal">
+	<div class="modal-header">
+        <a class="close" data-dismiss="modal">x</a>
+        <h3>Publish Draft to Smart Grid Game</h3>
+	</div>
+	<div class="modal-body">
+		<div id="publish-warnings"></div>
+		<form id="publish-form" action="{% url publish_to_grid view_objects.smartgrid_design.draft.slug %}" method="post">
+	  		{% csrf_token %} Use Fillers: {{ view_objects.smartgrid_design.publish_form.use_filler }}
+			<input class="btn btn-widget" rel="tooltip" 
+				title="Publish changes made in the designer to the Smart Grid Game."
+				type="submit" value="Publish changes to Smart Grid Game" /> 
+		    <a href="#" class="btn btn-widget" data-dismiss="modal">Cancel</a>		
+	</form>
+	</div>
+</div>
+
+<div class="modal hide fade" id="publishGridErrorModal">
+	<div class="modal-header">
+        <a class="close" data-dismiss="modal">x</a>
+        <div class="left"><i class="icon-warning-sign"></i></div>
+        <h3>Can't Publish Draft!</h3>
+	</div>
+	<div class="modal-body">
+		Please fix the following errors before trying to publish this Draft.
+		<div id="publish-errors"></div>
+	    <a href="#" class="btn btn-widget" data-dismiss="modal">Cancel</a>		
+	</div>
 </div>
 
 <script type="text/javascript">
