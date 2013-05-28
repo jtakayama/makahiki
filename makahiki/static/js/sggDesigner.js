@@ -185,7 +185,7 @@ function createColumnDropDiv(slug, column, text, id) {
 	'<li><a href="#" class="sgg-action" onclick="deleteGridColumn(\''+ trim1(slug) + '\'); return false;"' +
 	'rel="tooltip" title="Delete this column from the level. Moves all the actions in the column to the palette">Delete column {{cat.name}}</a>' +
 	'</li></ul></div>' + 
-	'<div id="column-' + trim1(slug) + '" data-slug=' + trim1(slug) + ' class="sgg-column grid-draggable" ' +
+	'<div id="column-' + trim1(slug) + '" data-slug=' + trim1(slug) + ' class="sgg-column column-draggable" ' +
 	'data-priority=' + column + '><br />' + '<a class="sgg-column-link" ' +
 	'href="/challenge_setting_admin/smartgrid_design/designercolumnname/' + id + '/">' +
 	trim2(text) + '</a><br /></div>' + 

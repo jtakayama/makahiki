@@ -582,6 +582,7 @@ if ($('#hideWarnings').text() == 'Hide Warning Details') {
 			start: handleColumnStartDrag,
 			helper: 'clone',
 			revert: function(dropObj) {
+				log.debug('.column-draggable.revert(' + dropObj + ')');
 				if (dropObj == false) {
 					$(this).removeClass('hidden');
 					return true;
@@ -595,6 +596,7 @@ if ($('#hideWarnings').text() == 'Hide Warning Details') {
 			start: handleGridStartDrag,
 			helper : 'clone',
 			revert : function(dropObj) {
+				log.debug('.grid-draggable.revert(' + dropObj + ')');
 				// console.log("revert for grid draggable");
 				// if false then no drop object
 				if (dropObj == false) {
@@ -604,6 +606,7 @@ if ($('#hideWarnings').text() == 'Hide Warning Details') {
 				} else {
 					var type = $(dropObj).attr('class');
 					var first = type.split(" ")[0];
+					log.debug('class= ' + first)
 					if (first == 'sgg-palette') {
 						handlePaletteDrop($(this));
 					} else if (first == 'sgg-right-palette') {
@@ -618,6 +621,7 @@ if ($('#hideWarnings').text() == 'Hide Warning Details') {
 			start : handleLibraryStartDrag,
 			helper : 'clone',
 			revert : function(dropObj) {
+				log.debug('.library-draggable.revert()')
 				if (dropObj == false) {
 					// unhide the library action
 					$(this).removeClass('hidden');					
@@ -633,7 +637,7 @@ if ($('#hideWarnings').text() == 'Hide Warning Details') {
 			helper : 'clone', // should be clone, but then the drop in the grid isn't working
 		})
 		$('.sgg-column-slot').droppable({
-			accept : '.sgg-library-column',
+			accept : '.sgg-library-column, .sgg-column',
 			drop : handleColumnDrop
 		});
 		$('.sgg-action-slot').droppable({
