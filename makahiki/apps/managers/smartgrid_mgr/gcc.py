@@ -6,7 +6,7 @@ Created on May 15, 2013
 '''
 from apps.managers.challenge_mgr import challenge_mgr
 from apps.widgets.smartgrid_design.models import DesignerAction, DesignerEvent, DesignerGrid, \
-    DesignerLevel
+    DesignerLevel, DesignerColumnGrid
 from apps.managers.challenge_mgr.models import RoundSetting
 from datetime import datetime, time
 from apps.managers.smartgrid_mgr import smartgrid_mgr, action_dependency
@@ -244,6 +244,20 @@ def check_designer_predicates(draft):
     return ret
 
 
+def check_designer_action_column_names(draft):
+    """Checks for actions in columns that don't have a column name."""
+    ret = []
+    for grid in DesignerGrid.objects.filter(draft=draft):
+        if len(DesignerColumnGrid.objects.filter(draft=draft, level=grid.level, \
+                                                 column=grid.column)) == 0:
+            message = "in %s column %s row %s needs a column name." % (grid.level, \
+                                                                       grid.column, \
+                                                                       grid.row)
+            ret.append(Error(message=message, action=grid.action))
+        grid.column
+    return ret
+
+
 def check_unreachable_designer_actions(draft):
     """Checks for unreachable actions and returns a list of Errors indicating which actions are
     unreachable."""
@@ -267,7 +281,9 @@ def run_designer_checks(draft, settings):  # pylint: disable=R0912
     ret[_WARNINGS] = []
     # cannot turn off checking the predicates.
     for e in check_designer_predicates(draft):
-        ret[_ERRORS].append(e)
+        ret[_ERRORS].append(str(e))
+    for e in check_designer_action_column_names(draft):
+        ret[_ERRORS].append(str(e))
     if settings.check_pub_dates:
         d = check_grid_pub_exp_dates(draft)
         for e in d[_ERRORS]:
