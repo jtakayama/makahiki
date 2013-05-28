@@ -440,12 +440,14 @@ if ($('#hideWarnings').text() == 'Hide Warning Details') {
     </div>
     <div class="modal-body" id="modal-body">
 		Choose an example template from the choices below.
+		{% if view_objects.smartgrid_design.draft %}
 		<form id="load-template-form" action="{% url change_settings view_objects.smartgrid_design.draft.slug %}" method="post">
 	    	{% csrf_token %} {{ view_objects.smartgrid_design.gcc_settings_form.as_p }}
         	<input class="btn btn-widget" rel="tooltip" 
         		title="Change the Grid Consistency Checker Settings."
 				type="submit" value="Change Settings" /> 		        	
 		</form>
+		{% endif %}
     </div>
     <div class="modal-footer">
         <a href="#" class="btn btn-widget" data-dismiss="modal">Close</a>
@@ -537,13 +539,15 @@ if ($('#hideWarnings').text() == 'Hide Warning Details') {
 	</div>
 	<div class="modal-body">
 		<div id="publish-warnings"></div>
+		{% if view_objects.smartgrid_design.draft %}
 		<form id="publish-form" action="{% url publish_to_grid view_objects.smartgrid_design.draft.slug %}" method="post">
 	  		{% csrf_token %} Use Fillers: {{ view_objects.smartgrid_design.publish_form.use_filler }}
 			<input class="btn btn-widget" rel="tooltip" 
 				title="Publish changes made in the designer to the Smart Grid Game."
 				type="submit" value="Publish changes to Smart Grid Game" /> 
 		    <a href="#" class="btn btn-widget" data-dismiss="modal">Cancel</a>		
-	</form>
+		</form>
+		{% endif %}
 	</div>
 </div>
 
