@@ -254,7 +254,6 @@ def check_designer_action_column_names(draft):
                                                                        grid.column, \
                                                                        grid.row)
             ret.append(Error(message=message, action=grid.action))
-        grid.column
     return ret
 
 
