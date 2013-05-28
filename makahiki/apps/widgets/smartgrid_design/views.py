@@ -128,11 +128,8 @@ def instantiate_column(request, col_slug, level_slug, column, draft_slug):
     col = smartgrid_mgr.instantiate_designer_column_from_library(draft, col_slug)
 
     level = smartgrid_mgr.get_designer_level(draft, level_slug)
-    grid = DesignerColumnGrid()
-    grid.level = level
+    grid, _ = DesignerColumnGrid.objects.get_or_create(draft=draft, name=col, level=level)
     grid.column = column
-    grid.name = col
-    grid.draft = draft
     grid.save()
 
     #  Return the new pk for the instantiated DesignerColumnName.
