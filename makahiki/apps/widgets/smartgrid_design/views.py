@@ -29,6 +29,7 @@ def supply(request, page_name):
     gcc_settings, _ = GccSettings.objects.get_or_create(user=user)
     draft_choices = Draft.objects.all()
     draft = None
+    tree_list = None
     levels = []
     if len(draft_choices) != 0:
         try:
