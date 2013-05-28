@@ -26,12 +26,11 @@ class ListFormField(forms.Field):
 
 class RevertToSmartgridForm(forms.Form):
     """Form for ensuring no cross-site scripting for reverting designer."""
-    pass
 
 
 class DeployToSmartgridForm(forms.Form):
     """Form for ensuring no cross-site for publishing the designer to the smartgrid."""
-    use_filler = forms.BooleanField()
+    use_filler = forms.BooleanField(required=False)
 
 
 class DeleteLevelForm(forms.Form):
@@ -52,6 +51,11 @@ class AddLevelForm(forms.Form):
     unlock_condition = forms.CharField(max_length=40, help_text="Unlock Condition for the Level")
 
 
+class NewDraftForm(forms.Form):
+    """Form for adding a new Smart Grid Game Draft in the designer."""
+    draft_name = forms.CharField(max_length=50, help_text="The name of the Draft Smart Grid Game")
+
+
 class ExampleGridsForm(forms.Form):
     """Form for choosing between different example Smart Grid designs."""
     TYPE_CHOICES = (
@@ -64,3 +68,18 @@ class ExampleGridsForm(forms.Form):
     grid = forms.ChoiceField(
         choices=TYPE_CHOICES,
         )
+
+
+class LoadTemplateForm(forms.Form):
+    """Form for loading a template into a draft."""
+    TYPE_CHOICES = (
+        ('empty', 'Empty Grid'),
+        ('demo', 'Demo'),
+        ('default', 'Default'),
+        ('uh12', 'KukuiCup/UH 12'),
+        ('test', 'Test Grid'),
+        )
+    template = forms.ChoiceField(
+        choices=TYPE_CHOICES,
+        )
+    draft_name = forms.CharField(max_length=50, help_text="The name of the Draft Smart Grid Game")

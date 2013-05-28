@@ -11,7 +11,7 @@ if (typeof String.prototype.endsWith != 'function') {
 }
 
 function handleActionDrop(event, ui) {
-	log.debug('handleActionDrop()');
+	log.debug('handleActionDrop(' + currentDraft + ')');
 	var column = $(this).attr('data-column');
 	var row = $(this).attr('data-row');
 	var oldCol = ui.draggable.attr('data-column');
@@ -124,6 +124,7 @@ function handleColumnDrop(event, ui) {
 		activateColumn(levelID, column, slug);
 	}
 	instantiateGridColumn(slug, levelSlug, column);
+//	location.reload(true);
 }
 
 function handleColumnStartDrag(event, ui) {
@@ -179,21 +180,35 @@ function handlePaletteDrop(obj) {
  * @returns a jQuery object representing the dropped ColumnName. It can be added to the page.
  */
 function createColumnDropDiv(slug, column, text, id) {
-	log.debug("createColumnDropDiv(" + slug + ", " + column + ", " + text + ", " + id + ")");
-	var drop = $('<div data-slug=' + trim1(slug) + ' class="sgg-column grid-draggable" ' +
-			'data-priority=' + column + '><br />' + '<a class="sgg-column-link" ' +
-			'href="/challenge_admin/smartgrid/columnname/' + id + '/">'
-			+ trim2(text) + '</a><br /></div>');
+	log.debug("createColumnDropDiv(" + trim1(slug) + ", " + column + ", " + text + ", " + id + ")");
+	var drop = $('<div id="column-menu-'+ trim1(slug) + '"  class="sgg-level-popup-menu"><ul>' +
+	'<li><a href="#" class="sgg-action" onclick="deleteGridColumn(\''+ trim1(slug) + '\'); return false;"' +
+	'rel="tooltip" title="Delete this column from the level. Moves all the actions in the column to the palette">Delete column {{cat.name}}</a>' +
+	'</li></ul></div>' + 
+	'<div id="column-' + trim1(slug) + '" data-slug=' + trim1(slug) + ' class="sgg-column grid-draggable" ' +
+	'data-priority=' + column + '><br />' + '<a class="sgg-column-link" ' +
+	'href="/challenge_setting_admin/smartgrid_design/designercolumnname/' + id + '/">' +
+	trim2(text) + '</a><br /></div>' + 
+	'<script type="text/javascript">' +
+	'$("#column-' + trim1(slug) + '").bind("contextmenu", function(e) {' +
+	'$("#column-menu-' + trim1(slug) + '").css({top: e.pageY+"px",left: e.pageX+"px"}).show();' +
+	'return false;});' +
+	'$("#column-menu-' + trim1(slug) + '").click(function() {$(this).hide();});' +
+	'$(document).click(function() {$("#column-menu-{{cat.name.slug}}").hide();});' +
+	'</script>');
+	
 	return drop;
 } 
 
 function instantiateGridColumn(colSlug, levelSlug, column) {
-	log.debug('instantiateGridColumn(' + colSlug + ', ' + levelSlug + ', ' + column + ')');
+	log.debug('instantiateGridColumn(' + colSlug + ', ' + levelSlug + ', ' + column + ', ' +
+			  currentDraft + ')');
     jQuery.ajax({
-        url: "/smartgrid_design/newcol/" + colSlug + "/" + levelSlug + "/" + column + "/", 
+        url: "/smartgrid_design/newcol/" + colSlug + "/" + levelSlug + "/" + column + "/" + 
+        	trim2(currentDraft) + "/", 
         success: function(data) {
 //        	log.debug('pk of Grid ColumnName is ' + data.pk);
-        	var div = $('div[data-slug="' + catSlug + '"]:visible > a');
+        	var div = $('div[data-slug="' + colSlug + '"]:visible > a');
         	var href = div.attr('href');
         	href = href.slice(0, href.length - 1);
         	var index = href.lastIndexOf('/');
@@ -211,9 +226,11 @@ function instantiateGridColumn(colSlug, levelSlug, column) {
 }
 
 function instantiateGridAction(actSlug, levelSlug, column, row) {
-	log.debug('instantiateGridAction(' + actSlug + ', ' + levelSlug + ', ' + column + ', ' + row + ')');
+	log.debug('instantiateGridAction(' + actSlug + ', ' + levelSlug + ', ' + column + ', ' + row +
+			   ', ' + trim2(currentDraft) + ')');
     jQuery.ajax({
-        url: "/smartgrid_design/newaction/" + actSlug + "/" + levelSlug + "/" + column + "/" + row + "/", 
+        url: "/smartgrid_design/newaction/" + actSlug + "/" + levelSlug + "/" + column + "/" + 
+        	row + "/" + trim2(currentDraft) + "/", 
         success: function(data) {
 //        	log.debug('pk of new Grid Action is ' + data.pk);
         	var div = $('div[data-slug="' + actSlug + '"]:visible > a');
@@ -236,9 +253,11 @@ function instantiateGridAction(actSlug, levelSlug, column, row) {
 }
 
 function moveGridAction(actSlug, levelSlug, oldColumn, oldRow, column, row) {
-	log.debug('moveGridAction(' + actSlug + ', ' + levelSlug + ', ' + oldColumn + ', ' + oldRow + ', ' + column + ', ' + row + ')');
+	log.debug('moveGridAction(' + actSlug + ', ' + levelSlug + ', ' + oldColumn + ', ' +
+			   oldRow + ', ' + column + ', ' + row + ')');
     jQuery.ajax({
-        url: "/smartgrid_design/moveaction/" + actSlug + "/" + levelSlug + "/" + oldColumn + "/" + oldRow + "/" + column + "/" + row + "/", 
+        url: "/smartgrid_design/moveaction/" + actSlug + "/" + levelSlug + "/" + oldColumn + "/" +
+        	oldRow + "/" + column + "/" + row + "/" + trim2(currentDraft) + "/", 
         success: function(data) {
 //        	log.debug('pk of new Grid Action is ' + data.pk);
         	var div = $('div[data-slug="' + actSlug + '"]:visible > a');
@@ -262,9 +281,11 @@ function moveGridAction(actSlug, levelSlug, oldColumn, oldRow, column, row) {
 }
 
 function movePaletteAction(actSlug, levelSlug, column, row) {
-	log.debug('movePaletteAction(' + actSlug + ', ' + levelSlug + ', ' + column + ', ' + row + ')');
+	log.debug('movePaletteAction(' + actSlug + ', ' + levelSlug + ', ' + column + ', ' + row + 
+			   ', ' + trim2(currentDraft) + ')');
     jQuery.ajax({
-        url: "/smartgrid_design/paletteaction/" + actSlug + "/" + levelSlug + "/" + column + "/" + row + "/", 
+        url: "/smartgrid_design/paletteaction/" + actSlug + "/" + levelSlug + "/" + column + "/" + 
+        	row + "/" + trim2(currentDraft) + "/", 
         success: function(data) {
 //        	log.debug('pk of new Grid Action is ' + data.pk);
         	var div = $('div[data-slug="' + actSlug + '"]:visible > a');
@@ -289,9 +310,9 @@ function movePaletteAction(actSlug, levelSlug, column, row) {
 }
 
 function getDesignerDiff() {
-	log.debug('getDesignerDiff()');
+	log.debug('getDesignerDiff(' + trim2(currentDraft) + ')');
 	jQuery.ajax({
-		url: "/smartgrid_design/get_diff/",
+		url: "/smartgrid_design/get_diff/" + trim2(currentDraft) + "/",
 		success: function(data) {
 			var diff = data.diff;
 			var numDiff = diff.length;
@@ -320,56 +341,138 @@ function getDesignerDiff() {
 }
 
 function runDesignerLint() {
-	log.debug('runDesignerLint()');
+	log.debug('runDesignerLint(' + trim2(currentDraft) + ')');
+	var errorTitle = $('#error-title');
+	errorTitle.html('');
+	var errorDiv = $('#lint-errors');
+	errorDiv.html('');
+	var warningTitle = $('#warning-title');
+	warningTitle.html('');
+	var warningDiv = $('#lint-warnings');
+	warningDiv.html('');
+	var treeDiv = $('#dependency-trees');
+	treeDiv.html('');
 	jQuery.ajax({
-		url: "/smartgrid_design/run_lint/",
+		url: "/smartgrid_design/run_lint/" + trim2(currentDraft) + "/",
 		success: function(data) {
-			var unreachable = data.unreachable;
-			var false_unlock = data.false_unlock;
-			var trees = data.tree;
-			var mismatched = data.mismatched_levels;
-			var pub_date = data.pub_date;
-			log.debug(pub_date);
-			var lintDiv = $('#designer-lint');
+			var errors = data.errors;
+			var warnings = data.warnings;
+			var trees = data.dependency_trees;
 			var html = '';
-			if (unreachable.length > 0) {
+			html += '<b>Error Summary: ' + errors.length + ' error';
+			if (errors.length > 1 || errors.length == 0) {
+				html += 's';
+			}
+			html += '</b>';
+			errorTitle.html(html);
+			html = '';
+			if (errors.length > 0) {
 				html += '<ul>';
-				for (var i = 0; i < unreachable.length; i++) {
-					html += '<li><b>' + unreachable[i] + 
-						'</b> is unreachable due to unlock condition dependencies</li>';
+				for (var i = 0; i < errors.length; i++) {
+					html += '<li><b>' + errors[i] + 
+						'</b></li>';
 				}
 				html += '</ul>';
 			}
-			if (mismatched.length > 0) {
+			errorDiv.html(html);
+			html = '';
+			html += '<b>Warning Summary: ' + warnings.length + ' warning';
+			if (warnings.length > 1 || warnings.length == 0) {
+				html += 's';
+			}
+			html += '</b>';
+			warningTitle.html(html);
+			html = '';
+			if (warnings.length > 0) {
 				html += '<ul>';
-				for (var i = 0; i < mismatched.length; i++) {
-					html += '<li>Warning <b>' + mismatched[i] + 
-						'</b> depends on an action in a higher level</li>';
+				for (var i = 0; i < warnings.length; i++) {
+					html += '<li><b>' + warnings[i] + 
+						'</b></li>';
 				}
 				html += '</ul>';
 			}
-			if (false_unlock.length > 0) {
-				html += '<ul>';
-				for (var i = 0; i < false_unlock.length; i++) {
-					html += '<li>Warning <b>' + false_unlock[i] + 
-						'</b> is locked because it depends on an action with a False unlock condition</li>';
-				}
-				html += '</ul>';				
-			}
-			if (pub_date.length > 0) {
-				html += '<ul>';
-				for (var i = 0; i < pub_date.length; i++) {
-					html += '<li>Warning <b>' + pub_date[i] +
-						'</b>\'s publication or expiration date are outside the competition</li>';
-				}
-				html += '</ul>';
-			}
-			html += 'Unlock Condition Dependency:<div class="sgg-unlock-lint">';
-			html += trees;
-			html += '</div>';
-			lintDiv.html(html);
+			warningDiv.html(html);
+			html = trees;
+			treeDiv.html(html);
+			
 		}
 	})
+}
+
+function tryToPublish(event) {
+	log.debug('tryToPublish()');
+	jQuery.ajax({
+		url: "/smartgrid_design/run_lint/" + trim2(currentDraft) + "/",
+		success: function(data) {
+			var errors = data.errors;
+			var warnings = data.warnings;
+			if (errors.length > 0) {
+				// fail publish
+				var errorDiv = $('#publish-errors');
+				var html = '';
+				html += '<b>Error Summary: ' + errors.length + ' error';
+				if (errors.length > 1 || errors.length == 0) {
+					html += 's';
+				}
+				html += '</b>';
+				if (errors.length > 0) {
+					html += '<ul>';
+					for (var i = 0; i < errors.length; i++) {
+						html += '<li><b>' + errors[i] + 
+							'</b></li>';
+					}
+					html += '</ul>';
+				}
+				errorDiv.html(html);
+				var modalElement = $('#publishGridErrorModal');
+		        modalElement.modal({
+		            backdrop: true,
+		            keyboard: true,
+		            show: false
+		        }); 
+		        modalElement.css('margin-top', (modalElement.outerHeight() / 2) * -1);
+		        modalElement.modal('show');						
+			} else if (warnings.length > 0) {
+				// check to see if publish
+				var errorDiv = $('#publish-warnings');
+				var html = '';
+				html += 'There were ' + warnings.length + ' warninigs do you want to publish?<p></p>'
+				html += '<b>Warning Summary: ' + warningss.length + ' error';
+				if (warnings.length > 1 || warnings.length == 0) {
+					html += 's';
+				}
+				html += '</b>';
+				if (warnings.length > 0) {
+					html += '<ul>';
+					for (var i = 0; i < warnings.length; i++) {
+						html += '<li><b>' + warnings[i] + 
+							'</b></li>';
+					}
+					html += '</ul>';
+				}
+				errorDiv.html(html);
+				var modalElement = $('#publishGridModal');
+		        modalElement.modal({
+		            backdrop: true,
+		            keyboard: true,
+		            show: false
+		        }); 
+		        modalElement.css('margin-top', (modalElement.outerHeight() / 2) * -1);
+		        modalElement.modal('show');						
+			} else {
+				// publish
+				var modalElement = $('#publishGridModal');
+		        modalElement.modal({
+		            backdrop: true,
+		            keyboard: true,
+		            show: false
+		        }); 
+		        modalElement.css('margin-top', (modalElement.outerHeight() / 2) * -1);
+		        modalElement.modal('show');						
+			}
+			log.debug('ran gcc found ' + errors.length + ' errors and ' + warnings.length + ' warnings.');
+		}
+	});
 }
 
 /**
@@ -436,10 +539,10 @@ function deactivateColumn(levelID, column) {
 }
 
 function deleteGridAction(actionSlug) {
-	log.debug("deleteGridAction(" + actionSlug + ")");
+	log.debug("deleteGridAction(" + actionSlug + ', ' + trim2(currentDraft) + ")");
 //	$.get("/smartgrid_design/delete_action/" + actionSlug + "/");	
     jQuery.ajax({
-        url: "/smartgrid_design/delete_action/" + actionSlug + "/", 
+        url: "/smartgrid_design/delete_action/" + actionSlug + "/" + trim2(currentDraft) + "/", 
         success: function(data) {
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -448,10 +551,11 @@ function deleteGridAction(actionSlug) {
 }
 
 function deleteGridColumn(colSlug) {
-	log.debug("deleteGridColumn(" + colSlug + ")");
+	log.debug("deleteGridColumn(" + colSlug + ', ' + trim2(currentDraft) + ")");
     jQuery.ajax({
-        url: "/smartgrid_design/delete_column/" + colSlug + "/", 
+        url: "/smartgrid_design/delete_column/" + colSlug + "/" + trim2(currentDraft) + "/", 
         success: function(data) {
+        	location.reload(true);
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
         }
@@ -459,15 +563,51 @@ function deleteGridColumn(colSlug) {
 }
 
 function clearLevelColumnPriority(actionSlug) {
-	log.debug("clearLevelColumnPriority(" + actionSlug + ")");
+	log.debug("clearLevelColumnPriority(" + actionSlug + ', ' + trim2(currentDraft) + ")");
     jQuery.ajax({
-        url: "/smartgrid_design/clear_from_grid/" + actionSlug + "/", 
+        url: "/smartgrid_design/clear_from_grid/" + actionSlug + "/" + trim2(currentDraft) + "/", 
         success: function(data) {
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
         }
     });	
 	
+}
+
+function copyLibraryAction(actionSlug) {
+	log.debug("copyLibraryAction(" + actionSlug + ', ' + trim2(currentDraft) + ")");
+    jQuery.ajax({
+        url: "/smartgrid_design/copy_library_action/" + actionSlug + "/" + trim2(currentDraft) + "/", 
+        success: function(data) {
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+        }
+    });	
+	
+}
+
+function copyDesignerAction(actionSlug) {
+	log.debug("copyDesignerAction(" + actionSlug + ', ' + trim2(currentDraft) + ")");
+    jQuery.ajax({
+        url: "/smartgrid_design/copy_designer_action/" + actionSlug + "/" + trim2(currentDraft) + "/", 
+        success: function(data) {
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+        }
+    });		
+    location.reload(true);
+}
+
+function deleteDesignerAction(actionSlug) {
+	log.debug("deleteDesignerAction(" + actionSlug + ', ' + trim2(currentDraft) + ")");
+    jQuery.ajax({
+        url: "/smartgrid_design/delete_designer_action/" + actionSlug + "/" + trim2(currentDraft) + "/", 
+        success: function(data) {
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+        }
+    });			
+    location.reload(true);
 }
 
 /**

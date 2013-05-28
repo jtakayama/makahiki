@@ -47,6 +47,19 @@ class ListField(models.TextField):
         return self.get_db_prep_value(value, None)
 
 
+class Draft(models.Model):
+    """Represents a draft of the Smart Grid Game in the Designer."""
+    name = models.CharField(max_length=50,
+                            help_text="Then name of the draft.")
+    slug = models.SlugField(
+        unique=True,
+        help_text="A unique identifier of the draft. Automatically generated if left blank.",
+        )
+
+    def __unicode__(self):
+        return self.name
+
+
 class DesignerTextPromptQuestion(models.Model):
     """Represents questions that can be asked of users in order to verify participation
     in activities."""
@@ -56,6 +69,9 @@ class DesignerTextPromptQuestion(models.Model):
     answer = models.CharField(max_length=255,
                               help_text="The answer of question (max 255 characters).",
                               null=True, blank=True)
+    draft = models.ForeignKey(Draft,
+                              blank=True,
+                              null=True)
 
     def __unicode__(self):
         return "Question: '%s' Answer: '%s'" % (self.question, self.answer)
@@ -68,6 +84,9 @@ class DesignerQuestionChoice(models.Model):
     action = models.ForeignKey("DesignerAction")
     choice = models.CharField(max_length=255,
                               help_text="The choice of question (max 255 characters).")
+    draft = models.ForeignKey(Draft,
+                              blank=True,
+                              null=True)
 
     def __unicode__(self):
         return self.choice
@@ -91,9 +110,20 @@ class DesignerLevel(models.Model):
         max_length=400, null=True, blank=True,
         help_text="The description of the unlock condition.")
     admin_tool_tip = "Smart Grid Level"
+    draft = models.ForeignKey(Draft,
+                              blank=True,
+                              null=True)
+
+    def admin_link(self):
+        """returns the hardcoded link to edit the action."""
+        return "<a href='/challenge_setting_admin/smartgrid_design/designerlevel/%s/'>%s</a>" % \
+            (self.pk, self.name)
 
     def __unicode__(self):
-        return self.name
+        if self.draft:
+            return "%s (%s)" % (self.name, self.draft.name)
+        else:
+            return "%s ()" % self.name
 
     class Meta:
         """Meta"""
@@ -107,13 +137,16 @@ class DesignerLevel(models.Model):
 
 class DesignerColumnName(models.Model):
     """ColumnNames used to group actions in the Smart Grid Designer."""
-    name = models.CharField(max_length=255,
-                            help_text="The name of the column (max 255 characters).")
+    name = models.CharField(max_length=50,
+                            help_text="The name of the column (max 50 characters).")
     slug = models.SlugField(help_text="Automatically generated if left blank.",
                             null=True)
+    draft = models.ForeignKey(Draft,
+                              blank=True,
+                              null=True)
 
     def __unicode__(self):
-        return self.name
+        return "%s (%s)" % (self.name, self.draft)
 
     def save(self, *args, **kwargs):
         """Custom save method to set fields."""
@@ -144,7 +177,6 @@ class DesignerAction(models.Model):
         help_text="The name of the action.")
     slug = models.SlugField(
         help_text="A unique identifier of the action. Automatically generated if left blank.",
-        unique=True,
         )
     title = models.CharField(
         max_length=200,
@@ -209,17 +241,32 @@ class DesignerAction(models.Model):
         default=0,
         help_text="The point value to be awarded."
     )
+    draft = models.ForeignKey(Draft,
+                              blank=True,
+                              null=True)
+
+    class Meta:
+        """meta."""
+        unique_together = ('slug', 'draft')
 
     def get_classname(self):
         """Returns the classname."""
         return self._meta.module_name
 
     def __unicode__(self):
-        return "%s: %s" % (self.type.capitalize(), self.title)
+        if self.draft:
+            return "%s: %s (%s)" % (self.type.capitalize(), self.title, self.draft.name)
+        else:
+            return "%s: %s ()" % (self.type.capitalize(), self.title)
 
     def get_action(self, action_type):
         """Returns the concrete action object by type."""
         return action_type.objects.get(action_ptr=self.pk)
+
+    def admin_link(self):
+        """returns the hardcoded link to edit the action."""
+        return "<a href='/challenge_setting_admin/smartgrid_design/designer%s/%s/'>%s</a>" % \
+            (self.type, self.pk, self.name)
 
 
 class DesignerActivity(DesignerAction):
@@ -353,13 +400,23 @@ class DesignerColumnGrid(models.Model):
     )
     name = models.ForeignKey(DesignerColumnName,
                                  help_text="The name of the column in this location.")
+    draft = models.ForeignKey(Draft,
+                              blank=True,
+                              null=True)
 
     class Meta:
         """meta."""
-        unique_together = ('level', 'name')
+        unique_together = ('level', 'name', 'draft')
 
     def __unicode__(self):
-        return "DesignerColumn: %s [%s, x=%s]" % (self.name, self.level, self.column)
+        if self.draft:
+            return "DesignerColumn: %s [%s, x=%s] (%s)" % (self.name, \
+                                                           self.level, \
+                                                           self.column, self.draft.name)
+        else:
+            return "DesignerColumn: %s [%s, x=%s] ()" % (self.name, \
+                                                         self.level, \
+                                                         self.column)
 
 
 class DesignerGrid(models.Model):
@@ -379,13 +436,22 @@ class DesignerGrid(models.Model):
     )
     action = models.ForeignKey(DesignerAction,
                                help_text="The Action in this location.")
+    draft = models.ForeignKey(Draft,
+                              blank=True,
+                              null=True)
 
     class Meta:
         """Meta"""
-        ordering = ("level", "column", "row")
+        ordering = ("draft", "level", "column", "row")
+        unique_together = ("draft", "level", "column", "row", "action")
 
     def __unicode__(self):
-        return "%s: [%s, x=%s, y=%s]" % (self.action, self.level, self.column, self.row)
+        if self.draft:
+            return "%s: [%s, x=%s, y=%s] (%s)" % (self.action, self.level, \
+                                                  self.column, self.row, self.draft.name)
+        else:
+            return "%s: [%s, x=%s, y=%s] ()" % (self.action, self.level, \
+                                                self.column, self.row)
 
     def get_loc_str(self):
         """Returns the location of this grid object as a string."""

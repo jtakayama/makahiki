@@ -1,0 +1,159 @@
+{% load cache %}
+
+<div class="content-box">
+	<div class="content-box-title">
+		Education Game
+        <a href="#" style="float: right">
+            <img src="{{ STATIC_URL}}images/icons/icon-help-sm.png" width="20" align="center"
+                 title="Click to get help about this window"
+                 onclick="toggleHelp(event, 'widget', 'education-game'); return false;"/>
+        </a>
+	</div>
+	<div class="content-box-contents">
+		<!-- Tabs for the different types of Actions -->
+		<ul id="education-tabs" class="nav nav-tabs">
+			<li class="">
+				<a href="#available"
+				   class="action-tab" data-toggle="tab" 
+				   style="padding-right: 6px; padding-left: 6px;" 
+				   rel="tooltip" title="Actions You can try.">Available Actions</a>
+			</li>
+			<li class="">
+				<a href="#pending"
+				   class="action-tab" data-toggle="tab" 
+				   style="padding-right: 6px; padding-left: 6px;" 
+				   rel="tooltip" title="Actions You've submitted for approval.">Pending Actions</a>
+			</li>
+			<li class="">
+				<a href="#completed"
+				   class="action-tab" data-toggle="tab" 
+				   style="padding-right: 6px; padding-left: 6px;" 
+				   rel="tooltip" title="Actions You've finished.">Completed Actions</a>
+			</li>
+		</ul>
+        <!-- Tab contents -->
+        <div class="tab-content">
+			<div id="available" class="tab-pane">
+				<h3>Activities:</h3>
+				<table class="table-ninety table-striped">
+				{% for action in view_objects.education.available_activities %}
+					<tr>
+				     	<td width='90%'>
+							<a href="{% url education_task action.type action.slug %}"
+							   class="action-link"
+							   title="{{action}}" rel="tooltip">
+						   			<b>{{action.title}}</b>
+						   	</a>
+				   		</td>
+						<td width="10%" class="column-number">
+						   {% if action.point_value %}
+						   <b>{{action.point_value}}</b>
+						   {% else %}
+						   <b>{{action.point_range_start}} - {{action.point_range_end}}</b>
+						   {% endif %}
+						</td>
+					</tr>
+				{% endfor %}
+				</table>
+				<h3>Commiments:</h3>
+				<table class="table-ninety table-striped">
+				{% for action in view_objects.education.available_commitments %}
+					<tr>
+				     	<td width='90%'>
+							<a href="{% url education_task action.type action.slug %}"
+							   class="action-link"
+							   title="{{action}}" rel="tooltip">
+						   			<b>{{action.title}}</b>
+						   	</a>
+				   		</td>
+						<td width="10%" class="column-number">
+						   {% if action.point_value %}
+						   <b>{{action.point_value}}</b>
+						   {% else %}
+						   <b>{{action.point_range_start}} - {{action.point_range_end}}</b>
+						   {% endif %}
+						</td>
+					</tr>
+				{% endfor %}
+				</table>
+				<h3>Events:</h3>
+				<table class="table-ninety table-striped">
+				{% for action in view_objects.education.available_events %}
+					<tr>
+				     	<td width='90%'>
+							<a href="{% url education_task action.type action.slug %}"
+							   class="action-link"
+							   title="{{action}}" rel="tooltip">
+						   			<b>{{action.title}}</b>
+						   	</a>
+				   		</td>
+						<td width="10%" class="column-number">
+						   {% if action.point_value %}
+						   <b>{{action.point_value}}</b>
+						   {% else %}
+						   <b>{{action.point_range_start}} - {{action.point_range_end}}</b>
+						   {% endif %}
+						</td>
+					</tr>
+				{% empty %}
+					<tr><td>There are no available events. Check back later.</td></tr>
+				{% endfor %}
+				</table>
+			</div>
+			<div id="pending" class="tab-pane">
+				<table class="table table-striped">
+			{% for action in view_objects.education.pending %}
+					<tr>
+				     	<td width='90%'>
+							<a href="{% url education_task action.type action.slug %}"
+							   class="action-link"
+							   title="{{action}}" rel="tooltip">
+						   			<b>{{action.title}}</b>
+						   	</a>
+				   		</td>
+						<td width="10%" class="column-number">
+						   {% if action.point_value %}
+						   <b>{{action.point_value}}</b>
+						   {% else %}
+						   <b>{{action.point_range_start}} - {{action.point_range_end}}</b>
+						   {% endif %}
+						</td>
+					</tr>
+			{% empty %}
+				<tr><td>You've not submitted any actions yet. Go try some!</td></tr>
+			{% endfor%}
+				</table>
+			</div>
+			<div id="completed" class="tab-pane">
+				<table class="table table-striped">
+			{% for action in view_objects.education.completed %}
+					<tr>
+				     	<td width='90%'>
+							<a href="{% url education_task action.type action.slug %}"
+							   class="action-link"
+							   title="{{action}}" rel="tooltip">
+						   			<b>{{action.title}}</b>
+						   	</a>
+				   		</td>
+						<td width="10%" class="column-number">
+						   {% if action.point_value %}
+						   <b>{{action.point_value}}</b>
+						   {% else %}
+						   <b>{{action.point_range_start}} - {{action.point_range_end}}</b>
+						   {% endif %}
+						</td>
+					</tr>
+			{% empty %}
+				<tr><td>You've not completed any actions yet. Go try some!</td></tr>
+			{% endfor %}
+				</table>
+			</div>
+		</div>		
+	</div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+		$('#education-tabs a:first').tab('show');
+	}
+    );
+</script>

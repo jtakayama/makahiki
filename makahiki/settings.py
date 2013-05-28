@@ -191,6 +191,7 @@ INSTALLED_WIDGET_APPS = (
     'badges',
     'bonus_points',
     'home',
+    'education',
     'energy_power_meter',
     'my_achievements',
     'my_commitments',

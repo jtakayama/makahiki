@@ -2,7 +2,7 @@
 <script src="{{STATIC_URL}}js/jquery-ui-timepicker-addon.js"></script>
 
 <div class="content-box">
-	<div class="content-box-title">Smart Grid Game Designer
+	<div class="content-box-title">Smart Grid Game Designer ({{ view_objects.smartgrid_design.draft.name }})
        <a href="#" style="float: right">
             <img src="{{ STATIC_URL}}images/icons/icon-help-sm.png" width="20" align="center"
                  title="Click to get help about this window"
@@ -26,10 +26,15 @@
 					</ul>
 					<div class="tab-content">
 						<div id="activities" class="sgg-action-selections tab-pane active">
-							{% for action in view_objects.smartgrid_design.activities %}		
-							<div data-slug="{{action.slug}}" data-type="{{action.type}}" data-pk="{{action.pk}}"
+							{% for action in view_objects.smartgrid_design.activities %}
+							<div id="library-activity-menu-{{action.slug}}" class="sgg-level-popup-menu">
+								<ul>
+									<li><a href="#" class="sgg-action" onclick="copyLibraryAction('{{action.slug}}');return false;">Copy {{action.name}}</a>
+								</ul>
+							</div>			
+							<div id="library-{{action.slug}}" data-slug="{{action.slug}}" data-type="{{action.type}}" data-pk="{{action.pk}}"
 								data-unlock="{{action.unlock_condition}}"
-								class="sgg-action sgg-library-action sgg-activity library-draggable {% if action.slug in view_objects.smartgrid_design.smart_grid_actions %}hidden{% endif %}">
+								class="sgg-action sgg-library-action sgg-activity library-draggable {% if action.slug in view_objects.smartgrid_design.designer_actions %}hidden{% endif %}">
 								<a href="/challenge_setting_admin/smartgrid_library/library{{action.type}}/{{action.pk}}/"
 									class="sgg-action" ref="tooltip" title="{{action.title}}">{{action.name}}</a>
 							</div>
@@ -37,8 +42,13 @@
 						</div>
 						<div id="commitments" class="sgg-action-selections tab-pane">
 							{% for action in view_objects.smartgrid_design.commitments %}
-							<div data-slug="{{action.slug}}" data-type="{{action.type}}" data-pk="{{action.pk}}"
-								class="sgg-action sgg-library-action sgg-commitment library-draggable {% if action.slug in view_objects.smartgrid_design.smart_grid_actions %}hidden{% endif %}">
+							<div id="library-activity-menu-{{action.slug}}" class="sgg-level-popup-menu">
+								<ul>
+									<li><a href="#" class="sgg-action" onclick="copyLibraryAction('{{action.slug}}');return false;">Copy {{action.name}}</a>
+								</ul>
+							</div>			
+							<div id="library-{{action.slug}}" data-slug="{{action.slug}}" data-type="{{action.type}}" data-pk="{{action.pk}}"
+								class="sgg-action sgg-library-action sgg-commitment library-draggable {% if action.slug in view_objects.smartgrid_design.designer_actions %}hidden{% endif %}">
 								<a href="/challenge_setting_admin/smartgrid_library/library{{action.type}}/{{action.pk}}/"
 									class="sgg-action" ref="tooltip" title="{{action.title}}">{{action.name}}</a>
 							</div>
@@ -46,8 +56,13 @@
 						</div>
 						<div id="events" class="sgg-action-selections tab-pane">
 							{% for action in view_objects.smartgrid_design.events %}
-							<div data-slug="{{action.slug}}" data-type="{{action.type}}" data-pk="{{action.pk}}"
-								class="sgg-action sgg-library-action sgg-event library-draggable {% if action.slug in view_objects.smartgrid_design.smart_grid_actions %}hidden{% endif %}">
+							<div id="library-activity-menu-{{action.slug}}" class="sgg-level-popup-menu">
+								<ul>
+									<li><a href="#" class="sgg-action" onclick="copyLibraryAction('{{action.slug}}');return false;">Copy {{action.name}}</a>
+								</ul>
+							</div>			
+							<div id="library-{{action.slug}}" data-slug="{{action.slug}}" data-type="{{action.type}}" data-pk="{{action.pk}}"
+								class="sgg-action sgg-library-action sgg-event library-draggable {% if action.slug in view_objects.smartgrid_design.designer_actions %}hidden{% endif %}">
 								<a href="/challenge_setting_admin/smartgrid_library/library{{action.type}}/{{action.pk}}/"
 									class="sgg-action" ref="tooltip" title="{{action.title}}">{{action.name}}</a>
 							</div>
@@ -56,6 +71,62 @@
 					</div>
 				</div>
 			</div>
+<script type="text/javascript">
+{% for action in view_objects.smartgrid_design.activities %}
+$("#library-{{action.slug}}").bind("contextmenu", function(e) {
+	var y = e.pageY - 250;
+	var x = e.pageX - 30;
+    $('#library-activity-menu-{{action.slug}}').css({
+        top: y+'px',
+        left: x+'px'
+    }).show();
+    return false;
+});
+$("#library-activity-menu-{{action.slug}}").click(function() {
+    $(this).hide();
+});
+$(document).click(function() {
+    $("#library-activity-menu-{{action.slug}}").hide();
+});
+{% endfor %}
+{% for action in view_objects.smartgrid_design.commitments %}
+$("#library-{{action.slug}}").bind("contextmenu", function(e) {
+	var y = e.pageY - 250;
+	var x = e.pageX - 30;
+    $('#library-activity-menu-{{action.slug}}').css({
+        top: y+'px',
+        left: x+'px'
+    }).show();
+    return false;
+});
+$("#library-activity-menu-{{action.slug}}").click(function() {
+    $(this).hide();
+});
+$(document).click(function() {
+    $("#library-activity-menu-{{action.slug}}").hide();
+});
+{% endfor %}
+{% for action in view_objects.smartgrid_design.events %}
+$("#library-{{action.slug}}").bind("contextmenu", function(e) {
+	//log.debug('['+ e.pageX + ', '+ e.pageY +']');
+	var y = e.pageY - 250;
+	var x = e.pageX - 30;
+	//log.debug('['+ x + ', '+ y +']');
+    $('#library-activity-menu-{{action.slug}}').css({
+        top: y+'px',
+        left: x+'px'
+    }).show();
+    return false;
+});
+$("#library-activity-menu-{{action.slug}}").click(function() {
+    $(this).hide();
+});
+$(document).click(function() {
+    $("#library-activity-menu-{{action.slug}}").hide();
+});
+{% endfor %}
+</script>
+			
 			<div class="designer-sidebar designer-right">
 				<a class="widget-help" href="#" >
 		        	<img src="{{ STATIC_URL}}images/icons/icon-help-sm.png" width="20" align="center"
@@ -66,17 +137,52 @@
 					<legend>Action Palette</legend>
 					<div class="sgg-right-palette palette-dropzone">
 							{% for action in view_objects.smartgrid_design.palette %}
-							<div data-slug="{{action.slug}}" class="sgg-action sgg-{{action.type}}-palette palette-draggable"
+							<div id="designer-activity-menu-{{action.slug}}" class="sgg-level-popup-menu">
+								<ul>
+									<li><a href="#" class="sgg-action" onclick="copyDesignerAction('{{action.slug}}');return false;">Copy {{action.name}}</a>
+									<li><a href="#" class="sgg-action" onclick="deleteDesignerAction('{{action.slug}}');return false;">Delete {{action.name}}</a>
+								</ul>
+							</div>										
+							<div id="designer-{{action.slug}}" data-slug="{{action.slug}}" class="sgg-action sgg-{{action.type}}-palette palette-draggable"
            			   			 data-type="{{action.type}}" data-pk={{action.pk}} data-unlock="{{action.unlock_condition}}">
            		   				<br/>
            		   				<a href="/challenge_setting_admin/smartgrid_design/designer{{action.type}}/{{action.pk}}/"
 								   class="sgg-action" ref="tooltip" title="{{action.title}}">{{action.name}}</a><br/>
 							</div>								
+<script type="text/javascript">
+$("#designer-{{action.slug}}").bind("contextmenu", function(e) {
+	//log.debug('page['+ e.pageX + ', '+ e.pageY +']');
+	//log.debug('screen['+ e.screenX + ', '+ e.screenY +']');
+	var y = e.pageY - 250;
+	var x = e.pageX - 1110;
+	//log.debug('['+ x + ', '+ y +']');
+    $('#designer-activity-menu-{{action.slug}}').css({
+        top: y+'px',
+        left: x+'px'
+    }).show();
+    return false;
+});
+$("#designer-activity-menu-{{action.slug}}").click(function() {
+    $(this).hide();
+});
+$(document).click(function() {
+    $("#designer-activity-menu-{{action.slug}}").hide();
+});
+</script>			
 						{% endfor %}						
 					</div>			
 				</div>
 			</div>
 			<div class="designer-center">
+				<div class="sgg-draft-choice">Choose Draft:
+					<select name="designer_draft_choice" id="draft_choices">
+					{% for draft in view_objects.smartgrid_design.draft_choices %}
+						<option value="{{draft.slug}}" {% if view_objects.smartgrid_design.draft == draft %}selected{% endif %}>{{draft.name}}</option>
+					{% endfor %}
+					</select>
+					<a href="#" class="btn btn-widget" onclick="switchDraft();return false;">Select Draft</a>
+					<a href="#" class="btn btn-widget" onclick="loadTemplate(event); return false;">New Draft</a>
+				</div>
 				<div class="sgg-column-title">
 					<a class="widget-help" href="#" >
 			        	<img src="{{ STATIC_URL}}images/icons/icon-help-sm.png" width="20" align="center"
@@ -93,7 +199,7 @@
 				<div class="ssg-column-selections">
 					<div class="sgg-column-wrapper">
 					{% for column in view_objects.smartgrid_design.columns %}
-					<div class="sgg-library-column library-draggable {% if column.slug in view_objects.smartgrid_design.smart_grid_categories %}hidden{% endif %}"
+					<div class="sgg-library-column library-draggable {% if column.slug in view_objects.smartgrid_design.designer_columns %}hidden{% endif %}"
 						 data-pk="{{column.pk}}" data-slug="{{column.slug}}">
 						<a class="sgg-column-link" href="/challenge_setting_admin/smartgrid_library/librarycolumnname/{{column.pk}}/">{{column}}</a>
 					</div>
@@ -101,20 +207,22 @@
 					</div>
 				</div>
 				<div class="left">
-					<form id="revert-form" action="{% url revert_to_grid %}" method="post">
+					{% if view_objects.smartgrid_design.draft %}
+					<form id="revert-form" action="{% url revert_to_grid view_objects.smartgrid_design.draft.slug %}" method="post">
    		    	  		{% csrf_token %} {{ view_objects.smartgrid_design.reset_form.as_p }}
        		  			<input class="btn btn-widget" rel="tooltip" 
 							title="Deletes all changes made in the designer and loads the current Smart Grid Game." 
 							type="submit" value="Revert to current Smart Grid Game" /> 
 		        	</form> 
+		        	{% endif %}
 		        </div>
 				<div class="right">
-					<form id="publish-form" action="{% url publish_to_grid %}" method="post">
-   	    		  		{% csrf_token %} Use Fillers: {{ view_objects.smartgrid_design.publish_form.use_filler }}
-       	  				<input id="designer-publish" class="btn btn-widget" rel="tooltip" 
-							title="Publish changes made in the designer to the Smart Grid Game."
-							type="submit" value="Publish changes to Smart Grid Game" /> 
-			        </form> 			
+					{% if view_objects.smartgrid_design.draft %}
+					<a id="publish-check" href="#" class="btn btn-widget" onclick="tryToPublish();return false;" 
+					style="margin: 4px 2px 4px 2px;padding: 4px 2px 4px 2px;"
+					rel="tooltip"
+					title="This will run the Grid Consistency Checks before publishing.">Publish Draft ({{view_objects.smartgrid_design.draft}})</a>
+			        {% endif %} 			
 		        </div>	
 				<div id="designer_levels" class="tabbable tabs-left">
 					<!-- Tabs for the levels -->
@@ -125,7 +233,7 @@
 								<li><a href="#" class="sgg-action" onclick="addLevelDialog();return false;">Add new level</a>
 								<li><a href="#" class="sgg-action" onclick="deleteLevelDialog(event, '{{level.name}}', '{{level.slug}}');return false;">Delete {{level}}</a>
 							</ul>
-						</div> 
+						</div>
 						{% if forloop.counter == 1 %}
 						<li id="level-tab-{{forloop.counter}}" class="active">
 						{% else %}
@@ -182,7 +290,91 @@ $(document).click(function() {
 			</div>
 		</div>
 		<div class="row-fluid">
-			<div class="span3">
+			<div class="span6">
+				<div class="content-box">
+					<div class="content-box-title">Grid Consistency Checker:
+						<a class="widget-help" href="#">
+				   			<img src="{{ STATIC_URL}}images/icons/icon-help-sm.png" width="20" align="center"
+        						 title="Click to get help about this window"
+                				 onclick="toggleHelp(event, 'widget', 'smart-grid-unlock-check'); return false;"/>
+                		</a>					
+					</div>
+					<div class="content-box-contents">
+						<p></p>
+						<a href="#" onclick="runDesignerLint();return false;">
+							<div class="btn btn-widget" rel="tooltip" 
+								title="Runs consistency checker on the Designer Grid Actions.">Re-Run Grid Consistency Checker</div>
+						</a>
+						<a href="#" onclick="changeSettings();return false;">
+							<div class="btn btn-widget" rel="tooltip" 
+								title="Change the Grid Consistency Checker's settings.">
+								<img src="{{ STATIC_URL }}images/Settings-32.png" width=20 align="center"/>
+								Settings</div>
+						</a>
+						<div id="designer-lint">
+						{% with errors=view_objects.smartgrid_design.errors %}
+						{% with warnings=view_objects.smartgrid_design.warnings %}
+							<div id="error-title" class="lint-title">{% if errors %}
+								<b>Error Summary: {{errors|length}} error{% if errors|length > 1 or errors|length == 0 %}s{% endif %}</b>{% endif %}
+							</div>
+							<div id="lint-errors" class="lint-body">
+								<ul>
+								{% for error in errors %}
+									<li><b>{{error|safe}}</b></li>
+								{% endfor %}
+								</ul>
+							</div>
+							<div id="warning-title" class="lint_title">
+							{% if warnings %}
+								<b>Warning Summary: {{warnings|length}} warning{% if warnings|length > 1 or warnings|length == 0 %}s{% endif %}</b>
+							{% else %}
+								<b>No Warnings.</b>
+							{% endif %}
+							</div>
+								<button id="hideWarnings" class="btn btn-widget">Hide Warning Details</button>
+<script> 
+$("#hideWarnings").click(function () {
+$("#lint-warnings").toggle();
+if ($('#hideWarnings').text() == 'Hide Warning Details') {
+	$('#hideWarnings').text('Show Warning Details');
+} else {
+	$('#hideWarnings').text('Hide Warning Details');	
+}
+});
+</script>							
+							<div id="lint-warnings" class="lint-body">
+								<ul>
+								{% for warning in warnings %}
+									<li><b>{{warning|safe}}</b></li>
+								{% endfor %}
+								</ul>							
+							</div>
+						{% endwith %}
+						{% endwith %}
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="span6">
+				<div class="content-box">
+					<div class="content-box-title">Action Dependency Trees</div>
+					<div class="content-box-contents">
+						<div id="designer-lint" class="lint-tall-body">
+						{% with trees=view_objects.smartgrid_design.trees %}			
+							<div id="dependency-trees">
+							{% for tree in trees %}
+								{{tree|safe}}
+								<p></p>
+							{% endfor %}
+							</div>
+						{% endwith %}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row-fluid">
+			<div class="span6">
 				<div class="content-box">
 					<div class="content-box-title">Differences between Designer and Grid:
 						<a class="widget-help" href="#">
@@ -201,49 +393,64 @@ $(document).click(function() {
 					</div>
 				</div>
 			</div>		
-			<div class="span6">
-				<div class="content-box">
-					<div class="content-box-title">Unlock Condition Checker:
-						<a class="widget-help" href="#">
-				   			<img src="{{ STATIC_URL}}images/icons/icon-help-sm.png" width="20" align="center"
-        						 title="Click to get help about this window"
-                				 onclick="toggleHelp(event, 'widget', 'smart-grid-unlock-check'); return false;"/>
-                		</a>					
-					</div>
-					<div class="content-box-contents">
-						<p></p>
-						<a href="#" onclick="runDesignerLint();return false;">
-							<div class="btn btn-widget" rel="tooltip" 
-								title="Runs unlock condition checker on the Designer Grid Actions.">Run Unlock Condition Checker</div>
-						</a>
-						<div id="designer-lint"></div>
-					</div>
-				</div>
-			</div>
-			<div class="span3">
-				<div class="content-box">
-					<div class="content-box-title">Load Example Grids:
-						<a class="widget-help" href="#">
-				   			<img src="{{ STATIC_URL}}images/icons/icon-help-sm.png" width="20" align="center"
-        						 title="Click to get help about this window"
-                				 onclick="toggleHelp(event, 'widget', 'smart-grid-load-example'); return false;"/>
-                		</a>					
-					</div>
-					<div class="content-box-contents">
-						Choose an example grid from the choices below.
-		        		<form id="example-grid-form" action="{% url load_example_grid %}" method="post">
-	    	    			{% csrf_token %} {{ view_objects.smartgrid_design.example_grid_form.as_p }}
-          					<input class="btn btn-widget" rel="tooltip" 
-								title="Load example grid into the designer."
-								type="submit" value="Load Example Grid" /> 		        	
-	    	    		</form>
-	        		</div>
-	        	</div>
-			</div>
 		</div>
 	</div>
 </div>
 
+<div class="modal hide fade" id="loadFirstTemplateModal">
+    <div class="modal-header">
+        <a class="close" data-dismiss="modal">x</a>
+        <h3>First Draft</h3>
+    </div>
+    <div class="modal-body" id="modal-body">
+		Choose an example template from the choices below.
+		<form id="load-template-form" action="{% url load_first_template %}" method="post">
+	    	{% csrf_token %} {{ view_objects.smartgrid_design.load_template_form.as_p }}
+        	<input class="btn btn-widget" rel="tooltip" 
+        		title="Load example template into the designer."
+				type="submit" value="Create New Draft" /> 		        	
+		</form>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn btn-widget" data-dismiss="modal">Close</a>
+    </div>
+</div>
+<div class="modal hide fade" id="loadTemplateModal">
+    <div class="modal-header">
+        <a class="close" data-dismiss="modal">x</a>
+        <h3>New Draft</h3>
+    </div>
+    <div class="modal-body" id="modal-body">
+		Choose an example template from the choices below.
+		<form id="load-template-form" action="{% url load_template %}" method="post">
+	    	{% csrf_token %} {{ view_objects.smartgrid_design.load_template_form.as_p }}
+        	<input class="btn btn-widget" rel="tooltip" 
+        		title="Load example template into the designer."
+				type="submit" value="Create New Draft" /> 		        	
+		</form>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn btn-widget" data-dismiss="modal">Close</a>
+    </div>
+</div>
+<div class="modal hide fade" id="gccSettingsModal">
+    <div class="modal-header">
+        <a class="close" data-dismiss="modal">x</a>
+        <h3>Grid Consistency Checker Settings</h3>
+    </div>
+    <div class="modal-body" id="modal-body">
+		Choose an example template from the choices below.
+		<form id="load-template-form" action="{% url change_settings view_objects.smartgrid_design.draft.slug %}" method="post">
+	    	{% csrf_token %} {{ view_objects.smartgrid_design.gcc_settings_form.as_p }}
+        	<input class="btn btn-widget" rel="tooltip" 
+        		title="Change the Grid Consistency Checker Settings."
+				type="submit" value="Change Settings" /> 		        	
+		</form>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn btn-widget" data-dismiss="modal">Close</a>
+    </div>
+</div>
 <div class="modal hide fade" id="levelAddModal">
     <div class="modal-header">
         <a class="close" data-dismiss="modal">x</a>
@@ -251,11 +458,13 @@ $(document).click(function() {
     </div>
     <div class="modal-body" id="modal-body">
         <p>
-        	<form id="addLevelForm" action="{% url add_designer_level %}" method="post">
+        	{% if view_objects.smartgrid_design.draft %}
+        	<form id="addLevelForm" action="{% url add_designer_level view_objects.smartgrid_design.draft.slug %}" method="post">
 				{% csrf_token %} {{ view_objects.smartgrid_design.add_level_form.as_p }}
 				<input class="btn btn-widget" rel="tooltip" title="Create a new DesignerLevel with the given name."
 					type="submit" value="Add Level" />
 			</form>
+			{% endif %}
         </p>
     </div>
     <div class="modal-footer">
@@ -269,19 +478,20 @@ $(document).click(function() {
     </div>
     <div class="modal-body" id="modal-body">
         <p><div id="levelName"></div>
-   			<form id='delete-level-form' action="{% url delete_designer_level %}" method="post">
+        	{% if view_objects.smartgrid_design.draft %}
+   			<form id='delete-level-form' action="{% url delete_designer_level view_objects.smartgrid_design.draft.slug %}" method="post">
 				{% csrf_token %} {{view_objects.smartgrid_design.delete_level_form.as_p }}
 				<input class="btn btn-widget" rel="tooltip" title="Delete this level moving all actions to the palette."
 					type="submit" value="Yes" />
 		        <a href="#" class="btn btn-widget" data-dismiss="modal">No</a>
-			</form>        
+			</form>
+			{% endif %}        
         </p>
     </div>
     <div class="modal-footer">
         <a href="#" class="btn btn-widget" data-dismiss="modal">Cancel</a>
     </div>
 </div>
-
 <div class="modal hide fade" id="eventDateChooser">
     <div class="modal-header">
         <a class="close" data-dismiss="modal">x</a>
@@ -289,23 +499,78 @@ $(document).click(function() {
     </div>
     <div class="modal-body" id="modal-body">	
     	<div id="eventName"></div>
-    	<form id='set-event-date-form' action="{% url set_designer_event_date %}" method="post">
+       	{% if view_objects.smartgrid_design.draft %}
+    	<form id='set-event-date-form' action="{% url set_designer_event_date view_objects.smartgrid_design.draft.slug %}" method="post">
     		{% csrf_token %}{{view_objects.smartgrid_design.event_date_form.as_p}}
 			<input class="btn btn-widget" rel="tooltip" title="Set the event's date."
 					type="submit" value="Set Date" />
 		        <a href="#" class="btn btn-widget" data-dismiss="modal">Cancel</a>
     	</form>
+    	{% endif %}
     </div>
     <div class="modal-footer">
         <a href="#" class="btn btn-widget" data-dismiss="modal">Cancel</a>
     </div>
 </div>
+<div class="modal hide fade" id="newDraftName">
+	<div class="modal-header">
+        <a class="close" data-dismiss="modal">x</a>
+        <h3>Enter New Draft Name</h3>
+	</div>
+	<div class="modal-body">
+	<form id='new-draft-name-form' action="{% url new_draft %}" method="post">
+		{% csrf_token %}{{view_objects.smartgrid_design.new_draft_form.as_p}}
+			<input class="btn btn-widget" rel="tooltip" title="Set the new draft's name."
+					type="submit" value="Set Draft Name" />
+		    <a href="#" class="btn btn-widget" data-dismiss="modal">Cancel</a>		
+	</form>
+	</div>
+    <div class="modal-footer">
+        <a href="#" class="btn btn-widget" data-dismiss="modal">Cancel</a>
+    </div>
+</div>
+
+<div class="modal hide fade" id="publishGridModal">
+	<div class="modal-header">
+        <a class="close" data-dismiss="modal">x</a>
+        <h3>Publish Draft to Smart Grid Game</h3>
+	</div>
+	<div class="modal-body">
+		<div id="publish-warnings"></div>
+		<form id="publish-form" action="{% url publish_to_grid view_objects.smartgrid_design.draft.slug %}" method="post">
+	  		{% csrf_token %} Use Fillers: {{ view_objects.smartgrid_design.publish_form.use_filler }}
+			<input class="btn btn-widget" rel="tooltip" 
+				title="Publish changes made in the designer to the Smart Grid Game."
+				type="submit" value="Publish changes to Smart Grid Game" /> 
+		    <a href="#" class="btn btn-widget" data-dismiss="modal">Cancel</a>		
+	</form>
+	</div>
+</div>
+
+<div class="modal hide fade" id="publishGridErrorModal">
+	<div class="modal-header">
+        <a class="close" data-dismiss="modal">x</a>
+        <div class="left"><i class="icon-warning-sign"></i></div>
+        <h3>Can't Publish Draft!</h3>
+	</div>
+	<div class="modal-body">
+		Please fix the following errors before trying to publish this Draft.
+		<div id="publish-errors"></div>
+	    <a href="#" class="btn btn-widget" data-dismiss="modal">Cancel</a>		
+	</div>
+</div>
 
 <script type="text/javascript">
 	$(init);
-
+	var currentDraft = "{{view_objects.smartgrid_design.draft.slug}}";
 	var numFiller = {{view_objects.smartgrid_design.fillers|length}};
-		
+	
+    $(document).ready(function () {
+		var numDrafts = {{view_objects.smartgrid_design.draft_choices|length}}
+		if (numDrafts == 0) {
+			loadFirstTemplate();
+		}
+    });
 	// See sggDesigner.js for most of the functionality.
 	function init() {
 		$('.draggable').draggable({
@@ -382,6 +647,26 @@ $(document).click(function() {
 		})
 	}
 	
+	function switchDraft() {
+		var choices = document.getElementById('draft_choices');
+		var draftChoice = choices.options[choices.selectedIndex].value
+		if (currentDraft != draftChoice) {
+			window.location.href = "/sgg_designer/?draft=" + draftChoice;
+		}
+	}
+	
+	function newDraftDialog(event) {
+		var modalElement = $('#newDraftName')
+        modalElement.modal({
+            backdrop: true,
+            keyboard: true,
+            show: false
+        }); 
+        modalElement.css('margin-top', (modalElement.outerHeight() / 2) * -1);
+        modalElement.modal('show');		
+		
+	}
+
 	function addLevelDialog(event) {
         var modalElement = $('#levelAddModal');
         
@@ -394,6 +679,41 @@ $(document).click(function() {
         modalElement.modal('show');		
 	}
 
+	function changeSettings(event) {
+		var modalElement = $('#gccSettingsModal');	
+        modalElement.modal({
+            backdrop: true,
+            keyboard: true,
+            show: false
+        }); 
+        modalElement.css('margin-top', (modalElement.outerHeight() / 2) * -1);
+        modalElement.modal('show');		
+	}
+	
+	function loadFirstTemplate(event) {
+        var modalElement = $('#loadFirstTemplateModal');
+        
+        modalElement.modal({
+            backdrop: true,
+            keyboard: true,
+            show: false
+        }); 
+        modalElement.css('margin-top', (modalElement.outerHeight() / 2) * -1);
+        modalElement.modal('show');						
+	}
+	
+	function loadTemplate(event) {
+        var modalElement = $('#loadTemplateModal');
+        
+        modalElement.modal({
+            backdrop: true,
+            keyboard: true,
+            show: false
+        }); 
+        modalElement.css('margin-top', (modalElement.outerHeight() / 2) * -1);
+        modalElement.modal('show');				
+	}
+	
 	function deleteLevelDialog(event, levelName, levelSlug) {
 		var modalElement = $('#levelDeleteModal');
 		var text = "Are you sure you want to delete " + levelName + "?";

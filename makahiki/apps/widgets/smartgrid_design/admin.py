@@ -15,15 +15,32 @@ from django.db.utils import IntegrityError
 from apps.admin.admin import challenge_designer_site, challenge_manager_site, developer_site
 from apps.widgets.smartgrid_design.models import DesignerAction, DesignerActivity, \
     DesignerTextPromptQuestion, DesignerCommitment, DesignerEvent, DesignerFiller, \
-    DesignerColumnName, DesignerLevel, DesignerQuestionChoice
+    DesignerColumnName, DesignerLevel, DesignerQuestionChoice, Draft
+from django.http import HttpResponseRedirect
+
+
+class DesignerDraftAdmin(admin.ModelAdmin):
+    """Admin for Drafts."""
+    list_display = ["name", ]
+    prepopulated_fields = {"slug": ("name",)}
+
+
+admin.site.register(Draft, DesignerDraftAdmin)
+challenge_designer_site.register(Draft, DesignerDraftAdmin)
+challenge_manager_site.register(Draft, DesignerDraftAdmin)
+developer_site.register(Draft, DesignerDraftAdmin)
+challenge_mgr.register_designer_challenge_info_model("Smart Grid Game Designer", 5, \
+                                                     Draft, 1)
+challenge_mgr.register_developer_challenge_info_model("Smart Grid Game Designer", 4, \
+                                                      Draft, 1)
 
 
 class DesignerActionAdmin(admin.ModelAdmin):
     """abstract admin for action."""
     actions = ["delete_selected", "copy_action"]
-    list_display = ["slug", "title", "type", "point_value"]
-    search_fields = ["slug", "title"]
-    list_filter = ['type', ]
+    list_display = ["draft", "slug", "title", "type", "point_value"]
+    search_fields = ["draft", "slug", "title"]
+    list_filter = ['draft', 'type', ]
 
     def delete_selected(self, request, queryset):
         """override the delete selected."""
@@ -226,6 +243,16 @@ class DesignerActivityAdmin(admin.ModelAdmin):
     def get_urls(self):
         return redirect_urls(self, "changelist")
 
+    def response_change(self, request, obj):
+        """This makes the response go to the newly created model's change page
+        without using reverse"""
+        return HttpResponseRedirect("/sgg_designer/?draft=%s" % obj.draft.slug)
+
+    def response_add(self, request, obj, post_url_continue=None):
+        """This makes the response go to the newly created model's change page
+        without using reverse"""
+        return HttpResponseRedirect("/sgg_designer/?draft=%s" % obj.draft.slug)
+
 
 admin.site.register(DesignerActivity, DesignerActivityAdmin)
 challenge_designer_site.register(DesignerActivity, DesignerActivityAdmin)
@@ -278,6 +305,16 @@ class DesignerCommitmentAdmin(admin.ModelAdmin):
     def get_urls(self):
         """override the url definition."""
         return redirect_urls(self, "changelist")
+
+    def response_change(self, request, obj):
+        """This makes the response go to the newly created model's change page
+        without using reverse"""
+        return HttpResponseRedirect("/sgg_designer/?draft=%s" % obj.draft.slug)
+
+    def response_add(self, request, obj, post_url_continue=None):
+        """This makes the response go to the newly created model's change page
+        without using reverse"""
+        return HttpResponseRedirect("/sgg_designer/?draft=%s" % obj.draft.slug)
 
 
 admin.site.register(DesignerCommitment, DesignerCommitmentAdmin)
@@ -364,6 +401,16 @@ class DesignerEventAdmin(admin.ModelAdmin):
     def get_urls(self):
         return redirect_urls(self, "changelist")
 
+    def response_change(self, request, obj):
+        """This makes the response go to the newly created model's change page
+        without using reverse"""
+        return HttpResponseRedirect("/sgg_designer/?draft=%s" % obj.draft.slug)
+
+    def response_add(self, request, obj, post_url_continue=None):
+        """This makes the response go to the newly created model's change page
+        without using reverse"""
+        return HttpResponseRedirect("/sgg_designer/?draft=%s" % obj.draft.slug)
+
 
 admin.site.register(DesignerEvent, DesignerEventAdmin)
 challenge_designer_site.register(DesignerEvent, DesignerEventAdmin)
@@ -411,6 +458,16 @@ class DesignerFillerAdmin(admin.ModelAdmin):
         """override the url definition."""
         return redirect_urls(self, "changelist")
 
+    def response_change(self, request, obj):
+        """This makes the response go to the newly created model's change page
+        without using reverse"""
+        return HttpResponseRedirect("/sgg_designer/?draft=%s" % obj.draft.slug)
+
+    def response_add(self, request, obj, post_url_continue=None):
+        """This makes the response go to the newly created model's change page
+        without using reverse"""
+        return HttpResponseRedirect("/sgg_designer/?draft=%s" % obj.draft.slug)
+
 
 admin.site.register(DesignerFiller, DesignerFillerAdmin)
 challenge_designer_site.register(DesignerFiller, DesignerFillerAdmin)
@@ -422,6 +479,17 @@ class DesignerColumnNameAdmin(admin.ModelAdmin):
     """DesignerColumnName Administration"""
     list_display = ["name", ]
     prepopulated_fields = {"slug": ("name",)}
+
+    def response_change(self, request, obj):
+        """This makes the response go to the newly created model's change page
+        without using reverse"""
+        return HttpResponseRedirect("/sgg_designer/?draft=%s" % obj.draft.slug)
+
+    def response_add(self, request, obj, post_url_continue=None):
+        """This makes the response go to the newly created model's change page
+        without using reverse"""
+        return HttpResponseRedirect("/sgg_designer/?draft=%s" % obj.draft.slug)
+
 
 admin.site.register(DesignerColumnName, DesignerColumnNameAdmin)
 challenge_designer_site.register(DesignerColumnName, DesignerColumnNameAdmin)
@@ -447,6 +515,16 @@ class DesignerLevelAdmin(admin.ModelAdmin):
     list_display = ["name", "priority", "unlock_condition"]
     form = DesignerLevelAdminForm
     prepopulated_fields = {"slug": ("name",)}
+
+    def response_change(self, request, obj):
+        """This makes the response go to the newly created model's change page
+        without using reverse"""
+        return HttpResponseRedirect("/sgg_designer/?draft=%s" % obj.draft.slug)
+
+    def response_add(self, request, obj, post_url_continue=None):
+        """This makes the response go to the newly created model's change page
+        without using reverse"""
+        return HttpResponseRedirect("/sgg_designer/?draft=%s" % obj.draft.slug)
 
 
 admin.site.register(DesignerLevel, DesignerLevelAdmin)

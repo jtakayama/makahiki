@@ -19,7 +19,7 @@ class RafflePrizesTestCase(TransactionTestCase):
         """Set up rounds, team, and a user."""
         # Set up rounds.
 
-        test_utils.set_two_rounds()
+        test_utils.set_three_rounds()
 
         # Set up user
         self.user = test_utils.setup_user(username="user", password="changeme")
