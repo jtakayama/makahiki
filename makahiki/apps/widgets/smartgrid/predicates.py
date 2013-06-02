@@ -11,6 +11,27 @@ def submitted_action(user, slug):
     return slug in smartgrid.get_submitted_actions(user)
 
 
+def submitted_all_of_level(user, level_name):
+    """Returns True if the user has submitted all Actions on the given level."""
+    count = Action.objects.filter(level__name=level_name).count()
+    return not count and \
+           user.actionmember_set.filter(action__level__name=level_name).count() == count
+
+
+def submitted_all_of_resource(user, resource):
+    """Returns true if user has submitted all Actions of the given resoruce."""
+    count = Action.objects.filter(related_resource=resource).count()
+    return not count and \
+           user.actionmember_set.filter(action__related_resource=resource).count() == count
+
+
+def submitted_all_of_type(user, action_type):
+    """Returns true if user has submitted all Actions of the given action_type."""
+    count = Action.objects.filter(type=action_type).count()
+    return not count and \
+           user.actionmember_set.filter(action__type=action_type).count() == count
+
+
 def submitted_all_of(user, category_slug=None, action_type=None, resource=None, level_name=None):
     """Returns true if completed all of the specified type."""
 
@@ -38,17 +59,30 @@ def submitted_all_of(user, category_slug=None, action_type=None, resource=None, 
     return not count and user.actionmember_set.all().count() == count
 
 
-def submitted_some_of_level(user, some=1, level_name=None):
+def submitted_some_of_level(user, count=1, level_name):
     """Returns true if completed some of the specified level."""
-    return submitted_some_of(user, some=some, level_name=level_name)
+    c = 0
+    for action in Grid.objects.filter(level__name=level_name):
+        c += user.actionmember_set.filter(action=action).count()
+    return c >= count
 
 
-def submitted_some_full_spectrum(user, some=1):
+def submitted_some_of_resource(user, count=1, resource):
+    """Returns True if user has submitted count Actions with the given resource."""
+    return user.actionmember_set.filter(action__related_resource=resource).count() >= count
+
+
+def submitted_some_of_type(user, count=1, action_type):
+    """Returns True if user has submitted count Actions with the given action_type."""
+    return user.actionmember_set.filter(action__type=action_type).count() >= count
+
+
+def submitted_some_full_spectrum(user, count=1):
     """Returns true if the user has completed some activities, commitments, and
     events."""
-    ret = submitted_some_of(user, some=some, action_type='activity')
-    ret = ret and submitted_some_of(user, some=some, action_type='commitment')
-    ret = ret and submitted_some_of(user, some=some, action_type='event')
+    ret = submitted_some_of_type(user, count=count, action_type='activity')
+    ret = ret and submitted_some_of_type(user, count=count, action_type='commitment')
+    ret = ret and submitted_some_of_type(user, count=count, action_type='event')
     return ret
 
 
@@ -74,7 +108,7 @@ def submitted_some_of(user, some=1, category_slug=None, action_type=None, resour
     return user.actionmember_set.all().count() >= some
 
 
-def completed_level(user, lvl=1):
+def completed_level(user, level_name):
     """Returns true if the user has performed all activities successfully, and
       attempted all commitments."""
 #    num_completed = user.actionmember_set.filter(
@@ -84,7 +118,7 @@ def completed_level(user, lvl=1):
     num_completed = 0
     level_actions = Grid.objects.filter(
         Q(action__type='activity') | Q(action__type='commitment'),
-        level__priority=lvl)
+        level__name=level_name)
     for grid in level_actions:
         actionmember = user.actionmember_set.filter(action=grid.action)
         if actionmember:
@@ -130,6 +164,27 @@ def unlock_on_event(user, event_slug, days=0, lock_after_days=0):
 def approved_action(user, slug):
     """Returns true if the action is approved."""
     return user.actionmember_set.filter(action__slug=slug, approval_status="approved").count() > 0
+
+
+def approved_some_of_level(user, count=1, level_name):
+    """Returns True if the user has had count Actions approved for the given level."""
+    c = 0
+    for action in Grid.objects.filter(level__name=level_name):
+        c += user.actionmember_set.filter(action=action,
+                                          approval_status="approved").count()
+    return c >= count
+
+
+def approved_some_of_resource(user, count=1, resource):
+    """Returns true of the user has had count Actions approved with the given resource."""
+    return user.actionmember_set.filter(action__related_resource=resource,
+                                        approval_status="approved").count() >= count
+
+
+def approved_some_of_type(user, count=1, action_type):
+    """Returns true if the user has had count Actions approved with the given action_type."""
+    return user.actionmember_set.filter(action__type=action_type,
+                                        approval_status="approved").count() >= count
 
 
 def approved_some_of(user, some=1, category_slug=None, action_type=None, resource=None,

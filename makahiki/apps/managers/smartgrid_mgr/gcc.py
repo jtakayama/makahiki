@@ -84,16 +84,20 @@ def __check_predicates(action):
     unlock_condition = action.unlock_condition
     valid_predicates = utils.get_defined_predicates()
     if unlock_condition:
-        pat = re.compile(r'([^(]+)\s*\(([^)]+)\)\s*')
-        for pred, params in pat.findall(unlock_condition):
-            _ = params
-            for token in pred.split():
-                if __is_boolean_logic(token):
-                    pass
-                else:
-                    if token not in valid_predicates.keys():
-                        message = "%s is not a defined Makahiki predicate" % token
-                        ret.append(Error(message=message, action=action))
+        no_pred = re.compile(r'^(\s*[^(]+\s*)$')
+        if len(no_pred.findall(unlock_condition)) == 0:
+            pass
+        else:
+            pat = re.compile(r'([^(]+)\s*\(([^)]+)\)\s*')
+            for pred, params in pat.findall(unlock_condition):
+                _ = params
+                for token in pred.split():
+                    if __is_boolean_logic(token):
+                        pass
+                    else:
+                        if token not in valid_predicates.keys():
+                            message = "%s is not a defined Makahiki predicate" % token
+                            ret.append(Error(message=message, action=action))
     return ret
 
 
