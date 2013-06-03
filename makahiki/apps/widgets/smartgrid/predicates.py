@@ -3,7 +3,7 @@
 from datetime import datetime, timedelta
 from django.db.models.query_utils import Q
 from apps.widgets.smartgrid import smartgrid
-from apps.widgets.smartgrid.models import Action, Event, Grid, ColumnGrid
+from apps.widgets.smartgrid.models import Action, Event, Grid
 
 
 def approved_action(user, slug):
@@ -128,28 +128,6 @@ def submitted_some_full_spectrum(user, count=1):
     return ret
 
 
-def submitted_some_of(user, some=1, category_slug=None, action_type=None, resource=None,
-                      level_name=None):
-    """Returns true if completed some of the specified type.
-    some is default to 1 if not specified."""
-    if category_slug:
-        return user.actionmember_set.filter(action__category__slug=category_slug).count() >= some
-
-    if action_type:
-        return user.actionmember_set.filter(action__type=action_type).count() >= some
-
-    if resource:
-        return user.actionmember_set.filter(action__related_resource=resource).count() >= some
-
-    if level_name:
-        count = 0
-        for action in Grid.objects.filter(level__name=level_name):
-            count += user.actionmember_set.filter(action=action).count()
-        return count >= some
-
-    return user.actionmember_set.all().count() >= some
-
-
 def completed_level(user, level_name):
     """Returns true if the user has had all Activities and Commiments on the give level
     approved."""
@@ -218,87 +196,3 @@ def unlock_on_event(user, event_slug, days=0, lock_after_days=0):
 def social_bonus_count(user, count):
     """Returns True if the number of social bonus the user received equals to count."""
     return user.actionmember_set.filter(social_bonus_awarded=True).count() >= count
-
-
-def approved_some_of(user, some=1, category_slug=None, action_type=None, resource=None,
-                     level_name=None):
-    """Returns true if some actions of the specified type is approved."""
-
-    if category_slug:
-        count = 0
-        for cat in ColumnGrid.objects.filter(name__slug=category_slug):
-            for grid in Grid.objects.filter(level=cat.level, column=cat.column):
-                count += user.actionmember_set.filter(action=grid.action,
-                                                      approval_status="approved").count()
-        return count >= some
-
-    if action_type:
-        return user.actionmember_set.filter(action__type=action_type,
-                                            approval_status="approved").count() >= some
-
-    if resource:
-        return user.actionmember_set.filter(action__related_resource=resource,
-                                            approval_status="approved").count() >= some
-
-    if level_name:
-        count = 0
-        for action in Grid.objects.filter(level__name=level_name):
-            count += user.actionmember_set.filter(action=action,
-                                                  approval_status="approved").count()
-        return count >= some
-
-    return user.actionmember_set.filter(approval_status="approved").count() >= some
-
-
-def approved_all_of(user, category_slug=None, action_type=None, resource=None, level_name=None):
-    """Returns true if all actions of the specified type is approved."""
-
-    if category_slug:
-        count = Action.objects.filter(category__slug=category_slug).count()
-        return not count and user.actionmember_set.filter(action__category__slug=category_slug,
-                                            approval_status="approved").count() == count
-
-    if action_type:
-        count = Action.objects.filter(type=action_type).count()
-        return not count and user.actionmember_set.filter(action__type=action_type,
-                                            approval_status="approved").count() == count
-
-    if resource:
-        count = Action.objects.filter(related_resource=resource).count()
-        return not count and user.actionmember_set.filter(action__related_resource=resource,
-                                            approval_status="approved").count() == count
-
-    if level_name:
-        count = Action.objects.filter(level__name=level_name).count()
-        return not count and user.actionmember_set.filter(action__level__name=level_name,
-                                            approval_status="approved").count() == count
-
-    count = Action.objects.all().count()
-    return not count and user.actionmember_set.filter(approval_status="approved").count() == count
-
-
-def submitted_all_of(user, category_slug=None, action_type=None, resource=None, level_name=None):
-    """Returns true if completed all of the specified type."""
-
-    if category_slug:
-        count = Action.objects.filter(category__slug=category_slug).count()
-        return not count and \
-               user.actionmember_set.filter(action__category__slug=category_slug).count() == count
-
-    if action_type:
-        count = Action.objects.filter(type=action_type).count()
-        return not count and \
-               user.actionmember_set.filter(action__type=action_type).count() == count
-
-    if resource:
-        count = Action.objects.filter(related_resource=resource).count()
-        return not count and \
-               user.actionmember_set.filter(action__related_resource=resource).count() == count
-
-    if level_name:
-        count = Action.objects.filter(level__name=level_name).count()
-        return not count and \
-               user.actionmember_set.filter(action__level__name=level_name).count() == count
-
-    count = Action.objects.all().count()
-    return not count and user.actionmember_set.all().count() == count

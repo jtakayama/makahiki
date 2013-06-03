@@ -10,6 +10,7 @@ from apps.managers.team_mgr.models import Team, Group
 from apps.widgets.prizes.models import Prize
 from apps.widgets.quests.models import Quest
 from apps.widgets.smartgrid.models import Event, Activity, Commitment
+from apps.widgets.smartgrid_design.models import DesignerEvent, DesignerCommitment, DesignerActivity
 
 
 def setup_superuser(username, password):
@@ -129,6 +130,71 @@ def create_event(slug=None, unlock_condition=None):
     )
 
 
+def create_designer_activity(slug=None, unlock_condition=None, draft=None):
+    """create test activity"""
+    if not slug:
+        slug = "test-activity"
+    if not unlock_condition:
+        unlock_condition = "True"
+
+    return DesignerActivity.objects.create(
+        title="Test activity",
+        slug=slug,
+        draft=draft,
+        description="Testing!",
+        expected_duration=10,
+        point_value=10,
+        pub_date=datetime.datetime.today(),
+        expire_date=datetime.datetime.today() + datetime.timedelta(days=7),
+        unlock_condition=unlock_condition,
+        confirm_type="text",
+        type="activity",
+    )
+
+
+def create_designer_commitment(slug=None, unlock_condition=None, draft=None):
+    """create test commiment"""
+    if not slug:
+        slug = "test-commitment"
+    if not unlock_condition:
+        unlock_condition = "True"
+
+    return DesignerCommitment.objects.create(
+        title="Test commitment",
+        slug=slug,
+        draft=draft,
+        description="Testing",
+        commitment_length=5,
+        point_value=10,
+        pub_date=datetime.datetime.today(),
+        expire_date=datetime.datetime.today() + datetime.timedelta(days=7),
+        unlock_condition=unlock_condition,
+        type="commitment",
+    )
+
+
+def create_designer_event(slug=None, unlock_condition=None, draft=None):
+    """create test activity"""
+    if not slug:
+        slug = "test-event"
+    if not unlock_condition:
+        unlock_condition = "True"
+
+    return DesignerEvent.objects.create(
+        title="Test event",
+        description="Testing!",
+        draft=draft,
+        slug=slug,
+        expected_duration=10,
+        point_value=10,
+        pub_date=datetime.datetime.today(),
+        expire_date=datetime.datetime.today() + datetime.timedelta(days=7),
+        event_date=datetime.datetime.today() + datetime.timedelta(days=1),
+        unlock_condition=unlock_condition,
+        type="event",
+    )
+
+
 def create_teams(testcase):
     """Create test groups, teams, and users."""
     testcase.groups = [Group(name="Test Group %d" % i) for i in range(0, 2)]
@@ -193,7 +259,7 @@ def create_quest(completion_conditions):
     return quest
 
 
-def enalbe_game(name):
+def enable_game(name):
     """enable a game or game mechanics."""
     GameInfo.objects.get_or_create(name=name)
 
