@@ -98,18 +98,19 @@ def __is_level_name_predicate(predicate_fn):
 def get_choices(predicate_str, draft):
     """Returns the choices for the predicate_str."""
     preds = utils.get_defined_predicates()
+    ret = []
     try:
         pred = preds[predicate_str]
         if __is_action_slug_predicate(pred):
-            return __get_action_slugs(draft=draft)
+            ret = __get_action_slugs(draft=draft)
         if __is_event_slug_predicate(pred):
-            return __get_event_slugs(draft=draft)
+            ret = __get_event_slugs(draft=draft)
         if __is_resource_predicate(pred):
-            return __get_resources()
+            ret = __get_resources()
         if __is_action_type_predicate(pred):
-            return __get_action_types()
+            ret = __get_action_types()
         if __is_level_name_predicate(pred):
-            return __get_level_names(draft=draft)
+            ret = __get_level_names(draft=draft)
     except KeyError:
-        return []
-    return []
+        pass
+    return ret
