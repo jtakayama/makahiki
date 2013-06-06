@@ -131,7 +131,7 @@ class ProfileUnitTests(TransactionTestCase):
             password="changeme")
         user2.save()
 
-        test_utils.enalbe_game("Referral Game Mechanics")
+        test_utils.enable_game("Referral Game Mechanics")
 
         profile1 = user1.get_profile()
         profile1.setup_profile = True
@@ -176,7 +176,7 @@ class ProfileUnitTests(TransactionTestCase):
             password="changeme")
         user2.save()
 
-        test_utils.enalbe_game("Referral Game Mechanics")
+        test_utils.enable_game("Referral Game Mechanics")
 
         profile1 = user1.get_profile()
         profile1.setup_profile = True

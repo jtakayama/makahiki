@@ -1,0 +1,21 @@
+{% load sgg_design_tags %}
+<script src="{{STATIC_URL}}js/jquery-ui-timepicker-addon.js"></script>
+
+<div class="content-box">
+	<div class="content-box-title">Smart Grid Game Designer ({{ view_objects.smartgrid_design.draft.name }})
+       <a href="#" style="float: right">
+            <img src="{{ STATIC_URL}}images/icons/icon-help-sm.png" width="20" align="center"
+                 title="Click to get help about this window"
+                 onclick="toggleHelp(event, 'widget', 'unlock-creator'); return false;"
+                    /></a>
+ 	</div>
+	<div id="content" class="content-box-contents">
+		<div class="container-fluid">
+			<select name="designer_draft_choice" id="draft_choices">
+			{% for predicate in view_objects.unlock_creator.predicates %}
+				<option value="{{predicate}}">{{predicate}}</option>
+			{% endfor %}
+			</select>	
+		</div>
+	</div>
+</div>
