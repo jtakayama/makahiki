@@ -6,9 +6,9 @@ from apps.widgets.smartgrid import smartgrid
 from apps.widgets.smartgrid.models import Action, Event, Grid
 
 
-def approved_action(user, slug):
+def approved_action(user, action_slug):
     """Returns true if the action is approved."""
-    return user.actionmember_set.filter(action__slug=slug, approval_status="approved").count() > 0
+    return user.actionmember_set.filter(action__slug=action_slug, approval_status="approved").count() > 0
 
 
 def approved_all_of_level(user, level_name):
@@ -69,9 +69,9 @@ def approved_some_full_spectrum(user, count=1):
     return ret
 
 
-def submitted_action(user, slug):
+def submitted_action(user, action_slug):
     """Returns true if the user complete the action."""
-    return slug in smartgrid.get_submitted_actions(user)
+    return action_slug in smartgrid.get_submitted_actions(user)
 
 
 def submitted_all_of_level(user, level_name):

@@ -227,6 +227,7 @@ INSTALLED_WIDGET_APPS = (
     'status.badges',
     'status.DEGG',
     'status.DWGG',
+    'unlock_creator',
 )
 
 for widget in INSTALLED_WIDGET_APPS:
