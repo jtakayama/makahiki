@@ -437,7 +437,7 @@ function tryToPublish(event) {
 				var errorDiv = $('#publish-warnings');
 				var html = '';
 				html += 'There were ' + warnings.length + ' warninigs do you want to publish?<p></p>'
-				html += '<b>Warning Summary: ' + warningss.length + ' error';
+				html += '<b>Warning Summary: ' + warnings.length + ' error';
 				if (warnings.length > 1 || warnings.length == 0) {
 					html += 's';
 				}

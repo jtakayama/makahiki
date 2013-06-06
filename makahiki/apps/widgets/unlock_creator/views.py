@@ -22,7 +22,8 @@ def supply(request, page_name):
     try:
         draft = smartgrid_mgr.get_designer_draft(draft_slug)
     except Http404:
-        draft = draft_choices[0]
+        if len(draft_choices) > 0:
+            draft = draft_choices[0]
 
     return {
         "predicates": unlock_creator.get_predicate_list(),

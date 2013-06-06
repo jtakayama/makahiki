@@ -131,8 +131,8 @@ def submitted_some_full_spectrum(user, count=1):
 def completed_level(user, level_name):
     """Returns true if the user has had all Activities and Commiments on the give level
     approved."""
-    count = len(Grid.objects.filter(level__name=level_name, action__action_type='activity'))
-    count += len(Grid.objects.filter(level__name=level_name, action__action_type='commitment'))
+    count = len(Grid.objects.filter(level__name=level_name, action__type='activity'))
+    count += len(Grid.objects.filter(level__name=level_name, action__type='commitment'))
     c = 0
     for action in Grid.objects.filter(level__name=level_name):
         c += user.actionmember_set.filter(action=action,
