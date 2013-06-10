@@ -38,8 +38,8 @@
     {
         "model": "quests.quest",
         "fields": {
-            "completion_conditions": "submitted_some_of(action_type='event')",
-            "unlock_conditions": "submitted_action('intro-video') and not submitted_some_of(action_type='event')",
+            "completion_conditions": "submitted_some_of_type(action_type='event')",
+            "unlock_conditions": "submitted_action('intro-video') and not submitted_some_of_type(action_type='event')",
             "name": "Sign up for an event",
             "priority": 3,
             "description": "Part of the Kukui Cup is a series of events scheduled throughout the competition. These events are designed to be fun and help you learn about energy and sustainability. You can sign up for an event to indicate your interest in attending, and see who else is going.\r\n\r\nSigning up for an event gets you 2 points. At the event, you will receive a little slip of paper that contains an attendance code. This code is like a ticket stub, it proves that you attended the event. Once the event is over, you can enter the attendance code to get the rest of your points (usually 20 points or more).\r\n\r\n**To complete this quest:**\r\n\r\n1. Go to the Get Nutz page\r\n2. Either pick an event from the **Upcoming Events** section, or click on an event square in the grid\r\n3. Read the about the event\r\n4. If you want to attend, click the \"I want to sign up\" button\r\n5. Attend the event when it happens.\r\n6. Don't forget to come back after the event with your attendance code to get the rest of your points.",
@@ -50,8 +50,8 @@
     {
         "model": "quests.quest",
         "fields": {
-            "completion_conditions": "submitted_some_of(action_type='commitment')",
-            "unlock_conditions": "submitted_action('intro-video') and not submitted_some_of(action_type='commitment')",
+            "completion_conditions": "submitted_some_of_type(action_type='commitment')",
+            "unlock_conditions": "submitted_action('intro-video') and not submitted_some_of_type(action_type='commitment')",
             "name": "Make a commitment",
             "priority": 2,
             "description": "One of the things you can do in the Kukui Cup is make a commitment. Commitments range from little things, like turning off the lights, to big things, like not eating meat. Each commitment lasts for 5 days, during which you agree to live up to the commitment. Once the 5 days are over, you come back to the site to collect your points.\r\n\r\nMaking a commitment earns you 2 points, and when you come back 5 days later to certify that you lived up to your commitment, you get another 5 points. To keep you focused, you can only commit to 5 things at a time.\r\n\r\n**To complete this quest:**\r\n\r\n1. If you aren't already on the Get Nutz page, click on the Get Nutz icon in the navigation bar at the top of every page\r\n2. Click on a commitment square (the legend shows which color squares are commitments).\r\n3. Read about the commitment you are being asked to make.\r\n4. If you are willing, click the **\"I will do this!\"** button\r\n5. Don't forget to come back in 5 days to get the rest of your points",
@@ -87,7 +87,7 @@
         "model": "quests.quest",
         "fields": {
             "completion_conditions": "badge_awarded('super-committed')",
-            "unlock_conditions": "submitted_some_of(action_type='commitment') and not badge_awarded('super-committed')",
+            "unlock_conditions": "submitted_some_of_type(action_type='commitment') and not badge_awarded('super-committed')",
             "name": "Get the Super Committed badge",
             "priority": 6,
             "description": "While earning points and conserving energy is great, wouldn't it be awesome if there was a way to get a little recognition for all your hard work? Lucky for you, there is: **BADGES**. Badges represent achievements reached during the game, both big and small.\r\n\r\nFor the most part, you'll have to discover the badges on your own, but we're going to give you a hint on this one. You will receive the Super Committed badge when you make 5 commitments (the maximum allowed by law). To complete this quest, you just need to get the badge by topping off your commitments to 5.\r\n\r\nYou know the drill by now: go to the Get Nutz page, click on a commitment square in the Smart Grid Game, and get your badge. *Note:* you may have to complete some other activities or look on different levels to get unlock all 5 commitments.",

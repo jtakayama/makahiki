@@ -191,7 +191,7 @@ INSTALLED_WIDGET_APPS = (
     'badges',
     'bonus_points',
     'home',
-    'education',
+#     'education',
     'energy_power_meter',
     'my_achievements',
     'my_commitments',
@@ -227,6 +227,7 @@ INSTALLED_WIDGET_APPS = (
     'status.badges',
     'status.DEGG',
     'status.DWGG',
+    'unlock_creator',
 )
 
 for widget in INSTALLED_WIDGET_APPS:

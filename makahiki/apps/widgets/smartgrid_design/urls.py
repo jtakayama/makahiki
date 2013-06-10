@@ -79,4 +79,8 @@ urlpatterns = patterns('',
     url(r'^change_settings/(?P<draft_slug>[\w\d-]+)/$',
         'apps.widgets.smartgrid_design.views.change_settings',
         name='change_settings'),
+    url(r'^pre-view/(?P<action_slug>[\w\d\-]+)/$',
+        'apps.widgets.smartgrid_design.views.preview_library_action',
+        name='preview_library_action'),
+
 )

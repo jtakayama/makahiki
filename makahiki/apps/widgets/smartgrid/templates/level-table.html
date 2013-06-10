@@ -27,7 +27,7 @@
     					<img src="{{ STATIC_URL }}images/lock24.png"
     						 width="22" align="top"
     						 title="Click to see how to unlock"
-    						 onclick="unlock_daialog(event, '{{act.type}}', '{{act.slug}}',
+    						 onclick="unlock_dialog(event, '{{act.type}}', '{{act.slug}}',
                              {% if act.unlock_condition_text %}
                              '{{act.unlock_condition_text|escapejs}}'
                          	 {% else %}
@@ -117,6 +117,12 @@
                              )">
                     </a>
                         {% endif %}
+                    {% elif act.availablity == 1 %}  {# expired #}
+                    <a href="{% url activity_task act.type act.slug %}"
+                       title="{{act.name}}" onClick="setLevel({{level.priority}})">
+	                    <br/>
+    	                <b>Expired</b>
+    	            </a>
     				{% endif %}
     			</div>
     			{% endif %}
@@ -136,23 +142,19 @@
         <td>
     	    <div class="activity-legend"></div>
         </td>
-        <td width=100>activity</td>
+        <td width=100>Activity</td>
         <td>
             <div class="commitment-legend"></div>
         </td>
-        <td width=100>commitment</td>
+        <td width=100>Commitment</td>
         <td>
             <div class="event-legend"></div>
         </td>
-        <td width=100>event</td>
-        <td>
-            <div class="excursion-legend"></div>
-        </td>
-        <td width=100>excursion</td>
+        <td width=100>Event</td>
         <td>
             <div class="filler-legend"></div>
         </td>
-        <td width=100>filler</td>
+        <td width=100>Filler</td>
     </tr>
     <tr>
         <td>
