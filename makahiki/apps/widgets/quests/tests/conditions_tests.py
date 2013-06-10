@@ -220,7 +220,7 @@ class QuestConditionsTest(TransactionTestCase):
         activity.save()
 
         # Test within context of a quest
-        self.quest.unlock_conditions = "submitted_action(slug='test-activity')"
+        self.quest.unlock_conditions = "submitted_action(action_slug='test-activity')"
         self.quest.save()
         quests = get_quests(self.user)
         self.assertTrue(self.quest not in quests,
@@ -228,7 +228,7 @@ class QuestConditionsTest(TransactionTestCase):
 
         member = ActionMember(user=self.user, action=activity, approval_status="pending")
         member.save()
-        self.assertTrue(submitted_action(self.user, slug="test-activity"),
+        self.assertTrue(submitted_action(self.user, action_slug="test-activity"),
             "User should have a pending task.")
         self.assertTrue(submitted_some_of_type(self.user, action_type="activity"),
             "User should have a pending task.")
@@ -245,14 +245,14 @@ class QuestConditionsTest(TransactionTestCase):
 
         member.approval_status = "approved"
         member.save()
-        self.assertTrue(submitted_action(self.user, slug='test-activity'),
+        self.assertTrue(submitted_action(self.user, action_slug='test-activity'),
             "User should have a completed task.")
         self.assertTrue(submitted_some_of_type(self.user, action_type="activity"),
             "User should have a completed task.")
 
         # Test as a completion condition.
         self.quest.accept(self.user)
-        self.quest.completion_conditions = "not submitted_action(slug='test-activity')"
+        self.quest.completion_conditions = "not submitted_action(action_slug='test-activity')"
         self.quest.save()
         completed_quests = possibly_completed_quests(self.user)
         self.assertTrue(self.quest not in completed_quests,
@@ -264,7 +264,7 @@ class QuestConditionsTest(TransactionTestCase):
         self.assertTrue(self.quest not in completed_quests,
             "User should not be able to complete the quest.")
 
-        self.quest.completion_conditions = "submitted_action(slug='test-activity')"
+        self.quest.completion_conditions = "submitted_action(action_slug='test-activity')"
         self.quest.save()
         completed_quests = possibly_completed_quests(self.user)
         self.assertTrue(self.quest in completed_quests, "User should have completed the quest.")
@@ -286,7 +286,7 @@ class QuestConditionsTest(TransactionTestCase):
         activity.save()
 
         # Test within context of a quest
-        self.quest.unlock_conditions = "approved_action(slug='test-activity')"
+        self.quest.unlock_conditions = "approved_action(action_slug='test-activity')"
         self.quest.save()
         quests = get_quests(self.user)
         self.assertTrue(self.quest not in quests,
@@ -294,7 +294,7 @@ class QuestConditionsTest(TransactionTestCase):
 
         member = ActionMember(user=self.user, action=activity, approval_status="approved")
         member.save()
-        self.assertTrue(approved_action(self.user, slug="test-activity"),
+        self.assertTrue(approved_action(self.user, action_slug="test-activity"),
             "User should have completed 'Test'.")
         self.assertTrue(approved_some_of_type(self.user, action_type="activity"),
             "User should have completed an activity")
@@ -311,7 +311,7 @@ class QuestConditionsTest(TransactionTestCase):
 
         # Test as a completion condition.
         self.quest.accept(self.user)
-        self.quest.completion_conditions = "not approved_action(slug='test-activity')"
+        self.quest.completion_conditions = "not approved_action(action_slug='test-activity')"
         self.quest.save()
         completed_quests = possibly_completed_quests(self.user)
         self.assertTrue(self.quest not in completed_quests,
@@ -323,7 +323,7 @@ class QuestConditionsTest(TransactionTestCase):
         self.assertTrue(self.quest not in completed_quests,
             "User should not be able to complete the quest.")
 
-        self.quest.completion_conditions = "approved_action(slug='test-activity')"
+        self.quest.completion_conditions = "approved_action(action_slug='test-activity')"
         self.quest.save()
         completed_quests = possibly_completed_quests(self.user)
         self.assertTrue(self.quest in completed_quests, "User should have completed the quest.")
@@ -384,14 +384,14 @@ class QuestConditionsTest(TransactionTestCase):
         commitment.save()
 
         # Test as an unlock condition.
-        self.quest.unlock_conditions = "submitted_action(slug='test-commitment')"
+        self.quest.unlock_conditions = "submitted_action(action_slug='test-commitment')"
         self.quest.save()
         self.assertTrue(self.quest not in get_quests(self.user),
             "User should not be able to participate in this quest.")
 
         member = ActionMember(user=self.user, action=commitment)
         member.save()
-        self.assertTrue(submitted_action(self.user, slug='test-commitment'),
+        self.assertTrue(submitted_action(self.user, action_slug='test-commitment'),
             "User should have a commitment in progress.")
         self.assertTrue(submitted_some_of_type(self.user, action_type="commitment"),
             "User should have a commitment in progress.")
@@ -405,14 +405,14 @@ class QuestConditionsTest(TransactionTestCase):
 
         member.award_date = datetime.datetime.today()
         member.save()
-        self.assertTrue(submitted_action(self.user, slug='test-commitment'),
+        self.assertTrue(submitted_action(self.user, action_slug='test-commitment'),
             "User should have a completed commitment.")
         self.assertTrue(submitted_some_of_type(self.user, action_type="commitment"),
             "User should have a completed commitment.")
 
         # Test as a completion condition
         self.quest.accept(self.user)
-        self.quest.completion_conditions = "not submitted_action(slug='test-commitment')"
+        self.quest.completion_conditions = "not submitted_action(action_slug='test-commitment')"
         self.quest.save()
         self.assertTrue(self.quest not in possibly_completed_quests(self.user),
             "User should not be able to complete this quest.")
@@ -422,7 +422,7 @@ class QuestConditionsTest(TransactionTestCase):
         self.assertTrue(self.quest not in possibly_completed_quests(self.user),
             "User should not be able to complete this quest.")
 
-        self.quest.completion_conditions = "submitted_action(slug='test-commitment')"
+        self.quest.completion_conditions = "submitted_action(action_slug='test-commitment')"
         self.quest.save()
         self.assertTrue(self.quest in possibly_completed_quests(self.user),
             "User should be able to complete this quest.")

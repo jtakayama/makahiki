@@ -27,6 +27,7 @@ class UnlockCreatorTest(TransactionTestCase):
 
     def testGetChoices(self):
         """Tests the get_choices function."""
+        print self.activity.slug
         choices = unlock_creator.get_choices('approved_action', draft=None)
         ans = len(choices)
         val = 1

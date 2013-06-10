@@ -448,7 +448,7 @@ def change_settings(request, draft_slug):
 def preview_library_action(request, action_slug):
     """Pre-views the LibraryAction with the given action_slug."""
     action = smartgrid_mgr.get_library_action(action_slug)
-    view_objects = {}    
+    view_objects = {}
     # if there is embedded widget, get the supplied objects
     if action.embedded_widget:
         view_module_name = 'apps.widgets.' + action.embedded_widget + '.views'

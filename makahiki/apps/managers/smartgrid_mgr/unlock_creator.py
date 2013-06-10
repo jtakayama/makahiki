@@ -91,7 +91,7 @@ def get_round_names():
 
 def is_action_slug_predicate(predicate_fn):
     """Returns true if the predicate_fn takes parameter that is an Action slug."""
-    return 'slug' in inspect.getargspec(predicate_fn).args
+    return 'action_slug' in inspect.getargspec(predicate_fn).args
 
 
 def is_action_type_predicate(predicate_fn):
