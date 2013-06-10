@@ -8,7 +8,8 @@ from apps.widgets.smartgrid.models import Action, Event, Grid
 
 def approved_action(user, action_slug):
     """Returns true if the action is approved."""
-    return user.actionmember_set.filter(action__slug=action_slug, approval_status="approved").count() > 0
+    return user.actionmember_set.filter(action__slug=action_slug,
+                                        approval_status="approved").count() > 0
 
 
 def approved_all_of_level(user, level_name):
