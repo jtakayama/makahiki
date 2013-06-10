@@ -30,6 +30,7 @@
 							<div id="library-activity-menu-{{action.slug}}" class="sgg-level-popup-menu">
 								<ul>
 									<li><a href="#" class="sgg-action" onclick="copyLibraryAction('{{action.slug}}');return false;">Copy {{action.name}}</a>
+									<li><a href="{% url preview_library_action action.slug %}" class="sgg-action" >Pre-view {{action.name}}</a>
 								</ul>
 							</div>			
 							<div id="library-{{action.slug}}" data-slug="{{action.slug}}" data-type="{{action.type}}" data-pk="{{action.pk}}"

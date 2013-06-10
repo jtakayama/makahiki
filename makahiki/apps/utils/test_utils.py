@@ -9,7 +9,8 @@ from apps.managers.challenge_mgr.models import RoundSetting, GameInfo, GameSetti
 from apps.managers.team_mgr.models import Team, Group
 from apps.widgets.prizes.models import Prize
 from apps.widgets.quests.models import Quest
-from apps.widgets.smartgrid.models import Event, Activity, Level
+from apps.widgets.smartgrid.models import Event, Activity, Commitment
+from apps.widgets.smartgrid_design.models import DesignerEvent, DesignerCommitment, DesignerActivity
 
 
 def setup_superuser(username, password):
@@ -67,28 +68,53 @@ def set_three_rounds():
     challenge_mgr.init()
 
 
-def create_activity():
+def create_activity(slug=None, unlock_condition=None):
     """create test activity"""
+    if not slug:
+        slug = "test-activity"
+    if not unlock_condition:
+        unlock_condition = "True"
+
     return Activity.objects.create(
         title="Test activity",
-        slug="test-activity",
+        slug=slug,
         description="Testing!",
         expected_duration=10,
         point_value=10,
         pub_date=datetime.datetime.today(),
         expire_date=datetime.datetime.today() + datetime.timedelta(days=7),
+        unlock_condition=unlock_condition,
         confirm_type="text",
         type="activity",
     )
 
 
-def create_event(slug=None):
+def create_commitment(slug=None, unlock_condition=None):
+    """create test commiment"""
+    if not slug:
+        slug = "test-commitment"
+    if not unlock_condition:
+        unlock_condition = "True"
+
+    return Commitment.objects.create(
+        title="Test commitment",
+        slug=slug,
+        description="Testing",
+        commitment_length=5,
+        point_value=10,
+        pub_date=datetime.datetime.today(),
+        expire_date=datetime.datetime.today() + datetime.timedelta(days=7),
+        unlock_condition=unlock_condition,
+        type="commitment",
+    )
+
+
+def create_event(slug=None, unlock_condition=None):
     """create test activity"""
     if not slug:
         slug = "test-event"
-
-    level = Level(name="Level 1", priority="1", unlock_condition="True")
-    level.save()
+    if not unlock_condition:
+        unlock_condition = "True"
 
     return Event.objects.create(
         title="Test event",
@@ -99,7 +125,72 @@ def create_event(slug=None):
         pub_date=datetime.datetime.today(),
         expire_date=datetime.datetime.today() + datetime.timedelta(days=7),
         event_date=datetime.datetime.today() + datetime.timedelta(days=1),
-        unlock_condition=True,
+        unlock_condition=unlock_condition,
+        type="event",
+    )
+
+
+def create_designer_activity(slug=None, unlock_condition=None, draft=None):
+    """create test activity"""
+    if not slug:
+        slug = "test-activity"
+    if not unlock_condition:
+        unlock_condition = "True"
+
+    return DesignerActivity.objects.create(
+        title="Test activity",
+        slug=slug,
+        draft=draft,
+        description="Testing!",
+        expected_duration=10,
+        point_value=10,
+        pub_date=datetime.datetime.today(),
+        expire_date=datetime.datetime.today() + datetime.timedelta(days=7),
+        unlock_condition=unlock_condition,
+        confirm_type="text",
+        type="activity",
+    )
+
+
+def create_designer_commitment(slug=None, unlock_condition=None, draft=None):
+    """create test commiment"""
+    if not slug:
+        slug = "test-commitment"
+    if not unlock_condition:
+        unlock_condition = "True"
+
+    return DesignerCommitment.objects.create(
+        title="Test commitment",
+        slug=slug,
+        draft=draft,
+        description="Testing",
+        commitment_length=5,
+        point_value=10,
+        pub_date=datetime.datetime.today(),
+        expire_date=datetime.datetime.today() + datetime.timedelta(days=7),
+        unlock_condition=unlock_condition,
+        type="commitment",
+    )
+
+
+def create_designer_event(slug=None, unlock_condition=None, draft=None):
+    """create test activity"""
+    if not slug:
+        slug = "test-event"
+    if not unlock_condition:
+        unlock_condition = "True"
+
+    return DesignerEvent.objects.create(
+        title="Test event",
+        description="Testing!",
+        draft=draft,
+        slug=slug,
+        expected_duration=10,
+        point_value=10,
+        pub_date=datetime.datetime.today(),
+        expire_date=datetime.datetime.today() + datetime.timedelta(days=7),
+        event_date=datetime.datetime.today() + datetime.timedelta(days=1),
+        unlock_condition=unlock_condition,
         type="event",
     )
 
@@ -168,7 +259,7 @@ def create_quest(completion_conditions):
     return quest
 
 
-def enalbe_game(name):
+def enable_game(name):
     """enable a game or game mechanics."""
     GameInfo.objects.get_or_create(name=name)
 

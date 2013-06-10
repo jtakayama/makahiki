@@ -215,7 +215,7 @@
             "priority": 60,
             "theme": "2",
             "award_trigger": "smartgrid",
-            "award_condition": "submitted_all_of(action_type='commitment')",
+            "award_condition": "submitted_all_of_type(action_type='commitment')",
             "slug": "ultra-committed",
             "name": "Ultra Committed"
         }
@@ -232,7 +232,7 @@
             "priority": 50,
             "theme": "1",
             "award_trigger": "smartgrid",
-            "award_condition": "submitted_some_of(5, action_type='commitment')",
+            "award_condition": "submitted_some_of_type(action_type='commitment', count=5)",
             "slug": "super-committed",
             "name": "Super Committted"
         }
@@ -300,7 +300,7 @@
             "priority": 10,
             "theme": "1",
             "award_trigger": "daily",
-            "award_condition": "submitted_some_of(5)",
+            "award_condition": "submitted_some(count=5)",
             "slug": "daily-visitor",
             "name": "Novice"
         }
