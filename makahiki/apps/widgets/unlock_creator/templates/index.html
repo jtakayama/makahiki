@@ -11,11 +11,89 @@
  	</div>
 	<div id="content" class="content-box-contents">
 		<div class="container-fluid">
-			<select name="designer_draft_choice" id="draft_choices">
-			{% for predicate in view_objects.unlock_creator.predicates %}
-				<option value="{{predicate}}">{{predicate}}</option>
-			{% endfor %}
-			</select>	
+			<div class="row-fluid">
+				<input name="unlock_condition_match" value="uc_match" type="checkbox"> Match the following unlock condition:
+			</div>
+			<div class="row-fluid">
+				<div id="predicate_choice">
+					<select name="predicate_choice" id="predicate_choices">
+					{% for predicate in view_objects.unlock_creator.predicates %}
+						<option value="{{predicate}}">{{predicate}}</option>
+					{% endfor %}
+					</select>
+				</div>
+				<div id="action_slug" class="hidden">
+					<select name="designer_action_choice" id="action_choice">
+					{% for action_slug in view_objects.unlock_creator.action_slugs %}
+						<option value="{{action_slug}}">{{action_slug}}</option>
+					{% endfor %}
+					</select>
+				</div>
+				<div id="action_type" class="hidden">
+					<select name="designer_action_type_choice" id="action_type_choice">
+					{% for value in view_objects.unlock_creator.action_types %}
+						<option value="{{value}}">{{value}}</option>
+					{% endfor %}
+					</select>
+				</div>
+				<div id="event_slug" class="hidden">
+					<select name="designer_event_choice" id="event_choice">
+					{% for value in view_objects.unlock_creator.event_slugs %}
+						<option value="{{value}}">{{value}}</option>
+					{% endfor %}
+					</select>
+				</div>
+				<div id="game_name" class="hidden">
+					<select name="designer_game_choice" id="game_choice">
+					{% for value in view_objects.unlock_creator.game_names %}
+						<option value="{{value}}">{{value}}</option>
+					{% endfor %}
+					</select>
+				</div>
+				<div id="level_name" class="hidden">
+					<select name="designer_level_choice" id="level_choice">
+					{% for value in view_objects.unlock_creator.level_names %}
+						<option value="{{value}}">{{value}}</option>
+					{% endfor %}
+					</select>
+				</div>
+				<div id="resource" class="hidden">
+					<select name="designer_resource_choice" id="resource_choice">
+					{% for value in view_objects.unlock_creator.resources %}
+						<option value="{{value}}">{{value}}</option>
+					{% endfor %}
+					</select>
+				</div>
+				<div id="round_name" class="hidden">
+					<select name="designer_round_choice" id="round_choice">
+					{% for value in view_objects.unlock_creator.round_names %}
+						<option value="{{value}}">{{value}}</option>
+					{% endfor %}
+					</select>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
+
+<script type="text/javascript">
+var predSelect=document.getElementById("predicate_choices")
+predSelect.onchange=function() {
+	var chosenOption = this.options[this.selectedIndex];
+	log.debug("predicate selected = " + chosenOption.value);
+	jQuery.ajax({
+		url: "/unlock_creator/predicate_parameters/" + chosenOption.value + "/",
+		success: function(data) {
+			var parameters = data.parameters;
+			log.debug("parameters = " + parameters);
+			for (var i = 1; i < parameters.length; i++) {
+				var item = $('#' + parameters[i]);
+				if (item) {
+					item.removeClass('hidden');
+				}
+				
+			}
+		}
+	});
+}
+</script>
