@@ -36,7 +36,10 @@ def supply(request, page_name):
         try:
             draft_slug = request.REQUEST['draft']
         except KeyError:
-            draft_slug = draft_choices[0].slug
+            try:
+                draft_slug = request.COOKIES['current-designer-draft']
+            except KeyError:
+                draft_slug = draft_choices[0].slug
         try:
             draft = smartgrid_mgr.get_designer_draft(draft_slug)
         except Http404:
@@ -448,6 +451,25 @@ def change_settings(request, draft_slug):
 def preview_library_action(request, action_slug):
     """Pre-views the LibraryAction with the given action_slug."""
     action = smartgrid_mgr.get_library_action(action_slug)
+    view_objects = {}
+    # if there is embedded widget, get the supplied objects
+    if action.embedded_widget:
+        view_module_name = 'apps.widgets.' + action.embedded_widget + '.views'
+        view_objects[action.embedded_widget] = importlib.import_module(
+            view_module_name).supply(request, None)
+        view_objects['embedded_widget_template'] = "widgets/" + \
+            action.embedded_widget + "/templates/index.html"
+
+    return render_to_response("action.html", {
+    "action": action,
+    "view_objects": view_objects,
+    }, context_instance=RequestContext(request))
+
+
+def preview_draft_action(request, action_slug, draft_slug):
+    """Pre-views the DesignerAction with the given action_slug and in the given draft."""
+    draft = smartgrid_mgr.get_designer_draft(draft_slug)
+    action = smartgrid_mgr.get_designer_action(draft=draft, slug=action_slug)
     view_objects = {}
     # if there is embedded widget, get the supplied objects
     if action.embedded_widget:

@@ -66,8 +66,11 @@
 							{% if r|add:"1" == act.row and c|add:"1" == act.column %}
 							<div id="designer-activity-menu-{{act.action.slug}}" class="sgg-level-popup-menu">
 								<ul>
-									<li><a href="#" class="sgg-action" onclick="copyDesignerAction('{{act.action.slug}}');return false;">Copy {{act.action.name}}</a>
-									<li><a href="#" class="sgg-action" onclick="deleteDesignerAction('{{act.action.slug}}');return false;">Delete {{act.action.name}}</a>
+									<li><a href="#" class="sgg-action" onclick="copyDesignerAction('{{act.action.slug}}');return false;">Copy {{act.action.name}}</a></li>
+									<hr/>
+									<li><a href="#" class="sgg-action" onclick="deleteDesignerAction('{{act.action.slug}}');return false;">Delete {{act.action.name}}</a></li>
+									<hr/>
+									<li><a href="{% url preview_draft_action act.action.slug view_objects.smartgrid_design.draft.slug %}" class="sgg-action" >Pre-view {{act.action.name}}</a></li>
 								</ul>
 							</div>										
 							<div id="designer-{{act.action.slug}}" data-slug="{{act.action.slug}}" class="sgg-action sgg-{{act.action.type}}-cell grid-draggable"
