@@ -285,6 +285,23 @@
     }
   },
   {
+       "pk": 9,
+       "model": "auth.user",
+       "fields": {
+           "username": "tmongan",
+           "first_name": "Tyler",
+           "last_name": "Mongan",
+           "is_active": true,
+           "is_superuser": true,
+           "is_staff": true,
+           "groups": [],
+           "user_permissions": [],
+           "password": "pbkdf2_sha256$10000$2ZyKSnurG0p3$NiaKEk1VClEpk+EropxpYd7BcrHweENtygO0kHI86cw=",
+           "email": "tmongan@honuguide.com",
+           "date_joined": "2013-06-10T14:32:36"
+       }
+   },  
+  {
     "pk": 1,
     "model": "player_mgr.profile",
     "fields": {
@@ -362,5 +379,26 @@
       "contact_carrier": null,
       "setup_profile": false
     }
+  },
+  {
+      "pk": 9,
+      "model": "player_mgr.profile",
+      "fields": {
+          "last_visit_date": "2013-06-10",
+          "completion_date": null,
+          "name": "Tyler M.",
+          "setup_complete": false,
+          "daily_visit_count": 1,
+          "referrer_awarded": false,
+          "contact_text": "",
+          "is_ra": false,
+          "theme": null,
+          "setup_profile": false,
+          "user": 9,
+          "contact_carrier": "",
+          "team": 18,
+          "referring_user": null,
+          "properties": ""
+      }
   }
 ]
