@@ -5,7 +5,8 @@ Created on Jun 5, 2013
 '''
 from apps.managers.smartgrid_mgr import unlock_creator, smartgrid_mgr
 from apps.widgets.smartgrid_design.models import Draft
-from django.http import Http404
+from django.http import Http404, HttpResponse
+import json
 
 
 def supply(request, page_name):
@@ -35,3 +36,12 @@ def supply(request, page_name):
         "resources": unlock_creator.get_resources(),
         "round_names": unlock_creator.get_round_names(),
         }
+
+
+def predicate_parameters(request, predicate):
+    """Returns the names of the parameters for the given predicate."""
+    _ = request
+    parameters = unlock_creator.get_predicate_parameter_types(predicate)
+    return HttpResponse(json.dumps({
+            "parameters": parameters,
+            }), mimetype="application/json")
