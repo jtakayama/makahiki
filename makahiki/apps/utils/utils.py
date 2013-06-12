@@ -30,7 +30,7 @@ def get_smartgrid_predicates():  # pylint: disable=R0914
         submitted_all_of_level, submitted_all_of_resource, submitted_all_of_type, \
         submitted_some, \
         submitted_some_of_level, submitted_some_of_resource, submitted_some_of_type, \
-        completed_level, \
+        completed_level, submitted_level, \
         unlock_on_date, unlock_on_event, \
         social_bonus_count, submitted_some_full_spectrum, approved_some_full_spectrum
     return {
@@ -49,6 +49,7 @@ def get_smartgrid_predicates():  # pylint: disable=R0914
             "submitted_all_of_level": submitted_all_of_level,
             "submitted_all_of_resource": submitted_all_of_resource,
             "submitted_all_of_type": submitted_all_of_type,
+            "submitted_level": submitted_level,
             "submitted_some": submitted_some,
             "submitted_some_full_spectrum": submitted_some_full_spectrum,
             "submitted_some_of_level": submitted_some_of_level,
