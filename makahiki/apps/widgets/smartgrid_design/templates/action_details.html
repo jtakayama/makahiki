@@ -39,17 +39,67 @@
         <p/>
     </div>
     <center>
+    {% if action.type == 'activity' %}
 	    <div id="go-button">
     	    <b>
         	    Once you are done, click the button below to get your points!
 	        </b>
     	    <p/>
-        	<a href="#">
+        	<a onclick="task_form_overlay(event)">
             	<button style="cursor:pointer;" class="btn btn-widget">
                 	I Did This!
 	                <img src="{{ STATIC_URL}}images/right.png"
     	                 width="25" align="center"></button>
         	</a>
     	</div>  
-    </center>  
+    {% endif %}
+    {% if action.type == 'commitment' %}
+    	<div id="go-button">
+           <a onclick="task_form_overlay(event)">
+                <button id="go-button" style="cursor:pointer;" class="btn btn-widget">I will do this!
+                    <img src="{{ STATIC_URL}}images/right.png"
+                         width="25" align="center">
+                </button>
+            </a>
+        </div>
+    {% endif %}
+    {% if action.type == 'event' %}
+        {% if action.event.is_event_completed %}
+        <div id="go-button">
+            <b>This event was already completed at {{ action.event.event_date }} <br/>
+                If you attended the event, Click on the "I Did it" button to get
+                your points. <p/>
+                <a onclick="task_form_overlay(event)">
+                    <button style="cursor:pointer;" class="btn btn-widget">
+                        I Did it
+                        <img src="{{ STATIC_URL}}images/right.png"
+                             width="25" align="center">
+                    </button>
+                </a>
+            </b>
+        </div>
+        {% else %}
+                <form >
+                    {% csrf_token %}
+                    <button id="submit_button5" style="cursor:pointer;" class="btn btn-widget">
+                        I want to sign up
+                        <img src="{{ STATIC_URL }}images/right.png"
+                             width="25" align="center"/>
+                    </button>
+                </form>
+        {% endif %}
+	{% endif %}
+     </center>  
 </div>
+
+<script type="text/javascript">
+function task_form_overlay(event) {
+	$('#go-button').addClass('hidden');
+    var modalElement = $('#taskModal');
+	modalElement.removeClass('hidden');
+    $('#id_social_email').focus();
+    $('#id_response').focus();
+    return false;
+}
+
+</script>

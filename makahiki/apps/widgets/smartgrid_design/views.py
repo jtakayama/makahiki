@@ -8,7 +8,7 @@ from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 from apps.widgets.smartgrid_design.forms import RevertToSmartgridForm, \
     DeployToSmartgridForm, ExampleGridsForm, DeleteLevelForm, AddLevelForm, EventDateForm,\
-    NewDraftForm, LoadTemplateForm
+    NewDraftForm, LoadTemplateForm, DeleteDraftForm
 from apps.widgets.smartgrid_library.models import LibraryActivity, LibraryEvent, \
     LibraryCommitment, LibraryColumnName
 from apps.managers.smartgrid_mgr import smartgrid_mgr, gcc, action_dependency
@@ -76,6 +76,7 @@ def supply(request, page_name):
         'delete_level_form': DeleteLevelForm(),
         'event_date_form': EventDateForm(),
         'new_draft_form': NewDraftForm(),
+        'delete_draft_form': DeleteDraftForm(),
         'load_template_form': LoadTemplateForm(),
         'gcc_settings_form': GccSettingsForm(instance=gcc_settings),
         'palette': smartgrid_mgr.get_designer_palette(draft),
@@ -233,6 +234,36 @@ def delete_column(request, col_slug, draft_slug):
     return response
 
 
+def delete_draft(request):
+    """Deletes the Draft in the DeleteDraftForm."""
+    if request.method == 'POST':
+        form = DeleteDraftForm(request.POST)
+        if form.is_valid():
+            draft_slug = form.cleaned_data['draft_slug']
+            draft = smartgrid_mgr.get_designer_draft(draft_slug)
+            draft.delete()
+    response = HttpResponseRedirect("/sgg_designer/")
+    return response
+
+
+def delete_level(request, draft_slug):
+    """Deletes the DesignerLevel for the given level_slug and removes all the location
+    information for the level."""
+    draft = smartgrid_mgr.get_designer_draft(draft_slug)
+    if request.method == 'POST':
+        form = DeleteLevelForm(request.POST)
+        if form.is_valid():
+            level_slug = form.cleaned_data['level_slug']
+            level = smartgrid_mgr.get_designer_level(draft, slug=level_slug)
+            for grid in DesignerColumnGrid.objects.filter(draft=draft, level=level):
+                grid.delete()
+            for grid in DesignerGrid.objects.filter(draft=draft, level=level):
+                grid.delete()
+            level.delete()
+    response = HttpResponseRedirect("/sgg_designer/?draft=%s" % draft.slug)
+    return response
+
+
 def clear_from_grid(request, action_slug, draft_slug):
     """Removes the DesignerAction for the given action_slug from the DesignerGrid."""
     _ = request
@@ -360,24 +391,6 @@ def get_diff(request, draft_slug):
     return HttpResponse(json.dumps({
             "diff": diff,
             }), mimetype="application/json")
-
-
-def delete_level(request, draft_slug):
-    """Deletes the DesignerLevel for the given level_slug and removes all the location
-    information for the level."""
-    draft = smartgrid_mgr.get_designer_draft(draft_slug)
-    if request.method == 'POST':
-        form = DeleteLevelForm(request.POST)
-        if form.is_valid():
-            level_slug = form.cleaned_data['level_slug']
-            level = smartgrid_mgr.get_designer_level(draft, slug=level_slug)
-            for grid in DesignerColumnGrid.objects.filter(draft=draft, level=level):
-                grid.delete()
-            for grid in DesignerGrid.objects.filter(draft=draft, level=level):
-                grid.delete()
-            level.delete()
-    response = HttpResponseRedirect("/sgg_designer/?draft=%s" % draft.slug)
-    return response
 
 
 def add_level(request, draft_slug):

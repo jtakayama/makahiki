@@ -85,5 +85,8 @@ urlpatterns = patterns('',
     url(r'^pre-view_draft/(?P<action_slug>[\w\d\-]+)/(?P<draft_slug>[\w\d-]+)/$',
         'apps.widgets.smartgrid_design.views.preview_draft_action',
         name='preview_draft_action'),
+    url(r'^delete_draft/$',
+        'apps.widgets.smartgrid_design.views.delete_draft',
+        name='delete_draft'),
 
 )

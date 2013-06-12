@@ -517,6 +517,22 @@ if ($('#hideWarnings').text() == 'Hide Warning Details') {
 	</div>
 </div>
 
+<div class="modal hide fade" id="deleteDraftDialog">
+	<div class="modal-header">
+        <a class="close" data-dismiss="modal">x</a>
+        <h3>Delete Draft</h3>
+	</div>
+	<div class="modal-body">
+        <p><div id="draftName"></div></p>This will delete all the Actions, Levels and any changes you have made in the Draft.<p/>
+	<form id='delete-draft-form' action="{% url delete_draft %}" method="post">
+		{% csrf_token %}{{view_objects.smartgrid_design.delete_draft_form.as_p}}
+			<input class="btn btn-widget" rel="tooltip" title="Delete the draft."
+					type="submit" value="Delete Draft" />
+		    <a href="#" class="btn btn-widget" data-dismiss="modal">Cancel</a>		
+	</form>
+	</div>
+</div>
+
 <div class="modal hide fade" id="publishGridModal">
 	<div class="modal-header">
         <a class="close" data-dismiss="modal">x</a>
@@ -685,7 +701,20 @@ if ($('#hideWarnings').text() == 'Hide Warning Details') {
 		log.debug("deleteDraft()");
 		var draftSelect=document.getElementById("draft_choices")
 		var chosenDraft = draftSelect.options[draftSelect.selectedIndex];
-		log.debug("selected draft = " + chosenDraft.value);
+		var draft = chosenDraft.value;
+		var name = chosenDraft.label;
+		log.debug("selected draft = " + draft);
+		var modalElement = $('#deleteDraftDialog');
+		var text = "Are you sure you want to delete Draft " + name + "?";
+		modalElement.find('#draftName').html(text);
+		modalElement.find('input#id_draft_slug').val(draft);
+        modalElement.modal({
+            backdrop: true,
+            keyboard: true,
+            show: false
+        }); 
+        modalElement.css('margin-top', (modalElement.outerHeight() / 2) * -1);
+        modalElement.modal('show');				
 	}
 
 	function addLevelDialog(event) {
