@@ -29,8 +29,9 @@
 							{% for action in view_objects.smartgrid_design.activities %}
 							<div id="library-activity-menu-{{action.slug}}" class="sgg-level-popup-menu">
 								<ul>
-									<li><a href="#" class="sgg-action" onclick="copyLibraryAction('{{action.slug}}');return false;">Copy {{action.name}}</a>
-									<li><a href="{% url preview_library_action action.slug %}" class="sgg-action" >Pre-view {{action.name}}</a>
+									<li><a href="#" class="sgg-action" onclick="copyLibraryAction('{{action.slug}}');return false;">Copy {{action.name}}</a></li>
+									<hr/>
+									<li><a href="{% url preview_library_action action.slug %}" class="sgg-action" >Pre-view {{action.name}}</a></li>
 								</ul>
 							</div>			
 							<div id="library-{{action.slug}}" data-slug="{{action.slug}}" data-type="{{action.type}}" data-pk="{{action.pk}}"
@@ -45,7 +46,9 @@
 							{% for action in view_objects.smartgrid_design.commitments %}
 							<div id="library-activity-menu-{{action.slug}}" class="sgg-level-popup-menu">
 								<ul>
-									<li><a href="#" class="sgg-action" onclick="copyLibraryAction('{{action.slug}}');return false;">Copy {{action.name}}</a>
+									<li><a href="#" class="sgg-action" onclick="copyLibraryAction('{{action.slug}}');return false;">Copy {{action.name}}</a></li>
+									<hr/>
+									<li><a href="{% url preview_library_action action.slug %}" class="sgg-action" >Pre-view {{action.name}}</a></li>									
 								</ul>
 							</div>			
 							<div id="library-{{action.slug}}" data-slug="{{action.slug}}" data-type="{{action.type}}" data-pk="{{action.pk}}"
@@ -59,7 +62,9 @@
 							{% for action in view_objects.smartgrid_design.events %}
 							<div id="library-activity-menu-{{action.slug}}" class="sgg-level-popup-menu">
 								<ul>
-									<li><a href="#" class="sgg-action" onclick="copyLibraryAction('{{action.slug}}');return false;">Copy {{action.name}}</a>
+									<li><a href="#" class="sgg-action" onclick="copyLibraryAction('{{action.slug}}');return false;">Copy {{action.name}}</a></li>
+									<hr/>
+									<li><a href="{% url preview_library_action action.slug %}" class="sgg-action" >Pre-view {{action.name}}</a></li>
 								</ul>
 							</div>			
 							<div id="library-{{action.slug}}" data-slug="{{action.slug}}" data-type="{{action.type}}" data-pk="{{action.pk}}"
@@ -140,8 +145,11 @@ $(document).click(function() {
 							{% for action in view_objects.smartgrid_design.palette %}
 							<div id="designer-activity-menu-{{action.slug}}" class="sgg-level-popup-menu">
 								<ul>
-									<li><a href="#" class="sgg-action" onclick="copyDesignerAction('{{action.slug}}');return false;">Copy {{action.name}}</a>
-									<li><a href="#" class="sgg-action" onclick="deleteDesignerAction('{{action.slug}}');return false;">Delete {{action.name}}</a>
+									<li><a href="#" class="sgg-action" onclick="copyDesignerAction('{{action.slug}}');return false;">Copy {{action.name}}</a></li>
+									<hr/>
+									<li><a href="#" class="sgg-action" onclick="deleteDesignerAction('{{action.slug}}');return false;">Delete {{action.name}}</a></li>
+									<hr/>
+									<li><a href="{% url preview_draft_action action.slug view_objects.smartgrid_design.draft.slug %}" class="sgg-action">Pre-view {{action.name}}</a></li>
 								</ul>
 							</div>										
 							<div id="designer-{{action.slug}}" data-slug="{{action.slug}}" class="sgg-action sgg-{{action.type}}-palette palette-draggable"
@@ -183,6 +191,7 @@ $(document).click(function() {
 					</select>
 					<a href="#" class="btn btn-widget" onclick="switchDraft();return false;">Select Draft</a>
 					<a href="#" class="btn btn-widget" onclick="loadTemplate(event); return false;">New Draft</a>
+					<a href="#" class="btn btn-widget" onclick="deleteDraft(event); return false;">Delete Draft</a>
 				</div>
 				<div class="sgg-column-title">
 					<a class="widget-help" href="#" >
@@ -227,7 +236,7 @@ $(document).click(function() {
 		        </div>	
 				<div id="designer_levels" class="tabbable tabs-left">
 					<!-- Tabs for the levels -->
-					<ul id="sgg-levels-tab" class="nav nav-tabs">
+					<ul id="designer-levels-tab" class="nav nav-tabs">
 					{% for level in view_objects.smartgrid_design.levels %}
 						<div id="level-tab-menu-{{forloop.counter}}" class="sgg-level-popup-menu">
 							<ul>
@@ -235,14 +244,10 @@ $(document).click(function() {
 								<li><a href="#" class="sgg-action" onclick="deleteLevelDialog(event, '{{level.name}}', '{{level.slug}}');return false;">Delete {{level}}</a>
 							</ul>
 						</div>
-						{% if forloop.counter == 1 %}
-						<li id="level-tab-{{forloop.counter}}" class="active">
-						{% else %}
-						<li id="level-tab-{{forloop.counter}}" class="">					
-						{% endif %}
+						<li id="level-tab-{{forloop.counter}}" class="">
 							<a class="level-unlocked" data-toggle="tab" style="padding-right: 6px; padding-left: 6px;" 
 							   title="{{ level.name }} Actions"
-							   href="#sgg-level-{{forloop.counter}}" rel="tooltip" >
+							   href="#sgg-level-{{forloop.counter}}" rel="tooltip" onclick="setDesignerLevel({{level.priority}})" >
 							   {{ level.name }}
 							</a></li>
 					{% endfor %}
@@ -272,11 +277,7 @@ $(document).click(function() {
     	    			{% with act_list=level|nth:2 %}
     	    			{% with columns=level|nth:3 %}
             			<div id="sgg-level-{{forloop.counter}}" 
-	           			{% if forloop.counter == 1 %}
-							  class="tab-pane active"
-        	    		{% else %}
             				  class="tab-pane"
-						{% endif %}            		
 							  data-level="{{lvl.name}}"
 							  data-levelslug="{{lvl.slug}}">
 						{% include "sgg_grid.html" %}
@@ -409,11 +410,9 @@ if ($('#hideWarnings').text() == 'Hide Warning Details') {
 	    	{% csrf_token %} {{ view_objects.smartgrid_design.load_template_form.as_p }}
         	<input class="btn btn-widget" rel="tooltip" 
         		title="Load example template into the designer."
-				type="submit" value="Create New Draft" /> 		        	
+				type="submit" value="Create New Draft" />
+			<a href="#" class="btn btn-widget" data-dismiss="modal">Cancel</a> 		        	
 		</form>
-    </div>
-    <div class="modal-footer">
-        <a href="#" class="btn btn-widget" data-dismiss="modal">Close</a>
     </div>
 </div>
 <div class="modal hide fade" id="loadTemplateModal">
@@ -428,10 +427,8 @@ if ($('#hideWarnings').text() == 'Hide Warning Details') {
         	<input class="btn btn-widget" rel="tooltip" 
         		title="Load example template into the designer."
 				type="submit" value="Create New Draft" /> 		        	
-		</form>
-    </div>
-    <div class="modal-footer">
-        <a href="#" class="btn btn-widget" data-dismiss="modal">Close</a>
+  	      	<a href="#" class="btn btn-widget" data-dismiss="modal">Cancel</a>
+  		</form>
     </div>
 </div>
 <div class="modal hide fade" id="gccSettingsModal">
@@ -447,11 +444,9 @@ if ($('#hideWarnings').text() == 'Hide Warning Details') {
         	<input class="btn btn-widget" rel="tooltip" 
         		title="Change the Grid Consistency Checker Settings."
 				type="submit" value="Change Settings" /> 		        	
+	        <a href="#" class="btn btn-widget" data-dismiss="modal">Cancel</a>
 		</form>
 		{% endif %}
-    </div>
-    <div class="modal-footer">
-        <a href="#" class="btn btn-widget" data-dismiss="modal">Close</a>
     </div>
 </div>
 <div class="modal hide fade" id="levelAddModal">
@@ -466,12 +461,10 @@ if ($('#hideWarnings').text() == 'Hide Warning Details') {
 				{% csrf_token %} {{ view_objects.smartgrid_design.add_level_form.as_p }}
 				<input class="btn btn-widget" rel="tooltip" title="Create a new DesignerLevel with the given name."
 					type="submit" value="Add Level" />
+		        <a href="#" class="btn btn-widget" data-dismiss="modal">Cancel</a>
 			</form>
 			{% endif %}
         </p>
-    </div>
-    <div class="modal-footer">
-        <a href="#" class="btn btn-widget" data-dismiss="modal">Close</a>
     </div>
 </div>
 <div class="modal hide fade" id="levelDeleteModal">
@@ -491,9 +484,6 @@ if ($('#hideWarnings').text() == 'Hide Warning Details') {
 			{% endif %}        
         </p>
     </div>
-    <div class="modal-footer">
-        <a href="#" class="btn btn-widget" data-dismiss="modal">Cancel</a>
-    </div>
 </div>
 <div class="modal hide fade" id="eventDateChooser">
     <div class="modal-header">
@@ -511,9 +501,6 @@ if ($('#hideWarnings').text() == 'Hide Warning Details') {
     	</form>
     	{% endif %}
     </div>
-    <div class="modal-footer">
-        <a href="#" class="btn btn-widget" data-dismiss="modal">Cancel</a>
-    </div>
 </div>
 <div class="modal hide fade" id="newDraftName">
 	<div class="modal-header">
@@ -528,9 +515,22 @@ if ($('#hideWarnings').text() == 'Hide Warning Details') {
 		    <a href="#" class="btn btn-widget" data-dismiss="modal">Cancel</a>		
 	</form>
 	</div>
-    <div class="modal-footer">
-        <a href="#" class="btn btn-widget" data-dismiss="modal">Cancel</a>
-    </div>
+</div>
+
+<div class="modal hide fade" id="deleteDraftDialog">
+	<div class="modal-header">
+        <a class="close" data-dismiss="modal">x</a>
+        <h3>Delete Draft</h3>
+	</div>
+	<div class="modal-body">
+        <p><div id="draftName"></div></p>This will delete all the Actions, Levels and any changes you have made in the Draft.<p/>
+	<form id='delete-draft-form' action="{% url delete_draft %}" method="post">
+		{% csrf_token %}{{view_objects.smartgrid_design.delete_draft_form.as_p}}
+			<input class="btn btn-widget" rel="tooltip" title="Delete the draft."
+					type="submit" value="Delete Draft" />
+		    <a href="#" class="btn btn-widget" data-dismiss="modal">Cancel</a>		
+	</form>
+	</div>
 </div>
 
 <div class="modal hide fade" id="publishGridModal">
@@ -574,6 +574,15 @@ if ($('#hideWarnings').text() == 'Hide Warning Details') {
 		var numDrafts = {{view_objects.smartgrid_design.draft_choices|length}}
 		if (numDrafts == 0) {
 			loadFirstTemplate();
+		}
+		var current_level = getCookie("current-designer-level");
+		if (current_level != null)
+		{
+			var foo = $('#designer-levels-tab a.level-unlocked:nth('+current_level+')');
+	        $('#designer-levels-tab a.level-unlocked:nth('+current_level+')').tab('show');
+		}
+		else {
+        	$('#designer-levels-tab a.level-unlocked:first').tab('show');  
 		}
     });
 	// See sggDesigner.js for most of the functionality.
@@ -660,10 +669,22 @@ if ($('#hideWarnings').text() == 'Hide Warning Details') {
 		var choices = document.getElementById('draft_choices');
 		var draftChoice = choices.options[choices.selectedIndex].value
 		if (currentDraft != draftChoice) {
+			deleteCookie("current-designer-level");
+			setCurrentDraft(draftChoice);
 			window.location.href = "/sgg_designer/?draft=" + draftChoice;
 		}
 	}
 	
+	function setDesignerLevel(lvl) {
+		log.debug("setting current-designer-level cookie to " + lvl);
+    	setCookie("current-designer-level", lvl - 1);
+	}
+	
+	function setCurrentDraft(draft_slug) {
+		log.debug("setting current draft to " + draft_slug);
+		setCookie("current-designer-draft", draft_slug);
+	}
+
 	function newDraftDialog(event) {
 		var modalElement = $('#newDraftName')
         modalElement.modal({
@@ -674,6 +695,26 @@ if ($('#hideWarnings').text() == 'Hide Warning Details') {
         modalElement.css('margin-top', (modalElement.outerHeight() / 2) * -1);
         modalElement.modal('show');		
 		
+	}
+	
+	function deleteDraft(evnet) {
+		log.debug("deleteDraft()");
+		var draftSelect=document.getElementById("draft_choices")
+		var chosenDraft = draftSelect.options[draftSelect.selectedIndex];
+		var draft = chosenDraft.value;
+		var name = chosenDraft.label;
+		log.debug("selected draft = " + draft);
+		var modalElement = $('#deleteDraftDialog');
+		var text = "Are you sure you want to delete Draft " + name + "?";
+		modalElement.find('#draftName').html(text);
+		modalElement.find('input#id_draft_slug').val(draft);
+        modalElement.modal({
+            backdrop: true,
+            keyboard: true,
+            show: false
+        }); 
+        modalElement.css('margin-top', (modalElement.outerHeight() / 2) * -1);
+        modalElement.modal('show');				
 	}
 
 	function addLevelDialog(event) {

@@ -20,7 +20,10 @@ from apps.utils import utils
 
 def __is_in_round(date, roundsetting):
     """Returns True if the given date is in the given round."""
-    return date >= roundsetting.start and date <= roundsetting.end
+    if date and roundsetting:
+        return date >= roundsetting.start and date <= roundsetting.end
+    else:
+        return False
 
 
 def __is_in_rounds(date):
@@ -33,9 +36,12 @@ def __is_in_rounds(date):
 
 def __is_in_challenge(date):
     """Returns True if the given date is between the Challenge start and end dates."""
-    start = challenge_mgr.get_challenge_start()
-    end = challenge_mgr.get_challenge_end()
-    return date >= start and date <= end
+    if date:
+        start = challenge_mgr.get_challenge_start()
+        end = challenge_mgr.get_challenge_end()
+        return date >= start and date <= end
+    else:
+        return False
 
 
 def __is_after_challenge(date):
@@ -181,12 +187,18 @@ def check_grid_event_dates(draft):
         if loc.action.type == 'event':
             event = smartgrid_mgr.get_designer_action(draft=draft, slug=loc.action.slug)
             if not __is_in_rounds(event.event_date):
-                message = "Event date %s isn't in a round" % event.event_date.date()
+                if event.event_date:
+                    message = "Event date %s isn't in a round" % event.event_date.date()
+                else:
+                    message = "Event doesn't have an event date."
                 ret.append(Error(message=message, action=event))
             if not __is_in_challenge(event.event_date):
-                message = "Event date %s isn't in the challenge %s - %s" % \
-                (event.event_date.date(), challenge_mgr.get_challenge_start().date(), \
-                 challenge_mgr.get_challenge_end().date())
+                if event.event_date:
+                    message = "Event date %s isn't in the challenge %s - %s" % \
+                    (event.event_date.date(), challenge_mgr.get_challenge_start().date(), \
+                     challenge_mgr.get_challenge_end().date())
+                else:
+                    message = "Event doesn't have an event date."
                 ret.append(Error(message=message, action=event))
     return ret
 

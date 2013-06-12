@@ -30,7 +30,7 @@
                           {% if page.is_unlock  %}
                             <!-- Choose the correct active page by adding active to the class list -->
                             <li {% if ACTIVE_PAGE == page.name %}class="active" {% endif %}>
-                                <a href="{{ page.url }}/?ref=nav-button{% if page.name == 'sgg_designer' %};draft=default{% endif %}">
+                                <a href="{{ page.url }}/?ref=nav-button">
                                     <div class="{{ page.name }}"></div>
                                     {{ page.label }}
                                 </a>

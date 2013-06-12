@@ -7,6 +7,7 @@ Created on Feb 5, 2013
 
 from django import forms
 import ast
+import datetime
 
 
 class ListFormField(forms.Field):
@@ -38,10 +39,15 @@ class DeleteLevelForm(forms.Form):
     level_slug = forms.CharField(max_length=25, help_text="Level slug", widget=forms.HiddenInput)
 
 
+class DeleteDraftForm(forms.Form):
+    """Form for deleting a draft in the designer."""
+    draft_slug = forms.CharField(max_length=25, help_text="Draft slug", widget=forms.HiddenInput)
+
+
 class EventDateForm(forms.Form):
     """Form for ensuring no cross-site scripting for setting event dates in the designer."""
     event_slug = forms.CharField(max_length=25, widget=forms.HiddenInput)
-    event_date = forms.DateTimeField()
+    event_date = forms.DateTimeField(initial=datetime.datetime.now)
     location = forms.CharField(max_length=40)
 
 
