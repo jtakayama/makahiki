@@ -348,8 +348,8 @@ Event you will be asked to provide the event date and location.
 
 The Designer Grid has four sections, draft choice, library column names, control buttons, and grid. 
 
- * The Draft choice row allows you to select the draft you want to work on or create a brand new 
-   draft.
+ * The Draft choice row allows you to select the draft you want to work on, create a brand new 
+   draft, or delete the current draft.
    
  * The Library Column Names holds the predefined column names we've used in previous Kukui Cups. 
    You can drag these columns to the grid activating the column.
