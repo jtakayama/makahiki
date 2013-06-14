@@ -19,7 +19,10 @@ def supply(request, page_name):
     try:
         draft_slug = request.REQUEST['draft']
     except KeyError:
-        draft_slug = draft_choices[0].slug
+        try:
+            draft_slug = request.COOKIES['current-designer-draft']
+        except KeyError:
+            draft_slug = draft_choices[0].slug
     try:
         draft = smartgrid_mgr.get_designer_draft(draft_slug)
     except Http404:

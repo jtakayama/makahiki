@@ -64,7 +64,7 @@ def approved_some_of_type(user, action_type, count=1):
 
 def approved_some_full_spectrum(user, count=1):
     """Returns true if the user has had count Activities, Commitments, and Events approved."""
-    ret = approved_some_of_type(user, action_type='activity', count=count)
+    ret = approved_some_of_type(user, action_type='activity', count=1)
     ret = ret and approved_some_of_type(user, action_type='commitment', count=count)
     ret = ret and approved_some_of_type(user, action_type='event', count=count)
     return ret
