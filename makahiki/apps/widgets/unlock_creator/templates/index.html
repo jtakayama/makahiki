@@ -12,75 +12,75 @@
 	<div id="content" class="content-box-contents">
 		<div id="unlock_creator" class="container-fluid">
 			<div class="row-fluid">
-				<input name="unlock_condition_match" value="uc_match" type="checkbox"> Match the following unlock condition:
+				Match <select name="and_or" id="and_or" class="short-select"><option value="and">all</option><option value="or">any</option></select> the following unlock conditions:
 			</div>
-			<div class="row-fluid predicate-row">
+			<div class="row-fluid predicate-row" data-row=1>
 				<hr/>
-				<div id="predicate_choice" class="span2">
-					<select name="predicate_choice" id="predicate_choices">
+				<div class="span2">
+					<select class="predicate_choices">
 					{% for predicate in view_objects.unlock_creator.predicates %}
 						<option value="{{predicate}}">{{predicate}}</option>
 					{% endfor %}
 					</select>
 				</div>
-				<div id="action_slug" class="span2">
+				<div class="span2 action_slug">
 					<select name="designer_action_choice" id="action_choice">
 					{% for action_slug in view_objects.unlock_creator.action_slugs %}
 						<option value="{{action_slug}}">{{action_slug}}</option>
 					{% endfor %}
 					</select>
 				</div>
-				<div id="action_type" class="span2 hidden">
+				<div class="span2 action_type hidden">
 					<select name="designer_action_type_choice" id="action_type_choice">
 					{% for value in view_objects.unlock_creator.action_types %}
 						<option value="{{value}}">{{value}}</option>
 					{% endfor %}
 					</select>
 				</div>
-				<div id="event_slug" class="span2 hidden">
+				<div class="span2 event_slug hidden">
 					<select name="designer_event_choice" id="event_choice">
 					{% for value in view_objects.unlock_creator.event_slugs %}
 						<option value="{{value}}">{{value}}</option>
 					{% endfor %}
 					</select>
 				</div>
-				<div id="game_name" class="span2 hidden">
+				<div class="span2 game_name hidden">
 					<select name="designer_game_choice" id="game_choice">
 					{% for value in view_objects.unlock_creator.game_names %}
 						<option value="{{value}}">{{value}}</option>
 					{% endfor %}
 					</select>
 				</div>
-				<div id="level_name" class="span2 hidden">
+				<div class="span2 level_name hidden">
 					<select name="designer_level_choice" id="level_choice">
 					{% for value in view_objects.unlock_creator.level_names %}
 						<option value="{{value}}">{{value}}</option>
 					{% endfor %}
 					</select>
 				</div>
-				<div id="resource" class="span2 hidden">
+				<div class="span2 resource hidden">
 					<select name="designer_resource_choice" id="resource_choice">
 					{% for value in view_objects.unlock_creator.resources %}
 						<option value="{{value}}">{{value}}</option>
 					{% endfor %}
 					</select>
 				</div>
-				<div id="round_name" class="span2 hidden">
+				<div class="span2 round_name hidden">
 					<select name="designer_round_choice" id="round_choice">
 					{% for value in view_objects.unlock_creator.round_names %}
 						<option value="{{value}}">{{value}}</option>
 					{% endfor %}
 					</select>
 				</div>
-				<div id="count" class="span2 hidden">
+				<div class="span2 count hidden">
 					<input type="number" name="count" min="0" max="15" value="1">
 				</div>
-				<div id="date_string" class="span2 hidden">
+				<div class="span2 date_string hidden">
 					<input type="text" name="event_date" value="2013-06-12 10:38:32" id="id_date" class="hasDatepicker">
 				</div>
 				<div id="plus-sign" class="span1">
 					<a class="enabled ticket-add circle" href="#"
-                	   onclick="addPredicateRow(); return false;">+</a>
+                	   onclick="addPredicateRow(this.parentElement.parentElement); return false;">+</a>
 				</div>
 			</div>
 		</div>
@@ -89,45 +89,86 @@
 
 <script type="text/javascript">
 
-function hideAllParameters() {
-	$('#action_slug').addClass('hidden');
-	$('#action_type').addClass('hidden');
-	$('#event_slug').addClass('hidden');
-	$('#game_name').addClass('hidden');
-	$('#level_name').addClass('hidden');
-	$('#resource').addClass('hidden');
-	$('#round_name').addClass('hidden');
-	$('#count').addClass('hidden');
-	$('#date_string').addClass('hidden');
+var predicateRows = 1;
+
+function hideAllParameters(elem) {
+	var row = elem.getAttribute('data-row');
+	log.debug('hideAllParameters(' + row + ')');
+	$('.predicate-row[data-row=]"'+ row +'"] div.action_slug').addClass('hidden');
+	$('.predicate-row[data-row=]"'+ row +'"] div.action_type').addClass('hidden');
+	$('.predicate-row[data-row=]"'+ row +'"] div.event_slug').addClass('hidden');
+	$('.predicate-row[data-row=]"'+ row +'"] div.game_name').addClass('hidden');
+	$('.predicate-row[data-row=]"'+ row +'"] div.level_name').addClass('hidden');
+	$('.predicate-row[data-row=]"'+ row +'"] div.resource').addClass('hidden');
+	$('.predicate-row[data-row=]"'+ row +'"] div.round_name').addClass('hidden');
+	$('.predicate-row[data-row=]"'+ row +'"] div.count').addClass('hidden');
+	$('.predicate-row[data-row=]"'+ row +'"] div.date_string').addClass('hidden');
+}
+
+function showParameters(elem, data) {
+	var row = elem.getAttribute('data-row');
+	log.debug('showParameters(' + row + ')');
+	var parameters = data.parameters;
+	for (var i = 1; i < parameters.length; i++) {
+		log.debug(parameters[i])
+		var item = $('.predicate-row[data-row=]"'+ row +'"] div.' + parameters[i]);
+		if (item) {
+			item.removeClass('hidden');
+		}
+	}
+}
+
+function activateSelection() {
+	log.debug("select.onchange");
+	var parent = this.parentElement.parentElement;
+	hideAllParameters(parent);
+	var chosenOption = this.options[this.selectedIndex];
+	log.debug("predicate selected = " + chosenOption.value);
+	jQuery.ajax({
+		url: "/unlock_creator/predicate_parameters/" + chosenOption.value + "/",
+		success: function(data) {
+			showParameters(parent, data);
+		}
+	});	
 }
 
 $(function() {
 	  $('#id_date').datetimepicker({ dateFormat: 'yy-mm-dd', timeFormat: 'hh:mm:ss' });
 });
 
-function addPredicateRow() {
+function addPredicateRow(elem) {
 	var copy = $('.predicate-row:first').clone();
+	predicateRows += 1;
+	copy.attr('data-row', predicateRows);
+	copy.children('div.span2 select').change(function() {
+		log.debug("select.onchange");
+		var parent = this.parentElement.parentElement;
+		hideAllParameters(parent);
+		var chosenOption = this.options[this.selectedIndex];
+		log.debug("predicate selected = " + chosenOption.value);
+		jQuery.ajax({
+			url: "/unlock_creator/predicate_parameters/" + chosenOption.value + "/",
+			success: function(data) {
+				showParameters(parent, data);
+			}
+		});
+	});
 	$('#unlock_creator').append(copy);
 }
 
-var predSelect=document.getElementById("predicate_choices")
-predSelect.onchange=function() {
-	hideAllParameters();
+var predSelect = $("div.predicate-row:first div.span2 select")
+log.debug(predSelect.onchange);
+predSelect.change(function() {
+	log.debug("select.onchange");
+	var parent = this.parentElement.parentElement;
+	hideAllParameters(parent);
 	var chosenOption = this.options[this.selectedIndex];
 	log.debug("predicate selected = " + chosenOption.value);
 	jQuery.ajax({
 		url: "/unlock_creator/predicate_parameters/" + chosenOption.value + "/",
 		success: function(data) {
-			var parameters = data.parameters;
-			for (var i = 1; i < parameters.length; i++) {
-				log.debug(parameters[i])
-				var item = $('#' + parameters[i]);
-				if (item) {
-					item.removeClass('hidden');
-				}
-				
-			}
+			showParameters(parent, data);
 		}
 	});
-}
+});
 </script>
