@@ -113,53 +113,62 @@ function buildUnlock() {
  		var chosenOption = selectElem.options[selectElem.selectedIndex];
 		log.debug(chosenOption.value);
 		unlock += chosenOption.value + '(';
+		var addedParam = false;
 		if ($('#clause-'+ i +' div.action_slug').is(":visible")) {
 			elem = $('#clause-'+ i +' div.action_slug');
 			selectElem = elem.children('select')[0];
 //			log.debug(selectElem.options[selectElem.selectedIndex].value);
 			unlock += '"' + selectElem.options[selectElem.selectedIndex].value + '", ';
+			addedParam = true;
 		}
 		if ($('#clause-'+ i +' div.action_type').is(":visible")) {
 			elem = $('#clause-'+ i +' div.action_type');
 			selectElem = elem.children('select')[0];			
 //			log.debug(selectElem.options[selectElem.selectedIndex].value);
 			unlock += '"' + selectElem.options[selectElem.selectedIndex].value + '", ';
+			addedParam = true;
 		}
 		if ($('#clause-'+ i +' div.event_slug').is(":visible")) {
 			elem = $('#clause-'+ i +' div.event_slug')
 			selectElem = elem.children('select')[0];			
 //			log.debug(selectElem.options[selectElem.selectedIndex].value);
 			unlock += '"' + selectElem.options[selectElem.selectedIndex].value + '", ';
+			addedParam = true;
 		}
 		if ($('#clause-'+ i +' div.game_name').is(":visible")) {
 			elem = $('#clause-'+ i +' div.game_name')
 			selectElem = elem.children('select')[0];			
 //			log.debug(selectElem.options[selectElem.selectedIndex].value);
 			unlock += '"' + selectElem.options[selectElem.selectedIndex].value + '", ';
+			addedParam = true;
 		}
 		if ($('#clause-'+ i +' div.level_name').is(":visible")) {
 			elem = $('#clause-'+ i +' div.level_name')
 			selectElem = elem.children('select')[0];			
 //			log.debug(selectElem.options[selectElem.selectedIndex].value);
 			unlock += '"' + selectElem.options[selectElem.selectedIndex].value + '", ';
+			addedParam = true;
 		}
 		if ($('#clause-'+ i +' div.resource').is(":visible")) {
 			elem = $('#clause-'+ i +' div.resource')
 			selectElem = elem.children('select')[0];			
 //			log.debug(selectElem.options[selectElem.selectedIndex].value);
 			unlock += '"' + selectElem.options[selectElem.selectedIndex].value + '", ';
+			addedParam = true;
 		}
 		if ($('#clause-'+ i +' div.round_name').is(":visible")) {
 			elem = $('#clause-'+ i +' div.round_name')
 			selectElem = elem.children('select')[0];			
 //			log.debug(selectElem.options[selectElem.selectedIndex].value);
 			unlock += '"' + selectElem.options[selectElem.selectedIndex].value + '", ';
+			addedParam = true;
 		}
 		if ($('#clause-'+ i +' div.count').is(":visible")) {
 			elem = $('#clause-'+ i +' div.count')
 			selectElem = elem.children('input')[0];			
 //			log.debug(selectElem.options[selectElem.selectedIndex].value);
 			unlock += selectElem.value + ', ';
+			addedParam = true;
 		}
 		if ($('#clause-'+ i +' div.date_string').is(":visible")) {
 			elem = $('#clause-'+ i +' div.date_string')
@@ -167,8 +176,11 @@ function buildUnlock() {
 //			log.debug(selectElem.options[selectElem.selectedIndex].value);
 			var dateStr = selectElem.value;
 			unlock += '"' + dateStr.substring(0, dateStr.length - 9) + '", ';
+			addedParam = true;
 		}
-		unlock = unlock.substring(0, unlock.length - 2);
+		if (addedParam) {
+			unlock = unlock.substring(0, unlock.length - 2);
+		}
 		unlock += ')' + anyOrAll.options[anyOrAll.selectedIndex].value;
 	}
 	unlock = unlock.substring(0, unlock.length - 5);
@@ -225,7 +237,7 @@ function addPredicateRow(elem) {
 	predicateRows += 1;
 	copy.attr('id', 'clause-' + predicateRows)
 	copy.attr('data-row', predicateRows);
-	$('#clause-'+ predicateRows +' div.date_string input.hasDatepicker').datetimepicker({ dateFormat: 'yy-mm-dd', timeFormat: 'hh:mm:ss' });
+//	$('#clause-'+ predicateRows +' div.date_string input.hasDatepicker').datetimepicker({ dateFormat: 'yy-mm-dd', timeFormat: 'hh:mm:ss' });
 	var notCheckbox = copy.children('.not input');
 	notCheckbox.attr('value', 'not-' + predicateRows);
 	$('#unlock_creator').append(copy);
