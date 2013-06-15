@@ -1837,7 +1837,7 @@
             "priority": 3,
             "unlock_condition_text": "Level 3 will be unlocked at the start of Round 4 (Sept 17)",
             "name": "Level 3",
-            "unlock_condition": "unlock_on_date(\"09/16/12\")",
+            "unlock_condition": "unlock_on_date(\"2012-09-16\")",
             "slug": "level-3"
         }
     },
@@ -1859,7 +1859,7 @@
             "priority": 5,
             "unlock_condition_text": "Level 5 will be unlocked on the start of Round 3 (Oct 1)",
             "name": "Level 5",
-            "unlock_condition": "unlock_on_date(\"10/01/12\")",
+            "unlock_condition": "unlock_on_date(\"2012-10-01\")",
             "slug": "level-5"
         }
     },
@@ -1870,7 +1870,7 @@
             "priority": 6,
             "unlock_condition_text": "Level 6 will be unlocked on January 1st.",
             "name": "Level 6",
-            "unlock_condition": "unlock_on_date(\"12/31/12\")",
+            "unlock_condition": "unlock_on_date(\"2012-12-31\")",
             "slug": "level-6"
         }
     },
@@ -1881,7 +1881,7 @@
             "priority": 7,
             "unlock_condition_text": "Level 7 will be unlocked on March 1st.",
             "name": "Level 7",
-            "unlock_condition": "unlock_on_date(\"02/28/13\")",
+            "unlock_condition": "unlock_on_date(\"2013-02-28\")",
             "slug": "level-7"
         }
     },

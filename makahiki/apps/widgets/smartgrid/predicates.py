@@ -169,7 +169,7 @@ def unlock_on_date(user, date_string):
     """Returns true if the current date is equal to or after the date_string."""
     _ = user
     today = datetime.today()
-    unlock_date = datetime.strptime(date_string, "%m/%d/%y")
+    unlock_date = datetime.strptime(date_string, "%y-%m-%d")
     return today >= unlock_date
 
 
