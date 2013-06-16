@@ -241,6 +241,16 @@ def is_level_name_predicate(predicate_fn):
     return 'level_name' in inspect.getargspec(predicate_fn).args
 
 
+def is_predicate_name(name):
+    """Returns True if the given name is a valid predicate function name."""
+    predicates = get_defined_predicates()
+    try:
+        predicates[name]
+        return True
+    except KeyError:
+        return False
+
+
 def is_resource_predicate(predicate_fn):
     """Returns True if the predicate_fn takes a resource parameter."""
     return 'resource' in inspect.getargspec(predicate_fn).args
