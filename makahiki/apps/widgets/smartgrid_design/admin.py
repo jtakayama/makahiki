@@ -2,7 +2,6 @@
 from django.db import models
 from apps.managers.cache_mgr import cache_mgr
 from apps.managers.challenge_mgr import challenge_mgr
-from apps.utils import utils
 from apps.widgets.smartgrid_design.views import designer_action_admin, \
     designer_action_admin_list
 
@@ -17,6 +16,7 @@ from apps.widgets.smartgrid_design.models import DesignerAction, DesignerActivit
     DesignerTextPromptQuestion, DesignerCommitment, DesignerEvent, DesignerFiller, \
     DesignerColumnName, DesignerLevel, DesignerQuestionChoice, Draft
 from django.http import HttpResponseRedirect
+from apps.managers.predicate_mgr import predicate_mgr
 
 
 class DesignerDraftAdmin(admin.ModelAdmin):
@@ -86,7 +86,7 @@ class DesignerActivityAdminForm(forms.ModelForm):
     def clean_unlock_condition(self):
         """Validates the unlock conditions of the action."""
         data = self.cleaned_data["unlock_condition"]
-        utils.validate_form_predicates(data)
+        predicate_mgr.validate_form_predicates(data)
         return data
 
     def clean(self):
@@ -269,7 +269,7 @@ class DesignerCommitmentAdminForm(forms.ModelForm):
     def clean_unlock_condition(self):
         """Validates the unlock conditions of the action."""
         data = self.cleaned_data["unlock_condition"]
-        utils.validate_form_predicates(data)
+        predicate_mgr.validate_form_predicates(data)
         return data
 
     def save(self, *args, **kwargs):
@@ -333,7 +333,7 @@ class DesignerEventAdminForm(forms.ModelForm):
     def clean_unlock_condition(self):
         """Validates the unlock conditions of the action."""
         data = self.cleaned_data["unlock_condition"]
-        utils.validate_form_predicates(data)
+        predicate_mgr.validate_form_predicates(data)
         return data
 
     def clean(self):
@@ -506,7 +506,7 @@ class DesignerLevelAdminForm(forms.ModelForm):
     def clean_unlock_condition(self):
         """Validates the unlock conditions of the action."""
         data = self.cleaned_data["unlock_condition"]
-        utils.validate_form_predicates(data)
+        predicate_mgr.validate_form_predicates(data)
         return data
 
 

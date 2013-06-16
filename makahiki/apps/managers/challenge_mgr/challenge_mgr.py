@@ -9,8 +9,8 @@ from django.utils.text import capfirst
 from apps.managers.cache_mgr import cache_mgr
 from apps.managers.challenge_mgr.models import ChallengeSetting, RoundSetting, PageSetting, \
     PageInfo, GameInfo, GameSetting
-from apps.utils import utils
 from django.core import management
+from apps.managers.predicate_mgr import predicate_mgr
 
 _designer_challenge_info_models = {}
 """private variable to store the registered models for challenge designer challenge page."""
@@ -141,7 +141,7 @@ def eval_page_unlock(user, page):
     if not predicates:
         return False
 
-    return utils.eval_predicates(predicates, user)
+    return predicate_mgr.eval_predicates(predicates, user)
 
 
 def all_page_info(user):

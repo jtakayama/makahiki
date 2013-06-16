@@ -4,9 +4,8 @@ Verifies that all of the existing smartgrid unlock condition strings are valid.
 Prints out the names of any invalid conditions."""
 
 from apps.managers.challenge_mgr.challenge_mgr import MakahikiBaseCommand
-from apps.utils import utils
-
 from apps.widgets.smartgrid.models import Action, Level
+from apps.managers.predicate_mgr import predicate_mgr
 
 
 class Command(MakahikiBaseCommand):
@@ -17,13 +16,13 @@ class Command(MakahikiBaseCommand):
         """handle"""
         print "Validating smartgrid ..."
         for action in Action.objects.all():
-            error_msg = utils.validate_predicates(action.unlock_condition)
+            error_msg = predicate_mgr.validate_predicates(action.unlock_condition)
             if error_msg:
                 print "Unlock conditions '%s' for action '%s' did not validate: %s" % (
                     action.unlock_condition, action.name, error_msg)
 
         for level in Level.objects.all():
-            error_msg = utils.validate_predicates(level.unlock_condition)
+            error_msg = predicate_mgr.validate_predicates(level.unlock_condition)
             if error_msg:
                 print "Unlock conditions '%s' for level '%s' did not validate: %s" % (
                     level.unlock_condition, level.name, error_msg)

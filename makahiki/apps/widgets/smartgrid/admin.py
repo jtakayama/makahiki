@@ -6,7 +6,6 @@ from django.template import RequestContext
 import markdown
 from apps.managers.cache_mgr import cache_mgr
 from apps.managers.challenge_mgr import challenge_mgr
-from apps.utils import utils
 from apps.widgets.smartgrid.models import ActionMember, Activity, ColumnName, Event, \
                                      Commitment, ConfirmationCode, TextPromptQuestion, \
                                      QuestionChoice, Level, Action, Filler, \
@@ -22,6 +21,7 @@ from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.db.utils import IntegrityError
 from apps.admin.admin import challenge_designer_site, challenge_manager_site, developer_site
+from apps.managers.predicate_mgr import predicate_mgr
 
 
 class ActionAdmin(admin.ModelAdmin):
@@ -73,7 +73,7 @@ class ActivityAdminForm(forms.ModelForm):
     def clean_unlock_condition(self):
         """Validates the unlock conditions of the action."""
         data = self.cleaned_data["unlock_condition"]
-        utils.validate_form_predicates(data)
+        predicate_mgr.validate_form_predicates(data)
         return data
 
     def clean(self):
@@ -246,7 +246,7 @@ class CommitmentAdminForm(forms.ModelForm):
     def clean_unlock_condition(self):
         """Validates the unlock conditions of the action."""
         data = self.cleaned_data["unlock_condition"]
-        utils.validate_form_predicates(data)
+        predicate_mgr.validate_form_predicates(data)
         return data
 
     def save(self, *args, **kwargs):
@@ -300,7 +300,7 @@ class EventAdminForm(forms.ModelForm):
     def clean_unlock_condition(self):
         """Validates the unlock conditions of the action."""
         data = self.cleaned_data["unlock_condition"]
-        utils.validate_form_predicates(data)
+        predicate_mgr.validate_form_predicates(data)
         return data
 
     def clean(self):
@@ -445,7 +445,7 @@ class LevelAdminForm(forms.ModelForm):
     def clean_unlock_condition(self):
         """Validates the unlock conditions of the action."""
         data = self.cleaned_data["unlock_condition"]
-        utils.validate_form_predicates(data)
+        predicate_mgr.validate_form_predicates(data)
         return data
 
 
