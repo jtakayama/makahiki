@@ -55,14 +55,14 @@ class QuestConditionsTest(TransactionTestCase):
         prize.save()
 
         # Test within context of a quest
-        self.quest.unlock_conditions = "allocated_ticket()"
+        self.quest.unlock_conditions = "allocated_raffle_ticket()"
         self.quest.save()
         quests = get_quests(self.user)
         self.assertTrue(self.quest not in quests["available_quests"],
             "User should not be able to participate in this quest.")
 
-        self.quest.unlock_conditions = "not allocated_ticket()"
-        self.quest.completion_conditions = "allocated_ticket()"
+        self.quest.unlock_conditions = "not allocated_raffle_ticket()"
+        self.quest.completion_conditions = "allocated_raffle_ticket()"
         self.quest.save()
         quests = get_quests(self.user)
         self.assertTrue(self.quest in quests["available_quests"],

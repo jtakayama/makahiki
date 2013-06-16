@@ -15,7 +15,7 @@ from apps.widgets.smartgrid_library.models import LibraryAction
 import urllib2
 from urllib2 import HTTPError, URLError
 from apps.managers.smartgrid_mgr.gcc_model import Error, Warn, _ERRORS, _WARNINGS
-from apps.utils import utils
+from apps.managers.predicate_mgr import predicate_mgr
 
 
 def __is_in_round(date, roundsetting):
@@ -88,7 +88,7 @@ def __check_predicates(action):
     Errors. Does not evaluate the predicates or test that the logic is correct."""
     ret = []
     unlock_condition = action.unlock_condition
-    valid_predicates = utils.get_defined_predicates()
+    valid_predicates = predicate_mgr.get_defined_predicates()
     if unlock_condition:
         no_pred = re.compile(r'^(\s*[^(]+\s*)$')
         if len(no_pred.findall(unlock_condition)) == 0:
@@ -215,7 +215,7 @@ def check_designer_unlock_dates(draft):
             if len(l) > 1:
                 index = l[1].find(')')
                 date_string = l[1][:index].strip('"\'')
-                unlock_date = datetime.strptime(date_string, "%m/%d/%y")
+                unlock_date = datetime.strptime(date_string, "%Y-%m-%d")
                 if __is_after_challenge(datetime.combine(unlock_date, time(0, 0))):
                     message = "unlock date %s is after challenge end %s" % \
                     (unlock_date.date(), challenge_mgr.get_challenge_end().date())

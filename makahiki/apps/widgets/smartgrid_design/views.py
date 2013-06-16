@@ -16,11 +16,11 @@ import json
 from apps.widgets.smartgrid_design.models import DesignerLevel, \
     DesignerAction, DesignerGrid, DesignerColumnGrid, Draft
 from django.template.defaultfilters import slugify
-from apps.utils import utils
 from apps.managers.smartgrid_mgr.forms import GccSettingsForm
 from apps.managers.smartgrid_mgr.models import GccSettings
 from apps.managers.smartgrid_mgr.gcc_model import _ERRORS, _WARNINGS
 from django.utils import importlib
+from apps.managers.predicate_mgr import predicate_mgr
 
 
 def supply(request, page_name):
@@ -408,7 +408,7 @@ def add_level(request, draft_slug):
             level = DesignerLevel(name=form.cleaned_data['level_name'], slug=slug, \
                                   priority=max_priority, draft=draft)
             predicate = form.cleaned_data['unlock_condition']
-            if not utils.validate_predicates(predicate):
+            if not predicate_mgr.validate_predicates(predicate):
                 level.unlock_condition = predicate
             else:
                 level.unlock_condition = 'False'  # What is the correct default value?

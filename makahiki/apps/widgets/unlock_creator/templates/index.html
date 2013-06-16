@@ -12,11 +12,14 @@
 	<div id="content" class="content-box-contents">
 		<div id="unlock_creator" class="container-fluid">
 			<div class="row-fluid">
-				Match <select name="and_or" id="and_or" class="short-select"><option value="and">all</option><option value="or">any</option></select> the following unlock conditions:
+				Match <select name="and_or" id="and_or" class="short-select"><option value=" and ">all</option><option value=" or  ">any</option></select> the following unlock conditions:
 			</div>
-			<div class="row-fluid predicate-row" data-row=1>
+			<div id="clause-1" class="row-fluid predicate-row" data-row=1>
 				<hr/>
-				<div class="span2">
+				<div class="span1 not">
+					<input type="checkbox" name="not" value="not-1">  Not
+				</div>
+				<div class="span2 predicates">
 					<select class="predicate_choices">
 					{% for predicate in view_objects.unlock_creator.predicates %}
 						<option value="{{predicate}}">{{predicate}}</option>
@@ -73,56 +76,149 @@
 					</select>
 				</div>
 				<div class="span2 count hidden">
-					<input type="number" name="count" min="0" max="15" value="1">
+					<input type="number" name="count" min="0" max="15" value="1" class="short-select">
 				</div>
 				<div class="span2 date_string hidden">
 					<input type="text" name="event_date" value="2013-06-12 10:38:32" id="id_date" class="hasDatepicker">
 				</div>
-				<div id="plus-sign" class="span1">
+				<div id="plus-sign" class="span1 plus-sign">
 					<a class="enabled ticket-add circle" href="#"
                 	   onclick="addPredicateRow(this.parentElement.parentElement); return false;">+</a>
+					<a class="enabled ticket-add circle" href="#"
+                	   onclick="deletePredicateRow(this.parentElement.parentElement); return false;">-</a>
 				</div>
 			</div>
 		</div>
+		<a href="#" class="btn btn-widget"
+			onclick="buildUnlock(); return false;">Use this Unlock Condition</a>
 	</div>
 </div>
 
 <script type="text/javascript">
-
 var predicateRows = 1;
-
-function hideAllParameters(elem) {
-	var row = elem.getAttribute('data-row');
-	log.debug('hideAllParameters(' + row + ')');
-	$('.predicate-row[data-row=]"'+ row +'"] div.action_slug').addClass('hidden');
-	$('.predicate-row[data-row=]"'+ row +'"] div.action_type').addClass('hidden');
-	$('.predicate-row[data-row=]"'+ row +'"] div.event_slug').addClass('hidden');
-	$('.predicate-row[data-row=]"'+ row +'"] div.game_name').addClass('hidden');
-	$('.predicate-row[data-row=]"'+ row +'"] div.level_name').addClass('hidden');
-	$('.predicate-row[data-row=]"'+ row +'"] div.resource').addClass('hidden');
-	$('.predicate-row[data-row=]"'+ row +'"] div.round_name').addClass('hidden');
-	$('.predicate-row[data-row=]"'+ row +'"] div.count').addClass('hidden');
-	$('.predicate-row[data-row=]"'+ row +'"] div.date_string').addClass('hidden');
+function buildUnlock() {
+	log.debug('buildUnlock()');
+	var anyOrAll = $('#and_or')[0];
+	var unlock = '';
+	for (var i = 1; i <= predicateRows; i++) {
+		log.debug('clause ' + i);
+		var clause = $('#clause-' + i);
+		var notChoice = $('#clause-' + i + ' div.not input');
+		log.debug(notChoice.prop('checked'));
+		if (notChoice.prop('checked')) {
+			unlock += 'not ';
+		}
+		var elem = $('#clause-'+ i + ' div.predicates');
+		var selectElem = elem.children('select')[0];
+ 		var chosenOption = selectElem.options[selectElem.selectedIndex];
+		log.debug(chosenOption.value);
+		unlock += chosenOption.value + '(';
+		var addedParam = false;
+		if ($('#clause-'+ i +' div.action_slug').is(":visible")) {
+			elem = $('#clause-'+ i +' div.action_slug');
+			selectElem = elem.children('select')[0];
+//			log.debug(selectElem.options[selectElem.selectedIndex].value);
+			unlock += '"' + selectElem.options[selectElem.selectedIndex].value + '", ';
+			addedParam = true;
+		}
+		if ($('#clause-'+ i +' div.action_type').is(":visible")) {
+			elem = $('#clause-'+ i +' div.action_type');
+			selectElem = elem.children('select')[0];			
+//			log.debug(selectElem.options[selectElem.selectedIndex].value);
+			unlock += '"' + selectElem.options[selectElem.selectedIndex].value + '", ';
+			addedParam = true;
+		}
+		if ($('#clause-'+ i +' div.event_slug').is(":visible")) {
+			elem = $('#clause-'+ i +' div.event_slug')
+			selectElem = elem.children('select')[0];			
+//			log.debug(selectElem.options[selectElem.selectedIndex].value);
+			unlock += '"' + selectElem.options[selectElem.selectedIndex].value + '", ';
+			addedParam = true;
+		}
+		if ($('#clause-'+ i +' div.game_name').is(":visible")) {
+			elem = $('#clause-'+ i +' div.game_name')
+			selectElem = elem.children('select')[0];			
+//			log.debug(selectElem.options[selectElem.selectedIndex].value);
+			unlock += '"' + selectElem.options[selectElem.selectedIndex].value + '", ';
+			addedParam = true;
+		}
+		if ($('#clause-'+ i +' div.level_name').is(":visible")) {
+			elem = $('#clause-'+ i +' div.level_name')
+			selectElem = elem.children('select')[0];			
+//			log.debug(selectElem.options[selectElem.selectedIndex].value);
+			unlock += '"' + selectElem.options[selectElem.selectedIndex].value + '", ';
+			addedParam = true;
+		}
+		if ($('#clause-'+ i +' div.resource').is(":visible")) {
+			elem = $('#clause-'+ i +' div.resource')
+			selectElem = elem.children('select')[0];			
+//			log.debug(selectElem.options[selectElem.selectedIndex].value);
+			unlock += '"' + selectElem.options[selectElem.selectedIndex].value + '", ';
+			addedParam = true;
+		}
+		if ($('#clause-'+ i +' div.round_name').is(":visible")) {
+			elem = $('#clause-'+ i +' div.round_name')
+			selectElem = elem.children('select')[0];			
+//			log.debug(selectElem.options[selectElem.selectedIndex].value);
+			unlock += '"' + selectElem.options[selectElem.selectedIndex].value + '", ';
+			addedParam = true;
+		}
+		if ($('#clause-'+ i +' div.count').is(":visible")) {
+			elem = $('#clause-'+ i +' div.count')
+			selectElem = elem.children('input')[0];			
+//			log.debug(selectElem.options[selectElem.selectedIndex].value);
+			unlock += selectElem.value + ', ';
+			addedParam = true;
+		}
+		if ($('#clause-'+ i +' div.date_string').is(":visible")) {
+			elem = $('#clause-'+ i +' div.date_string')
+			selectElem = elem.children('input')[0];			
+//			log.debug(selectElem.options[selectElem.selectedIndex].value);
+			var dateStr = selectElem.value;
+			unlock += '"' + dateStr.substring(0, dateStr.length - 9) + '", ';
+			addedParam = true;
+		}
+		if (addedParam) {
+			unlock = unlock.substring(0, unlock.length - 2);
+		}
+		unlock += ')' + anyOrAll.options[anyOrAll.selectedIndex].value;
+	}
+	unlock = unlock.substring(0, unlock.length - 5);
+ 	alert(unlock);
 }
 
-function showParameters(elem, data) {
-	var row = elem.getAttribute('data-row');
+
+function hideAllParameters(row) {
+	log.debug('hideAllParameters(' + row + ')');
+	$('#clause-'+ row +' div.action_slug').addClass('hidden');
+	$('#clause-'+ row +' div.action_type').addClass('hidden');
+	$('#clause-'+ row +' div.event_slug').addClass('hidden');
+	$('#clause-'+ row +' div.game_name').addClass('hidden');
+	$('#clause-'+ row +' div.level_name').addClass('hidden');
+	$('#clause-'+ row +' div.resource').addClass('hidden');
+	$('#clause-'+ row +' div.round_name').addClass('hidden');
+	$('#clause-'+ row +' div.count').addClass('hidden');
+	$('#clause-'+ row +' div.date_string').addClass('hidden');
+}
+
+function showParameters(row, data) {
 	log.debug('showParameters(' + row + ')');
 	var parameters = data.parameters;
 	for (var i = 1; i < parameters.length; i++) {
 		log.debug(parameters[i])
-		var item = $('.predicate-row[data-row=]"'+ row +'"] div.' + parameters[i]);
+		var item = $('#clause-'+ row +' div.' + parameters[i]);
 		if (item) {
 			item.removeClass('hidden');
 		}
 	}
 }
 
-function activateSelection() {
-	log.debug("select.onchange");
-	var parent = this.parentElement.parentElement;
-	hideAllParameters(parent);
-	var chosenOption = this.options[this.selectedIndex];
+function activateSelection(row) {
+	log.debug("activateSelection(" + row + ")");
+	var clause = $('#clause-' + row);
+	hideAllParameters(row);
+	var predicateElem = clause.children('.predicate_choices')
+	var chosenOption = predicateElem.options[predicateElem.selectedIndex];
 	log.debug("predicate selected = " + chosenOption.value);
 	jQuery.ajax({
 		url: "/unlock_creator/predicate_parameters/" + chosenOption.value + "/",
@@ -139,36 +235,36 @@ $(function() {
 function addPredicateRow(elem) {
 	var copy = $('.predicate-row:first').clone();
 	predicateRows += 1;
+	copy.attr('id', 'clause-' + predicateRows)
 	copy.attr('data-row', predicateRows);
-	copy.children('div.span2 select').change(function() {
-		log.debug("select.onchange");
-		var parent = this.parentElement.parentElement;
-		hideAllParameters(parent);
+//	$('#clause-'+ predicateRows +' div.date_string input.hasDatepicker').datetimepicker({ dateFormat: 'yy-mm-dd', timeFormat: 'hh:mm:ss' });
+	var notCheckbox = copy.children('.not input');
+	notCheckbox.attr('value', 'not-' + predicateRows);
+	$('#unlock_creator').append(copy);
+	activatePredicate(predicateRows);
+}
+
+function deletePredicateRow(elem) {
+	var parent = elem.parentElement;
+	parent.removeChild(elem);
+}
+
+function activatePredicate(row) {
+	log.debug('activatePredicate(' + row + ')');
+	var predSelect = $('#clause-' + row + ' select.predicate_choices');
+	predSelect.change(function() {
+		log.debug('onchange for row ' + row);
+		hideAllParameters(row);
 		var chosenOption = this.options[this.selectedIndex];
-		log.debug("predicate selected = " + chosenOption.value);
+		log.debug("selected predicate = "+ chosenOption.value);
 		jQuery.ajax({
 			url: "/unlock_creator/predicate_parameters/" + chosenOption.value + "/",
 			success: function(data) {
-				showParameters(parent, data);
+				showParameters(row, data);
 			}
-		});
+		});		
 	});
-	$('#unlock_creator').append(copy);
 }
 
-var predSelect = $("div.predicate-row:first div.span2 select")
-log.debug(predSelect.onchange);
-predSelect.change(function() {
-	log.debug("select.onchange");
-	var parent = this.parentElement.parentElement;
-	hideAllParameters(parent);
-	var chosenOption = this.options[this.selectedIndex];
-	log.debug("predicate selected = " + chosenOption.value);
-	jQuery.ajax({
-		url: "/unlock_creator/predicate_parameters/" + chosenOption.value + "/",
-		success: function(data) {
-			showParameters(parent, data);
-		}
-	});
-});
+activatePredicate(1);
 </script>

@@ -3,10 +3,9 @@
 from django.contrib import admin
 from django import forms
 from apps.managers.challenge_mgr import challenge_mgr
-from apps.utils import utils
-
 from apps.widgets.quests.models import Quest
 from apps.admin.admin import challenge_designer_site, challenge_manager_site, developer_site
+from apps.managers.predicate_mgr import predicate_mgr
 
 
 class QuestAdminForm(forms.ModelForm):
@@ -18,13 +17,13 @@ class QuestAdminForm(forms.ModelForm):
     def clean_unlock_conditions(self):
         """Validates the unlock conditions of the quest."""
         data = self.cleaned_data["unlock_conditions"]
-        utils.validate_form_predicates(data)
+        predicate_mgr.validate_form_predicates(data)
         return data
 
     def clean_completion_conditions(self):
         """Validates the unlock conditions of the quest."""
         data = self.cleaned_data["completion_conditions"]
-        utils.validate_form_predicates(data)
+        predicate_mgr.validate_form_predicates(data)
         return data
 
 

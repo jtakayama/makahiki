@@ -70,6 +70,23 @@ def approved_some_full_spectrum(user, count=1):
     return ret
 
 
+def completed_level(user, level_name):
+    """Returns true if the user has had all Activities and Commiments on the give level
+    approved."""
+    count = len(Grid.objects.filter(level__name=level_name, action__type='activity'))
+    count += len(Grid.objects.filter(level__name=level_name, action__type='commitment'))
+    c = 0
+    for action in Grid.objects.filter(level__name=level_name):
+        c += user.actionmember_set.filter(action=action,
+                                          approval_status="approved").count()
+    return c >= count
+
+
+def social_bonus_count(user, count):
+    """Returns True if the number of social bonus the user received equals to count."""
+    return user.actionmember_set.filter(social_bonus_awarded=True).count() >= count
+
+
 def submitted_action(user, action_slug):
     """Returns true if the user complete the action."""
     return action_slug in smartgrid.get_submitted_actions(user)
@@ -129,18 +146,6 @@ def submitted_some_full_spectrum(user, count=1):
     return ret
 
 
-def completed_level(user, level_name):
-    """Returns true if the user has had all Activities and Commiments on the give level
-    approved."""
-    count = len(Grid.objects.filter(level__name=level_name, action__type='activity'))
-    count += len(Grid.objects.filter(level__name=level_name, action__type='commitment'))
-    c = 0
-    for action in Grid.objects.filter(level__name=level_name):
-        c += user.actionmember_set.filter(action=action,
-                                          approval_status="approved").count()
-    return c >= count
-
-
 def submitted_level(user, level_name):
     """Returns true if the user has performed all activities successfully, and
       attempted all commitments."""
@@ -192,8 +197,3 @@ def unlock_on_event(user, event_slug, days=0, lock_after_days=0):
             return today >= unlock_date
     else:
         return True
-
-
-def social_bonus_count(user, count):
-    """Returns True if the number of social bonus the user received equals to count."""
-    return user.actionmember_set.filter(social_bonus_awarded=True).count() >= count

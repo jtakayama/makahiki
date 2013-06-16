@@ -2,7 +2,6 @@
 from django.db import models
 from apps.managers.cache_mgr import cache_mgr
 from apps.managers.challenge_mgr import challenge_mgr
-from apps.utils import utils
 
 from django.contrib import admin
 from django import forms
@@ -15,6 +14,7 @@ from apps.widgets.smartgrid_library.models import LibraryTextPromptQuestion, Lib
 from django.db.utils import IntegrityError
 from apps.widgets.smartgrid_library.views import library_action_admin_list, library_action_admin
 from django.http import HttpResponseRedirect
+from apps.managers.predicate_mgr import predicate_mgr
 
 
 class LibraryActionAdmin(admin.ModelAdmin):
@@ -84,7 +84,7 @@ class LibraryActivityAdminForm(forms.ModelForm):
     def clean_unlock_condition(self):
         """Validates the unlock conditions of the action."""
         data = self.cleaned_data["unlock_condition"]
-        utils.validate_form_predicates(data)
+        predicate_mgr.validate_form_predicates(data)
         return data
 
     def clean(self):
@@ -268,7 +268,7 @@ class LibraryCommitmentAdminForm(forms.ModelForm):
     def clean_unlock_condition(self):
         """Validates the unlock conditions of the action."""
         data = self.cleaned_data["unlock_condition"]
-        utils.validate_form_predicates(data)
+        predicate_mgr.validate_form_predicates(data)
         return data
 
     def save(self, *args, **kwargs):
@@ -334,7 +334,7 @@ class LibraryEventAdminForm(forms.ModelForm):
     def clean_unlock_condition(self):
         """Validates the unlock conditions of the action."""
         data = self.cleaned_data["unlock_condition"]
-        utils.validate_form_predicates(data)
+        predicate_mgr.validate_form_predicates(data)
         return data
 
     def save(self, *args, **kwargs):

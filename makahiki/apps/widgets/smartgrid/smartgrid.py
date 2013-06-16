@@ -12,13 +12,13 @@ from django.shortcuts import get_object_or_404
 from apps.managers.cache_mgr import cache_mgr
 from apps.managers.challenge_mgr import challenge_mgr
 from apps.managers.score_mgr import score_mgr
-from apps.utils import utils
 from apps.widgets.notifications.models import NoticeTemplate, UserNotification
 from apps.widgets.smartgrid import NUM_GOLOW_ACTIONS, SETUP_WIZARD_ACTIVITY, NOSHOW_PENALTY_DAYS
 from apps.widgets.smartgrid.models import Action, ActionMember, Level, EmailReminder, \
     TextReminder, ColumnGrid, Grid, Activity, Commitment
 from apps.widgets.smartgrid.models import Event
 from apps.widgets.smartgrid import  MAX_COMMITMENTS
+from apps.managers.predicate_mgr import predicate_mgr
 
 
 def get_setup_activity():
@@ -125,7 +125,7 @@ def get_levels(user):
     levels = []
     submitted_actions = get_submitted_actions(user)
     for level in Level.objects.all():
-        level.is_unlock = utils.eval_predicates(level.unlock_condition, user)
+        level.is_unlock = predicate_mgr.eval_predicates(level.unlock_condition, user)
         level.is_complete = True
         for row in Grid.objects.filter(level=level):
             action = row.action
@@ -145,7 +145,7 @@ def get_level_actions(user):  # pylint: disable=R0914,R0912,R0915
         submitted_actions = get_submitted_actions(user)
         levels = []
         for level in Level.objects.all():
-            level.is_unlock = utils.eval_predicates(level.unlock_condition, user)
+            level.is_unlock = predicate_mgr.eval_predicates(level.unlock_condition, user)
             if level.is_unlock:  # only include unlocked levels
                 if level.unlock_condition != "True":
                     contents = "%s is unlocked." % level
@@ -311,7 +311,7 @@ def get_available_golow_actions(user, related_resource):
 
 def is_level_unlock(user, level):
     """return True if the level is unlock."""
-    return level and utils.eval_predicates(level.unlock_condition, user)
+    return level and predicate_mgr.eval_predicates(level.unlock_condition, user)
 
 
 def afterPublished(user, action_slug):
@@ -350,8 +350,7 @@ def eval_unlock(user, action):
     # if not afterPublished(user, action.slug):
     #    return False
 
-    return utils.eval_predicates(predicates,
-                                 user)
+    return predicate_mgr.eval_predicates(predicates, user)
 
 
 def can_add_commitment(user):
