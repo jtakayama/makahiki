@@ -9,7 +9,7 @@ from apps.managers.challenge_mgr import challenge_mgr
 from apps.widgets.smartgrid.models import ActionMember, Activity, ColumnName, Event, \
                                      Commitment, ConfirmationCode, TextPromptQuestion, \
                                      QuestionChoice, Level, Action, Filler, \
-                                     EmailReminder, TextReminder
+                                     EmailReminder, TextReminder, ColumnGrid, Grid
 from apps.widgets.smartgrid.views import action_admin, action_admin_list
 
 from django.contrib import admin
@@ -766,3 +766,39 @@ challenge_mgr.register_admin_challenge_info_model("Notifications", 2, EmailRemin
 challenge_mgr.register_admin_challenge_info_model("Notifications", 2, TextReminder, 3)
 challenge_mgr.register_developer_challenge_info_model("Status", 3, EmailReminder, 7)
 challenge_mgr.register_developer_challenge_info_model("Status", 3, TextReminder, 8)
+
+
+class ColumnGridAdminForm(forms.ModelForm):
+    """Admin form for ColumnGrids."""
+    class Meta:
+        """meta"""
+        model = ColumnGrid
+
+
+class ColumnGridAdmin(admin.ModelAdmin):
+    """Admin interface for ColumnGrid."""
+    list_display = ["level", "column", "name"]
+    form = ColumnGridAdminForm
+
+
+admin.site.register(ColumnGrid, ColumnGridAdmin)
+developer_site.register(ColumnGrid, ColumnGridAdmin)
+challenge_mgr.register_developer_game_info_model("Smart Grid Game", ColumnGrid)
+
+
+class GridAdminForm(forms.ModelForm):
+    """Admin form for Grids."""
+    class Meta:
+        """meta"""
+        model = Grid
+
+
+class GridAdmin(admin.ModelAdmin):
+    """Admin interface for ColumnGrid."""
+    list_display = ["level", "column", "row", "action"]
+    form = GridAdminForm
+
+
+admin.site.register(Grid, GridAdmin)
+developer_site.register(Grid, GridAdmin)
+challenge_mgr.register_developer_game_info_model("Smart Grid Game", Grid)
