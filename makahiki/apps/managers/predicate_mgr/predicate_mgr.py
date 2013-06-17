@@ -244,10 +244,9 @@ def is_level_name_predicate(predicate_fn):
 def is_predicate_name(name):
     """Returns True if the given name is a valid predicate function name."""
     predicates = get_defined_predicates()
-    try:
-        predicates[name]
+    if name in predicates.keys():
         return True
-    except KeyError:
+    else:
         return False
 
 
