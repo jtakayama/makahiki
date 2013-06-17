@@ -78,7 +78,7 @@
                    		   		 data-pk={{act.action.pk}} data-unlock="{{act.action.unlock_condition}}">
                    		   			<br/>
                    		   			<a href="/challenge_setting_admin/smartgrid_design/designer{{act.action.type}}/{{act.action.pk}}/"
-									   class="sgg-action" ref="tooltip" title="{{act.action.title}}">{{act.action.name}}</a><br/>
+									   class="sgg-action" ref="tooltip" title="{{act.action.title}}: {{act.action.unlock_condition|escape}}">{{act.action.name}}</a><br/>
 								</div>		
 <script type="text/javascript">
 $("#designer-{{act.action.slug}}").bind("contextmenu", function(e) {

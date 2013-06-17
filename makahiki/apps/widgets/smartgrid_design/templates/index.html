@@ -38,7 +38,7 @@
 								data-unlock="{{action.unlock_condition}}"
 								class="sgg-action sgg-library-action sgg-activity library-draggable {% if action.slug in view_objects.smartgrid_design.designer_actions %}hidden{% endif %}">
 								<a href="/challenge_setting_admin/smartgrid_library/library{{action.type}}/{{action.pk}}/"
-									class="sgg-action" ref="tooltip" title="{{action.title}}">{{action.name}}</a>
+									class="sgg-action" ref="tooltip" title="{{action.title}}: {{action.unlock_condition|escape}}">{{action.name}}</a>
 							</div>
 							{% endfor %}
 						</div>
@@ -54,7 +54,7 @@
 							<div id="library-{{action.slug}}" data-slug="{{action.slug}}" data-type="{{action.type}}" data-pk="{{action.pk}}"
 								class="sgg-action sgg-library-action sgg-commitment library-draggable {% if action.slug in view_objects.smartgrid_design.designer_actions %}hidden{% endif %}">
 								<a href="/challenge_setting_admin/smartgrid_library/library{{action.type}}/{{action.pk}}/"
-									class="sgg-action" ref="tooltip" title="{{action.title}}">{{action.name}}</a>
+									class="sgg-action" ref="tooltip" title="{{action.title}}: {{action.unlock_condition|escape}}">{{action.name}}</a>
 							</div>
 							{% endfor %}
 						</div>
@@ -70,7 +70,7 @@
 							<div id="library-{{action.slug}}" data-slug="{{action.slug}}" data-type="{{action.type}}" data-pk="{{action.pk}}"
 								class="sgg-action sgg-library-action sgg-event library-draggable {% if action.slug in view_objects.smartgrid_design.designer_actions %}hidden{% endif %}">
 								<a href="/challenge_setting_admin/smartgrid_library/library{{action.type}}/{{action.pk}}/"
-									class="sgg-action" ref="tooltip" title="{{action.title}}">{{action.name}}</a>
+									class="sgg-action" ref="tooltip" title="{{action.title}}: {{action.unlock_condition|escape}}">{{action.name}}</a>
 							</div>
 							{% endfor %}
 						</div>
@@ -156,7 +156,7 @@ $(document).click(function() {
            			   			 data-type="{{action.type}}" data-pk={{action.pk}} data-unlock="{{action.unlock_condition}}">
            		   				<br/>
            		   				<a href="/challenge_setting_admin/smartgrid_design/designer{{action.type}}/{{action.pk}}/"
-								   class="sgg-action" ref="tooltip" title="{{action.title}}">{{action.name}}</a><br/>
+								   class="sgg-action" ref="tooltip" title="{{action.title}}: {{action.unlock_condition|escape}}">{{action.name}}</a><br/>
 							</div>								
 <script type="text/javascript">
 $("#designer-{{action.slug}}").bind("contextmenu", function(e) {
