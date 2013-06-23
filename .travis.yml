@@ -10,6 +10,7 @@ postgres:
     username: postgres
 install: pip install -r requirements.txt --use-mirrors --quiet
 before_script:
+    - psql -c 'drop database test_makahiki;' -U postgres
     - psql -c 'create user makahiki;' -U postgres
     - psql -c 'create database makahiki owner makahiki;' -U postgres
     - "export DISPLAY=:99.0"
