@@ -7,7 +7,7 @@ env:
 branches:
   only:
     - master
-    - /^deploy.*$/
+    - deploy
 postgres:
     adapter: postgresql
     database: makahiki
