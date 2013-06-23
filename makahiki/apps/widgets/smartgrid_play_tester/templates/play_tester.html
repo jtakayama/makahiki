@@ -1,0 +1,89 @@
+{% extends "logged_in_base.html" %}
+
+{% load markup %}
+
+{% load avatar_tags %}
+
+{% block page_title %}
+    Learn
+{% endblock %}
+
+{% block selected_icon %}selected-learn{% endblock %}
+
+{% block extra_head %}
+{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+	<div class="row-fluid">
+		<div class="span12">
+			<div class="sgg-draft-choice">Choose Draft:
+				<select name="designer_draft_choice" id="draft_choices">
+				{% for draft in view_objects.smartgrid_design.draft_choices %}
+					<option value="{{draft.slug}}" {% if view_objects.smartgrid_design.draft == draft %}selected{% endif %}>{{draft.name}}</option>
+				{% endfor %}
+				</select>
+				<a href="#" class="btn btn-widget" onclick="switchDraft();return false;">Select Draft</a>
+			</div>
+		</div>
+	</div>
+	<div class="row-fluid">
+		<div class="content-box-centered">
+    		<div class="content-box-title">
+        	The Smart Grid Game Tester
+        	<a href="#" style="float: right">
+            	<img src="{{ STATIC_URL}}images/icons/icon-help-sm.png" width="20" align="center"
+                	 title="Click to get help about this window"
+                	 onclick="toggleHelp(event, 'widget', 'smart-grid-game'); return false;"/></a>
+    		</div>
+		    <div class="content-box-contents">
+        		<p></p>
+        		<!-- Tabs for the levels -->
+		        <ul id="sgg-levels-tab" class="nav nav-tabs">
+        		{% for level in view_objects.smartgrid.levels %}
+            		<li class="">
+                		<a
+                  		{% if level.is_unlock %}
+		                      class="level-unlocked" data-toggle="tab" style="padding-right: 6px; padding-left: 6px;" title="{{ level.name }} Actions"
+        		        {% else %}
+                		      class="level-locked" style="cursor:no-drop; padding-right: 6px; padding-left: 6px;" title="{{ level.unlock_condition_text }}"
+		                      onclick="toggleLocked(event, '{{ level.unlock_condition_text|safe }}'); return false;"
+        		        {% endif %}
+                		  href="#sgg-level-{{forloop.counter}}" rel="tooltip" >
+		                {% if level.is_complete %}
+        		              <img src="{{ STATIC_URL}}images/icons/icon-done.png" width="12" align="left"/>                  
+                		{% endif %}
+                  		{% if not level.is_unlock %}
+                      		<img src="{{ STATIC_URL}}images/lock24.png" width="14" align="left"/>
+                  		{% endif %}
+                    	{{ level.name }}
+                		</a>
+        		{% endfor %}
+        		</ul>
+		        <!-- Tab contents -->
+        		<div class="tab-content">
+		        {% for grid_level in view_objects.smartgrid.grid %}
+        			{% with level=grid_level|nth:0 %}
+		        	{% with col_list=grid_level|nth:1 %}
+        			{% with act_list=grid_level|nth:2 %}
+		        	{% with columns=grid_level|nth:3 %}
+        			{% with max_col=grid_level|nth:4 %}
+		        	{% with max_row=grid_level|nth:5 %}
+        		    <div id="sgg-level-{{forloop.counter}}" class="tab-pane">
+                		{% if level.is_unlock %}
+		                  {% include "level-table.html" %}
+        		        {% endif %}
+		            </div>
+        			{% endwith %}
+		        	{% endwith %}
+        			{% endwith %}
+		        	{% endwith %}
+        			{% endwith %}
+		        	{% endwith %}
+        		{% endfor %}
+        		</div>
+        	</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
