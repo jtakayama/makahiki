@@ -1,7 +1,7 @@
 language: python
 env:
   global:
-    - MAKAHIKI_DATABASE_URL=postgres://makahiki:makahiki@postgres@127.0.0.1:5432/makahiki
+    - MAKAHIKI_DATABASE_URL=postgres://postgres@127.0.0.1:5432/makahiki
     - MAKAHIKI_ADMIN_INFO=admin:admin
     - MAKAHIKI_DEBUG=True
 postgres:
