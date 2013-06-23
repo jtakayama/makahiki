@@ -93,10 +93,10 @@ def _get_default_view_objects(request):
     default_view_objects = {}
     if not __is_admin_page(request):
         for widget in settings.INSTALLED_DEFAULT_WIDGET_APPS:
-                view_module_name = 'apps.widgets.' + widget + '.views'
-                page_views = importlib.import_module(view_module_name)
-                widget = widget.replace(".", "_")
-                default_view_objects[widget] = page_views.supply(request, None)
+            view_module_name = 'apps.widgets.' + widget + '.views'
+            page_views = importlib.import_module(view_module_name)
+            widget = widget.replace(".", "_")
+            default_view_objects[widget] = page_views.supply(request, None)
     return default_view_objects
 
 
