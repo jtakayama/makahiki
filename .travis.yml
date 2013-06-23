@@ -18,4 +18,4 @@ after_script:
     - scripts/run_pep8.sh
 notifications:
     email:
-        - makahiki-dev@googlegroups.com
+        - cammymoore07@gmail.com
