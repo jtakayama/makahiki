@@ -1,8 +1,8 @@
-branches:
-  only:
-    - master
-    - develop
-    - production
+#branches:
+#  only:
+#    - master
+#    - develop
+#    - production
 language: python
 env:
   global:
