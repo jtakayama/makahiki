@@ -19,7 +19,7 @@
 		<div class="span12">
 			<div class="sgg-draft-choice">Choose Draft:
 				<select name="designer_draft_choice" id="draft_choices">
-				{% for draft in view_objects.smartgrid_design.draft_choices %}
+				{% for draft in draft_choices %}
 					<option value="{{draft.slug}}" {% if view_objects.smartgrid_design.draft == draft %}selected{% endif %}>{{draft.name}}</option>
 				{% endfor %}
 				</select>

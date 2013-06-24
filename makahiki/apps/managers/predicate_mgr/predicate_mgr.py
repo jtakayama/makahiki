@@ -30,6 +30,20 @@ def eval_predicates(predicates, user):
     return eval(predicates, {"__builtins__": None}, ALLOW_DICT)
 
 
+def eval_play_tester_predicates(predicates, user):
+    """Returns the boolean evaluation results of the tester predicates against the user."""
+    ALLOW_DICT = {"True": True, "False": False, "user": user}
+    ALLOW_DICT.update(get_player_tester_predicates())
+    ALLOW_DICT.update(get_challenge_tester_predicates())
+    ALLOW_DICT.update(get_smartgrid_tester_predicates())
+
+    for key in ALLOW_DICT:
+        if "%s(" % key in predicates:
+            predicates = predicates.replace("%s(" % key, "%s(user," % key)
+
+    return eval(predicates, {"__builtins__": None}, ALLOW_DICT)
+
+
 def get_action_slugs(draft):
     """Returns a list of all the slugs available in the given draft.  This includes all the
     LibraryAction slugs and any new action slugs in the draft."""
@@ -49,6 +63,20 @@ def get_challenge_predicates():
     """Returns the challenge predicates as a dictionary whose keys are the names of the predicates
     and the values are the predicate functions."""
     from apps.managers.predicate_mgr.challenge_predicates import game_enabled, reached_round
+    return {
+            "game_enabled": game_enabled,
+            "reached_round": reached_round,
+            }
+
+
+def reached_round_tester():
+    """Tester predicate replacement for challenge_mgr.predicates.reached_round."""
+    return True
+
+
+def get_challenge_tester_predicates():
+    """Returns the tester challenge predicates."""
+    from apps.managers.predicate_mgr.challenge_tester_predicates import game_enabled, reached_round
     return {
             "game_enabled": game_enabled,
             "reached_round": reached_round,
@@ -131,6 +159,12 @@ def get_player_predicates():
             }
 
 
+def get_player_tester_predicates():
+    """Returns the tester predicates associated with players.  This is the same
+    get_player_predicates()."""
+    return get_player_predicates()
+
+
 def get_predicate_parameter_types(predicate_str):
     """Returns a list of the parameter types for the given predicate_str."""
     preds = get_defined_predicates()
@@ -194,6 +228,46 @@ def get_smartgrid_predicates():  # pylint: disable=R0914
             "unlock_on_event": unlock_on_event,
             }  # pylint: enable=R0914
 
+
+def get_smartgrid_tester_predicates():
+    """Returns the tester smartgrid predicates."""
+    from apps.managers.predicate_mgr.smartgrid_tester_predicates import approved_action, \
+    approved_all_of_level, approved_all_of_resource, approved_all_of_type, approved_some, \
+    approved_some_full_spectrum, approved_some_of_level, approved_some_of_resource, \
+    approved_some_of_type, completed_level, social_bonus_count, submitted_action, \
+    submitted_all_of_level, submitted_all_of_resource, submitted_all_of_type, submitted_level, \
+    submitted_some, submitted_some_full_spectrum, submitted_some_of_level, \
+    submitted_some_of_resource, submitted_some_of_type, unlock_on_date, unlock_on_event
+
+    return {
+            "approved_action": approved_action,
+            "approved_all_of_level": approved_all_of_level,
+            "approved_all_of_resource": approved_all_of_resource,
+            "approved_all_of_type": approved_all_of_type,
+            "approved_some": approved_some,
+            "approved_some_full_spectrum": approved_some_full_spectrum,
+            "approved_some_of_level": approved_some_of_level,
+            "approved_some_of_resource": approved_some_of_resource,
+            "approved_some_of_type": approved_some_of_type,
+            "completed_action": submitted_action,
+            "completed_level": completed_level,
+            "completed_some_of": submitted_some_of_type,
+            "completed_some_of_level": submitted_some_of_level,
+            "social_bonus_count": social_bonus_count,
+            "submitted_action": submitted_action,
+            "submitted_all_of_level": submitted_all_of_level,
+            "submitted_all_of_resource": submitted_all_of_resource,
+            "submitted_all_of_type": submitted_all_of_type,
+            "submitted_level": submitted_level,
+            "submitted_some": submitted_some,
+            "submitted_some_full_spectrum": submitted_some_full_spectrum,
+            "submitted_some_of_level": submitted_some_of_level,
+            "submitted_some_of_resource": submitted_some_of_resource,
+            "submitted_some_of_type": submitted_some_of_type,
+            "unlock_on_date": unlock_on_date,
+            "unlock_on_event": unlock_on_event,
+            }  # pylint: enable=R0914
+    
 
 def get_smartgrid_unlock_predicates():
     """Returns the suggested predicates for Smartgrid Action unlock conditions."""
