@@ -13,7 +13,8 @@ before_install:
     - sudo ln -s /usr/lib/`uname -i`-linux-gnu/libjpeg.so.8 ~/virtualenv/python2.7/lib/
     - sudo ln -s /usr/lib/`uname -i`-linux-gnu/libfreetype.so ~/virtualenv/python2.7/lib/
     - sudo ln -s /usr/lib/`uname -i`-linux-gnu/libz.so ~/virtualenv/python2.7/lib/
-install: pip install -r requirements.txt --use-mirrors --quiet
+#install: pip install -r requirements.txt --use-mirrors --quiet
+install: pip install -r requirements.txt --use-mirrors
 before_script:
     - psql -c 'create user makahiki;' -U postgres
     - psql -c 'create database makahiki owner makahiki;' -U postgres
