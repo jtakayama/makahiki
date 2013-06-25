@@ -532,6 +532,8 @@ admin.site.register(DesignerLevel, DesignerLevelAdmin)
 challenge_designer_site.register(DesignerLevel, DesignerLevelAdmin)
 challenge_manager_site.register(DesignerLevel, DesignerLevelAdmin)
 developer_site.register(DesignerLevel, DesignerLevelAdmin)
+challenge_mgr.register_designer_challenge_info_model("Smart Grid Game Designer", 4, \
+                                                      DesignerLevel, 3)
 challenge_mgr.register_developer_challenge_info_model("Smart Grid Game Designer", 4, \
                                                       DesignerLevel, 3)
 

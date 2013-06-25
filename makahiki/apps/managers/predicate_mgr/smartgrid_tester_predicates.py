@@ -71,13 +71,13 @@ def approved_some_full_spectrum(user, count=1):
     return ret
 
 
-def completed_level(user, level_name):
+def completed_level(user, level_priority):
     """Returns true if the user has had all Activities and Commiments on the give level
     approved."""
-    count = len(Grid.objects.filter(level__name=level_name, action__type='activity'))
-    count += len(Grid.objects.filter(level__name=level_name, action__type='commitment'))
+    count = len(Grid.objects.filter(level__priority=level_priority, action__type='activity'))
+    count += len(Grid.objects.filter(level__priority=level_priority, action__type='commitment'))
     c = 0
-    for action in Grid.objects.filter(level__name=level_name):
+    for action in Grid.objects.filter(level__priority=level_priority):
         c += user.testeractionsubmittion_set.filter(action=action,
                                           approval_status="approved").count()
     return c >= count
@@ -173,11 +173,8 @@ def submitted_level(user, level_name):
 
 
 def unlock_on_date(user, date_string):
-    """Returns true if the current date is equal to or after the date_string."""
-    _ = user
-    today = datetime.today()
-    unlock_date = datetime.strptime(date_string, "%Y-%m-%d")
-    return today >= unlock_date
+    """Returns True."""
+    return True
 
 
 def unlock_on_event(user, event_slug, days=0, lock_after_days=0):
@@ -185,17 +182,4 @@ def unlock_on_event(user, event_slug, days=0, lock_after_days=0):
     defined by the event_slug, optionally days before. days should be a negative number.
     Optionally lock_after_days, if not zero then will return false lock_after_days
     after the event."""
-    _ = user
-    today = datetime.today()
-    day_delta = timedelta(days=days)
-    event = Event.objects.get(slug=event_slug)
-    if event:
-        unlock_date = event.event_date + day_delta
-        if lock_after_days != 0:
-            day_after = timedelta(days=lock_after_days)
-            lock_date = event.event_date + day_after
-            return today >= unlock_date and today <= lock_date
-        else:
-            return today >= unlock_date
-    else:
-        return True
+    return True

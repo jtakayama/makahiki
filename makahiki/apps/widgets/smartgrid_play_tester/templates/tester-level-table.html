@@ -36,9 +36,11 @@
     						 )">
     				</a>
     				{% elif act.availablity == 0 %}  {# --- between pub date and expire date --- #}
+    					
 	                    {% if act.is_unlock %}
                     <a href="{% url tester_view_action act.type act.slug %}"
-                       title="{{act.name}}" onClick="setLevel({{level.priority}})">
+                       title="{{act.unlock_condition}}" rel="tooltip"
+                       onClick="setLevel({{level.priority}})">
                            {% if act.type != 'commitment' %}
                                {% if act.completed %}
                                    {% if act.member.approval_status == "rejected" %}
@@ -47,7 +49,7 @@
                              align="left"/>
                                    {% else %}
                                        {% if act.member.approval_status == "pending" %}
-                                           {% if act.event.is_event_completed %}
+                                           {% if act.is_event_completed %}
                         <img src="{{ STATIC_URL }}images/icons/icon-exclamation2.png"
                              width="12"
                              align="left"/>
@@ -69,7 +71,7 @@
                                   {% if act.point_value %}
                         <h3>{{ act.point_value }}</h3>
                                   {% else %}
-                        <h3>{{ act.activity.point_range_end }}</h3>
+                        <h3>{{ act.point_range_end }}</h3>
                                   {% endif %}
                                {% endif %}
                            {% else %}  {# ------ is commitment #}

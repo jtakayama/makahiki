@@ -8,6 +8,7 @@ from apps.widgets.smartgrid_design.models import DesignerLevel, DesignerColumnGr
 from apps.managers.predicate_mgr import predicate_mgr
 from apps.widgets.notifications.models import UserNotification
 from apps.widgets.smartgrid_play_tester.models import TesterActionSubmittion
+from apps.managers.smartgrid_mgr import smartgrid_mgr
 
 
 def annotate_action_details(user, action):
@@ -128,22 +129,14 @@ def get_designer_grid(draft, user):
             just_actions = []
             # update each action
             for row in DesignerGrid.objects.filter(draft=draft, level=level):
-                action = DesignerAction.objects.get(draft=draft, slug=row.action.slug)
+                action = smartgrid_mgr.get_designer_action(draft=draft, slug=row.action.slug)
                 action.row = row.row
                 if row.row > max_row:
                     max_row = row.row
                 action.column = row.column
                 if row.column > max_column:
                     max_column = row.column
-                if action.slug in submitted_actions:
-                    action.member = submitted_actions[action.slug]
-                    action.is_unlock = True
-                    action.completed = True
-                else:
-                    action.is_unlock = is_unlock(user, action)
-                    action.completed = False
-
-                action.availablity = availablity(action)
+                action = annotate_action_details(user, action)
                 # if there is one action is not completed, set the level to in-completed
                 if not action.completed:
                     level.is_complete = False
@@ -176,4 +169,4 @@ def can_complete_commitment(user, commitment):
     """Returns true."""
     _ = user
     _ = commitment
-    return True
+    return False

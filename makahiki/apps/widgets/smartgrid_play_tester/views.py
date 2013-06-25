@@ -86,7 +86,6 @@ def add_action(request, action_type, slug):
         return view_test_events.add(request, action)
 
 
-
 def drop_action(request, action_type, slug):
     """Handles the play tester dropping the given action defined by the action_type and slug."""
     pass
@@ -96,7 +95,6 @@ def _get_current_draft(request):
     """Returns the currently selected Draft."""
     draft_choices = Draft.objects.all()
     try:
-        print request.COOKIES
         draft_slug = request.COOKIES['current-designer-draft']
     except KeyError:
         draft_slug = draft_choices[0].slug

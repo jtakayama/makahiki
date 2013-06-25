@@ -70,13 +70,13 @@ def approved_some_full_spectrum(user, count=1):
     return ret
 
 
-def completed_level(user, level_name):
+def completed_level(user, level_priority):
     """Returns true if the user has had all Activities and Commiments on the give level
     approved."""
-    count = len(Grid.objects.filter(level__name=level_name, action__type='activity'))
-    count += len(Grid.objects.filter(level__name=level_name, action__type='commitment'))
+    count = len(Grid.objects.filter(level__priority=level_priority, action__type='activity'))
+    count += len(Grid.objects.filter(level__priority=level_priority, action__type='commitment'))
     c = 0
-    for action in Grid.objects.filter(level__name=level_name):
+    for action in Grid.objects.filter(level__priority=level_priority):
         c += user.actionmember_set.filter(action=action,
                                           approval_status="approved").count()
     return c >= count

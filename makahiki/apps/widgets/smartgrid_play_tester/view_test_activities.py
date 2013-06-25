@@ -98,7 +98,7 @@ def add(request, activity):
             qid = form.data["question"]
             question = DesignerTextPromptQuestion.objects.get(pk=qid)
             form.action_question = question
-        return render_to_response("task.html", {
+        return render_to_response("tester_action.html", {
             "action": activity,
             "form": form,
             "completed_count": 0,

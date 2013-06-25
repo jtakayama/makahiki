@@ -13,12 +13,12 @@
     {% endif %}
 
     <p/>
-    {% if action.type == "event" or action.type == "excursion" %}          {# event #}
-        {% include "event_form.html" %}
+    {% if action.type == "event" %}          {# event #}
+        {% include "tester_event_form.html" %}
     {% elif action.type == "commitment" %}     {# commitment #}
-        {% include "commitment_form.html" %}
+        {% include "tester_commitment_form.html" %}
     {% elif action.type == "activity" %}       {# activity #}
-        {% include "activity_form.html" %}
+        {% include "tester_activity_form.html" %}
     {% endif %}
 
     </form>

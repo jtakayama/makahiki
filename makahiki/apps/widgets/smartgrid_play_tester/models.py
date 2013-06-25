@@ -147,7 +147,7 @@ class TesterActionSubmittion(models.Model):
 
                 if self.action.type == "commitment" and not self.completion_date:
                     self.completion_date = self.submission_date + \
-                        datetime.timedelta(days=self.action.commitment.commitment_length)
+                        datetime.timedelta(days=self.action.commitment_length)
 
                 super(TesterActionSubmittion, self).save(args, kwargs)
 
