@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 from django.db.models.query_utils import Q
 from apps.widgets.smartgrid import smartgrid
 from apps.widgets.smartgrid.models import Action, Event, Grid
+from apps.widgets.smartgrid_play_tester import play_tester
 
 
 def approved_action(user, action_slug):
@@ -89,7 +90,7 @@ def social_bonus_count(user, count):
 
 def submitted_action(user, action_slug):
     """Returns true if the user complete the action."""
-    return action_slug in smartgrid.get_submitted_actions(user)
+    return action_slug in play_tester.get_submitted_actions(user)
 
 
 def submitted_all_of_level(user, level_name):
@@ -175,7 +176,7 @@ def unlock_on_date(user, date_string):
     """Returns true if the current date is equal to or after the date_string."""
     _ = user
     today = datetime.today()
-    unlock_date = datetime.strptime(date_string, "%y-%m-%d")
+    unlock_date = datetime.strptime(date_string, "%Y-%m-%d")
     return today >= unlock_date
 
 

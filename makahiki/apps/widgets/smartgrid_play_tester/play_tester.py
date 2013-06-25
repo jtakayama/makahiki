@@ -10,6 +10,58 @@ from apps.widgets.notifications.models import UserNotification
 from apps.widgets.smartgrid_play_tester.models import TesterActionSubmittion
 
 
+def annotate_action_details(user, action):
+    """Retrieve the action details for the given user evaluated in the testing environment"""
+    if action.type == "commitment":
+        submittions = TesterActionSubmittion.objects.filter(user=user, action=action).\
+            order_by("-submission_date")
+        # calculate the task duration
+        action.duration = action.commitment_length
+    else:
+        submittions = TesterActionSubmittion.objects.filter(user=user, action=action)
+        # calculate the task duration
+        if action.type == "activity":
+            duration = action.expected_duration
+        else:  # is event
+            if action.type in ("event", "excursion"):
+                duration = action.expected_duration
+            else:
+                duration = 0
+
+        hours = duration / 60
+        minutes = duration % 60
+        action.duration = ""
+        if hours > 1:
+            action.duration = "%d hours" % hours
+        elif hours > 0:
+            action.duration = "%d hour" % hours
+        if minutes > 0:
+            action.duration += " %d minutes" % minutes
+
+    if submittions:
+        action.member = submittions[0]
+        action.is_unlock = True
+        action.completed = True
+    else:
+        action.member = None
+        action.is_unlock = is_unlock(user, action)
+        for loc in DesignerGrid.objects.filter(action=action):
+            action.is_unlock = action.is_unlock and is_level_unlock(user, loc.level)
+        action.completed = False
+    action.availablity = availablity(action)
+    return action
+
+
+def can_add_commitment(user):
+    """Returns true for all users."""
+    return True
+
+
+def is_level_unlock(user, level):
+    """return True if the level is unlock."""
+    return level and predicate_mgr.eval_play_tester_predicates(level.unlock_condition, user)
+
+
 def get_submitted_actions(user):
     """returns the completed action for the user. It is stored as a dict of action slugs and
     its member status."""
@@ -117,4 +169,11 @@ def get_designer_grid(draft, user):
             level_ret.append(0)
             level_ret.append(0)
             levels.append(level_ret)
-    
+    return levels
+
+
+def can_complete_commitment(user, commitment):
+    """Returns true."""
+    _ = user
+    _ = commitment
+    return True

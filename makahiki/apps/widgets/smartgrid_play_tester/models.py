@@ -12,12 +12,9 @@ from apps.managers.score_mgr.models import PointsTransaction
 import os
 from django.conf import settings
 import datetime
-from apps.widgets.badges import badges
 from apps.managers.score_mgr import score_mgr
 from apps.widgets.smartgrid import SETUP_WIZARD_ACTIVITY
 from django.core.urlresolvers import reverse
-from apps.managers.challenge_mgr import challenge_mgr
-from django.template.loader import render_to_string
 
 
 _MEDIA_LOCATION_ACTION = os.path.join("smartgrid", "actions")
@@ -41,7 +38,9 @@ class TesterActionSubmittion(models.Model):
     active."""
 
     STATUS_TYPES = (
+        ('pending', 'Pending approval'),
         ('approved', 'Approved'),
+        ('rejected', 'Rejected'),
         )
 
     user = models.ForeignKey(User)

@@ -7,13 +7,16 @@ Created on Jun 23, 2013
 from django.conf.urls.defaults import url, patterns
 
 urlpatterns = patterns('',
+    url(r'^$',
+        'apps.widgets.smartgrid_play_tester.views.view',
+        name='tester_view'),
     url(r'^(?P<action_type>[\w]+)/(?P<slug>[\w\d\-]+)/$',
-        'apps.widgets.smartgrid_design_tester.views.view_action',
+        'apps.widgets.smartgrid_play_tester.views.view_action',
         name='tester_view_action'),
     url(r'^(?P<action_type>[\w]+)/(?P<slug>[\w\d\-]+)/add/$',
-        'apps.widgets.smartgrid_design_tester.views.add_action',
+        'apps.widgets.smartgrid_play_tester.views.add_action',
         name='tester_activity_add'),
     url(r'^(?P<action_type>[\w]+)/(?P<slug>[\w\d\-]+)/drop/$',
-        'apps.widgets.smartgrid_design_tester.views.drop_action',
+        'apps.widgets.smartgrid_play_tester.views.drop_action',
         name='tester_activity_drop'),
     )

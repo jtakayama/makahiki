@@ -9,10 +9,10 @@ postgres:
     database: makahiki
     username: postgres
 before_install:
-    - sudo apt-get install libjpeg8 libjpeg8-dev libfreetype6 libfreetype6-dev zlib1g-dev tree
-    - sudo ln -s /usr/lib/`uname -i`-linux-gnu/libjpeg.so ~/virtualenv/python2.7/lib/
-    - sudo ln -s /usr/lib/`uname -i`-linux-gnu/libfreetype.so ~/virtualenv/python2.7/lib/
-    - sudo ln -s /usr/lib/`uname -i`-linux-gnu/libz.so ~/virtualenv/python2.7/lib/
+    - sudo apt-get install libjpeg8 libjpeg8-dev libfreetype6 libfreetype6-dev zlib1g-dev tree python-imaging
+    - sudo ln -s /usr/lib/`uname -i`-linux-gnu/libjpeg.so /usr/lib
+    - sudo ln -s /usr/lib/`uname -i`-linux-gnu/libfreetype.so /usr/lib
+    - sudo ln -s /usr/lib/`uname -i`-linux-gnu/libz.so /usr/lib
 #install: pip install -r requirements.txt --use-mirrors --quiet
 install: pip install -r requirements.txt --use-mirrors
 before_script:

@@ -17,6 +17,7 @@ from apps.widgets.smartgrid_design.models import DesignerAction, DesignerColumnN
     DesignerTextPromptQuestion, DesignerGrid, DesignerColumnGrid, Draft
 import os
 from django.core.management import call_command
+from apps.managers.predicate_mgr import predicate_mgr
 
 
 def duplicate(obj, value=None, field=None, duplicate_order=None):  # pylint: disable=R0914
@@ -528,6 +529,21 @@ def get_designer_draft(slug):
 def get_designer_level(draft, slug):
     """Return the DesignerLevel for the given slug."""
     return get_object_or_404(DesignerLevel, draft=draft, slug=slug)
+
+
+def get_designer_levels(draft):
+    """Return a list of the DesignerLevels for the given draft."""
+    return DesignerLevel.objects.filter(draft=draft)
+
+
+def get_designer_test_levels(draft, user):
+    """Returns a list of DesignerLevels with their unlock conditions set according to the
+    test predicates."""
+    levels = []
+    for level in Level.objects.all():
+        level.is_unlock = predicate_mgr.eval_play_tester_predicates(level.unlock_condition, user)
+        levels.append(level)
+    return levels
 
 
 def get_library_action(slug):
