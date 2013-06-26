@@ -5,7 +5,7 @@ Created on Jun 23, 2013
 '''
 from django.db import models
 from django.contrib.auth.models import User
-from apps.widgets.smartgrid_design.models import DesignerAction, DesignerTextPromptQuestion
+from apps.widgets.smartgrid_design.models import DesignerAction, DesignerTextPromptQuestion, Draft
 from django.contrib.contenttypes import generic
 from apps.widgets.notifications.models import UserNotification
 from apps.managers.score_mgr.models import PointsTransaction
@@ -45,6 +45,7 @@ class TesterActionSubmittion(models.Model):
 
     user = models.ForeignKey(User)
     action = models.ForeignKey(DesignerAction)
+    draft = models.ForeignKey(Draft)
     question = models.ForeignKey(DesignerTextPromptQuestion, null=True, blank=True)
     notifications = generic.GenericRelation(UserNotification, editable=False)
     pointstransactions = generic.GenericRelation(PointsTransaction, editable=False)

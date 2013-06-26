@@ -19,9 +19,10 @@ def view(request):
     user = request.user
     draft_choices = Draft.objects.all()
     draft = _get_current_draft(request)
-    smart_grid = play_tester.get_designer_grid(draft, user)
+    smart_grid = play_tester.get_designer_grid(draft=draft, user=user)
     return render_to_response("play_tester.html", {
         "draft_choices": draft_choices,
+        "draft": draft,
         "levels": smartgrid_mgr.get_designer_test_levels(draft=draft, user=user),
         "smart_grid": smart_grid,
         }, context_instance=RequestContext(request))

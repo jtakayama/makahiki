@@ -12,11 +12,11 @@ def approved_action(user, action_slug):
                                         approval_status="approved").count() > 0
 
 
-def approved_all_of_level(user, level_name):
+def approved_all_of_level(user, level_priority):
     """Returns True if the user has had all Actions on the given level approved."""
     c = 0
-    count = len(Grid.objects.filter(level__name=level_name))
-    for action in Grid.objects.filter(level__name=level_name):
+    count = len(Grid.objects.filter(level__priority=level_priority))
+    for action in Grid.objects.filter(level__priority=level_priority):
         c += user.actionmember_set.filter(action=action,
                                           approval_status="approved").count()
     return c >= count
@@ -41,10 +41,10 @@ def approved_some(user, count=1):
     return user.actionmember_set.filter(approval_status='approved').count() >= count
 
 
-def approved_some_of_level(user, level_name, count=1):
+def approved_some_of_level(user, level_priority, count=1):
     """Returns True if the user has had count Actions approved for the given level."""
     c = 0
-    for action in Grid.objects.filter(level__name=level_name):
+    for action in Grid.objects.filter(level__priority=level_priority):
         c += user.actionmember_set.filter(action=action,
                                           approval_status="approved").count()
     return c >= count
@@ -92,11 +92,11 @@ def submitted_action(user, action_slug):
     return action_slug in smartgrid.get_submitted_actions(user)
 
 
-def submitted_all_of_level(user, level_name):
+def submitted_all_of_level(user, level_priority):
     """Returns True if the user has submitted all Actions on the given level."""
     c = 0
-    count = len(Grid.objects.filter(level__name=level_name))
-    for action in Grid.objects.filter(level__name=level_name):
+    count = len(Grid.objects.filter(level__priority=level_priority))
+    for action in Grid.objects.filter(level__priority=level_priority):
         c += user.actionmember_set.filter(action=action).count()
     return c >= count
 
@@ -119,10 +119,10 @@ def submitted_some(user, count=1):
     return user.actionmember_set.all().count() >= count
 
 
-def submitted_some_of_level(user, level_name, count=1):
+def submitted_some_of_level(user, level_priority, count=1):
     """Returns true if the user has completed count Actions of the specified level."""
     c = 0
-    for action in Grid.objects.filter(level__name=level_name):
+    for action in Grid.objects.filter(level__priority=level_priority):
         c += user.actionmember_set.filter(action=action).count()
     return c >= count
 
@@ -146,7 +146,7 @@ def submitted_some_full_spectrum(user, count=1):
     return ret
 
 
-def submitted_level(user, level_name):
+def submitted_level(user, level_priority):
     """Returns true if the user has performed all activities successfully, and
       attempted all commitments."""
 #    num_completed = user.actionmember_set.filter(
@@ -156,7 +156,7 @@ def submitted_level(user, level_name):
     num_completed = 0
     level_actions = Grid.objects.filter(
         Q(action__type='activity') | Q(action__type='commitment'),
-        level__name=level_name)
+        level__priority=level_priority)
     for grid in level_actions:
         actionmember = user.actionmember_set.filter(action=grid.action)
         if actionmember:

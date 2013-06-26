@@ -541,7 +541,8 @@ def get_designer_test_levels(draft, user):
     test predicates."""
     levels = []
     for level in Level.objects.all():
-        level.is_unlock = predicate_mgr.eval_play_tester_predicates(level.unlock_condition, user)
+        level.is_unlock = predicate_mgr.eval_play_tester_predicates(level.unlock_condition,
+                                                                    user, draft)
         levels.append(level)
     return levels
 

@@ -17,6 +17,7 @@ from apps.widgets.smartgrid_play_tester import play_tester
 def add(request, commitment):
     """Commit the current user to the commitment."""
     user = request.user
+    draft = commitment.draft
     value = None
 
     if request.method == "GET":  # redirect to task page, only allow POST
@@ -52,7 +53,7 @@ def add(request, commitment):
     elif play_tester.can_add_commitment(user):
         # User can commit to this commitment. allow to commit to completed commitment again
         # as long as the pending does not reach max
-        member = TesterActionSubmittion(user=user, action=commitment)
+        member = TesterActionSubmittion(user=user, action=commitment, draft=draft)
 
         if form:
             member.social_email = form.cleaned_data["social_email"].lower()

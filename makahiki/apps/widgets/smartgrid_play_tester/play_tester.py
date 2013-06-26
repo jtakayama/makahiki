@@ -47,7 +47,7 @@ def annotate_action_details(user, action):
         action.member = None
         action.is_unlock = is_unlock(user, action)
         for loc in DesignerGrid.objects.filter(action=action):
-            action.is_unlock = action.is_unlock and is_level_unlock(user, loc.level)
+            action.is_unlock = action.is_unlock and is_level_unlock(user, loc.level, action.draft)
         action.completed = False
     action.availablity = availablity(action)
     return action
@@ -58,17 +58,18 @@ def can_add_commitment(user):
     return True
 
 
-def is_level_unlock(user, level):
+def is_level_unlock(user, level, draft):
     """return True if the level is unlock."""
-    return level and predicate_mgr.eval_play_tester_predicates(level.unlock_condition, user)
+    return level and predicate_mgr.eval_play_tester_predicates(level.unlock_condition, user, draft)
 
 
-def get_submitted_actions(user):
+def get_submitted_actions(user, draft_slug):
     """returns the completed action for the user. It is stored as a dict of action slugs and
     its member status."""
 #     actions = cache_mgr.get_cache('smartgrid-completed-%s' % user.username)
+    draft = smartgrid_mgr.get_designer_draft(draft_slug)
     actions = {}
-    for member in TesterActionSubmittion.objects.filter(user=user).\
+    for member in TesterActionSubmittion.objects.filter(draft=draft, user=user).\
         select_related("action").order_by("-submission_date"):
         slug = member.action.slug
         if  member.action.type != "commitment":
@@ -92,8 +93,8 @@ def eval_unlock(user, action):
     predicates = action.unlock_condition
     if not predicates:
         return False
-
-    return predicate_mgr.eval_play_tester_predicates(predicates, user)
+    draft = smartgrid_mgr.get_designer_draft(action.draft)
+    return predicate_mgr.eval_play_tester_predicates(predicates, user, draft)
 
 
 def availablity(action):
@@ -104,10 +105,10 @@ def availablity(action):
 
 def get_designer_grid(draft, user):
     """Returns the play tester version of the Smart Grid Game for the given draft."""
-    submitted_actions = get_submitted_actions(user)
     levels = []
     for level in DesignerLevel.objects.filter(draft=draft):
-        level.is_unlock = predicate_mgr.eval_play_tester_predicates(level.unlock_condition, user)
+        level.is_unlock = predicate_mgr.eval_play_tester_predicates(level.unlock_condition,
+                                                                    user=user, draft=draft)
         if level.is_unlock:  # only include unlocked levels
             if level.unlock_condition != "True":
                 contents = "%s is unlocked." % level

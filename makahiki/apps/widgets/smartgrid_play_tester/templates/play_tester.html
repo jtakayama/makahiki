@@ -1,4 +1,4 @@
-{% extends "logged_in_base.html" %}
+{% extends "base.html" %}
 
 {% load markup %}
 {% load avatar_tags %}
@@ -10,33 +10,71 @@
 {% block selected_icon %}selected-learn{% endblock %}
 
 {% block extra_head %}
+
+    <link rel="stylesheet" href="{{ STATIC_URL }}jquery-ui/jquery-ui.css">
+    {% if not MAKAHIKI_USE_LESS %}
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/{{ CSS_THEME }}.css">
+    {% else %}
+        <link rel="stylesheet/less" type="text/css"
+              href="{{ STATIC_URL }}less/{{ CSS_THEME }}.less">
+    {% endif %}
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
+  <script src="{{STATIC_URL}}bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+
+  <script src="{{STATIC_URL}}js/jquery.cycle.all-min.js" type="text/javascript" ></script>
+  <script src="{{STATIC_URL}}js/jquery.purr.js" type="text/javascript" ></script>
+  <script src="{{STATIC_URL}}js/makahiki.js" type="text/javascript"></script>
+  <script src="{{STATIC_URL}}js/feedback.js" type="text/javascript"></script>
+  <script src="{{STATIC_URL}}js/log4javascript.js" type="text/javascript"></script>
+    <script src="{{ STATIC_URL }}bootstrap/js/bootstrap-tooltip.js" type="text/javascript"></script>
+  <script type="text/javascript">
+	//var log = log4javascript.getNullLogger();
+	var log = log4javascript.getDefaultLogger();
+  </script>
+
+    {% if not MAKAHIKI_USE_LESS %}
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/status.css">
+    {% else %}
+        <link rel="stylesheet/less" type="text/css" href="{{ STATIC_URL }}less/status.less">
+        <script src="{{ STATIC_URL }}js/less-1.3.0.min.js" type="text/javascript"></script>
+    {% endif %}
+
 {% endblock %}
 
 {% block body %}
 <div class="container-fluid">
-	<div class="row-fluid">
-		<div class="span12">
-			<div class="sgg-draft-choice">Choose Draft:
-				<select name="designer_draft_choice" id="draft_choices">
+	<div class="content-box-centered">
+   		<div class="content-box-title">
+       	The Smart Grid Game Tester
+       	<a href="#" style="float: right">
+           	<img src="{{ STATIC_URL}}images/icons/icon-help-sm.png" width="20" align="center"
+               	 title="Click to get help about this window"
+               	 onclick="toggleHelp(event, 'widget', 'smart-grid-game'); return false;"/></a>
+   		</div>
+	    <div class="content-box-contents">
+       		<p></p>
+			<div class="row-fluid">
+				<div class="span12">
+					<div class="sgg-draft-choice">Choose Draft:
+						<select name="designer_draft_choice" id="draft_choices">
 				{% for draft in draft_choices %}
-					<option value="{{draft.slug}}" {% if view_objects.smartgrid_design.draft == draft %}selected{% endif %}>{{draft.name}}</option>
+							<option value="{{draft.slug}}" {% if view_objects.smartgrid_design.draft == draft %}selected{% endif %}>{{draft.name}}</option>
 				{% endfor %}
-				</select>
-				<a href="#" class="btn btn-widget" onclick="switchDraft();return false;">Select Draft</a>
+						</select>
+						<a href="#" class="btn btn-widget" onclick="switchDraft();return false;">Select Draft</a>
+					</div>
+				</div>
 			</div>
-		</div>
-	</div>
-	<div class="row-fluid">
-		<div class="content-box-centered">
-    		<div class="content-box-title">
-        	The Smart Grid Game Tester
-        	<a href="#" style="float: right">
-            	<img src="{{ STATIC_URL}}images/icons/icon-help-sm.png" width="20" align="center"
-                	 title="Click to get help about this window"
-                	 onclick="toggleHelp(event, 'widget', 'smart-grid-game'); return false;"/></a>
-    		</div>
-		    <div class="content-box-contents">
-        		<p></p>
+			<a href="/sgg_designer/">
+	            <button class="btn btn-widget" style="cursor:pointer;">
+    	            <img src="{{ STATIC_URL}}images/left.png" width="25"
+        	             align="top">
+            	    Back to Designer
+            	</button>
+			</a>
+			<div class="row-fluid">
         		<!-- Tabs for the levels -->
 		        <ul id="sgg-levels-tab" class="nav nav-tabs">
         		{% for level in levels %}
@@ -151,28 +189,26 @@
 
 
 <script type="text/javascript">
+	var currentDraft = "{{draft.slug}}";
     $(document).ready(function () {
     	var current_level = getCookie("current-level");
-//     	var temp = $('#sgg-levels-tab a:first');
-//         $('#sgg-levels-tab a:first').tab('show');
     	if (current_level != null)
     	{
+            log.debug("got level cookie " + current_level);
     		var foo = $('#sgg-levels-tab a:nth('+current_level+')');
     		if (foo.hasClass('level-unlocked')) {
-//     			console.log("got unlocked class " + foo);
+     			log.debug("got unlocked class " + foo);
                 $('#sgg-levels-tab a:nth('+current_level+')').tab('show');
     		}
     		else 
     		{
-//     			console.log("showing first tab even though cookie said " + current_level);
+     			log.debug("showing first tab even though cookie said " + current_level);
                 $('#sgg-levels-tab a:first').tab('show');    			
     		}
-//             console.log("got level cookie " + current_level)
-//             temp = $('#sgg-levels-tab a:nth('+current_level+')');
     	}
     	else
     	{
-//             console.log("no level cookie");
+            log.debug("no level cookie");
             $('#sgg-levels-tab a:first').tab('show');
     	}
         var task_unlock_condition = getCookie("task_unlock_condition");
@@ -270,6 +306,28 @@
         modalElement.css('margin-top', (modalElement.outerHeight() / 2) * -1);
         modalElement.modal('show');     
     }
+    
+	function switchDraft() {
+		var choices = document.getElementById('draft_choices');
+		var draftChoice = choices.options[choices.selectedIndex].value
+		if (currentDraft != draftChoice) {
+			deleteCookie("current-designer-level");
+			setCurrentDraft(draftChoice);
+			window.location.href = "/smartgrid_play_tester/?draft=" + draftChoice;
+		}
+	}
+	
+	function setDesignerLevel(lvl) {
+		log.debug("setting current-designer-level cookie to " + lvl);
+    	setCookie("current-designer-level", lvl - 1);
+	}
+	
+	function setCurrentDraft(draft_slug) {
+		log.debug("setting current draft to " + draft_slug);
+		setCookie("current-designer-draft", draft_slug);
+	}
+
+    
 </script>
 
 {% endblock %}

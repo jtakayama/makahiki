@@ -1,166 +1,191 @@
 """Predicates indicating if a level or cell should be unlocked."""
 
-from datetime import datetime, timedelta
 from django.db.models.query_utils import Q
-from apps.widgets.smartgrid import smartgrid
-from apps.widgets.smartgrid.models import Action, Event, Grid
 from apps.widgets.smartgrid_play_tester import play_tester
+from apps.widgets.smartgrid_design.models import DesignerAction, DesignerGrid
+from apps.managers.smartgrid_mgr import smartgrid_mgr
 
 
-def approved_action(user, action_slug):
+def approved_action(user, draft_slug, action_slug):
     """Returns true if the action is approved."""
-    return user.testeractionsubmittion_set.filter(action__slug=action_slug,
+    draft = smartgrid_mgr.get_designer_draft(draft_slug)
+    return user.testeractionsubmittion_set.filter(draft=draft, action__slug=action_slug,
                                         approval_status="approved").count() > 0
 
 
-def approved_all_of_level(user, level_name):
+def approved_all_of_level(user, draft_slug, level_priority):
     """Returns True if the user has had all Actions on the given level approved."""
+    draft = smartgrid_mgr.get_designer_draft(draft_slug)
     c = 0
-    count = len(Grid.objects.filter(level__name=level_name))
-    for action in Grid.objects.filter(level__name=level_name):
+    count = len(DesignerGrid.objects.filter(draft=draft, level__priority=level_priority))
+    for action in DesignerGrid.objects.filter(level__priority=level_priority):
         c += user.testeractionsubmittion_set.filter(action=action,
                                           approval_status="approved").count()
     return c >= count
 
 
-def approved_all_of_resource(user, resource):
+def approved_all_of_resource(user, draft_slug, resource):
     """Returns True if the user has had all Actions of the given resource approved."""
-    count = Action.objects.filter(related_resource=resource).count()
-    return user.testeractionsubmittion_set.filter(action__related_resource=resource,
+    draft = smartgrid_mgr.get_designer_draft(draft_slug)
+    count = DesignerAction.objects.filter(draft=draft, related_resource=resource).count()
+    return user.testeractionsubmittion_set.filter(draft=draft, action__related_resource=resource,
                                         approval_status="approved").count() == count
 
 
-def approved_all_of_type(user, action_type):
+def approved_all_of_type(user, draft_slug, action_type):
     """Returns True if the user has had all Actions of the action_type approved."""
-    count = Action.objects.filter(type=action_type).count()
+    draft = smartgrid_mgr.get_designer_draft(draft_slug)
+    count = DesignerAction.objects.filter(draft=draft, type=action_type).count()
     return user.testeractionsubmittion_set.filter(action__type=action_type,
                                         approval_status="approved").count() == count
 
 
-def approved_some(user, count=1):
+def approved_some(user, draft_slug, count=1):
     """Returns True if the user has had count Actions approved."""
-    return user.testeractionsubmittion_set.filter(approval_status='approved').count() >= count
+    draft = smartgrid_mgr.get_designer_draft(draft_slug)
+    return user.testeractionsubmittion_set.filter(draft=draft,
+                                                  approval_status='approved').count() >= count
 
 
-def approved_some_of_level(user, level_name, count=1):
+def approved_some_of_level(user, draft_slug, level_priority, count=1):
     """Returns True if the user has had count Actions approved for the given level."""
+    draft = smartgrid_mgr.get_designer_draft(draft_slug)
     c = 0
-    for action in Grid.objects.filter(level__name=level_name):
+    for action in DesignerGrid.objects.filter(draft=draft, level__priority=level_priority):
         c += user.testeractionsubmittion_set.filter(action=action,
                                           approval_status="approved").count()
     return c >= count
 
 
-def approved_some_of_resource(user, resource, count=1):
+def approved_some_of_resource(user, draft_slug, resource, count=1):
     """Returns true of the user has had count Actions approved with the given resource."""
-    return user.testeractionsubmittion_set.filter(action__related_resource=resource,
+    draft = smartgrid_mgr.get_designer_draft(draft_slug)
+    return user.testeractionsubmittion_set.filter(draft=draft, action__related_resource=resource,
                                         approval_status="approved").count() >= count
 
 
-def approved_some_of_type(user, action_type, count=1):
+def approved_some_of_type(user, draft_slug, action_type, count=1):
     """Returns true if the user has had count Actions approved with the given action_type."""
-    return user.testeractionsubmittion_set.filter(action__type=action_type,
+    draft = smartgrid_mgr.get_designer_draft(draft_slug)
+    return user.testeractionsubmittion_set.filter(draft=draft, action__type=action_type,
                                         approval_status="approved").count() >= count
 
 
-def approved_some_full_spectrum(user, count=1):
+def approved_some_full_spectrum(user, draft_slug, count=1):
     """Returns true if the user has had count Activities, Commitments, and Events approved."""
-    ret = approved_some_of_type(user, action_type='activity', count=1)
-    ret = ret and approved_some_of_type(user, action_type='commitment', count=count)
-    ret = ret and approved_some_of_type(user, action_type='event', count=count)
+    ret = approved_some_of_type(user, draft_slug, action_type='activity', count=count)
+    ret = ret and approved_some_of_type(user, draft_slug, action_type='commitment', count=count)
+    ret = ret and approved_some_of_type(user, draft_slug, action_type='event', count=count)
     return ret
 
 
-def completed_level(user, level_priority):
+def completed_level(user, draft_slug, level_priority):
     """Returns true if the user has had all Activities and Commiments on the give level
     approved."""
-    count = len(Grid.objects.filter(level__priority=level_priority, action__type='activity'))
-    count += len(Grid.objects.filter(level__priority=level_priority, action__type='commitment'))
+    draft = smartgrid_mgr.get_designer_draft(draft_slug)
+    count = len(DesignerGrid.objects.filter(draft=draft,
+                                            level__priority=level_priority, action__type='activity'))
+    count += len(DesignerGrid.objects.filter(draft=draft,
+                                             level__priority=level_priority, action__type='commitment'))
     c = 0
-    for action in Grid.objects.filter(level__priority=level_priority):
-        c += user.testeractionsubmittion_set.filter(action=action,
-                                          approval_status="approved").count()
+    for grid in DesignerGrid.objects.filter(draft=draft,
+                                              level__priority=level_priority):
+        c += user.testeractionsubmittion_set.filter(draft=draft, action=grid.action,
+                                                        approval_status="approved").count()
+    print "completed_level(%s) %s >= %s" % (level_priority, c, count)
     return c >= count
 
 
-def social_bonus_count(user, count):
+def social_bonus_count(user, draft_slug, count):
     """Returns True if the number of social bonus the user received equals to count."""
-    return user.testeractionsubmittion_set.filter(social_bonus_awarded=True).count() >= count
+    draft = smartgrid_mgr.get_designer_draft(draft_slug)
+    return user.testeractionsubmittion_set.filter(draft=draft,
+                                                  social_bonus_awarded=True).count() >= count
 
 
-def submitted_action(user, action_slug):
+def submitted_action(user, draft_slug, action_slug):
     """Returns true if the user complete the action."""
-    return action_slug in play_tester.get_submitted_actions(user)
+    return action_slug in play_tester.get_submitted_actions(user, draft_slug)
 
 
-def submitted_all_of_level(user, level_name):
+def submitted_all_of_level(user, draft_slug, level_priority):
     """Returns True if the user has submitted all Actions on the given level."""
+    draft = smartgrid_mgr.get_designer_draft(draft_slug)
     c = 0
-    count = len(Grid.objects.filter(level__name=level_name))
-    for action in Grid.objects.filter(level__name=level_name):
-        c += user.testeractionsubmittion_set.filter(action=action).count()
+    count = len(DesignerGrid.objects.filter(draft=draft, level__priority=level_priority))
+    for action in DesignerGrid.objects.filter(draft=draft, level__priority=level_priority):
+        c += user.testeractionsubmittion_set.filter(draft=draft, action=action).count()
     return c >= count
 
 
-def submitted_all_of_resource(user, resource):
+def submitted_all_of_resource(user, draft_slug, resource):
     """Returns true if user has submitted all Actions of the given resoruce."""
-    count = Action.objects.filter(related_resource=resource).count()
-    c = user.testeractionsubmittion_set.filter(action__related_resource=resource).count()
+    draft = smartgrid_mgr.get_designer_draft(draft_slug)
+    count = DesignerAction.objects.filter(draft=draft, related_resource=resource).count()
+    c = user.testeractionsubmittion_set.filter(draft=draft,
+                                               action__related_resource=resource).count()
     return c == count
 
 
-def submitted_all_of_type(user, action_type):
+def submitted_all_of_type(user, draft_slug, action_type):
     """Returns true if user has submitted all Actions of the given action_type."""
-    count = Action.objects.filter(type=action_type).count()
-    return user.testeractionsubmittion_set.filter(action__type=action_type).count() == count
+    draft = smartgrid_mgr.get_designer_draft(draft_slug)
+    count = DesignerAction.objects.filter(draft=draft, type=action_type).count()
+    return user.testeractionsubmittion_set.filter(draft=draft,
+                                                  action__type=action_type).count() == count
 
 
-def submitted_some(user, count=1):
+def submitted_some(user, draft_slug, count=1):
     """Returns true if the user has completed count Actions."""
-    return user.testeractionsubmittion_set.all().count() >= count
+    draft = smartgrid_mgr.get_designer_draft(draft_slug)
+    return user.testeractionsubmittion_set.filter(draft=draft).count() >= count
 
 
-def submitted_some_of_level(user, level_name, count=1):
+def submitted_some_of_level(user, draft_slug, level_priority, count=1):
     """Returns true if the user has completed count Actions of the specified level."""
+    draft = smartgrid_mgr.get_designer_draft(draft_slug)
     c = 0
-    for action in Grid.objects.filter(level__name=level_name):
+    for action in DesignerGrid.objects.filter(draft=draft, level__priority=level_priority):
         c += user.testeractionsubmittion_set.filter(action=action).count()
     return c >= count
 
 
-def submitted_some_of_resource(user, resource, count=1):
+def submitted_some_of_resource(user, draft_slug, resource, count=1):
     """Returns True if user has submitted count Actions with the given resource."""
-    return user.testeractionsubmittion_set.filter(action__related_resource=resource).count() >= \
+    draft = smartgrid_mgr.get_designer_draft(draft_slug)
+    return user.testeractionsubmittion_set.filter(draft=draft,
+                                                  action__related_resource=resource).count() >= \
         count
 
 
-def submitted_some_of_type(user, action_type, count=1):
+def submitted_some_of_type(user, draft_slug, action_type, count=1):
     """Returns True if user has submitted count Actions with the given action_type."""
-    return user.testeractionsubmittion_set.filter(action__type=action_type).count() >= count
+    draft = smartgrid_mgr.get_designer_draft(draft_slug)
+    return user.testeractionsubmittion_set.filter(draft=draft,
+                                                  action__type=action_type).count() >= count
 
 
-def submitted_some_full_spectrum(user, count=1):
+def submitted_some_full_spectrum(user, draft_slug, count=1):
     """Returns true if the user has completed some activities, commitments, and
     events."""
-    ret = submitted_some_of_type(user, action_type='activity', count=count)
-    ret = ret and submitted_some_of_type(user, action_type='commitment', count=count)
-    ret = ret and submitted_some_of_type(user, action_type='event', count=count)
+    ret = submitted_some_of_type(user, draft_slug, action_type='activity', count=count)
+    ret = ret and submitted_some_of_type(user, draft_slug, action_type='commitment', count=count)
+    ret = ret and submitted_some_of_type(user, draft_slug, action_type='event', count=count)
     return ret
 
 
-def submitted_level(user, level_name):
+def submitted_level(user, draft_slug, level_priority):
     """Returns true if the user has performed all activities successfully, and
       attempted all commitments."""
-#    num_completed = user.testeractionsubmittion_set.filter(
-#        Q(action__type='activity') | Q(action__type='commitment'),
-#        action__level__priority=lvl).count()
     _ = user
+    draft = smartgrid_mgr.get_designer_draft(draft_slug)
     num_completed = 0
-    level_actions = Grid.objects.filter(
+    level_actions = DesignerGrid.objects.filter(
         Q(action__type='activity') | Q(action__type='commitment'),
-        level__name=level_name)
+        draft=draft, level__priority=level_priority)
     for grid in level_actions:
-        testeractionsubmittion = user.testeractionsubmittion_set.filter(action=grid.action)
+        testeractionsubmittion = user.testeractionsubmittion_set.filter(draft=draft,
+                                                                        action=grid.action)
         if testeractionsubmittion:
             num_completed += 1
     num_level = level_actions.count()
@@ -172,12 +197,12 @@ def submitted_level(user, level_name):
     return num_completed == num_level
 
 
-def unlock_on_date(user, date_string):
+def unlock_on_date(user, draft_slug, date_string):
     """Returns True."""
     return True
 
 
-def unlock_on_event(user, event_slug, days=0, lock_after_days=0):
+def unlock_on_event(user, draft_slug, event_slug, days=0, lock_after_days=0):
     """Returns true if the current date is equal to or after the date of the Event
     defined by the event_slug, optionally days before. days should be a negative number.
     Optionally lock_after_days, if not zero then will return false lock_after_days

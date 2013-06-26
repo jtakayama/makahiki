@@ -30,16 +30,15 @@ def eval_predicates(predicates, user):
     return eval(predicates, {"__builtins__": None}, ALLOW_DICT)
 
 
-def eval_play_tester_predicates(predicates, user):
+def eval_play_tester_predicates(predicates, user, draft):
     """Returns the boolean evaluation results of the tester predicates against the user."""
     ALLOW_DICT = {"True": True, "False": False, "user": user}
-    ALLOW_DICT.update(get_player_tester_predicates())
-    ALLOW_DICT.update(get_challenge_tester_predicates())
     ALLOW_DICT.update(get_smartgrid_tester_predicates())
-
     for key in ALLOW_DICT:
         if "%s(" % key in predicates:
-            predicates = predicates.replace("%s(" % key, "%s(user," % key)
+            predicates = predicates.replace("%s(" % key, "%s(user, '%s', " % (key, draft.slug))
+    ALLOW_DICT.update(get_player_tester_predicates())
+    ALLOW_DICT.update(get_challenge_tester_predicates())
 
     return eval(predicates, {"__builtins__": None}, ALLOW_DICT)
 
