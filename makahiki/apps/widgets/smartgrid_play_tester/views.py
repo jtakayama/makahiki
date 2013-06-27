@@ -8,10 +8,13 @@ from apps.widgets.smartgrid_design.models import Draft
 from django.template.context import RequestContext
 from apps.managers.smartgrid_mgr import smartgrid_mgr
 from django.http import Http404, HttpResponseRedirect
-from apps.widgets.smartgrid_play_tester import play_tester, view_test_commitments,\
+from apps.widgets.smartgrid_play_tester import play_tester, view_test_commitments, \
     view_test_activities, view_test_events
 from django.core.urlresolvers import reverse
 from django.utils import importlib
+from apps.managers.score_mgr import score_mgr
+from django.core.exceptions import ObjectDoesNotExist
+from django.contrib import messages
 
 
 def view(request):
@@ -56,7 +59,7 @@ def view_action(request, action_type, slug):
     elif action.type in ("event",):  # action.event:
         form = view_test_events.view(request, action)
         # calculate available seat
-        action.available_seat = action.event.event_max_seat - 1
+        action.available_seat = action.event_max_seat - 1
     elif action_type == "filler":
         response = HttpResponseRedirect(reverse("tester_view", args=()))
         return response
@@ -89,7 +92,28 @@ def add_action(request, action_type, slug):
 
 def drop_action(request, action_type, slug):
     """Handles the play tester dropping the given action defined by the action_type and slug."""
-    pass
+    draft = _get_current_draft(request)
+    action = smartgrid_mgr.get_designer_action(draft=draft, slug=slug)
+    _ = action_type
+    user = request.user
+    try:
+        member = user.testeractionsubmittion_set.get(action=action, approval_status="pending")
+        member.delete()
+
+        response = HttpResponseRedirect(
+            reverse("tester_view_action", args=(action.type, action.slug,)))
+
+        value = score_mgr.signup_points()
+        notification = "%s dropped. you lose %d points." % (action.type, value)
+        response.set_cookie("task_notify", notification)
+        return response
+
+    except ObjectDoesNotExist:
+        pass
+
+    messages.error = 'It appears that you are not participating in this action.'
+    # Take them back to the action page.
+    return HttpResponseRedirect(reverse("tester_view_action", args=(action.type, action.slug,)))
 
 
 def _get_current_draft(request):

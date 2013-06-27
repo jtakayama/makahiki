@@ -84,14 +84,19 @@ def completed_level(user, draft_slug, level_priority):
     approved."""
     draft = smartgrid_mgr.get_designer_draft(draft_slug)
     count = len(DesignerGrid.objects.filter(draft=draft,
-                                            level__priority=level_priority, action__type='activity'))
+                                            level__priority=level_priority,
+                                            action__type='activity'))
     count += len(DesignerGrid.objects.filter(draft=draft,
-                                             level__priority=level_priority, action__type='commitment'))
+                                             level__priority=level_priority,
+                                             action__type='commitment'))
     c = 0
     for grid in DesignerGrid.objects.filter(draft=draft,
                                               level__priority=level_priority):
         c += user.testeractionsubmittion_set.filter(draft=draft, action=grid.action,
                                                         approval_status="approved").count()
+        c += user.testeractionsubmittion_set.filter(draft=draft, action=grid.action,
+                                                    action__type="commitment",
+                                                    approval_status="pending").count()
     print "completed_level(%s) %s >= %s" % (level_priority, c, count)
     return c >= count
 
@@ -199,6 +204,9 @@ def submitted_level(user, draft_slug, level_priority):
 
 def unlock_on_date(user, draft_slug, date_string):
     """Returns True."""
+    _ = user
+    _ = draft_slug
+    _ = date_string
     return True
 
 
@@ -207,4 +215,9 @@ def unlock_on_event(user, draft_slug, event_slug, days=0, lock_after_days=0):
     defined by the event_slug, optionally days before. days should be a negative number.
     Optionally lock_after_days, if not zero then will return false lock_after_days
     after the event."""
+    _ = user
+    _ = draft_slug
+    _ = event_slug
+    _ = days
+    _ = lock_after_days
     return True

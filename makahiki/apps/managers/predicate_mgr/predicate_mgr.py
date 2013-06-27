@@ -228,7 +228,7 @@ def get_smartgrid_predicates():  # pylint: disable=R0914
             }  # pylint: enable=R0914
 
 
-def get_smartgrid_tester_predicates():
+def get_smartgrid_tester_predicates():  # pylint: disable=R0914
     """Returns the tester smartgrid predicates."""
     from apps.managers.predicate_mgr.smartgrid_tester_predicates import approved_action, \
     approved_all_of_level, approved_all_of_resource, approved_all_of_type, approved_some, \
@@ -266,7 +266,7 @@ def get_smartgrid_tester_predicates():
             "unlock_on_date": unlock_on_date,
             "unlock_on_event": unlock_on_event,
             }  # pylint: enable=R0914
-    
+
 
 def get_smartgrid_unlock_predicates():
     """Returns the suggested predicates for Smartgrid Action unlock conditions."""

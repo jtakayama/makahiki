@@ -3,8 +3,7 @@ Created on Jun 23, 2013
 
 @author: Cam Moore
 '''
-from apps.widgets.smartgrid_design.models import DesignerLevel, DesignerColumnGrid, DesignerGrid, \
-    DesignerAction
+from apps.widgets.smartgrid_design.models import DesignerLevel, DesignerColumnGrid, DesignerGrid
 from apps.managers.predicate_mgr import predicate_mgr
 from apps.widgets.notifications.models import UserNotification
 from apps.widgets.smartgrid_play_tester.models import TesterActionSubmittion
@@ -55,6 +54,7 @@ def annotate_action_details(user, action):
 
 def can_add_commitment(user):
     """Returns true for all users."""
+    _ = user
     return True
 
 
@@ -100,10 +100,11 @@ def eval_unlock(user, action):
 def availablity(action):
     """Returns -1 if the current date is before pub_date, 0 if action is available,
     and 1 if action is expired."""
+    _ = action
     return 0
 
 
-def get_designer_grid(draft, user):
+def get_designer_grid(draft, user):  # pylint: disable=R0914,R0912
     """Returns the play tester version of the Smart Grid Game for the given draft."""
     levels = []
     for level in DesignerLevel.objects.filter(draft=draft):
@@ -164,6 +165,7 @@ def get_designer_grid(draft, user):
             level_ret.append(0)
             levels.append(level_ret)
     return levels
+# pylint: enable=R0914,R0912
 
 
 def can_complete_commitment(user, commitment):

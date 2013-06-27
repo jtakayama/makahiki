@@ -11,4 +11,6 @@ def game_enabled(user, game_name):
 
 def reached_round(user, round_name):
     """Returns True."""
+    _ = user
+    _ = round_name
     return True

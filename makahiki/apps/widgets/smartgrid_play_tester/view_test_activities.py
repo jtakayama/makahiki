@@ -5,13 +5,10 @@ from django.db import  IntegrityError
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib import messages
-from django.shortcuts import render_to_response
-from django.template.context import RequestContext
 
 from apps.widgets.smartgrid_play_tester.forms import TestActivityImageForm, TestActivityTextForm, \
     TestActivityFreeResponseForm, TestActivityFreeResponseImageForm
 from apps.widgets.smartgrid_play_tester.models import TesterActionSubmittion
-from apps.widgets.smartgrid_design.models import DesignerTextPromptQuestion
 
 
 def view(request, action):
