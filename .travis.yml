@@ -8,7 +8,15 @@ postgres:
     adapter: postgresql
     database: makahiki
     username: postgres
-install: pip install -r requirements.txt --use-mirrors --quiet
+before_install:
+    - sudo apt-get install libjpeg8 libjpeg8-dev libfreetype6 libfreetype6-dev zlib1g-dev tree python-imaging
+    - sudo ln -s /usr/lib/`uname -i`-linux-gnu/libjpeg.so.8 /usr/lib
+    - sudo ln -s /usr/lib/`uname -i`-linux-gnu/libfreetype.so /usr/lib
+    - sudo ln -s /usr/lib/`uname -i`-linux-gnu/libz.so /usr/lib
+install: 
+    - pip install -r requirements.txt --use-mirrors --quiet
+    - pip install -U selenium
+
 before_script:
     - psql -c 'create user makahiki;' -U postgres
     - psql -c 'create database makahiki owner makahiki;' -U postgres

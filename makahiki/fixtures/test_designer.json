@@ -986,7 +986,7 @@
             "unlock_condition_text": "",
             "related_resource": null,
             "embedded_widget": null,
-            "point_value": 0,
+            "point_value": 5,
             "expire_date": null,
             "type": "event",
             "slug": "customize-tshirt",

@@ -86,8 +86,7 @@ class Test(TransactionTestCase):
     def testQuickLibrary(self):
         """Tests gcc.quick_library_check()"""
         d = gcc.quick_library_check()
-        print d
-        self.assertEqual(len(d['warnings']), 156, "Expected 156 got %s" % len(d['warnings']))
+        self.assertEqual(len(d['warnings']), 114, "Expected 114 got %s" % len(d['warnings']))
         self.assertEqual(len(d['errors']), 0, "Expected 0 got %s" % len(d['errors']))
 
     def testLibraryErrors(self):
