@@ -43,7 +43,7 @@ class Test(TransactionTestCase):
         col_loc = DesignerColumnGrid(draft=draft, level=level2, column=1, name=column3)
         col_loc.save()
         action = smartgrid_mgr.instantiate_designer_action_from_library(draft, \
-                                                                        'play-outside-cafe-3')
+                                                                        'play-outside-cafe-1')
         grid_loc = DesignerGrid(draft=draft, level=level1, column=5, row=2, action=action)
         grid_loc.save()
         action = smartgrid_mgr.instantiate_designer_action_from_library(draft, \

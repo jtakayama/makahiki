@@ -2,7 +2,6 @@
 from django.db import models
 from apps.managers.cache_mgr import cache_mgr
 from apps.managers.challenge_mgr import challenge_mgr
-from apps.utils import utils
 from apps.widgets.smartgrid_design.views import designer_action_admin, \
     designer_action_admin_list
 
@@ -15,8 +14,10 @@ from django.db.utils import IntegrityError
 from apps.admin.admin import challenge_designer_site, challenge_manager_site, developer_site
 from apps.widgets.smartgrid_design.models import DesignerAction, DesignerActivity, \
     DesignerTextPromptQuestion, DesignerCommitment, DesignerEvent, DesignerFiller, \
-    DesignerColumnName, DesignerLevel, DesignerQuestionChoice, Draft
+    DesignerColumnName, DesignerLevel, DesignerQuestionChoice, Draft, DesignerColumnGrid, \
+    DesignerGrid
 from django.http import HttpResponseRedirect
+from apps.managers.predicate_mgr import predicate_mgr
 
 
 class DesignerDraftAdmin(admin.ModelAdmin):
@@ -86,7 +87,7 @@ class DesignerActivityAdminForm(forms.ModelForm):
     def clean_unlock_condition(self):
         """Validates the unlock conditions of the action."""
         data = self.cleaned_data["unlock_condition"]
-        utils.validate_form_predicates(data)
+        predicate_mgr.validate_form_predicates(data)
         return data
 
     def clean(self):
@@ -269,7 +270,7 @@ class DesignerCommitmentAdminForm(forms.ModelForm):
     def clean_unlock_condition(self):
         """Validates the unlock conditions of the action."""
         data = self.cleaned_data["unlock_condition"]
-        utils.validate_form_predicates(data)
+        predicate_mgr.validate_form_predicates(data)
         return data
 
     def save(self, *args, **kwargs):
@@ -333,7 +334,7 @@ class DesignerEventAdminForm(forms.ModelForm):
     def clean_unlock_condition(self):
         """Validates the unlock conditions of the action."""
         data = self.cleaned_data["unlock_condition"]
-        utils.validate_form_predicates(data)
+        predicate_mgr.validate_form_predicates(data)
         return data
 
     def clean(self):
@@ -506,13 +507,13 @@ class DesignerLevelAdminForm(forms.ModelForm):
     def clean_unlock_condition(self):
         """Validates the unlock conditions of the action."""
         data = self.cleaned_data["unlock_condition"]
-        utils.validate_form_predicates(data)
+        predicate_mgr.validate_form_predicates(data)
         return data
 
 
 class DesignerLevelAdmin(admin.ModelAdmin):
     """Level Admin"""
-    list_display = ["name", "priority", "unlock_condition"]
+    list_display = ["draft", "name", "priority", "unlock_condition"]
     form = DesignerLevelAdminForm
     prepopulated_fields = {"slug": ("name",)}
 
@@ -531,6 +532,50 @@ admin.site.register(DesignerLevel, DesignerLevelAdmin)
 challenge_designer_site.register(DesignerLevel, DesignerLevelAdmin)
 challenge_manager_site.register(DesignerLevel, DesignerLevelAdmin)
 developer_site.register(DesignerLevel, DesignerLevelAdmin)
+challenge_mgr.register_designer_challenge_info_model("Smart Grid Game Designer", 4, \
+                                                      DesignerLevel, 3)
+challenge_mgr.register_developer_challenge_info_model("Smart Grid Game Designer", 4, \
+                                                      DesignerLevel, 3)
+
+
+class DesignerColumnGridAdminForm(forms.ModelForm):
+    """Admin Form for DesignerColumnGrids."""
+    class Meta:
+        """meta"""
+        model = DesignerColumnGrid
+
+
+class DesignerColumnGridAdmin(admin.ModelAdmin):
+    """DesignerColumnGrid Admin interface."""
+    list_display = ["draft", "level", "column", "name"]
+    form = DesignerColumnGridAdminForm
+    list_filter = ['draft', ]
+
+
+admin.site.register(DesignerColumnGrid, DesignerColumnGridAdmin)
+developer_site.register(DesignerColumnGrid, DesignerColumnGridAdmin)
+challenge_mgr.register_developer_challenge_info_model("Smart Grid Game Designer", 4, \
+                                                      DesignerColumnGrid, 3)
+
+
+class DesignerGridAdminForm(forms.ModelForm):
+    """Admin Form for DesignerGrid."""
+    class Meta:
+        """meta"""
+        model = DesignerGrid
+
+
+class DesignerGridAdmin(admin.ModelAdmin):
+    """DesignerGrid Admin interface."""
+    list_display = ["draft", "level", "column", "row", "action"]
+    form = DesignerGridAdminForm
+    list_filter = ["draft", ]
+
+
+admin.site.register(DesignerGrid, DesignerGridAdmin)
+developer_site.register(DesignerGrid, DesignerGridAdmin)
+challenge_mgr.register_developer_challenge_info_model("Smart Grid Game Designer", 4, \
+                                                      DesignerGrid, 4)
 
 
 class QuestionChoiceInline(admin.TabularInline):

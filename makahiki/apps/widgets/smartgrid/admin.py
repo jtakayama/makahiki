@@ -6,11 +6,10 @@ from django.template import RequestContext
 import markdown
 from apps.managers.cache_mgr import cache_mgr
 from apps.managers.challenge_mgr import challenge_mgr
-from apps.utils import utils
 from apps.widgets.smartgrid.models import ActionMember, Activity, ColumnName, Event, \
                                      Commitment, ConfirmationCode, TextPromptQuestion, \
                                      QuestionChoice, Level, Action, Filler, \
-                                     EmailReminder, TextReminder
+                                     EmailReminder, TextReminder, ColumnGrid, Grid
 from apps.widgets.smartgrid.views import action_admin, action_admin_list
 
 from django.contrib import admin
@@ -22,6 +21,7 @@ from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.db.utils import IntegrityError
 from apps.admin.admin import challenge_designer_site, challenge_manager_site, developer_site
+from apps.managers.predicate_mgr import predicate_mgr
 
 
 class ActionAdmin(admin.ModelAdmin):
@@ -73,7 +73,7 @@ class ActivityAdminForm(forms.ModelForm):
     def clean_unlock_condition(self):
         """Validates the unlock conditions of the action."""
         data = self.cleaned_data["unlock_condition"]
-        utils.validate_form_predicates(data)
+        predicate_mgr.validate_form_predicates(data)
         return data
 
     def clean(self):
@@ -246,7 +246,7 @@ class CommitmentAdminForm(forms.ModelForm):
     def clean_unlock_condition(self):
         """Validates the unlock conditions of the action."""
         data = self.cleaned_data["unlock_condition"]
-        utils.validate_form_predicates(data)
+        predicate_mgr.validate_form_predicates(data)
         return data
 
     def save(self, *args, **kwargs):
@@ -300,7 +300,7 @@ class EventAdminForm(forms.ModelForm):
     def clean_unlock_condition(self):
         """Validates the unlock conditions of the action."""
         data = self.cleaned_data["unlock_condition"]
-        utils.validate_form_predicates(data)
+        predicate_mgr.validate_form_predicates(data)
         return data
 
     def clean(self):
@@ -445,7 +445,7 @@ class LevelAdminForm(forms.ModelForm):
     def clean_unlock_condition(self):
         """Validates the unlock conditions of the action."""
         data = self.cleaned_data["unlock_condition"]
-        utils.validate_form_predicates(data)
+        predicate_mgr.validate_form_predicates(data)
         return data
 
 
@@ -766,3 +766,39 @@ challenge_mgr.register_admin_challenge_info_model("Notifications", 2, EmailRemin
 challenge_mgr.register_admin_challenge_info_model("Notifications", 2, TextReminder, 3)
 challenge_mgr.register_developer_challenge_info_model("Status", 3, EmailReminder, 7)
 challenge_mgr.register_developer_challenge_info_model("Status", 3, TextReminder, 8)
+
+
+class ColumnGridAdminForm(forms.ModelForm):
+    """Admin form for ColumnGrids."""
+    class Meta:
+        """meta"""
+        model = ColumnGrid
+
+
+class ColumnGridAdmin(admin.ModelAdmin):
+    """Admin interface for ColumnGrid."""
+    list_display = ["level", "column", "name"]
+    form = ColumnGridAdminForm
+
+
+admin.site.register(ColumnGrid, ColumnGridAdmin)
+developer_site.register(ColumnGrid, ColumnGridAdmin)
+challenge_mgr.register_developer_game_info_model("Smart Grid Game", ColumnGrid)
+
+
+class GridAdminForm(forms.ModelForm):
+    """Admin form for Grids."""
+    class Meta:
+        """meta"""
+        model = Grid
+
+
+class GridAdmin(admin.ModelAdmin):
+    """Admin interface for ColumnGrid."""
+    list_display = ["level", "column", "row", "action"]
+    form = GridAdminForm
+
+
+admin.site.register(Grid, GridAdmin)
+developer_site.register(Grid, GridAdmin)
+challenge_mgr.register_developer_game_info_model("Smart Grid Game", Grid)

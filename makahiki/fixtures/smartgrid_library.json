@@ -738,24 +738,6 @@
         }
     },
     {
-        "pk": 127,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "answer": "???",
-            "question": "???",
-            "libraryaction": 197
-        }
-    },
-    {
-        "pk": 128,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "answer": "???",
-            "question": "Sust Class S13",
-            "libraryaction": 198
-        }
-    },
-    {
         "pk": 129,
         "model": "smartgrid_library.librarytextpromptquestion",
         "fields": {
@@ -765,39 +747,12 @@
         }
     },
     {
-        "pk": 130,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "answer": "???",
-            "question": "DIY Video 2",
-            "libraryaction": 206
-        }
-    },
-    {
-        "pk": 131,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "answer": "???",
-            "question": "DIY Workshop 2",
-            "libraryaction": 208
-        }
-    },
-    {
         "pk": 132,
         "model": "smartgrid_library.librarytextpromptquestion",
         "fields": {
             "answer": "???",
             "question": "DIY Sustainability Game",
             "libraryaction": 209
-        }
-    },
-    {
-        "pk": 133,
-        "model": "smartgrid_library.librarytextpromptquestion",
-        "fields": {
-            "answer": "???",
-            "question": "Course Proj S13",
-            "libraryaction": 210
         }
     },
     {
@@ -1169,46 +1124,6 @@
         }
     },
     {
-        "pk": 197,
-        "model": "smartgrid_library.libraryaction",
-        "fields": {
-            "social_bonus": 0,
-            "video_id": "",
-            "name": "Course Proj F12",
-            "video_source": null,
-            "image": "",
-            "title": "Course Proj F12",
-            "unlock_condition_text": "",
-            "related_resource": null,
-            "embedded_widget": "",
-            "point_value": 0,
-            "type": "activity",
-            "slug": "course-proj-f12",
-            "unlock_condition": "True",
-            "description": "Course Proj F12"
-        }
-    },
-    {
-        "pk": 198,
-        "model": "smartgrid_library.libraryaction",
-        "fields": {
-            "social_bonus": 0,
-            "video_id": "",
-            "name": "Sust Class S13",
-            "video_source": null,
-            "image": "",
-            "title": "Sust Class S13",
-            "unlock_condition_text": "",
-            "related_resource": null,
-            "embedded_widget": "",
-            "point_value": 0,
-            "type": "activity",
-            "slug": "sust-class-s13",
-            "unlock_condition": "True",
-            "description": "Sust Class S13"
-        }
-    },
-    {
         "pk": 199,
         "model": "smartgrid_library.libraryaction",
         "fields": {
@@ -1226,26 +1141,6 @@
             "slug": "campus-energy-hogs",
             "unlock_condition": "True",
             "description": "Campus Energy Hogs"
-        }
-    },
-    {
-        "pk": 205,
-        "model": "smartgrid_library.libraryaction",
-        "fields": {
-            "social_bonus": 5,
-            "video_id": null,
-            "name": "DIY Commitment 2",
-            "video_source": null,
-            "image": "",
-            "title": "DIY Commitment 2",
-            "unlock_condition_text": "",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 5,
-            "type": "commitment",
-            "slug": "diy-commitment-2",
-            "unlock_condition": "True",
-            "description": "DIY Commitment 2"
         }
     },
     {
@@ -1326,26 +1221,6 @@
             "slug": "like-cup",
             "unlock_condition": "submitted_action(\"cup-secrets\")",
             "description": "Show support for the Kukui Cup by Liking the <a href=\"https://www.facebook.com/kukuicup\" target=\"_blank\">Kukui Cup page on Facebook</a> (it will open in a new window). Follow the link, click on the \"Like\" button, and then back on this page click the **I Did This!** button. You will be prompted for your name on Facebook so we can verify your Like.\r\n\r\nFor you eager beavers that have already liked the Kukui Cup before the competition started, you can get points too. Just click **I Did This!** and tell us your Facebook name."
-        }
-    },
-    {
-        "pk": 238,
-        "model": "smartgrid_library.libraryaction",
-        "fields": {
-            "social_bonus": 0,
-            "video_id": "",
-            "name": "Sust Class F13",
-            "video_source": null,
-            "image": "",
-            "title": "Sust Class F13",
-            "unlock_condition_text": "Complete Sust Class S13",
-            "related_resource": null,
-            "embedded_widget": "",
-            "point_value": 0,
-            "type": "activity",
-            "slug": "sust-class-f13",
-            "unlock_condition": "submitted_action('sust-class-s13')",
-            "description": "Sust Class F13"
         }
     },
     {
@@ -1449,26 +1324,6 @@
         }
     },
     {
-        "pk": 248,
-        "model": "smartgrid_library.libraryaction",
-        "fields": {
-            "social_bonus": 10,
-            "video_id": null,
-            "name": "Sustainable UH Apr",
-            "video_source": null,
-            "image": "",
-            "title": "Sustainable UH Apr",
-            "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 20,
-            "type": "event",
-            "slug": "sustainable-uh-apr",
-            "unlock_condition": "True",
-            "description": "Sustainable UH Apr"
-        }
-    },
-    {
         "pk": 38,
         "model": "smartgrid_library.libraryaction",
         "fields": {
@@ -1529,26 +1384,6 @@
         }
     },
     {
-        "pk": 160,
-        "model": "smartgrid_library.libraryaction",
-        "fields": {
-            "social_bonus": 10,
-            "video_id": null,
-            "name": "Play Outside Cafe 2",
-            "video_source": null,
-            "image": "",
-            "title": "Play Outside Cafe",
-            "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 20,
-            "type": "event",
-            "slug": "play-outside-cafe-2",
-            "unlock_condition": "True",
-            "description": "On your way to dinner?  Stop by the Kukui Cup table outside the Hale Aloha cafeteria to play an energy game.  If you succeed, you can win a free prize.  Even if you don't, you can get an Attendance Code and earn some points.  The prizes vary from night to night, so stop by every time and try to collect them all.  The table goes away when all the prizes have been given out, so get there early to maximize your chances!  This is the second of four Play Outside The Cafe events."
-        }
-    },
-    {
         "pk": 32,
         "model": "smartgrid_library.libraryaction",
         "fields": {
@@ -1586,46 +1421,6 @@
             "slug": "turn-off-lights",
             "unlock_condition": "submitted_action(\"cup-secrets\") or submitted_action(\"power-energy\")",
             "description": "Leaving lights on wastes energy for no purpose. Commit to turning off the lights when leaving any room."
-        }
-    },
-    {
-        "pk": 161,
-        "model": "smartgrid_library.libraryaction",
-        "fields": {
-            "social_bonus": 10,
-            "video_id": null,
-            "name": "Play Outside Cafe 3",
-            "video_source": null,
-            "image": "",
-            "title": "Play Outside Cafe",
-            "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 20,
-            "type": "event",
-            "slug": "play-outside-cafe-3",
-            "unlock_condition": "True",
-            "description": "On your way to dinner?  Stop by the Kukui Cup table outside the Hale Aloha cafeteria to play an energy game.  If you succeed, you can win a free prize.  Even if you don't, you can get an Attendance Code and earn some points.  The prizes vary from night to night, so stop by every time and try to collect them all.  The table goes away when all the prizes have been given out, so get there early to maximize your chances!  This is the third of four Play Outside The Cafe events."
-        }
-    },
-    {
-        "pk": 162,
-        "model": "smartgrid_library.libraryaction",
-        "fields": {
-            "social_bonus": 10,
-            "video_id": null,
-            "name": "Play Outside Cafe 4",
-            "video_source": null,
-            "image": "",
-            "title": "Play Outside Cafe",
-            "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 20,
-            "type": "event",
-            "slug": "play-outside-cafe-4",
-            "unlock_condition": "True",
-            "description": "On your way to dinner?  Stop by the Kukui Cup table outside the Hale Aloha cafeteria to play an energy game.  If you succeed, you can win a free prize.  Even if you don't, you can get an Attendance Code and earn some points.  The prizes vary from night to night, so stop by every time and try to collect them all.  The table goes away when all the prizes have been given out, so get there early to maximize your chances!  This is the fourth of four Play Outside The Cafe events."
         }
     },
     {
@@ -1749,26 +1544,6 @@
         }
     },
     {
-        "pk": 192,
-        "model": "smartgrid_library.libraryaction",
-        "fields": {
-            "social_bonus": 10,
-            "video_id": null,
-            "name": "Sustain Corps Oct",
-            "video_source": null,
-            "image": "",
-            "title": "Sustain Corps Oct",
-            "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 20,
-            "type": "event",
-            "slug": "sustain-corps-oct",
-            "unlock_condition": "True",
-            "description": "Sustain Corps Oct"
-        }
-    },
-    {
         "pk": 85,
         "model": "smartgrid_library.libraryaction",
         "fields": {
@@ -1806,26 +1581,6 @@
             "slug": "power-hogs",
             "unlock_condition": "submitted_action(\"energy-intuition\")",
             "description": "<!---\r\nThis is a followup activity to the [energy audit](/activities/activity/audit-room/) activity. If you haven't performed that activity, do it first and keep your notes around for this activity.\r\n--->\r\n\r\nMake a label for each device in your room that shows the number of watts consumed when on and off, and put it close to the power switch for those devices that have them. You'll need a portable energy meter such as a Belkin Conserve Insight to do this.\r\n\r\nOnce you have made the labels, take a photo of the labels of as many devices as you can fit in one picture to be used for verification."
-        }
-    },
-    {
-        "pk": 249,
-        "model": "smartgrid_library.libraryaction",
-        "fields": {
-            "social_bonus": 10,
-            "video_id": null,
-            "name": "Sustain Corps Apr",
-            "video_source": null,
-            "image": "",
-            "title": "Sustain Corps Apr",
-            "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 20,
-            "type": "event",
-            "slug": "sustain-corps-apr",
-            "unlock_condition": "True",
-            "description": "Sustain Corps Apr"
         }
     },
     {
@@ -2649,26 +2404,6 @@
         }
     },
     {
-        "pk": 175,
-        "model": "smartgrid_library.libraryaction",
-        "fields": {
-            "social_bonus": 10,
-            "video_id": null,
-            "name": "Round 2 party",
-            "video_source": null,
-            "image": "",
-            "title": "Party: Round 2 Awards",
-            "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 20,
-            "type": "event",
-            "slug": "round-2-party",
-            "unlock_condition": "True",
-            "description": "If you went to the Kickoff and Round 1 parties (which were, obviously, awesome), you might be thinking you can skip the Round 2 party.  But that would be a huge FAIL because the Round 2 party is going to totally kick it up a notch.  There will be live music by Breath of Fire, speakers from local organizations like Blue Planet Foundation and Sustainable UH, the Go Dark event, awards to Round 2 winners, and some special surprises.   The Round 2 award party is being organized by the Aloha Movement Project so you know it's gonna rock.  "
-        }
-    },
-    {
         "pk": 26,
         "model": "smartgrid_library.libraryaction",
         "fields": {
@@ -2726,26 +2461,6 @@
             "slug": "solar-energy",
             "unlock_condition": "submitted_action(\"energy-intuition\")",
             "description": "Watch this video that explains how we can get energy directly from the sun.\r\n"
-        }
-    },
-    {
-        "pk": 189,
-        "model": "smartgrid_library.libraryaction",
-        "fields": {
-            "social_bonus": 10,
-            "video_id": null,
-            "name": "Sustainable UH Oct",
-            "video_source": null,
-            "image": "",
-            "title": "Sustainable UH Oct",
-            "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 20,
-            "type": "event",
-            "slug": "sustainable-uh-oct",
-            "unlock_condition": "True",
-            "description": "Sustainable UH Oct"
         }
     },
     {
@@ -2946,46 +2661,6 @@
             "slug": "power-meters",
             "unlock_condition": "submitted_action(\"hitting-hotspots\")",
             "description": "Check out the Power Meter visualization below, which shows the real-time power usage for 5 selectable lounges. Come up with answers to the questions below, and submit them:\r\n\r\n1. Compare the lounges in your tower. How does their power usage compare right now?\r\n2. Pick a particular lounge letter and compare that lounge across the other towers. How does the power consumption differ?\r\n3. What are your thoughts on this visualization? What are its strengths and weaknesses?"
-        }
-    },
-    {
-        "pk": 190,
-        "model": "smartgrid_library.libraryaction",
-        "fields": {
-            "social_bonus": 10,
-            "video_id": null,
-            "name": "Surfrider Oct",
-            "video_source": null,
-            "image": "",
-            "title": "Surfrider Oct",
-            "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 20,
-            "type": "event",
-            "slug": "surfrider-oct",
-            "unlock_condition": "True",
-            "description": "Surfrider Oct"
-        }
-    },
-    {
-        "pk": 191,
-        "model": "smartgrid_library.libraryaction",
-        "fields": {
-            "social_bonus": 10,
-            "video_id": null,
-            "name": "Cycle Manoa Oct",
-            "video_source": null,
-            "image": "",
-            "title": "Cycle Manoa Oct",
-            "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 20,
-            "type": "event",
-            "slug": "cycle-manoa-oct",
-            "unlock_condition": "True",
-            "description": "Cycle Manoa Oct"
         }
     },
     {
@@ -3229,146 +2904,6 @@
         }
     },
     {
-        "pk": 200,
-        "model": "smartgrid_library.libraryaction",
-        "fields": {
-            "social_bonus": 10,
-            "video_id": null,
-            "name": "Sustainable UH Nov",
-            "video_source": null,
-            "image": "",
-            "title": "Sustainable UH Nov",
-            "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 20,
-            "type": "event",
-            "slug": "sustainable-uh-nov",
-            "unlock_condition": "True",
-            "description": "Sustainable UH Nov"
-        }
-    },
-    {
-        "pk": 201,
-        "model": "smartgrid_library.libraryaction",
-        "fields": {
-            "social_bonus": 10,
-            "video_id": null,
-            "name": "Surfrider Nov",
-            "video_source": null,
-            "image": "",
-            "title": "Surfrider Nov",
-            "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 20,
-            "type": "event",
-            "slug": "surfrider-nov",
-            "unlock_condition": "True",
-            "description": "Surfrider Nov"
-        }
-    },
-    {
-        "pk": 202,
-        "model": "smartgrid_library.libraryaction",
-        "fields": {
-            "social_bonus": 10,
-            "video_id": null,
-            "name": "Cycle Manoa Nov",
-            "video_source": null,
-            "image": "",
-            "title": "Cycle Manoa Nov",
-            "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 20,
-            "type": "event",
-            "slug": "cycle-manoa-nov",
-            "unlock_condition": "True",
-            "description": "Cycle Manoa Nov"
-        }
-    },
-    {
-        "pk": 203,
-        "model": "smartgrid_library.libraryaction",
-        "fields": {
-            "social_bonus": 10,
-            "video_id": null,
-            "name": "Sustain Corps Nov",
-            "video_source": null,
-            "image": "",
-            "title": "Sustain Corps Nov",
-            "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 20,
-            "type": "event",
-            "slug": "sustain-corps-nov",
-            "unlock_condition": "True",
-            "description": "Sustain Corps Nov"
-        }
-    },
-    {
-        "pk": 206,
-        "model": "smartgrid_library.libraryaction",
-        "fields": {
-            "social_bonus": 0,
-            "video_id": "",
-            "name": "DIY Video 2",
-            "video_source": null,
-            "image": "",
-            "title": "DIY Video 2",
-            "unlock_condition_text": "",
-            "related_resource": null,
-            "embedded_widget": "",
-            "point_value": 0,
-            "type": "activity",
-            "slug": "diy-video-2",
-            "unlock_condition": "True",
-            "description": "DIY Video 2"
-        }
-    },
-    {
-        "pk": 207,
-        "model": "smartgrid_library.libraryaction",
-        "fields": {
-            "social_bonus": 10,
-            "video_id": null,
-            "name": "DIY Excursion 2",
-            "video_source": null,
-            "image": "",
-            "title": "DIY Excursion 2",
-            "unlock_condition_text": "",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 20,
-            "type": "event",
-            "slug": "diy-excursion-2",
-            "unlock_condition": "True",
-            "description": "DIY Excursion 2"
-        }
-    },
-    {
-        "pk": 208,
-        "model": "smartgrid_library.libraryaction",
-        "fields": {
-            "social_bonus": 0,
-            "video_id": "",
-            "name": "DIY Workshop 2",
-            "video_source": null,
-            "image": "",
-            "title": "DIY Workshop 2",
-            "unlock_condition_text": "",
-            "related_resource": null,
-            "embedded_widget": "",
-            "point_value": 0,
-            "type": "activity",
-            "slug": "diy-workshop-2",
-            "unlock_condition": "True",
-            "description": "DIY Workshop 2"
-        }
-    },
-    {
         "pk": 209,
         "model": "smartgrid_library.libraryaction",
         "fields": {
@@ -3386,106 +2921,6 @@
             "slug": "diy-sustain-game",
             "unlock_condition": "True",
             "description": "DIY Sustainability Game"
-        }
-    },
-    {
-        "pk": 210,
-        "model": "smartgrid_library.libraryaction",
-        "fields": {
-            "social_bonus": 0,
-            "video_id": "",
-            "name": "Course Proj S13",
-            "video_source": null,
-            "image": "",
-            "title": "Course Proj S13",
-            "unlock_condition_text": "",
-            "related_resource": null,
-            "embedded_widget": "",
-            "point_value": 0,
-            "type": "activity",
-            "slug": "course-proj-s13",
-            "unlock_condition": "True",
-            "description": "Course Proj S13"
-        }
-    },
-    {
-        "pk": 215,
-        "model": "smartgrid_library.libraryaction",
-        "fields": {
-            "social_bonus": 10,
-            "video_id": null,
-            "name": "Surfrider Jan",
-            "video_source": null,
-            "image": "",
-            "title": "Surfrider Jan",
-            "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 20,
-            "type": "event",
-            "slug": "surfrider-jan",
-            "unlock_condition": "True",
-            "description": "Surfrider Jan"
-        }
-    },
-    {
-        "pk": 216,
-        "model": "smartgrid_library.libraryaction",
-        "fields": {
-            "social_bonus": 10,
-            "video_id": null,
-            "name": "Cycle Manoa Jan",
-            "video_source": null,
-            "image": "",
-            "title": "Cycle Manoa Jan",
-            "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 20,
-            "type": "event",
-            "slug": "cycle-manoa-jan",
-            "unlock_condition": "True",
-            "description": "Cycle Manoa Jan"
-        }
-    },
-    {
-        "pk": 217,
-        "model": "smartgrid_library.libraryaction",
-        "fields": {
-            "social_bonus": 10,
-            "video_id": null,
-            "name": "Sustainable UH Jan",
-            "video_source": null,
-            "image": "",
-            "title": "Sustainable UH Jan",
-            "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 20,
-            "type": "event",
-            "slug": "sustainable-uh-jan",
-            "unlock_condition": "True",
-            "description": "Sustainable UH Jan"
-        }
-    },
-    {
-        "pk": 218,
-        "model": "smartgrid_library.libraryaction",
-        "fields": {
-            "social_bonus": 10,
-            "video_id": null,
-            "name": "Sustain Corps Jan",
-            "video_source": null,
-            "image": "",
-            "title": "Sustain Corps Jan",
-            "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 20,
-            "type": "event",
-            "slug": "sustain-corps-jan",
-            "unlock_condition": "True",
-            "description": "Sustain Corps Jan"
         }
     },
     {
@@ -3546,326 +2981,6 @@
             "slug": "multi-uni-sustain",
             "unlock_condition": "True",
             "description": "Multiple University Sustainability"
-        }
-    },
-    {
-        "pk": 226,
-        "model": "smartgrid_library.libraryaction",
-        "fields": {
-            "social_bonus": 10,
-            "video_id": null,
-            "name": "Surfrider Feb",
-            "video_source": null,
-            "image": "",
-            "title": "Surfrider Feb",
-            "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 20,
-            "type": "event",
-            "slug": "surfrider-feb",
-            "unlock_condition": "True",
-            "description": "Surfrider Feb"
-        }
-    },
-    {
-        "pk": 227,
-        "model": "smartgrid_library.libraryaction",
-        "fields": {
-            "social_bonus": 10,
-            "video_id": null,
-            "name": "Cycle Manoa Feb",
-            "video_source": null,
-            "image": "",
-            "title": "Cycle Manoa Feb",
-            "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 20,
-            "type": "event",
-            "slug": "cycle-manoa-feb",
-            "unlock_condition": "True",
-            "description": "Cycle Manoa Feb"
-        }
-    },
-    {
-        "pk": 228,
-        "model": "smartgrid_library.libraryaction",
-        "fields": {
-            "social_bonus": 10,
-            "video_id": null,
-            "name": "Sustainable UH Feb",
-            "video_source": null,
-            "image": "",
-            "title": "Sustainable UH Feb",
-            "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 20,
-            "type": "event",
-            "slug": "sustainable-uh-feb",
-            "unlock_condition": "True",
-            "description": "Sustainable UH Feb"
-        }
-    },
-    {
-        "pk": 229,
-        "model": "smartgrid_library.libraryaction",
-        "fields": {
-            "social_bonus": 10,
-            "video_id": null,
-            "name": "Sustain Corps Feb",
-            "video_source": null,
-            "image": "",
-            "title": "Sustain Corps Feb",
-            "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 20,
-            "type": "event",
-            "slug": "sustain-corps-feb",
-            "unlock_condition": "True",
-            "description": "Sustain Corps Feb"
-        }
-    },
-    {
-        "pk": 231,
-        "model": "smartgrid_library.libraryaction",
-        "fields": {
-            "social_bonus": 5,
-            "video_id": null,
-            "name": "DIY Commitment 3",
-            "video_source": null,
-            "image": "",
-            "title": "DIY Commitment 3",
-            "unlock_condition_text": "Complete DIY Commitment 2",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 5,
-            "type": "commitment",
-            "slug": "diy-commitment-3",
-            "unlock_condition": "submitted_action('diy-commitment-2')",
-            "description": "DIY Commitment 3"
-        }
-    },
-    {
-        "pk": 232,
-        "model": "smartgrid_library.libraryaction",
-        "fields": {
-            "social_bonus": 0,
-            "video_id": "",
-            "name": "DIY Video 3",
-            "video_source": null,
-            "image": "",
-            "title": "DIY Video 3",
-            "unlock_condition_text": "Complet DIY Video 2",
-            "related_resource": null,
-            "embedded_widget": "",
-            "point_value": 0,
-            "type": "activity",
-            "slug": "diy-video-3",
-            "unlock_condition": "submitted_action('diy-video-2')",
-            "description": "DIY Video 3"
-        }
-    },
-    {
-        "pk": 235,
-        "model": "smartgrid_library.libraryaction",
-        "fields": {
-            "social_bonus": 10,
-            "video_id": null,
-            "name": "DIY Excursion 3",
-            "video_source": null,
-            "image": "",
-            "title": "DIY Excursion 3",
-            "unlock_condition_text": "Complete DIY Excursion 2",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 20,
-            "type": "event",
-            "slug": "diy-excursion-3",
-            "unlock_condition": "submitted_action('diy-excursion-2')",
-            "description": "DIY Excursion 3"
-        }
-    },
-    {
-        "pk": 234,
-        "model": "smartgrid_library.libraryaction",
-        "fields": {
-            "social_bonus": 0,
-            "video_id": "",
-            "name": "DIY Workshop 3",
-            "video_source": null,
-            "image": "",
-            "title": "DIY Workshop 3",
-            "unlock_condition_text": "Complete DIY Workshop 2",
-            "related_resource": null,
-            "embedded_widget": "",
-            "point_value": 0,
-            "type": "activity",
-            "slug": "diy-workshop-3",
-            "unlock_condition": "submitted_action('diy-workshop-2')",
-            "description": "DIY Workshop 3"
-        }
-    },
-    {
-        "pk": 236,
-        "model": "smartgrid_library.libraryaction",
-        "fields": {
-            "social_bonus": 0,
-            "video_id": "",
-            "name": "DIY Sustain Game 2",
-            "video_source": null,
-            "image": "",
-            "title": "DIY Sustainability Game 2",
-            "unlock_condition_text": "Complete DIY Sustainability Game",
-            "related_resource": null,
-            "embedded_widget": "",
-            "point_value": 0,
-            "type": "activity",
-            "slug": "diy-sustain-game-2",
-            "unlock_condition": "submitted_action('diy-sustain-game')",
-            "description": "DIY Sustain Game 2"
-        }
-    },
-    {
-        "pk": 237,
-        "model": "smartgrid_library.libraryaction",
-        "fields": {
-            "social_bonus": 0,
-            "video_id": "",
-            "name": "Course Proj S13 2",
-            "video_source": null,
-            "image": "",
-            "title": "Course Proj S13 2",
-            "unlock_condition_text": "Complete Course Proj S13",
-            "related_resource": null,
-            "embedded_widget": "",
-            "point_value": 0,
-            "type": "activity",
-            "slug": "course-proj-s13-2",
-            "unlock_condition": "submitted_action('course-proj-s13')",
-            "description": "Course Proj S13 2"
-        }
-    },
-    {
-        "pk": 242,
-        "model": "smartgrid_library.libraryaction",
-        "fields": {
-            "social_bonus": 10,
-            "video_id": null,
-            "name": "Surfrider Mar",
-            "video_source": null,
-            "image": "",
-            "title": "Surfrider Mar",
-            "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 20,
-            "type": "event",
-            "slug": "surfrider-mar",
-            "unlock_condition": "True",
-            "description": "Surfrider Mar"
-        }
-    },
-    {
-        "pk": 243,
-        "model": "smartgrid_library.libraryaction",
-        "fields": {
-            "social_bonus": 10,
-            "video_id": null,
-            "name": "Cycle Manoa Mar",
-            "video_source": null,
-            "image": "",
-            "title": "Cycle Manoa Mar",
-            "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 20,
-            "type": "event",
-            "slug": "cycle-manoa-mar",
-            "unlock_condition": "True",
-            "description": "Cycle Manoa Mar"
-        }
-    },
-    {
-        "pk": 244,
-        "model": "smartgrid_library.libraryaction",
-        "fields": {
-            "social_bonus": 10,
-            "video_id": null,
-            "name": "Sustainable UH Mar",
-            "video_source": null,
-            "image": "",
-            "title": "Sustainable UH Mar",
-            "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 20,
-            "type": "event",
-            "slug": "sustainable-uh-mar",
-            "unlock_condition": "True",
-            "description": "Sustainable UH Mar"
-        }
-    },
-    {
-        "pk": 245,
-        "model": "smartgrid_library.libraryaction",
-        "fields": {
-            "social_bonus": 10,
-            "video_id": null,
-            "name": "Sustain Corps Mar",
-            "video_source": null,
-            "image": "",
-            "title": "Sustain Corps Mar",
-            "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 20,
-            "type": "event",
-            "slug": "sustain-corps-mar",
-            "unlock_condition": "True",
-            "description": "Sustain Corps Mar"
-        }
-    },
-    {
-        "pk": 246,
-        "model": "smartgrid_library.libraryaction",
-        "fields": {
-            "social_bonus": 10,
-            "video_id": null,
-            "name": "Surfrider Apr",
-            "video_source": null,
-            "image": "",
-            "title": "Surfrider Apr",
-            "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 20,
-            "type": "event",
-            "slug": "surfrider-apr",
-            "unlock_condition": "True",
-            "description": "Surfrider Apr"
-        }
-    },
-    {
-        "pk": 247,
-        "model": "smartgrid_library.libraryaction",
-        "fields": {
-            "social_bonus": 10,
-            "video_id": null,
-            "name": "Cycle Manoa Apr",
-            "video_source": null,
-            "image": "",
-            "title": "Cycle Manoa Apr",
-            "unlock_condition_text": "This event will be unlocked 7 days before it takes place.",
-            "related_resource": null,
-            "embedded_widget": null,
-            "point_value": 20,
-            "type": "event",
-            "slug": "cycle-manoa-apr",
-            "unlock_condition": "True",
-            "description": "Cycle Manoa Apr"
         }
     },
     {
@@ -4261,30 +3376,6 @@
         }
     },
     {
-        "pk": 197,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "admin_note": null,
-            "confirm_type": "text",
-            "point_range_start": 5,
-            "confirm_prompt": "",
-            "expected_duration": 120,
-            "point_range_end": 50
-        }
-    },
-    {
-        "pk": 198,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "admin_note": null,
-            "confirm_type": "text",
-            "point_range_start": 5,
-            "confirm_prompt": "",
-            "expected_duration": 120,
-            "point_range_end": 50
-        }
-    },
-    {
         "pk": 199,
         "model": "smartgrid_library.libraryactivity",
         "fields": {
@@ -4330,18 +3421,6 @@
             "confirm_prompt": "Please tell us your name on Facebook (usually just your real name) so we can confirm that you Liked the page on Facebook.",
             "expected_duration": 5,
             "point_range_end": null
-        }
-    },
-    {
-        "pk": 238,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "admin_note": null,
-            "confirm_type": "free",
-            "point_range_start": 5,
-            "confirm_prompt": "Sust Class F13",
-            "expected_duration": 480,
-            "point_range_end": 50
         }
     },
     {
@@ -4921,43 +4000,7 @@
         }
     },
     {
-        "pk": 206,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "admin_note": null,
-            "confirm_type": "text",
-            "point_range_start": 5,
-            "confirm_prompt": "",
-            "expected_duration": 480,
-            "point_range_end": 50
-        }
-    },
-    {
-        "pk": 208,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "admin_note": null,
-            "confirm_type": "text",
-            "point_range_start": 5,
-            "confirm_prompt": "",
-            "expected_duration": 480,
-            "point_range_end": 50
-        }
-    },
-    {
         "pk": 209,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "admin_note": null,
-            "confirm_type": "text",
-            "point_range_start": 5,
-            "confirm_prompt": "",
-            "expected_duration": 480,
-            "point_range_end": 50
-        }
-    },
-    {
-        "pk": 210,
         "model": "smartgrid_library.libraryactivity",
         "fields": {
             "admin_note": null,
@@ -5000,54 +4043,6 @@
             "confirm_type": "free",
             "point_range_start": 5,
             "confirm_prompt": "Mutiple University Sustainability",
-            "expected_duration": 480,
-            "point_range_end": 50
-        }
-    },
-    {
-        "pk": 232,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "admin_note": null,
-            "confirm_type": "free",
-            "point_range_start": 5,
-            "confirm_prompt": "Upload your video",
-            "expected_duration": 480,
-            "point_range_end": 50
-        }
-    },
-    {
-        "pk": 234,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "admin_note": null,
-            "confirm_type": "free",
-            "point_range_start": 5,
-            "confirm_prompt": "DIY Workshop 3",
-            "expected_duration": 480,
-            "point_range_end": 50
-        }
-    },
-    {
-        "pk": 236,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "admin_note": null,
-            "confirm_type": "free",
-            "point_range_start": 5,
-            "confirm_prompt": "DIY Sustain Game 2",
-            "expected_duration": 480,
-            "point_range_end": 50
-        }
-    },
-    {
-        "pk": 237,
-        "model": "smartgrid_library.libraryactivity",
-        "fields": {
-            "admin_note": null,
-            "confirm_type": "free",
-            "point_range_start": 5,
-            "confirm_prompt": "Course Proj S13 2",
             "expected_duration": 480,
             "point_range_end": 50
         }
@@ -5269,7 +4264,14 @@
         }
     },
     {
-        "pk": 31,
+        "pk": 36,
+        "model": "smartgrid_library.librarycommitment",
+        "fields": {
+            "commitment_length": 1
+        }
+    },
+    {
+        "pk": 38,
         "model": "smartgrid_library.librarycommitment",
         "fields": {
             "commitment_length": 1
@@ -5283,14 +4285,7 @@
         }
     },
     {
-        "pk": 36,
-        "model": "smartgrid_library.librarycommitment",
-        "fields": {
-            "commitment_length": 1
-        }
-    },
-    {
-        "pk": 38,
+        "pk": 31,
         "model": "smartgrid_library.librarycommitment",
         "fields": {
             "commitment_length": 1
@@ -5326,6 +4321,13 @@
     },
     {
         "pk": 46,
+        "model": "smartgrid_library.librarycommitment",
+        "fields": {
+            "commitment_length": 1
+        }
+    },
+    {
+        "pk": 42,
         "model": "smartgrid_library.librarycommitment",
         "fields": {
             "commitment_length": 1
@@ -5395,13 +4397,6 @@
         }
     },
     {
-        "pk": 42,
-        "model": "smartgrid_library.librarycommitment",
-        "fields": {
-            "commitment_length": 1
-        }
-    },
-    {
         "pk": 44,
         "model": "smartgrid_library.librarycommitment",
         "fields": {
@@ -5420,20 +4415,6 @@
         "model": "smartgrid_library.librarycommitment",
         "fields": {
             "commitment_length": 1
-        }
-    },
-    {
-        "pk": 205,
-        "model": "smartgrid_library.librarycommitment",
-        "fields": {
-            "commitment_length": 5
-        }
-    },
-    {
-        "pk": 231,
-        "model": "smartgrid_library.librarycommitment",
-        "fields": {
-            "commitment_length": 5
         }
     },
     {
@@ -5459,27 +4440,6 @@
     },
     {
         "pk": 159,
-        "model": "smartgrid_library.libraryevent",
-        "fields": {
-            "expected_duration": 30
-        }
-    },
-    {
-        "pk": 160,
-        "model": "smartgrid_library.libraryevent",
-        "fields": {
-            "expected_duration": 30
-        }
-    },
-    {
-        "pk": 161,
-        "model": "smartgrid_library.libraryevent",
-        "fields": {
-            "expected_duration": 30
-        }
-    },
-    {
-        "pk": 162,
         "model": "smartgrid_library.libraryevent",
         "fields": {
             "expected_duration": 30
@@ -5563,199 +4523,10 @@
         }
     },
     {
-        "pk": 175,
-        "model": "smartgrid_library.libraryevent",
-        "fields": {
-            "expected_duration": 30
-        }
-    },
-    {
-        "pk": 189,
-        "model": "smartgrid_library.libraryevent",
-        "fields": {
-            "expected_duration": 120
-        }
-    },
-    {
-        "pk": 190,
-        "model": "smartgrid_library.libraryevent",
-        "fields": {
-            "expected_duration": 120
-        }
-    },
-    {
-        "pk": 191,
-        "model": "smartgrid_library.libraryevent",
-        "fields": {
-            "expected_duration": 120
-        }
-    },
-    {
-        "pk": 192,
-        "model": "smartgrid_library.libraryevent",
-        "fields": {
-            "expected_duration": 120
-        }
-    },
-    {
         "pk": 194,
         "model": "smartgrid_library.libraryevent",
         "fields": {
             "expected_duration": 480
-        }
-    },
-    {
-        "pk": 200,
-        "model": "smartgrid_library.libraryevent",
-        "fields": {
-            "expected_duration": 120
-        }
-    },
-    {
-        "pk": 201,
-        "model": "smartgrid_library.libraryevent",
-        "fields": {
-            "expected_duration": 120
-        }
-    },
-    {
-        "pk": 202,
-        "model": "smartgrid_library.libraryevent",
-        "fields": {
-            "expected_duration": 120
-        }
-    },
-    {
-        "pk": 203,
-        "model": "smartgrid_library.libraryevent",
-        "fields": {
-            "expected_duration": 120
-        }
-    },
-    {
-        "pk": 207,
-        "model": "smartgrid_library.libraryevent",
-        "fields": {
-            "expected_duration": 480
-        }
-    },
-    {
-        "pk": 215,
-        "model": "smartgrid_library.libraryevent",
-        "fields": {
-            "expected_duration": 120
-        }
-    },
-    {
-        "pk": 216,
-        "model": "smartgrid_library.libraryevent",
-        "fields": {
-            "expected_duration": 120
-        }
-    },
-    {
-        "pk": 217,
-        "model": "smartgrid_library.libraryevent",
-        "fields": {
-            "expected_duration": 120
-        }
-    },
-    {
-        "pk": 218,
-        "model": "smartgrid_library.libraryevent",
-        "fields": {
-            "expected_duration": 120
-        }
-    },
-    {
-        "pk": 226,
-        "model": "smartgrid_library.libraryevent",
-        "fields": {
-            "expected_duration": 120
-        }
-    },
-    {
-        "pk": 227,
-        "model": "smartgrid_library.libraryevent",
-        "fields": {
-            "expected_duration": 120
-        }
-    },
-    {
-        "pk": 228,
-        "model": "smartgrid_library.libraryevent",
-        "fields": {
-            "expected_duration": 120
-        }
-    },
-    {
-        "pk": 229,
-        "model": "smartgrid_library.libraryevent",
-        "fields": {
-            "expected_duration": 120
-        }
-    },
-    {
-        "pk": 235,
-        "model": "smartgrid_library.libraryevent",
-        "fields": {
-            "expected_duration": 480
-        }
-    },
-    {
-        "pk": 242,
-        "model": "smartgrid_library.libraryevent",
-        "fields": {
-            "expected_duration": 120
-        }
-    },
-    {
-        "pk": 243,
-        "model": "smartgrid_library.libraryevent",
-        "fields": {
-            "expected_duration": 120
-        }
-    },
-    {
-        "pk": 244,
-        "model": "smartgrid_library.libraryevent",
-        "fields": {
-            "expected_duration": 120
-        }
-    },
-    {
-        "pk": 245,
-        "model": "smartgrid_library.libraryevent",
-        "fields": {
-            "expected_duration": 120
-        }
-    },
-    {
-        "pk": 246,
-        "model": "smartgrid_library.libraryevent",
-        "fields": {
-            "expected_duration": 120
-        }
-    },
-    {
-        "pk": 247,
-        "model": "smartgrid_library.libraryevent",
-        "fields": {
-            "expected_duration": 120
-        }
-    },
-    {
-        "pk": 248,
-        "model": "smartgrid_library.libraryevent",
-        "fields": {
-            "expected_duration": 120
-        }
-    },
-    {
-        "pk": 249,
-        "model": "smartgrid_library.libraryevent",
-        "fields": {
-            "expected_duration": 120
         }
     },
     {

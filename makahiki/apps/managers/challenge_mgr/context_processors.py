@@ -90,14 +90,13 @@ def competition(request):
 
 def _get_default_view_objects(request):
     """Load the default widgets view objects for all pages."""
-
     default_view_objects = {}
-    for widget in settings.INSTALLED_DEFAULT_WIDGET_APPS:
-
-        view_module_name = 'apps.widgets.' + widget + '.views'
-        page_views = importlib.import_module(view_module_name)
-        widget = widget.replace(".", "_")
-        default_view_objects[widget] = page_views.supply(request, None)
+    if not __is_admin_page(request):
+        for widget in settings.INSTALLED_DEFAULT_WIDGET_APPS:
+            view_module_name = 'apps.widgets.' + widget + '.views'
+            page_views = importlib.import_module(view_module_name)
+            widget = widget.replace(".", "_")
+            default_view_objects[widget] = page_views.supply(request, None)
     return default_view_objects
 
 
@@ -106,3 +105,10 @@ def _pass_through(request):
     path = request.path
     pattern = "^/(log/|site_media/|favicon.ico)"
     return re.compile(pattern).match(path)
+
+
+def __is_admin_page(request):
+    """Returns True if the request is for an admin page."""
+    path_list = request.path.split('/')
+    if len(path_list) > 1:
+        return path_list[1].endswith('admin')

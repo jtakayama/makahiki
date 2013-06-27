@@ -64,7 +64,7 @@ def approved_some_of_type(user, action_type, count=1):
 
 def approved_some_full_spectrum(user, count=1):
     """Returns true if the user has had count Activities, Commitments, and Events approved."""
-    ret = approved_some_of_type(user, action_type='activity', count=count)
+    ret = approved_some_of_type(user, action_type='activity', count=1)
     ret = ret and approved_some_of_type(user, action_type='commitment', count=count)
     ret = ret and approved_some_of_type(user, action_type='event', count=count)
     return ret
@@ -169,7 +169,7 @@ def unlock_on_date(user, date_string):
     """Returns true if the current date is equal to or after the date_string."""
     _ = user
     today = datetime.today()
-    unlock_date = datetime.strptime(date_string, "%m/%d/%y")
+    unlock_date = datetime.strptime(date_string, "%y-%m-%d")
     return today >= unlock_date
 
 

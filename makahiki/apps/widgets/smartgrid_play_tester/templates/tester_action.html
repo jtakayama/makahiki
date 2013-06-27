@@ -1,0 +1,35 @@
+{% extends "logged_in_base.html" %}
+
+{% load markup %}
+
+{% load avatar_tags %}
+
+{% block page_title %}
+    Learn
+{% endblock %}
+
+{% block selected_icon %}selected-learn{% endblock %}
+
+{% block extra_head %}
+{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="row-fluid">
+    <div class="span5">
+        {% include "tester_action_info.html" %}
+    </div>
+
+    <div class="span7">
+        {% if action.type == "commitment" %}
+            {% include "tester_commitment.html" %}
+        {% elif action.type == "event" or action.type == "excursion" %}
+            {% include "tester_event.html" %}
+        {% elif action.type == "activity" %}
+            {% include "tester_activity.html" %}
+        {% endif %}
+    </div>
+    </div>
+</div>    
+{% endblock %}
+

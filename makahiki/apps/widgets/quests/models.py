@@ -7,7 +7,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from apps.managers.cache_mgr import cache_mgr
 from apps.managers.score_mgr import score_mgr
-from apps.utils import utils
+from apps.managers.predicate_mgr import predicate_mgr
 
 
 class Quest(models.Model):
@@ -38,11 +38,11 @@ class Quest(models.Model):
 
     def can_add_quest(self, user):
         """Returns True if the user can add the quest."""
-        return utils.eval_predicates(self.unlock_conditions, user)
+        return predicate_mgr.eval_predicates(self.unlock_conditions, user)
 
     def completed_quest(self, user):
         """Returns True if the user completed the quest."""
-        return utils.eval_predicates(self.completion_conditions, user)
+        return predicate_mgr.eval_predicates(self.completion_conditions, user)
 
     def accept(self, user):
         """Lets the user accept the quest.  Returns True if successful."""

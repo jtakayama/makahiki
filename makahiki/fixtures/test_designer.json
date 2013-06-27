@@ -986,7 +986,7 @@
             "unlock_condition_text": "",
             "related_resource": null,
             "embedded_widget": null,
-            "point_value": 0,
+            "point_value": 5,
             "expire_date": null,
             "type": "event",
             "slug": "customize-tshirt",
@@ -1056,7 +1056,7 @@
             "expire_date": null,
             "type": "event",
             "slug": "play-outside-cafe-3",
-            "unlock_condition": "unlock_on_date('03/25/20')",
+            "unlock_condition": "unlock_on_date('2020-03-25')",
             "description": "On your way to dinner?  Stop by the Kukui Cup table outside the Hale Aloha cafeteria to play an energy game.  If you succeed, you can win a free prize.  Even if you don't, you can get an Attendance Code and earn some points.  The prizes vary from night to night, so stop by every time and try to collect them all.  The table goes away when all the prizes have been given out, so get there early to maximize your chances!  This is the third of four Play Outside The Cafe events.\r\n\r\n**You will need to know your lounge's approximate energy use for the day to win today's swag!** Your your lounge's [current energy use](/energy) is available through the website."
         }
     },
