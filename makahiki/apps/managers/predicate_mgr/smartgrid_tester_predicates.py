@@ -97,7 +97,6 @@ def completed_level(user, draft_slug, level_priority):
         c += user.testeractionsubmittion_set.filter(draft=draft, action=grid.action,
                                                     action__type="commitment",
                                                     approval_status="pending").count()
-    print "completed_level(%s) %s >= %s" % (level_priority, c, count)
     return c >= count
 
 
