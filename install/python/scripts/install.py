@@ -4,6 +4,7 @@ import sys
 import os
 import datetime
 import convenience_functions
+import dependency.dependency_ubuntu
 
 def logfile_open(scripttype):
     """
@@ -49,35 +50,55 @@ def scripthandler(scripttype, os, arch, logfile):
     Parameters:
         1. scripttype: A string describing the installation script
            that is being run.
-           Supported values: "dependencies", "pip", or "initialize"
+           Supported values: "dependencies", "pip", "initialize_instance," "update_instance"
         2. os: A string describing the operating system.
            Supported values: "ubuntu" or "redhat"
         3. arch: Architecture. Supported values: "x86" or "x64".
-           (Ubuntu is supported for x86 and x64; Red Hat is supported for x64.)
+            (Ubuntu is supported for x86 and x64; Red Hat is supported for x64.)
     """
-    print "Not yet implemented."
+    if os == "ubuntu" and (arch != "x86" and arch != "x64"):
+        logfile.write("Unsupported architecture for %s: %s" % (os, arch))
+        logfile.write("Script could not be completed.")
+        print "Unsupported architecture for %s: %s" % (os, arch)
+        print "Script could not be completed."
+        
+    elif os == "redhat" and arch != "x64":
+        logfile.write("Unsupported architecture for %s: %s" % (os, arch))
+        logfile.write("Script could not be completed.")
+        print "Unsupported architecture for %s: %s" % (os, arch)
+        print "Script could not be completed."
+    
+    else: 
+        if scripttype == "dependencies":
+            if os == "ubuntu":
+                dependency_ubuntu(arch, logfile)
+            elif os == "redhat":
+                dependency_redhat(arch, logfile)
+        elif scripttype == "pip":
+            print "Not implemented."
+        elif scripttype == "initialize_instance":
+            print "Not implemented."
+        elif scripttype == "update_instance":
+            print "Not implemented."
 
 def main():
     if len(sys.argv) != 4:
-        print "Usage: install (--dependencies | --pip | --initialize) --os --arch"
+        print "Usage: install (--dependencies | --pip | --initialize_instance | --update_instance) --os --arch"
         print "--dependencies: Install Makahiki dependencies (software packages)."
         print "--pip: Install Makahiki local dependencies using pip."
-        print "--initialize: Initialize the Makahiki installation."
+        print "--initialize_instance: Initialize the Makahiki installation."
+        print "--update_instance: Update the Makahiki installation."
         print "--os: Operating system. Supported values are --ubuntu and --redhat."
         print "--arch: Architecture. Supported values are --x86 and --x64 if your OS is ubuntu, or --x64 if your OS is redhat."
     else:
         args = sys.argv[1:]
-        if args[0].strip() == "--dependencies":
-            logfile = logfile_open(args[0].strip()[2:])
-            logfile.close()
- 
-        elif args[0].strip() == "--pip":
-            logfile = logfile_open(args[0].strip()[2:])
-            logfile.close()
-                
-        elif args[0].strip() == "--initialize":
-            logfile = logfile_open(args[0].strip()[2:])
-            logfile.close()
+        scripttype = args[0].strip()[2:]
+        os = args[1].strip()[2:]
+        arch = args[2].strip()[2:]
+        
+        logfile =logfile.open(scripttype)
+        scripthandler(scripttype,os,arch,logfile)
+        logfile.close()
 
 if __name__ == '__main__':
     main()
