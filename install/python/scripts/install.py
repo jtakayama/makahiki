@@ -3,8 +3,9 @@
 import sys
 import os
 import datetime
-import convenience_functions
+import datestring_functions
 import dependency.dependency_ubuntu
+import dependency.dependency_redhat
 
 def logfile_open(scripttype):
     """
@@ -24,7 +25,7 @@ def logfile_open(scripttype):
     dt = datetime.datetime
     date_suffix = "null"
     try:
-        date_suffix = convenience_functions.datestring(dt)
+        date_suffix = datestring_functions.datestring(dt)
     except ValueError as ve:
         print "ValueError:\n %s" % ve
         print "Bad datetime object, could not generate logfile name."
@@ -71,9 +72,9 @@ def scripthandler(scripttype, os, arch, logfile):
     else: 
         if scripttype == "dependencies":
             if os == "ubuntu":
-                dependency_ubuntu(arch, logfile)
+                dependency.dependency_ubuntu(arch, logfile)
             elif os == "redhat":
-                dependency_redhat(arch, logfile)
+                dependency.dependency_redhat(arch, logfile)
         elif scripttype == "pip":
             print "Not implemented."
         elif scripttype == "initialize_instance":
