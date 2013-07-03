@@ -72,9 +72,9 @@ def scripthandler(scripttype, os, arch, logfile):
     else: 
         if scripttype == "dependencies":
             if os == "ubuntu":
-                dependency.dependency_ubuntu(arch, logfile)
+                dependency.dependency_ubuntu.run(arch, logfile)
             elif os == "redhat":
-                dependency.dependency_redhat(arch, logfile)
+                dependency.dependency_redhat.run(arch, logfile)
         elif scripttype == "pip":
             print "Not implemented."
         elif scripttype == "initialize_instance":
@@ -97,7 +97,7 @@ def main():
         os = args[1].strip()[2:]
         arch = args[2].strip()[2:]
         
-        logfile =logfile.open(scripttype)
+        logfile = logfile_open(scripttype)
         scripthandler(scripttype,os,arch,logfile)
         logfile.close()
 

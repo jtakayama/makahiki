@@ -1,6 +1,6 @@
 import os
 
-def dependency_redhat(arch, logfile):
+def run(arch, logfile):
     """
     Installs and configures some Makahiki dependencies by issuing 
     system commands. Writes its output to a logfile while printing 
