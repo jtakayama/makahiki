@@ -10,7 +10,7 @@ def dpkg_check(packagename):
     """
     dpkg_fail = re.compile("(Package `)(\S)+(\' is not installed and no info is available.)")
     dpkg_success = "Status: install ok installed"
-    output = subprocess.check_output(shlex.split("dpkg -s %s" % packagename, stderr=subprocess.STDOUT))
+    output = subprocess.check_output(shlex.split("dpkg -s %s" % packagename), stderr=subprocess.STDOUT)
     lines = output.split("\n")
     line0_result = dpkg_fail.match(lines[0])
     compare_result = False
