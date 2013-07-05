@@ -601,6 +601,7 @@ def run(arch, logfile):
             return logfile
     
     # bashrc
+    # bashrc append code is not working and may be removed
     USER_PROJECT_HOME = subprocess.check_output(["echo $HOME"], stderr=subprocess.STDOUT, shell=True) 
     # Remove newline from expected "/home/<username>\n"
     USER_PROJECT_HOME = USER_PROJECT_HOME[:-1] + "/makahiki"
@@ -611,9 +612,9 @@ def run(arch, logfile):
     logfile.write(bashrc_output1 + "\n" + bashrc_output2 + "\n" + bashrc_output3 + "\n" + bashrc_output4 + "\n")
     print bashrc_output1 + "\n" + bashrc_output2 + "\n" + bashrc_output3 + "\n" + bashrc_output4
     # Append to ~/.bashrc
-    subprocess.check_output(shlex.split("echo \"export WORKON_HOME=%s/.virtualenvs\" >> ~/.bashrc" % USER_PROJECT_HOME), stderr=subprocess.STDOUT)
-    subprocess.check_output(shlex.split("echo \"export PROJECT_HOME=%s\" >> ~/.bashrc" % USER_PROJECT_HOME), stderr=subprocess.STDOUT)
-    subprocess.check_output(shlex.split("echo \"source /usr/local/bin/virtualenvwrapper.sh\" >> ~/.bashrc"), stderr=subprocess.STDOUT)
+    subprocess.check_output(shlex.split(bashrc_output2), stderr=subprocess.STDOUT, shell=True)
+    subprocess.check_output(shlex.split(bashrc_output3), stderr=subprocess.STDOUT, shell=True)
+    subprocess.check_output(shlex.split(bashrc_output4), stderr=subprocess.STDOUT, shell=True)
     # Done appending to file
     logfile.write("Done appending to ~/.bashrc file.")
     print "Done appending to ~/.bashrc file."
