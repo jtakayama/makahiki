@@ -20,7 +20,7 @@ def logfile_open(scripttype):
            that is being run.
     """
     rundir = os.getcwd()
-    logsdir ="/logs"
+    logsdir ="/logs/"
     prefix = "install_" + scripttype + "_"
     dt = datetime.datetime
     date_suffix = "null"
@@ -72,15 +72,18 @@ def scripthandler(scripttype, os, arch, logfile):
     else: 
         if scripttype == "dependencies":
             if os == "ubuntu":
-                dependency.dependency_ubuntu.run(arch, logfile)
+                logfile = dependency.dependency_ubuntu.run(arch, logfile)
             elif os == "redhat":
-                dependency.dependency_redhat.run(arch, logfile)
+                logfile = dependency.dependency_redhat.run(arch, logfile)
         elif scripttype == "pip":
             print "Not implemented."
         elif scripttype == "initialize_instance":
             print "Not implemented."
         elif scripttype == "update_instance":
             print "Not implemented."
+        
+        # After the function is done, close the logfile.
+        logfile.close()
 
 def main():
     if len(sys.argv) != 4:

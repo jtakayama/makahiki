@@ -1,4 +1,7 @@
+import subprocess
+import re
 import os
+import shlex
 
 def run(arch, logfile):
     """
@@ -17,6 +20,7 @@ def run(arch, logfile):
     python_imaging_installed = False
     pythondev_installed = False
     libjpeg_installed = False
+    postgresql91_available = False
     postgresql91_installed = False
     libpqdev_installed = False
     memcached_installed = False
