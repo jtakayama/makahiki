@@ -23,13 +23,13 @@ def requirements_check(logfile):
     os.chdir(USER_PROJECT_HOME)
     requirements_txt = open(USER_PROJECT_HOME + "/requirements.txt", 'r')
     requirements_list = []
-    nextline = file.readline()
+    nextline = requirements_txt.readline()
     # Build a list of requirements
     while nextline != "":
         # Only dependencies that have not been commented out should be checked
         if nextline[0] != '#':
             requirements_list.append(nextline.strip())
-        nextline = file.readline()
+        nextline = requirements_txt.readline()
     # Read in list of currently installed requirements using pip freeze
     installed = subprocess.check_output(shlex.split("pip freeze"), stderr=subprocess.STDOUT)
     installed_list = installed.split("\n")
@@ -60,7 +60,7 @@ def run(logfile):
         USER_PROJECT_HOME = USER_HOME + "/makahiki"
         # cd to makahiki directory so pip can find the requirements.txt file
         os.chdir(USER_PROJECT_HOME)
-        pip_output = subprocess.check_output(shlex.split("pip install -r requirements.txt"), stderr=subprocess.STDOUT)
+        pip_output = subprocess.check_output(["pip install", "-r", "requirements.txt"], stderr=subprocess.STDOUT, shell=True)
         logfile.write(pip_output)
         print(pip_output)
         # pip produces a lot of output. Clear the buffer before reading in anything else.
