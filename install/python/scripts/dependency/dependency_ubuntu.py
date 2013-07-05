@@ -215,23 +215,41 @@ def run(arch, logfile):
         print "pip will be installed."
         logfile.write("easy_install pip")
         print "easy_install pip"
-        pip_output = subprocess.check_output(["easy_install", "pip"], stderr=subprocess.STDOUT)
-        logfile.write(pip_output)
-        print pip_output
-        pip_installed = pip_check()
-        if pip_installed:
-            logfile.write("pip was successfully installed.")
-            print "pip was successfully installed."
-            # Flush the buffer and force a write to disk after each successful installation
-            logfile.flush()
-            os.fsync(logfile)
-        else:
+        try:
+            USER_PROJECT_HOME = subprocess.check_output(["echo $HOME"], stderr=subprocess.STDOUT, shell=True) 
+            # Remove newline from expected "/home/<username>\n"
+            USER_PROJECT_HOME = USER_PROJECT_HOME[:-1] + "/makahiki"
+            # cd to home directory so easy_install will find its setup script
+            os.chdir(USER_PROJECT_HOME)
+            pip_output = subprocess.check_output(["easy_install", "pip"], stderr=subprocess.STDOUT)
+            logfile.write(pip_output)
+            print pip_output
+	    pip_installed = pip_check()
+	    if pip_installed:
+                logfile.write("pip was successfully installed.")
+		print "pip was successfully installed."
+		# Flush the buffer and force a write to disk after each successful installation
+		logfile.flush()
+		os.fsync(logfile)
+	    else:
+		logfile.write("pip failed to install.")
+		print "pip failed to install."
+		end_time = termination_string()
+		logfile.write(end_time)
+		print end_time
+		return logfile 
+        except subprocess.CalledProcessError as cpe:
+            logfile.write("CalledProcessError: ")
+            print "CalledProcessError: "
+            logfile.write(cpe.output)
+            print cpe.output
             logfile.write("pip failed to install.")
             print "pip failed to install."
             end_time = termination_string()
             logfile.write(end_time)
             print end_time
-            return logfile  
+            return logfile 
+ 
     
     logfile.write("Beginning installation of Python Imaging Library components python-imaging, python-dev, and libjpeg-dev. ")
     print "Beginning installation of Python Imaging Library components python-imaging, python-dev, and libjpeg-dev."
@@ -583,12 +601,14 @@ def run(arch, logfile):
             return logfile
     
     # bashrc
-    USER_PROJECT_HOME = subprocess.check_output(["echo $HOME"], stderr=subprocess.STDOUT) + "/makahiki"
+    USER_PROJECT_HOME = subprocess.check_output(["echo $HOME"], stderr=subprocess.STDOUT, shell=True) 
+    # Remove newline from expected "/home/<username>\n"
+    USER_PROJECT_HOME = USER_PROJECT_HOME[:-1] + "/makahiki"
     bashrc_output1 = "Appending these lines to user's ~./bashrc file:"
     bashrc_output2 = "echo \"export WORKON_HOME=%s/.virtualenvs\" >> ~/.bashrc" % USER_PROJECT_HOME
     bashrc_output3 = "echo \"export PROJECT_HOME=%s\" >> ~/.bashrc" % USER_PROJECT_HOME
     bashrc_output4 = "echo \"source /usr/local/bin/virtualenvwrapper.sh\" >> ~/.bashrc"
-    logfile.write(bashrc_output1 + "\n" + bashrc_output2 + "\n" + bashrc_output3 + "\n" + bashrc_output4)
+    logfile.write(bashrc_output1 + "\n" + bashrc_output2 + "\n" + bashrc_output3 + "\n" + bashrc_output4 + "\n")
     print bashrc_output1 + "\n" + bashrc_output2 + "\n" + bashrc_output3 + "\n" + bashrc_output4
     # Append to ~/.bashrc
     subprocess.check_output(shlex.split("echo \"export WORKON_HOME=%s/.virtualenvs\" >> ~/.bashrc" % USER_PROJECT_HOME), stderr=subprocess.STDOUT)
