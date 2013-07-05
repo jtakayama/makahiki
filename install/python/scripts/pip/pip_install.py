@@ -46,7 +46,7 @@ def requirements_check(logfile):
             print ("%s installed successfully." % element)
         else:
             logfile.write("Warning: %s not installed." % element)
-            print ("Warning: %s not installed")
+            print ("Warning: %s not installed." % element)
     return logfile
     
 def run(logfile):
