@@ -88,7 +88,7 @@ def termination_string():
     """
     Gets the current system time and appends it to a termination notice.
     """
-    end_time = "Script terminating at %s" % subprocess.check_output(["date"], stderr=subprocess.STDOUT)
+    end_time = "Script exiting at %s" % subprocess.check_output(["date"], stderr=subprocess.STDOUT)
     return end_time
 
 def run(arch, logfile):
@@ -216,28 +216,29 @@ def run(arch, logfile):
         logfile.write("easy_install pip")
         print "easy_install pip"
         try:
-            USER_PROJECT_HOME = subprocess.check_output(["echo $HOME"], stderr=subprocess.STDOUT, shell=True) 
+            USER_HOME = subprocess.check_output(["echo $HOME"], stderr=subprocess.STDOUT, shell=True)
             # Remove newline from expected "/home/<username>\n"
-            USER_PROJECT_HOME = USER_PROJECT_HOME[:-1] + "/makahiki"
-            # cd to home directory so easy_install will find its setup script
+            USER_HOME = USER_HOME[:-1]
+            USER_PROJECT_HOME = USER_HOME[:-1] + "/makahiki"
+            # cd to makahiki directory so easy_install will find its setup script
             os.chdir(USER_PROJECT_HOME)
             pip_output = subprocess.check_output(["easy_install", "pip"], stderr=subprocess.STDOUT)
             logfile.write(pip_output)
             print pip_output
-	    pip_installed = pip_check()
-	    if pip_installed:
+    	    pip_installed = pip_check()
+    	    if pip_installed:
                 logfile.write("pip was successfully installed.")
-		print "pip was successfully installed."
-		# Flush the buffer and force a write to disk after each successful installation
-		logfile.flush()
-		os.fsync(logfile)
-	    else:
-		logfile.write("pip failed to install.")
-		print "pip failed to install."
-		end_time = termination_string()
-		logfile.write(end_time)
-		print end_time
-		return logfile 
+                print "pip was successfully installed."
+        		# Flush the buffer and force a write to disk after each successful installation
+                logfile.flush()
+                os.fsync(logfile)
+    	    else:
+        		logfile.write("pip failed to install.")
+        		print "pip failed to install."
+        		end_time = termination_string()
+        		logfile.write(end_time)
+        		print end_time
+        		return logfile
         except subprocess.CalledProcessError as cpe:
             logfile.write("CalledProcessError: ")
             print "CalledProcessError: "
@@ -249,7 +250,6 @@ def run(arch, logfile):
             logfile.write(end_time)
             print end_time
             return logfile 
- 
     
     logfile.write("Beginning installation of Python Imaging Library components python-imaging, python-dev, and libjpeg-dev. ")
     print "Beginning installation of Python Imaging Library components python-imaging, python-dev, and libjpeg-dev."
@@ -607,7 +607,7 @@ def run(arch, logfile):
     MAKAHIKI_HOME = USER_HOME + "/makahiki"
     bashrc_output0 = "Appending these lines to user's ~./bashrc file:"
     bashrc_output1 = "\n# Virtualenvwrapper settings for makahiki\n"
-    bashrc_output2 = "export WORKON_HOME=%s/.virtualenvs\n" % MAKAHIKI_HOME
+    bashrc_output2 = "export WORKON_HOME=%s/.virtualenvs\n" % USER_HOME
     bashrc_output3 = "export PROJECT_HOME=%s\n" % MAKAHIKI_HOME
     bashrc_output4 = "source /usr/local/bin/virtualenvwrapper.sh\n"
     logfile.write(bashrc_output0 + bashrc_output1 + bashrc_output2 + bashrc_output3 + bashrc_output4)
@@ -623,7 +623,9 @@ def run(arch, logfile):
     logfile.write("Done appending to ~/.bashrc file.")
     print "Done appending to ~/.bashrc file."
     
-    # Done with installation process    
+    # Done with installation process   
+    logfile.write("Script completed successfully.")
+    print ("Script completed successfully.") 
     end_time = termination_string()
     logfile.write(end_time)
     print end_time

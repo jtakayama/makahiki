@@ -6,6 +6,7 @@ import datetime
 import datestring_functions
 import dependency.dependency_ubuntu
 import dependency.dependency_redhat
+import pip.pip_install
 
 def logfile_open(scripttype):
     """
@@ -76,7 +77,7 @@ def scripthandler(scripttype, os, arch, logfile):
             elif os == "redhat":
                 logfile = dependency.dependency_redhat.run(arch, logfile)
         elif scripttype == "pip":
-            print "Not implemented."
+                logfile = pip.pip_install.run(logfile)
         elif scripttype == "initialize_instance":
             print "Not implemented."
         elif scripttype == "update_instance":
