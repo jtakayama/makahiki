@@ -8,16 +8,19 @@ def dpkg_check(packagename):
     Checks the installation status of packages that need to be checked via 
     dpkg -s <packagename>. Returns True if installed, False if not.
     """
-    dpkg_fail = re.compile("(Package `)(\S)+(\' is not installed and no info is available.)")
     dpkg_success = "Status: install ok installed"
-    output = subprocess.check_output(shlex.split("dpkg -s %s" % packagename), stderr=subprocess.STDOUT)
-    lines = output.split("\n")
-    line0_result = dpkg_fail.match(lines[0])
-    compare_result = False
-    if (not line0_result) and len(lines) > 1 and lines[1] == dpkg_success:
-        compare_result = True
-    else: 
-        compare_result = False
+    try:
+    	output = subprocess.check_output(shlex.split("dpkg -s %s" % packagename), stderr=subprocess.STDOUT)
+	lines = output.split("\n")
+	compare_result = False
+	if lines[1] == dpkg_success:
+	    compare_result = True
+    except subprocess.CalledProcessError as cpe:
+        dpkg_fail = re.compile("(Package `)(\S)+(\' is not installed and no info is available.)")
+	lines = cpe.output.split("\n")
+	line0_result = dpkg_fail.match(lines[0])
+	if (line0_result):
+	    compare_result = False	
     return compare_result
 
 def pip_check():
@@ -25,15 +28,19 @@ def pip_check():
     Checks if pip is installed on the system. Returns True if it is, 
     and False if it is not.
     """
-    output = subprocess.check_output(shlex.split("pip --version"), stderr=subprocess.STDOUT)
-    lines = output.split("\n")
-    version_string = re.compile("(pip )(\d)+.(\d)+.(\d)")
-    line0_result = version_string.match(lines[0])
     compare_result = False
-    if not line0_result:
-        compare_result = False
-    else:
-        compare_result = True
+    try:
+    	output = subprocess.check_output(shlex.split("pip --version"), stderr=subprocess.STDOUT)
+    	lines = output.split("\n")
+    	version_string = re.compile("(pip )(\d)+.(\d)+.(\d)")
+    	line0_result = version_string.match(lines[0])
+    	if not line0_result:
+            compare_result = False
+    	else:
+            compare_result = True
+    except OSError as ose:
+        # Assume not installed
+	compare_result = False
     return compare_result
 
 def psql91_check():
@@ -42,15 +49,19 @@ def psql91_check():
     Returns True if a version of Postgresql 9.1 is installed, and False 
     if it is not.
     """
-    output = subprocess.check_output(shlex.split("psql --version"), stderr=subprocess.STDOUT)
-    lines = output.split("\n")
-    version_string = re.compile("(psql\ )(\S)+( 9.1.(\d)+)")
-    line0_result = version_string.match(lines[0])
     compare_result = False
-    if not line0_result:
-        compare_result = False
-    else:
-        compare_result = True
+    try:
+        output = subprocess.check_output(shlex.split("psql --version"), stderr=subprocess.STDOUT)
+        lines = output.split("\n")
+        version_string = re.compile("(psql\ )(\S)+( 9.1.(\d)+)")
+        line0_result = version_string.match(lines[0])
+        if not line0_result:
+            compare_result = False
+        else:
+            compare_result = True
+    except OSError as ose:
+        # Assume not installed
+	compare_result = False
     return compare_result
 
 def virtualenvwrapper_check():
@@ -58,15 +69,19 @@ def virtualenvwrapper_check():
     Checks if virtualenvwrapper is installed in the system. Returns True if 
     virtualenvwrapper is installed, and False if it is not.
     """
-    output = subprocess.check_output(shlex.split("virtualenv --version"), stderr=subprocess.STDOUT)
-    lines = output.split("\n")
-    version_string = re.compile("(\d)+.(\d)+.(\d)")
-    line0_result = version_string.match(lines[0])
     compare_result = False
-    if not line0_result:
-        compare_result = False
-    else:
-        compare_result = True
+    try:
+        output = subprocess.check_output(shlex.split("virtualenv --version"), stderr=subprocess.STDOUT)
+        lines = output.split("\n")
+        version_string = re.compile("(\d)+.(\d)+.(\d)")
+        line0_result = version_string.match(lines[0])
+        if not line0_result:
+            compare_result = False
+        else:
+            compare_result = True
+    except OSError as ose:
+        # Assume not installed
+	compare_result = False
     return compare_result
 
 def termination_string():
