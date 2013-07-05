@@ -195,7 +195,7 @@ def run(arch, logfile):
         if python_setuptools_installed:
             logfile.write("python-setuptools was successfully installed.")
             print "python-setuptools was successfully installed."
-            # Flush the buffer and force a to write to disk after each successful installation
+            # Flush the buffer and force a write to disk after each successful installation
             logfile.flush()
             os.fsync(logfile)
         else:
@@ -222,7 +222,7 @@ def run(arch, logfile):
         if pip_installed:
             logfile.write("pip was successfully installed.")
             print "pip was successfully installed."
-            # Flush the buffer and force a to write to disk after each successful installation
+            # Flush the buffer and force a write to disk after each successful installation
             logfile.flush()
             os.fsync(logfile)
         else:
@@ -252,7 +252,7 @@ def run(arch, logfile):
         if python_imaging_installed:
             logfile.write("python-imaging was successfully installed.")
             print "python-imaging was successfully installed."
-            # Flush the buffer and force a to write to disk after each successful installation
+            # Flush the buffer and force a write to disk after each successful installation
             logfile.flush()
             os.fsync(logfile)
         else:
@@ -279,7 +279,7 @@ def run(arch, logfile):
         if python_dev_installed:
             logfile.write("python-dev was successfully installed.")
             print "python-dev was successfully installed."
-            # Flush the buffer and force a to write to disk after each successful installation
+            # Flush the buffer and force a write to disk after each successful installation
             logfile.flush()
             os.fsync(logfile)
         else:
@@ -306,7 +306,7 @@ def run(arch, logfile):
         if libjpeg_dev_installed:
             logfile.write("libjpeg-dev was successfully installed.")
             print "libjpeg-dev was successfully installed."
-            # Flush the buffer and force a to write to disk after each successful installation
+            # Flush the buffer and force a write to disk after each successful installation
             logfile.flush()
             os.fsync(logfile)
         else:
@@ -463,7 +463,7 @@ def run(arch, logfile):
         if postgresql91_installed:
             logfile.write("postgresql-9.1 was successfully installed.")
             print "postgresql-9.1 was successfully installed."
-            # Flush the buffer and force a to write to disk after each successful installation
+            # Flush the buffer and force a write to disk after each successful installation
             logfile.flush()
             os.fsync(logfile)
         else:
@@ -490,7 +490,7 @@ def run(arch, logfile):
         if libpq_dev_installed:
             logfile.write("libpq-dev was successfully installed.")
             print "libpq-dev was successfully installed."
-            # Flush the buffer and force a to write to disk after each successful installation
+            # Flush the buffer and force a write to disk after each successful installation
             logfile.flush()
             os.fsync(logfile)
         else:
@@ -517,7 +517,7 @@ def run(arch, logfile):
         if memcached_installed:
             logfile.write("memcached was successfully installed.")
             print "memcached was successfully installed."
-            # Flush the buffer and force a to write to disk after each successful installation
+            # Flush the buffer and force a write to disk after each successful installation
             logfile.flush()
             os.fsync(logfile)
         else:
@@ -544,7 +544,7 @@ def run(arch, logfile):
         if libmemcached_installed:
             logfile.write("libmemcached-dev was successfully installed.")
             print "libmemcached-dev was successfully installed."
-            # Flush the buffer and force a to write to disk after each successful installation
+            # Flush the buffer and force a write to disk after each successful installation
             logfile.flush()
             os.fsync(logfile)
         else:
@@ -571,7 +571,7 @@ def run(arch, logfile):
         if virtualenvwrapper_installed:
             logfile.write("virtualenvwrapper was successfully installed.")
             print "virtualenvwrapper was successfully installed."
-            # Flush the buffer and force a to write to disk after each successful installation
+            # Flush the buffer and force a write to disk after each successful installation
             logfile.flush()
             os.fsync(logfile)
         else:
