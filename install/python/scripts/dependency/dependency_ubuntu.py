@@ -601,20 +601,24 @@ def run(arch, logfile):
             return logfile
     
     # bashrc
-    # bashrc append code is not working and may be removed
-    USER_PROJECT_HOME = subprocess.check_output(["echo $HOME"], stderr=subprocess.STDOUT, shell=True) 
+    USER_HOME = subprocess.check_output(["echo $HOME"], stderr=subprocess.STDOUT, shell=True) 
     # Remove newline from expected "/home/<username>\n"
-    USER_PROJECT_HOME = USER_PROJECT_HOME[:-1] + "/makahiki"
-    bashrc_output1 = "Appending these lines to user's ~./bashrc file:"
-    bashrc_output2 = "echo \"export WORKON_HOME=%s/.virtualenvs\" >> ~/.bashrc" % USER_PROJECT_HOME
-    bashrc_output3 = "echo \"export PROJECT_HOME=%s\" >> ~/.bashrc" % USER_PROJECT_HOME
-    bashrc_output4 = "echo \"source /usr/local/bin/virtualenvwrapper.sh\" >> ~/.bashrc"
-    logfile.write(bashrc_output1 + "\n" + bashrc_output2 + "\n" + bashrc_output3 + "\n" + bashrc_output4 + "\n")
-    print bashrc_output1 + "\n" + bashrc_output2 + "\n" + bashrc_output3 + "\n" + bashrc_output4
+    USER_HOME = USER_HOME[:-1]
+    MAKAHIKI_HOME = USER_HOME + "/makahiki"
+    bashrc_output0 = "Appending these lines to user's ~./bashrc file:"
+    bashrc_output1 = "\n# Virtualenvwrapper settings for makahiki\n"
+    bashrc_output2 = "export WORKON_HOME=%s/.virtualenvs\n" % MAKAHIKI_HOME
+    bashrc_output3 = "export PROJECT_HOME=%s\n" % MAKAHIKI_HOME
+    bashrc_output4 = "source /usr/local/bin/virtualenvwrapper.sh\n"
+    logfile.write(bashrc_output0 + bashrc_output1 + bashrc_output2 + bashrc_output3 + bashrc_output4)
+    print bashrc_output0 + bashrc_output1 + bashrc_output2 + bashrc_output3 + bashrc_output4
     # Append to ~/.bashrc
-    subprocess.check_output(shlex.split(bashrc_output2), stderr=subprocess.STDOUT, shell=True)
-    subprocess.check_output(shlex.split(bashrc_output3), stderr=subprocess.STDOUT, shell=True)
-    subprocess.check_output(shlex.split(bashrc_output4), stderr=subprocess.STDOUT, shell=True)
+    bashrc = open(USER_HOME + "/.bashrc", 'a')
+    bashrc.write("\n# Virtualenvwrapper settings for makahiki\n")
+    bashrc.write("export WORKON_HOME=%s/.virtualenvs\n" % USER_HOME)
+    bashrc.write("export PROJECT_HOME=%s\n" % MAKAHIKI_HOME)
+    bashrc.write("source /usr/local/bin/virtualenvwrapper.sh\n")
+    bashrc.close()
     # Done appending to file
     logfile.write("Done appending to ~/.bashrc file.")
     print "Done appending to ~/.bashrc file."
