@@ -21,7 +21,7 @@ def logfile_open(scripttype):
            that is being run.
     """
     rundir = os.getcwd()
-    logsdir ="/logs/"
+    logsdir = "/install/logs/"
     prefix = "install_" + scripttype + "_"
     dt = datetime.datetime
     date_suffix = "null"
@@ -44,10 +44,13 @@ def logfile_open(scripttype):
         print "Script will terminate."
         exit(1)
 
-def scripthandler(scripttype, os, arch, logfile):
+def scriptrunner(scripttype, os, arch, logfile):
     """
     Chooses and runs an installation script, and which logfile 
     that script will write its output to.
+    
+    Though not all scripts are OS-dependent, the "os" and "arch" 
+    variables are used to determine if the system is supported.
     
     Parameters:
         1. scripttype: A string describing the installation script
@@ -102,7 +105,7 @@ def main():
         arch = args[4].strip()[2:]
         
         logfile = logfile_open(scripttype)
-        scripthandler(scripttype,os,arch,logfile)
+        scriptrunner(scripttype,os,arch,logfile)
         logfile.close()
 
 if __name__ == '__main__':
