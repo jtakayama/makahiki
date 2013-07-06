@@ -7,6 +7,8 @@ import datestring_functions
 import dependency.dependency_ubuntu
 import dependency.dependency_redhat
 import pip.pip_install
+import run_update_instance
+import run_initialize_instance
 
 def logfile_open(scripttype):
     """
@@ -80,11 +82,14 @@ def scriptrunner(scripttype, os, arch, logfile):
             elif os == "redhat":
                 logfile = dependency.dependency_redhat.run(arch, logfile)
         elif scripttype == "pip":
-                logfile = pip.pip_install.run(logfile)
+            logfile = pip.pip_install.run(logfile)
         elif scripttype == "initialize_instance":
-            print "Not implemented."
+            logfile = run_initialize_instance.run(logfile)
         elif scripttype == "update_instance":
-            print "Not implemented."
+            logfile = run_update_instance.run(logfile)
+        else:
+            logfile.write("Error: install.py invoked with invalid command: %s" % scripttype)
+            print "Error: install.py invoked with invalid command: %s" % scripttype
         
         # After the function is done, close the logfile.
         logfile.close()
