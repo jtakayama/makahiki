@@ -91,7 +91,7 @@ def scriptrunner(scripttype, os, arch, logfile):
 
 def main():
     if len(sys.argv) != 6:
-        print "Usage: install [--dependencies | --pip | --initialize_instance | --update_instance] --os [ubuntu | redhat] --arch [x86 | x64]"
+        print "Usage: install.py [--dependencies | --pip | --initialize_instance | --update_instance] --os [ubuntu | redhat] --arch [x86 | x64]"
         print "--dependencies: Install Makahiki dependencies (software packages)."
         print "--pip: Install Makahiki local dependencies using pip."
         print "--initialize_instance: Initialize the Makahiki installation."
