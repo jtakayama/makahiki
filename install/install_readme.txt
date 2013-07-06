@@ -221,9 +221,16 @@ with default options, and is equivalent to the following:
 % initialize_instance.py --type default
 -------------------------------------------------------------------------------
 
-The script is run with the same options for all supported operating systems:
+Run the script with the options specified for your operating system:
 
-% sudo ./install/install.py --initialize_instance
+Ubuntu x86:
+% sudo ./install/install.py --initialize_instance --os ubuntu --arch x86
+
+Ubuntu x64:
+% sudo ./install/install.py --initialize_instance --os ubuntu --arch x64
+
+RHEL 6 x64:
+% sudo ./install/install.py --initialize_instance --os redhat --arch x64
 
 You will need to answer "Y" to the question "Do you wish to continue (Y/n)?"
 
@@ -251,7 +258,7 @@ To start the server with gunicorn:
 
 In a web browser, go to http://localhost:8000 to see the landing page.
 
-7. (Optional) Update the Makahiki Instance
+7. Update the Makahiki Instance
 ------------------------------------------
 Makahiki is designed to support post-installation updating of your configured 
 system when bug fixes or system enhancements become available. Updating an 
@@ -270,7 +277,17 @@ following steps:
 % git pull origin master
 
 (4.) Run the install.py script with --update_instance:
-% ./install/install.py --update_instance
+
+Run the script with the options specified for your operating system:
+
+Ubuntu x86:
+% sudo ./install/install.py --update_instance --os ubuntu --arch x86
+
+Ubuntu x64:
+% sudo ./install/install.py --update_instance --os ubuntu --arch x64
+
+RHEL 6 x64:
+% sudo ./install/install.py --update_instance --os redhat --arch x64
 
 The script will create a log file in makahiki/install/logs with a filename of 
 the format "install_update_instance_<timestamp>.log," where <timestamp> is 
