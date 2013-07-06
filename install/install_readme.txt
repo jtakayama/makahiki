@@ -117,4 +117,4 @@ https://makahiki.readthedocs.org/en/latest/installation-makahiki-unix.html#insta
     
 3. Install dependencies with pip:
 ---------------------------------
-[Work in progress]
+This section is a work in progress.
