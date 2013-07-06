@@ -56,7 +56,7 @@ def datestring(datetime_datetime):
     Y: Year (4 places - not compatible with years >= 10000)
     m: month (2 places)
     d: day (2 places)
-    H: minute (2 places)
+    H: hour (2 places)
     M: minute (2 places)
     S: second (2 places)
     f: microsecond (6 places)
