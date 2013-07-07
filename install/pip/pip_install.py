@@ -71,14 +71,14 @@ def run(logfile):
         logfile.flush()
         os.fsync(logfile)
         # Check that requirements were installed
-        output1 = "\nChecking if dependencies in requirements.txt were installed:\n"
-        logfile.write(output1)
-        print output1
+        check_message = "\nChecking if dependencies in requirements.txt were installed:\n"
+        logfile.write(check_message)
+        print check_message
         logfile = requirements_check(logfile)
         # Print a closing message
-        output2 = "\npip install script has completed.\n"
-        logfile.write(output2)
-        print output2
+        closing = "\npip install script completed successfully.\n"
+        logfile.write(closing)
+        print closing
         end_time = termination_string()
         logfile.write(end_time)
         print end_time

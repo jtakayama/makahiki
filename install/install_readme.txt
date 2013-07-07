@@ -33,6 +33,13 @@ install.py:
 
 The --pip, --initialize_instance, and --update_instance options are run the same way regardless of operating system.
 
+WARNING:
+-------------------------------------------------------------------------------
+This script should not be used to deploy Makahiki on a cloud-based hosting 
+system such as Heroku. For instructions to deploy Makahiki on Heroku, see
+http://makahiki.readthedocs.org/en/latest/installation-makahiki-heroku.html.
+-------------------------------------------------------------------------------
+
 Instructions
 ------------
 In these instructions, a % represents your terminal prompt.
@@ -74,13 +81,13 @@ switch to the makahiki/install directory:
 Run the script with the options specified for your operating system:
 
 Ubuntu x86:
-% sudo ./install/install.py --dependencies --os ubuntu --arch x86
+% sudo python ./install/install.py --dependencies --os ubuntu --arch x86
 
 Ubuntu x64:
-% sudo ./install/install.py --dependencies --os ubuntu --arch x86
+% sudo python ./install/install.py --dependencies --os ubuntu --arch x86
 
 RHEL 6 x64:
-% sudo ./install/install.py --dependencies --os redhat --arch x64
+% sudo python ./install/install.py --dependencies --os redhat --arch x64
 
 The script installs these packages and their dependencies from 
 each operating system's repositories:
@@ -160,13 +167,13 @@ Switch to the makahiki directory:
 Run the script with the options specified for your operating system:
 
 Ubuntu x86:
-% sudo ./install/install.py --pip --os ubuntu --arch x86
+% python ./install/install.py --pip --os ubuntu --arch x86
 
 Ubuntu x64:
-% sudo ./install/install.py --pip --os ubuntu --arch x64
+% python ./install/install.py --pip --os ubuntu --arch x64
 
 RHEL 6 x64:
-% sudo ./install/install.py --pip --os redhat --arch x64
+% python ./install/install.py --pip --os redhat --arch x64
 
 The list of packages that this step will attempt to install with pip are 
 listed in the makahiki/requirements.txt file.
@@ -224,13 +231,13 @@ with default options, and is equivalent to the following:
 Run the script with the options specified for your operating system:
 
 Ubuntu x86:
-% sudo ./install/install.py --initialize_instance --os ubuntu --arch x86
+% python ./install/install.py --initialize_instance --os ubuntu --arch x86
 
 Ubuntu x64:
-% sudo ./install/install.py --initialize_instance --os ubuntu --arch x64
+% python ./install/install.py --initialize_instance --os ubuntu --arch x64
 
 RHEL 6 x64:
-% sudo ./install/install.py --initialize_instance --os redhat --arch x64
+% python ./install/install.py --initialize_instance --os redhat --arch x64
 
 You will need to answer "Y" to the question "Do you wish to continue (Y/n)?"
 
@@ -281,13 +288,13 @@ following steps:
 Run the script with the options specified for your operating system:
 
 Ubuntu x86:
-% sudo ./install/install.py --update_instance --os ubuntu --arch x86
+% python ./install/install.py --update_instance --os ubuntu --arch x86
 
 Ubuntu x64:
-% sudo ./install/install.py --update_instance --os ubuntu --arch x64
+% python ./install/install.py --update_instance --os ubuntu --arch x64
 
 RHEL 6 x64:
-% sudo ./install/install.py --update_instance --os redhat --arch x64
+% python ./install/install.py --update_instance --os redhat --arch x64
 
 The script will create a log file in makahiki/install/logs with a filename of 
 the format "install_update_instance_<timestamp>.log," where <timestamp> is 
