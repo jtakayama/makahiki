@@ -62,6 +62,7 @@ def scriptrunner(scripttype, os, arch, logfile):
            Supported values: "ubuntu" or "redhat"
         3. arch: Architecture. Supported values: "x86" or "x64".
             (Ubuntu is supported for x86 and x64; Red Hat is supported for x64.)
+        4. logfile: The log file to pass to the installation script.
     """
     if os == "ubuntu" and (arch != "x86" and arch != "x64"):
         logfile.write("Unsupported architecture for %s: %s" % (os, arch))
@@ -91,8 +92,8 @@ def scriptrunner(scripttype, os, arch, logfile):
             logfile.write("Error: install.py invoked with invalid command: %s" % scripttype)
             print "Error: install.py invoked with invalid command: %s" % scripttype
         
-        # After the function is done, close the logfile.
-        logfile.close()
+        # After the function is done, return the logfile.
+        return logfile
 
 def main():
     if len(sys.argv) != 6:
