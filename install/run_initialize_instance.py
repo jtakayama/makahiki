@@ -77,6 +77,7 @@ def run(logfile):
     	manage_command = "python " + manage_py
     	fixture_path = "makahiki/fixtures"
 
+        # Install requirements
 	script_utils.install_requirements()
 
         # Switch back to standard I/O
@@ -84,9 +85,13 @@ def run(logfile):
         output = output_capturer.getvalue()
         logfile.write(output)
         print(output)
+        # Clear the logfile buffer.
+        logfile.flush()
+        os.fsync(logfile)
         
-        # Write the output of local_reset_db to a logfile
+        # Reset the database 
         reset_db_result = local_reset_db(logfile)
+	# If successful, write the output of local_reset_db to a logfile
         logfile = reset_db_result[0]
         local_reset_db_abort = reset_db_result[1]
         if local_reset_db_abort:
@@ -102,19 +107,49 @@ def run(logfile):
             output_capturer = StringIO.StringIO()
             sys.stdout = output_capturer            
             
+            # Sync the database
 	    script_utils.syncdb(manage_command)
-            
-	    script_utils.copy_static_media(heroku_app)
-            
-    	    script_utils.load_data(manage_command, instance_type, fixture_path)
-    	    
-            # Reset stdout to normal
+
+            # Switch I/O back, write output to logfile
             sys.stdout = normal_stdout
             output = output_capturer.getvalue()
             logfile.write(output)
             print(output)
+            # Clear the logfile buffer.
+            logfile.flush()
+            os.fsync(logfile)
+
+            # Resume capturing I/O
+            normal_stdout = sys.stdout
+            output_capturer = StringIO.StringIO()
+            sys.stdout = output_capturer            
+
+            # Copy static files
+	    script_utils.copy_static_media(heroku_app)
             
-            # Clear the buffer.
+            # Switch I/O back, write output to logfile
+            sys.stdout = normal_stdout
+            output = output_capturer.getvalue()
+            logfile.write(output)
+            print(output)
+            # Clear the logfile buffer.
+            logfile.flush()
+            os.fsync(logfile)
+
+            # Resume capturing I/O
+            normal_stdout = sys.stdout
+            output_capturer = StringIO.StringIO()
+            sys.stdout = output_capturer 
+
+            # Load data
+    	    script_utils.load_data(manage_command, instance_type, fixture_path)
+    	    
+            # Switch I/O back, write output to logfile
+            sys.stdout = normal_stdout
+            output = output_capturer.getvalue()
+            logfile.write(output)
+            print(output)          
+            # Clear the logfile buffer.
             logfile.flush()
             os.fsync(logfile)
 
