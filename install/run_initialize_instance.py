@@ -26,7 +26,7 @@ def local_reset_db(logfile):
     Returns a tuple result_tuple. result_tuple[0] has the logfile.
     result_tuple[1] is True if the reset was aborted, and False if was not.
     """
-    local_reset_db_abort = False
+    local_reset_db_cancel = False
     logfile.write("WARNING: This command will reset the database. " \
           "All existing data will be deleted. This process is irreversible.\n")
     print "WARNING: This command will reset the database. " \
@@ -37,17 +37,18 @@ def local_reset_db(logfile):
         print "Invalid option %s\n" % value
         value = raw_input("Do you wish to continue (Y/n)? ")
     if value == "n":
+        logfile.write("Do you wish to continue (Y/n)? %s\n" % value)
 	logfile.write("Operation cancelled.")
         print "Operation cancelled.\n"
-        local_reset_db_abort = True
-        result_tuple = [logfile, local_reset_db_abort]
+        local_reset_db_cancel = True
+        result_tuple = [logfile, local_reset_db_cancel]
         return result_tuple
-
-    logfile.write("Do you wish to continue (Y/n)? %s" % value)
-    print "resetting the db..."
-    os.system("cd " + local_manage_py_dir() + "; python makahiki/scripts/initialize_postgres.py")
-    result_tuple = [logfile, local_reset_db_abort]
-    return result_tuple
+    elif value =="Y":
+        logfile.write("Do you wish to continue (Y/n)? %s\n" % value)
+        print "resetting the db..."
+        os.system("cd " + local_manage_py_dir() + "; python makahiki/scripts/initialize_postgres.py")
+        result_tuple = [logfile, local_reset_db_cancel]
+        return result_tuple
 
 def run(logfile):
     """
@@ -93,10 +94,10 @@ def run(logfile):
         reset_db_result = local_reset_db(logfile)
 	# If successful, write the output of local_reset_db to a logfile
         logfile = reset_db_result[0]
-        local_reset_db_abort = reset_db_result[1]
-        if local_reset_db_abort:
-	    logfile.write("Warning: initialize_instance did not complete successfully.")
-	    print "Warning: initialize_instance did not complete successfully."
+        local_reset_db_cancel = reset_db_result[1]
+        if local_reset_db_cancel:
+	    logfile.write("Makahiki instance initialization was cancelled by the user.")
+	    print "Makahiki instance initialization was cancelled by the user."
 	    end_time = termination_string()
 	    logfile.write(end_time)
 	    print end_time
