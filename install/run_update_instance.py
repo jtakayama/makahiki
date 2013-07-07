@@ -17,7 +17,7 @@ def run(logfile):
         USER_HOME = subprocess.check_output(["echo $HOME"], stderr=subprocess.STDOUT, shell=True) 
         # Remove newline from expected "/home/<username>\n"
         USER_HOME = USER_HOME[:-1]
-        USER_PROJECT_HOME = USER_HOME + "/makahiki"
+        USER_PROJECT_HOME = USER_HOME + os.sep + "makahiki"
         # cd to makahiki directory so pip can find the requirements.txt file
         os.chdir(USER_PROJECT_HOME)
         update_output = subprocess.check_output(["python ./makahiki/scripts/update_instance.py"], stderr=subprocess.STDOUT, shell=True)

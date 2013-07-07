@@ -38,7 +38,7 @@ def local_reset_db(logfile):
         value = raw_input("Do you wish to continue (Y/n)? ")
     if value == "n":
         logfile.write("Do you wish to continue (Y/n)? %s\n" % value)
-	logfile.write("Operation cancelled.")
+        logfile.write("Operation cancelled.")
         print "Operation cancelled.\n"
         local_reset_db_cancel = True
         result_tuple = [logfile, local_reset_db_cancel]
@@ -61,25 +61,25 @@ def run(logfile):
         USER_HOME = subprocess.check_output(["echo $HOME"], stderr=subprocess.STDOUT, shell=True) 
         # Remove newline from expected "/home/<username>\n"
         USER_HOME = USER_HOME[:-1]
-        USER_PROJECT_HOME = USER_HOME + "/makahiki"
+        USER_PROJECT_HOME = USER_HOME + os.sep + "makahiki"
         # cd to makahiki directory
         os.chdir(USER_PROJECT_HOME)
 
         # Capture console output from script_utils functions:
-	normal_stdout = sys.stdout
+        normal_stdout = sys.stdout
         output_capturer = StringIO.StringIO()
         sys.stdout = output_capturer
 
         # Runs the initialization scripts in same order as 
         # makahiki/makahiki/scripts/initialize_instance.py
-    	instance_type = None
-    	heroku_app = None
-    	manage_py = script_utils.manage_py_command()
-    	manage_command = "python " + manage_py
-    	fixture_path = "makahiki/fixtures"
+        instance_type = None
+        heroku_app = None
+        manage_py = script_utils.manage_py_command()
+        manage_command = "python " + manage_py
+        fixture_path = "makahiki" + os.sep + "fixtures"
 
         # Install requirements
-	script_utils.install_requirements()
+        script_utils.install_requirements()
 
         # Switch back to standard I/O
         sys.stdout = normal_stdout
@@ -92,16 +92,16 @@ def run(logfile):
         
         # Reset the database 
         reset_db_result = local_reset_db(logfile)
-	# If successful, write the output of local_reset_db to a logfile
+        # If successful, write the output of local_reset_db to a logfile
         logfile = reset_db_result[0]
         local_reset_db_cancel = reset_db_result[1]
         if local_reset_db_cancel:
-	    logfile.write("Makahiki instance initialization was cancelled by the user.")
-	    print "Makahiki instance initialization was cancelled by the user."
-	    end_time = termination_string()
-	    logfile.write(end_time)
-	    print end_time
-	    return logfile
+            logfile.write("Makahiki instance initialization was cancelled by the user.")
+            print "Makahiki instance initialization was cancelled by the user."
+            end_time = termination_string()
+            logfile.write(end_time)
+            print end_time
+            return logfile
         else:
             # Resume capturing I/O
             normal_stdout = sys.stdout
@@ -109,7 +109,7 @@ def run(logfile):
             sys.stdout = output_capturer            
             
             # Sync the database
-	    script_utils.syncdb(manage_command)
+            script_utils.syncdb(manage_command)
 
             # Switch I/O back, write output to logfile
             sys.stdout = normal_stdout
@@ -126,7 +126,7 @@ def run(logfile):
             sys.stdout = output_capturer            
 
             # Copy static files
-	    script_utils.copy_static_media(heroku_app)
+            script_utils.copy_static_media(heroku_app)
             
             # Switch I/O back, write output to logfile
             sys.stdout = normal_stdout
@@ -143,8 +143,8 @@ def run(logfile):
             sys.stdout = output_capturer 
 
             # Load data
-    	    script_utils.load_data(manage_command, instance_type, fixture_path)
-    	    
+            script_utils.load_data(manage_command, instance_type, fixture_path)
+            
             # Switch I/O back, write output to logfile
             sys.stdout = normal_stdout
             output = output_capturer.getvalue()
