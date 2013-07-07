@@ -145,8 +145,8 @@ def run(arch, logfile):
             logfile.flush()
             os.fsync(logfile)
         else:
-            logfile.write("git failed to install.")
-            print "git failed to install."
+            logfile.write("Error: git failed to install.")
+            print "Error: git failed to install."
             end_time = termination_string()
             logfile.write(end_time)
             print end_time
@@ -172,8 +172,8 @@ def run(arch, logfile):
             logfile.flush()
             os.fsync(logfile)
         else:
-            logfile.write("gcc failed to install.")
-            print "gcc failed to install."
+            logfile.write("Error: gcc failed to install.")
+            print "Error: gcc failed to install."
             end_time = termination_string()
             logfile.write(end_time)
             print end_time
@@ -199,8 +199,8 @@ def run(arch, logfile):
             logfile.flush()
             os.fsync(logfile)
         else:
-            logfile.write("python-setuptools failed to install.")
-            print "python-setuptools failed to install."
+            logfile.write("Error: python-setuptools failed to install.")
+            print "Error: python-setuptools failed to install."
             end_time = termination_string()
             logfile.write(end_time)
             print end_time
@@ -229,23 +229,23 @@ def run(arch, logfile):
     	    if pip_installed:
                 logfile.write("pip was successfully installed.")
                 print "pip was successfully installed."
-        		# Flush the buffer and force a write to disk after each successful installation
+                # Flush the buffer and force a write to disk after each successful installation
                 logfile.flush()
                 os.fsync(logfile)
     	    else:
-        		logfile.write("pip failed to install.")
-        		print "pip failed to install."
-        		end_time = termination_string()
-        		logfile.write(end_time)
-        		print end_time
-        		return logfile
+                logfile.write("Error: pip failed to install.")
+                print "Error: pip failed to install."
+                end_time = termination_string()
+                logfile.write(end_time)
+                print end_time
+                return logfile
         except subprocess.CalledProcessError as cpe:
             logfile.write("CalledProcessError: ")
             print "CalledProcessError: "
             logfile.write(cpe.output)
             print cpe.output
-            logfile.write("pip failed to install.")
-            print "pip failed to install."
+            logfile.write("Error: pip failed to install.")
+            print "Error: pip failed to install."
             end_time = termination_string()
             logfile.write(end_time)
             print end_time
@@ -274,8 +274,8 @@ def run(arch, logfile):
             logfile.flush()
             os.fsync(logfile)
         else:
-            logfile.write("python-imaging failed to install.")
-            print "python-imaging failed to install."
+            logfile.write("Error: python-imaging failed to install.")
+            print "Error: python-imaging failed to install."
             end_time = termination_string()
             logfile.write(end_time)
             print end_time
@@ -301,8 +301,8 @@ def run(arch, logfile):
             logfile.flush()
             os.fsync(logfile)
         else:
-            logfile.write("python-dev failed to install.")
-            print "python-dev failed to install."
+            logfile.write("Error: python-dev failed to install.")
+            print "Error: python-dev failed to install."
             end_time = termination_string()
             logfile.write(end_time)
             print end_time
@@ -328,8 +328,8 @@ def run(arch, logfile):
             logfile.flush()
             os.fsync(logfile)
         else:
-            logfile.write("libjpeg-dev failed to install.")
-            print "libjpeg-dev failed to install."
+            logfile.write("Error: libjpeg-dev failed to install.")
+            print "Error: libjpeg-dev failed to install."
             end_time = termination_string()
             logfile.write(end_time)
             print end_time
@@ -361,7 +361,7 @@ def run(arch, logfile):
                 else:
                     raise OSError
             except OSError as libjpeg_i386_error:
-                output5 = "Could not find libjpeg.so in /usr/lib or /usr/lib/i386-linux-gnu."
+                output5 = "Error: Could not find libjpeg.so in /usr/lib or /usr/lib/i386-linux-gnu."
                 output6 = "Python Imaging Library-related packages may not have installed properly."
                 logfile.write(output5)
                 logfile.write(output6)
@@ -388,7 +388,7 @@ def run(arch, logfile):
                 else:
                     raise OSError
             except OSError as libjpeg_x86_64_error:
-                output5 = "Could not find libjpeg.so in /usr/lib or /usr/lib/x86_64-linux-gnu."
+                output5 = "Error: Could not find libjpeg.so in /usr/lib or /usr/lib/x86_64-linux-gnu."
                 output6 = "Python Imaging Library-related packages may not have installed properly."
                 logfile.write(output5)
                 logfile.write(output6)
@@ -397,8 +397,16 @@ def run(arch, logfile):
                 end_time = termination_string()
                 logfile.write(end_time)
                 print end_time
-                return logfile 
-    
+                return logfile
+        else:
+            invalid_arch = "Error: Unsupported architecture for Ubuntu: %s" % arch
+            logfile.write(invalid_arch)
+            print invalid_arch
+            end_time = termination_string()
+            logfile.write(end_time)
+            print end_time
+            return logfile    
+
     # libz.so         
     try:
         libz_stat = os.stat("/usr/lib/libz.so")
@@ -424,7 +432,7 @@ def run(arch, logfile):
                 else:
                     raise OSError
             except OSError as libz_i386_error:
-                output5 = "Could not find libz.so in /usr/lib or /usr/lib/i386-linux-gnu."
+                output5 = "Error: Could not find libz.so in /usr/lib or /usr/lib/i386-linux-gnu."
                 output6 = "Python Imaging Library-related packages may not have installed properly."
                 logfile.write(output5)
                 logfile.write(output6)
@@ -451,7 +459,7 @@ def run(arch, logfile):
                 else:
                     raise OSError
             except OSError as libz_x86_64_error:
-                output5 = "Could not find libz.so in /usr/lib or /usr/lib/x86_64-linux-gnu."
+                output5 = "Error: Could not find libz.so in /usr/lib or /usr/lib/x86_64-linux-gnu."
                 output6 = "Python Imaging Library-related packages may not have installed properly."
                 logfile.write(output5)
                 logfile.write(output6)
@@ -460,7 +468,16 @@ def run(arch, logfile):
                 end_time = termination_string()
                 logfile.write(end_time)
                 print end_time
-                return logfile 
+                return logfile        
+        else:
+            invalid_arch = "Error: Unsupported architecture for Ubuntu: %s" % arch
+            logfile.write(invalid_arch)
+            print invalid_arch
+            end_time = termination_string()
+            logfile.write(end_time)
+            print end_time
+            return logfile 
+
                 
     logfile.write("Installation of Python Imaging Library components is complete.")
     print "Installation of Python Imaging Library components is complete."
@@ -485,8 +502,8 @@ def run(arch, logfile):
             logfile.flush()
             os.fsync(logfile)
         else:
-            logfile.write("postgresql-9.1 failed to install.")
-            print "postgresql-9.1 failed to install."
+            logfile.write("Error: postgresql-9.1 failed to install.")
+            print "Error: postgresql-9.1 failed to install."
             end_time = termination_string()
             logfile.write(end_time)
             print end_time
@@ -512,8 +529,8 @@ def run(arch, logfile):
             logfile.flush()
             os.fsync(logfile)
         else:
-            logfile.write("libpq-dev failed to install.")
-            print "libpq-dev failed to install."
+            logfile.write("Error: libpq-dev failed to install.")
+            print "Error: libpq-dev failed to install."
             end_time = termination_string()
             logfile.write(end_time)
             print end_time
@@ -539,8 +556,8 @@ def run(arch, logfile):
             logfile.flush()
             os.fsync(logfile)
         else:
-            logfile.write("memcached failed to install.")
-            print "memcached failed to install."
+            logfile.write("Error: memcached failed to install.")
+            print "Error: memcached failed to install."
             end_time = termination_string()
             logfile.write(end_time)
             print end_time
@@ -566,8 +583,8 @@ def run(arch, logfile):
             logfile.flush()
             os.fsync(logfile)
         else:
-            logfile.write("libmemcached-dev failed to install.")
-            print "libmemcached-dev failed to install."
+            logfile.write("Error: libmemcached-dev failed to install.")
+            print "Error: libmemcached-dev failed to install."
             end_time = termination_string()
             logfile.write(end_time)
             print end_time
@@ -593,8 +610,8 @@ def run(arch, logfile):
             logfile.flush()
             os.fsync(logfile)
         else:
-            logfile.write("virtualenvwrapper failed to install.")
-            print "virtualenvwrapper failed to install."
+            logfile.write("Error: virtualenvwrapper failed to install.")
+            print "Error: virtualenvwrapper failed to install."
             end_time = termination_string()
             logfile.write(end_time)
             print end_time
