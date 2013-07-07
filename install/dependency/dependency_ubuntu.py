@@ -40,7 +40,7 @@ def pip_check():
             compare_result = True
     except OSError as ose:
         # Assume not installed
-	compare_result = False
+	    compare_result = False
     return compare_result
 
 def psql91_check():
@@ -81,7 +81,7 @@ def virtualenvwrapper_check():
             compare_result = True
     except OSError as ose:
         # Assume not installed
-	compare_result = False
+	    compare_result = False
     return compare_result
 
 def termination_string():
