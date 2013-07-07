@@ -1,3 +1,4 @@
+import os
 import subprocess
 
 def termination_string():
@@ -19,7 +20,7 @@ def run(logfile):
         USER_PROJECT_HOME = USER_HOME + "/makahiki"
         # cd to makahiki directory so pip can find the requirements.txt file
         os.chdir(USER_PROJECT_HOME)
-        update_output = subprocess.check_output(["./makahiki/scripts/update_instance.py"], stderr=subprocess.STDOUT, shell=True)
+        update_output = subprocess.check_output(["python", "./makahiki/scripts/update_instance.py"], stderr=subprocess.STDOUT, shell=True)
         logfile.write(update_output)
         print(update_output)
         # Clear the buffer.
