@@ -10,8 +10,8 @@ Ubuntu Linux x64, and Red Hat Enterprise Linux 6 (RHEL 6) x64.
 Makahiki is available at https://github.com/csdl/makahiki.
 
 The install/ folder contains the install.py script and its dependencies.
-install.py:
-----------
+install.py, or install_altinstall.py:
+-------------------------------------
     Usage: python install.py [--dependencies | --pip | initialize_instance | update_instance] --os [ubuntu | redhat] --arch [x86 | x64]
     
     This is the only script the user runs from the terminal. All options require 
@@ -40,6 +40,17 @@ system such as Heroku. For instructions to deploy Makahiki on Heroku, see
 http://makahiki.readthedocs.org/en/latest/installation-makahiki-heroku.html.
 -------------------------------------------------------------------------------
 
+WARNING 2:
+-------------------------------------------------------------------------------
+If the default version of Python on your system is not a version of Python 2.7 
+that is 2.7.3 or higher, you will need to install Python 2.7 as an altinstall 
+(if you have not already done so) and use install_altinstall.py instead. 
+All commands for install_altinstall.py are the same. 
+
+See Section 0 and 0.1 for instructions to install Python 2.7.3 as an 
+altinstall.
+-------------------------------------------------------------------------------
+
 Instructions
 ------------
 In these instructions, a % represents your terminal prompt.
@@ -50,32 +61,51 @@ and the makahiki directory would be at /home/robot/makahiki.
 
 0. Check your prerequisites:
 ----------------------------
-(Python)
+(1.) Python 2.7.3 or higher (Not Python 3)
 At a minimum, you need to have Python 2.7.3 or higher (but not Python 3) 
-installed. Use python --version in the terminal to check this:
+installed. Use python --version in the terminal to check the version of 
+your default Python installation:
 
 % python --version
 
 Ubuntu versions 12.04.1 LTS and later LTS versions come with Python 2.7.3 installed 
-by default. If Python 2.7.3 is not installed on your system, you will need to 
-download the source tarball from python.org, compile it, and install it.
+by default. If Python 2.7.3, or a higher version of Python 2.7, is not the default 
+Python installation on your system, you will need to download the source tarball from 
+python.org and install it as an altinstall. This is left as an exercise for the 
+user.
 
 Red Hat Enterprise Linux 6 (and CentOS 6) come with Python 2.6.6 installed by 
 default. This is required as the default version in order for certain system 
 tools to work correctly. Any installation of Python 2.7.3 will need to be 
 an altinstall. The install.py script and its dependency scripts assume 
 that, in a RHEL-based system, Python 2.7.3 is an altinstall in 
-/usr/bin/python27.
+/usr/bin/python2.7/
 
-Compiling and installing Python 2.7.3 is left as an exercise for the user.
+Compiling and installing Python 2.7.3 is handled by python273_altinstall.py, 
+which is targeted at RHEL 6 x64 systems. For further instructions, see 
+section 0.1.
 
-(Internet connection)
+(2.) Internet connection
 Steps 1 and 3 require an Internet connection.
+
+0.1. Setting Up Python 2.7.3 as an altinstall:
+----------------------------------------------
+This section applies to RHEL 6 x64 systems only.
+
+Switch to your top-level makahiki directory:
+% cd ~/makahiki
+
+Run the install/python273_altinstall.py script as follows:
+1. Run it with --pythonsetup to install programs needed to 
+   compile Python:
+% sudo python ./install/python273_altinstall.py --pythonsetup
+
+2. Run it with --altinstall to compile Python into an altinstall:
+% sudo python ./install/python273_altinstall.py --altinstall
 
 1. Install system environment dependencies:
 -------------------------------------------
-Assuming you started in your top-level makahiki directory, 
-switch to the makahiki/install directory:
+Switch to your top-level makahiki directory:
 % cd ~/makahiki
 
 Run the script with the options specified for your operating system:
@@ -87,7 +117,7 @@ Ubuntu x64:
 % sudo python ./install/install.py --dependencies --os ubuntu --arch x86
 
 RHEL 6 x64:
-% sudo python ./install/install.py --dependencies --os redhat --arch x64
+% sudo python ./install/install_altinstall.py --dependencies --os redhat --arch x64
 
 The script installs these packages and their dependencies from 
 each operating system's repositories:
@@ -173,7 +203,7 @@ Ubuntu x64:
 % python ./install/install.py --pip --os ubuntu --arch x64
 
 RHEL 6 x64:
-% python ./install/install.py --pip --os redhat --arch x64
+% python ./install/install_altinstall.py --pip --os redhat --arch x64
 
 The list of packages that this step will attempt to install with pip are 
 listed in the makahiki/requirements.txt file.
@@ -237,7 +267,7 @@ Ubuntu x64:
 % python ./install/install.py --initialize_instance --os ubuntu --arch x64
 
 RHEL 6 x64:
-% python ./install/install.py --initialize_instance --os redhat --arch x64
+% python ./install/install_altinstall.py --initialize_instance --os redhat --arch x64
 
 You will need to answer "Y" to the question "Do you wish to continue (Y/n)?"
 
@@ -294,7 +324,7 @@ Ubuntu x64:
 % python ./install/install.py --update_instance --os ubuntu --arch x64
 
 RHEL 6 x64:
-% python ./install/install.py --update_instance --os redhat --arch x64
+% python ./install/install_altinstall.py --update_instance --os redhat --arch x64
 
 The script will create a log file in makahiki/install/logs with a filename of 
 the format "install_update_instance_<timestamp>.log," where <timestamp> is 
