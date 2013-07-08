@@ -16,8 +16,9 @@ def termination_string():
 
 def install(packagename, logfile):
     """
-    Installs <packagename> and logs console output to <logfile>. Raises a 
-    CalledProcessError if an error occurs.
+    Installs <packagename> and writes its output to <logfile>.
+    Raises a CalledProcessError if an error occurs.
+    Note that this does not log the console output of yum.
     
     Parameters:
        1. packagename: The name of the package to be installed.
