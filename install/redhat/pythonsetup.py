@@ -29,6 +29,12 @@ def install(packagename, logfile):
     result[1] is a reference to the logfile passed in as parameter 2.
     """
     success = False
+    now = datetime.datetime.now()
+    time = now.strftime("%Y-%m-%d %H:%M:%S")
+    start_time = "Script starting at %s\n" % time
+    logfile.write(start_time)
+    print start_time
+
     logfile.write("%s will be installed.\n" % packagename)
     print "%s will be installed.\n" % packagename
     try:
@@ -196,8 +202,9 @@ def run(logfile):
         print "CalledProcessError: "
         logfile.write(cpe.output)
         print cpe.output
-        logfile.write("Warning: pre-installation setup for Python 2.7.3 did not complete successfully.\n")
-        print "Warning: pre-installation setup for Python 2.7.3 did not complete successfully.\n"
+        closing = "\nWarning: pre-installation setup for Python 2.7.3 did not complete successfully.\n"
+        logfile.write(closing)
+        print closing
         end_time = termination_string()
         logfile.write(end_time)
         print end_time
