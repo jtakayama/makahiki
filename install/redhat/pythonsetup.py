@@ -1,28 +1,21 @@
+import datetime
 import subprocess
 import shlex
 import re
 import sys
 import StringIO
+import os
 
 def termination_string():
     """
     Gets the current system time and appends it to a termination notice.
     """
-    # Capture console output from subprocess.check_call:
-    normal_stdout = sys.stdout
-    output_capturer = StringIO.StringIO()
-    sys.stdout = output_capturer
-    
-    subprocess.check_call(["date"])
-    
-    # Switch back to standard I/O
-    sys.stdout = normal_stdout
-    time = output_capturer.getvalue().strip()
-    
-    end_time = "Script exiting at %s" % time
+    now = datetime.datetime.now()
+    time = now.strftime("%Y-%m-%d %H:%M:%S")
+    end_time = "Script exiting at %s\n" % time
     return end_time
 
-def install_and_capture(packagename, logfile):
+def install(packagename, logfile):
     """
     Installs <packagename> and logs console output to <logfile>. Raises a 
     CalledProcessError if an error occurs.
@@ -36,44 +29,25 @@ def install_and_capture(packagename, logfile):
     result[1] is a reference to the logfile passed in as parameter 2.
     """
     success = False
-    logfile.write("%s will be installed." % packagename)
-    print "%s will be installed." % packagename
-    # Capture console output:
-    normal_stdout = sys.stdout
-    output_capturer = StringIO.StringIO()
-    sys.stdout = output_capturer
+    logfile.write("%s will be installed.\n" % packagename)
+    print "%s will be installed.\n" % packagename
     try:
         # Install
-        install_result = subprocess.check_call(shlex.split("yum install -y %" % packagename))
+        logfile.write("yum install -y %s" % packagename)
+        print "yum install -y %s" % packagename
+        install_result = subprocess.check_call(shlex.split("yum install -y %s" % packagename))
         # Any CalledProcessError would be raised at this point
-        # Switch back to standard I/O
-        sys.stdout = normal_stdout
-        output = output_capturer.getvalue()
-        logfile.write(output)
-        print(output)
-        # Clear the logfile buffer.
-        logfile.flush()
-        os.fsync(logfile)
-        # Check result
         if install_result == 0:
-            logfile.write("%s was successfully installed." % packagename)
-            print "%s was successfully installed." % packagename
+            logfile.write("%s was successfully installed.\n" % packagename)
+            print "%s was successfully installed.\n" % packagename
             success = True
     except subprocess.CalledProcessError as cpe:
-        # Switch back to standard I/O
-        sys.stdout = normal_stdout
-        output = output_capturer.getvalue()
-        logfile.write(output)
-        print(output)
-        # Clear the logfile buffer.
-        logfile.flush()
-        os.fsync(logfile)
         # Print and log the error message
         logfile.write("CalledProcessError: ")
         print "CalledProcessError: "
         logfile.write(cpe.output)
         print cpe.output
-        closing = "Package %s did not install successfully." % packagename
+        closing = "Package %s did not install successfully.\n" % packagename
         logfile.write(closing)
         print closing
         end_time = termination_string()
@@ -104,102 +78,105 @@ def run(logfile):
     try:
         #Confirm that the user wants to continue.
         logfile.write("This script will install these packages and their dependencies:\n\
-             All packages in groupinstall of \"Development tools\",\n\
-             zlib-devel,\nbzip2-devel,\nopenssl-devel,\nncurses-devel,\n\
-             sqlite-devel,\nreadline-devel,\ntk-devel,\nwget")
+        All packages in groupinstall of \"Development tools\",\n\
+        zlib-devel,\n\
+        bzip2-devel,\n\
+        openssl-devel,\n\
+        ncurses-devel,\n\
+        sqlite-devel,\n\
+        readline-devel,\n\
+        tk-devel,\n\
+        wget")
         print "This script will install these packages and their dependencies:\n\
-             All packages in groupinstall of \"Development tools\",\n\
-             zlib-devel,\nbzip2-devel,\nopenssl-devel,\nncurses-devel,\n\
-             sqlite-devel,\nreadline-devel,\ntk-devel,\nwget"
+        All packages in groupinstall of \"Development tools\",\n\
+        zlib-devel,\n\
+        bzip2-devel,\n\
+        openssl-devel,\n\
+        ncurses-devel,\n\
+        sqlite-devel,\n\
+        readline-devel,\n\
+        tk-devel,\n\
+        wget"
         value = raw_input("Do you wish to continue (Y/n)? ")
         while value != "Y" and value != "n":
             logfile.write("Invalid option %s\n" % value)
             print "Invalid option %s\n" % value
             value = raw_input("Do you wish to continue (Y/n)? ")
         if value == "n":
-            logfile.write("Do you wish to continue (Y/n)? %s\n" % value)
-            logfile.write("Operation cancelled.")
+            logfile.write("\nDo you wish to continue (Y/n)? %s\n" % value)
+            logfile.write("Operation cancelled.\n")
             print "Operation cancelled.\n"
+            end_time = termination_string()
+            logfile.write(end_time)
+            print end_time
             return logfile
         elif value =="Y":
             logfile.write("Do you wish to continue (Y/n)? %s\n" % value)
-            print "Installing packages..."
+            print "Installing packages...\n"
         
             # Groupinstall of "Development tools"
-            logfile.write("\"Development tools\" packages will be groupinstalled.")
-            print "\"Development tools\" packages will be groupinstalled."
-            logfile.write("yum groupinstall -y \"Development tools\"")
-            print "yum groupinstall -y \"Development tools\""
-            # Capture console output:
-            normal_stdout = sys.stdout
-            output_capturer = StringIO.StringIO()
-            sys.stdout = output_capturer
+            logfile.write("\"Development tools\" packages will be groupinstalled.\n")
+            print "\"Development tools\" packages will be groupinstalled.\n"
+            logfile.write("yum groupinstall -y \"Development tools\"\n")
+            print "yum groupinstall -y \"Development tools\"\n"
             # Run groupinstall
-            groupinstall_result = subprocess.check_call(shlex.split("yum groupinstall -y \"Development tools\""))
-            # Switch back to standard I/O
-            sys.stdout = normal_stdout
-            output = output_capturer.getvalue()
-            logfile.write(output)
-            print(output)
-            # Clear the logfile buffer.
-            logfile.flush()
-            os.fsync(logfile)
+            groupinstall_result = subprocess.check_call(shlex.split("yum groupinstall -y \"Development tools\"\n"))
             # Check result
             if groupinstall_result == 0:
-                logfile.write("groupinstall \"Development tools\" completed successfully.")
-                print "groupinstall \"Development tools\" completed successfully."
+                logfile.write("groupinstall \"Development tools\" completed successfully.\n")
+                print "groupinstall \"Development tools\" completed successfully.\n"
             
             # zlib-devel
-            result = install_and_capture("zlib-devel", logfile)
+            result = install("zlib-devel", logfile)
             success = result[0]
             logfile = result[1]
             if not success:
                 return logfile
             
             # bzip2-devel
-            result = install_and_capture("bzip2-devel", logfile)
+            result = install("bzip2-devel", logfile)
             success = result[0]
             logfile = result[1]
             if not success:
                 return logfile
             
             # openssl-devel
-            result = install_and_capture("openssl-devel", logfile)
+            result = install("openssl-devel", logfile)
             success = result[0]
             logfile = result[1]
             if not success:
                 return logfile
             
             # ncurses-devel
-            result = install_and_capture("ncurses-devel", logfile)
+            result = install("ncurses-devel", logfile)
             success = result[0]
             logfile = result[1]
             if not success:
                 return logfile
 
             # sqlite-devel
-            result = install_and_capture("sqlite-devel", logfile)
+            result = install("sqlite-devel", logfile)
             success = result[0]
             logfile = result[1]
             if not success:
                 return logfile
             
             # readline-devel
-            result = install_and_capture("readline-devel", logfile)
+            result = install("readline-devel", logfile)
             success = result[0]
             logfile = result[1]
             if not success:
                 return logfile
             
             # tk-devel
-            result = install_and_capture("tk-devel", logfile)
+            result = install("tk-devel", logfile)
             success = result[0]
             logfile = result[1]
             if not success:
                 return logfile
             
             # wget
-            result = install_and_capture("wget", logfile)
+            result = install("wget", logfile)
             success = result[0]
             logfile = result[1]
             if not success:
@@ -219,8 +196,8 @@ def run(logfile):
         print "CalledProcessError: "
         logfile.write(cpe.output)
         print cpe.output
-        logfile.write("Warning: pre-installation setup for Python 2.7.3 did not complete successfully.")
-        print "Warning: pre-installation setup for Python 2.7.3 did not complete successfully."
+        logfile.write("Warning: pre-installation setup for Python 2.7.3 did not complete successfully.\n")
+        print "Warning: pre-installation setup for Python 2.7.3 did not complete successfully.\n"
         end_time = termination_string()
         logfile.write(end_time)
         print end_time
