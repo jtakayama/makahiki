@@ -18,7 +18,7 @@ def termination_string():
 # Modified from manage_py_dir() in script_utils.py
 def local_manage_py_dir():
     """Returns the directory holding the manage.py file as a string."""
-    return os.path.normpath(os.path.dirname(os.path.realpath(__file__)) + os.sep + os.pardir + os.sep)
+    return os.path.normpath(os.path.dirname(os.path.realpath(__file__)) + os.sep + os.pardir + os.sep + "makahiki")
 
 # Modified from local_reset_db(heroku_app) in script_utils.py
 def local_reset_db(logfile):
@@ -46,7 +46,7 @@ def local_reset_db(logfile):
     elif value =="Y":
         logfile.write("Do you wish to continue (Y/n)? %s\n" % value)
         print "resetting the db..."
-        os.system("cd " + local_manage_py_dir() + "; python makahiki/scripts/initialize_postgres.py")
+        os.system("cd " + local_manage_py_dir() + "; python scripts/initialize_postgres.py")
         result_tuple = [logfile, local_reset_db_cancel]
         return result_tuple
 
