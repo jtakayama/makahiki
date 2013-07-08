@@ -2,6 +2,7 @@ import subprocess
 import re
 import os
 import shlex
+import datetime
 
 def rpm_check(packagename):
     """
@@ -74,7 +75,9 @@ def termination_string():
     """
     Gets the current system time and appends it to a termination notice.
     """
-    end_time = "Script exiting at %s" % subprocess.check_output(["date"], stderr=subprocess.STDOUT)
+    now = datetime.datetime.now()
+    time = now.strftime("%Y-%m-%d %H:%M:%S")
+    end_time = "Script exiting at %s\n" % time
     return end_time
 
 def run(arch, logfile):
@@ -85,6 +88,16 @@ def run(arch, logfile):
     
     The target OS is Red Hat Enterprise Linux (RHEL). x64 RHEL is supported.
     """
+    # Write first line to file
+    firstline = "Makahiki installation script for Red Hat Enterprise Linux %s" % arch
+    logfile.write(firstline)
+    print firstline
+    
+    now = datetime.datetime.now()
+    time = now.strftime("%Y-%m-%d %H:%M:%S")
+    start_time = "Script started at %s\n" % time
+    logfile.write(start_time)
+    print start_time
     
     # Boolean variables for each dependency
     git_installed = rpm_check("git")
@@ -100,6 +113,9 @@ def run(arch, logfile):
     memcached_installed = rpm_check("memcached")
     libmemcached_installed = rpm_check("libmemcached-dev")
     virtualenvwrapper_installed = virtualenvwrapper_check()
+    
+    if git_installed:
+       print "git is already installed.\n" 
     
     logfile.write("Not implemented.")
     print "Not implemented."

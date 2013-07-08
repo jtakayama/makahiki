@@ -2,6 +2,7 @@ import subprocess
 import re
 import os
 import shlex
+import datetime
 
 def dpkg_check(packagename):
     """
@@ -88,7 +89,9 @@ def termination_string():
     """
     Gets the current system time and appends it to a termination notice.
     """
-    end_time = "Script exiting at %s" % subprocess.check_output(["date"], stderr=subprocess.STDOUT)
+    now = datetime.datetime.now()
+    time = now.strftime("%Y-%m-%d %H:%M:%S")
+    end_time = "Script exiting at %s\n" % time
     return end_time
 
 def run(arch, logfile):
@@ -119,10 +122,13 @@ def run(arch, logfile):
     virtualenvwrapper_installed = virtualenvwrapper_check()
     
     # Write start time to file
-    firstline = "Makahiki startup script for Ubuntu %s" % arch
+    firstline = "Makahiki installation script for Ubuntu %s" % arch
     logfile.write(firstline)
     print firstline
-    start_time = "Script started at " + subprocess.check_output(["date"], stderr=subprocess.STDOUT)
+    
+    now = datetime.datetime.now()
+    time = now.strftime("%Y-%m-%d %H:%M:%S")
+    start_time = "Script started at %s\n" % time
     logfile.write(start_time)
     print start_time
     
