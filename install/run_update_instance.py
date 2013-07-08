@@ -48,8 +48,9 @@ def run(logfile):
     except OSError as ose:
         logfile.write("OSError: ")
         print "OSError: "
-        logfile.write(ose.output)
-        print ose.output
+        oserror_output = " errno: %s\n filename: %s\n strerror: %s\n" % (ose.errno, ose.filename, ose.strerror) 
+        logfile.write(oserror_output)
+        print oserror_output
         logfile.write("Warning: Makahiki instance update did not complete successfully.")
         print "Warning: Makahiki instance update did not complete successfully."
         end_time = termination_string()
