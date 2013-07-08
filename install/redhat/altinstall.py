@@ -32,13 +32,12 @@ def run_command(command, logfile):
     logfile.write("Attempting: " + command + "\n")
     print "Attempting: " + command + "\n"
     try:
-        # Execute command
+        # Execute command - returns a CalledProcessError if it fails
         command_result = subprocess.check_call(shlex.split(command))
-        # Any CalledProcessError would be raised at this point
         # Check result
         if command_result == 0:
-            logfile.write("Operation successful:\n%s" % command)
-            print "Operation successful:\n%s" % command
+            logfile.write("Operation successful:\n%s\n" % command)
+            print "Operation successful:\n%s\n" % command
             success = True
     except subprocess.CalledProcessError as cpe:
         # Print and log the error message
@@ -88,77 +87,77 @@ def run(logfile):
     os.chdir(compile_dir)
     
     # Download source tarball
-    #logfile.write("Downloading Python 2.7.3 source tarball.")
-    #print "Downloading Python 2.7.3 source tarball."
-    #result = run_and_capture("wget http://python.org/ftp/python/2.7.3/Python-2.7.3.tar.bz2", logfile)
-    #success = result[0]
-    #logfile = result[1]
-    #if not success:
-    #    return logfile
+    logfile.write("Downloading Python 2.7.3 source tarball.\n")
+    print "Downloading Python 2.7.3 source tarball.\n"
+    result = run_and_capture("wget http://python.org/ftp/python/2.7.3/Python-2.7.3.tar.bz2", logfile)
+    success = result[0]
+    logfile = result[1]
+    if not success:
+        return logfile
     
     # Check that the tarball exists
-    #tarball_dir = os.path.normpath(os.path.dirname(os.path.realpath(__file__)) + \
-    #                               os.sep + os.pardir + os.sep + "download" + \
-    #                               os.sep + "Python-2.7.3.tar.bz2")  
-    #try:
-    #    python_stat = os.stat(tarball_dir) 
-    #    if python_stat:
-    #        output1 = "Python-2.7.3.tar.bz2 downloaded to %s" % tarball_dir
-    #        logfile.write(output1)
-    #        print output1
-    #except OSError as tarball_error:
-    #    closing = "Download failed: Could not find Python-2.7.3.tar.bz2 at %s" % tarball_dir
-    #    logfile.write(closing)
-    #    print closing
-    #    end_time = termination_string()
-    #    logfile.write(end_time)
-    #    print end_time
-    #    return logfile
+    tarball_dir = os.path.normpath(os.path.dirname(os.path.realpath(__file__)) + \
+                                   os.sep + os.pardir + os.sep + "download" + \
+                                   os.sep + "Python-2.7.3.tar.bz2")  
+    try:
+        python_stat = os.stat(tarball_dir) 
+        if python_stat:
+            output1 = "Python-2.7.3.tar.bz2 downloaded to %s\n" % tarball_dir
+            logfile.write(output1)
+            print output1
+    except OSError as tarball_error:
+        closing = "Download failed: Could not find Python-2.7.3.tar.bz2 at %s\n" % tarball_dir
+        logfile.write(closing)
+        print closing
+        end_time = termination_string()
+        logfile.write(end_time)
+        print end_time
+        return logfile
     
     # Extract tarball
-    #logfile.write("Extracting tarball.")
-    #print "Extracting tarball."
-    #result = run_command("tar xf Python-2.7.3.tar.bz2", logfile)
-    #success = result[0]
-    #logfile = result[1]
-    #if not success:
-    #    return logfile
+    logfile.write("Extracting tarball\n.")
+    print "Extracting tarball\n."
+    result = run_command("tar xf Python-2.7.3.tar.bz2", logfile)
+    success = result[0]
+    logfile = result[1]
+    if not success:
+        return logfile
     
     # Take ownership of the extracted directory
     extracted_dir = os.getcwd() + os.sep + "Python-2.7.3"
-    logfile.write("Attempting: Taking ownership of %s" % extracted_dir)
-    print "Attempting: Taking ownership of %s" % extracted_dir
+    logfile.write("Attempting: Taking ownership of %s\n" % extracted_dir)
+    print "Attempting: Taking ownership of %s\n" % extracted_dir
     uname = os.getuid()
     os.chown(extracted_dir, uname, -1)
-    logfile.write("Operation succeeded.")
-    print ("Operation succeeded.")
+    logfile.write("Operation successful.\n")
+    print ("Operation successful.\n")
 
     # Change to extracted directory
     logfile.write("Switching to %s\n" % extracted_dir)
     print "Switching to %s\n" % extracted_dir
     os.chdir(extracted_dir)
-    logfile.write("Operation succeeded.")
-    print ("Operation succeeded.")
+    logfile.write("Operation succeeded\n.")
+    print ("Operation succeeded\n.")
 
     # Clear the logfile buffer.
     logfile.flush()
     os.fsync(logfile)
       
-    # Configure and make altinstall
+    # Configure location of altinstall (will be /usr/local/bin/python2.7):
     result = run_command("./configure --prefix=/usr/local", logfile)
     success = result[0]
     logfile = result[1]
     if not success:
         return logfile
 
-    # Code below this line does not work, and may break the OS if it changes the default python version
-    
+    # Compile
     result = run_command("make", logfile)
     success = result[0]
     logfile = result[1]
     if not success:
         return logfile
     
+    # Altinstall
     result = run_command("make altinstall", logfile)
     success = result[0]
     logfile = result[1]
