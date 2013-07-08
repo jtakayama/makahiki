@@ -3,7 +3,6 @@ import subprocess
 import shlex
 import re
 import sys
-import StringIO
 import os
 
 def termination_string():
