@@ -133,14 +133,23 @@ def run(arch, logfile):
     print start_time
     
     # Confirm that the user wants to continue.
-    logfile.write("This script will install these packages and their dependencies:\n\
-         git,\ngcc,\npython-setuptools,\npip,\npython-imaging,\n\
-         python-dev,\nlibjpeg-dev,\npostgresql-9.1,\nlibpq-dev,\n\
-         memcached,\nlibmemcached-dev,\nvirtualenvwrapper")
-    print "This script will install these packages and their dependencies:\n\
-         git,\ngcc,\npython-setuptools,\npip,\npython-imaging,\n\
-         python-dev,\nlibjpeg-dev,\npostgresql-9.1,\nlibpq-dev,\n\
-         memcached,\nlibmemcached-dev,\nvirtualenvwrapper"
+    dependencies_list = "This script will install these packages and their dependencies:\n\
+         git,\n\
+         gcc,\n\
+         python-setuptools,\n\
+         pip,\n\
+         python-imaging,\n\
+         python-dev,\n\
+         libjpeg-dev,\n\
+         postgresql-9.1,\n\
+         libpq-dev,\n\
+         memcached,\n\
+         libmemcached-dev,\n\
+         virtualenvwrapper\n"
+    logfile.write(dependencies_list)
+    print dependencies_list
+    logfile.write("This script will also append to the current user's .bashrc file.\n")
+    print ("This script will also append to the current user's .bashrc file.\n")
     value = raw_input("Do you wish to continue (Y/n)? ")
     while value != "Y" and value != "n":
         logfile.write("Invalid option %s\n" % value)
