@@ -92,16 +92,28 @@ def run(arch, logfile):
     print start_time
     
     # Confirm that the user wants to continue.
-    logfile.write("This script will install these packages and their dependencies:\n\
-         git,\ngcc,\npython-setuptools (Python 2.6),\npython-setuptools (Python 2.7),\n\
-         pip (Python 2.6),\npip (Python 2.7),\npython-imaging,\n\
-         python-dev,\nlibjpeg-dev,\npostgresql91-server,\npostgresql91-contribs,\n\
-         postgresql91-devel,\nmemcached,\nlibmemcached-dev,\nvirtualenvwrapper (Python 2.6)")
-    print "This script will install these packages and their dependencies:\n\
-         git,\ngcc,\npython-setuptools (Python 2.6),\npython-setuptools (Python 2.7),\n\
-         pip (Python 2.6),\npip (Python 2.7),\npython-imaging,\n\
-         python-dev,\nlibjpeg-dev,\npostgresql91-server,\npostgresql91-contribs,\n\
-         postgresql91-devel,\nmemcached,\nlibmemcached-dev,\nvirtualenvwrapper (Python 2.6)"
+    logfile.write("This script will add PostgreSQL's pgdg91 repository to the system.\n")
+    print "This script will add PostgreSQL's pgdg91 repository to the system.\n"
+    dependencies_list = "This script will install these packages and their dependencies:\n\
+         git,\n\
+         gcc,\n\
+         python-setuptools (Python 2.6),\n\
+         python-setuptools (Python 2.7),\n\
+         pip (Python 2.6),\n\
+         pip (Python 2.7),\n\
+         python-imaging,\n\
+         python-devel,\n\
+         libjpeg-devel,\n\
+         postgresql91-server,\n\
+         postgresql91-contribs,\n\
+         postgresql91-devel\n\
+         memcached,\n\
+         libmemcached-devel,\n\
+         virtualenvwrapper (Python 2.6)\n"
+    logfile.write(dependencies_list)
+    print dependencies_list
+    logfile.write("This script will also append to the current user's .bashrc file.\n")
+    print ("This script will also append to the current user's .bashrc file.\n")
     value = raw_input("Do you wish to continue (Y/n)? ")
     while value != "Y" and value != "n":
         logfile.write("Invalid option %s\n" % value)
@@ -116,7 +128,6 @@ def run(arch, logfile):
         logfile.write("Do you wish to continue (Y/n)? %s\n" % value)
         logfile.write("Starting dependency installation for RHEL %s.\nChecking for dependencies...\n" % arch)
         print "Starting dependency installation for RHEL %s.\nChecking for dependencies...\n" % arch
-        
     
     # Boolean variables for each dependency
     # The assumption is that none of the Python 2.7 tools have been 

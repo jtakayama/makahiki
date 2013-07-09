@@ -98,10 +98,10 @@ Switch to your top-level makahiki directory:
 Run the install/python273_altinstall.py script as follows:
 1. Run it with --pythonsetup to install programs needed to 
    compile Python:
-% sudo python ./install/python273_altinstall.py --pythonsetup
+% sudo ./install/python273_altinstall.py --pythonsetup
 
 2. Run it with --altinstall to compile Python into an altinstall:
-% sudo python ./install/python273_altinstall.py --altinstall
+% sudo ./install/python273_altinstall.py --altinstall
 
 1. Install system environment dependencies:
 -------------------------------------------
@@ -111,13 +111,13 @@ Switch to your top-level makahiki directory:
 Run the script with the options specified for your operating system:
 
 Ubuntu x86:
-% sudo python ./install/install.py --dependencies --os ubuntu --arch x86
+% sudo ./install/install.py --dependencies --os ubuntu --arch x86
 
 Ubuntu x64:
-% sudo python ./install/install.py --dependencies --os ubuntu --arch x86
+% sudo ./install/install.py --dependencies --os ubuntu --arch x86
 
 RHEL 6 x64:
-% sudo python ./install/install_altinstall.py --dependencies --os redhat --arch x64
+% sudo ./install/install_altinstall.py --dependencies --os redhat --arch x64
 
 The script installs these packages and their dependencies from 
 each operating system's repositories:
@@ -197,13 +197,13 @@ Switch to the makahiki directory:
 Run the script with the options specified for your operating system:
 
 Ubuntu x86:
-% python ./install/install.py --pip --os ubuntu --arch x86
+% ./install/install.py --pip --os ubuntu --arch x86
 
 Ubuntu x64:
-% python ./install/install.py --pip --os ubuntu --arch x64
+% ./install/install.py --pip --os ubuntu --arch x64
 
 RHEL 6 x64:
-% python ./install/install_altinstall.py --pip --os redhat --arch x64
+% ./install/install_altinstall.py --pip --os redhat --arch x64
 
 The list of packages that this step will attempt to install with pip are 
 listed in the makahiki/requirements.txt file.
@@ -261,13 +261,13 @@ with default options, and is equivalent to the following:
 Run the script with the options specified for your operating system:
 
 Ubuntu x86:
-% python ./install/install.py --initialize_instance --os ubuntu --arch x86
+% ./install/install.py --initialize_instance --os ubuntu --arch x86
 
 Ubuntu x64:
-% python ./install/install.py --initialize_instance --os ubuntu --arch x64
+% ./install/install.py --initialize_instance --os ubuntu --arch x64
 
 RHEL 6 x64:
-% python ./install/install_altinstall.py --initialize_instance --os redhat --arch x64
+% ./install/install_altinstall.py --initialize_instance --os redhat --arch x64
 
 You will need to answer "Y" to the question "Do you wish to continue (Y/n)?"
 
