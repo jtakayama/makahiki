@@ -81,6 +81,12 @@ def scriptrunner(scripttype, os, arch, logfile):
         logfile.write("Script could not be completed.")
         print "Unsupported architecture for %s: %s" % (os, arch)
         print "Script could not be completed."
+        
+    elif os != "ubuntu" and os != "redhat":
+        logfile.write("Unsupported operating system: %s" % os)
+        logfile.write("Script could not be completed.")
+        print "Unsupported operating system: %s" % os
+        print "Script could not be completed."
     
     else: 
         if scripttype == "dependencies":
@@ -113,8 +119,8 @@ def main():
     else:
         args = sys.argv[1:]
         scripttype = args[0].strip()[2:]
-        os = args[2].strip()[2:]
-        arch = args[4].strip()[2:]
+        os = args[2].strip()
+        arch = args[4].strip()
         
         logfile = logfile_open(scripttype)
         logfile = scriptrunner(scripttype,os,arch,logfile)
