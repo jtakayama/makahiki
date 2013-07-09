@@ -117,7 +117,7 @@ def main():
         arch = args[4].strip()[2:]
         
         logfile = logfile_open(scripttype)
-        scriptrunner(scripttype,os,arch,logfile)
+        logfile = scriptrunner(scripttype,os,arch,logfile)
         logfile.close()
 
 if __name__ == '__main__':

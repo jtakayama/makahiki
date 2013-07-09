@@ -367,6 +367,8 @@ def run(arch, logfile):
                 return logfile 
         
         # Check for shared libraries and configure symbolic links if needed
+        logfile.write("Checking for Python Imaging Library shared libraries.\n")
+        print "Checking for Python Imaging Library shared libraries.\n"
         # libjpeg.so
         try:
             libjpeg_stat = os.stat("/usr/lib/libjpeg.so")
