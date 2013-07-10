@@ -10,7 +10,7 @@ def rpm_check(packagename):
     It does not check the version. Returns True if it is installed, and 
     False if it is not.
     """
-    rpm_regex = re.compile("(%s)(.)+(.x86_64)" % packagename + "-")
+    rpm_regex = re.compile("(%s)(.)+(\.)(.)+" % packagename)
     result = False
     rpm_qa = subprocess.check_output(shlex.split("rpm -qa %s" % packagename), stderr=subprocess.STDOUT)
     if rpm_regex.match(rpm_qa):
@@ -21,7 +21,9 @@ def python_package_check(packagename, expected_response):
     """
     Checks if <python-packagename> is installed as a site package 
     using <packagename> --version. Returns True if it is, and 
-    False if it is not.
+    False if it is not. The <packagename> may need to be a 
+    filepath if it refers to a package that is installed under 
+    an altinstall.
     
     It assumes that the version is represented by <packagename> 
     followed by at least two integer sequences separated 
@@ -40,7 +42,7 @@ def python_package_check(packagename, expected_response):
         output = subprocess.check_output(shlex.split("%s --version" % packagename), stderr=subprocess.STDOUT)
         lines = output.split("\n")
         # Expects versions to have at least two parts (e.g., 3.0).
-        version_string = re.compile("(%s )(\d)+(\.(\d)+)+" % packagename)
+        version_string = re.compile("(%s )(\d)+(\.(\d)+)+(.)*" % expected_response)
         line0_result = version_string.match(lines[0])
         if not line0_result:
             compare_result = False
@@ -159,10 +161,10 @@ def run(arch, logfile):
     # installed before.
     git_installed = rpm_check("git")
     gcc_installed = rpm_check("gcc")
-    python_setuptools26 = rpm_check("python-setuptools")
-    python_setuptools27 = python_package_check("easy_install-2.7", "setuptools")
-    pip_installed26 = python_package_check("pip", "pip")
-    pip_installed27 = python_package_check("pip-2.7", "pip")
+    python_setuptools26 = python_package_check("/usr/bin/easy_install", "distribute")
+    python_setuptools27 = python_package_check("/usr/local/bin/easy_install-2.7", "setuptools")
+    pip_installed26 = python_package_check("/usr/bin/pip", "pip")
+    pip_installed27 = python_package_check("/usr/local/bin/pip-2.7", "pip")
     python_imaging_installed = rpm_check("python-imaging")
     python_devel_installed = rpm_check("python-devel")
     libjpeg_devel_installed = rpm_check("libjpeg-turbo-devel")
@@ -365,7 +367,7 @@ def run(arch, logfile):
     print "Installation of Python Imaging Library components is complete.\n"
     
     if postgresql91_repo:
-        repo_string = "The repo at http://yum.postgresql.org/9.1/redhat/rhel-6-x86_64/pgdg-redhat91-9.1-5.noarch rpm\n is already installed."
+        repo_string = "The repository at http://yum.postgresql.org/9.1/redhat/rhel-6-x86_64/pgdg-redhat91-9.1-5.noarch rpm is already installed.\n"
         logfile.write(repo_string)
         print repo_string
     else:
