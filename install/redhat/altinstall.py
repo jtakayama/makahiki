@@ -16,8 +16,7 @@ def termination_string():
 
 def run_command(command, logfile):
     """
-    Executes <command> and logs its output to <logfile>. Raises a 
-    CalledProcessError if an error occurs. 
+    Executes <command> and logs its output to <logfile>.
     Note that this does not log the console output of commands.
     
     Parameters:
@@ -87,9 +86,9 @@ def run(logfile):
     os.chdir(compile_dir)
     
     # Download source tarball
-    logfile.write("Downloading Python 2.7.3 source tarball.\n")
-    print "Downloading Python 2.7.3 source tarball.\n"
-    result = run_and_capture("wget http://python.org/ftp/python/2.7.3/Python-2.7.3.tar.bz2", logfile)
+    logfile.write("Downloading Python 2.7.3 source.\n")
+    print "Downloading Python 2.7.3 source.\n"
+    result = run_command("wget http://python.org/ftp/python/2.7.3/Python-2.7.3.tar.bz2", logfile)
     success = result[0]
     logfile = result[1]
     if not success:
@@ -115,8 +114,8 @@ def run(logfile):
         return logfile
     
     # Extract tarball
-    logfile.write("Extracting tarball\n.")
-    print "Extracting tarball\n."
+    logfile.write("Extracting Python 2.7.3\n.")
+    print "Extracting Python 2.7.3\n."
     result = run_command("tar xf Python-2.7.3.tar.bz2", logfile)
     success = result[0]
     logfile = result[1]
@@ -125,17 +124,19 @@ def run(logfile):
     
     # Take ownership of the extracted directory
     extracted_dir = os.getcwd() + os.sep + "Python-2.7.3"
-    logfile.write("Attempting: Taking ownership of %s\n" % extracted_dir)
-    print "Attempting: Taking ownership of %s\n" % extracted_dir
+    logfile.write("Taking ownership of %s\n" % extracted_dir)
+    print "Taking ownership of %s\n" % extracted_dir
     uname = os.getuid()
     os.chown(extracted_dir, uname, -1)
-    logfile.write("Operation successful.\n")
-    print ("Operation successful.\n")
+    logfile.write("Operation succeeded.\n")
+    print ("Operation succeeded.\n")
 
     # Change to extracted directory
     logfile.write("Switching to %s\n" % extracted_dir)
     print "Switching to %s\n" % extracted_dir
     os.chdir(extracted_dir)
+    logfile.write("Working directory is now %s" % os.getcwd())
+    print "Working directory is now %s" % os.getcwd()
     logfile.write("Operation succeeded\n.")
     print ("Operation succeeded\n.")
 
