@@ -23,6 +23,10 @@ def python_package_check(packagename, expected_response):
     using <packagename> --version. Returns True if it is, and 
     False if it is not.
     
+    It assumes that the version is represented by <packagename> 
+    followed by at least two integer sequences separated 
+    by a single period (e.g., "foo 11.11.11").
+    
     Parameters:
     1. packagename: A string representing a Python package name.
        If the package is part of an altinstall, use its name 
@@ -62,7 +66,28 @@ def postgresql91_repocheck():
             repo_match = True
             break
     return repo_match
-    
+
+def virtualenvwrapper_check():
+    """
+    Checks if virtualenvwrapper is installed in the system. Returns True if 
+    virtualenvwrapper is installed, and False if it is not.
+    """
+    compare_result = False
+    try:
+        output = subprocess.check_output(shlex.split("virtualenv --version"), stderr=subprocess.STDOUT)
+        lines = output.split("\n")
+        # Expects versions to have at least two parts (e.g., 3.0).
+        version_string = re.compile("(\d)+(\.(\d)+)+")
+        line0_result = version_string.match(lines[0])
+        if not line0_result:
+            compare_result = False
+        else:
+            compare_result = True
+    except OSError as ose:
+        # Assume not installed
+        compare_result = False
+    return compare_result
+
 def termination_string():
     """
     Gets the current system time and appends it to a termination notice.
@@ -147,7 +172,7 @@ def run(arch, logfile):
     postgresql91devel_installed = rpm_check("postgresql91-devel")
     memcached_installed = rpm_check("memcached")
     libmemcached_installed = rpm_check("libmemcached-devel")
-    virtualenvwrapper26_installed = python_package_check("virtualenv")
+    virtualenvwrapper26_installed = virtualenvwrapper_check()
     
     # git
     if git_installed:
