@@ -2,6 +2,7 @@ import os
 import subprocess
 import shlex
 import re
+import string
 
 def termination_string():
     """
@@ -13,7 +14,8 @@ def termination_string():
 def requirements_check(logfile):
     """
     Uses "pip freeze" to check that requirements were installed. Meant to be used after 
-    running "pip install -r requirements.txt".
+    running "pip install -r requirements.txt". Compares package names after converting 
+    them to lowercase.
     """
     USER_HOME = subprocess.check_output(["echo $HOME"], stderr=subprocess.STDOUT, shell=True)
     # Remove newline from expected "/home/<username>\n"
@@ -35,10 +37,10 @@ def requirements_check(logfile):
     installed_list = installed.split("\n")
     # Search in list of installed requirements for matches to entries in requirements.txt
     for element in requirements_list:
-        element_regex = re.compile("(.*)(%s)(.*)" % element)
+        element_regex = re.compile("(.)*(%s)(.)*" % string.lower(element))
         element_installed = False
         for element2 in installed_list:
-            if element_regex.match(element2):
+            if element_regex.match(string.lower(element2)):
                 element_installed = True
                 break
 	    else:
@@ -46,10 +48,10 @@ def requirements_check(logfile):
         # Avoid printing empty list elements
         if element != "":
             if element_installed:
-                logfile.write("%s installed successfully." % element)
+                logfile.write("%s installed successfully.\n" % element)
                 print ("%s installed successfully." % element)
             else:
-                logfile.write("Warning: %s not installed." % element)
+                logfile.write("Warning: %s not installed.\n" % element)
                 print ("Warning: %s not installed." % element)
     return logfile
     

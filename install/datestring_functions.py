@@ -21,5 +21,4 @@ def datestring(datetime_datetime):
     else:
        now = datetime_datetime.now()
        time = now.strftime("%Y%m%d%H%M%S%f")
-       end_time = "Script exiting at %s\n" % time
-       return end_time
+       return time
