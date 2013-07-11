@@ -141,8 +141,8 @@ For more information, see Appendix A.
 You will need to add the following lines to the current user's .bashrc file:
 
 # Virtualenvwrapper settings for makahiki
-export WORKON_HOME=home/<username>/.virtualenvs
-export PROJECT_HOME=home/<username>/makahiki
+export WORKON_HOME=$HOME/.virtualenvs
+export PROJECT_HOME=$HOME/makahiki
 export PATH=/usr/pgsql-9.1/bin:$PATH
 export VIRTUALENVWRAPPER_VIRTUALENV=/usr/bin/virtualenv
 export VIRTUALENVWRAPPER_VIRTUALENV_ARGS='--no-site-packages'
@@ -233,30 +233,55 @@ the format "install_pip_<timestamp>.log," where <timestamp> is a sequence of
 numbers representing a timestamp in the system local time. For more information, 
 see Appendix A.
 
-4. PostgreSQL and Environment Variables Configuration
------------------------------------------------------
+4. PostgreSQL Configuration
+---------------------------
 You should still be in the makahiki virtual environment.
 
 After the script completes, you must configure PostgreSQL, set up 
 environment variables, initialize Makahiki, and start the Makahiki server. 
 
-To configure PostgreSQL, go to the Makahiki documentation and follow 
-section 2.1.1.1.1.8, "Install PostgreSQL," to edit the pg_hba.conf file:
-https://makahiki.readthedocs.org/en/latest/installation-makahiki-unix.html#install-postgresql
+Initialize the Postgresql database and turn the Postgresql service on:
+
+% sudo service postgresql-9.1 initdb
+Initializing database:                                     [  OK  ]
+% sudo chkconfig postgresql-9.1 on
 
 The pg_hba.conf file is located in /var/lib/pgsql/9.1/data/pg_hba.conf.
 It is owned by user postgres and group postgres, and it must be opened 
 with sudo:
 
-sudo vi /var/lib/pgsql/9.1/data/pg_hba.conf
+% sudo vi /var/lib/pgsql/9.1/data/pg_hba.conf
 
 The vi editor is installed by default, but any text editor can be used.
 
-To set up environment variables, follow the Makahiki documentation in 
-section 2.1.1.1.1.13, "Setup environment variables:"
-https://makahiki.readthedocs.org/en/latest/installation-makahiki-unix.html#setup-environment-variables
+Restart the Postgresql server after editing the file:
 
-5. Initialize Makahiki
+% sudo service postgresql-9.1 restart
+Stopping postgresql-9.1 service:                           [  OK  ]
+Starting postgresql-9.1 service:                           [  OK  ]
+
+5. Environment Variables Configuration
+--------------------------------------
+The environment variables MAKAHIKI_DATABASE_URL and MAKAHIKI_ADMIN_INFO need 
+to be added to the shell environment. To make them permanently available 
+whenever you "workon makahiki," add these variables to the 
+$WORKON_HOME/makahiki/bin/postactivate file:
+
+# Syntax: postgres://<db_user>:<db_password>@<db_host>:<db_port>/<db_name>
+export MAKAHIKI_DATABASE_URL=postgres://makahiki:makahiki@localhost:5432/makahiki
+
+# Syntax: <admin_name>:<admin_password>
+export MAKAHIKI_ADMIN_INFO=admin:admin
+
+Production instances of Makahiki should change the <admin_password> to something 
+other than "admin."
+
+You will need to do "workon makahiki" after you have edited the postactivate file
+for the changes to take effect:
+
+% workon makahiki
+
+6. Initialize Makahiki
 ----------------------
 You should still be in the makahiki virtual environment.
 
@@ -295,12 +320,12 @@ the format "install_initialize_instance_<timestamp>.log," where <timestamp> is
 a sequence of numbers representing a timestamp in the system local time. 
 For more information, see Appendix A.
 
-6. Start the Server
+7. Start the Server
 -------------------
 You should still be in the makahiki virtual environment.
 
-Switch to the top-level makahiki directory:
-% cd ~/makahiki
+Switch to the makahiki directory:
+% cd ~/makahiki/makahiki
 
 You can now start the web server using manage.py or gunicorn. The manage.py 
 web server is better for development, while gunicorn is better for production 
@@ -314,7 +339,7 @@ To start the server with gunicorn:
 
 In a web browser, go to http://localhost:8000 to see the landing page.
 
-7. Update the Makahiki Instance
+8. Update the Makahiki Instance
 ------------------------------------------
 Makahiki is designed to support post-installation updating of your configured 
 system when bug fixes or system enhancements become available. Updating an 

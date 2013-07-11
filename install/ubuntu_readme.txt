@@ -205,11 +205,28 @@ https://makahiki.readthedocs.org/en/latest/installation-makahiki-unix.html#insta
 On Ubuntu 12.04.1 LTS and later, the pg_hba.conf file is usually located at 
 /etc/postgresql/9.1/main/pg_hba.conf.
 
-To set up environment variables, follow the Makahiki documentation in 
-section 2.1.1.1.1.13, "Setup environment variables:"
-https://makahiki.readthedocs.org/en/latest/installation-makahiki-unix.html#setup-environment-variables
+5. Environment Variables Configuration
+--------------------------------------
+The environment variables MAKAHIKI_DATABASE_URL and MAKAHIKI_ADMIN_INFO need 
+to be added to the shell environment. To make them permanently available 
+whenever you "workon makahiki," add these variables to the 
+$WORKON_HOME/makahiki/bin/postactivate file:
 
-5. Initialize Makahiki
+# Syntax: postgres://<db_user>:<db_password>@<db_host>:<db_port>/<db_name>
+export MAKAHIKI_DATABASE_URL=postgres://makahiki:makahiki@localhost:5432/makahiki
+
+# Syntax: <admin_name>:<admin_password>
+export MAKAHIKI_ADMIN_INFO=admin:admin
+
+Production instances of Makahiki should change the <admin_password> to something 
+other than "admin."
+
+You will need to do "workon makahiki" after you have edited the postactivate file
+for the changes to take effect:
+
+% workon makahiki
+
+6. Initialize Makahiki
 ----------------------
 You should still be in the makahiki virtual environment.
 
@@ -251,7 +268,7 @@ the format "install_initialize_instance_<timestamp>.log," where <timestamp> is
 a sequence of numbers representing a timestamp in the system local time. 
 For more information, see Appendix A.
 
-6. Start the Server
+7. Start the Server
 -------------------
 You should still be in the makahiki virtual environment.
 
@@ -270,7 +287,7 @@ To start the server with gunicorn:
 
 In a web browser, go to http://localhost:8000 to see the landing page.
 
-7. Update the Makahiki Instance
+8. Update the Makahiki Instance
 ------------------------------------------
 Makahiki is designed to support post-installation updating of your configured 
 system when bug fixes or system enhancements become available. Updating an 
