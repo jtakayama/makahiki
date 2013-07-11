@@ -331,7 +331,7 @@ def run(arch, logfile):
         print tar_output + "\n"
         
         # Take ownership of extracted directory
-        extracted_dir = os.cwd() + os.sep + "setuptools-0.8"
+        extracted_dir = os.getcwd() + os.sep + "setuptools-0.8"
         logfile.write("Changing ownership of %s to current user\n" % extracted_dir)
         print "Changing ownership of %s to current user\n" % extracted_dir
         uname = os.getuid()
