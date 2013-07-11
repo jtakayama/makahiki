@@ -412,7 +412,7 @@ def run(arch, logfile):
         pip27_output = subprocess.check_output(shlex.split(pip27_command), stderr=subprocess.STDOUT)
         logfile.write(pip27_output + "\n")
         print pip27_output + "\n"
-        pip_installed27 = python_package_check("/usr/local/bin/pip-2.7", "setuptools")
+        pip_installed27 = python_package_check("/usr/local/bin/pip-2.7", "pip")
         if pip_installed27:
             logfile.write("pip for Python 2.7.3 installed successfully.\n")
             print "pip for Python 2.7.3 installed successfully.\n"
@@ -599,11 +599,11 @@ def run(arch, logfile):
         print ("virtualenvwrapper will be installed for Python 2.6.6.\n")
         virtualenv26_command = "/usr/bin/pip install virtualenvwrapper"
         logfile.write(virtualenv26_command + "\n")
-        print virtualenv_command + "\n"
+        print virtualenv26_command + "\n"
         virtualenv26_output = subprocess.check_output(shlex.split(virtualenv26_command), stderr=subprocess.STDOUT)
         logfile.write(virtualenv26_output +"\n")
         print virtualenv26_output + "\n"
-        virtualenv_installed26 = virtualenv_check("/usr/bin/virtualenv")
+        virtualenv_installed26 = virtualenvwrapper_check("/usr/bin/virtualenv")
         if pip_installed26:
             logfile.write("virtualenvwrapper for Python 2.6.6 installed successfully.\n")
             print "virtualenvwrapper for Python 2.6.6 installed successfully.\n"
