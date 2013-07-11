@@ -631,7 +631,7 @@ def run(arch, logfile):
     # Add location of pg_config to the PATH
     bashrc_line4 = "export PATH=/usr/pgsql-9.1/bin:$PATH"
     # Force all virtualenvs for this user to use Python 2.7.3
-    bashrc_line5 = export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python2.7
+    bashrc_line5 = "export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python2.7"
     # Set virtualenvwrapper location to the default Python 2.6.6's virtualenv
     bashrc_line6 = "export VIRTUALENVWRAPPER_VIRTUALENV=/usr/bin/virtualenv"
     # Restrict virtualenvs to the Python 2.7.3 site-packages directory
