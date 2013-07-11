@@ -103,13 +103,15 @@ Ubuntu x86:
 Ubuntu x64:
 % sudo ./install/install.py --dependencies --os ubuntu --arch x86
 
-The script installs these packages and their dependencies from 
-each operating system's repositories:
+The script installs these packages and their dependencies:
 - git
 - gcc
 - python-setuptools
 - pip
 - Python Imaging Library (packages: python-dev, python-imaging, libjpeg-dev)
+  - python-dev
+  - python-imaging
+  - libjpeg-dev
   - This also creates symbolic links to libz.so and libjpeg.so 
     in /usr/lib/. What the symbolic links point to is different 
     for each operating system and architecture:
@@ -120,10 +122,8 @@ each operating system's repositories:
     1. /usr/lib/libjpeg.so --> /usr/lib/x86_64-linux-gnu/libjpeg.so
     2. /usr/lib/libz.so --> /usr/lib/x86_64-linux-gnu/libz.so 
 - PostgreSQL 9.1
-  - On Ubuntu, the packages postgresql-9.1 and libpq-dev will be installed.
-  - On RHEL 6, the script will add the repository at 
-    http://yum.postgresql.org/9.1/redhat/rhel-6-x86_64/pgdg-redhat91-9.1-5.noarch.rpm
-    to the system repositories. The postgresql91-server and postgresql91-contrib packages will be installed.
+  - postgresql-9.1
+  - libpq-dev
 - memcached
 - libmemcached-dev
 - virtualenvwrapper
@@ -205,6 +205,9 @@ environment variables, initialize Makahiki, and start the Makahiki server.
 To configure PostgreSQL, go to the Makahiki documentation and follow 
 section 2.1.1.1.1.8, "Install PostgreSQL," to edit the pg_hba.conf file:
 https://makahiki.readthedocs.org/en/latest/installation-makahiki-unix.html#install-postgresql
+
+On Ubuntu 12.04.1 LTS and later, the pg_hba.conf file is usually located at 
+/etc/postgresql/9.1/main/pg_hba.conf.
 
 To set up environment variables, follow the Makahiki documentation in 
 section 2.1.1.1.1.13, "Setup environment variables:"
