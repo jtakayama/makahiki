@@ -131,18 +131,6 @@ The script installs these packages and their dependencies, if not already instal
 - libmemcached-dev
 - virtualenvwrapper (for Python 2.6.6)
 
-The script also appends these lines to the end of the current user's ~/.bashrc 
-file (the example assumes a user named "robot"):
-
-# Virtualenvwrapper settings for makahiki
-export WORKON_HOME=home/robot/.virtualenvs" % USER_HOME
-export PROJECT_HOME=home/robot/makahiki
-export PATH=/usr/pgsql-9.1/bin:$PATH
-export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python2.7
-export VIRTUALENVWRAPPER_VIRTUALENV=/usr/bin/virtualenv
-export VIRTUALENVWRAPPER_VIRTUALENV_ARGS='--no-site-packages'
-source /usr/bin/virtualenvwrapper.sh
-
 The script will create a log file in makahiki/install/logs with a filename of 
 the format "install_dependencies_<timestamp>.log," where <timestamp> is a 
 sequence of numbers representing a timestamp in the system local time. 
@@ -150,7 +138,20 @@ For more information, see Appendix A.
 
 2. Set up the makahiki virtual environment:
 ------------------------------------------- 
-When the environment_setup.sh script finishes, reload the startup file: 
+You will need to add the following lines to the current user's .bashrc file:
+
+# Virtualenvwrapper settings for makahiki
+export WORKON_HOME=home/<username>/.virtualenvs
+export PROJECT_HOME=home/<username>/makahiki
+export PATH=/usr/pgsql-9.1/bin:$PATH
+export VIRTUALENVWRAPPER_VIRTUALENV=/usr/bin/virtualenv
+export VIRTUALENVWRAPPER_VIRTUALENV_ARGS='--no-site-packages'
+source /usr/bin/virtualenvwrapper.sh
+
+Replace <username> with the user's username.
+
+After you are done editing .bashrc, source it to apply the 
+new settings to your shell:
 
 % source ~/.bashrc
 
@@ -159,7 +160,7 @@ Switch to the top-level makahiki directory:
 
 Then, create the makahiki virtual environment: 
 
-% makahiki$ mkvirtualenv makahiki
+% makahiki$ mkvirtualenv makahiki -p /usr/local/bin/python2.7
 
 Creating a virtual environment should switch you to the virtual environment.
 The terminal prompt will be preceded by the name of the virtual environment.
@@ -207,7 +208,14 @@ To run an executable script:
 You should still be in the makahiki virtual environment.
 
 Switch to the makahiki directory:
+
 % cd ~/makahiki
+
+Check that the pg_config library's location is part of the PATH.
+This is needed to compile psycopg2:
+
+% which pg_config
+/usr/pgsql-9.1/bin/pg_config
 
 Run the script with the options specified for your operating system:
 
@@ -243,13 +251,6 @@ with sudo:
 sudo vi /var/lib/pgsql/9.1/data/pg_hba.conf
 
 The vi editor is installed by default, but any text editor can be used.
-If you use vi:
-- Type i to type in insert mode
-- Type esc to break out of insert mode
-- Type esc and then w! to force a write (save) to the file.
-- Type esc and then q! to force quit the editor.
-  (esc and then wq! will save and quit.)
-Learning other vi commands is left as an exercise for the user.
 
 To set up environment variables, follow the Makahiki documentation in 
 section 2.1.1.1.1.13, "Setup environment variables:"
