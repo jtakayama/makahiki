@@ -1,16 +1,15 @@
-install_readme.txt
-==================
+redhat_readme.txt
+=================
 
 INTRODUCTION:
 -------------------------------------------------------------------------------
 This is a README file for the Makahiki installation scripts.
 
-The install.py script calls a set of Python scripts which partially 
-automate the process of installing Makahiki on Ubuntu Linux x86 and
-Ubuntu Linux x64.
+The install_altinstall.py script calls a set of Python scripts which partially 
+automate the process of installing Makahiki on Red Hat Enterprise Linux x64.
 
-The scripts rely on the apt package manager. Other Debian-based systems 
-have not been tested - use at your own risk.
+The scripts rely on the yum package manager. The script has been tested on 
+CentOS 6 x64. Other Red Hat-based operating systems are not supported.
 
 If you would prefer to install Makahiki manually, see 
 https://makahiki.readthedocs.org/en/latest/installation-makahiki-unix.html.
@@ -25,44 +24,46 @@ system such as Heroku. For instructions to deploy Makahiki on Heroku, see
 http://makahiki.readthedocs.org/en/latest/installation-makahiki-heroku.html.
 -------------------------------------------------------------------------------
 
-WARNING 2:
--------------------------------------------------------------------------------
-If the default version of Python on your system is not a version of Python 2.7 
-that is 2.7.3 or higher (but not Python 3), the install.py file will not work 
-for you. 
+For Makahiki to work on RHEL 6, you must install Python 2.7.3 as an altinstall.
+The default version on RHEL 6 is Python 2.6.6, which cannot be changed without 
+causing problems with operating system tools.
 
-If you are using Ubuntu Linux 12.04.1 LTS or higher, Python 2.7.3, or a higher 
-version of Python 2.7, should be the system default. If this is not the case, 
-you will need to:
-1. Build and install Python 2.7.3 as an altinstall, manually
-2. Install yum packages manually with apt.
-3. Install Python packages (easy_install, pip, virtualenvwrapper).
+1. Compile and install Python 2.7.3 as an altinstall:
+-------------------------------------------------------------------------------
+Switch to your top-level makahiki directory:
+% cd ~/makahiki
+
+Run the install/python273_altinstall.py script as follows:
+1. Run it with --pythonsetup to install programs needed to 
+   compile Python:
+% sudo ./install/python273_altinstall.py --pythonsetup
+
+2. Run it with --altinstall to compile Python into an altinstall:
+% sudo ./install/python273_altinstall.py --altinstall
 -------------------------------------------------------------------------------
 
-The install/ folder contains the install.py script and its dependencies.
-
-Usage of install.py:
+2. Installing and configuring other dependencies:
 -------------------------------------------------------------------------------
-./install.py [--dependencies | --pip | initialize_instance | update_instance] --os [ubuntu] --arch [x86 | x64]
+The install/ folder contains the install_altinstall.py script.
+
+Usage of install_altinstall.py:
+-------------------------------------------------------------------------------
+./install_altinstall.py < --dependencies | --pip | --initialize_instance | --update_instance> 
+                        --os < redhat > --arch < x64 >
     
-    This is the only script the user runs from the terminal. All options require 
-    Python 2.7.3 or higher (but not Python 3) to run.
+All options require Python 2.7.3 or higher (but not Python 3) to run.
     
-    --dependencies: Runs one of the scripts in install/dependency, depending 
-                    on the --os and --arch flags.
-                    This script must be run with sudo:
-                    sudo python install.py --dependencies --os [ubuntu | redhat] --arch [x86 | x64]
+    --dependencies: Installs dependencies.
+
     --pip: Runs "pip install -r requirements.txt" via install/pip/pip_install.py.
 
-    --initialize_instance: Runs the makahiki/scripts/initialize_instance.py with default options.
+    --initialize_instance: Initializes the Makahiki instance with default options.
 
     --update_instance: Runs the makahiki/scripts/update_instance.py script with default options.
     
-    --os: Only ubuntu (Ubuntu Linux) is currently supported.
+    --os: Only redhat (RHEL 6) is supported by this script.
     
-    --arch: Ubuntu has x86 and x64 support.
-
-The --pip, --initialize_instance, and --update_instance options are run the same way regardless of operating system.
+    --arch: For RHEL 6, only the x64 architecture is currently supported.
 
 Instructions
 ------------
@@ -80,12 +81,19 @@ installed. Use python --version in the terminal to check the version of
 your default Python installation:
 
 % python --version
+Python 2.6.6
 
-Ubuntu versions 12.04.1 LTS and later LTS versions come with Python 2.7.3 installed 
-by default. If Python 2.7.3, or a higher version of Python 2.7, is not the default 
-Python installation on your system, you will need to download the source tarball from 
-python.org and install it as an altinstall. The install.py script does not support 
-installing Makahiki dependencies to an altinstall.
+Red Hat Enterprise Linux 6 (and CentOS 6) come with Python 2.6.6 installed by 
+default. This is required as the default version in order for certain system 
+tools to work correctly. Any installation of Python 2.7.3 will need to be 
+an altinstall.
+
+If you have been following this guide, the python273_altinstall.py script 
+created a Python 2.7.3 altinstall for you under /usr/local/bin/python2.7.
+Check that it exists:
+
+% /usr/local/bin/python2.7 --version
+Python 2.7.3
 
 (2.) Internet connection
 Steps 1 and 3 require an Internet connection.
@@ -97,43 +105,43 @@ Switch to your top-level makahiki directory:
 
 Run the script with the options specified for your operating system:
 
-Ubuntu x86:
-% sudo ./install/install.py --dependencies --os ubuntu --arch x86
+RHEL 6 x64:
+% sudo ./install/install_altinstall.py --dependencies --os redhat --arch x64
 
-Ubuntu x64:
-% sudo ./install/install.py --dependencies --os ubuntu --arch x86
-
-The script installs these packages and their dependencies:
+The script installs these packages and their dependencies, if not already installed:
 - git
 - gcc
-- python-setuptools
-- pip
+- Two versions of python-setuptools (a.k.a. easy_install):
+  - For Python 2.6.6: python-setuptools rpm from the default repository
+  - For Python 2.7.3: setuptools-0.8 from the pypi repository
+    (https://pypi.python.org/packages/source/s/setuptools/setuptools-0.8.tar.gz) 
+- Two versions of pip:
+  - Installed for Python 2.6.6 and 2.7.3 via setuptools
 - Python Imaging Library (packages: python-dev, python-imaging, libjpeg-dev)
-  - python-dev
-  - python-imaging
-  - libjpeg-dev
-  - This also creates symbolic links to libz.so and libjpeg.so 
-    in /usr/lib/. What the symbolic links point to is different 
-    for each operating system and architecture:
-    Ubuntu x86: 
-    1. /usr/lib/libjpeg.so --> /usr/lib/i386-linux-gnu/libjpeg.so
-    2. /usr/lib/libz.so --> /usr/lib/i386-linux-gnu/libz.so
-    Ubuntu x64:
-    1. /usr/lib/libjpeg.so --> /usr/lib/x86_64-linux-gnu/libjpeg.so
-    2. /usr/lib/libz.so --> /usr/lib/x86_64-linux-gnu/libz.so 
-- PostgreSQL 9.1
-  - postgresql-9.1
-  - libpq-dev
+  - This also checks that the libjpeg.so and libz.so libraries (or symlinks 
+    to them) exist in /usr/lib64. These symlinks should be created automatically 
+    upon installation.
+- PostgreSQL 9.1:
+  - The repository http://yum.postgresql.org/9.1/redhat/rhel-6-x86_64/pgdg-redhat91-9.1-5.noarch.rpm
+    will be added to the yum repositories. 
+  - postgresql91-server 
+  - postgresql91-contrib
+  - postgresql91-devel
 - memcached
 - libmemcached-dev
-- virtualenvwrapper
+- virtualenvwrapper (for Python 2.6.6)
 
 The script also appends these lines to the end of the current user's ~/.bashrc 
 file (the example assumes a user named "robot"):
+
 # Virtualenvwrapper settings for makahiki
-export WORKON_HOME=home/robot/.virtualenvs
+export WORKON_HOME=home/robot/.virtualenvs" % USER_HOME
 export PROJECT_HOME=home/robot/makahiki
-source /usr/local/bin/virtualenvwrapper.sh
+export PATH=/usr/pgsql-9.1/bin:$PATH
+export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python2.7
+export VIRTUALENVWRAPPER_VIRTUALENV=/usr/bin/virtualenv
+export VIRTUALENVWRAPPER_VIRTUALENV_ARGS='--no-site-packages'
+source /usr/bin/virtualenvwrapper.sh
 
 The script will create a log file in makahiki/install/logs with a filename of 
 the format "install_dependencies_<timestamp>.log," where <timestamp> is a 
@@ -165,10 +173,35 @@ environment, use "workon" to switch to it:
 robot@computer:~/makahiki$ workon makahiki
 (makahiki)robot@computer:~/makahiki$
 
-For further instructions, see the Makahiki documentation for section 
-2.1.1.1.1.6, "Install Virtual Environment Wrapper":
-https://makahiki.readthedocs.org/en/latest/installation-makahiki-unix.html#install-virtual-environment-wrapper
-   
+Check that the system can find the location of Postgresql 9.1's 
+pg_config library, which is needed for pip to compile psycopg2:
+
+% which pg_config
+
+Check that your Python version in the virtual environment is 2.7.3:
+
+% python --version
+Python 2.7.3
+
+Note for developers:
+-------------------------------------------------------------------------------
+If you plan to develop Python scripts in this virtual environment, note that 
+any script that is run with sudo will use the default Python 2.6.6 unless you 
+insert a "shebang line" (a line starting with #!) at the start of the file. 
+This shebang line tells the system to use the Python 2.7.3 interpreter:
+
+#!/usr/local/bin/python2.7
+
+A script with a "shebang line" can be run as an executable file
+in Linux if you alter its permissions with chmod +x:
+
+% chmod +x filename.py
+
+To run an executable script:
+
+% ./<path-to-file>/filename.py
+-------------------------------------------------------------------------------
+
 3. Install dependencies with pip:
 ---------------------------------
 You should still be in the makahiki virtual environment.
@@ -178,11 +211,8 @@ Switch to the makahiki directory:
 
 Run the script with the options specified for your operating system:
 
-Ubuntu x86:
-% ./install/install.py --pip --os ubuntu --arch x86
-
-Ubuntu x64:
-% ./install/install.py --pip --os ubuntu --arch x64
+RHEL 6 x64:
+% ./install/install_altinstall.py --pip --os redhat --arch x64
 
 The list of packages that this step will attempt to install with pip are 
 listed in the makahiki/requirements.txt file.
@@ -206,8 +236,20 @@ To configure PostgreSQL, go to the Makahiki documentation and follow
 section 2.1.1.1.1.8, "Install PostgreSQL," to edit the pg_hba.conf file:
 https://makahiki.readthedocs.org/en/latest/installation-makahiki-unix.html#install-postgresql
 
-On Ubuntu 12.04.1 LTS and later, the pg_hba.conf file is usually located at 
-/etc/postgresql/9.1/main/pg_hba.conf.
+The pg_hba.conf file is located in /var/lib/pgsql/9.1/data/pg_hba.conf.
+It is owned by user postgres and group postgres, and it must be opened 
+with sudo:
+
+sudo vi /var/lib/pgsql/9.1/data/pg_hba.conf
+
+The vi editor is installed by default, but any text editor can be used.
+If you use vi:
+- Type i to type in insert mode
+- Type esc to break out of insert mode
+- Type esc and then w! to force a write (save) to the file.
+- Type esc and then q! to force quit the editor.
+  (esc and then wq! will save and quit.)
+Learning other vi commands is left as an exercise for the user.
 
 To set up environment variables, follow the Makahiki documentation in 
 section 2.1.1.1.1.13, "Setup environment variables:"
@@ -242,11 +284,8 @@ with default options, and is equivalent to the following:
 
 Run the script with the options specified for your operating system:
 
-Ubuntu x86:
-% ./install/install.py --initialize_instance --os ubuntu --arch x86
-
-Ubuntu x64:
-% ./install/install.py --initialize_instance --os ubuntu --arch x64
+RHEL 6 x64:
+% ./install/install_altinstall.py --initialize_instance --os redhat --arch x64
 
 You will need to answer "Y" to the question "Do you wish to continue (Y/n)?"
 
@@ -296,11 +335,8 @@ following steps:
 
 Run the script with the options specified for your operating system:
 
-Ubuntu x86:
-% python ./install/install.py --update_instance --os ubuntu --arch x86
-
-Ubuntu x64:
-% python ./install/install.py --update_instance --os ubuntu --arch x64
+RHEL 6 x64:
+% python ./install/install_altinstall.py --update_instance --os redhat --arch x64
 
 The script will create a log file in makahiki/install/logs with a filename of 
 the format "install_update_instance_<timestamp>.log," where <timestamp> is 
@@ -317,6 +353,8 @@ To start the server with gunicorn:
 Appendix A. Notes on Log Files
 -------------------------------
 Log files are created by install.py in in makahiki/install/logs.
+The log file names follow this format:
+<script-type>_<timestamp>.log
 
 The timestamp in log file names breaks down as follows:
     year (4 places)
@@ -327,5 +365,6 @@ The timestamp in log file names breaks down as follows:
     second (2 places)
     microsecond (6 places)
 
-For example, a log file called install_dependencies_20130413061210254269
-was created in 2013 on April 13 at 06:12 hours, 10 seconds, and 254269 microseconds.
+The example timestamp 20130101000000102542 breaks down as follows:
+Year: 2013, month: 01, day: 01, hour: 00, minute: 00, seconds: 00, 
+microseconds: 102542.
