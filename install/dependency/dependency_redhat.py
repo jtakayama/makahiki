@@ -358,14 +358,14 @@ def run(arch, logfile):
         
         python_setuptools27 = python_package_check("/usr/local/bin/easy_install-2.7", "setuptools")
         if python_setuptools27:
-            logfile.write("python-setuptools for Python 2.6.6 installed successfully.\n")
-            print "python-setuptools for Python 2.6.6 installed successfully.\n"
+            logfile.write("python-setuptools for Python 2.7.3 installed successfully.\n")
+            print "python-setuptools for Python 2.7.3 installed successfully.\n"
             # Flush the buffer and force a write to disk after each successful installation
             logfile.flush()
             os.fsync(logfile)
         else:
-            logfile.write("python-setuptools for Python 2.6.6 failed to install.\n")
-            print "python-setuptools for Python 2.6.6 failed to install.\n"
+            logfile.write("python-setuptools for Python 2.7.3 failed to install.\n")
+            print "python-setuptools for Python 2.7.3 failed to install.\n"
             end_time = termination_string()
             logfile.write(end_time)
             print end_time
@@ -626,15 +626,18 @@ def run(arch, logfile):
     message = "Appending these lines to user's ~./bashrc file:"
     bashrc_line1 = "# Virtualenvwrapper settings for makahiki"
     bashrc_line2 = "export WORKON_HOME=%s/.virtualenvs" % USER_HOME
+    # Specify PROJECT_HOME as "/home/<username>/makahiki"
     bashrc_line3 = "export PROJECT_HOME=%s" % MAKAHIKI_HOME
     # Add location of pg_config to the PATH
     bashrc_line4 = "export PATH=/usr/pgsql-9.1/bin:$PATH"
+    # Force all virtualenvs for this user to use Python 2.7.3
+    bashrc_line5 = export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python2.7
     # Set virtualenvwrapper location to the default Python 2.6.6's virtualenv
-    bashrc_line5 = "export VIRTUALENVWRAPPER_VIRTUALENV=/usr/bin/virtualenv"
+    bashrc_line6 = "export VIRTUALENVWRAPPER_VIRTUALENV=/usr/bin/virtualenv"
     # Restrict virtualenvs to the Python 2.7.3 site-packages directory
-    bashrc_line6 = "export VIRTUALENVWRAPPER_VIRTUALENV_ARGS='--no-site-packages'"
+    bashrc_line7 = "export VIRTUALENVWRAPPER_VIRTUALENV_ARGS='--no-site-packages'"
     # Source the virtualenvwrapper.sh file (this line must come last)
-    bashrc_line7 = "source /usr/bin/virtualenvwrapper.sh"
+    bashrc_line8 = "source /usr/bin/virtualenvwrapper.sh"
     
     print bashrc_line1
     print bashrc_line2
@@ -643,9 +646,10 @@ def run(arch, logfile):
     print bashrc_line5
     print bashrc_line6
     print bashrc_line7
+    print bashrc_line8
     
     # Append to ~/.bashrc
-    bashrc = open(USER_HOME + "/.bashrc", 'a')
+    bashrc = open(USER_HOME + os.sep + ".bashrc", 'a')
     bashrc.write(bashrc_line1 + "\n")
     bashrc.write(bashrc_line2 + "\n")
     bashrc.write(bashrc_line3 + "\n")
@@ -653,6 +657,7 @@ def run(arch, logfile):
     bashrc.write(bashrc_line5 + "\n")
     bashrc.write(bashrc_line6 + "\n")
     bashrc.write(bashrc_line7 + "\n")
+    bashrc.write(bashrc_line8 + "\n")
     bashrc.close()
     # Done appending to file
     logfile.write("Done appending to ~/.bashrc file.\n")
