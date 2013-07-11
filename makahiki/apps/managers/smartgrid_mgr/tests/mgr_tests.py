@@ -173,31 +173,31 @@ class Test(TransactionTestCase):
                          "Expecting 84 Actions got %s" % \
                          len(DesignerAction.objects.filter(draft=draft)))
 
-    def testLoadExampleGrid(self):
-        """Tests load_example_grid(draft, example_name)."""
-        try:
-            draft = get_object_or_404(Draft, slug='temp2')
-        except Http404:
-            draft = Draft(name='Temp', slug='temp2')
-            draft.save()
-        smartgrid_mgr.load_example_grid(draft, 'test')
-        self.assertEqual(len(DesignerLevel.objects.filter(draft=draft)), 4, \
-                         "Expecting 4 levels got %s" % \
-                         len(DesignerLevel.objects.filter(draft=draft)))
-        self.assertEqual(len(DesignerColumnName.objects.filter(draft=draft)), 30, \
-                         "Expecting 30 ColumnNames got %s" % \
-                         len(DesignerColumnName.objects.filter(draft=draft)))
-        self.assertEqual(len(DesignerAction.objects.filter(draft=draft)), 84, \
-                         "Expecting 84 Actions got %s" % \
-                         len(DesignerAction.objects.filter(draft=draft)))
-        val = len(DesignerGrid.objects.filter(draft=draft))
-        ans = 84
-        self.assertEqual(val, ans, "Expecting %s got %s" % (ans, val))
-        try:
-            draft = get_object_or_404(Draft, slug='temp3')
-        except Http404:
-            draft = Draft(name='Temp3', slug='temp3')
-            draft.save()
+#     def testLoadExampleGrid(self):
+#         """Tests load_example_grid(draft, example_name)."""
+#         try:
+#             draft = get_object_or_404(Draft, slug='temp2')
+#         except Http404:
+#             draft = Draft(name='Temp', slug='temp2')
+#             draft.save()
+#         smartgrid_mgr.load_example_grid(draft, 'test')
+#         self.assertEqual(len(DesignerLevel.objects.filter(draft=draft)), 4, \
+#                          "Expecting 4 levels got %s" % \
+#                          len(DesignerLevel.objects.filter(draft=draft)))
+#         self.assertEqual(len(DesignerColumnName.objects.filter(draft=draft)), 30, \
+#                          "Expecting 30 ColumnNames got %s" % \
+#                          len(DesignerColumnName.objects.filter(draft=draft)))
+#         self.assertEqual(len(DesignerAction.objects.filter(draft=draft)), 84, \
+#                          "Expecting 84 Actions got %s" % \
+#                          len(DesignerAction.objects.filter(draft=draft)))
+#         val = len(DesignerGrid.objects.filter(draft=draft))
+#         ans = 84
+#         self.assertEqual(val, ans, "Expecting %s got %s" % (ans, val))
+#         try:
+#             draft = get_object_or_404(Draft, slug='temp3')
+#         except Http404:
+#             draft = Draft(name='Temp3', slug='temp3')
+#             draft.save()
 #         smartgrid_mgr.load_example_grid(draft, 'demo')
 #         val = len(DesignerLevel.objects.filter(draft=draft))
 #         ans = 3
