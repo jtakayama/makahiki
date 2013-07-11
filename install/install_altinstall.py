@@ -70,11 +70,11 @@ def scriptrunner(scripttype, os, arch, logfile):
             (Ubuntu is supported for x86 and x64; Red Hat is supported for x64.)
         4. logfile: The log file to pass to the installation script.
     """
-    if os == "ubuntu" and (arch != "x86" and arch != "x64"):
-        logfile.write("Unsupported architecture for %s: %s" % (os, arch))
-        logfile.write("Script could not be completed.")
-        print "Unsupported architecture for %s: %s" % (os, arch)
-        print "Script could not be completed."
+    if os == "ubuntu":
+        logfile.write("This is not the script for Ubuntu Linux. Use install.py instead.\n")
+        logfile.write("Script could not be completed.\n")
+        print "This is not the script for Ubuntu Linux. Use install.py instead.\n"
+        print "Script could not be completed.\n"
         
     elif os == "redhat" and arch != "x64":
         logfile.write("Unsupported architecture for %s: %s" % (os, arch))

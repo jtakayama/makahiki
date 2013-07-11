@@ -70,7 +70,7 @@ def scriptrunner(scripttype, os, arch, logfile):
         print "Unsupported architecture for %s: %s\n" % (os, arch)
         print "Script could not be completed.\n"
         
-    elif os == "redhat" and arch != "x64":
+    elif os == "redhat":
         logfile.write("This is not the script for Red Hat Enterprise Linux. Use install_altinstall.py instead.\n")
         logfile.write("Script could not be completed.\n")
         print "This is not the script for Red Hat Enterprise Linux. Use install_altinstall.py instead.\n"
