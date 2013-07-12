@@ -343,8 +343,8 @@ def run(arch, logfile):
         logfile.write("Switching to %s\n" % extracted_dir)
         print "Switching to %s\n" % extracted_dir
         os.chdir(extracted_dir)
-        logfile.write("Working directory is now %s" % os.getcwd())
-        print "Working directory is now %s" % os.getcwd()
+        logfile.write("Working directory is now %s\n" % os.getcwd())
+        print "Working directory is now %s\n" % os.getcwd()
         logfile.write("Operation succeeded\n.")
         print ("Operation succeeded\n.")
         
