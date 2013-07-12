@@ -264,8 +264,8 @@ Change the last field (in this case, "peer") to "trust", then save the file.
 WARNING:
 -------------------------------------------------------------------------------
 The "trust" setting lets local processes like Makahiki connect to the database 
-server without authentication. This is useful for development, but it is not 
-secure enough for use in a production instance of Makahiki.
+server as the postgres user without authentication. This is useful for 
+development, but not secure enough to use in a production instance of Makahiki.
 -------------------------------------------------------------------------------
 
 Restart the Postgresql server after editing the file:
