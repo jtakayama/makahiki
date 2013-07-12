@@ -210,10 +210,12 @@ Switch to the makahiki directory:
 % cd ~/makahiki
 
 Check that the pg_config library's location is part of the PATH.
-This is needed to compile psycopg2:
 
 % which pg_config
 /usr/pgsql-9.1/bin/pg_config
+
+If the system cannot find pg_config, pip will not be able to 
+compile the psycopg2 module.
 
 Run the script with the options specified for your operating system:
 
@@ -251,6 +253,13 @@ with sudo:
 % sudo vi /var/lib/pgsql/9.1/data/pg_hba.conf
 
 The vi editor is installed by default, but any text editor can be used.
+
+In this file, look for lines similar to:
+
+# "local" is for Unix domain socket connections only
+local   all             all                                     trust
+
+Change the last field (in this case, "peer") to "trust", then save the file.
 
 Restart the Postgresql server after editing the file:
 
