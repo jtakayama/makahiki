@@ -6,9 +6,9 @@ INTRODUCTION:
 This is a README file for the Makahiki installation scripts.
 
 The install_altinstall.py script calls a set of Python scripts which partially 
-automate the process of installing Makahiki on Red Hat Enterprise Linux x64.
+automate the process of installing Makahiki on Red Hat Enterprise Linux 6 x64.
 
-The scripts rely on the yum package manager. The script has been tested on 
+The scripts rely on the yum package manager. The scripts have been tested on 
 CentOS 6 x64. Other Red Hat-based operating systems are not supported.
 
 If you would prefer to install Makahiki manually, see 
