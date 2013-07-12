@@ -98,8 +98,8 @@ def scriptrunner(scripttype, os, arch, logfile):
             logfile.write("Error: install.py invoked with invalid command: %s\n" % scripttype)
             print "Error: install.py invoked with invalid command: %s\n" % scripttype
         
-        # After the function is done, return the logfile.
-        return logfile
+    # After the function is done, return the logfile.
+    return logfile
 
 def main():
     if len(sys.argv) != 6:
