@@ -163,24 +163,19 @@ Switch to the top-level makahiki directory:
 
 Then, create the makahiki virtual environment: 
 
-% makahiki$ mkvirtualenv makahiki -p /usr/local/bin/python2.7
+% mkvirtualenv makahiki -p /usr/local/bin/python2.7
 
 Creating a virtual environment should switch you to the virtual environment.
 The terminal prompt will be preceded by the name of the virtual environment.
-On Ubuntu, this looks like:
+On RHEL, this looks like:
 
-(makahiki)robot@computer:~/makahiki$
+(makahiki)[robot@makahiki makahiki]$
 
 If creating the virtual environment did not switch you to the virtual 
 environment, use "workon" to switch to it:
 
-robot@computer:~/makahiki$ workon makahiki
-(makahiki)robot@computer:~/makahiki$
-
-Check that the system can find the location of Postgresql 9.1's 
-pg_config library, which is needed for pip to compile psycopg2:
-
-% which pg_config
+[robot@makahiki makahiki]$ workon makahiki
+(makahiki)[robot@makahiki makahiki]$ 
 
 Check that your Python version in the virtual environment is 2.7.3:
 
