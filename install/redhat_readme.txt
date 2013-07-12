@@ -92,6 +92,11 @@ If you have been following this guide, the python273_altinstall.py script
 created a Python 2.7.3 altinstall for you under /usr/local/bin/python2.7.
 Check that it exists:
 
+% python2.7 --version
+Python 2.7.3
+
+or:
+
 % /usr/local/bin/python2.7 --version
 Python 2.7.3
 
