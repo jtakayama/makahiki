@@ -153,8 +153,6 @@ export VIRTUALENVWRAPPER_VIRTUALENV=/usr/bin/virtualenv
 export VIRTUALENVWRAPPER_VIRTUALENV_ARGS='--no-site-packages'
 source /usr/bin/virtualenvwrapper.sh
 
-Replace <username> with the user's username.
-
 After you are done editing .bashrc, source it to apply the 
 new settings to your shell:
 
