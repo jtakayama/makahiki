@@ -58,7 +58,7 @@ All options require Python 2.7.3 or higher (but not Python 3) to run.
     
     --os: Only ubuntu (Ubuntu Linux) is currently supported.
     
-    --arch: Ubuntu has x86 and x64 support.
+    --arch: This script supports Ubuntu x86 and x64 architectures.
 
 Instructions
 ------------
@@ -104,13 +104,12 @@ The script installs these packages and their dependencies:
 - gcc
 - python-setuptools
 - pip
-- Python Imaging Library (packages: python-dev, python-imaging, libjpeg-dev)
+- Python Imaging Library
   - python-dev
   - python-imaging
   - libjpeg-dev
   - This also creates symbolic links to libz.so and libjpeg.so 
-    in /usr/lib/. What the symbolic links point to is different 
-    for each operating system and architecture:
+    in /usr/lib/. The symbolic links are different for each architecture.
     Ubuntu x86: 
     1. /usr/lib/libjpeg.so --> /usr/lib/i386-linux-gnu/libjpeg.so
     2. /usr/lib/libz.so --> /usr/lib/i386-linux-gnu/libz.so
@@ -124,8 +123,8 @@ The script installs these packages and their dependencies:
 - libmemcached-dev
 - virtualenvwrapper
 
-The script also appends these lines to the end of the current user's ~/.bashrc 
-file (the example assumes a user named "robot"):
+The script also appends lines to the end of the current user's .bashrc 
+file (~/.bashrc). The example below uses a user named "robot":
 # Virtualenvwrapper settings for makahiki
 export WORKON_HOME=home/robot/.virtualenvs
 export PROJECT_HOME=home/robot/makahiki
@@ -138,7 +137,7 @@ For more information, see Appendix A.
 
 2. Set up the makahiki virtual environment:
 ------------------------------------------- 
-When the environment_setup.sh script finishes, reload the startup file: 
+When the install.py script finishes, source the ~/.bashrc file:
 
 % source ~/.bashrc
 
