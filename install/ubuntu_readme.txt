@@ -204,6 +204,10 @@ https://makahiki.readthedocs.org/en/latest/installation-makahiki-unix.html#insta
 On Ubuntu 12.04.1 LTS and later, the pg_hba.conf file is usually located at 
 /etc/postgresql/9.1/main/pg_hba.conf.
 
+After you have edited the pg_hba.conf file, restart the Postgresql service:
+% sudo /etc/init.d/postgresql restart
+ * Restarting PostgreSQL 9.1 database server                             [ OK ]
+
 5. Environment Variables Configuration
 --------------------------------------
 The environment variables MAKAHIKI_DATABASE_URL and MAKAHIKI_ADMIN_INFO need 
