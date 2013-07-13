@@ -254,18 +254,17 @@ with sudo:
 
 The vi editor is installed by default, but any text editor can be used.
 
-In this file, look for lines similar to:
+In this file, add these lines at the top of the rule list:
 
-# "local" is for Unix domain socket connections only
-local   all             all                                     trust
-
-Change the last field (in this case, "peer") to "trust", then save the file.
+local   all             postgres                                trust
+local   all             makahiki                                trust
 
 WARNING:
 -------------------------------------------------------------------------------
-The "trust" setting lets local processes like Makahiki connect to the database 
-server as the postgres user without authentication. This is useful for 
-development, but not secure enough to use in a production instance of Makahiki.
+The "trust" setting lets local processes like Makahiki or the postgres 
+database user connect to the database server without authentication. This is 
+useful for development, but not secure enough to use in a production instance 
+of Makahiki.
 -------------------------------------------------------------------------------
 
 Restart the Postgresql server after editing the file:
