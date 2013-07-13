@@ -21,7 +21,7 @@ def dpkg_check(packagename):
         lines = cpe.output.split("\n")
         line0_result = dpkg_fail.match(lines[0])
         if (line0_result):
-            compare_result = False    
+            compare_result = False
     return compare_result
 
 def pip_check():
@@ -170,7 +170,7 @@ def run(arch, logfile):
                 logfile.write(end_time)
                 print end_time
                 return logfile
-        
+            
         # gcc
         if gcc_installed:
             logfile.write("gcc is already installed.\n")
@@ -197,7 +197,7 @@ def run(arch, logfile):
                 logfile.write(end_time)
                 print end_time
                 return logfile
-        
+            
         # python-setuptools
         if python_setuptools_installed:
             logfile.write("python-setuptools is already installed.\n")
@@ -224,7 +224,7 @@ def run(arch, logfile):
                 logfile.write(end_time)
                 print end_time
                 return logfile
-        
+            
         # pip
         if pip_installed:
             logfile.write("pip is already installed.\n")
@@ -268,8 +268,8 @@ def run(arch, logfile):
                 end_time = termination_string()
                 logfile.write(end_time)
                 print end_time
-                return logfile 
-        
+                return logfile
+            
         logfile.write("Beginning installation of Python Imaging Library components python-imaging, python-dev, and libjpeg-dev.\n")
         print "Beginning installation of Python Imaging Library components python-imaging, python-dev, and libjpeg-dev.\n"
         
@@ -298,8 +298,8 @@ def run(arch, logfile):
                 end_time = termination_string()
                 logfile.write(end_time)
                 print end_time
-                return logfile 
-        
+                return logfile
+            
         # python-dev
         if python_dev_installed:
             logfile.write("python-dev is already installed.\n")
@@ -325,8 +325,8 @@ def run(arch, logfile):
                 end_time = termination_string()
                 logfile.write(end_time)
                 print end_time
-                return logfile     
-    
+                return logfile
+            
         # libjpeg-dev
         if libjpeg_dev_installed:
             logfile.write("libjpeg-dev is already installed.\n")
@@ -352,8 +352,8 @@ def run(arch, logfile):
                 end_time = termination_string()
                 logfile.write(end_time)
                 print end_time
-                return logfile 
-        
+                return logfile
+            
         # Check for shared libraries and configure symbolic links if needed
         logfile.write("Checking for Python Imaging Library shared libraries.\n")
         print "Checking for Python Imaging Library shared libraries.\n"
@@ -426,8 +426,8 @@ def run(arch, logfile):
                 end_time = termination_string()
                 logfile.write(end_time)
                 print end_time
-                return logfile    
-    
+                return logfile
+            
         # libz.so         
         try:
             libz_stat = os.stat("/usr/lib/libz.so")
@@ -462,7 +462,7 @@ def run(arch, logfile):
                     end_time = termination_string()
                     logfile.write(end_time)
                     print end_time
-                    return logfile 
+                    return logfile
             elif arch == "x64":
                 try:
                     libz_stat2 = os.stat("/usr/lib/x86_64-linux-gnu/libz.so")
@@ -489,7 +489,7 @@ def run(arch, logfile):
                     end_time = termination_string()
                     logfile.write(end_time)
                     print end_time
-                    return logfile        
+                    return logfile
             else:
                 invalid_arch = "Error: Unsupported architecture for Ubuntu: %s\n" % arch
                 logfile.write(invalid_arch)
@@ -497,9 +497,8 @@ def run(arch, logfile):
                 end_time = termination_string()
                 logfile.write(end_time)
                 print end_time
-                return logfile 
-    
-                    
+                return logfile
+            
         logfile.write("Installation of Python Imaging Library components is complete.\n")
         print "Installation of Python Imaging Library components is complete.\n"
         
@@ -528,7 +527,7 @@ def run(arch, logfile):
                 end_time = termination_string()
                 logfile.write(end_time)
                 print end_time
-                return logfile 
+                return logfile
         
         #libpq-dev
         if libpq_dev_installed:
@@ -555,8 +554,8 @@ def run(arch, logfile):
                 end_time = termination_string()
                 logfile.write(end_time)
                 print end_time
-                return logfile 
-        
+                return logfile
+            
         #memcached
         if memcached_installed:
             logfile.write("memcached is already installed.\n")
@@ -582,7 +581,7 @@ def run(arch, logfile):
                 end_time = termination_string()
                 logfile.write(end_time)
                 print end_time
-                return logfile 
+                return logfile
     
         #libmemcached-dev
         if libmemcached_installed:
@@ -609,7 +608,7 @@ def run(arch, logfile):
                 end_time = termination_string()
                 logfile.write(end_time)
                 print end_time
-                return logfile 
+                return logfile
             
         #virtualenvwrapper
         if virtualenvwrapper_installed:

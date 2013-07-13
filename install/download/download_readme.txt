@@ -1,2 +1,2 @@
-This folder is used to hold the Python 2.7.3 tarball required by 
-python273_altinstall.py to build Python 2.7.3 as an altinstall.
+This folder is used to hold any files which are downloaded and extracted 
+by one of the installation scripts before being installed.
