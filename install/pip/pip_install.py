@@ -43,7 +43,7 @@ def requirements_check(logfile):
             if element_regex.match(string.lower(element2)):
                 element_installed = True
                 break
-	    else:
+            else:
                 continue
         # Avoid printing empty list elements
         if element != "":

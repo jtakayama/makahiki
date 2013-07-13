@@ -52,9 +52,9 @@ def local_reset_db(logfile):
 
 def run(logfile):
     """
-    Runs the makahiki/makahiki/scripts/initialize_instance.py --type default 
-    script and logs the output to a file. This should only be used to initialize 
-    local installations.
+    Initializes the Makahiki database with default options and logs the 
+    output to a file. This should only be used to initialize local 
+    installations.
     """
     try:
         # Retrieve the user's home directory

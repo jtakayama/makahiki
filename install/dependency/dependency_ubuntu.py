@@ -10,18 +10,18 @@ def dpkg_check(packagename):
     dpkg -s <packagename>. Returns True if installed, False if not.
     """
     dpkg_success = "Status: install ok installed"
+    compare_result = False
     try:
         output = subprocess.check_output(shlex.split("dpkg -s %s" % packagename), stderr=subprocess.STDOUT)
         lines = output.split("\n")
-        compare_result = False
         if lines[1] == dpkg_success:
             compare_result = True
     except subprocess.CalledProcessError as cpe:
-        dpkg_fail = re.compile("(Package `)(\S)+(\' is not installed and no info is available.)")
-    lines = cpe.output.split("\n")
-    line0_result = dpkg_fail.match(lines[0])
-    if (line0_result):
-        compare_result = False    
+        dpkg_fail = re.compile("(Package `)(%s)+(\' is not installed and no info is available.)" % packagename)
+        lines = cpe.output.split("\n")
+        line0_result = dpkg_fail.match(lines[0])
+        if (line0_result):
+            compare_result = False
     return compare_result
 
 def pip_check():
@@ -43,27 +43,6 @@ def pip_check():
         # Assume not installed
         compare_result = False
     return compare_result
-
-def psql91_check():
-    """
-    Checks the version number of Postgresql on the system. 
-    Returns True if a version of Postgresql 9.1 is installed, and False 
-    if it is not.
-    """
-    compare_result = False
-    try:
-        output = subprocess.check_output(shlex.split("psql --version"), stderr=subprocess.STDOUT)
-        lines = output.split("\n")
-        version_string = re.compile("(psql\ )(\S)+( 9.1.(\d)+)")
-        line0_result = version_string.match(lines[0])
-        if not line0_result:
-            compare_result = False
-        else:
-            compare_result = True
-    except OSError as ose:
-        # Assume not installed
-        compare_result = False
-        return compare_result
 
 def virtualenvwrapper_check():
     """
@@ -115,7 +94,7 @@ def run(arch, logfile):
     python_imaging_installed = dpkg_check("python-imaging")
     python_dev_installed = dpkg_check("python-dev")
     libjpeg_dev_installed = dpkg_check("libjpeg-dev")
-    postgresql91_installed = psql91_check()
+    postgresql91_installed = dpkg_check("postgresql-9.1")
     libpq_dev_installed = dpkg_check("libpq-dev")
     memcached_installed = dpkg_check("memcached")
     libmemcached_installed = dpkg_check("libmemcached-dev")
@@ -191,7 +170,7 @@ def run(arch, logfile):
                 logfile.write(end_time)
                 print end_time
                 return logfile
-        
+            
         # gcc
         if gcc_installed:
             logfile.write("gcc is already installed.\n")
@@ -218,7 +197,7 @@ def run(arch, logfile):
                 logfile.write(end_time)
                 print end_time
                 return logfile
-        
+            
         # python-setuptools
         if python_setuptools_installed:
             logfile.write("python-setuptools is already installed.\n")
@@ -245,7 +224,7 @@ def run(arch, logfile):
                 logfile.write(end_time)
                 print end_time
                 return logfile
-        
+            
         # pip
         if pip_installed:
             logfile.write("pip is already installed.\n")
@@ -259,7 +238,7 @@ def run(arch, logfile):
                 USER_HOME = subprocess.check_output(["echo $HOME"], stderr=subprocess.STDOUT, shell=True)
                 # Remove newline from expected "/home/<username>\n"
                 USER_HOME = USER_HOME[:-1]
-                USER_PROJECT_HOME = USER_HOME[:-1] + os.sep + "makahiki"
+                USER_PROJECT_HOME = USER_HOME + os.sep + "makahiki"
                 # cd to makahiki directory so easy_install will find its setup script
                 os.chdir(USER_PROJECT_HOME)
                 pip_output = subprocess.check_output(["easy_install", "pip"], stderr=subprocess.STDOUT)
@@ -289,8 +268,8 @@ def run(arch, logfile):
                 end_time = termination_string()
                 logfile.write(end_time)
                 print end_time
-                return logfile 
-        
+                return logfile
+            
         logfile.write("Beginning installation of Python Imaging Library components python-imaging, python-dev, and libjpeg-dev.\n")
         print "Beginning installation of Python Imaging Library components python-imaging, python-dev, and libjpeg-dev.\n"
         
@@ -319,8 +298,8 @@ def run(arch, logfile):
                 end_time = termination_string()
                 logfile.write(end_time)
                 print end_time
-                return logfile 
-        
+                return logfile
+            
         # python-dev
         if python_dev_installed:
             logfile.write("python-dev is already installed.\n")
@@ -346,8 +325,8 @@ def run(arch, logfile):
                 end_time = termination_string()
                 logfile.write(end_time)
                 print end_time
-                return logfile     
-    
+                return logfile
+            
         # libjpeg-dev
         if libjpeg_dev_installed:
             logfile.write("libjpeg-dev is already installed.\n")
@@ -373,8 +352,8 @@ def run(arch, logfile):
                 end_time = termination_string()
                 logfile.write(end_time)
                 print end_time
-                return logfile 
-        
+                return logfile
+            
         # Check for shared libraries and configure symbolic links if needed
         logfile.write("Checking for Python Imaging Library shared libraries.\n")
         print "Checking for Python Imaging Library shared libraries.\n"
@@ -447,8 +426,8 @@ def run(arch, logfile):
                 end_time = termination_string()
                 logfile.write(end_time)
                 print end_time
-                return logfile    
-    
+                return logfile
+            
         # libz.so         
         try:
             libz_stat = os.stat("/usr/lib/libz.so")
@@ -483,7 +462,7 @@ def run(arch, logfile):
                     end_time = termination_string()
                     logfile.write(end_time)
                     print end_time
-                    return logfile 
+                    return logfile
             elif arch == "x64":
                 try:
                     libz_stat2 = os.stat("/usr/lib/x86_64-linux-gnu/libz.so")
@@ -510,7 +489,7 @@ def run(arch, logfile):
                     end_time = termination_string()
                     logfile.write(end_time)
                     print end_time
-                    return logfile        
+                    return logfile
             else:
                 invalid_arch = "Error: Unsupported architecture for Ubuntu: %s\n" % arch
                 logfile.write(invalid_arch)
@@ -518,9 +497,8 @@ def run(arch, logfile):
                 end_time = termination_string()
                 logfile.write(end_time)
                 print end_time
-                return logfile 
-    
-                    
+                return logfile
+            
         logfile.write("Installation of Python Imaging Library components is complete.\n")
         print "Installation of Python Imaging Library components is complete.\n"
         
@@ -536,7 +514,7 @@ def run(arch, logfile):
             psql_output = subprocess.check_output(["apt-get", "install", "-y",  "postgresql-9.1"], stderr=subprocess.STDOUT)
             logfile.write(psql_output)
             print psql_output
-            postgresql91_installed = psql91_check()
+            postgresql91_installed = dpkg_check("postgresql-9.1")
             if postgresql91_installed:
                 logfile.write("postgresql-9.1 was successfully installed.\n")
                 print "postgresql-9.1 was successfully installed.\n"
@@ -549,7 +527,7 @@ def run(arch, logfile):
                 end_time = termination_string()
                 logfile.write(end_time)
                 print end_time
-                return logfile 
+                return logfile
         
         #libpq-dev
         if libpq_dev_installed:
@@ -576,8 +554,8 @@ def run(arch, logfile):
                 end_time = termination_string()
                 logfile.write(end_time)
                 print end_time
-                return logfile 
-        
+                return logfile
+            
         #memcached
         if memcached_installed:
             logfile.write("memcached is already installed.\n")
@@ -603,7 +581,7 @@ def run(arch, logfile):
                 end_time = termination_string()
                 logfile.write(end_time)
                 print end_time
-                return logfile 
+                return logfile
     
         #libmemcached-dev
         if libmemcached_installed:
@@ -630,7 +608,7 @@ def run(arch, logfile):
                 end_time = termination_string()
                 logfile.write(end_time)
                 print end_time
-                return logfile 
+                return logfile
             
         #virtualenvwrapper
         if virtualenvwrapper_installed:
