@@ -202,7 +202,7 @@ def run(arch, logfile):
          libjpeg-devel,\n\
          postgresql91-server,\n\
          postgresql91-contribs,\n\
-         postgresql91-devel\n\
+         postgresql91-devel,\n\
          memcached,\n\
          libmemcached-devel,\n\
          virtualenvwrapper (Python 2.6)\n"
