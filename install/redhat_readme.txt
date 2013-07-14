@@ -150,6 +150,8 @@ export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/makahiki
 export PATH=/usr/pgsql-9.1/bin:$PATH
 export PATH=/usr/pgsql-9.1/lib:$PATH
+export PATH=/usr/pgsql-9.1/include:$PATH
+export PATH=/usr/pgsql-9.1:$PATH
 export VIRTUALENVWRAPPER_VIRTUALENV=/usr/bin/virtualenv
 export VIRTUALENVWRAPPER_VIRTUALENV_ARGS='--no-site-packages'
 source /usr/bin/virtualenvwrapper.sh
