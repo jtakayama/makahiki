@@ -149,6 +149,7 @@ You will need to add the following lines to the current user's .bashrc file:
 export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/makahiki
 export PATH=/usr/pgsql-9.1/bin:$PATH
+export PATH=/usr/pgsql-9.1/lib:$PATH
 export VIRTUALENVWRAPPER_VIRTUALENV=/usr/bin/virtualenv
 export VIRTUALENVWRAPPER_VIRTUALENV_ARGS='--no-site-packages'
 source /usr/bin/virtualenvwrapper.sh
