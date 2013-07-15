@@ -69,7 +69,7 @@ def scriptrunner(scripttype, logfile):
 
 def main():
     if len(sys.argv) != 2:
-        print "Usage: python273_altinstall.py [--pythonsetup | --altinstall]"
+        print "Usage: python273_altinstall.py < --pythonsetup | --altinstall >"
         print "--pythonsetup: Install packages needed to build Python 2.7.3 from source."
         print "--altinstall: Build and install Python 2.7.3 as an altinstall."
     else:

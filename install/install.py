@@ -60,8 +60,7 @@ def scriptrunner(scripttype, os, arch, logfile):
            Supported values: "dependencies", "pip", "initialize_instance," "update_instance"
         2. os: A string describing the operating system.
            Supported values: "ubuntu"
-        3. arch: Architecture. Supported values: "x86" or "x64".
-            (Ubuntu is supported for x86 and x64.)
+        3. arch: Architecture. Ubuntu is supported for "x86" and "x64" architectures.)
         4. logfile: The log file to pass to the installation script.
     """
     if os == "ubuntu" and (arch != "x86" and arch != "x64"):
@@ -87,7 +86,10 @@ def scriptrunner(scripttype, os, arch, logfile):
             if os == "ubuntu":
                 logfile = dependency.dependency_ubuntu.run(arch, logfile)
             elif os == "redhat":
-                logfile = dependency.dependency_redhat.run(arch, logfile)
+                logfile.write("This is not the script for Red Hat Enterprise Linux. Use install_altinstall.py instead.\n")
+                logfile.write("Script could not be completed.")
+                print "This is not the script for Red Hat Enterprise Linux. Use install_altinstall.py instead.\n"
+                print "Script could not be completed.\n"
         elif scripttype == "pip":
             logfile = pip.pip_install.run(logfile)
         elif scripttype == "initialize_instance":
@@ -103,13 +105,13 @@ def scriptrunner(scripttype, os, arch, logfile):
 
 def main():
     if len(sys.argv) != 6:
-        print "Usage: install.py [--dependencies | --pip | --initialize_instance | --update_instance] --os [ubuntu] --arch [x86 | x64]"
+        print "Usage: install.py < --dependencies | --pip | --initialize_instance | --update_instance > --os < ubuntu > --arch < x86 | x64 >"
         print "--dependencies: Install Makahiki dependencies (software packages)."
         print "--pip: Install Makahiki local dependencies using pip."
         print "--initialize_instance: Initialize the Makahiki installation."
         print "--update_instance: Update the Makahiki installation."
-        print "--os: Operating system. This script only supports ubuntu."
-        print "--arch: Architecture. Supported values are x86 and x64 if your OS is ubuntu."
+        print "--os: Operating system. This script only supports ubuntu (Ubuntu Linux)."
+        print "--arch: Architecture. Supported values for ubuntu are x86 and x64 if your OS is ubuntu."
     else:
         args = sys.argv[1:]
         scripttype = args[0].strip()[2:]

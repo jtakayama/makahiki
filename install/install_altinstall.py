@@ -65,9 +65,9 @@ def scriptrunner(scripttype, os, arch, logfile):
            that is being run.
            Supported values: "dependencies", "pip", "initialize_instance," "update_instance"
         2. os: A string describing the operating system.
-           Supported values: "ubuntu" or "redhat"
+           Supported values: "redhat"
         3. arch: Architecture. Supported values: "x86" or "x64".
-            (Ubuntu is supported for x86 and x64; Red Hat is supported for x64.)
+           Red Hat is supported for x64.
         4. logfile: The log file to pass to the installation script.
     """
     if os == "ubuntu":
@@ -75,25 +75,25 @@ def scriptrunner(scripttype, os, arch, logfile):
         logfile.write("Script could not be completed.\n")
         print "This is not the script for Ubuntu Linux. Use install.py instead.\n"
         print "Script could not be completed.\n"
-        
     elif os == "redhat" and arch != "x64":
         logfile.write("Unsupported architecture for %s: %s" % (os, arch))
         logfile.write("Script could not be completed.")
         print "Unsupported architecture for %s: %s" % (os, arch)
         print "Script could not be completed."
-        
     elif os != "ubuntu" and os != "redhat":
         logfile.write("Unsupported operating system: %s" % os)
         logfile.write("Script could not be completed.")
         print "Unsupported operating system: %s" % os
         print "Script could not be completed."
-    
     else: 
         if scripttype == "dependencies":
-            if os == "ubuntu":
-                logfile = dependency.dependency_ubuntu.run(arch, logfile)
-            elif os == "redhat":
+            if os == "redhat":
                 logfile = dependency.dependency_redhat.run(arch, logfile)
+            elif os == "ubuntu":
+                logfile.write("This is not the script for Ubuntu Linux. Use install.py instead.\n")
+                logfile.write("Script could not be completed.\n")
+                print "This is not the script for Ubuntu Linux. Use install.py instead.\n"
+                print "Script could not be completed.\n"
         elif scripttype == "pip":
             logfile = pip.pip_install.run(logfile)
         elif scripttype == "initialize_instance":
@@ -109,13 +109,13 @@ def scriptrunner(scripttype, os, arch, logfile):
 
 def main():
     if len(sys.argv) != 6:
-        print "Usage: install.py [--dependencies | --pip | --initialize_instance | --update_instance] --os [ubuntu | redhat] --arch [x86 | x64]"
+        print "Usage: install_altinstall.py < --dependencies | --pip | --initialize_instance | --update_instance > --os < redhat > --arch < x64 >"
         print "--dependencies: Install Makahiki dependencies (software packages)."
         print "--pip: Install Makahiki local dependencies using pip."
         print "--initialize_instance: Initialize the Makahiki installation."
         print "--update_instance: Update the Makahiki installation."
-        print "--os: Operating system. Supported values are ubuntu and redhat."
-        print "--arch: Architecture. Supported values are x86 and x64 if your OS is ubuntu, or x64 if your OS is redhat."
+        print "--os: Operating system. This script supports redhat (Red Hat Enterprise Linux)."
+        print "--arch: Architecture. This script only supports x64 for redhat."
     else:
         args = sys.argv[1:]
         scripttype = args[0].strip()[2:]
