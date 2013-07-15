@@ -205,8 +205,8 @@ To run an executable script:
 ---------------------------
 You should still be in the makahiki virtual environment.
 
-After the script completes, you must configure PostgreSQL, set up 
-environment variables, initialize Makahiki, and start the Makahiki server. 
+Now that Postgresql is installed, you must enable it as a service 
+and configure its authentication settings.
 
 Initialize the Postgresql database and turn the Postgresql service on:
 
