@@ -1,11 +1,14 @@
 import os
 import subprocess
+import datetime
 
 def termination_string():
     """
     Gets the current system time and appends it to a termination notice.
     """
-    end_time = "Script exiting at %s" % subprocess.check_output(["date"], stderr=subprocess.STDOUT)
+    now = datetime.datetime.now()
+    time = now.strftime("%Y-%m-%d %H:%M:%S")
+    end_time = "Script exiting at %s\n" % time
     return end_time
 
 def run(logfile):
@@ -13,6 +16,12 @@ def run(logfile):
     Runs the makahiki/makahiki/scripts/update_instance.py
     script and logs the output to a file.
     """
+    now = datetime.datetime.now()
+    time = now.strftime("%Y-%m-%d %H:%M:%S")
+    start_time = "Makahiki instance update script started at %s\n" % time
+    logfile.write(start_time)
+    print start_time
+
     try:
         USER_HOME = subprocess.check_output(["echo $HOME"], stderr=subprocess.STDOUT, shell=True) 
         # Remove newline from expected "/home/<username>\n"
