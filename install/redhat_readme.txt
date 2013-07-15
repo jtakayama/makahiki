@@ -316,9 +316,9 @@ invoked with --initialize_instance again. Use the --update_instance option
 (discussed in Section 7 of this document) to update source code without losing 
 subsequent configuration actions.
 
-The script runs a script at makahiki/makahiki/scripts/initialize_instance.py 
-with default options, and is equivalent to the following:
-% initialize_instance.py --type default
+The script initializes the Makahiki database and populates it with default 
+information and users. It is equivalent to running the standalone 
+initialize_instance.py script with "--type default" options.
 -------------------------------------------------------------------------------
 
 Run the script with the options specified for your operating system:
