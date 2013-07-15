@@ -81,6 +81,11 @@ def run(logfile):
         1.    logfile: The logfile to write output to. 
     """
     
+    now = datetime.datetime.now()
+    time = now.strftime("%Y-%m-%d %H:%M:%S")
+    start_time = "Script starting at %s\n" % time
+    logfile.write(start_time)
+    print start_time
     try:
         #Confirm that the user wants to continue.
         logfile.write("This script will install these packages and their dependencies:\n\
