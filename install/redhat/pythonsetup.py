@@ -88,7 +88,7 @@ def run(logfile):
     print start_time
     try:
         #Confirm that the user wants to continue.
-        logfile.write("This script will install these packages and their dependencies:\n\
+        packages_list = "This script will install these packages and their dependencies:\n\
         All packages in groupinstall of \"Development tools\",\n\
         zlib-devel,\n\
         bzip2-devel,\n\
@@ -97,17 +97,10 @@ def run(logfile):
         sqlite-devel,\n\
         readline-devel,\n\
         tk-devel,\n\
-        wget")
-        print "This script will install these packages and their dependencies:\n\
-        All packages in groupinstall of \"Development tools\",\n\
-        zlib-devel,\n\
-        bzip2-devel,\n\
-        openssl-devel,\n\
-        ncurses-devel,\n\
-        sqlite-devel,\n\
-        readline-devel,\n\
-        tk-devel,\n\
-        wget"
+        wget\n"
+        logfile.write(packages_list)
+        print packages_list
+
         value = raw_input("Do you wish to continue (Y/n)? ")
         while value != "Y" and value != "n":
             logfile.write("Invalid option %s\n" % value)
