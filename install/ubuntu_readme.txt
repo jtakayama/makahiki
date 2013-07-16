@@ -1,8 +1,25 @@
 ubuntu_readme.txt
 =================
 
-INTRODUCTION:
+Contents:
 -------------------------------------------------------------------------------
+0.0. Introduction
+1.0. Installing and Configuring Dependencies
+1.1. Instructions
+1.1.1. Check Prerequisites
+1.1.2. Install System Environment Dependencies
+1.1.3. Set Up the "makahiki" Virtual Environment
+1.1.4. PostgreSQL Configuration
+1.1.5. Install Dependencies With Pip
+1.1.6. Environment Variables Configuration
+1.1.7. Initialize Makahiki
+1.1.8. Start the Server
+1.1.9. Update the Makahiki Instance
+Appendix A. Notes on Log Files
+-------------------------------------------------------------------------------
+
+0.0. Introduction
+===============================================================================
 This is a README file for the Makahiki installation scripts.
 
 The install.py script calls a set of Python scripts which partially 
@@ -16,7 +33,6 @@ If you would prefer to install Makahiki manually, see
 https://makahiki.readthedocs.org/en/latest/installation-makahiki-unix.html.
 
 Makahiki source code is available from https://github.com/csdl/makahiki.
--------------------------------------------------------------------------------
 
 WARNING:
 -------------------------------------------------------------------------------
@@ -25,7 +41,7 @@ system such as Heroku. For instructions to deploy Makahiki on Heroku, see
 http://makahiki.readthedocs.org/en/latest/installation-makahiki-heroku.html.
 -------------------------------------------------------------------------------
 
-WARNING 2:
+WARNING:
 -------------------------------------------------------------------------------
 If the default version of Python on your system is not a version of Python 2.7 
 that is 2.7.3 or higher (but not Python 3), the install.py file, and this 
@@ -38,38 +54,48 @@ you will need to:
 2. Install yum packages manually with apt.
 3. Install Python packages (easy_install, pip, virtualenvwrapper).
 -------------------------------------------------------------------------------
+===============================================================================
 
+1.0. Installing and Configuring Dependencies
+===============================================================================
 The install/ folder contains the install.py script.
 
 Usage of install.py:
-------------------------------------------------------------------------------------------------------------------
-./install.py < --dependencies | --pip | --initialize_instance | --update_instance > 
-             --os < ubuntu > --arch < x86 | x64 >
+-------------------------------------------------------------------------------
+./install.py < --dependencies | --pip | --initialize_instance | 
+               --update_instance > --os < ubuntu > --arch < x86 | x64 >
     
 All options require Python 2.7.3 or higher (but not Python 3) to run.
     
-    --dependencies: Installs dependencies. This script must be run with root privileges.
+    --dependencies: Installs dependencies. This script must be run with root 
+      privileges.
 
-    --pip: Runs "pip install -r requirements.txt" via install/pip/pip_install.py.
+    --pip: Runs "pip install -r requirements.txt." The requirements.txt file 
+      is located in the top-level makahiki directory.
 
-    --initialize_instance: Initializes the Makahiki instance with default options.
+    --initialize_instance: Initializes the Makahiki instance with default 
+      options.
 
-    --update_instance: Runs the makahiki/scripts/update_instance.py script with default options.
+    --update_instance: Runs the makahiki/scripts/update_instance.py script 
+      with default options.
     
     --os: Only ubuntu (Ubuntu Linux) is currently supported.
     
     --arch: This script supports Ubuntu x86 and x64 architectures.
+-------------------------------------------------------------------------------
+===============================================================================
 
-Instructions
-------------
+1.1. Instructions
+===============================================================================
 In these instructions, a % represents your terminal prompt.
 
 It is assumed that your Makahiki installation is placed in your user home directory.
 For a user named "robot," the user home directory would be /home/robot,
 and the makahiki directory would be at /home/robot/makahiki.
+===============================================================================
 
-0. Check your prerequisites:
-----------------------------
+1.1.1. Check Prerequisites
+===============================================================================
 (1.) Python 2.7.3 or higher (Not Python 3)
 At a minimum, you need to have Python 2.7.3 or higher (but not Python 3) 
 installed. Use python --version in the terminal to check the version of 
@@ -85,9 +111,10 @@ installing Makahiki dependencies to an altinstall.
 
 (2.) Internet connection
 Steps 1 and 3 require an Internet connection.
+===============================================================================
 
-1. Install system environment dependencies:
--------------------------------------------
+1.1.2. Install System Environment Dependencies:
+===============================================================================
 Switch to your top-level makahiki directory:
 % cd ~/makahiki
 
@@ -134,9 +161,10 @@ The script will create a log file in makahiki/install/logs with a filename of
 the format "install_dependencies_<timestamp>.log," where <timestamp> is a 
 sequence of numbers representing a timestamp in the system local time. 
 For more information, see Appendix A.
+===============================================================================
 
-2. Set up the makahiki virtual environment:
-------------------------------------------- 
+1.1.3. Set Up the "makahiki" Virtual Environment
+===============================================================================
 When the install.py script finishes, source the ~/.bashrc file:
 
 % source ~/.bashrc
@@ -163,9 +191,29 @@ robot@computer:~/makahiki$ workon makahiki
 For further instructions, see the Makahiki documentation for section 
 2.1.1.1.1.6, "Install Virtual Environment Wrapper":
 https://makahiki.readthedocs.org/en/latest/installation-makahiki-unix.html#install-virtual-environment-wrapper
+===============================================================================
+
+1.1.4. PostgreSQL Configuration
+===============================================================================
+You should still be in the makahiki virtual environment.
+
+After the script completes, you must configure PostgreSQL, set up 
+environment variables, initialize Makahiki, and start the Makahiki server. 
+
+To configure PostgreSQL, go to the Makahiki documentation and follow 
+section 2.1.1.1.1.8, "Install PostgreSQL," to edit the pg_hba.conf file:
+https://makahiki.readthedocs.org/en/latest/installation-makahiki-unix.html#install-postgresql
+
+On Ubuntu 12.04.1 LTS and later, the pg_hba.conf file is usually located at 
+/etc/postgresql/9.1/main/pg_hba.conf.
+
+After you have edited the pg_hba.conf file, restart the Postgresql service:
+% sudo /etc/init.d/postgresql restart
+ * Restarting PostgreSQL 9.1 database server                             [ OK ]
+===============================================================================
    
-3. Install dependencies with pip:
----------------------------------
+1.1.5. Install Dependencies With Pip
+===============================================================================
 You should still be in the makahiki virtual environment.
 
 Switch to the makahiki directory:
@@ -189,27 +237,10 @@ The script will create a log file in makahiki/install/logs with a filename of
 the format "install_pip_<timestamp>.log," where <timestamp> is a sequence of 
 numbers representing a timestamp in the system local time. For more information, 
 see Appendix A.
+===============================================================================
 
-4. PostgreSQL and Environment Variables Configuration
------------------------------------------------------
-You should still be in the makahiki virtual environment.
-
-After the script completes, you must configure PostgreSQL, set up 
-environment variables, initialize Makahiki, and start the Makahiki server. 
-
-To configure PostgreSQL, go to the Makahiki documentation and follow 
-section 2.1.1.1.1.8, "Install PostgreSQL," to edit the pg_hba.conf file:
-https://makahiki.readthedocs.org/en/latest/installation-makahiki-unix.html#install-postgresql
-
-On Ubuntu 12.04.1 LTS and later, the pg_hba.conf file is usually located at 
-/etc/postgresql/9.1/main/pg_hba.conf.
-
-After you have edited the pg_hba.conf file, restart the Postgresql service:
-% sudo /etc/init.d/postgresql restart
- * Restarting PostgreSQL 9.1 database server                             [ OK ]
-
-5. Environment Variables Configuration
---------------------------------------
+1.1.6. Environment Variables Configuration
+===============================================================================
 The environment variables MAKAHIKI_DATABASE_URL and MAKAHIKI_ADMIN_INFO need 
 to be added to the shell environment. To make them permanently available 
 whenever you "workon makahiki," add these variables to the 
@@ -228,9 +259,10 @@ You will need to do "workon makahiki" after you have edited the postactivate fil
 for the changes to take effect:
 
 % workon makahiki
+===============================================================================
 
-6. Initialize Makahiki
-----------------------
+1.1.7. Initialize Makahiki
+===============================================================================
 You should still be in the makahiki virtual environment.
 
 Switch to the makahiki directory:
@@ -270,9 +302,10 @@ The script will create a log file in makahiki/install/logs with a filename of
 the format "install_initialize_instance_<timestamp>.log," where <timestamp> is 
 a sequence of numbers representing a timestamp in the system local time. 
 For more information, see Appendix A.
+===============================================================================
 
-7. Start the Server
--------------------
+1.1.8. Start the Server
+===============================================================================
 You should still be in the makahiki virtual environment.
 
 Switch to the top-level makahiki directory:
@@ -289,9 +322,10 @@ To start the server with gunicorn:
 % ./manage.py run_gunicorn
 
 In a web browser, go to http://localhost:8000 to see the landing page.
+===============================================================================
 
-8. Update the Makahiki Instance
-------------------------------------------
+1.1.9. Update the Makahiki Instance
+===============================================================================
 Makahiki is designed to support post-installation updating of your configured 
 system when bug fixes or system enhancements become available. Updating an 
 installed Makahiki instance using the install.py script requires the 
@@ -329,9 +363,10 @@ To start the server with manage.py:
 
 To start the server with gunicorn:
 % ./manage.py run_gunicorn
+===============================================================================
 
 Appendix A. Notes on Log Files
--------------------------------
+===============================================================================
 Log files are created by install.py in in makahiki/install/logs.
 The log file names follow this format:
 <script-type>_<timestamp>.log
@@ -348,3 +383,4 @@ The timestamp in log file names breaks down as follows:
 The example timestamp 20130101000000102542 breaks down as follows:
 Year: 2013, month: 01, day: 01, hour: 00, minute: 00, seconds: 00, 
 microseconds: 102542.
+===============================================================================
