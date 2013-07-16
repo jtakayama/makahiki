@@ -4,14 +4,14 @@ redhat_readme.txt
 Contents:
 -------------------------------------------------------------------------------
 0.0. Introduction
-1.0. Compile and install Python 2.7.3 as an altinstall
-2.0. Installing and configuring other dependencies
+1.0. Compile and Install Python 2.7.3 as an Altinstall
+2.0. Installing and Configuring Dependencies
 2.1. Instructions
-2.1.1. Check prerequisites
-2.1.2. Install system environment dependencies
-2.1.3. Set up the makahiki virtual environment
+2.1.1. Check Prerequisites
+2.1.2. Install System Environment Dependencies
+2.1.3. Set Up the "makahiki" Virtual Environment
 2.1.4. PostgreSQL Configuration
-2.1.5. Install dependencies with pip
+2.1.5. Install Dependencies With Pip
 2.1.6. Environment Variables Configuration
 2.1.7. Initialize Makahiki
 2.1.8. Start the Server
@@ -48,7 +48,7 @@ The default version on RHEL 6 is Python 2.6.6, which cannot be changed without
 causing problems with operating system tools.
 ===============================================================================
 
-1.0. Compile and install Python 2.7.3 as an altinstall
+1.0. Compile and Install Python 2.7.3 as an Altinstall
 ===============================================================================
 This step requires an Internet connection.
 
@@ -80,7 +80,7 @@ installation will be unchanged. This command will take a very long
 time and produce a large amount of output.
 ===============================================================================
 
-2.0. Installing and configuring other dependencies
+2.0. Installing and Configuring Dependencies
 ===============================================================================
 The install/ directory in the top-level makahiki directory contains the 
 install_altinstall.py script. It is used to install dependencies for Makahiki.
@@ -118,7 +118,7 @@ directory. For a user named "robot," the user home directory would be
 /home/robot, and the makahiki directory would be at /home/robot/makahiki.
 ===============================================================================
 
-2.1.1. Check prerequisites
+2.1.1. Check Prerequisites
 ===============================================================================
 (1.) Python 2.7.3 or higher (Not Python 3)
 At a minimum, you need to have Python 2.7.3 or higher (but not Python 3) 
@@ -149,7 +149,7 @@ Python 2.7.3
 This software requires an internet connection in order to install packages.
 ===============================================================================
 
-2.1.2. Install system environment dependencies
+2.1.2. Install System Environment Dependencies
 ===============================================================================
 Switch to your top-level makahiki directory:
 % cd ~/makahiki
@@ -189,7 +189,7 @@ sequence of numbers representing a timestamp in the system local time.
 For more information, see Appendix A.
 ===============================================================================
 
-2.1.3. Set up the makahiki virtual environment
+2.1.3. Set Up the "makahiki" Virtual Environment
 ===============================================================================
 You will need to add the following lines to the current user's .bashrc file:
 
@@ -303,7 +303,7 @@ Stopping postgresql-9.1 service:                           [  OK  ]
 Starting postgresql-9.1 service:                           [  OK  ]
 ===============================================================================
 
-2.1.5. Install dependencies with pip
+2.1.5. Install Dependencies With Pip
 ===============================================================================
 You should still be in the makahiki virtual environment.
 
