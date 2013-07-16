@@ -1,15 +1,15 @@
 """Test for possible quest conditions."""
 
 import datetime
-import os
+# import os
 
 from django.test import TransactionTestCase
 from django.contrib.auth.models import User
-from django.conf import settings
-from django.core.files.images import ImageFile
-from django.db.models import signals
+# from django.conf import settings
+# from django.core.files.images import ImageFile
+# from django.db.models import signals
 from apps.managers.challenge_mgr import challenge_mgr
-from apps.managers.player_mgr.predicates import badge_awarded, has_points, set_profile_pic, \
+from apps.managers.player_mgr.predicates import badge_awarded, has_points, \
     posted_to_wall
 from apps.managers.team_mgr.models import Group, Team, Post
 from apps.utils import test_utils
@@ -18,8 +18,8 @@ from apps.widgets.badges import badges
 from apps.widgets.quests.quests import possibly_completed_quests, get_quests
 from apps.widgets.smartgrid.models import Activity, ActionMember, Commitment, ColumnName, Level, \
     ColumnGrid, Grid
-from apps.lib.avatar import create_default_thumbnails
-from apps.lib.avatar.models import Avatar, avatar_file_path
+# from apps.lib.avatar import create_default_thumbnails
+# from apps.lib.avatar.models import Avatar, avatar_file_path
 from apps.widgets.raffle.models import RafflePrize, RaffleTicket
 from apps.widgets.smartgrid.predicates import submitted_action, \
     approved_action, approved_some_of_type, approved_some, submitted_some_of_type
@@ -533,7 +533,8 @@ class QuestConditionsTest(TransactionTestCase):
 #         # files don't get created.
 #         signals.post_save.disconnect(create_default_thumbnails, Avatar)
 #
-#         self.assertFalse(set_profile_pic(self.user), "User should not have their profile pic set.")
+#         self.assertFalse(set_profile_pic(self.user), "User should not have their "
+#profile pic set.")
 #         image_path = os.path.join(settings.PROJECT_ROOT, "fixtures", "test_images", "test.jpg")
 #         image = ImageFile(open(image_path, "r"))
 #         path = avatar_file_path(user=self.user, filename="test.jpg")
