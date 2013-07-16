@@ -1,12 +1,32 @@
 redhat_readme.txt
 =================
 
-INTRODUCTION:
+Contents:
 -------------------------------------------------------------------------------
+0.0. Introduction
+1.0. Compile and install Python 2.7.3 as an altinstall
+2.0. Installing and configuring other dependencies
+2.1. Instructions
+2.1.1. Check prerequisites
+2.1.2. Install system environment dependencies
+2.1.3. Set up the makahiki virtual environment
+2.1.4. PostgreSQL Configuration
+2.1.5. Install dependencies with pip
+2.1.6. Environment Variables Configuration
+2.1.7. Initialize Makahiki
+2.1.8. Start the Server
+2.1.9. Update the Makahiki Instance
+Appendix A. Notes on Log Files
+-------------------------------------------------------------------------------
+
+0.0. Introduction:
+===============================================================================
 This is a README file for the Makahiki installation scripts.
 
 The install_altinstall.py script calls a set of Python scripts which partially 
 automate the process of installing Makahiki on Red Hat Enterprise Linux 6 x64.
+
+In these instructions, a % represents your terminal prompt.
 
 The scripts rely on the yum package manager. The scripts have been tested on 
 CentOS 6 x64. Other Red Hat-based operating systems are not supported.
@@ -15,7 +35,6 @@ If you would prefer to install Makahiki manually, see
 https://makahiki.readthedocs.org/en/latest/installation-makahiki-unix.html.
 
 Makahiki source code is available from https://github.com/csdl/makahiki.
--------------------------------------------------------------------------------
 
 WARNING:
 -------------------------------------------------------------------------------
@@ -27,54 +46,80 @@ http://makahiki.readthedocs.org/en/latest/installation-makahiki-heroku.html.
 For Makahiki to work on RHEL 6, you must install Python 2.7.3 as an altinstall.
 The default version on RHEL 6 is Python 2.6.6, which cannot be changed without 
 causing problems with operating system tools.
+===============================================================================
 
-1. Compile and install Python 2.7.3 as an altinstall:
--------------------------------------------------------------------------------
+1.0. Compile and install Python 2.7.3 as an altinstall
+===============================================================================
+This step requires an Internet connection.
+
 Switch to your top-level makahiki directory:
 % cd ~/makahiki
 
 Run the install/python273_altinstall.py script as follows:
-1. Run it with --pythonsetup to install programs needed to 
-   compile Python:
+(1) Run it with --pythonsetup to install programs needed to 
+    compile Python:
 % sudo ./install/python273_altinstall.py --pythonsetup
 
-2. Run it with --altinstall to compile Python into an altinstall:
+(2) Run it with --altinstall to compile Python into an altinstall:
 % sudo ./install/python273_altinstall.py --altinstall
--------------------------------------------------------------------------------
 
-2. Installing and configuring other dependencies:
--------------------------------------------------------------------------------
-The install/ folder contains the install_altinstall.py script.
+Running --pythonsetup will install these packages and their dependencies:
+- All packages provided by: yum groupinstall "Development tools"
+- zlib-devel
+- bzip2-devel
+- openssl-devel
+- ncurses-devel
+- sqlite-devel
+- readline-devel
+- tk-devel
+- wget
+
+Running --altinstall will create a Python 2.7.3 altinstall under 
+the /usr/local/bin/python2.7 directory. The existing default Python 
+installation will be unchanged. This command will take a very long 
+time and produce a large amount of output.
+===============================================================================
+
+2.0. Installing and configuring other dependencies
+===============================================================================
+The install/ directory in the top-level makahiki directory contains the 
+install_altinstall.py script. It is used to install dependencies for Makahiki.
 
 Usage of install_altinstall.py:
 -------------------------------------------------------------------------------
-./install_altinstall.py < --dependencies | --pip | --initialize_instance | --update_instance> 
-                        --os < redhat > --arch < x64 >
+./install_altinstall.py < --dependencies | --pip | --initialize_instance | 
+                          --update_instance > --os < redhat > --arch < x64 >
     
 All options require Python 2.7.3 or higher (but not Python 3) to run.
     
     --dependencies: Installs dependencies.
 
-    --pip: Runs "pip install -r requirements.txt" via install/pip/pip_install.py.
+    --pip: Runs "pip install -r requirements.txt." The requirements.txt file 
+      is located in the top-level makahiki directory.
 
-    --initialize_instance: Initializes the Makahiki instance with default options.
+    --initialize_instance: Initializes the Makahiki instance with default 
+      settings, users, and data.
 
-    --update_instance: Runs the makahiki/scripts/update_instance.py script with default options.
+    --update_instance: Runs the makahiki/scripts/update_instance.py script 
+      with default options.
     
     --os: Only redhat (RHEL 6) is supported by this script.
     
     --arch: For RHEL 6, only the x64 architecture is currently supported.
+-------------------------------------------------------------------------------
+===============================================================================
 
-Instructions
-------------
+2.1. Instructions
+===============================================================================
 In these instructions, a % represents your terminal prompt.
 
-It is assumed that your Makahiki installation is placed in your user home directory.
-For a user named "robot," the user home directory would be /home/robot,
-and the makahiki directory would be at /home/robot/makahiki.
+It is assumed that your Makahiki installation is placed in the user's home 
+directory. For a user named "robot," the user home directory would be 
+/home/robot, and the makahiki directory would be at /home/robot/makahiki.
+===============================================================================
 
-0. Check your prerequisites:
-----------------------------
+2.1.1. Check prerequisites
+===============================================================================
 (1.) Python 2.7.3 or higher (Not Python 3)
 At a minimum, you need to have Python 2.7.3 or higher (but not Python 3) 
 installed. Use python --version in the terminal to check the version of 
@@ -101,10 +146,11 @@ or:
 Python 2.7.3
 
 (2.) Internet connection
-Steps 1 and 3 require an Internet connection.
+This software requires an internet connection in order to install packages.
+===============================================================================
 
-1. Install system environment dependencies:
--------------------------------------------
+2.1.2. Install system environment dependencies
+===============================================================================
 Switch to your top-level makahiki directory:
 % cd ~/makahiki
 
@@ -113,7 +159,8 @@ Run the script with the options specified for your operating system:
 RHEL 6 x64:
 % sudo ./install/install_altinstall.py --dependencies --os redhat --arch x64
 
-The script installs these packages and their dependencies, if not already installed:
+The script installs these packages and their dependencies, if they are not 
+already installed:
 - git
 - gcc
 - Two versions of python-setuptools (a.k.a. easy_install):
@@ -140,9 +187,10 @@ The script will create a log file in makahiki/install/logs with a filename of
 the format "install_dependencies_<timestamp>.log," where <timestamp> is a 
 sequence of numbers representing a timestamp in the system local time. 
 For more information, see Appendix A.
+===============================================================================
 
-2. Set up the makahiki virtual environment:
-------------------------------------------- 
+2.1.3. Set up the makahiki virtual environment
+===============================================================================
 You will need to add the following lines to the current user's .bashrc file:
 
 # Virtualenvwrapper settings for makahiki
@@ -203,9 +251,10 @@ To run an executable script:
 
 % ./<path-to-file>/filename.py
 -------------------------------------------------------------------------------
+===============================================================================
 
-3. PostgreSQL Configuration
----------------------------
+2.1.4. PostgreSQL Configuration
+===============================================================================
 You should still be in the makahiki virtual environment.
 
 Now that Postgresql is installed, you must enable it as a service 
@@ -225,17 +274,26 @@ with sudo:
 
 The vi editor is installed by default, but any text editor can be used.
 
-In this file, add these lines at the top of the rule list:
+You should edit the pg_hba.conf file so that the settings for "local", 
+IPV4 local connections, and IPv6 local connections match the examples below:
 
-local   all             postgres                                trust
-local   all             makahiki                                trust
+Example pg_hba.conf settings:
+-------------------------------------------------------------------------------
+# TYPE  DATABASE        USER            ADDRESS                 METHOD
+# "local" is for Unix domain socket connections only
+local   all             all                                     trust
+# IPv4 local connections:
+host    all             all             127.0.0.1/32            md5
+# IPv6 local connections:
+host    all             all             ::1/128                 md5
+-------------------------------------------------------------------------------
 
 WARNING:
 -------------------------------------------------------------------------------
 The "trust" setting lets local processes like Makahiki or the postgres 
 database user connect to the database server without authentication. This is 
-useful for development, but not secure enough to use in a production instance 
-of Makahiki.
+useful for development and configuration, but may not be secure enough for 
+production use.
 -------------------------------------------------------------------------------
 
 Restart the Postgresql server after editing the file:
@@ -243,9 +301,10 @@ Restart the Postgresql server after editing the file:
 % sudo service postgresql-9.1 restart
 Stopping postgresql-9.1 service:                           [  OK  ]
 Starting postgresql-9.1 service:                           [  OK  ]
+===============================================================================
 
-4. Install dependencies with pip:
----------------------------------
+2.1.5. Install dependencies with pip
+===============================================================================
 You should still be in the makahiki virtual environment.
 
 Switch to the makahiki directory:
@@ -275,9 +334,10 @@ The script will create a log file in makahiki/install/logs with a filename of
 the format "install_pip_<timestamp>.log," where <timestamp> is a sequence of 
 numbers representing a timestamp in the system local time. For more information, 
 see Appendix A.
+===============================================================================
 
-5. Environment Variables Configuration
---------------------------------------
+2.1.6. Environment Variables Configuration
+===============================================================================
 The environment variables MAKAHIKI_DATABASE_URL and MAKAHIKI_ADMIN_INFO need 
 to be added to the shell environment. To make them permanently available 
 whenever you "workon makahiki," add these variables to the 
@@ -289,16 +349,17 @@ export MAKAHIKI_DATABASE_URL=postgres://makahiki:makahiki@localhost:5432/makahik
 # Syntax: <admin_name>:<admin_password>
 export MAKAHIKI_ADMIN_INFO=admin:admin
 
-Production instances of Makahiki should change the <admin_password> to something 
-other than "admin."
+Production instances of Makahiki should change the <admin_password> to 
+something other than "admin."
 
-You will need to do "workon makahiki" after you have edited the postactivate file
-for the changes to take effect:
+You will need to do "workon makahiki" after you have edited the postactivate 
+file for the changes to take effect:
 
 % workon makahiki
+===============================================================================
 
-6. Initialize Makahiki
-----------------------
+2.1.7. Initialize Makahiki
+===============================================================================
 You should still be in the makahiki virtual environment.
 
 Switch to the makahiki directory:
@@ -321,7 +382,8 @@ subsequent configuration actions.
 
 The script initializes the Makahiki database and populates it with default 
 information and users. It is equivalent to running the standalone 
-initialize_instance.py script with "--type default" options.
+makahiki/makahiki/scripts/initialize_instance.py script with 
+"--type default" options.
 -------------------------------------------------------------------------------
 
 Run the script with the options specified for your operating system:
@@ -335,9 +397,10 @@ The script will create a log file in makahiki/install/logs with a filename of
 the format "install_initialize_instance_<timestamp>.log," where <timestamp> is 
 a sequence of numbers representing a timestamp in the system local time. 
 For more information, see Appendix A.
+===============================================================================
 
-7. Start the Server
--------------------
+2.1.8. Start the Server
+===============================================================================
 You should still be in the makahiki virtual environment.
 
 Switch to the makahiki directory:
@@ -354,9 +417,10 @@ To start the server with gunicorn:
 % ./manage.py run_gunicorn
 
 In a web browser, go to http://localhost:8000 to see the landing page.
+===============================================================================
 
-8. Update the Makahiki Instance
-------------------------------------------
+2.1.9. Update the Makahiki Instance
+===============================================================================
 Makahiki is designed to support post-installation updating of your configured 
 system when bug fixes or system enhancements become available. Updating an 
 installed Makahiki instance using the install.py script requires the 
@@ -391,11 +455,12 @@ To start the server with manage.py:
 
 To start the server with gunicorn:
 % ./manage.py run_gunicorn
+===============================================================================
 
 Appendix A. Notes on Log Files
--------------------------------
-Log files are created by install.py in in makahiki/install/logs.
-The log file names follow this format:
+===============================================================================
+Log files are created by python273_altinstall.py and install_altinstall.py in 
+makahiki/install/logs. The log file names follow this format: 
 <script-type>_<timestamp>.log
 
 The timestamp in log file names breaks down as follows:
@@ -410,3 +475,4 @@ The timestamp in log file names breaks down as follows:
 The example timestamp 20130101000000102542 breaks down as follows:
 Year: 2013, month: 01, day: 01, hour: 00, minute: 00, seconds: 00, 
 microseconds: 102542.
+===============================================================================
