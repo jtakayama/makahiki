@@ -28,11 +28,11 @@ def rpm_check(packagename):
             result = True
         else:
             result = False
+        return result
     # Assume not installed
     except OSError as ose:
         result = False
-    # Return result
-    return result
+        return result
 
 def python_package_check(packagename, expected_response):
     """
@@ -73,11 +73,12 @@ def python_package_check(packagename, expected_response):
             compare_result = False
         else:
             compare_result = True
+        # Return result
+        return compare_result
     except OSError as ose:
         # Assume not installed
         compare_result = False
-    # Return result
-    return compare_result
+        return compare_result
 
 def postgresql91_repocheck():
     """
@@ -103,11 +104,12 @@ def postgresql91_repocheck():
             if linematch:
                 repo_match = True
                 break
+        # Return result
+        return repo_match
     # Assume not installed
     except OSError as ose:
         repo_match = False
-    # Return result
-    return repo_match
+        return repo_match
 
 def virtualenvwrapper_check(packagepath):
     """
@@ -137,10 +139,12 @@ def virtualenvwrapper_check(packagepath):
             compare_result = False
         else:
             compare_result = True
+        # Return result
+        return compare_result
     except OSError as ose:
         # Assume not installed
         compare_result = False
-    return compare_result
+        return compare_result
 
 def termination_string():
     """
@@ -199,6 +203,7 @@ def yum_install(packagename, logfile):
             logfile.write(end_time)
             print end_time
             success = False
+        return [success, logfile]
     except subprocess.CalledProcessError as cpe:
         # Print and log the error message
         logfile.write("CalledProcessError: ")
@@ -212,6 +217,7 @@ def yum_install(packagename, logfile):
         logfile.write(end_time)
         print end_time
         success = False
+        return [success, logfile]
     except OSError as ose:
         logfile.write("OSError: ")
         print "OSError: "
@@ -225,7 +231,7 @@ def yum_install(packagename, logfile):
         logfile.write(end_time)
         print end_time
         success = False
-    return [success, logfile] 
+        return [success, logfile] 
 
 def run(arch, logfile):
     """
