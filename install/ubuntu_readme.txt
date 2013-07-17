@@ -22,7 +22,7 @@ Appendix A. Notes on Log Files
 ===============================================================================
 This is a README file for the Makahiki installation scripts.
 
-The install.py script calls a set of Python scripts which partially 
+The ubuntu_installer.py script calls a set of Python scripts which partially 
 automate the process of installing Makahiki on Ubuntu Linux x86 and
 Ubuntu Linux x64.
 
@@ -44,25 +44,25 @@ http://makahiki.readthedocs.org/en/latest/installation-makahiki-heroku.html.
 WARNING:
 -------------------------------------------------------------------------------
 If the default version of Python on your system is not a version of Python 2.7 
-that is 2.7.3 or higher (but not Python 3), the install.py file, and this 
+that is 2.7.3 or higher (but not Python 3), the ubuntu_installer.py file, and this 
 guide, will not work for you. 
 
 If you are using Ubuntu Linux 12.04.1 LTS or higher, Python 2.7.3, or a higher 
 version of Python 2.7, should be the system default. If this is not the case, 
 you will need to:
 1. Build and install Python 2.7.3 as an altinstall, manually
-2. Install yum packages manually with apt.
+2. Install packages manually with apt.
 3. Install Python packages (easy_install, pip, virtualenvwrapper).
 -------------------------------------------------------------------------------
 ===============================================================================
 
 1.0. Installing and Configuring Dependencies
 ===============================================================================
-The install/ folder contains the install.py script.
+The install/ folder contains the ubuntu_installer.py script.
 
-Usage of install.py:
+Usage of ubuntu_installer.py:
 -------------------------------------------------------------------------------
-./install.py < --dependencies | --pip | --initialize_instance | 
+./ubuntu_installer.py < --dependencies | --pip | --initialize_instance | 
                --update_instance > --os < ubuntu > --arch < x86 | x64 >
     
 All options require Python 2.7.3 or higher (but not Python 3) to run.
@@ -79,7 +79,7 @@ All options require Python 2.7.3 or higher (but not Python 3) to run.
     --update_instance: Runs the makahiki/scripts/update_instance.py script 
       with default options.
     
-    --os: Only ubuntu (Ubuntu Linux) is currently supported.
+    --os: This script supports ubuntu (Ubuntu Linux).
     
     --arch: This script supports Ubuntu x86 and x64 architectures.
 -------------------------------------------------------------------------------
@@ -106,7 +106,7 @@ your default Python installation:
 Ubuntu versions 12.04.1 LTS and later LTS versions come with Python 2.7.3 installed 
 by default. If Python 2.7.3, or a higher version of Python 2.7, is not the default 
 Python installation on your system, you will need to download the source tarball from 
-python.org and install it as an altinstall. The install.py script does not support 
+python.org and install it as an altinstall. The ubuntu_installer.py script does not support 
 installing Makahiki dependencies to an altinstall.
 
 (2.) Internet connection
@@ -121,10 +121,10 @@ Switch to your top-level makahiki directory:
 Run the script with the options specified for your operating system:
 
 Ubuntu x86:
-% sudo ./install/install.py --dependencies --os ubuntu --arch x86
+% sudo ./install/ubuntu_installer.py --dependencies --os ubuntu --arch x86
 
 Ubuntu x64:
-% sudo ./install/install.py --dependencies --os ubuntu --arch x86
+% sudo ./install/ubuntu_installer.py --dependencies --os ubuntu --arch x86
 
 The script installs these packages and their dependencies:
 - git
@@ -165,7 +165,7 @@ For more information, see Appendix A.
 
 1.1.3. Set Up the "makahiki" Virtual Environment
 ===============================================================================
-When the install.py script finishes, source the ~/.bashrc file:
+When the ubuntu_installer.py script finishes, source the ~/.bashrc file:
 
 % source ~/.bashrc
 
@@ -222,10 +222,10 @@ Switch to the makahiki directory:
 Run the script with the options specified for your operating system:
 
 Ubuntu x86:
-% ./install/install.py --pip --os ubuntu --arch x86
+% ./install/ubuntu_installer.py --pip --os ubuntu --arch x86
 
 Ubuntu x64:
-% ./install/install.py --pip --os ubuntu --arch x64
+% ./install/ubuntu_installer.py --pip --os ubuntu --arch x64
 
 The list of packages that this step will attempt to install with pip are 
 listed in the makahiki/requirements.txt file.
@@ -278,7 +278,7 @@ Running the script with --initialize_instance will:
 - Set up static files.
 
 This script should be run only a single time in production scenarios, because 
-any subsequent configuration modifications will be lost if install.py is 
+any subsequent configuration modifications will be lost if ubuntu_installer.py is 
 invoked with --initialize_instance again. Use the --update_instance option
 (discussed in Section 7 of this document) to update source code without losing 
 subsequent configuration actions.
@@ -291,10 +291,10 @@ with default options, and is equivalent to the following:
 Run the script with the options specified for your operating system:
 
 Ubuntu x86:
-% ./install/install.py --initialize_instance --os ubuntu --arch x86
+% ./install/ubuntu_installer.py --initialize_instance --os ubuntu --arch x86
 
 Ubuntu x64:
-% ./install/install.py --initialize_instance --os ubuntu --arch x64
+% ./install/ubuntu_installer.py --initialize_instance --os ubuntu --arch x64
 
 You will need to answer "Y" to the question "Do you wish to continue (Y/n)?"
 
@@ -328,7 +328,7 @@ In a web browser, go to http://localhost:8000 to see the landing page.
 ===============================================================================
 Makahiki is designed to support post-installation updating of your configured 
 system when bug fixes or system enhancements become available. Updating an 
-installed Makahiki instance using the install.py script requires the 
+installed Makahiki instance using the ubuntu_installer.py script requires the 
 following steps:
 
 (1.) Close the running server in the shell process that is running Makahiki:
@@ -342,15 +342,15 @@ following steps:
 (3.) Download the updated source code into the Makahiki installation:
 % git pull origin master
 
-(4.) Run the install.py script with --update_instance:
+(4.) Run the ubuntu_installer.py script with --update_instance:
 
 Run the script with the options specified for your operating system:
 
 Ubuntu x86:
-% python ./install/install.py --update_instance --os ubuntu --arch x86
+% python ./install/ubuntu_installer.py --update_instance --os ubuntu --arch x86
 
 Ubuntu x64:
-% python ./install/install.py --update_instance --os ubuntu --arch x64
+% python ./install/ubuntu_installer.py --update_instance --os ubuntu --arch x64
 
 The script will create a log file in makahiki/install/logs with a filename of 
 the format "install_update_instance_<timestamp>.log," where <timestamp> is 
@@ -367,7 +367,7 @@ To start the server with gunicorn:
 
 Appendix A. Notes on Log Files
 ===============================================================================
-Log files are created by install.py in in makahiki/install/logs.
+Log files are created by ubuntu_installer.py in in makahiki/install/logs.
 The log file names follow this format:
 <script-type>_<timestamp>.log
 
