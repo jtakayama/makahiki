@@ -5,7 +5,6 @@ import os
 import datetime
 import datestring_functions
 import dependency.dependency_ubuntu
-import dependency.dependency_redhat
 import pip.pip_install
 import run_update_instance
 import run_initialize_instance
@@ -70,9 +69,9 @@ def scriptrunner(scripttype, os, arch, logfile):
         print "Script could not be completed.\n"
         
     elif os == "redhat":
-        logfile.write("This is not the script for Red Hat Enterprise Linux. Use install_altinstall.py instead.\n")
+        logfile.write("This is not the script for Red Hat Enterprise Linux. Use install_redhat.py instead.\n")
         logfile.write("Script could not be completed.\n")
-        print "This is not the script for Red Hat Enterprise Linux. Use install_altinstall.py instead.\n"
+        print "This is not the script for Red Hat Enterprise Linux. Use install_redhat.py instead.\n"
         print "Script could not be completed.\n"
 
     elif os != "ubuntu" and os != "redhat":
@@ -86,9 +85,9 @@ def scriptrunner(scripttype, os, arch, logfile):
             if os == "ubuntu":
                 logfile = dependency.dependency_ubuntu.run(arch, logfile)
             elif os == "redhat":
-                logfile.write("This is not the script for Red Hat Enterprise Linux. Use install_altinstall.py instead.\n")
+                logfile.write("This is not the script for Red Hat Enterprise Linux. Use install_redhat.py instead.\n")
                 logfile.write("Script could not be completed.")
-                print "This is not the script for Red Hat Enterprise Linux. Use install_altinstall.py instead.\n"
+                print "This is not the script for Red Hat Enterprise Linux. Use install_redhat.py instead.\n"
                 print "Script could not be completed.\n"
         elif scripttype == "pip":
             logfile = pip.pip_install.run(logfile)

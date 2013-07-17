@@ -221,20 +221,9 @@ Python 2.7.3
 Note for developers:
 -------------------------------------------------------------------------------
 If you plan to develop Python scripts in this virtual environment, note that 
-any script that is run with sudo will use the default Python 2.6.6 unless you 
-insert a "shebang line" (a line starting with #!) at the start of the file. 
-This shebang line tells the system to use the Python 2.7.3 interpreter:
+any script that is run with sudo will use the default Python 2.6.6.
 
-#!/usr/local/bin/python2.7
-
-A script with a "shebang line" can be run as an executable file
-in Linux if you alter its permissions with chmod +x:
-
-% chmod +x filename.py
-
-To run an executable script:
-
-% ./<path-to-file>/filename.py
+This is a limitation of the virtual environment's use of an SCL installation.
 -------------------------------------------------------------------------------
 ===============================================================================
 

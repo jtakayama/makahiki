@@ -1,20 +1,11 @@
-#!/opt/rh/python27/root/usr/lib64/python2.7
-
 import sys
 import os
 import datetime
 import datestring_functions
-import dependency.dependency_ubuntu
 import dependency.dependency_redhat
 import pip.pip_install
 import run_update_instance
 import run_initialize_instance
-
-# NOTE:
-# This is the script to use if the default version of Python on
-# your system is not a Python 2.7 version that is at least 
-# Python 2.7.3. It assumes Python 2.7.3 was compiled and 
-# installed using make altinstall.
 
 def logfile_open(scripttype):
     """
@@ -71,9 +62,9 @@ def scriptrunner(scripttype, os, arch, logfile):
         4. logfile: The log file to pass to the installation script.
     """
     if os == "ubuntu":
-        logfile.write("This is not the script for Ubuntu Linux. Use install.py instead.\n")
+        logfile.write("This is not the script for Ubuntu Linux. Use install_ubuntu.py instead.\n")
         logfile.write("Script could not be completed.\n")
-        print "This is not the script for Ubuntu Linux. Use install.py instead.\n"
+        print "This is not the script for Ubuntu Linux. Use install_ubuntu.py instead.\n"
         print "Script could not be completed.\n"
     elif os == "redhat" and arch != "x64":
         logfile.write("Unsupported architecture for %s: %s" % (os, arch))
@@ -90,9 +81,9 @@ def scriptrunner(scripttype, os, arch, logfile):
             if os == "redhat":
                 logfile = dependency.dependency_redhat.run(arch, logfile)
             elif os == "ubuntu":
-                logfile.write("This is not the script for Ubuntu Linux. Use install.py instead.\n")
+                logfile.write("This is not the script for Ubuntu Linux. Use install_ubuntu.py instead.\n")
                 logfile.write("Script could not be completed.\n")
-                print "This is not the script for Ubuntu Linux. Use install.py instead.\n"
+                print "This is not the script for Ubuntu Linux. Use install_ubuntu.py instead.\n"
                 print "Script could not be completed.\n"
         elif scripttype == "pip":
             logfile = pip.pip_install.run(logfile)
