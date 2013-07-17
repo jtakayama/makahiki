@@ -66,9 +66,24 @@ After the script finishes, open a terminal and run this command
 to set Python 2.7.3 as the default in the current user's shell:
 
 % scl enable python27 bash
-===============================================================================
 
-[ALL INSTRUCTIONS AFTER THIS LINE ARE UNDER REVISION]
+You will need to run this command again each time you enter 
+a new shell.
+
+The rest of this guide assumes the use of the SCL installation 
+of Python 2.7.3.
+
+The SCL installation comes with easy_install (a.k.a. setuptools 
+or distribute) and virtualenv (a.k.a. virtualenvwrapper).
+
+Check that these packages are present:
+
+% which easy_install
+/opt/rh/python27/root/usr/bin/easy_install
+
+% which virtualenv
+/opt/rh/python27/root/usr/bin/virtualenv
+===============================================================================
 
 2.0. Installing and Configuring Dependencies
 ===============================================================================
@@ -112,32 +127,18 @@ directory. For a user named "robot," the user home directory would be
 ===============================================================================
 (1.) Python 2.7.3 or higher (Not Python 3)
 At a minimum, you need to have Python 2.7.3 or higher (but not Python 3) 
-installed. Use python --version in the terminal to check the version of 
-your default Python installation:
+installed. If you have been following this guide, Python 2.7.3 is now 
+the default Python for the current user's shell. Check this with 
+python --version:
 
 % python --version
-Python 2.6.6
-
-Red Hat Enterprise Linux 6 (and CentOS 6) come with Python 2.6.6 installed by 
-default. This is required as the default version in order for certain system 
-tools to work correctly. Any installation of Python 2.7.3 will need to be 
-an altinstall.
-
-If you have been following this guide, the python273_altinstall.py script 
-created a Python 2.7.3 altinstall for you under /usr/local/bin/python2.7.
-Check that it exists:
-
-% python2.7 --version
-Python 2.7.3
-
-or:
-
-% /usr/local/bin/python2.7 --version
 Python 2.7.3
 
 (2.) Internet connection
 This software requires an internet connection in order to install packages.
 ===============================================================================
+
+[EVERYTHING BELOW THIS LINE IS UNDER REVISION]
 
 2.1.2. Install System Environment Dependencies
 ===============================================================================
@@ -153,12 +154,6 @@ The script installs these packages and their dependencies, if they are not
 already installed:
 - git
 - gcc
-- Two versions of python-setuptools (a.k.a. easy_install):
-  - For Python 2.6.6: python-setuptools rpm from the default repository
-  - For Python 2.7.3: setuptools-0.8 from the pypi repository
-    (https://pypi.python.org/packages/source/s/setuptools/setuptools-0.8.tar.gz) 
-- Two versions of pip:
-  - Installed for Python 2.6.6 and 2.7.3 via setuptools
 - Python Imaging Library (packages: python-dev, python-imaging, libjpeg-dev)
   - This also checks that the libjpeg.so and libz.so libraries (or symlinks 
     to them) exist in /usr/lib64. These symlinks should be created automatically 
@@ -171,12 +166,13 @@ already installed:
   - postgresql91-devel
 - memcached
 - libmemcached-dev
-- virtualenvwrapper (for Python 2.6.6)
 
 The script will create a log file in makahiki/install/logs with a filename of 
 the format "install_dependencies_<timestamp>.log," where <timestamp> is a 
 sequence of numbers representing a timestamp in the system local time. 
 For more information, see Appendix A.
+===============================================================================
+
 ===============================================================================
 
 2.1.3. Set Up the "makahiki" Virtual Environment
@@ -204,7 +200,7 @@ Switch to the top-level makahiki directory:
 
 Then, create the makahiki virtual environment: 
 
-% mkvirtualenv makahiki -p /usr/local/bin/python2.7
+% mkvirtualenv makahiki -p /opt/rh/python27/root/usr/bin/python2.7
 
 Creating a virtual environment should switch you to the virtual environment.
 The terminal prompt will be preceded by the name of the virtual environment.

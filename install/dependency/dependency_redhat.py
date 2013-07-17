@@ -176,6 +176,8 @@ def run(arch, logfile):
     
     The target OS is Red Hat Enterprise Linux (RHEL). x64 RHEL is supported.
     """
+    pythonpath = "/opt/rh/python27/root/usr/bin"
+    
     # Write first line to file
     firstline = "Makahiki installation script for Red Hat Enterprise Linux %s" % arch
     logfile.write(firstline)
@@ -193,9 +195,6 @@ def run(arch, logfile):
     dependencies_list = "This script will install these packages and their dependencies:\n\
          git,\n\
          gcc,\n\
-         python-setuptools (Python 2.6),\n\
-         python-setuptools (Python 2.7),\n\
-         pip (Python 2.6),\n\
          pip (Python 2.7),\n\
          python-imaging,\n\
          python-devel,\n\
@@ -204,8 +203,7 @@ def run(arch, logfile):
          postgresql91-contribs,\n\
          postgresql91-devel,\n\
          memcached,\n\
-         libmemcached-devel,\n\
-         virtualenvwrapper (Python 2.6)\n"
+         libmemcached-devel,\n"
     logfile.write(dependencies_list)
     print dependencies_list
     logfile.write("This script will also append to the current user's .bashrc file.\n")
@@ -230,10 +228,7 @@ def run(arch, logfile):
     # installed before.
     git_installed = rpm_check("git")
     gcc_installed = rpm_check("gcc")
-    python_setuptools26 = python_package_check("/usr/bin/easy_install", "distribute")
-    python_setuptools27 = python_package_check("/usr/local/bin/easy_install-2.7", "setuptools")
-    pip_installed26 = python_package_check("/usr/bin/pip", "pip")
-    pip_installed27 = python_package_check("/usr/local/bin/pip-2.7", "pip")
+    pip_installed27 = python_package_check(pythonpath + os.sep + "pip-2.7", "pip")
     python_imaging_installed = rpm_check("python-imaging")
     python_devel_installed = rpm_check("python-devel")
     libjpeg_devel_installed = rpm_check("libjpeg-turbo-devel")
@@ -243,7 +238,6 @@ def run(arch, logfile):
     postgresql91devel_installed = rpm_check("postgresql91-devel")
     memcached_installed = rpm_check("memcached")
     libmemcached_installed = rpm_check("libmemcached-devel")
-    virtualenvwrapper26_installed = virtualenvwrapper_check("/usr/bin/virtualenv")
     
     # git
     if git_installed:
@@ -266,139 +260,7 @@ def run(arch, logfile):
         logfile = result[1]
         if not success:
             return logfile
-    
-    # python-setuptools for the default Python 2.6.6
-    if python_setuptools26:
-        logfile.write("python-setuptools is already installed for Python 2.6.6\n")
-        print "python-setuptools is already installed for Python 2.6.6\n" 
-    else:
-        logfile.write("python-setuptools will be installed for Python 2.6.6\n")
-        print ("python-setuptools will be installed for Python 2.6.6\n")
-        logfile.write("yum install -y python-setuptools\n")
-        print "yum install -y python-setuptools\n"
-        python_setuptools_output = subprocess.check_output(["yum", "install", "-y", "python-setuptools"], stderr=subprocess.STDOUT)
-        logfile.write(python_setuptools_output)
-        print python_setuptools_output
-        python_setuptools26 = python_package_check("/usr/bin/easy_install", "distribute")
-        if python_setuptools26:
-            logfile.write("python-setuptools for Python 2.6.6 installed successfully.\n")
-            print "python-setuptools for Python 2.6.6 installed successfully.\n"
-            # Flush the buffer and force a write to disk after each successful installation
-            logfile.flush()
-            os.fsync(logfile)
-        else:
-            logfile.write("python-setuptools for Python 2.6.6 failed to install.\n")
-            print "python-setuptools for Python 2.6.6 failed to install.\n"
-            end_time = termination_string()
-            logfile.write(end_time)
-            print end_time
-            return logfile 
-    
-    # python-setuptools, a.k.a. easy_install, for Python 2.7.3
-    if python_setuptools27:
-        logfile.write("python-setuptools is already installed for Python 2.7.3\n")
-        print "python-setuptools is already installed for Python 2.7.3\n" 
-    else:
-        logfile.write("python-setuptools will be installed for Python 2.7.3\n")
-        print ("python-setuptools will be installed for Python 2.7.3\n")
-        logfile.write("python-setuptools (setuptools-0.8) will be downloaded.\n")
-        print "python-setuptools (setuptools-0.8) will be downloaded.\n"
-        
-        # Switch to downloads directory
-        download_dir = os.path.normpath(os.path.dirname(os.path.realpath(__file__)) + os.sep + os.pardir + os.sep + "download")
-        logfile.write("Switching to downloads directory: %s" % download_dir)
-        print "Switching to downloads directory: %s" % download_dir
-        os.chdir(download_dir)
-        logfile.write("Operation succeeded.\n")
-        print "Operation succeeded.\n"
-        
-        # wget setuptools
-        wget_command = "wget https://pypi.python.org/packages/source/s/setuptools/setuptools-0.8.tar.gz --no-check-certificate"
-        logfile.write(wget_command + "\n")
-        print wget_command + "\n"
-        wget_output = subprocess.check_output(shlex.split(wget_command), stderr=subprocess.STDOUT)
-        logfile.write(wget_output + "\n")
-        print wget_output + "\n"
-        
-        # Extract setuptools
-        logfile.write("Extracting setuptools.\n")
-        print "Extracting setuptools.\n"
-        tar_command = "tar xf setuptools-0.8.tar.gz"
-        logfile.write(tar_command + "\n")
-        print tar_command + "\n"
-        tar_output = subprocess.check_output(shlex.split(tar_command), stderr=subprocess.STDOUT)
-        logfile.write(tar_output + "\n")
-        print tar_output + "\n"
-        
-        # Take ownership of extracted directory
-        extracted_dir = os.getcwd() + os.sep + "setuptools-0.8"
-        logfile.write("Changing ownership of %s to current user\n" % extracted_dir)
-        print "Changing ownership of %s to current user\n" % extracted_dir
-        uname = os.getuid()
-        os.chown(extracted_dir, uname, -1)
-        logfile.write("Operation succeeded.\n")
-        print ("Operation succeeded.\n")
-        
-        # Change to extracted directory
-        logfile.write("Switching to %s\n" % extracted_dir)
-        print "Switching to %s\n" % extracted_dir
-        os.chdir(extracted_dir)
-        logfile.write("Working directory is now %s\n" % os.getcwd())
-        print "Working directory is now %s\n" % os.getcwd()
-        logfile.write("Operation succeeded\n.")
-        print ("Operation succeeded\n.")
-        
-        # Install setuptools for Python 2.7
-        setuptools27_command = "/usr/local/bin/python2.7 setup.py install"
-        logfile.write(setuptools27_command + "\n")
-        print setuptools27_command + "\n"
-        setuptools27_output = subprocess.check_output(shlex.split(setuptools27_command), stderr=subprocess.STDOUT)
-        logfile.write(setuptools27_output + "\n")
-        print setuptools27_output + "\n"
-        
-        python_setuptools27 = python_package_check("/usr/local/bin/easy_install-2.7", "setuptools")
-        if python_setuptools27:
-            logfile.write("python-setuptools for Python 2.7.3 installed successfully.\n")
-            print "python-setuptools for Python 2.7.3 installed successfully.\n"
-            # Flush the buffer and force a write to disk after each successful installation
-            logfile.flush()
-            os.fsync(logfile)
-        else:
-            logfile.write("python-setuptools for Python 2.7.3 failed to install.\n")
-            print "python-setuptools for Python 2.7.3 failed to install.\n"
-            end_time = termination_string()
-            logfile.write(end_time)
-            print end_time
-            return logfile 
-        
-    # pip for Python 2.6
-    if pip_installed26:
-        logfile.write("pip is already installed for Python 2.6.6.\n")
-        print "pip is already installed for Python 2.6.6.\n" 
-    else:
-        logfile.write("pip will be installed for Python 2.6.6.\n")
-        print ("pip will be installed for Python 2.6.6.\n")
-        pip26_command = "/usr/bin/easy_install pip"
-        logfile.write(pip26_command + "\n")
-        print pip26_command + "\n"
-        pip26_output = subprocess.check_output(shlex.split(pip26_command), stderr=subprocess.STDOUT)
-        logfile.write(pip26_output +"\n")
-        print pip26_output + "\n"
-        pip_installed26 = python_package_check("/usr/bin/pip", "pip")
-        if pip_installed26:
-            logfile.write("pip for Python 2.6.6 installed successfully.\n")
-            print "pip for Python 2.6.6 installed successfully.\n"
-            # Flush the buffer and force a write to disk after each successful installation
-            logfile.flush()
-            os.fsync(logfile)
-        else:
-            logfile.write("pip for Python 2.6.6 failed to install.\n")
-            print "pip for Python 2.6.6 failed to install.\n"
-            end_time = termination_string()
-            logfile.write(end_time)
-            print end_time
-            return logfile 
-        
+      
     # pip for Python 2.7   
     if pip_installed27:
         logfile.write("pip is already installed for Python 2.7.3.\n")
@@ -406,13 +268,13 @@ def run(arch, logfile):
     else:
         logfile.write("pip will be installed for Python 2.7.3\n")
         print ("pip will be installed for Python 2.7.3\n")
-        pip27_command = "/usr/local/bin/easy_install-2.7 pip" 
+        pip27_command = pythonpath + os.sep + "easy_install-2.7 pip" 
         logfile.write(pip27_command + "\n")
         print pip27_command + "\n"
         pip27_output = subprocess.check_output(shlex.split(pip27_command), stderr=subprocess.STDOUT)
         logfile.write(pip27_output + "\n")
         print pip27_output + "\n"
-        pip_installed27 = python_package_check("/usr/local/bin/pip-2.7", "pip")
+        pip_installed27 = python_package_check(pythonpath + os.sep + "pip-2.7", "pip")
         if pip_installed27:
             logfile.write("pip for Python 2.7.3 installed successfully.\n")
             print "pip for Python 2.7.3 installed successfully.\n"
@@ -590,37 +452,9 @@ def run(arch, logfile):
         if not success:
             return logfile 
         
-    # virtualenvwrapper for Python 2.6
-    if virtualenvwrapper26_installed:
-        logfile.write("virtualenvwrapper is already installed for Python 2.6.6\n")
-        print "virtualenvwrapper is already installed for Python 2.6.6.\n" 
-    else:
-        logfile.write("virtualenvwrapper will be installed for Python 2.6.6.\n")
-        print ("virtualenvwrapper will be installed for Python 2.6.6.\n")
-        virtualenv26_command = "/usr/bin/pip install virtualenvwrapper"
-        logfile.write(virtualenv26_command + "\n")
-        print virtualenv26_command + "\n"
-        virtualenv26_output = subprocess.check_output(shlex.split(virtualenv26_command), stderr=subprocess.STDOUT)
-        logfile.write(virtualenv26_output +"\n")
-        print virtualenv26_output + "\n"
-        virtualenv_installed26 = virtualenvwrapper_check("/usr/bin/virtualenv")
-        if pip_installed26:
-            logfile.write("virtualenvwrapper for Python 2.6.6 installed successfully.\n")
-            print "virtualenvwrapper for Python 2.6.6 installed successfully.\n"
-            # Flush the buffer and force a write to disk after each successful installation
-            logfile.flush()
-            os.fsync(logfile)
-        else:
-            logfile.write("virtualenvwrapper for Python 2.6.6 failed to install.\n")
-            print "virtualenvwrapper for Python 2.6.6 failed to install.\n"
-            end_time = termination_string()
-            logfile.write(end_time)
-            print end_time
-            return logfile
-    
-        logfile.write("RHEL x64 installation script completed successfully.\n")
-        print "RHEL x64 installation script completed successfully.\n"
-        end_time = termination_string()
-        logfile.write(end_time)
-        print end_time
-        return logfile
+    logfile.write("RHEL x64 installation script completed successfully.\n")
+    print "RHEL x64 installation script completed successfully.\n"
+    end_time = termination_string()
+    logfile.write(end_time)
+    print end_time
+    return logfile
