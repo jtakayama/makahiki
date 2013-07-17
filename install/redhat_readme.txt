@@ -154,6 +154,7 @@ The script installs these packages and their dependencies, if they are not
 already installed:
 - git
 - gcc
+- pip for Python 2.7.3
 - Python Imaging Library (packages: python-dev, python-imaging, libjpeg-dev)
   - This also checks that the libjpeg.so and libz.so libraries (or symlinks 
     to them) exist in /usr/lib64. These symlinks should be created automatically 
