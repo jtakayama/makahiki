@@ -52,14 +52,15 @@ causing problems with operating system tools.
 ===============================================================================
 This step requires an Internet connection.
 
-Switch to your top-level makahiki directory:
+(1) Install wget if it is not already installed:
+% sudo yum install wget
+
+(2) Switch to your top-level makahiki directory:
 % cd ~/makahiki
 
-Run the install/python273_sclinstall.py script as follows 
+(3) Run the install/python273_sclinstall.py script as follows 
 to install Python 2.7.3 from Red Hat Software Collections:
 % sudo ./install/python273_sclinstall.py
-
-Running --pythonsetup will also install wget.
 
 After the script finishes, open a terminal and run this command 
 to set Python 2.7.3 as the default in the current user's shell:

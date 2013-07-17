@@ -6,13 +6,13 @@ import datetime
 
 def rpm_check(packagename):
     """
-    Uses "rpm -qa <packagename>" to check if a package is installed.
+    Uses "rpm -q <packagename>" to check if a package is installed.
     It does not check the version. Returns True if it is installed, and 
     False if it is not.
     """
     rpm_regex = re.compile("(%s)(.)+(\.)(.)+" % packagename)
     result = False
-    rpm_qa = subprocess.check_output(shlex.split("rpm -qa %s" % packagename), stderr=subprocess.STDOUT)
+    rpm_qa = subprocess.check_output(shlex.split("rpm -q %s" % packagename), stderr=subprocess.STDOUT)
     if rpm_regex.match(rpm_qa):
         result = True
     return result

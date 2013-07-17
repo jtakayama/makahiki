@@ -3,7 +3,6 @@ import subprocess
 from subprocess import Popen, PIPE, CalledProcessError
 import shlex
 import re
-import sys
 import os
 
 def termination_string():
@@ -82,7 +81,7 @@ def run(logfile):
     start_time = "Script starting at %s\n" % time
     logfile.write(start_time)
     print start_time
-    
+        
     download_dir = os.path.normpath(os.path.dirname(os.path.realpath(__file__)) + os.sep + os.pardir + os.sep + "download")
     os.chdir(download_dir)
     
