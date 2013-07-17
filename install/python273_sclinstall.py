@@ -27,24 +27,24 @@ def logfile_open(scripttype):
     prefix = "install_" + scripttype + "_"
     dt = datetime.datetime
     date_suffix = "null"
+    logfile = None
     try:
         date_suffix = datestring_functions.datestring(dt)
+        # Assumes rundir is not terminated with a "/"
+        logfile_path = rundir + logsdir + prefix + date_suffix + ".log"
+        try:
+            logfile = open(logfile_path, 'w')
+        except IOError as ioe:
+            print "IOError:\n %s" % ioe
+            print "Could not open logfile at %s for writing." % logfile_path
+            print "Script will terminate."
+            logfile = None
     except ValueError as ve:
         print "ValueError:\n %s" % ve
         print "Bad datetime object, could not generate logfile name."
         print "Script will terminate."
-        exit(1)
-    # Assumes rundir is not terminated with a "/"
-    logfile_path = rundir + logsdir + prefix + date_suffix + ".log"
-    
-    try:
-        logfile = open(logfile_path, 'w')
-        return logfile
-    except IOError as ioe:
-        print "IOError:\n %s" % ioe
-        print "Could not open logfile at %s for writing." % logfile_path
-        print "Script will terminate."
-        exit(1)
+        logfile = None
+    return logfile
 
 def main():
     scripttype = "sclinstall"

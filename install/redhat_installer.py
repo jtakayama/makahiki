@@ -26,9 +26,10 @@ def logfile_open(scripttype):
     prefix = "install_" + scripttype + "_"
     dt = datetime.datetime
     date_suffix = "null"
+    logfile = None
     try:
         date_suffix = datestring_functions.datestring(dt)
-    # Assumes rundir is not terminated with a "/"
+        # Assumes rundir is not terminated with a "/"
         logfile_path = rundir + logsdir + prefix + date_suffix + ".log"
         try:
             result = subprocess.check_call(shlex.split("touch %s" % logfile_path))
