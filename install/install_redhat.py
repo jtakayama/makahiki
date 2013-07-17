@@ -1,4 +1,4 @@
-#!/opt/rh/python27/root/usr/bin/python2.7
+#!/opt/rh/python27/root/usr/bin/
 
 import sys
 import os
