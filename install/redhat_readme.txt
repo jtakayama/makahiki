@@ -23,7 +23,7 @@ Appendix A. Notes on Log Files
 ===============================================================================
 This is a README file for the Makahiki installation scripts.
 
-The install_redhat.py script calls a set of Python scripts which partially 
+The redhat_installer.py script calls a set of Python scripts which partially 
 automate the process of installing Makahiki on Red Hat Enterprise Linux 6 x64.
 
 In these instructions, a % represents your terminal prompt.
@@ -62,13 +62,27 @@ This step requires an Internet connection.
 to install Python 2.7.3 from Red Hat Software Collections:
 % sudo ./install/python273_sclinstall.py
 
+This script will:
+A. Add the repository file for Red Hat's Python 2.7.3 software collection, 
+   http://people.redhat.com/bkabrda/scl_python27.repo, to your 
+   /etc/yum.repos.d directory.
+B. Install Python 2.7.3 in /opt/rh/python27.
+
+The script will create a log file in makahiki/install/logs with a filename of 
+the format "install_sclinstall_<timestamp>.log," where <timestamp> is a 
+sequence of numbers representing a timestamp in the system local time. For 
+more information, see Appendix A.
+
 After the script finishes, open a terminal and run this command 
 to set Python 2.7.3 as the default in the current user's shell:
 
 % scl enable python27 bash
 
-You will need to run this command again each time you enter 
-a new shell.
+IMPORTANT:
+-------------------------------------------------------------------------------
+You will need to run this command again each time you launch a new shell where 
+you need Python 2.7.3.
+-------------------------------------------------------------------------------
 
 The rest of this guide assumes the use of the SCL installation 
 of Python 2.7.3.
@@ -88,12 +102,12 @@ Check that these packages are present:
 2.0. Installing and Configuring Dependencies
 ===============================================================================
 The install/ directory in the top-level makahiki directory contains the 
-install_redhat.py script. It is used to install dependencies for Makahiki.
+redhat_installer.py script. It is used to install dependencies for Makahiki.
 
-Usage of install_redhat.py:
+Usage of redhat_installer.py:
 -------------------------------------------------------------------------------
-./install_redhat.py < --dependencies | --pip | --initialize_instance | 
-                          --update_instance > --os < redhat > --arch < x64 >
+./redhat_installer.py < --dependencies | --pip | --initialize_instance | 
+                        --update_instance > --os < redhat > --arch < x64 >
     
 All options require Python 2.7.3 or higher (but not Python 3) to run.
     
@@ -148,7 +162,7 @@ Switch to your top-level makahiki directory:
 Run the script with the options specified for your operating system:
 
 RHEL 6 x64:
-% sudo ./install/install_redhat.py --dependencies --os redhat --arch x64
+% sudo ./install/redhat_installer.py --dependencies --os redhat --arch x64
 
 The script installs these packages and their dependencies, if they are not 
 already installed:
@@ -222,8 +236,6 @@ Note for developers:
 -------------------------------------------------------------------------------
 If you plan to develop Python scripts in this virtual environment, note that 
 any script that is run with sudo will use the default Python 2.6.6.
-
-This is a limitation of the virtual environment's use of an SCL installation.
 -------------------------------------------------------------------------------
 ===============================================================================
 
@@ -290,13 +302,13 @@ Check that the pg_config library's location is part of the PATH.
 % which pg_config
 /usr/pgsql-9.1/bin/pg_config
 
-If the system cannot find pg_config, pip will not be able to 
-compile the psycopg2 module.
+If the system cannot find pg_config, pip will not be able to compile the 
+psycopg2 module.
 
 Run the script with the options specified for your operating system:
 
 RHEL 6 x64:
-% ./install/install_redhat.py --pip --os redhat --arch x64
+% ./install/redhat_installer.py --pip --os redhat --arch x64
 
 The list of packages that this step will attempt to install with pip are 
 listed in the makahiki/requirements.txt file.
@@ -306,8 +318,8 @@ the correct versions were installed.
 
 The script will create a log file in makahiki/install/logs with a filename of 
 the format "install_pip_<timestamp>.log," where <timestamp> is a sequence of 
-numbers representing a timestamp in the system local time. For more information, 
-see Appendix A.
+numbers representing a timestamp in the system local time. For more 
+information, see Appendix A.
 ===============================================================================
 
 2.1.6. Environment Variables Configuration
@@ -351,7 +363,7 @@ Running the script with --initialize_instance will:
 This script should be run only a single time in production scenarios, because 
 any subsequent configuration modifications will be lost if install.py is 
 invoked with --initialize_instance again. Use the --update_instance option
-(discussed in Section 7 of this document) to update source code without losing 
+(discussed in Section 2.1.9, below) to update source code without losing 
 subsequent configuration actions.
 
 The script initializes the Makahiki database and populates it with default 
@@ -363,7 +375,7 @@ makahiki/makahiki/scripts/initialize_instance.py script with
 Run the script with the options specified for your operating system:
 
 RHEL 6 x64:
-% ./install/install_redhat.py --initialize_instance --os redhat --arch x64
+% ./install/redhat_installer.py --initialize_instance --os redhat --arch x64
 
 You will need to answer "Y" to the question "Do you wish to continue (Y/n)?"
 
@@ -416,7 +428,7 @@ following steps:
 Run the script with the options specified for your operating system:
 
 RHEL 6 x64:
-% python ./install/install_redhat.py --update_instance --os redhat --arch x64
+% python ./install/redhat_installer.py --update_instance --os redhat --arch x64
 
 The script will create a log file in makahiki/install/logs with a filename of 
 the format "install_update_instance_<timestamp>.log," where <timestamp> is 
@@ -433,7 +445,7 @@ To start the server with gunicorn:
 
 Appendix A. Notes on Log Files
 ===============================================================================
-Log files are created by python273_sclinstall.py and install_redhat.py in 
+Log files are created by python273_sclinstall.py and redhat_installer.py in 
 makahiki/install/logs. The log file names follow this format: 
 <script-type>_<timestamp>.log
 

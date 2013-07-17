@@ -44,8 +44,8 @@ http://makahiki.readthedocs.org/en/latest/installation-makahiki-heroku.html.
 WARNING:
 -------------------------------------------------------------------------------
 If the default version of Python on your system is not a version of Python 2.7 
-that is 2.7.3 or higher (but not Python 3), the ubuntu_installer.py file, and this 
-guide, will not work for you. 
+that is 2.7.3 or higher (but not Python 3), the ubuntu_installer.py file, and 
+this guide, will not work for you. 
 
 If you are using Ubuntu Linux 12.04.1 LTS or higher, Python 2.7.3, or a higher 
 version of Python 2.7, should be the system default. If this is not the case, 
@@ -63,8 +63,9 @@ The install/ folder contains the ubuntu_installer.py script.
 Usage of ubuntu_installer.py:
 -------------------------------------------------------------------------------
 ./ubuntu_installer.py < --dependencies | --pip | --initialize_instance | 
-               --update_instance > --os < ubuntu > --arch < x86 | x64 >
-    
+                        --update_instance > --os < ubuntu > 
+                        --arch < x86 | x64 >
+                        
 All options require Python 2.7.3 or higher (but not Python 3) to run.
     
     --dependencies: Installs dependencies. This script must be run with root 
@@ -89,9 +90,9 @@ All options require Python 2.7.3 or higher (but not Python 3) to run.
 ===============================================================================
 In these instructions, a % represents your terminal prompt.
 
-It is assumed that your Makahiki installation is placed in your user home directory.
-For a user named "robot," the user home directory would be /home/robot,
-and the makahiki directory would be at /home/robot/makahiki.
+It is assumed that your Makahiki installation is placed in your user home 
+directory. For a user named "robot," the user home directory would be 
+/home/robot, and the makahiki directory would be at /home/robot/makahiki.
 ===============================================================================
 
 1.1.1. Check Prerequisites
@@ -103,14 +104,15 @@ your default Python installation:
 
 % python --version
 
-Ubuntu versions 12.04.1 LTS and later LTS versions come with Python 2.7.3 installed 
-by default. If Python 2.7.3, or a higher version of Python 2.7, is not the default 
-Python installation on your system, you will need to download the source tarball from 
-python.org and install it as an altinstall. The ubuntu_installer.py script does not support 
-installing Makahiki dependencies to an altinstall.
+Ubuntu versions 12.04.1 LTS and later LTS versions come with Python 2.7.3 
+installed by default. If Python 2.7.3, or a higher version of Python 2.7, is 
+not the default Python installation on your system, you will need to download 
+the source tarball from python.org and install it as an altinstall. The 
+ubuntu_installer.py script does not support installing Makahiki dependencies 
+to an altinstall.
 
 (2.) Internet connection
-Steps 1 and 3 require an Internet connection.
+Steps 1.1.2 and 1.1.5 require an Internet connection.
 ===============================================================================
 
 1.1.2. Install System Environment Dependencies:
@@ -278,14 +280,15 @@ Running the script with --initialize_instance will:
 - Set up static files.
 
 This script should be run only a single time in production scenarios, because 
-any subsequent configuration modifications will be lost if ubuntu_installer.py is 
-invoked with --initialize_instance again. Use the --update_instance option
-(discussed in Section 7 of this document) to update source code without losing 
+any subsequent configuration modifications will be lost if ubuntu_installer.py 
+is invoked with --initialize_instance again. Use the --update_instance option 
+(discussed in Section 1.1.9, below) to update source code without losing 
 subsequent configuration actions.
 
-The script runs a script at makahiki/makahiki/scripts/initialize_instance.py 
-with default options, and is equivalent to the following:
-% initialize_instance.py --type default
+The script initializes the Makahiki database and populates it with default 
+information and users. It is equivalent to running the standalone 
+makahiki/makahiki/scripts/initialize_instance.py script with 
+"--type default" options.
 -------------------------------------------------------------------------------
 
 Run the script with the options specified for your operating system:
