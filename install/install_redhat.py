@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import sys
 import os
 import datetime
@@ -27,25 +28,25 @@ def logfile_open(scripttype):
     date_suffix = "null"
     try:
         date_suffix = datestring_functions.datestring(dt)
+    # Assumes rundir is not terminated with a "/"
+        logfile_path = rundir + logsdir + prefix + date_suffix + ".log"
+        try:
+            result = subprocess.check_call(shlex.split("touch %s" % logfile_path))
+            if result == 0:
+                logfile = open(logfile_path, 'a')
+                return logfile
+            elif result == 1:
+                print "Could not create file at %s." % logfile_path
+                print "Script will terminate."
+                exit(1)
+        except IOError as ioe:
+            print "IOError:\n %s" % ioe
+            print "Could not open logfile at %s for writing." % logfile_path
+            print "Script will terminate."
+            exit(1)
     except ValueError as ve:
         print "ValueError:\n %s" % ve
         print "Bad datetime object, could not generate logfile name."
-        print "Script will terminate."
-        exit(1)
-    # Assumes rundir is not terminated with a "/"
-    logfile_path = rundir + logsdir + prefix + date_suffix + ".log"
-    
-    try:
-        result = subprocess.check_call(shlex.split("touch %s" % logfile_path))
-        if result == 0:
-            logfile = open(logfile_path, 'a')
-            return logfile
-        elif result == 1:
-            print "Could not create file at %s." % logfile_path
-            print "Script will terminate."
-    except IOError as ioe:
-        print "IOError:\n %s" % ioe
-        print "Could not open logfile at %s for writing." % logfile_path
         print "Script will terminate."
         exit(1)
 
