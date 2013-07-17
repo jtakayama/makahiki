@@ -23,7 +23,7 @@ Appendix A. Notes on Log Files
 ===============================================================================
 This is a README file for the Makahiki installation scripts.
 
-The install_altinstall.py script calls a set of Python scripts which partially 
+The install_redhat.py script calls a set of Python scripts which partially 
 automate the process of installing Makahiki on Red Hat Enterprise Linux 6 x64.
 
 In these instructions, a % represents your terminal prompt.
@@ -88,11 +88,11 @@ Check that these packages are present:
 2.0. Installing and Configuring Dependencies
 ===============================================================================
 The install/ directory in the top-level makahiki directory contains the 
-install_altinstall.py script. It is used to install dependencies for Makahiki.
+install_redhat.py script. It is used to install dependencies for Makahiki.
 
-Usage of install_altinstall.py:
+Usage of install_redhat.py:
 -------------------------------------------------------------------------------
-./install_altinstall.py < --dependencies | --pip | --initialize_instance | 
+./install_redhat.py < --dependencies | --pip | --initialize_instance | 
                           --update_instance > --os < redhat > --arch < x64 >
     
 All options require Python 2.7.3 or higher (but not Python 3) to run.
@@ -148,7 +148,7 @@ Switch to your top-level makahiki directory:
 Run the script with the options specified for your operating system:
 
 RHEL 6 x64:
-% sudo ./install/install_altinstall.py --dependencies --os redhat --arch x64
+% sudo ./install/install_redhat.py --dependencies --os redhat --arch x64
 
 The script installs these packages and their dependencies, if they are not 
 already installed:
@@ -172,8 +172,6 @@ The script will create a log file in makahiki/install/logs with a filename of
 the format "install_dependencies_<timestamp>.log," where <timestamp> is a 
 sequence of numbers representing a timestamp in the system local time. 
 For more information, see Appendix A.
-===============================================================================
-
 ===============================================================================
 
 2.1.3. Set Up the "makahiki" Virtual Environment
@@ -309,7 +307,7 @@ compile the psycopg2 module.
 Run the script with the options specified for your operating system:
 
 RHEL 6 x64:
-% ./install/install_altinstall.py --pip --os redhat --arch x64
+% ./install/install_redhat.py --pip --os redhat --arch x64
 
 The list of packages that this step will attempt to install with pip are 
 listed in the makahiki/requirements.txt file.
@@ -376,7 +374,7 @@ makahiki/makahiki/scripts/initialize_instance.py script with
 Run the script with the options specified for your operating system:
 
 RHEL 6 x64:
-% ./install/install_altinstall.py --initialize_instance --os redhat --arch x64
+% ./install/install_redhat.py --initialize_instance --os redhat --arch x64
 
 You will need to answer "Y" to the question "Do you wish to continue (Y/n)?"
 
@@ -429,7 +427,7 @@ following steps:
 Run the script with the options specified for your operating system:
 
 RHEL 6 x64:
-% python ./install/install_altinstall.py --update_instance --os redhat --arch x64
+% python ./install/install_redhat.py --update_instance --os redhat --arch x64
 
 The script will create a log file in makahiki/install/logs with a filename of 
 the format "install_update_instance_<timestamp>.log," where <timestamp> is 
@@ -446,7 +444,7 @@ To start the server with gunicorn:
 
 Appendix A. Notes on Log Files
 ===============================================================================
-Log files are created by python273_altinstall.py and install_altinstall.py in 
+Log files are created by python273_sclinstall.py and install_redhat.py in 
 makahiki/install/logs. The log file names follow this format: 
 <script-type>_<timestamp>.log
 
