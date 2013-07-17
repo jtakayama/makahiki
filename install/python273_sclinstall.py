@@ -4,12 +4,11 @@ import sys
 import os
 import datetime
 import datestring_functions
-import redhat.pythonsetup
-import redhat.altinstall
+import redhat.scl_install
 
 # NOTE:
 # This script is meant to be run under Python 2.6.6 (the default version on 
-# RHEL 6 x64) in order to make and install Python 2.7.3 as an altinstall.
+# RHEL 6 x64) in order to install Python 2.7.3.
 
 def logfile_open(scripttype):
     """
@@ -47,38 +46,10 @@ def logfile_open(scripttype):
         print "Script will terminate."
         exit(1)
 
-def scriptrunner(scripttype, logfile):
-    """
-    Chooses and runs an installation script, and which logfile 
-    that script will write its output to.
-    
-    Parameters:
-        1. scripttype: A string describing the installation script
-           that is being run.
-           Supported values: "pythonsetup", "altinstall"
-        2. logfile: The logfile to pass to the installation script.
-    """ 
-    if scripttype == "pythonsetup":
-        logfile = redhat.pythonsetup.run(logfile)
-    elif scripttype == "altinstall":
-        logfile = redhat.altinstall.run(logfile)
-    else:
-        logfile.write("Error: python273_altinstall.py invoked with invalid command: %s" % scripttype)
-        print "Error: python273_altinstall.py invoked with invalid command: %s" % scripttype
-    return logfile
-
 def main():
-    if len(sys.argv) != 2:
-        print "Usage: python273_altinstall.py < --pythonsetup | --altinstall >"
-        print "--pythonsetup: Install packages needed to build Python 2.7.3 from source."
-        print "--altinstall: Build and install Python 2.7.3 as an altinstall."
-    else:
-        args = sys.argv[1:]
-        scripttype = args[0].strip()[2:]
-        
-        logfile = logfile_open(scripttype)
-        logfile = scriptrunner(scripttype,logfile)
-        logfile.close()
+    scripttype = "sclinstall"
+    logfile = redhat.scl_install.run(logfile)
+    logfile.close()
 
 if __name__ == '__main__':
     main()

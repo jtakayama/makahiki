@@ -4,7 +4,7 @@ redhat_readme.txt
 Contents:
 -------------------------------------------------------------------------------
 0.0. Introduction
-1.0. Compile and Install Python 2.7.3 as an Altinstall
+1.0. Install Python 2.7.3 from SCL
 2.0. Installing and Configuring Dependencies
 2.1. Instructions
 2.1.1. Check Prerequisites
@@ -43,42 +43,31 @@ system such as Heroku. For instructions to deploy Makahiki on Heroku, see
 http://makahiki.readthedocs.org/en/latest/installation-makahiki-heroku.html.
 -------------------------------------------------------------------------------
 
-For Makahiki to work on RHEL 6, you must install Python 2.7.3 as an altinstall.
+For Makahiki to work on RHEL 6, you must install Python 2.7.3.
 The default version on RHEL 6 is Python 2.6.6, which cannot be changed without 
 causing problems with operating system tools.
 ===============================================================================
 
-1.0. Compile and Install Python 2.7.3 as an Altinstall
+1.0. Install Python 2.7.3 from SCL
 ===============================================================================
 This step requires an Internet connection.
 
 Switch to your top-level makahiki directory:
 % cd ~/makahiki
 
-Run the install/python273_altinstall.py script as follows:
-(1) Run it with --pythonsetup to install programs needed to 
-    compile Python:
-% sudo ./install/python273_altinstall.py --pythonsetup
+Run the install/python273_sclinstall.py script as follows 
+to install Python 2.7.3 from Red Hat Software Collections:
+% sudo ./install/python273_sclinstall.py
 
-(2) Run it with --altinstall to compile Python into an altinstall:
-% sudo ./install/python273_altinstall.py --altinstall
+Running --pythonsetup will also install wget.
 
-Running --pythonsetup will install these packages and their dependencies:
-- All packages provided by: yum groupinstall "Development tools"
-- zlib-devel
-- bzip2-devel
-- openssl-devel
-- ncurses-devel
-- sqlite-devel
-- readline-devel
-- tk-devel
-- wget
+After the script finishes, open a terminal and run this command 
+to set Python 2.7.3 as the default in the current user's shell:
 
-Running --altinstall will create a Python 2.7.3 altinstall under 
-the /usr/local/bin/python2.7 directory. The existing default Python 
-installation will be unchanged. This command will take a very long 
-time and produce a large amount of output.
+% scl enable python27 bash
 ===============================================================================
+
+[ALL INSTRUCTIONS AFTER THIS LINE ARE UNDER REVISION]
 
 2.0. Installing and Configuring Dependencies
 ===============================================================================
