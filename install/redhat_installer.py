@@ -34,21 +34,21 @@ def logfile_open(scripttype):
             result = subprocess.check_call(shlex.split("touch %s" % logfile_path))
             if result == 0:
                 logfile = open(logfile_path, 'a')
-                return logfile
             elif result == 1:
                 print "Could not create file at %s." % logfile_path
                 print "Script will terminate."
-                exit(1)
+                logfile = None
         except IOError as ioe:
             print "IOError:\n %s" % ioe
             print "Could not open logfile at %s for writing." % logfile_path
             print "Script will terminate."
-            exit(1)
+            logfile = None
     except ValueError as ve:
         print "ValueError:\n %s" % ve
         print "Bad datetime object, could not generate logfile name."
         print "Script will terminate."
-        exit(1)
+        logfile = None
+    return logfile
 
 def scriptrunner(scripttype, os, arch, logfile):
     """
@@ -101,7 +101,6 @@ def scriptrunner(scripttype, os, arch, logfile):
         else:
             logfile.write("Error: install.py invoked with invalid command: %s" % scripttype)
             print "Error: install.py invoked with invalid command: %s" % scripttype
-        
     # After the function is done, return the logfile.
     return logfile
 
@@ -121,8 +120,9 @@ def main():
         arch = args[4].strip()
         
         logfile = logfile_open(scripttype)
-        logfile = scriptrunner(scripttype,os,arch,logfile)
-        logfile.close()
+        if logfile is not None:
+            logfile = scriptrunner(scripttype,os,arch,logfile)
+            logfile.close()
 
 if __name__ == '__main__':
     main()
