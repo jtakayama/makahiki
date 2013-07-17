@@ -12,9 +12,26 @@ def rpm_check(packagename):
     """
     rpm_regex = re.compile("(%s)(.)+(\.)(.)+" % packagename)
     result = False
-    rpm_qa = subprocess.check_output(shlex.split("rpm -q %s" % packagename), stderr=subprocess.STDOUT)
-    if rpm_regex.match(rpm_qa):
-        result = True
+    try:
+        proc = subprocess.Popen(shlex.split("rpm -q %s" % packagename), stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        lines = ""
+        while(True):
+            return_code = proc.poll()
+            line = proc.stdout.readline()
+            lines = lines + line
+            yield line
+            if (return_code is not None):
+                break
+            output = lines.split("\n")
+            rpm_q = output[0]
+            if rpm_regex.match(rpm_q):
+                result = True
+            else:
+                result = False
+    # Assume not installed
+    except OSError as ose:
+        result = False
+    # Return result
     return result
 
 def python_package_check(packagename, expected_response):
@@ -38,12 +55,20 @@ def python_package_check(packagename, expected_response):
        to output a name different than <packagename>.
     """
     compare_result = False
+    # Expects versions to have at least two parts (e.g., 3.0).
+    version_string = re.compile("(%s )(\d)+(\.(\d)+)+(.)*" % expected_response)
     try:
-        output = subprocess.check_output(shlex.split("%s --version" % packagename), stderr=subprocess.STDOUT)
-        lines = output.split("\n")
-        # Expects versions to have at least two parts (e.g., 3.0).
-        version_string = re.compile("(%s )(\d)+(\.(\d)+)+(.)*" % expected_response)
-        line0_result = version_string.match(lines[0])
+        proc = subprocess.popen(shlex.split("%s --version" % packagename),stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        lines = ""
+        while(True):
+            return_code = proc.poll()
+            line = proc.stdout.readline()
+            lines = lines + line
+            yield line
+            if (return_code is not None):
+                break
+        output = lines.split("\n")
+        line0_result = version_string.match(output[0])
         if not line0_result:
             compare_result = False
         else:
@@ -51,6 +76,7 @@ def python_package_check(packagename, expected_response):
     except OSError as ose:
         # Assume not installed
         compare_result = False
+    # Return result
     return compare_result
 
 def postgresql91_repocheck():
@@ -58,15 +84,28 @@ def postgresql91_repocheck():
     Checks if the pgdg-redhat91-9.1-5.noarch.rpm repo (pgdg91) is installed.
     Returns True if it is listed by yum repolist, and False if it not.
     """
-    result = subprocess.check_output(shlex.split("yum repolist | grep pgdg91"), stderr=subprocess.STDOUT)
-    lines = result.split("\n")
-    repo_shortname = re.compile("(pgdg91)(.)*")
     repo_match = False
-    for line in lines:
-        linematch = repo_shortname.match(line)
-        if linematch:
-            repo_match = True
-            break
+    repo_shortname = re.compile("(pgdg91)(.)*")
+    try:
+        proc = subprocess.check_call(shlex.split("yum repolist | grep pgdg91"), stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        lines = ""
+        while(True):
+            return_code = proc.poll()
+            line = proc.stdout.readline()
+            lines = lines + line
+            yield line
+            if (return_code is not None):
+                break
+        output = lines.split("\n")
+        for line in output:
+            linematch = repo_shortname.match(line)
+            if linematch:
+                repo_match = True
+                break
+    # Assume not installed
+    except OSError as ose:
+        repo_match = False
+    # Return result
     return repo_match
 
 def virtualenvwrapper_check(packagepath):
@@ -79,12 +118,20 @@ def virtualenvwrapper_check(packagepath):
        for example, the package might be in /usr/bin/virtualenv.
     """
     compare_result = False
+    # Expects versions to have at least two parts (e.g., 3.0).
+    version_string = re.compile("(\d)+(\.(\d)+)+")
     try:
-        output = subprocess.check_output(shlex.split("%s --version" % packagepath), stderr=subprocess.STDOUT)
-        lines = output.split("\n")
-        # Expects versions to have at least two parts (e.g., 3.0).
-        version_string = re.compile("(\d)+(\.(\d)+)+")
-        line0_result = version_string.match(lines[0])
+        proc = subprocess.check_call(shlex.split("%s --version" % packagepath), stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        lines = ""
+        while(True):
+            return_code = proc.poll()
+            line = proc.stdout.readline()
+            lines = lines + line
+            yield line
+            if (return_code is not None):
+                break
+        output = lines.split("\n")
+        line0_result = version_string.match(output[0])
         if not line0_result:
             compare_result = False
         else:
@@ -122,9 +169,19 @@ def yum_install(packagename, logfile):
     logfile.write("yum install -y %s\n" % packagename)
     print "yum install -y %s\n" % packagename
     try:
-        install_output = subprocess.check_output(["yum", "install", "-y", packagename], stderr=subprocess.STDOUT)
-        logfile.write(install_output + "\n")
-        print install_output + "\n"
+        proc = subprocess.check_call(["yum", "install", "-y", packagename], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        lines = ""
+        while(True):
+            return_code = proc.poll()
+            line = proc.stdout.readline()
+            lines = lines + line
+            yield line
+            if (return_code is not None):
+                break
+        output = lines.split("\n")
+        for line in output:
+            logfile.write(line + "\n")
+            print line + "\n"
         is_installed = rpm_check(packagename)
         if is_installed:
             logfile.write("%s installed successfully.\n" % packagename)
@@ -271,9 +328,20 @@ def run(arch, logfile):
         pip27_command = pythonpath + os.sep + "easy_install-2.7 pip" 
         logfile.write(pip27_command + "\n")
         print pip27_command + "\n"
-        pip27_output = subprocess.check_output(shlex.split(pip27_command), stderr=subprocess.STDOUT)
-        logfile.write(pip27_output + "\n")
-        print pip27_output + "\n"
+        
+        pip_proc = subprocess.check_call(shlex.split(pip27_command), stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        lines = ""
+        while(True):
+            return_code = pip_proc.poll()
+            line = pip_proc.stdout.readline()
+            lines = lines + line
+            yield line
+            if (return_code is not None):
+                break
+        output = lines.split("\n")
+        for line in output:
+            logfile.write(line + "\n")
+            print line + "\n"
         pip_installed27 = python_package_check(pythonpath + os.sep + "pip-2.7", "pip")
         if pip_installed27:
             logfile.write("pip for Python 2.7.3 installed successfully.\n")
@@ -346,6 +414,7 @@ def run(arch, logfile):
         logfile.write(end_time)
         print end_time
         return logfile
+    
     # libz.so
     try:
         libjpeg_stat = os.stat("/usr/lib64/libz.so")
@@ -379,9 +448,19 @@ def run(arch, logfile):
         pg_repo_command = "rpm -i http://yum.postgresql.org/9.1/redhat/rhel-6-x86_64/pgdg-redhat91-9.1-5.noarch.rpm"
         logfile.write(pg_repo_command + "\n")
         print pg_repo_command + "\n"
-        rpm_output = subprocess.check_output(shlex.split(pg_repo_command), stderr=subprocess.STDOUT)
-        logfile.write(rpm_output + "\n")
-        print rpm_output + "\n"
+        repo_proc = subprocess.check_call(shlex.split(pg_repo_command), stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        lines = ""
+        while(True):
+            return_code = repo_proc.poll()
+            line = repo_proc.stdout.readline()
+            lines = lines + line
+            yield line
+            if (return_code is not None):
+                break
+        output = lines.split("\n")
+        for line in output:
+            logfile.write(line + "\n")
+            print line + "\n"
         rpm_installed = postgresql91_repocheck()
         if rpm_installed:
             logfile.write("pgdg91 repo installed successfully.\n")
