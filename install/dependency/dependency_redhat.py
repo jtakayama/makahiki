@@ -22,12 +22,12 @@ def rpm_check(packagename):
             yield line
             if (return_code is not None):
                 break
-            output = lines.split("\n")
-            rpm_q = output[0]
-            if rpm_regex.match(rpm_q):
-                result = True
-            else:
-                result = False
+        output = lines.split("\n")
+        rpm_q = output[0]
+        if rpm_regex.match(rpm_q):
+            result = True
+        else:
+            result = False
     # Assume not installed
     except OSError as ose:
         result = False
@@ -96,6 +96,7 @@ def postgresql91_repocheck():
             yield line
             if (return_code is not None):
                 break
+        # Print output line by line
         output = lines.split("\n")
         for line in output:
             linematch = repo_shortname.match(line)
@@ -182,6 +183,7 @@ def yum_install(packagename, logfile):
         for line in output:
             logfile.write(line + "\n")
             print line + "\n"
+        # Check if RPM was installed
         is_installed = rpm_check(packagename)
         if is_installed:
             logfile.write("%s installed successfully.\n" % packagename)
