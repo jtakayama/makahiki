@@ -48,6 +48,7 @@ def logfile_open(scripttype):
 
 def main():
     scripttype = "sclinstall"
+    logfile = logfile_open("sclinstall")
     logfile = redhat.scl_install.run(logfile)
     logfile.close()
 
