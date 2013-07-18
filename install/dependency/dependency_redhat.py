@@ -1,4 +1,3 @@
-import subprocess
 import re
 import os
 import shlex
@@ -65,7 +64,6 @@ def python_package_check(packagename, expected_response):
         tuple = commands.getstatusoutput("%s --version" % packagename)
         status = tuple[0]
         output = tuple[1]
-        # result = subprocess.check_call(shlex.split("%s --version" % packagename),stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         if status == 0:
             output2 = output.split("\n")
             if version_string.match(output2[0]):            
@@ -154,7 +152,7 @@ def yum_install(packagename, logfile):
             print end_time
             success = False
         return [success, logfile]
-    except subprocess.CalledProcessError as cpe:
+    except CalledProcessError as cpe:
         # Print and log the error message
         logfile.write("CalledProcessError: ")
         print "CalledProcessError: "
@@ -210,7 +208,6 @@ def run(arch, logfile):
     dependencies_list = "This script will install these packages and their dependencies:\n\
          git,\n\
          gcc,\n\
-         pip (Python 2.7),\n\
          python-imaging,\n\
          python-devel,\n\
          libjpeg-devel,\n\
@@ -218,7 +215,7 @@ def run(arch, logfile):
          postgresql91-contribs,\n\
          postgresql91-devel,\n\
          memcached,\n\
-         libmemcached-devel,\n"
+         libmemcached-devel\n"
     logfile.write(dependencies_list)
     print dependencies_list
     value = raw_input("Do you wish to continue (Y/n)? ")
@@ -239,7 +236,6 @@ def run(arch, logfile):
     # Boolean variables for each dependency
     git_installed = rpm_check("git")
     gcc_installed = rpm_check("gcc")
-    pip_installed27 = python_package_check(pythonpath + os.sep + "pip-2.7", "pip")
     python_imaging_installed = rpm_check("python-imaging")
     python_devel_installed = rpm_check("python-devel")
     libjpeg_devel_installed = rpm_check("libjpeg-turbo-devel")
@@ -271,48 +267,6 @@ def run(arch, logfile):
         logfile = result[1]
         if not success:
             return logfile
-    # The below block of commented-out code is not functional
-    # pip for Python 2.7   
-    #if pip_installed27:
-    #    logfile.write("pip is already installed for Python 2.7.3.\n")
-    #    print "pip is already installed for Python 2.7.3.\n" 
-    #else:
-    #    logfile.write("pip will be installed for Python 2.7.3\n")
-    #    print ("pip will be installed for Python 2.7.3\n")
-    #    pip27_command = pythonpath + os.sep + "easy_install-2.7 pip" 
-    #    logfile.write(pip27_command + "\n")
-    #    print pip27_command + "\n"
-    #    
-    #    pip_tuple = commands.getstatusoutput(pip27_command)
-    #    status = pip_tuple[0]
-    #    output = pip_tuple[1]
-    #    # Print output line by line
-    #    output2 = output.split("\n")
-    #    for line in output2:
-    #        logfile.write(line + "\n")
-    #        print line
-    #    if status == 0:
-    #        pip_installed27 = python_package_check(pythonpath + os.sep + "pip-2.7", "pip")
-    #        if pip_installed27:
-    #            logfile.write("pip for Python 2.7.3 installed successfully.\n")
-    #            print "pip for Python 2.7.3 installed successfully.\n"
-    #            # Flush the buffer and force a write to disk after each successful installation
-    #            logfile.flush()
-    #            os.fsync(logfile)
-    #        else:
-    #            logfile.write("pip for Python 2.7.3 failed to install.\n")
-    #            print "pip for Python 2.7.3 failed to install.\n"
-    #            end_time = termination_string()
-    #            logfile.write(end_time)
-    #            print end_time
-    #            return logfile
-    #    elif status == 1:
-    #        logfile.write("pip for Python 2.7.3 failed to install.\n")
-    #        print "pip for Python 2.7.3 failed to install.\n"
-    #        end_time = termination_string()
-    #        logfile.write(end_time)
-    #        print end_time
-    #        return logfile
 
     logfile.write("Beginning installation of Python Imaging Library components python-imaging, python-devel, and libjpeg-devel.\n")
     print "Beginning installation of Python Imaging Library components python-imaging, python-devel, and libjpeg-devel.\n"
