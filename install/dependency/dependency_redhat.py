@@ -37,46 +37,6 @@ def rpm_check(packagename):
         result = False
     return result
 
-def python_package_check(packagename, expected_response):
-    """
-    Checks if <python-packagename> is installed as a site package 
-    using <packagename> --version. Returns True if it is, and 
-    False if it is not. The <packagename> may need to be a 
-    filepath if it refers to a package that is installed under 
-    an altinstall.
-    
-    It assumes that the version is represented by <packagename> 
-    followed by at least two integer sequences separated 
-    by a single period (e.g., "foo 11.11.11").
-    
-    Parameters:
-    1. packagename: A string representing a Python package name.
-       If the package is part of an altinstall, use its name 
-       under the altinstall (e.g., a Python 2.7.3 altinstall 
-       would check for "pip-2.7").
-    2. expected_response: Allows for a package's --version command 
-       to output a name different than <packagename>.
-    """
-    compare_result = False
-    # Expects versions to have at least two parts (e.g., 3.0).
-    version_string = re.compile("(%s )(\d)+(\.(\d)+)+(.)*" % expected_response)
-    try:
-        tuple = commands.getstatusoutput("%s --version" % packagename)
-        status = tuple[0]
-        output = tuple[1]
-        if status == 0:
-            output2 = output.split("\n")
-            if version_string.match(output2[0]):            
-                compare_result = True
-            else:
-                compare_result = False
-    # Assume not installed
-    except OSError as ose:
-        compare_result = False
-    except CalledProcessError as cpe:
-        compare_result = False
-    return compare_result
-
 def postgresql91_repocheck():
     """
     Checks if the pgdg-redhat91-9.1-5.noarch.rpm repo (pgdg91) is installed.
