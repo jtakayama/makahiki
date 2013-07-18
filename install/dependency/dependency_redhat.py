@@ -90,7 +90,6 @@ def postgresql91_repocheck():
         tuple = commands.getstatusoutput("yum repolist | grep pgdg91")
         status = tuple[0]
         output = tuple[1]
-        # Print output line by line
         output2 = output.split("\n")
         for line in output2:
             linematch = repo_shortname.match(line)
@@ -137,7 +136,7 @@ def yum_install(packagename, logfile):
         output2 = output.split("\n")
         for line in output2:
             logfile.write(line + "\n")
-            print line + "\n"
+            print line
         # Check if RPM was installed
         is_installed = rpm_check(packagename)
         if is_installed:
@@ -291,7 +290,7 @@ def run(arch, logfile):
         output2 = output.split("\n")
         for line in output2:
             logfile.write(line + "\n")
-            print line + "\n"
+            print line
         if status == 0:
             pip_installed27 = python_package_check(pythonpath + os.sep + "pip-2.7", "pip")
             if pip_installed27:
@@ -362,7 +361,7 @@ def run(arch, logfile):
             logfile.write(output1)
             print output1
     except OSError as libjpeg_error:
-        error1 = "Error: Could not find libjpeg.so in /usr/lib64 .\n"
+        error1 = "Error: Could not find libjpeg.so in /usr/lib64.\n"
         error2 = "Python Imaging Library-related packages may not have installed properly.\n"
         logfile.write(error1)
         logfile.write(error2)
@@ -381,16 +380,39 @@ def run(arch, logfile):
             logfile.write(output1)
             print output1
     except OSError as libjpeg_error:
-        error1 = "Error: Could not find libz.so in /usr/lib64 .\n"
-        error2 = "Python Imaging Library-related packages may not have installed properly.\n"
-        logfile.write(error1)
-        logfile.write(error2)
-        print error1
-        print error2
-        end_time = termination_string()
-        logfile.write(end_time)
-        print end_time
-        return logfile 
+        try:
+            libz_stat2 = os.stat("/lib64/libz.so")
+            if libz_stat2:
+                output2 = "Found: libz.so at /lib64/libz.so\n"
+                output3 = "Symbolic link will be created: /usr/lib64/libz.so --> /lib64/libz.so\n"
+                output4 = "ln -s /lib64/libz.so /usr/lib64/libz.so\n"
+                logfile.write(output2)
+                logfile.write(output3)
+                logfile.write(output4)
+                print output2
+                print output3
+                print output4
+                libjpeg_tuple = commands.getstatusoutput("ln -s /lib64/libz.so /usr/lib64/libz.so")
+                status = libjpeg_tuple[0]
+                if status != 0:
+                    error1 = "Error: Could not create symbolic link: /usr/lib64/libz.so --> /lib64/libz.so\n"
+                    logfile.write(error1)
+                    print error1
+                    end_time = termination_string()
+                    logfile.write(end_time)
+                    print end_time
+                    return logfile 
+        except OSError as libjpeg_error3:
+            error1 = "Error: Could not find libz.so in /lib64.\n"
+            error2 = "Python Imaging Library-related packages may not have installed properly.\n"
+            logfile.write(error1)
+            logfile.write(error2)
+            print error1
+            print error2
+            end_time = termination_string()
+            logfile.write(end_time)
+            print end_time
+            return logfile 
     
     logfile.write("Installation of Python Imaging Library components is complete.\n")
     print "Installation of Python Imaging Library components is complete.\n"
