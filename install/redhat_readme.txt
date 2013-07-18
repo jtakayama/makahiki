@@ -9,13 +9,14 @@ Contents:
 2.1. Instructions
 2.1.1. Check Prerequisites
 2.1.2. Install System Environment Dependencies
-2.1.3. Set Up the "makahiki" Virtual Environment
-2.1.4. PostgreSQL Configuration
-2.1.5. Install Dependencies With Pip
-2.1.6. Environment Variables Configuration
-2.1.7. Initialize Makahiki
-2.1.8. Start the Server
-2.1.9. Update the Makahiki Instance
+2.1.3. Install Pip
+2.1.4. Set Up the "makahiki" Virtual Environment
+2.1.5. PostgreSQL Configuration
+2.1.6. Install Dependencies With Pip
+2.1.7. Environment Variables Configuration
+2.1.8. Initialize Makahiki
+2.1.9. Start the Server
+2.1.10. Update the Makahiki Instance
 Appendix A. Notes on Log Files
 -------------------------------------------------------------------------------
 
@@ -168,7 +169,6 @@ The script installs these packages and their dependencies, if they are not
 already installed:
 - git
 - gcc
-- pip for Python 2.7.3
 - Python Imaging Library (packages: python-dev, python-imaging, libjpeg-dev)
   - This also checks that the libjpeg.so and libz.so libraries (or symlinks 
     to them) exist in /usr/lib64. These symlinks should be created automatically 
@@ -188,6 +188,21 @@ sequence of numbers representing a timestamp in the system local time.
 For more information, see Appendix A.
 ===============================================================================
 
+2.1.3. Install Pip
+===============================================================================
+If you are not the root user, you will need to log on as the root user.
+
+Sudo does not work: it will try to execute the command in Python 2.6.6.
+
+(1) In the terminal, enable Python 2.7.3 for the shell if you have not already:
+% scl enable python27 bash
+
+(2) Install pip:
+% easy_install pip
+
+(3) Install virtualenv
+===============================================================================
+
 2.1.3. Set Up the "makahiki" Virtual Environment
 ===============================================================================
 You will need to add the following lines to the current user's .bashrc file:
@@ -199,8 +214,6 @@ export PATH=/usr/pgsql-9.1/bin:$PATH
 export PATH=/usr/pgsql-9.1/lib:$PATH
 export PATH=/usr/pgsql-9.1/include:$PATH
 export PATH=/usr/pgsql-9.1:$PATH
-export VIRTUALENVWRAPPER_VIRTUALENV=/usr/bin/virtualenv
-export VIRTUALENVWRAPPER_VIRTUALENV_ARGS='--no-site-packages'
 source /usr/bin/virtualenvwrapper.sh
 
 After you are done editing .bashrc, source it to apply the 
