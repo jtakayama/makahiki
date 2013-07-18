@@ -440,7 +440,7 @@ def run(arch, logfile):
             return logfile 
     
     if postgresql91_repo:
-        repo_string = "The repository at http://yum.postgresql.org/9.1/redhat/rhel-6-x86_64/pgdg-redhat91-9.1-5.noarch rpm is already installed.\n"
+        repo_string = "The repository at http://yum.postgresql.org/9.1/redhat/rhel-6-x86_64/pgdg-redhat91-9.1-5.noarch.rpm is already installed.\n"
         logfile.write(repo_string)
         print repo_string
     else:
