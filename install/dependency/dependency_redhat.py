@@ -233,8 +233,8 @@ def run(arch, logfile):
         return logfile
     elif value =="Y":
         logfile.write("Do you wish to continue (Y/n)? %s\n" % value)
-        logfile.write("Starting dependency installation for RHEL %s.\nChecking for dependencies...\n" % arch)
-        print "Starting dependency installation for RHEL %s.\nChecking for dependencies...\n" % arch
+        logfile.write("Starting dependency installation for RHEL 6 %s.\nChecking for dependencies...\n" % arch)
+        print "Starting dependency installation for RHEL 6 %s.\nChecking for dependencies...\n" % arch
     
     # Boolean variables for each dependency
     git_installed = rpm_check("git")
@@ -271,48 +271,48 @@ def run(arch, logfile):
         logfile = result[1]
         if not success:
             return logfile
-      
+    # The below block of commented-out code is not functional
     # pip for Python 2.7   
-    if pip_installed27:
-        logfile.write("pip is already installed for Python 2.7.3.\n")
-        print "pip is already installed for Python 2.7.3.\n" 
-    else:
-        logfile.write("pip will be installed for Python 2.7.3\n")
-        print ("pip will be installed for Python 2.7.3\n")
-        pip27_command = pythonpath + os.sep + "easy_install-2.7 pip" 
-        logfile.write(pip27_command + "\n")
-        print pip27_command + "\n"
-        
-        pip_tuple = commands.getstatusoutput(pip27_command)
-        status = pip_tuple[0]
-        output = pip_tuple[1]
-        # Print output line by line
-        output2 = output.split("\n")
-        for line in output2:
-            logfile.write(line + "\n")
-            print line
-        if status == 0:
-            pip_installed27 = python_package_check(pythonpath + os.sep + "pip-2.7", "pip")
-            if pip_installed27:
-                logfile.write("pip for Python 2.7.3 installed successfully.\n")
-                print "pip for Python 2.7.3 installed successfully.\n"
-                # Flush the buffer and force a write to disk after each successful installation
-                logfile.flush()
-                os.fsync(logfile)
-            else:
-                logfile.write("pip for Python 2.7.3 failed to install.\n")
-                print "pip for Python 2.7.3 failed to install.\n"
-                end_time = termination_string()
-                logfile.write(end_time)
-                print end_time
-                return logfile
-        elif status == 1:
-            logfile.write("pip for Python 2.7.3 failed to install.\n")
-            print "pip for Python 2.7.3 failed to install.\n"
-            end_time = termination_string()
-            logfile.write(end_time)
-            print end_time
-            return logfile
+    #if pip_installed27:
+    #    logfile.write("pip is already installed for Python 2.7.3.\n")
+    #    print "pip is already installed for Python 2.7.3.\n" 
+    #else:
+    #    logfile.write("pip will be installed for Python 2.7.3\n")
+    #    print ("pip will be installed for Python 2.7.3\n")
+    #    pip27_command = pythonpath + os.sep + "easy_install-2.7 pip" 
+    #    logfile.write(pip27_command + "\n")
+    #    print pip27_command + "\n"
+    #    
+    #    pip_tuple = commands.getstatusoutput(pip27_command)
+    #    status = pip_tuple[0]
+    #    output = pip_tuple[1]
+    #    # Print output line by line
+    #    output2 = output.split("\n")
+    #    for line in output2:
+    #        logfile.write(line + "\n")
+    #        print line
+    #    if status == 0:
+    #        pip_installed27 = python_package_check(pythonpath + os.sep + "pip-2.7", "pip")
+    #        if pip_installed27:
+    #            logfile.write("pip for Python 2.7.3 installed successfully.\n")
+    #            print "pip for Python 2.7.3 installed successfully.\n"
+    #            # Flush the buffer and force a write to disk after each successful installation
+    #            logfile.flush()
+    #            os.fsync(logfile)
+    #        else:
+    #            logfile.write("pip for Python 2.7.3 failed to install.\n")
+    #            print "pip for Python 2.7.3 failed to install.\n"
+    #            end_time = termination_string()
+    #            logfile.write(end_time)
+    #            print end_time
+    #            return logfile
+    #    elif status == 1:
+    #        logfile.write("pip for Python 2.7.3 failed to install.\n")
+    #        print "pip for Python 2.7.3 failed to install.\n"
+    #        end_time = termination_string()
+    #        logfile.write(end_time)
+    #        print end_time
+    #        return logfile
 
     logfile.write("Beginning installation of Python Imaging Library components python-imaging, python-devel, and libjpeg-devel.\n")
     print "Beginning installation of Python Imaging Library components python-imaging, python-devel, and libjpeg-devel.\n"
@@ -381,21 +381,21 @@ def run(arch, logfile):
             print output1
     except OSError as libjpeg_error:
         try:
-            libz_stat2 = os.stat("/lib64/libz.so")
+            libz_stat2 = os.stat("/lib64/libz.so.1")
             if libz_stat2:
-                output2 = "Found: libz.so at /lib64/libz.so\n"
-                output3 = "Symbolic link will be created: /usr/lib64/libz.so --> /lib64/libz.so\n"
-                output4 = "ln -s /lib64/libz.so /usr/lib64/libz.so\n"
+                output2 = "Found: libz.so at /lib64/libz.so.1\n"
+                output3 = "Symbolic link will be created: /usr/lib64/libz.so --> /lib64/libz.so.1\n"
+                output4 = "ln -s /lib64/libz.so.1 /usr/lib64/libz.so\n"
                 logfile.write(output2)
                 logfile.write(output3)
                 logfile.write(output4)
                 print output2
                 print output3
                 print output4
-                libjpeg_tuple = commands.getstatusoutput("ln -s /lib64/libz.so /usr/lib64/libz.so")
+                libjpeg_tuple = commands.getstatusoutput("ln -s /lib64/libz.so.1 /usr/lib64/libz.so")
                 status = libjpeg_tuple[0]
                 if status != 0:
-                    error1 = "Error: Could not create symbolic link: /usr/lib64/libz.so --> /lib64/libz.so\n"
+                    error1 = "Error: Could not create symbolic link: /usr/lib64/libz.so --> /lib64/libz.so.1\n"
                     logfile.write(error1)
                     print error1
                     end_time = termination_string()
