@@ -19,8 +19,7 @@ def rpm_check(packagename):
             return_code = proc.poll()
             line = proc.stdout.readline()
             lines = lines + line
-            yield line
-            if (return_code is not None):
+            if return_code != None:
                 break
         output = lines.split("\n")
         rpm_q = output[0]
@@ -64,7 +63,7 @@ def python_package_check(packagename, expected_response):
             return_code = proc.poll()
             line = proc.stdout.readline()
             lines = lines + line
-            yield line
+            # yield line
             if (return_code is not None):
                 break
         output = lines.split("\n")
@@ -94,7 +93,7 @@ def postgresql91_repocheck():
             return_code = proc.poll()
             line = proc.stdout.readline()
             lines = lines + line
-            yield line
+            # yield line
             if (return_code is not None):
                 break
         # Print output line by line
@@ -130,7 +129,7 @@ def virtualenvwrapper_check(packagepath):
             return_code = proc.poll()
             line = proc.stdout.readline()
             lines = lines + line
-            yield line
+            #yield line
             if (return_code is not None):
                 break
         output = lines.split("\n")
@@ -180,7 +179,7 @@ def yum_install(packagename, logfile):
             return_code = proc.poll()
             line = proc.stdout.readline()
             lines = lines + line
-            yield line
+            #yield line
             if (return_code is not None):
                 break
         output = lines.split("\n")
