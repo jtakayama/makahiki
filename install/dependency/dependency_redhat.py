@@ -417,6 +417,28 @@ def run(arch, logfile):
     logfile.write("Installation of Python Imaging Library components is complete.\n")
     print "Installation of Python Imaging Library components is complete.\n"
     
+    # memcached
+    if memcached_installed:
+        logfile.write("memcached is already installed.\n")
+        print "memcached is already installed.\n"   
+    else:
+        result = yum_install("memcached", logfile)
+        success = result[0]
+        logfile = result[1]
+        if not success:
+            return logfile
+        
+    # libmemcached-devel
+    if libmemcached_installed:
+        logfile.write("libmemcached-devel is already installed.\n")
+        print "libmemcached-devel is already installed.\n"   
+    else:
+        result = yum_install("libmemcached-devel", logfile)
+        success = result[0]
+        logfile = result[1]
+        if not success:
+            return logfile 
+    
     if postgresql91_repo:
         repo_string = "The repository at http://yum.postgresql.org/9.1/redhat/rhel-6-x86_64/pgdg-redhat91-9.1-5.noarch rpm is already installed.\n"
         logfile.write(repo_string)
@@ -491,28 +513,6 @@ def run(arch, logfile):
         logfile = result[1]
         if not success:
             return logfile
-        
-    # memcached
-    if memcached_installed:
-        logfile.write("memcached is already installed.\n")
-        print "memcached is already installed.\n"   
-    else:
-        result = yum_install("memcached", logfile)
-        success = result[0]
-        logfile = result[1]
-        if not success:
-            return logfile
-        
-    # libmemcached-devel
-    if libmemcached_installed:
-        logfile.write("libmemcached-devel is already installed.\n")
-        print "libmemcached-devel is already installed.\n"   
-    else:
-        result = yum_install("libmemcached-devel", logfile)
-        success = result[0]
-        logfile = result[1]
-        if not success:
-            return logfile 
         
     logfile.write("RHEL x64 installation script completed successfully.\n")
     print "RHEL x64 installation script completed successfully.\n"
