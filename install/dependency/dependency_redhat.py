@@ -57,7 +57,7 @@ def python_package_check(packagename, expected_response):
     # Expects versions to have at least two parts (e.g., 3.0).
     version_string = re.compile("(%s )(\d)+(\.(\d)+)+(.)*" % expected_response)
     try:
-        proc = subprocess.popen(shlex.split("%s --version" % packagename),stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        proc = subprocess.Popen(shlex.split("%s --version" % packagename),stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         lines = ""
         while(True):
             return_code = proc.poll()
