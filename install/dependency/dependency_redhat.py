@@ -15,7 +15,7 @@ def rpm_check(packagename):
     try:
         proc = subprocess.Popen(shlex.split("rpm -q %s" % packagename), stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         lines = ""
-        while(monitor):
+        while(True):
             return_code = proc.poll()
             line = proc.stdout.readline()
             lines = lines + line
