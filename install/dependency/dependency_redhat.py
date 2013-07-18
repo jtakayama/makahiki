@@ -15,12 +15,11 @@ def rpm_check(packagename):
     try:
         proc = subprocess.Popen(shlex.split("rpm -q %s" % packagename), stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         lines = ""
-        while(True):
-            return_code = proc.poll()
-            line = proc.stdout.readline()
-            lines = lines + line
-            if return_code != None:
-                break
+        nextline = proc.stdout.readline()
+        while(nextline is not None):
+            # return_code = proc.poll()
+            lines = lines + nextline
+            nextline = proc.stdout.readline()
         output = lines.split("\n")
         rpm_q = output[0]
         if rpm_regex.match(rpm_q):
@@ -59,13 +58,14 @@ def python_package_check(packagename, expected_response):
     try:
         proc = subprocess.Popen(shlex.split("%s --version" % packagename),stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         lines = ""
-        while(True):
-            return_code = proc.poll()
-            line = proc.stdout.readline()
-            lines = lines + line
+        nextline = proc.stdout.readline()
+        while(nextline is not None):
+            # return_code = proc.poll()
+            lines = lines + nextline
+            nextline = proc.stdout.readline()
             # yield line
-            if (return_code is not None):
-                break
+            #if (return_code is not None):
+            #    break
         output = lines.split("\n")
         line0_result = version_string.match(output[0])
         if not line0_result:
@@ -89,13 +89,11 @@ def postgresql91_repocheck():
     try:
         proc = subprocess.check_call(shlex.split("yum repolist | grep pgdg91"), stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         lines = ""
-        while(True):
-            return_code = proc.poll()
-            line = proc.stdout.readline()
-            lines = lines + line
+        nextline = proc.stdout.readline()
+        while(nextline is not None):
+            lines = lines + nextline
             # yield line
-            if (return_code is not None):
-                break
+            nextline = proc.stdout.readline()
         # Print output line by line
         output = lines.split("\n")
         for line in output:
@@ -125,13 +123,12 @@ def virtualenvwrapper_check(packagepath):
     try:
         proc = subprocess.check_call(shlex.split("%s --version" % packagepath), stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         lines = ""
-        while(True):
-            return_code = proc.poll()
-            line = proc.stdout.readline()
-            lines = lines + line
-            #yield line
-            if (return_code is not None):
-                break
+        nextline = proc.stdout.readline()
+        while(nextline is not None):
+            lines = lines + nextline
+            # yield line
+            nextline = proc.stdout.readline()
+        # Print output line by line
         output = lines.split("\n")
         line0_result = version_string.match(output[0])
         if not line0_result:
@@ -175,13 +172,12 @@ def yum_install(packagename, logfile):
     try:
         proc = subprocess.check_call(["yum", "install", "-y", packagename], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         lines = ""
-        while(True):
-            return_code = proc.poll()
-            line = proc.stdout.readline()
-            lines = lines + line
-            #yield line
-            if (return_code is not None):
-                break
+        nextline = proc.stdout.readline()
+        while(nextline is not None):
+            lines = lines + nextline
+            # yield line
+            nextline = proc.stdout.readline()
+        # Print output line by line
         output = lines.split("\n")
         for line in output:
             logfile.write(line + "\n")
@@ -338,13 +334,12 @@ def run(arch, logfile):
         
         pip_proc = subprocess.check_call(shlex.split(pip27_command), stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         lines = ""
-        while(True):
-            return_code = pip_proc.poll()
-            line = pip_proc.stdout.readline()
-            lines = lines + line
+        nextline = proc.stdout.readline()
+        while(nextline is not None):
+            lines = lines + nextline
             # yield line
-            if (return_code is not None):
-                break
+            nextline= proc.stdout.readline()
+        # Print output line by line
         output = lines.split("\n")
         for line in output:
             logfile.write(line + "\n")
@@ -457,13 +452,12 @@ def run(arch, logfile):
         print pg_repo_command + "\n"
         repo_proc = subprocess.check_call(shlex.split(pg_repo_command), stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         lines = ""
-        while(True):
-            return_code = repo_proc.poll()
-            line = repo_proc.stdout.readline()
-            lines = lines + line
+        nextline = proc.stdout.readline()
+        while(nextline is not None):
+            lines = lines + nextline
             # yield line
-            if (return_code is not None):
-                break
+            nextline= proc.stdout.readline()
+        # Print output line by line
         output = lines.split("\n")
         for line in output:
             logfile.write(line + "\n")
