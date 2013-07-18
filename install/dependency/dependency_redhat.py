@@ -87,7 +87,7 @@ def postgresql91_repocheck():
     repo_match = False
     repo_shortname = re.compile("(pgdg91)(.)*")
     try:
-        proc = subprocess.check_call(shlex.split("yum repolist | grep pgdg91"), stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        proc = subprocess.Popen(shlex.split("yum repolist | grep pgdg91"), stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         lines = ""
         nextline = proc.stdout.readline()
         while(nextline is not None):
@@ -121,7 +121,7 @@ def virtualenvwrapper_check(packagepath):
     # Expects versions to have at least two parts (e.g., 3.0).
     version_string = re.compile("(\d)+(\.(\d)+)+")
     try:
-        proc = subprocess.check_call(shlex.split("%s --version" % packagepath), stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        proc = subprocess.Popen(shlex.split("%s --version" % packagepath), stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         lines = ""
         nextline = proc.stdout.readline()
         while(nextline is not None):
@@ -170,7 +170,7 @@ def yum_install(packagename, logfile):
     logfile.write("yum install -y %s\n" % packagename)
     print "yum install -y %s\n" % packagename
     try:
-        proc = subprocess.check_call(["yum", "install", "-y", packagename], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        proc = subprocess.Popen(["yum", "install", "-y", packagename], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         lines = ""
         nextline = proc.stdout.readline()
         while(nextline is not None):
@@ -450,7 +450,7 @@ def run(arch, logfile):
         pg_repo_command = "rpm -i http://yum.postgresql.org/9.1/redhat/rhel-6-x86_64/pgdg-redhat91-9.1-5.noarch.rpm"
         logfile.write(pg_repo_command + "\n")
         print pg_repo_command + "\n"
-        repo_proc = subprocess.check_call(shlex.split(pg_repo_command), stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        repo_proc = subprocess.Popen(shlex.split(pg_repo_command), stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         lines = ""
         nextline = proc.stdout.readline()
         while(nextline is not None):
