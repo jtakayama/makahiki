@@ -15,7 +15,7 @@ def rpm_check(packagename):
     try:
         proc = subprocess.Popen(shlex.split("rpm -q %s" % packagename), stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         lines = ""
-        while(True):
+        while(monitor):
             return_code = proc.poll()
             line = proc.stdout.readline()
             lines = lines + line
@@ -342,7 +342,7 @@ def run(arch, logfile):
             return_code = pip_proc.poll()
             line = pip_proc.stdout.readline()
             lines = lines + line
-            yield line
+            # yield line
             if (return_code is not None):
                 break
         output = lines.split("\n")
@@ -461,7 +461,7 @@ def run(arch, logfile):
             return_code = repo_proc.poll()
             line = repo_proc.stdout.readline()
             lines = lines + line
-            yield line
+            # yield line
             if (return_code is not None):
                 break
         output = lines.split("\n")
