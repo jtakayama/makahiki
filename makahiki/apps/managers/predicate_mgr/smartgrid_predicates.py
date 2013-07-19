@@ -186,14 +186,17 @@ def unlock_on_event(user, event_slug, days=0, lock_after_days=0):
     _ = user
     today = datetime.today()
     day_delta = timedelta(days=days)
-    event = Event.objects.get(slug=event_slug)
-    if event:
-        unlock_date = event.event_date + day_delta
-        if lock_after_days != 0:
-            day_after = timedelta(days=lock_after_days)
-            lock_date = event.event_date + day_after
-            return today >= unlock_date and today <= lock_date
+    try:
+        event = Event.objects.get(slug=event_slug)
+        if event:
+            unlock_date = event.event_date + day_delta
+            if lock_after_days != 0:
+                day_after = timedelta(days=lock_after_days)
+                lock_date = event.event_date + day_after
+                return today >= unlock_date and today <= lock_date
+            else:
+                return today >= unlock_date
         else:
-            return today >= unlock_date
-    else:
+            return True
+    except Event.DoesNotExist:
         return True

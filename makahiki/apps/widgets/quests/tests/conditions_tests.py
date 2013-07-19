@@ -1,15 +1,15 @@
 """Test for possible quest conditions."""
 
 import datetime
-import os
+# import os
 
 from django.test import TransactionTestCase
 from django.contrib.auth.models import User
-from django.conf import settings
-from django.core.files.images import ImageFile
-from django.db.models import signals
+# from django.conf import settings
+# from django.core.files.images import ImageFile
+# from django.db.models import signals
 from apps.managers.challenge_mgr import challenge_mgr
-from apps.managers.player_mgr.predicates import badge_awarded, has_points, set_profile_pic, \
+from apps.managers.player_mgr.predicates import badge_awarded, has_points, \
     posted_to_wall
 from apps.managers.team_mgr.models import Group, Team, Post
 from apps.utils import test_utils
@@ -18,8 +18,8 @@ from apps.widgets.badges import badges
 from apps.widgets.quests.quests import possibly_completed_quests, get_quests
 from apps.widgets.smartgrid.models import Activity, ActionMember, Commitment, ColumnName, Level, \
     ColumnGrid, Grid
-from apps.lib.avatar import create_default_thumbnails
-from apps.lib.avatar.models import Avatar, avatar_file_path
+# from apps.lib.avatar import create_default_thumbnails
+# from apps.lib.avatar.models import Avatar, avatar_file_path
 from apps.widgets.raffle.models import RafflePrize, RaffleTicket
 from apps.widgets.smartgrid.predicates import submitted_action, \
     approved_action, approved_some_of_type, approved_some, submitted_some_of_type
@@ -525,48 +525,49 @@ class QuestConditionsTest(TransactionTestCase):
         self.assertTrue(self.quest in possibly_completed_quests(self.user),
             "User should have completed this quest.")
 
-    def testSetProfilePic(self):
-        """
-        Tests that this predicate is completed when the user sets a profile pic.
-        """
-        # Need to disconnect create thumbnail signal temporarily for test so that additional image
-        # files don't get created.
-        signals.post_save.disconnect(create_default_thumbnails, Avatar)
-
-        self.assertFalse(set_profile_pic(self.user), "User should not have their profile pic set.")
-        image_path = os.path.join(settings.PROJECT_ROOT, "fixtures", "test_images", "test.jpg")
-        image = ImageFile(open(image_path, "r"))
-        path = avatar_file_path(user=self.user, filename="test.jpg")
-        avatar = Avatar(user=self.user, avatar=path, primary=True)
-        avatar.avatar.storage.save(path, image)
-        avatar.save()
-        self.assertTrue(set_profile_pic(self.user), "User should have their profile pic set.")
-
-        # Test within context of a quest.
-        avatar.delete()
-        self.quest.unlock_conditions = "set_profile_pic()"
-        self.quest.save()
-        self.assertTrue(self.quest not in get_quests(self.user),
-            "User should not be able to participate in this quest.")
-
-        self.quest.unlock_conditions = "not set_profile_pic()"
-        self.quest.save()
-        self.assertTrue(self.quest in get_quests(self.user)["available_quests"],
-            "User should be able to participate in this quest.")
-
-        self.quest.accept(self.user)
-        self.quest.completion_conditions = "set_profile_pic()"
-        self.quest.save()
-        self.assertTrue(self.quest not in possibly_completed_quests(self.user),
-            "User should not be able to complete this quest.")
-
-        avatar = Avatar(user=self.user, avatar=path, primary=True)
-        avatar.save()
-        self.assertTrue(self.quest in possibly_completed_quests(self.user),
-            "User should have completed this quest.")
-
-        # Be sure to clean up test files and reconnect post_save signal.
-        signals.post_save.connect(create_default_thumbnails, sender=Avatar)
-        for avatar in self.user.avatar_set.all():
-            avatar.avatar.delete()
-            avatar.delete()
+#     def testSetProfilePic(self):
+#         """
+#         Tests that this predicate is completed when the user sets a profile pic.
+#         """
+#         # Need to disconnect create thumbnail signal temporarily for test so that additional image
+#         # files don't get created.
+#         signals.post_save.disconnect(create_default_thumbnails, Avatar)
+#
+#         self.assertFalse(set_profile_pic(self.user), "User should not have their "
+#profile pic set.")
+#         image_path = os.path.join(settings.PROJECT_ROOT, "fixtures", "test_images", "test.jpg")
+#         image = ImageFile(open(image_path, "r"))
+#         path = avatar_file_path(user=self.user, filename="test.jpg")
+#         avatar = Avatar(user=self.user, avatar=path, primary=True)
+#         avatar.avatar.storage.save(path, image)
+#         avatar.save()
+#         self.assertTrue(set_profile_pic(self.user), "User should have their profile pic set.")
+#
+#         # Test within context of a quest.
+#         avatar.delete()
+#         self.quest.unlock_conditions = "set_profile_pic()"
+#         self.quest.save()
+#         self.assertTrue(self.quest not in get_quests(self.user),
+#             "User should not be able to participate in this quest.")
+#
+#         self.quest.unlock_conditions = "not set_profile_pic()"
+#         self.quest.save()
+#         self.assertTrue(self.quest in get_quests(self.user)["available_quests"],
+#             "User should be able to participate in this quest.")
+#
+#         self.quest.accept(self.user)
+#         self.quest.completion_conditions = "set_profile_pic()"
+#         self.quest.save()
+#         self.assertTrue(self.quest not in possibly_completed_quests(self.user),
+#             "User should not be able to complete this quest.")
+#
+#         avatar = Avatar(user=self.user, avatar=path, primary=True)
+#         avatar.save()
+#         self.assertTrue(self.quest in possibly_completed_quests(self.user),
+#             "User should have completed this quest.")
+#
+#         # Be sure to clean up test files and reconnect post_save signal.
+#         signals.post_save.connect(create_default_thumbnails, sender=Avatar)
+#         for avatar in self.user.avatar_set.all():
+#             avatar.avatar.delete()
+#             avatar.delete()
