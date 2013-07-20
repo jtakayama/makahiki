@@ -202,8 +202,6 @@ Sudo does not work: it will try to execute the command in Python 2.6.6.
 % pip install virtualenvwrapper
 ===============================================================================
 
-[EVERYTHING BELOW THIS LINE IS UNDER REVISION]
-
 2.1.4. Set Up the "makahiki" Virtual Environment
 ===============================================================================
 You will need to add the following lines to the current user's .bashrc file:
@@ -211,9 +209,6 @@ You will need to add the following lines to the current user's .bashrc file:
 # Virtualenvwrapper settings for makahiki
 export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/makahiki
-export PATH=/usr/pgsql-9.1/bin:$PATH
-export PATH=/usr/pgsql-9.1/lib:$PATH
-export PATH=/usr/pgsql-9.1/include:$PATH
 if [ !$PROFILE_ENV ]; 
     then
         source /opt/rh/python27/root/usr/bin/virtualenvwrapper.sh
@@ -326,6 +321,9 @@ Stopping postgresql-9.1 service:                           [  OK  ]
 Starting postgresql-9.1 service:                           [  OK  ]
 ===============================================================================
 
+[EVERYTHING BELOW THIS LINE IS UNDER REVISION]
+[TODO: INSERT MEMCACHED COMPILATION INSTRUCTIONS HERE]
+
 2.1.6. Install Dependencies With Pip
 ===============================================================================
 You should still be in the makahiki virtual environment.
@@ -333,6 +331,14 @@ You should still be in the makahiki virtual environment.
 Switch to the makahiki directory:
 
 % cd ~/makahiki
+
+Use "export" to temporarily add the Postgresql binaries to the 
+system PATH. This is temporary. If you exit the current shell, 
+you will need to do this again.
+
+% export PATH=/usr/pgsql-9.1/bin:$PATH
+% export PATH=/usr/pgsql-9.1/lib:$PATH # Not sure if necessary
+% export PATH=/usr/pgsql-9.1/include:$PATH # Not sure if necessary
 
 Check that the pg_config library's location is part of the PATH.
 
