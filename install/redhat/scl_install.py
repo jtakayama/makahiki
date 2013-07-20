@@ -44,7 +44,7 @@ def run_command(command, logfile):
             logfile.write("Operation successful:\n%s\n" % command)
             print "Operation successful:\n%s\n" % command
             success = True
-    except CalledProcessError as cpe:
+    except CalledProcessError, cpe:
         # Print and log the error message
         logfile.write("CalledProcessError: ")
         print "CalledProcessError: "
