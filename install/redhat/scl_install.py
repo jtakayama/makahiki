@@ -1,6 +1,5 @@
 import datetime
-import subprocess
-from subprocess import Popen, PIPE, CalledProcessError
+import commands
 import shlex
 import re
 import os
@@ -32,13 +31,20 @@ def run_command(command, logfile):
     print "Attempting: " + command + "\n"
     try:
         # Execute command - returns a CalledProcessError if it fails
-        output = subprocess.check_call(shlex.split(command), stdout=PIPE)
+        tuple = commands.getstatusoutput(shlex.split(command))
+        status = tuple[0]
+        output = tuple[1]
+        # Print output line by line
+        output2 = output.split("\n")
+        for line in output2:
+            logfile.write(line + "\n")
+            print line
         # Check result
-        if output == 0:
+        if status == 0:
             logfile.write("Operation successful:\n%s\n" % command)
             print "Operation successful:\n%s\n" % command
             success = True
-    except subprocess.CalledProcessError as cpe:
+    except CalledProcessError as cpe:
         # Print and log the error message
         logfile.write("CalledProcessError: ")
         print "CalledProcessError: "
