@@ -203,7 +203,7 @@ Sudo does not work: it will try to execute the command in Python 2.6.6.
 (3) Install virtualenv
 ===============================================================================
 
-2.1.3. Set Up the "makahiki" Virtual Environment
+2.1.4. Set Up the "makahiki" Virtual Environment
 ===============================================================================
 You will need to add the following lines to the current user's .bashrc file:
 
@@ -252,7 +252,7 @@ any script that is run with sudo will use the default Python 2.6.6.
 -------------------------------------------------------------------------------
 ===============================================================================
 
-2.1.4. PostgreSQL Configuration
+2.1.5. PostgreSQL Configuration
 ===============================================================================
 You should still be in the makahiki virtual environment.
 
@@ -302,7 +302,7 @@ Stopping postgresql-9.1 service:                           [  OK  ]
 Starting postgresql-9.1 service:                           [  OK  ]
 ===============================================================================
 
-2.1.5. Install Dependencies With Pip
+2.1.6. Install Dependencies With Pip
 ===============================================================================
 You should still be in the makahiki virtual environment.
 
@@ -335,7 +335,7 @@ numbers representing a timestamp in the system local time. For more
 information, see Appendix A.
 ===============================================================================
 
-2.1.6. Environment Variables Configuration
+2.1.7. Environment Variables Configuration
 ===============================================================================
 The environment variables MAKAHIKI_DATABASE_URL and MAKAHIKI_ADMIN_INFO need 
 to be added to the shell environment. To make them permanently available 
@@ -357,7 +357,7 @@ file for the changes to take effect:
 % workon makahiki
 ===============================================================================
 
-2.1.7. Initialize Makahiki
+2.1.8. Initialize Makahiki
 ===============================================================================
 You should still be in the makahiki virtual environment.
 
@@ -398,7 +398,7 @@ a sequence of numbers representing a timestamp in the system local time.
 For more information, see Appendix A.
 ===============================================================================
 
-2.1.8. Start the Server
+2.1.9. Start the Server
 ===============================================================================
 You should still be in the makahiki virtual environment.
 
@@ -418,7 +418,7 @@ To start the server with gunicorn:
 In a web browser, go to http://localhost:8000 to see the landing page.
 ===============================================================================
 
-2.1.9. Update the Makahiki Instance
+2.1.10. Update the Makahiki Instance
 ===============================================================================
 Makahiki is designed to support post-installation updating of your configured 
 system when bug fixes or system enhancements become available. Updating an 
