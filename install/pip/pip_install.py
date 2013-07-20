@@ -103,8 +103,8 @@ def run(logfile):
         print "CalledProcessError: "
         logfile.write(cpe.output)
         print cpe.output
-        logfile.write("Warning: pip requirements installation did not complete successfully.")
-        print "Warning: pip requirements installation did not complete successfully."
+        logfile.write("Warning: pip requirements installation did not complete successfully.\n")
+        print "Warning: pip requirements installation did not complete successfully.\n"
         end_time = termination_string()
         logfile.write(end_time)
         print end_time
