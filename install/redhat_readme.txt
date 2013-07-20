@@ -153,8 +153,6 @@ Python 2.7.3
 This software requires an internet connection in order to install packages.
 ===============================================================================
 
-[EVERYTHING BELOW THIS LINE IS UNDER REVISION]
-
 2.1.2. Install System Environment Dependencies
 ===============================================================================
 Switch to your top-level makahiki directory:
@@ -200,8 +198,11 @@ Sudo does not work: it will try to execute the command in Python 2.6.6.
 (2) Install pip:
 % easy_install pip
 
-(3) Install virtualenv
+(3) Install virtualenvwrapper:
+% pip install virtualenvwrapper
 ===============================================================================
+
+[EVERYTHING BELOW THIS LINE IS UNDER REVISION]
 
 2.1.4. Set Up the "makahiki" Virtual Environment
 ===============================================================================
@@ -213,13 +214,36 @@ export PROJECT_HOME=$HOME/makahiki
 export PATH=/usr/pgsql-9.1/bin:$PATH
 export PATH=/usr/pgsql-9.1/lib:$PATH
 export PATH=/usr/pgsql-9.1/include:$PATH
-export PATH=/usr/pgsql-9.1:$PATH
-source /usr/bin/virtualenvwrapper.sh
+if [ !$PROFILE_ENV ]; 
+    then
+        source /opt/rh/python27/root/usr/bin/virtualenvwrapper.sh
+fi
 
 After you are done editing .bashrc, source it to apply the 
 new settings to your shell:
 
 % source ~/.bashrc
+
+NOTE:
+-------------------------------------------------------------------------------
+Because virtualenvwrapper was not installed to the default Python installation, 
+the user will see this error at logon:
+-------------------------------------------------------------------------------
+/usr/bin/python: No module named virtualenvwtapper
+virtualenvwrapper.sh: There was a problem running the initialization hooks.
+
+If Python could not import the module virtualenvwrapper.hook_loader, 
+check that virtualenv has been installed for
+VIRTUALENVWRAPPER_PYTHON=/usr/bin/python and that PATH is 
+set properly.
+-------------------------------------------------------------------------------
+To fix this, enable Python 2.7.3 again:
+
+% scl enable python27 bash
+
+Without Python 2.7.3 enabled in the shell, the system will not find the 
+virtualenvwrapper installation.
+-------------------------------------------------------------------------------
 
 Switch to the top-level makahiki directory:
 % cd ~/makahiki
