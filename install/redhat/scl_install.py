@@ -1,6 +1,5 @@
 import datetime
 import commands
-import shlex
 import re
 import os
 
@@ -44,19 +43,6 @@ def run_command(command, logfile):
             logfile.write("Operation successful:\n%s\n" % command)
             print "Operation successful:\n%s\n" % command
             success = True
-    #except CalledProcessError, cpe:
-    #    # Print and log the error message
-    #    logfile.write("CalledProcessError: ")
-    #    print "CalledProcessError: "
-    #    logfile.write("Return code: %s" % cpe.returncode)
-    #    print "Return code: %s" % cpe.returncode
-    #    closing = "Operation failed:\n%s" % command
-    #    logfile.write(closing)
-    #    print closing
-    #    end_time = termination_string()
-    #    logfile.write(end_time)
-    #    print end_time
-    #    success = False
     except OSError as ose:
         logfile.write("OSError: ")
         print "OSError: "
