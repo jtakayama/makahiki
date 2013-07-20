@@ -31,7 +31,7 @@ def run_command(command, logfile):
     print "Attempting: " + command + "\n"
     try:
         # Execute command - returns a CalledProcessError if it fails
-        tuple = commands.getstatusoutput(shlex.split(command))
+        tuple = commands.getstatusoutput(command)
         status = tuple[0]
         output = tuple[1]
         # Print output line by line
