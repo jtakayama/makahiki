@@ -20,7 +20,7 @@ Contents:
 Appendix A. Notes on Log Files
 -------------------------------------------------------------------------------
 
-0.0. Introduction:
+0.0. Introduction
 ===============================================================================
 This is a README file for the Makahiki installation scripts.
 
