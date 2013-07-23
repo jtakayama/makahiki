@@ -6,9 +6,9 @@ apt-get install -y git
 apt-get install -y gcc
 apt-get install -y python-setuptools
 easy_install pip
-apt-get install python-imaging
-apt-get install python-dev
-apt-get install libjpeg-dev
+apt-get install -y python-imaging
+apt-get install -y python-dev
+apt-get install -y libjpeg-dev
 # Python Imaging Library shared library symlink setup
 echo "Checking locations of Python Imaging Library shared libraries."
 if [ ! -f /usr/lib/libjpeg.so ]
