@@ -202,12 +202,27 @@ You should still be in the makahiki virtual environment.
 After the script completes, you must configure PostgreSQL, set up 
 environment variables, initialize Makahiki, and start the Makahiki server. 
 
-To configure PostgreSQL, go to the Makahiki documentation and follow 
-section 2.1.1.1.1.8, "Install PostgreSQL," to edit the pg_hba.conf file:
-https://makahiki.readthedocs.org/en/latest/installation-makahiki-unix.html#install-postgresql
-
 On Ubuntu 12.04.1 LTS and later, the pg_hba.conf file is usually located at 
-/etc/postgresql/9.1/main/pg_hba.conf.
+/etc/postgresql/9.1/main/pg_hba.conf. Open it in a text editor with sudo (root) 
+privileges:
+% sudo nano /etc/postgresql/9.1/main/pg_hba.conf
+
+To configure PostgreSQL, edit the "local all postgres", "local all all", 
+"host all all 127.0.0.1/32", and "host all all ::1/128" lines in the 
+pg_hba.conf file to match the below example:
+-------------------------------------------------------------------------------
+# Database administrative login by Unix domain socket
+local   all             postgres                                trust
+
+# TYPE  DATABASE        USER            ADDRESS                 METHOD
+
+# "local" is for Unix domain socket connections only
+local   all             all                                     trust
+# IPv4 local connections:
+host    all             all             127.0.0.1/32            md5
+# IPv6 local connections:
+host    all             all             ::1/128                 md5
+-------------------------------------------------------------------------------
 
 After you have edited the pg_hba.conf file, restart the Postgresql service:
 % sudo /etc/init.d/postgresql restart
@@ -370,7 +385,7 @@ To start the server with gunicorn:
 
 Appendix A. Notes on Log Files
 ===============================================================================
-Log files are created by ubuntu_installer.py in in makahiki/install/logs.
+Log files are created by ubuntu_installer.py in makahiki/install/logs.
 The log file names follow this format:
 <script-type>_<timestamp>.log
 
