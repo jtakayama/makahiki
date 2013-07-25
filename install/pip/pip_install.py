@@ -13,50 +13,6 @@ def termination_string():
     time = now.strftime("%Y-%m-%d %H:%M:%S")
     end_time = "Script exiting at %s\n" % time
     return end_time
-
-def requirements_check(logfile):
-    """
-    Uses "pip freeze" to check that requirements were installed. Meant to be used after 
-    running "pip install -r requirements.txt". Compares package names after converting 
-    them to lowercase.
-    """
-    USER_HOME = subprocess.check_output(["echo $HOME"], stderr=subprocess.STDOUT, shell=True)
-    # Remove newline from expected "/home/<username>\n"
-    USER_HOME = USER_HOME[:-1]
-    USER_PROJECT_HOME = USER_HOME + "/makahiki"
-    # cd to makahiki directory so pip can find the requirements.txt file
-    os.chdir(USER_PROJECT_HOME)
-    requirements_txt = open(USER_PROJECT_HOME + "/requirements.txt", 'r')
-    requirements_list = []
-    nextline = requirements_txt.readline()
-    # Build a list of requirements
-    while nextline != "":
-        # Only dependencies that have not been commented out should be checked
-        if nextline[0] != '#':
-            requirements_list.append(nextline.strip())
-        nextline = requirements_txt.readline()
-    # Read in list of currently installed requirements using pip freeze
-    installed = subprocess.check_output(shlex.split("pip freeze"), stderr=subprocess.STDOUT)
-    installed_list = installed.split("\n")
-    # Search in list of installed requirements for matches to entries in requirements.txt
-    for element in requirements_list:
-        element_regex = re.compile("(.)*(%s)(.)*" % string.lower(element))
-        element_installed = False
-        for element2 in installed_list:
-            if element_regex.match(string.lower(element2)):
-                element_installed = True
-                break
-            else:
-                continue
-        # Avoid printing empty list elements
-        if element != "":
-            if element_installed:
-                logfile.write("%s installed successfully.\n" % element)
-                print ("%s installed successfully." % element)
-            else:
-                logfile.write("Warning: %s not installed.\n" % element)
-                print ("Warning: %s not installed." % element)
-    return logfile
     
 def run(logfile):
     """
@@ -85,11 +41,6 @@ def run(logfile):
         # pip produces a lot of output. Clear the buffer before reading in anything else.
         logfile.flush()
         os.fsync(logfile)
-        # Check that requirements were installed
-        check_message = "\nChecking if dependencies in requirements.txt were installed:\n"
-        logfile.write(check_message)
-        print check_message
-        logfile = requirements_check(logfile)
         # Print a closing message
         closing = "\npip install script completed successfully.\n"
         logfile.write(closing)
