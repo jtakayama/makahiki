@@ -197,10 +197,7 @@ https://makahiki.readthedocs.org/en/latest/installation-makahiki-unix.html#insta
 
 1.1.4. PostgreSQL Configuration
 ===============================================================================
-You should still be in the makahiki virtual environment.
-
-After the script completes, you must configure PostgreSQL, set up 
-environment variables, initialize Makahiki, and start the Makahiki server. 
+The next step is to configure the PostgreSQL server authentication settings.
 
 On Ubuntu 12.04.1 LTS and later, the pg_hba.conf file is usually located at 
 /etc/postgresql/9.1/main/pg_hba.conf. Open it in a text editor with sudo (root) 
