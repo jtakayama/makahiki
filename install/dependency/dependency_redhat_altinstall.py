@@ -581,15 +581,144 @@ def run(arch, logfile):
         
     # libmemcached-devel
     if libmemcached_installed:
-        logfile.write("libmemcached-devel is already installed.\n")
-        print "libmemcached-devel is already installed.\n"   
-    else:
-        result = yum_install("libmemcached-devel", logfile)
-        success = result[0]
-        logfile = result[1]
-        if not success:
-            return logfile 
-        
+        logfile.write("libmemcached-devel will be removed.\n")
+        print "libmemcached-devel will be removed.\n"
+        remove_libmemcached_command = "yum remove -y libmemcached"
+        logfile.write(remove_libmemcached_command + "\n")
+        print remove_libmemcached_command + "\n"
+        remove_libmemcached_output = subprocess.check_output(shlex.split(remove_libmemcached_command), stderr=subprocess.STDOUT)
+        logfile.write(remove_libmemcached_output +"\n")
+        print remove_libmemcached_output + "\n"
+        libmemcached_installed = rpm_check("libmemcached-devel")
+        if not libmemcached_installed:
+            logfile.write("Successfully removed default version of libmemcached-devel.")
+        else:
+            logfile.write("Failed to remove default version of libmemcached-devel.\n")
+            print "Failed to remove default version of libmemcached-devel.\n"
+            end_time = termination_string()
+            logfile.write(end_time)
+            return logfile
+
+    # If libmemcached-devel is not installed, continue.
+    # Switch to downloads directory
+    download_dir = os.path.normpath(os.path.dirname(os.path.realpath(__file__)) + os.sep + os.pardir + os.sep + "download")
+    logfile.write("Switching to downloads directory: %s" % download_dir)
+    print "Switching to downloads directory: %s" % download_dir
+    os.chdir(download_dir)
+    logfile.write("Operation succeeded.\n")
+    print "Operation succeeded.\n"
+    
+    # wget libmemcached-0.53
+    wget_command = "wget http://launchpad.net/libmemcached/1.0/0.53/+download/libmemcached-0.53.tar.gz --no-check-certificate"
+    logfile.write(wget_command + "\n")
+    print wget_command + "\n"
+    wget_output = subprocess.check_output(shlex.split(wget_command), stderr=subprocess.STDOUT)
+    logfile.write(wget_output + "\n")
+    print wget_output + "\n"
+    # Flush the buffer and force a write to file: large amount of output
+    logfile.flush()
+    os.fsync(logfile)
+    
+    # Extract libmemcached-0.53
+    logfile.write("Extracting libmemcached-0.53.\n")
+    print "Extracting libmemcached-0.53.\n"
+    tar_command = "tar xzvf libmemcached-0.53.tar.gz"
+    logfile.write(tar_command + "\n")
+    print tar_command + "\n"
+    tar_output = subprocess.check_output(shlex.split(tar_command), stderr=subprocess.STDOUT)
+    logfile.write(tar_output + "\n")
+    print tar_output + "\n"
+    # Flush the buffer and force a write to disk: large amount of output
+    logfile.flush()
+    os.fsync(logfile)
+    
+    # Take ownership of extracted directory
+    extracted_dir = os.getcwd() + os.sep + "libmemcached-0.53"
+    logfile.write("Changing ownership of %s to current user\n" % extracted_dir)
+    print "Changing ownership of %s to current user\n" % extracted_dir
+    uname = os.getuid()
+    os.chown(extracted_dir, uname, -1)
+    logfile.write("Operation succeeded.\n")
+    print ("Operation succeeded.\n")
+    
+    # Change to extracted directory
+    logfile.write("Switching to %s\n" % extracted_dir)
+    print "Switching to %s\n" % extracted_dir
+    os.chdir(extracted_dir)
+    logfile.write("Working directory is now %s\n" % os.getcwd())
+    print "Working directory is now %s\n" % os.getcwd()
+    logfile.write("Operation succeeded\n.")
+    print ("Operation succeeded\n.")
+    
+    # ./configure
+    logfile.write("Running ./configure for libmemcached-0.53.\n")
+    print "Running ./configure for  libmemcached-0.53.\n"
+    lm_configure_command = "./configure"
+    logfile.write(lm_configure_command + "\n")
+    print lm_configure_command + "\n"
+    lm_configure_output = subprocess.check_output(shlex.split(lm_configure_command), stderr=subprocess.STDOUT)
+    logfile.write(lm_configure_output + "\n")
+    print lm_configure_output + "\n"
+    # Flush the buffer and force a write to disk: large amount of output
+    logfile.flush()
+    os.fsync(logfile)
+    
+    # make
+    logfile.write("Running make for libmemcached-0.53.\n")
+    print "Running make for  libmemcached-0.53.\n"
+    lm_make_command = "make"
+    logfile.write(lm_make_command + "\n")
+    print lm_make_command + "\n"
+    lm_make_output = subprocess.check_output(shlex.split(lm_make_command), stderr=subprocess.STDOUT)
+    logfile.write(lm_make_output + "\n")
+    print lm_make_output + "\n"
+    # Flush the buffer and force a write to disk: large amount of output
+    logfile.flush()
+    os.fsync(logfile)
+    
+    # make install
+    logfile.write("Running make install for libmemcached-0.53.\n")
+    print "Running make install for  libmemcached-0.53.\n"
+    lm_install_command = "make install"
+    logfile.write(lm_install_command + "\n")
+    print lm_install_command + "\n"
+    lm_install_output = subprocess.check_output(shlex.split(lm_install_command), stderr=subprocess.STDOUT)
+    logfile.write(lm_install_output + "\n")
+    print lm_install_output + "\n"
+    # Flush the buffer and force a write to disk: large amount of output
+    logfile.flush()
+    os.fsync(logfile)
+    
+    # Check installation
+    try:
+        # The libmemcached-0.53 install is not an rpm and must be checked another way
+        libmemcached_installed = os.stat("/usr/local/lib/libmemcached.so")
+        if libmemcached_installed:
+            logfile.write("libmemcached-0.53 installed successfully.\n")
+            print "libmemcached-0.53 installed successfully.\n"
+            # Flush the buffer and force a write to disk
+            logfile.flush()
+            os.fsync(logfile)
+    except OSError as libmemcached_error:
+        error1 = "Error: Could not find libmemcached.so in /usr/local/lib/libmemcached.\n"
+        error2 = "libmemcached-0.53 may not have installed properly.\n"
+        logfile.write(error1)
+        logfile.write(error2)
+        print error1
+        print error2
+        end_time = termination_string()
+        logfile.write(end_time)
+        print end_time
+        return logfile
+    # Old code - remove after make / build code has been tested
+    #else:
+    #    result = yum_install("libmemcached-devel", logfile)
+    #    success = result[0]
+    #    logfile = result[1]
+    #    if not success:
+    #        return logfile 
+    # end old code
+    
     # virtualenvwrapper for Python 2.6
     if virtualenvwrapper26_installed:
         logfile.write("virtualenvwrapper is already installed for Python 2.6.6\n")
@@ -604,7 +733,7 @@ def run(arch, logfile):
         logfile.write(virtualenv26_output +"\n")
         print virtualenv26_output + "\n"
         virtualenv_installed26 = virtualenvwrapper_check("/usr/bin/virtualenv")
-        if pip_installed26:
+        if virtualenv_installed26:
             logfile.write("virtualenvwrapper for Python 2.6.6 installed successfully.\n")
             print "virtualenvwrapper for Python 2.6.6 installed successfully.\n"
             # Flush the buffer and force a write to disk after each successful installation
