@@ -112,7 +112,7 @@ ubuntu_installer.py script does not support installing Makahiki dependencies
 to an altinstall.
 
 (2.) Internet connection
-Steps 1.1.2 and 1.1.5 require an Internet connection.
+Makahiki setup requires an Internet connection.
 ===============================================================================
 
 1.1.2. Install System Environment Dependencies:
