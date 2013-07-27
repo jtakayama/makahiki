@@ -8,7 +8,7 @@ echo "export LANGUAGE=en_US.UTF-8" >> /etc/bash.bashrc
 echo "export LANG=en_US.UTF-8" >> /etc/bash.bashrc
 echo "export LC_ALL=en_US.UTF-8" >> /etc/bash.bashrc
 locale-gen en_US.UTF-8
-sudo dpkg-reconfigure locales
+dpkg-reconfigure locales
 echo "Done configuring locale settings."
 echo "Updating package list."
 apt-get update
