@@ -10,9 +10,8 @@ Contents:
 2.0. Vagrant Setup
 2.0.1. Virtual Machine Setup
 2.0.2. Download the Makahiki Source Code
-2.0.3. Configure the Vagrantfile's Provisioning Script
+2.0.3. Copy Vagrant Setup Files
 2.0.4. Download the Base Virtual Machine
-2.0.5. Copy the Provisioning Script Files
 2.1. Set up Makahiki in the Virtual Machine
 2.1.1. Start the Virtual Machine and Run the Provisioning Script
 2.1.2. Connect to the Vagrant Virtual Machine with SSH
@@ -98,10 +97,6 @@ directory.
 
 > mkdir ubuntu_x86_makahiki
 > cd ubuntu_x86_makahiki
-
-Create the Vagrantfile for the new virtual machine.
-
-> vagrant init
 ===============================================================================
 
 2.0.2. Download the Makahiki Source Code
@@ -126,25 +121,18 @@ B. If you have Git for Windows, you can clone the repository:
 Git for Windows can be downloaded from http://git-scm.com/download/win.
 ===============================================================================
 
-2.0.3. Configure the Vagrantfile's Provisioning Script
+2.0.3. Copy Vagrant Setup Files
 ===============================================================================
-(3) Open the Vagrantfile in a text editor and change the default contents 
-   to the following:
--------------------------------------------------------------------------------
-Vagrant.configure("2") do |config|
-  config.vm.box = "precise32"
-  config.vm.provision :shell, :path => "run_bootstrap.sh"
-end
--------------------------------------------------------------------------------
-The value you specify for config.vm.box defines the computer name of the 
-virtual machine. (The virtual machine itself will be visible in VirtualBox by 
-the name of its containing folder. The example virtual machine will be named 
-"ubuntu_x86_makahiki_" followed by 10 digits.)
+Copy Vagrantfile, bootstrap_runner.sh, bootstrap.sh, and the logs/ directory to 
+the current ubuntu_x86_makahiki directory from the makahiki directory:
+> cp ./makahiki/install/vagrant_scripts/ubuntu_x86/Vagrantfile ./Vagrantfile
+> cp ./makahiki/install/vagrant_scripts/ubuntu_x86/run_bootstrap.sh ./run_bootstrap.sh
+> cp ./makahiki/install/vagrant_scripts/ubuntu_x86/bootstrap.sh ./bootstrap.sh
+> cp ./makahiki/install/vagrant_scripts/ubuntu_x86/logs ./logs
 
-In config.vm.provision, :path => "bootstrap_runner.sh" defines the location of 
-a shell script that will be run when the machine starts with the "vagrant up" 
-or "vagrant reload" commands. While the machine is running, the "vagrant 
-provision" command will run this shell script as well.
+On the Vagrant virtual machine, the ubuntu_x86_makahiki directory will be 
+the /vagrant directory, and these files will be accessible to the virtual 
+machine.
 ===============================================================================
 
 2.0.4. Download the Base Virtual Machine
@@ -156,19 +144,9 @@ value you specified for config.vm.box in the last step.)
 > vagrant box add precise32 http://files.vagrantup.com/precise32.box
 
 This will download the virtual machine from Vagrant's servers.
-===============================================================================
 
-2.0.5. Copy the Provisioning Script Files
-===============================================================================
-Copy bootstrap_runner.sh, bootstrap.sh, and the logs/ directory to 
-the current ubuntu_x86_makahiki directory from the makahiki directory: 
-> cp ./makahiki/install/vagrant_scripts/ubuntu_x86/run_bootstrap.sh ./run_bootstrap.sh
-> cp ./makahiki/install/vagrant_scripts/ubuntu_x86/bootstrap.sh ./bootstrap.sh
-> cp ./makahiki/install/vagrant_scripts/ubuntu_x86/logs ./logs
-
-On the Vagrant virtual machine, the ubuntu_x86_makahiki directory will be 
-the /vagrant directory, and these files will be accessible to the virtual 
-machine.
+It is only necessary to download each specific box once; if you create more 
+virtual machines with the same base box ("precise32"), you can skip this step.
 ===============================================================================
 
 2.1. Set up Makahiki in the Virtual Machine
@@ -211,8 +189,8 @@ file in the logs directory. This file is called "ubuntu_x86_<timestamp>.log,"
 where <timestamp> is in the format yyyy-mm-dd-HH-MM-SS (year, month, day, 
 hour, minute, second).
 
-(Later, if you want to start the virtual machine without provisioning it, 
- start it with the "vagrant up --no-provision" command.)
+Later, if you want to start the virtual machine without provisioning it, 
+start it with the "vagrant up --no-provision" command.
 ===============================================================================
 
 2.1.2. Connect to the Vagrant Virtual Machine with SSH
@@ -241,30 +219,18 @@ Assuming that Git installed successfully, clone the CSDL Makahiki repository
 from Github into the vagrant user's home directory:
 
 vagrant@precise32:/~$ git clone http://github.com/csdl/makahiki.git
-
-WARNING:
--------------------------------------------------------------------------------
-Do not try to skip this step by putting the makahiki repository (the one 
-that you cloned into Windows) into the shared folder and copying the files 
-into the user home directory. These files will have Windows line endings 
-and cannot be used on Linux.
--------------------------------------------------------------------------------
 ===============================================================================
 
 2.1.4. Configure .bashrc Environment Variables
 ===============================================================================
-For virtualenvwrapper to work correctly with Makahiki, environment variables 
-need to be set. Open and edit the .bashrc file in the user's home directory 
-using nano:
-
-vagrant@precise32:/~$ nano .bashrc
-
-Add the following lines to the end of the file:
+The provisioning script appended the following lines to the .bashrc file 
+of the user "vagrant":
+-------------------------------------------------------------------------------
 # Virtualenvwrapper settings for makahiki
 export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/makahiki
 source /usr/local/bin/virtualenvwrapper.sh
-
+-------------------------------------------------------------------------------
 Source the .bashrc file in order for the changes to take effect.
 
 vagrant@precise32:/~$ source .bashrc

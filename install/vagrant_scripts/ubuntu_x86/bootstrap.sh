@@ -28,7 +28,7 @@ apt-get install -y libjpeg-dev
 echo "Checking locations of Python Imaging Library shared libraries."
 if [ ! -f /usr/lib/libjpeg.so ]
 	then
-	    if [ -f /usr/lib/i386-linux-gnu/libjpeg.so ]
+		if [ -f /usr/lib/i386-linux-gnu/libjpeg.so ]
 			then
 				echo "Found: /usr/lib/i386-linux-gnu/libjpeg.so"
 				echo "Creating symlink: /usr/lib/libjpeg.so --> /usr/lib/i386-linux-gnu/libjpeg.so"
@@ -77,5 +77,11 @@ echo "Done installing libmemcached-dev."
 echo "Installing virtualenvwrapper."
 pip install virtualenvwrapper
 echo "Done installing virtualenvwrapper."
+echo "Appending virtualenvwrapper settings to /home/vagrant/.bashrc."
+echo "# Virtualenvwrapper settings for makahiki" >> /home/vagrant/.bashrc
+echo "export WORKON_HOME=/home/vagrant/.virtualenvs" >> /home/vagrant/.bashrc
+echo "export PROJECT_HOME=/home/vagrant/makahiki" >> /home/vagrant/.bashrc
+echo "source /usr/local/bin/virtualenvwrapper.sh" >> /home/vagrant/.bashrc
+echo "Done appending settings to /home/vagrant/.bashrc."
 echo "Script completed at $(date)"
 exit 0
