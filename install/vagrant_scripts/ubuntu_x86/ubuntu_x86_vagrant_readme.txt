@@ -210,7 +210,7 @@ The SSH session will log you in as the "vagrant" user, in the "vagrant" user's
 home directory, /home/vagrant (the current user's home directory is also 
 referred to as ~). The Ubuntu Linux terminal prompt will look like this:
 
-vagrant@precise32:/~$
+vagrant@precise32:~$
 ===============================================================================
 
 2.1.3. Download the Makahiki Source Code
@@ -218,7 +218,7 @@ vagrant@precise32:/~$
 Assuming that Git installed successfully, clone the CSDL Makahiki repository 
 from Github into the vagrant user's home directory:
 
-vagrant@precise32:/~$ git clone http://github.com/csdl/makahiki.git
+vagrant@precise32:~$ git clone http://github.com/csdl/makahiki.git
 ===============================================================================
 
 2.1.4. Configure .bashrc Environment Variables
@@ -227,41 +227,20 @@ The provisioning script appended the following lines to the .bashrc file
 of the user "vagrant":
 -------------------------------------------------------------------------------
 # Virtualenvwrapper settings for makahiki
-export WORKON_HOME=$HOME/.virtualenvs
-export PROJECT_HOME=$HOME/makahiki
+export WORKON_HOME=/home/vagrant/.virtualenvs
+export PROJECT_HOME=/home/vagrant/makahiki
 source /usr/local/bin/virtualenvwrapper.sh
 -------------------------------------------------------------------------------
 Source the .bashrc file in order for the changes to take effect.
 
-vagrant@precise32:/~$ source .bashrc
-
-ABOUT NANO:
--------------------------------------------------------------------------------
-Nano is a text editor that is installed by default on Ubuntu.
-- Use the arrow keys to navigate
-- Type to insert text
-- Use [backspace] to delete text
-- Use Ctrl-O (^O) to save
-- Use Ctrl-X (^X) to quit
-Further documentation can be found at http://nano-editor.org/docs.php.
--------------------------------------------------------------------------------
-
-NOTE FOR VI USERS:
--------------------------------------------------------------------------------
-Some users may prefer the vi text editor, which is also installed on Ubuntu. 
-Note that these bugs were observed when using vi on an Ubuntu Vagrant 
-virtual machine in a Windows cmd terminal:
-- In Insert mode, [backspace] does not delete text. 
-  The "x" key must be used instead.
-- Input lag.
--------------------------------------------------------------------------------
+vagrant@precise32:~$ source .bashrc
 ===============================================================================
 
 2.1.5. Set Up the "makahiki" Virtual Environment
 ===============================================================================
 Switch to the top-level makahiki directory:
 
-vagrant@precise32:/~$ cd makahiki
+vagrant@precise32:~$ cd makahiki
 
 Then, create the makahiki virtual environment: 
 
@@ -308,7 +287,7 @@ host    all             all             ::1/128                 md5
 -------------------------------------------------------------------------------
 
 After you have edited the pg_hba.conf file, restart the Postgresql service:
-% sudo /etc/init.d/postgresql restart
+(makahiki)vagrant@precise32:~/makahiki$ sudo /etc/init.d/postgresql restart
  * Restarting PostgreSQL 9.1 database server                             [ OK ]
 ===============================================================================
 
