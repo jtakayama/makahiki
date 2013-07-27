@@ -617,9 +617,9 @@ def run(arch, logfile):
         else:
             logfile.write("virtualenvwrapper will be installed.\n")
             print "virtualenvwrapper will be installed.\n"
-            logfile.write("apt-get install -y virtualenvwrapper\n")
-            print "apt-get install -y virtualenvwrapper\n"
-            virtualenvwrapper_output = subprocess.check_output(["apt-get", "install", "-y",  "virtualenvwrapper"], stderr=subprocess.STDOUT)
+            logfile.write("pip install virtualenvwrapper\n")
+            print "pip install virtualenvwrapper\n"
+            virtualenvwrapper_output = subprocess.check_output(["pip", "install",  "virtualenvwrapper"], stderr=subprocess.STDOUT)
             logfile.write(virtualenvwrapper_output)
             print virtualenvwrapper_output
             virtualenvwrapper_installed = virtualenvwrapper_check()
