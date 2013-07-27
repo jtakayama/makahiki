@@ -3,7 +3,7 @@ echo "Makahiki Environment Setup Script for Ubuntu (x86)"
 echo "--------------------------------------------------"
 echo "Script started at $(date)"
 echo "Appending locale settings (UTF-8) to /etc/bash.bashrc"
-echo "# Makahiki needs UTF-8 for postgresql"
+echo "# UTF-8 locale settings for Makahiki" >> /etc/bash.bashrc
 echo "export LANGUAGE=en_US.UTF-8" >> /etc/bash.bashrc
 echo "export LANG=en_US.UTF-8" >> /etc/bash.bashrc
 echo "export LC_ALL=en_US.UTF-8" >> /etc/bash.bashrc
@@ -11,26 +11,34 @@ locale-gen en_US.UTF-8
 dpkg-reconfigure locales
 echo "Done configuring locale settings."
 echo "Updating package list."
+echo "apt-get update"
 apt-get update
 echo "Done updating package list."
 echo "Installing git."
+echo "apt-get install -y git"
 apt-get install -y git
 echo "Done installing git."
 echo "Installing gcc."
+echo "apt-get install -y gcc"
 apt-get install -y gcc
 echo "Done installing gcc."
 echo "Installing python-setuptools."
+echo "apt-get install -y python-setuptools"
 apt-get install -y python-setuptools
 echo "Done installing python-setuptools."
 echo "Installing pip."
+echo "easy_install pip"
 easy_install pip
 echo "Done installing pip."
 echo "Installing python-imaging."
+echo "apt-get install -y python-imaging"
 apt-get install -y python-imaging
 echo "Done installing python-imaging."
 echo "Installing python-dev."
+echo "apt-get install -y python-dev"
 apt-get install -y python-dev
 echo "Done installing python-dev."
+echo "apt-get install -y libjpeg-dev"
 apt-get install -y libjpeg-dev
 # Python Imaging Library shared library symlink setup
 echo "Checking locations of Python Imaging Library shared libraries."
@@ -71,18 +79,29 @@ if [ ! -f /usr/lib/libz.so ]
 fi
 echo "Python Imaging Library shared libraries check is complete."
 echo "Installing postgresql-9.1."
+echo "apt-get install -y postgresql-9.1"
 apt-get install -y postgresql-9.1
 echo "Done installing postgresql-9.1."
 echo "Installing libpq-dev."
+echo "apt-get install -y libpq-dev"
 apt-get install -y libpq-dev
 echo "Done installing libpq-dev."
+echo "Configuring PostgreSQL cluster \"main\" with locale en_US.UTF8"
+echo "pg_dropcluster 9.1 main --stop"
+pg_dropcluster 9.1 main --stop
+echo "pg_createcluster --locale en_US.UTF8 9.1 main"
+pg_createcluster --locale en_US.UTF8 9.1 main
+echo "Done configuring cluster \"main\"."
 echo "Installing memcached."
+echo "apt-get install -y memcached"
 apt-get install -y memcached
 echo "Finished installing memcached."
 echo "Installing libmemcached-dev."
+echo "apt-get install -y libmemcached-dev"
 apt-get install -y libmemcached-dev
 echo "Done installing libmemcached-dev."
 echo "Installing virtualenvwrapper."
+echo "pip install virtualenvwrapper"
 pip install virtualenvwrapper
 echo "Done installing virtualenvwrapper."
 echo "Appending virtualenvwrapper settings to /home/vagrant/.bashrc."
