@@ -4,33 +4,33 @@ ubuntu_x86_vagrant_readme.txt
 Contents:
 -------------------------------------------------------------------------------
 0.0. Introduction
-1.0. Prerequisites
+1.0. VirtualBox and Vagrant Setup
 1.0.1. Install VirtualBox
 1.0.2. Install Vagrant
-2.0. Vagrant Setup
+2.0. Vagrant Virtual Machine Setup
 2.0.1. Virtual Machine Setup
 2.0.2. Download the Makahiki Source Code
-2.0.3. Copy Vagrant Setup Files
+2.0.3. Copy Setup Files
 2.0.4. Download the Base Virtual Machine
 2.1. Set up Makahiki in the Virtual Machine
 2.1.1. Start the Virtual Machine and Run the Provisioning Script
 2.1.2. Connect to the Vagrant Virtual Machine with SSH
 2.1.3. Download the Makahiki Source Code
-2.1.4. Configure .bashrc Environment Variables
+2.1.4. Apply .bashrc Changes
 2.1.5. Set Up the "makahiki" Virtual Environment
 2.1.6. PostgreSQL Configuration
 2.1.7. Install Dependencies With Pip
 2.1.8. Environment Variables Configuration
-2.1.9. Initialize Makahiki [BUG NOT RESOLVED]
+2.1.9. Initialize Makahiki [BUG TENTATIVELY RESOLVED]
 2.1.10. Start the Server
-2.1.11. Configure Networking for the Virtual Machine [INCOMPLETE]
-2.1.12. Increase the RAM of the Virtual Machine [INCOMPLETE]
-2.1.13. Update the Makahiki Instance
-2.1.14. Re-Provisioning Vagrant
+2.1.11. Update the Makahiki Instance
+2.1.12. Optional: Configure the RAM of the Virtual Machine
+2.1.13. Optional: Re-Provisioning Vagrant
 Appendix A. Notes on Log Files
+Appendix B. Vagrant Controls
 -------------------------------------------------------------------------------
 
-0.0. Introduction.
+0.0. Introduction
 ===============================================================================
 This is a README file that describes the process for deploying Makahiki in a 
 Vagrant virtual machine on a Windows host machine.
@@ -43,8 +43,7 @@ The Makahiki source code is available from https://github.com/csdl/makahiki.
 
 In the examples in this document, the > represents the Windows command prompt.
 
-This guide assumes a basic level of familiarity with Windows and little 
-familiarity with Linux.
+This guide assumes a basic level of familiarity with Windows.
 
 WARNING:
 -------------------------------------------------------------------------------
@@ -52,6 +51,17 @@ This guide should not be used to deploy Makahiki on a cloud-based hosting
 system such as Heroku. For instructions to deploy Makahiki on Heroku, see
 http://makahiki.readthedocs.org/en/latest/installation-makahiki-heroku.html.
 -------------------------------------------------------------------------------
+
+System requirements:
+- Operating System:
+  - Windows 7 or 8 are recommended.
+  - The applications used in this guide are compatible with 
+    x86 (32-bit) and x64 (64-bit) architectures.
+- Hardware:
+  - CPU: Modern dual or quad core
+  - RAM: 4 GB
+  - The Vagrant virtual machine will be configured by default to have 1.5 GB 
+    of RAM (1536 MB). To change this amount, see Section 2.1.12.
 ===============================================================================
 
 1.0. VirtualBox and Vagrant Setup
@@ -67,6 +77,8 @@ https://www.virtualbox.org/manual/ch02.html#installation_windows.
 
 Select "Yes" when you are asked to install drivers for USB support and 
 VirtualBox Host-Only Networking.
+
+This guide was tested with VirtualBox 4.2.16.
 ===============================================================================
 
 1.0.2. Install Vagrant
@@ -78,7 +90,7 @@ http://docs.vagrantup.com/v2/installation/index.html.
 This guide was tested with Vagrant 1.2.4.
 ===============================================================================
 
-2.0. Vagrant Setup 
+2.0. Vagrant Virtual Machine Setup 
 ===============================================================================
 This section contains instructions for creating the Vagrant virtual machine.
 
@@ -105,6 +117,9 @@ There are two ways of obtaining the Makahiki source code. (If you have this
 text file, you likely already have the Makahiki source code and can skip this 
 section.)
 
+This guide assumes that you will be placing the source code in the 
+ubuntu_x86_makahiki directory.
+
 A. If you do not have Git for Windows, download the source code from 
    Github as a .zip file:
     A1. In a web browser, go to https://github.com/csdl/makahiki.
@@ -114,25 +129,22 @@ A. If you do not have Git for Windows, download the source code from
         ubuntu_x86_makahiki directory.
 
 B. If you have Git for Windows, you can clone the repository:
-   B1. Change to the "ubuntu_x86_makahiki" directory. 
+   B1. If you are not in it, change to the "ubuntu_x86_makahiki" directory.
    B2. Clone the repository into this directory:
 > git clone http://github.com/csdl/makahiki.git
 
 Git for Windows can be downloaded from http://git-scm.com/download/win.
 ===============================================================================
 
-2.0.3. Copy Vagrant Setup Files
+2.0.3. Copy Setup Files
 ===============================================================================
-Copy Vagrantfile, bootstrap_runner.sh, bootstrap.sh, and the logs/ directory to 
-the current ubuntu_x86_makahiki directory from the makahiki directory:
-> cp ./makahiki/install/vagrant_scripts/ubuntu_x86/Vagrantfile ./Vagrantfile
-> cp ./makahiki/install/vagrant_scripts/ubuntu_x86/run_bootstrap.sh ./run_bootstrap.sh
-> cp ./makahiki/install/vagrant_scripts/ubuntu_x86/bootstrap.sh ./bootstrap.sh
-> cp ./makahiki/install/vagrant_scripts/ubuntu_x86/logs ./logs
+Copy some configuration files and the logs/ directory to the current 
+ubuntu_x86_makahiki directory from the makahiki directory:
+
+> makahiki/install/copy_ubuntu_scripts.bat
 
 On the Vagrant virtual machine, the ubuntu_x86_makahiki directory will be 
-the /vagrant directory, and these files will be accessible to the virtual 
-machine.
+the /vagrant directory, which is shared with the virtual machine.
 ===============================================================================
 
 2.0.4. Download the Base Virtual Machine
@@ -163,7 +175,7 @@ Use the "vagrant up" command to start the virtual machine:
 
 Each time you start Vagrant with "vagrant up," it will run the 
 "bootstrap_runner.sh" script specified in the Vagrantfile. This 
-script runs and logs the "bootstrap.sh" script. 
+script runs and logs the "bootstrap.sh" script.
 
 The shell script installs the following packages and their dependencies:
 - git
@@ -188,9 +200,6 @@ The bootstrap_runner.sh script logs the output of bootstrap.sh to a text
 file in the logs directory. This file is called "ubuntu_x86_<timestamp>.log,"
 where <timestamp> is in the format yyyy-mm-dd-HH-MM-SS (year, month, day, 
 hour, minute, second).
-
-Later, if you want to start the virtual machine without provisioning it, 
-start it with the "vagrant up --no-provision" command.
 ===============================================================================
 
 2.1.2. Connect to the Vagrant Virtual Machine with SSH
@@ -221,7 +230,7 @@ from Github into the vagrant user's home directory:
 vagrant@precise32:~$ git clone http://github.com/csdl/makahiki.git
 ===============================================================================
 
-2.1.4. Configure .bashrc Environment Variables
+2.1.4. Apply .bashrc Changes
 ===============================================================================
 The provisioning script appended the following lines to the .bashrc file 
 of the user "vagrant":
@@ -262,10 +271,33 @@ vagrant@precise32:~/makahiki$ workon makahiki
 2.1.6. PostgreSQL Configuration
 ===============================================================================
 The next step is to configure the PostgreSQL server authentication settings.
+Run the md5test_ubuntu_pg_hba_conf.sh script to replace the default settings 
+with Makahiki settings:
+(makahiki)vagrant@precise32:~/makahiki sudo sh /vagrant/md5test_ubuntu_pg_hba_conf.sh
 
-On Ubuntu 12.04.1 LTS and later, the pg_hba.conf file is usually located at 
-/etc/postgresql/9.1/main/pg_hba.conf. Open it in a text editor with sudo (root) 
-privileges:
+If the script succeeds, you will see this message:
+"Checksums match. pg_hba.conf will be overwritten with Makahiki settings."
+
+If you already edited the default pg_hba.conf manually and it 
+exactly matches the makahiki settings, you will see this message:
+"pg_hba.conf file already overwritten with makahiki settings. [ OK ]"
+
+If you see either of these messages, the correct settings have been applied.
+Now, restart the Postgresql service:
+(makahiki)vagrant@precise32:~/makahiki$ sudo /etc/init.d/postgresql restart
+ * Restarting PostgreSQL 9.1 database server                             [ OK ]
+
+IF THE SCRIPT FAILS:
+-------------------------------------------------------------------------------
+If the pg_hba.conf file is different from the expected file, you will 
+see this message indicating that the script has failed:
+"WARNING! pg_hba.conf default file is different from expected file."
+ File could not be safely overwritten with Makahiki defaults.
+ You will need to edit it manually."
+If this happens, follow the instructions below.
+
+On Ubuntu 12.04 LTS, pg_hba.conf is at /etc/postgresql/9.1/main/pg_hba.conf. 
+Open it in a text editor with sudo (root) privileges:
 
 (makahiki)vagrant@precise32:~/makahiki$ sudo nano /etc/postgresql/9.1/main/pg_hba.conf
 
@@ -289,10 +321,11 @@ host    all             all             ::1/128                 md5
 After you have edited the pg_hba.conf file, restart the Postgresql service:
 (makahiki)vagrant@precise32:~/makahiki$ sudo /etc/init.d/postgresql restart
  * Restarting PostgreSQL 9.1 database server                             [ OK ]
+-------------------------------------------------------------------------------
 ===============================================================================
 
 2.1.7. Install Dependencies With Pip
-==============================================================================
+===============================================================================
 You should still be in the makahiki virtual environment.
 
 If you are not currently in the top-level makahiki directory 
@@ -313,31 +346,52 @@ see Appendix A.
 
 2.1.8. Environment Variables Configuration
 ==============================================================================
-The environment variables MAKAHIKI_DATABASE_URL and MAKAHIKI_ADMIN_INFO need 
-to be added to the shell environment. To make them permanently available 
-whenever you "workon makahiki," add these variables to the 
-$WORKON_HOME/makahiki/bin/postactivate file:
+The next step is to configure the Makahiki environment variables.
+Run the md5test_ubuntu_postactivate.sh script to replace the default settings 
+with Makahiki settings:
+(makahiki)vagrant@precise32:~/makahiki sudo sh /vagrant/md5test_ubuntu_postactivate.sh
 
+If the script succeeds, you will see this message:
+"Checksums match. postactivate will be overwritten with Makahiki settings."
+
+If you already edited the "postactivate" file and it exactly matches the 
+makahiki settings, you will see this message:
+"postactivate file already overwritten with makahiki settings. [ OK ]"
+
+If you see either of these messages, the correct settings have been applied.
+Now, apply the new virtual environment settings:
+(makahiki)vagrant@precise32:~/makahiki$ workon makahiki
+
+IF THE SCRIPT FAILS:
+-------------------------------------------------------------------------------
+If the postactivate file is different from the expected file, you will 
+see this message indicating that the script has failed:
+"WARNING! postactivate default file is different from expected file."
+ File could not be safely overwritten with Makahiki defaults.
+ You will need to edit it manually."
+If this happens, follow the instructions below.
+
+Edit $WORKON_HOME/bin/makahiki/postactivate:
+(makahiki)vagrant@precise32:~/makahiki$ nano $WORKON_HOME/makahiki/bin/postactivate
+
+Add these lines to the end of the file:
+------------------------------------------------------------------------------
 # Syntax: postgres://<db_user>:<db_password>@<db_host>:<db_port>/<db_name>
 export MAKAHIKI_DATABASE_URL=postgres://makahiki:makahiki@localhost:5432/makahiki
 
 # Syntax: <admin_name>:<admin_password>
 export MAKAHIKI_ADMIN_INFO=admin:admin
-
+------------------------------------------------------------------------------
 Production instances of Makahiki should change the <admin_password> to something 
 other than "admin."
 
-You will need to do "workon makahiki" after you have edited the postactivate 
-file for the changes to take effect:
+You will need to do "workon makahiki" for the changes to take effect:
 
 (makahiki)vagrant@precise32:~/makahiki$ workon makahiki
 ===============================================================================
 
-2.1.9. Initialize Makahiki [BUG NOT RESOLVED]
+2.1.9. Initialize Makahiki [BUG TENTATIVELY RESOLVED]
 ===============================================================================
-# TODO: Need to decide whether or not to bring up the Unicode / Latin-1 bug
-# involving smartgrid_library.json's smartgridlibrary.libraryaction (pk 172).
-
 You should still be in the makahiki virtual environment.
 
 If you are not currently in the top-level makahiki directory 
@@ -399,125 +453,7 @@ The server is still not reachable from the host machine. This will be
 configured in the next step.
 ===============================================================================
 
-2.1.11. Configure Networking for the Virtual Machine [INCOMPLETE]
-===============================================================================
-[SECTION UNDER REVISION]
-
-Use Ctrl-C to stop the server. The server will not be reachable by the host 
-machine until another network interface is added.
-
-Next, shut down the virtual machine. This will close the SSH session:
-(makahiki)vagrant@precise32:~/makahiki/makahiki$ sudo shutdown -h now
-
-Next, add these lines to the Vagrantfile before the "end" line:
--------------------------------------------------------------------------------
-config.vm.network :private_network, ip: "192.168.56.3"
-config.vm.network :forwarded_port, guest: 8000, host: 8080
--------------------------------------------------------------------------------
-This configures a host-only networking interface with address 192.168.56.3 
-and subnet mask 255.255.255.0 (/24). The port 8000 (which Makahiki runs on 
-in the virtual machine) will be forwarded to port 8080 for the host machine.
-
-Now, open Command Prompt, go to the ubuntu_x86_makahiki folder, and restart 
-the Vagrant virtual machine:
-
-> vagrant up --no-provision
-> vagrant ssh
-
--------------------------------------------------------------------------------
-If a "Windows Security Alert" warning appears while "vagrant up" is running 
-with a message similar to the following:
-
-"Windows Firewall has blocked some features of this app
-
- Windows Firewall has blocked some features of vboxheadless.exe on all public 
- and private networks.
-     Name: vboxheadless.exe
-     Publisher: Unknown
-     Path: C:\program files\oracle\virtualbox\vboxheadless.exe
-     
- Allow vboxheadless.exe to communicate on these networks:
- [ ] Private networks, such as my home or work network
- [v] Public networks, such as those in airports and coffee shops (not recommended 
-     because these networks often have little or no security)"
-
-Uncheck the box for "Public networks" and click "Cancel." A host-only network 
-does not need to go through the Windows firewall.
-
-# TODO: Not sure whether it needs to be allowed through firewall or not.
-# So far I've actually allowed vboxheadless through the firewall, but to no 
-# effect.
--------------------------------------------------------------------------------
-
-On the virtual machine, use ifconfig to verify that the network interface was 
-added correctly. Look for an entry for "eth1," as in the example below:
--------------------------------------------------------------------------------
-vagrant@precise32:~$ ifconfig eth1
-eth1      Link encap:Ethernet  HWaddr 08:00:27:46:66:0d
-          inet addr:192.168.56.3  Bcast:192.168.56.255  Mask:255.255.255.0
-          inet6 addr: fe80::a00:27ff:fe46:660d/64 Scope:Link
-          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
-          RX packets:377 errors:0 dropped:0 overruns:0 frame:0
-          TX packets:6 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:1000
-          RX bytes:59518 (59.5 KB)  TX bytes:468 (468.0 B)
--------------------------------------------------------------------------------
-
-Switch to makahiki/makahiki, activate the virtual environment, and start the 
-server with manage.py:
-vagrant@precise32:~$ workon makahiki
-(makahiki)vagrant@precise32:~$ cd makahiki/makahiki
-(makahiki)vagrant@precise32:~/makahiki/makahiki$ ./manage.py runserver
-
-Host-only networking does not make the virtual machine accessible outside of 
-the host computer. It is only designed for localhost testing.
-
-Configuring a production server is left as an exercise for the deployer.
-===============================================================================
-
-2.1.12. Increase the RAM of the Virtual Machine [INCOMPLETE]
-===============================================================================
-[SECTION UNDER REVISION]
-
-The default RAM of the Vagrant Ubuntu 12.04 x86 virtual machine is 384 MB. 
-While this is sufficient for terminal access, it is likely to result in slow 
-serving of Makahiki web pages in local network testing.
-
-# TODO: Not sure if recommendations would be lower on a headless VM.
-1.5 to 2.0 GB (1536 to 2048 MB) is about the minimum needed to run the server 
-with some slowdown. 
-
-The recommendations of the Makahiki developers are as follows:
-- 4 GB (4096 MB) for local development
-- 8 GB (8192 MB) for production use.
-
-Stop the web server by pressing Ctrl-C in the SSH terminal.
-Then shut down the virtual machine:
-(makahiki)vagrant@precise32:~/makahiki/makahiki$ sudo shutdown -h now
-
-This will end the SSH session.
-
-To increase the RAM allocated to the Virtualbox VM, add these lines to the 
-Vagrantfile before the "end" line. Replace "2048" with the desired amount of 
-RAM, in MB.
--------------------------------------------------------------------------------
-  config.vm.provider :virtualbox do |vb|
-    vb.customize ["modifyvm", :id, "--memory", 2048]
-  end
--------------------------------------------------------------------------------
-
-After saving your changes, restart the VM and start the SSH session:
-> vagrant up --no-provision
-> vagrant ssh
-
-In the SSH session, switch to makahiki/makahiki, activate the virtual '
-environment, and start the server with manage.py:
-vagrant@precise32:~$ workon makahiki
-(makahiki)vagrant@precise32:~$ cd makahiki/makahiki
-(makahiki)vagrant@precise32:~/makahiki/makahiki$ ./manage.py runserver
-===============================================================================
-
-2.1.13. Update the Makahiki Instance
+2.1.11. Update the Makahiki Instance
 ===============================================================================
 Makahiki is designed to support post-installation updating of your configured 
 system when bug fixes or system enhancements become available. Updating an 
@@ -542,9 +478,6 @@ Run the script with the options specified for your operating system:
 Ubuntu x86:
 % python ./install/ubuntu_installer.py --update_instance --os ubuntu --arch x86
 
-Ubuntu x64:
-% python ./install/ubuntu_installer.py --update_instance --os ubuntu --arch x64
-
 The script will create a log file in makahiki/install/logs with a filename of 
 the format "install_update_instance_<timestamp>.log," where <timestamp> is 
 a sequence of numbers representing a timestamp in the system local time. 
@@ -558,7 +491,7 @@ To start the server with gunicorn:
 % ./manage.py run_gunicorn
 ===============================================================================
 
-2.1.14. Re-Provisioning Vagrant
+2.1.12. Optional: Re-Provisioning Vagrant
 ===============================================================================
 If you are developing for Makahiki using a Vagrant virtual machine and change 
 the provisioning scripts (bootstrap.sh or run_bootstrap.sh), you will need 
@@ -571,6 +504,37 @@ This will run the provisioning script designated in the Vagrantfile.
 
 B. Re-provision a virtual machine that is already running:
 > vagrant provision
+===============================================================================
+
+2.1.13. Optional: Configure the RAM of the Virtual Machine
+===============================================================================
+The default settings in the Vagrantfile that comes with this project limit 
+the virtual machine to 1536 MB (1.5 GB) of RAM. To change these settings, you 
+will need to edit the Vagrantfile while the virtual machine is shut down.
+
+Stop the web server by pressing Ctrl-C in the SSH terminal.
+Then shut down the virtual machine:
+(makahiki)vagrant@precise32:~/makahiki/makahiki$ sudo shutdown -h now
+
+This will end the SSH session.
+
+To increase the RAM allocated to the Virtualbox VM, edit the "vb.customize" 
+line in the Vagrantfile by changing the number after the "--memory" flag.
+-------------------------------------------------------------------------------
+  config.vm.provider :virtualbox do |vb|
+    vb.customize ["modifyvm", :id, "--memory", 1536]
+  end
+-------------------------------------------------------------------------------
+
+After saving your changes, restart the VM and start the SSH session:
+> vagrant up --no-provision
+> vagrant ssh
+
+In the SSH session, switch to makahiki/makahiki, activate the virtual 
+environment, and start the server with manage.py:
+vagrant@precise32:~$ workon makahiki
+(makahiki)vagrant@precise32:~$ cd makahiki/makahiki
+(makahiki)vagrant@precise32:~/makahiki/makahiki$ ./manage.py runserver
 ===============================================================================
 
 Appendix A. Notes on Log Files
