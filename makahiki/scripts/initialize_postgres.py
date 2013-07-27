@@ -33,7 +33,7 @@ def main():
 
         sqls = ("DROP DATABASE %s" % database,
                 "DROP USER %s" % username,
-                "CREATE USER %s with CREATEDB PASSWORD '%s'" % (username, password),
+                "CREATE USER %s WITH ENCODING 'UTF8' CREATEDB PASSWORD '%s'" % (username, password),
                 "CREATE DATABASE %s WITH ENCODING 'UTF8' OWNER %s" % (database, username),)
 
         for sql in sqls:
