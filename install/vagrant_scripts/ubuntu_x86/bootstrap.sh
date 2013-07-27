@@ -2,6 +2,14 @@
 echo "Makahiki Environment Setup Script for Ubuntu (x86)"
 echo "--------------------------------------------------"
 echo "Script started at $(date)"
+echo "Appending locale settings (UTF-8) to /etc/bash.bashrc"
+echo "# Makahiki needs UTF-8 for postgresql"
+echo "export LANGUAGE=en_US.UTF-8" >> /etc/bash.bashrc
+echo "export LANG=en_US.UTF-8" >> /etc/bash.bashrc
+echo "export LC_ALL=en_US.UTF-8" >> /etc/bash.bashrc
+locale-gen en_US.UTF-8
+sudo dpkg-reconfigure locales
+echo "Done configuring locale settings."
 echo "Updating package list."
 apt-get update
 echo "Done updating package list."
