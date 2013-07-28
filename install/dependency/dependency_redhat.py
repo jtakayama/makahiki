@@ -59,6 +59,22 @@ def postgresql91_repocheck():
         repo_match = False
     return repo_match
 
+def libmemcached053_check():
+    """
+    Checks for the existence of the libmemcached.so library in 
+    /usr/local/lib, which is where this script installs 
+    libmemcached-0.53 after building it.
+    """
+    result = False
+    try:
+        # The libmemcached-0.53 install is not an rpm and must be checked another way
+        libmemcached053_installed = os.stat("/usr/local/lib/libmemcached.so")
+        if libmemcached053_installed:
+            result = True
+    except OSError as libmemcached_error:
+        result = False
+    return result
+
 def termination_string():
     """
     Gets the current system time and appends it to a termination notice.
@@ -257,6 +273,7 @@ def run(arch, logfile):
     postgresql91devel_installed = rpm_check("postgresql91-devel")
     memcached_installed = rpm_check("memcached")
     libmemcached_installed = rpm_check("libmemcached-devel")
+    libmemcached053_installed = libmemcached053_check()
     
     # Groupinstall of "Development tools" (the script does not check if its components are installed or not)
     groupinstall_command = "yum groupinstall -y \"Development tools\""
@@ -414,121 +431,135 @@ def run(arch, logfile):
     #    if not success:
     #        return logfile 
     # end old code
-    if libmemcached_installed:
-        logfile.write("libmemcached-devel will be removed.\n")
-        print "libmemcached-devel will be removed.\n"
-        remove_libmemcached_command = "yum remove -y libmemcached"
-        logfile.write(remove_libmemcached_command + "\n")
-        print remove_libmemcached_command + "\n"
-        remove_libmemcached_output = subprocess.check_output(shlex.split(remove_libmemcached_command), stderr=subprocess.STDOUT)
-        logfile.write(remove_libmemcached_output +"\n")
-        print remove_libmemcached_output + "\n"
-        libmemcached_installed = rpm_check("libmemcached-devel")
-        if not libmemcached_installed:
-            logfile.write("Successfully removed default version of libmemcached-devel.")
-        else:
-            logfile.write("Failed to remove default version of libmemcached-devel.\n")
-            print "Failed to remove default version of libmemcached-devel.\n"
-            end_time = termination_string()
-            logfile.write(end_time)
+    
+    # Beginning of libmemcached installation code.
+    if libmemcached053_installed:
+        logfile.write("libmemcached alternate installation found in /usr/local/lib\n")
+        logfile.write("The user should check that this alternate installation is libmemcached-0.53.\n")
+        logfile.write("libmemcached-0.53 will not be installed. Continuing...\n")
+        print "libmemcached alternate installation found in /usr/local/lib\n"
+        print "The user should check that this alternate installation is libmemcached-0.53.\n"
+        print "libmemcached-0.53 will not be installed. Continuing...\n"
+    elif libmemcached053_installed is False:
+        if libmemcached_installed:
+            logfile.write("libmemcached will be removed.\n")
+            print "libmemcached will be removed.\n"
+            remove_libmemcached_command = "yum remove -y libmemcached"
+            logfile.write(remove_libmemcached_command + "\n")
+            print remove_libmemcached_command + "\n"
+            remove_libmemcached_result = run_command(remove_libmemcached_command, logfile, "Removal of libmemcached package")
+            success = removed_libmemcached_result[0]
+            logfile = removed_libmemcached_result[1]
+            if not success:
+                return logfile
+            
+            libmemcached_installed = rpm_check("libmemcached-devel")
+            if libmemcached_installed:
+                logfile.write("Failed to remove default version of libmemcached.\n")
+                print "Failed to remove default version of libmemcached.\n"
+                end_time = termination_string()
+                logfile.write(end_time)
+                return logfile
+            else:
+                logfile.write("Successfully removed default version of libmemcached.\n")
+                print "Successfully removed default version of libmemcached."
+        # If libmemcached is not installed, there is no need to uninstall it, so the installation can continue.
+        logfile.write("libmemcached-0.53 will be built and installed.\n")
+        print "libmemcached-0.53 will be built and installed."
+        # Switch to downloads directory
+        download_dir = os.path.normpath(os.path.dirname(os.path.realpath(__file__)) + os.sep + os.pardir + os.sep + "download")
+        logfile.write("Switching to downloads directory: %s" % download_dir)
+        print "Switching to downloads directory: %s" % download_dir
+        os.chdir(download_dir)
+        logfile.write("Operation succeeded.\n")
+        print "Operation succeeded.\n"
+        
+        # wget libmemcached-0.53
+        wget_command = "wget http://launchpad.net/libmemcached/1.0/0.53/+download/libmemcached-0.53.tar.gz --no-check-certificate"
+        wget_command_result = run_command(wget_command, logfile, "Download of libmemcached-0.53.tar.gz")
+        success = wget_command_result[0]
+        logfile = wget_command_result[1]
+        if not success:
             return logfile
-    # If libmemcached-devel is not installed, continue
-    # Switch to downloads directory
-    download_dir = os.path.normpath(os.path.dirname(os.path.realpath(__file__)) + os.sep + os.pardir + os.sep + "download")
-    logfile.write("Switching to downloads directory: %s" % download_dir)
-    print "Switching to downloads directory: %s" % download_dir
-    os.chdir(download_dir)
-    logfile.write("Operation succeeded.\n")
-    print "Operation succeeded.\n"
-    
-    # wget libmemcached-0.53
-    wget_command = "wget http://launchpad.net/libmemcached/1.0/0.53/+download/libmemcached-0.53.tar.gz --no-check-certificate"
-    wget_command_result = run_command(wget_command, logfile, "Download of libmemcached-0.53.tar.gz")
-    success = result[0]
-    logfile = result[1]
-    if not success:
-        return logfile
-    
-    # Extract libmemcached-0.53
-    logfile.write("Extracting libmemcached-0.53.\n")
-    print "Extracting libmemcached-0.53.\n"
-    tar_command = "tar xzvf libmemcached-0.53.tar.gz"
-    tar_command_result = run_command(tar_command, logfile, "Extraction of libmemcached-0.53")
-    success = result[0]
-    logfile = result[1]
-    if not success:
-        return logfile
-    
-    # Take ownership of extracted directory
-    extracted_dir = os.getcwd() + os.sep + "libmemcached-0.53"
-    logfile.write("Changing ownership of %s to current user\n" % extracted_dir)
-    print "Changing ownership of %s to current user\n" % extracted_dir
-    uname = os.getuid()
-    os.chown(extracted_dir, uname, -1)
-    logfile.write("Operation succeeded.\n")
-    print ("Operation succeeded.\n")
-    
-    # Change to extracted directory
-    logfile.write("Switching to %s\n" % extracted_dir)
-    print "Switching to %s\n" % extracted_dir
-    os.chdir(extracted_dir)
-    logfile.write("Working directory is now %s\n" % os.getcwd())
-    print "Working directory is now %s\n" % os.getcwd()
-    logfile.write("Operation succeeded\n.")
-    print ("Operation succeeded\n.")
-    
-    # ./configure
-    logfile.write("Running ./configure for libmemcached-0.53.\n")
-    print "Running ./configure for  libmemcached-0.53.\n"
-    lm_configure_command = "./configure"
-    lm_configure_result = run_command(lm_configure_command, logfile, "Extraction of libmemcached-0.53")
-    success = result[0]
-    logfile = result[1]
-    if not success:
-        return logfile
-    
-    # make
-    logfile.write("Running make for libmemcached-0.53.\n")
-    print "Running make for  libmemcached-0.53.\n"
-    lm_make_command = "make"
-    lm_make_result = run_command(lm_make_command, logfile, "Extraction of libmemcached-0.53")
-    success = result[0]
-    logfile = result[1]
-    if not success:
-        return logfile
-    
-    # make install
-    logfile.write("Running make install for libmemcached-0.53.\n")
-    print "Running make install for  libmemcached-0.53.\n"
-    lm_install_command = "make install"
-    lm_install_result = run_command(lm_install_command, logfile, "Extraction of libmemcached-0.53")
-    success = result[0]
-    logfile = result[1]
-    if not success:
-        return logfile
-    
-    # Check installation
-    try:
-        # The libmemcached-0.53 install is not an rpm and must be checked another way
-        libmemcached_installed = os.stat("/usr/local/lib/libmemcached.so")
+        
+        # Extract libmemcached-0.53
+        logfile.write("Extracting libmemcached-0.53.\n")
+        print "Extracting libmemcached-0.53.\n"
+        tar_command = "tar xzvf libmemcached-0.53.tar.gz"
+        tar_command_result = run_command(tar_command, logfile, "Extraction of libmemcached-0.53")
+        success = tar_command_result[0]
+        logfile = tar_command_result[1]
+        if not success:
+            return logfile
+        
+        # Take ownership of extracted directory
+        extracted_dir = os.getcwd() + os.sep + "libmemcached-0.53"
+        logfile.write("Changing ownership of %s to current user\n" % extracted_dir)
+        print "Changing ownership of %s to current user\n" % extracted_dir
+        uname = os.getuid()
+        os.chown(extracted_dir, uname, -1)
+        logfile.write("Operation succeeded.\n")
+        print ("Operation succeeded.\n")
+        
+        # Change to extracted directory
+        logfile.write("Switching to %s\n" % extracted_dir)
+        print "Switching to %s\n" % extracted_dir
+        os.chdir(extracted_dir)
+        logfile.write("Working directory is now %s\n" % os.getcwd())
+        print "Working directory is now %s\n" % os.getcwd()
+        logfile.write("Operation succeeded\n.")
+        print ("Operation succeeded\n.")
+        
+        # ./configure
+        logfile.write("Running ./configure for libmemcached-0.53.\n")
+        print "Running ./configure for  libmemcached-0.53.\n"
+        lm_configure_command = "./configure"
+        lm_configure_result = run_command(lm_configure_command, logfile, "Extraction of libmemcached-0.53")
+        success = lm_configure_result[0]
+        logfile = lm_configure_result[1]
+        if not success:
+            return logfile
+        
+        # make
+        logfile.write("Running make for libmemcached-0.53.\n")
+        print "Running make for  libmemcached-0.53.\n"
+        lm_make_command = "make"
+        lm_make_result = run_command(lm_make_command, logfile, "Extraction of libmemcached-0.53")
+        success = lm_make_result[0]
+        logfile = lm_make_result[1]
+        if not success:
+            return logfile
+        
+        # make install
+        logfile.write("Running make install for libmemcached-0.53.\n")
+        print "Running make install for  libmemcached-0.53.\n"
+        lm_install_command = "make install"
+        lm_install_result = run_command(lm_install_command, logfile, "Extraction of libmemcached-0.53")
+        success = lm_install_result[0]
+        logfile = lm_install_result[1]
+        if not success:
+            return logfile
+        
+        # Check libmemcached installation
+        libmemcached_installed = libmemcached053_check()
         if libmemcached_installed:
             logfile.write("libmemcached-0.53 installed successfully.\n")
             print "libmemcached-0.53 installed successfully.\n"
             # Flush the buffer and force a write to disk
             logfile.flush()
             os.fsync(logfile)
-    except OSError as libmemcached_error:
-        error1 = "Error: Could not find libmemcached.so in /usr/local/lib/libmemcached.\n"
-        error2 = "libmemcached-0.53 may not have installed properly.\n"
-        logfile.write(error1)
-        logfile.write(error2)
-        print error1
-        print error2
-        end_time = termination_string()
-        logfile.write(end_time)
-        print end_time
-        return logfile
-    
+        else:
+            error1 = "Error: Could not find libmemcached.so in /usr/local/lib.\n"
+            error2 = "libmemcached-0.53 may not have installed properly.\n"
+            logfile.write(error1)
+            logfile.write(error2)
+            print error1
+            print error2
+            end_time = termination_string()
+            logfile.write(end_time)
+            print end_time
+            return logfile
+        # End of libmemcached installation code
     # Check for pgdg91 repo
     if postgresql91_repo:
         repo_string = "The repository at http://yum.postgresql.org/9.1/redhat/rhel-6-x86_64/pgdg-redhat91-9.1-5.noarch.rpm is already installed.\n"
@@ -577,9 +608,9 @@ def run(arch, logfile):
         logfile.write("postgresql91-server is already installed.\n")
         print "postgresql91-server is already installed.\n"
     else:
-        result = yum_install("postgresql91-server", logfile)
-        success = result[0]
-        logfile = result[1]
+        postgres91_result = yum_install("postgresql91-server", logfile)
+        success = postgres91_result[0]
+        logfile = postgres91_result[1]
         if not success:
             return logfile
     
@@ -588,9 +619,9 @@ def run(arch, logfile):
         logfile.write("postgresql91-contrib is already installed.\n")
         print "postgresql91-contrib is already installed.\n"   
     else:
-        result = yum_install("postgresql91-contrib", logfile)
-        success = result[0]
-        logfile = result[1]
+        postgres91_contrib_result = yum_install("postgresql91-contrib", logfile)
+        success = postgres91_contrib_result[0]
+        logfile = postgres91_contrib_result[1]
         if not success:
             return logfile
     
@@ -599,9 +630,9 @@ def run(arch, logfile):
         logfile.write("postgresql91-devel is already installed.\n")
         print "postgresql91-devel is already installed.\n"   
     else:
-        result = yum_install("postgresql91-devel", logfile)
-        success = result[0]
-        logfile = result[1]
+        postgres91_devel_result = yum_install("postgresql91-devel", logfile)
+        success = postgres91_devel_result[0]
+        logfile = postgres91_devel_result[1]
         if not success:
             return logfile
         
