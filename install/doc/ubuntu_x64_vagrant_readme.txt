@@ -207,6 +207,7 @@ The bootstrap.sh script:
     virtualenvwrapper
 4. Appends virtualenv settings to /home/vagrant/.bashrc
 5. Initializes the postgresql cluster data directory with en_US.UTF-8 encoding
+6. Clones the Makahiki repository from http://github.com/csdl/makahiki.git.
 
 The bootstrap_runner.sh script logs the output of bootstrap.sh to a text 
 file in the logs directory. This file is called "ubuntu_x64_<timestamp>.log,"
@@ -236,9 +237,12 @@ vagrant@precise64:~$
 
 2.1.3. Download the Makahiki Source Code
 ===============================================================================
-Assuming that Git installed successfully, clone the CSDL Makahiki repository 
-from Github into the vagrant user's home directory:
-
+Check that the bootstrap.sh script downloaded the makahiki repository:
+-------------------------------------------------------------------------------
+vagrant@precise64:~$ ls
+makahiki postinstall.sh
+-------------------------------------------------------------------------------
+If there is no "makahiki" directory, you will have to clone the repository:
 vagrant@precise64:~$ git clone http://github.com/csdl/makahiki.git
 ===============================================================================
 
@@ -344,7 +348,7 @@ If you are not currently in the top-level makahiki directory
 (makahiki)vagrant@precise64:~/$ cd ~/makahiki
 
 Run the script with the options specified for your operating system:
-(makahiki)vagrant@precise64:~/makahiki$ ./install/ubuntu_installer.py --pip --os ubuntu --arch x86
+(makahiki)vagrant@precise64:~/makahiki$ ./install/ubuntu_installer.py --pip --os ubuntu --arch x64
 
 The list of packages that this step will install with pip are listed in the 
 makahiki/requirements.txt file.
@@ -435,7 +439,7 @@ makahiki/makahiki/scripts/initialize_instance.py script with
 Run the script with the options specified for your operating system:
 
 Ubuntu x86:
-(makahiki)vagrant@precise64:~/makahiki$ ./install/ubuntu_installer.py --initialize_instance --os ubuntu --arch x86
+(makahiki)vagrant@precise64:~/makahiki$ ./install/ubuntu_installer.py --initialize_instance --os ubuntu --arch x64
 
 You will need to answer "Y" to the question "Do you wish to continue (Y/n)?"
 
@@ -487,7 +491,7 @@ following steps (the % represents a Linux terminal prompt):
 Run the script with the options specified for your operating system:
 
 Ubuntu x86:
-% python ./install/ubuntu_installer.py --update_instance --os ubuntu --arch x86
+% ./install/ubuntu_installer.py --update_instance --os ubuntu --arch x64
 
 The script will create a log file in makahiki/install/logs with a filename of 
 the format "install_update_instance_<timestamp>.log," where <timestamp> is 

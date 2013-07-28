@@ -234,9 +234,12 @@ vagrant@precise32:~$
 
 2.1.3. Download the Makahiki Source Code
 ===============================================================================
-Assuming that Git installed successfully, clone the CSDL Makahiki repository 
-from Github into the vagrant user's home directory:
-
+Check that the bootstrap.sh script downloaded the makahiki repository:
+-------------------------------------------------------------------------------
+vagrant@precise32:~$ ls
+makahiki postinstall.sh
+-------------------------------------------------------------------------------
+If there is no "makahiki" directory, you will have to clone the repository:
 vagrant@precise32:~$ git clone http://github.com/csdl/makahiki.git
 ===============================================================================
 
@@ -485,7 +488,7 @@ following steps (the % represents a Linux terminal prompt):
 Run the script with the options specified for your operating system:
 
 Ubuntu x86:
-% python ./install/ubuntu_installer.py --update_instance --os ubuntu --arch x86
+% ./install/ubuntu_installer.py --update_instance --os ubuntu --arch x86
 
 The script will create a log file in makahiki/install/logs with a filename of 
 the format "install_update_instance_<timestamp>.log," where <timestamp> is 

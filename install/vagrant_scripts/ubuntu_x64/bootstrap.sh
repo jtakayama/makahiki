@@ -110,5 +110,14 @@ echo "export WORKON_HOME=/home/vagrant/.virtualenvs" >> /home/vagrant/.bashrc
 echo "export PROJECT_HOME=/home/vagrant/makahiki" >> /home/vagrant/.bashrc
 echo "source /usr/local/bin/virtualenvwrapper.sh" >> /home/vagrant/.bashrc
 echo "Done appending settings to /home/vagrant/.bashrc."
+echo "Downloading source code from Github."
+echo "cd /home/vagrant"
+cd /home/vagrant
+# This line needs to be changed before merging with the main repository
+echo "git clone http://github.com/jtakayama/makahiki"
+git clone http://github.com/jtakayama/makahiki.git
+echo "chown -R vagrant:vagrant /home/vagrant/makahiki"
+chown -R vagrant:vagrant /home/vagrant/makahiki
+echo "Done downloading source code."
 echo "Script completed at $(date)"
 exit 0
