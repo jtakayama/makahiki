@@ -473,8 +473,7 @@ following steps (the % represents a Linux terminal prompt):
 (1.) Close the running server in the shell process that is running Makahiki:
 % (type control-c in the shell running the makahiki server process)
 
-(2.) In the current shell or a new shell, go to the makahiki directory and 
-     set up the Makahiki virtual environment:
+(2.) Go to the makahiki directory and set up the Makahiki virtual environment:
 % cd ~/makahiki
 % workon makahiki
 
@@ -580,7 +579,7 @@ vagrant halt: Attempt to shut down the virtual machine gracefully.
               (Use halt --force to force a shutdown. This is equivalent 
                to pulling the plug on an actual computer.)
 vagrant status: Show the status of the virtual machine.
-vagrant destroy: Deletes a virtual machine. The Vagrantfile remains.
+vagrant destroy: Deletes a virtual machine. The Vagrantfile is not deleted.
 
 The Vagrant 1.2 documentation can be found at http://docs.vagrantup.com/v2/.
 ===============================================================================
