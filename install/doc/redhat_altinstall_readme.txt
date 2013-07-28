@@ -185,7 +185,7 @@ already installed:
   - postgresql91-contrib
   - postgresql91-devel
 - memcached
-- libmemcached-dev
+- libmemcached-0.53
 - virtualenvwrapper (for Python 2.6.6)
 
 The script will create a log file in makahiki/install/logs with a filename of 
