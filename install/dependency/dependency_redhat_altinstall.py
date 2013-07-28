@@ -264,6 +264,7 @@ def run(arch, logfile):
     postgresql91devel_installed = rpm_check("postgresql91-devel")
     memcached_installed = rpm_check("memcached")
     libmemcached_installed = rpm_check("libmemcached-devel")
+    libmemcached053_installed = libmemcached053_check()
     virtualenvwrapper26_installed = virtualenvwrapper_check("/usr/bin/virtualenv")
     
     # git
