@@ -24,10 +24,10 @@ Contents:
 2.1.9. Initialize Makahiki
 2.1.10. Start the Server
 2.1.11. Update the Makahiki Instance
-2.1.12. Optional: Configure the RAM of the Virtual Machine
-2.1.13. Optional: Re-Provisioning Vagrant
 Appendix A. Notes on Log Files
 Appendix B. Vagrant Commands
+Appendix C. Re-Provisioning Vagrant
+Appendix D. Configure the RAM of the Virtual Machine
 -------------------------------------------------------------------------------
 
 0.0. Introduction
@@ -142,7 +142,7 @@ Copy some configuration files and the logs/ directory to the current
 ubuntu_x86_makahiki directory from the makahiki directory:
 
 > cd makahiki\install
-> copy_ubuntu_scripts.bat
+> copy_ubuntu_x86_scripts.bat
 > cd ../../
 
 On the Vagrant virtual machine, the ubuntu_x86_makahiki directory will be 
@@ -344,8 +344,8 @@ If you are not currently in the top-level makahiki directory
 Run the script with the options specified for your operating system:
 (makahiki)vagrant@precise32:~/makahiki$ ./install/ubuntu_installer.py --pip --os ubuntu --arch x86
 
-The list of packages that this step will attempt to install with pip are 
-listed in the makahiki/requirements.txt file.
+The list of packages that this step will install with pip are listed in the 
+makahiki/requirements.txt file.
 
 The script will create a log file in makahiki/install/logs with a filename of 
 the format "install_pip_<timestamp>.log," where <timestamp> is a sequence of 
@@ -500,52 +500,6 @@ To start the server with gunicorn:
 % ./manage.py run_gunicorn
 ===============================================================================
 
-2.1.12. Optional: Re-Provisioning Vagrant
-===============================================================================
-If you are developing for Makahiki using a Vagrant virtual machine and change 
-the provisioning scripts (bootstrap.sh or run_bootstrap.sh), you will need 
-to provision the virtual machine again. You can do this in one of two ways.
-
-A. Re-provision the virtual machine on startup with "vagrant up":
-In the ubuntu_x86_makahiki folder, start the virtual machine with "vagrant up."
-This will run the provisioning script designated in the Vagrantfile.
-> vagrant up 
-
-B. Re-provision a virtual machine that is already running:
-> vagrant provision
-===============================================================================
-
-2.1.13. Optional: Configure the RAM of the Virtual Machine
-===============================================================================
-The default settings in the Vagrantfile that comes with this project limit 
-the virtual machine to 1536 MB (1.5 GB) of RAM. To change these settings, you 
-will need to edit the Vagrantfile while the virtual machine is shut down.
-
-Stop the web server by pressing Ctrl-C in the SSH terminal.
-Then shut down the virtual machine:
-(makahiki)vagrant@precise32:~/makahiki/makahiki$ sudo shutdown -h now
-
-This will end the SSH session.
-
-To increase the RAM allocated to the Virtualbox VM, edit the "vb.customize" 
-line in the Vagrantfile by changing the number after the "--memory" flag.
--------------------------------------------------------------------------------
-  config.vm.provider :virtualbox do |vb|
-    vb.customize ["modifyvm", :id, "--memory", 1536]
-  end
--------------------------------------------------------------------------------
-
-After saving your changes, restart the VM and start the SSH session:
-> vagrant up --no-provision
-> vagrant ssh
-
-In the SSH session, switch to makahiki/makahiki, activate the virtual 
-environment, and start the server with manage.py:
-vagrant@precise32:~$ workon makahiki
-(makahiki)vagrant@precise32:~$ cd makahiki/makahiki
-(makahiki)vagrant@precise32:~/makahiki/makahiki$ ./manage.py runserver
-===============================================================================
-
 Appendix A. Notes on Log Files
 ===============================================================================
 Log files are created by ubuntu_installer.py in makahiki/install/logs.
@@ -582,4 +536,50 @@ vagrant status: Show the status of the virtual machine.
 vagrant destroy: Deletes a virtual machine. The Vagrantfile is not deleted.
 
 The Vagrant 1.2 documentation can be found at http://docs.vagrantup.com/v2/.
+===============================================================================
+
+Appendix C. Re-Provisioning Vagrant
+===============================================================================
+If you are developing for Makahiki using a Vagrant virtual machine and change 
+the provisioning scripts (bootstrap.sh or run_bootstrap.sh), you will need 
+to provision the virtual machine again. You can do this in one of two ways.
+
+A. Re-provision the virtual machine on startup with "vagrant up":
+In the ubuntu_x86_makahiki folder, start the virtual machine with "vagrant up."
+This will run the provisioning script designated in the Vagrantfile.
+> vagrant up 
+
+B. Re-provision a virtual machine that is already running:
+> vagrant provision
+===============================================================================
+
+Appendix D. Configure the RAM of the Virtual Machine
+===============================================================================
+The default settings in the Vagrantfile that comes with this project limit 
+the virtual machine to 1536 MB (1.5 GB) of RAM. To change these settings, you 
+will need to edit the Vagrantfile while the virtual machine is shut down.
+
+Stop the web server by pressing Ctrl-C in the SSH terminal.
+Then shut down the virtual machine:
+(makahiki)vagrant@precise32:~/makahiki/makahiki$ sudo shutdown -h now
+
+This will end the SSH session.
+
+To increase the RAM allocated to the Virtualbox VM, edit the "vb.customize" 
+line in the Vagrantfile by changing the number after the "--memory" flag.
+-------------------------------------------------------------------------------
+  config.vm.provider :virtualbox do |vb|
+    vb.customize ["modifyvm", :id, "--memory", 1536]
+  end
+-------------------------------------------------------------------------------
+
+After saving your changes, restart the VM and start the SSH session:
+> vagrant up --no-provision
+> vagrant ssh
+
+In the SSH session, switch to makahiki/makahiki, activate the virtual 
+environment, and start the server with manage.py:
+vagrant@precise32:~$ workon makahiki
+(makahiki)vagrant@precise32:~$ cd makahiki/makahiki
+(makahiki)vagrant@precise32:~/makahiki/makahiki$ ./manage.py runserver
 ===============================================================================
