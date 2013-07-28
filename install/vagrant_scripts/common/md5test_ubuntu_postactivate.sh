@@ -16,6 +16,7 @@ if [ $MD5_POSTACTIVATE_EXPECTED = $MD5_POSTACTIVATE_ACTUAL ]
         echo "Checksums match. postactivate will be overwritten with Makahiki settings."
         echo "sudo cp /vagrant/postactivate.makahiki $WORKON_HOME/makahiki/bin/postactivate"
         sudo cp /vagrant/postactivate.makahiki $WORKON_HOME/makahiki/bin/postactivate
+        echo "postactivate copy succeeded. [ OK ]"
     else
         if [ $MD5_POSTACTIVATE_MAKAHIKI = $MD5_POSTACTIVATE_ACTUAL ]
             then

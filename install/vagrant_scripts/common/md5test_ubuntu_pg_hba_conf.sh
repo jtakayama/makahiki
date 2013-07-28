@@ -16,6 +16,7 @@ if [ $MD5_PGHBA_EXPECTED = $MD5_PGHBA_ACTUAL ]
         echo "Checksums match. pg_hba.conf will be overwritten with Makahiki settings."
         echo "sudo cp /vagrant/pg_hba.conf.ubuntu.makahiki /etc/postgresql/9.1/main/pg_hba.conf"
         sudo cp /vagrant/pg_hba.conf.ubuntu.makahiki /etc/postgresql/9.1/main/pg_hba.conf
+        echo "pg_hba.conf copy succeeded. [ OK ]"
     else
         if [ $MD5_PGHBA_MAKAHIKI = $MD5_PGHBA_ACTUAL ]
             then

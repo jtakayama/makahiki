@@ -27,7 +27,7 @@ Contents:
 2.1.12. Optional: Configure the RAM of the Virtual Machine
 2.1.13. Optional: Re-Provisioning Vagrant
 Appendix A. Notes on Log Files
-Appendix B. Vagrant Controls
+Appendix B. Vagrant Commands
 -------------------------------------------------------------------------------
 
 0.0. Introduction
@@ -179,24 +179,32 @@ Each time you start Vagrant with "vagrant up," it will run the
 "bootstrap_runner.sh" script specified in the Vagrantfile. This 
 script runs and logs the "bootstrap.sh" script.
 
-The shell script installs the following packages and their dependencies:
-- git
-- gcc
-- python-setuptools
-- pip
-- Python Imaging Library
-  - python-dev
-  - python-imaging
-  - libjpeg-dev
-  - Creates symbolic links to libz.so and libjpeg.so in /usr/lib:
-    1. /usr/lib/libjpeg.so --> /usr/lib/i386-linux-gnu/libjpeg.so
-    2. /usr/lib/libz.so --> /usr/lib/i386-linux-gnu/libz.so
-- PostgreSQL 9.1
-  - postgresql-9.1
-  - libpq-dev
-- memcached
-- libmemcached-dev
-- virtualenvwrapper
+(Later, if you want to start the virtual machine without provisioning 
+ it, use --no-provision: vagrant up --no-provision)
+
+The bootstrap.sh script: 
+1. Updates the apt package lists
+2. Sets the system encoding to en_US.UTF8
+3. Installs the following packages and their dependencies:
+    git
+    gcc
+    python-setuptools
+    pip
+    Python Imaging Library
+    - python-dev
+    - python-imaging
+    - libjpeg-dev
+    - Creates symbolic links to libz.so and libjpeg.so in /usr/lib:
+      1. /usr/lib/libjpeg.so --> /usr/lib/i386-linux-gnu/libjpeg.so
+      2. /usr/lib/libz.so --> /usr/lib/i386-linux-gnu/libz.so
+    PostgreSQL 9.1
+    - postgresql-9.1
+    - libpq-dev
+    memcached
+    libmemcached-dev
+    virtualenvwrapper
+4. Appends virtualenv settings to /home/vagrant/.bashrc
+5. Initializes the postgresql cluster data directory with en_US.UTF-8 encoding
 
 The bootstrap_runner.sh script logs the output of bootstrap.sh to a text 
 file in the logs directory. This file is called "ubuntu_x86_<timestamp>.log,"
@@ -234,8 +242,7 @@ vagrant@precise32:~$ git clone http://github.com/csdl/makahiki.git
 
 2.1.4. Apply .bashrc Changes
 ===============================================================================
-The provisioning script appended the following lines to the .bashrc file 
-of the user "vagrant":
+bootstrap.sh appended these lines to the "vagrant" user's .bashrc file:
 -------------------------------------------------------------------------------
 # Virtualenvwrapper settings for makahiki
 export WORKON_HOME=/home/vagrant/.virtualenvs
@@ -279,9 +286,11 @@ with Makahiki settings:
 
 If the script succeeds, you will see this message:
 "Checksums match. pg_hba.conf will be overwritten with Makahiki settings."
+"sudo cp /vagrant/pg_hba.conf.ubuntu.makahiki /etc/postgresql/9.1/main/pg_hba.conf"
+"pg_hba.conf copy succeeded. [ OK ]"
 
-If you already edited the default pg_hba.conf manually and it 
-exactly matches the makahiki settings, you will see this message:
+If the script was edited previously and matches the Makahiki settings, you will 
+see this message:
 "pg_hba.conf file already overwritten with makahiki settings. [ OK ]"
 
 If you see either of these messages, the correct settings have been applied.
@@ -355,9 +364,11 @@ with Makahiki settings:
 
 If the script succeeds, you will see this message:
 "Checksums match. postactivate will be overwritten with Makahiki settings."
+"sudo cp /vagrant/postactivate.makahiki $WORKON_HOME/makahiki/bin/postactivate"
+"postactivate copy succeeded. [ OK ]"
 
-If you already edited the "postactivate" file and it exactly matches the 
-makahiki settings, you will see this message:
+If the script was edited previously and matches the Makahiki settings, you 
+will see this message:
 "postactivate file already overwritten with makahiki settings. [ OK ]"
 
 If you see either of these messages, the correct settings have been applied.
@@ -451,8 +462,7 @@ To start the server with manage.py:
 To start the server with gunicorn:
 (makahiki)vagrant@precise32:~/makahiki/makahiki$ ./manage.py run_gunicorn
 
-The server is still not reachable from the host machine. This will be 
-configured in the next step.
+View the site in your host machine's web browser at http://localhost:8080.
 ===============================================================================
 
 2.1.11. Update the Makahiki Instance
@@ -557,4 +567,22 @@ The timestamp in log file names breaks down as follows:
 The example timestamp 20130101000000102542 breaks down as follows:
 Year: 2013, month: 01, day: 01, hour: 00, minute: 00, seconds: 00, 
 microseconds: 102542.
+===============================================================================
+
+Appendix B. Vagrant Commands
+===============================================================================
+vagrant up: Start the virtual machine and run the provisioning script.
+            If the virtual machine defined in the Vagrantfile does 
+            not exist, it will be created.
+            (Use up --no-provision to start the machine without 
+             provisioning it.)
+vagrant suspend: Freeze the current state of the virtual machine.
+vagrant resume: Reactivate a machine that has been suspended.
+vagrant halt: Attempt to shut down the virtual machine gracefully.
+              (Use halt --force to force a shutdown. This is equivalent 
+               to pulling the plug on an actual computer.)
+vagrant status: Show the status of the virtual machine.
+vagrant destroy: Deletes a virtual machine. The Vagrantfile remains.
+
+The Vagrant 1.2 documentation can be found at http://docs.vagrantup.com/v2/.
 ===============================================================================
