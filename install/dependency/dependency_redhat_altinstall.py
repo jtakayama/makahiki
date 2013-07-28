@@ -225,7 +225,7 @@ def run(arch, logfile):
          postgresql91-contribs,\n\
          postgresql91-devel,\n\
          memcached,\n\
-         libmemcached-devel,\n\
+         libmemcached-0.53,\n\
          virtualenvwrapper (Python 2.6)\n"
     logfile.write(dependencies_list)
     print dependencies_list

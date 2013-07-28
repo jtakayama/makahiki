@@ -162,7 +162,7 @@ Switch to your top-level makahiki directory:
 Run the script with the options specified for your operating system:
 
 RHEL 6 x64:
-% sudo ./install/install_altinstall.py --dependencies --os redhat --arch x64
+% sudo ./install/redhat_altinstall_installer.py --dependencies --os redhat --arch x64
 
 The script installs these packages and their dependencies, if they are not 
 already installed:
@@ -327,7 +327,7 @@ compile the psycopg2 module.
 Run the script with the options specified for your operating system:
 
 RHEL 6 x64:
-% ./install/install_altinstall.py --pip --os redhat --arch x64
+% ./install/redhat_altinstall_installer.py --pip --os redhat --arch x64
 
 The list of packages that this step will attempt to install with pip are 
 listed in the makahiki/requirements.txt file.
@@ -394,7 +394,7 @@ makahiki/makahiki/scripts/initialize_instance.py script with
 Run the script with the options specified for your operating system:
 
 RHEL 6 x64:
-% ./install/install_altinstall.py --initialize_instance --os redhat --arch x64
+% ./install/redhat_altinstall_installer.py --initialize_instance --os redhat --arch x64
 
 You will need to answer "Y" to the question "Do you wish to continue (Y/n)?"
 
@@ -447,7 +447,7 @@ following steps:
 Run the script with the options specified for your operating system:
 
 RHEL 6 x64:
-% python ./install/install_altinstall.py --update_instance --os redhat --arch x64
+% python ./install/redhat_altinstall_installer.py --update_instance --os redhat --arch x64
 
 The script will create a log file in makahiki/install/logs with a filename of 
 the format "install_update_instance_<timestamp>.log," where <timestamp> is 
