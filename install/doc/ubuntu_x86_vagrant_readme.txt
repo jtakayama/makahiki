@@ -21,7 +21,7 @@ Contents:
 2.1.6. PostgreSQL Configuration
 2.1.7. Install Dependencies With Pip
 2.1.8. Environment Variables Configuration
-2.1.9. Initialize Makahiki [BUG TENTATIVELY RESOLVED]
+2.1.9. Initialize Makahiki
 2.1.10. Start the Server
 2.1.11. Update the Makahiki Instance
 2.1.12. Optional: Configure the RAM of the Virtual Machine
@@ -401,7 +401,7 @@ You will need to do "workon makahiki" for the changes to take effect:
 (makahiki)vagrant@precise32:~/makahiki$ workon makahiki
 ===============================================================================
 
-2.1.9. Initialize Makahiki [BUG TENTATIVELY RESOLVED]
+2.1.9. Initialize Makahiki
 ===============================================================================
 You should still be in the makahiki virtual environment.
 
@@ -455,12 +455,12 @@ web server is better for development, while gunicorn is better for production
 use.
 
 To start the server with manage.py:
-(makahiki)vagrant@precise32:~/makahiki/makahiki$ ./manage.py runserver
+(makahiki)vagrant@precise32:~/makahiki/makahiki$ ./manage.py runserver 0.0.0.0:8000
 
 To start the server with gunicorn:
-(makahiki)vagrant@precise32:~/makahiki/makahiki$ ./manage.py run_gunicorn
+(makahiki)vagrant@precise32:~/makahiki/makahiki$ ./manage.py run_gunicorn -b 0.0.0.0:8000
 
-View the site in your host machine's web browser at http://localhost:8080.
+View the site in your host machine's web browser at http://localhost:8001.
 ===============================================================================
 
 2.1.11. Update the Makahiki Instance
