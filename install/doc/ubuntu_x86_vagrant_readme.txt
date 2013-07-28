@@ -296,7 +296,6 @@ see this message:
 If you see either of these messages, the correct settings have been applied.
 Now, restart the Postgresql service:
 (makahiki)vagrant@precise32:~/makahiki$ sudo /etc/init.d/postgresql restart
- * Restarting PostgreSQL 9.1 database server                             [ OK ]
 
 IF THE SCRIPT FAILS:
 -------------------------------------------------------------------------------
@@ -331,7 +330,6 @@ host    all             all             ::1/128                 md5
 
 After you have edited the pg_hba.conf file, restart the Postgresql service:
 (makahiki)vagrant@precise32:~/makahiki$ sudo /etc/init.d/postgresql restart
- * Restarting PostgreSQL 9.1 database server                             [ OK ]
 -------------------------------------------------------------------------------
 ===============================================================================
 
