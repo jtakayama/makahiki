@@ -141,7 +141,9 @@ Git for Windows can be downloaded from http://git-scm.com/download/win.
 Copy some configuration files and the logs/ directory to the current 
 ubuntu_x86_makahiki directory from the makahiki directory:
 
-> makahiki/install/copy_ubuntu_scripts.bat
+> cd makahiki\install
+> copy_ubuntu_scripts.bat
+> cd ../../
 
 On the Vagrant virtual machine, the ubuntu_x86_makahiki directory will be 
 the /vagrant directory, which is shared with the virtual machine.
