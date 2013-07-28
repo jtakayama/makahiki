@@ -358,7 +358,7 @@ see Appendix A.
 The next step is to configure the Makahiki environment variables.
 Run the md5test_ubuntu_postactivate.sh script to replace the default settings 
 with Makahiki settings:
-(makahiki)vagrant@precise32:~/makahiki sudo sh /vagrant/md5test_ubuntu_postactivate.sh
+(makahiki)vagrant@precise32:~/makahiki sh /vagrant/md5test_ubuntu_postactivate.sh
 
 If the script succeeds, you will see this message:
 "Checksums match. postactivate will be overwritten with Makahiki settings."
