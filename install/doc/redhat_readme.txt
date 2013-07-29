@@ -192,6 +192,10 @@ already installed:
 - memcached
 - libmemcached-0.53
 
+The groupinstall may appear to freeze. This is normal: it installs a large 
+number of packages, and the script does not print the output until it is 
+finished. This step alone takes about 30 minutes on a broadband connection.
+
 The script will create a log file in makahiki/install/logs with a filename of 
 the format "install_dependencies_<timestamp>.log," where <timestamp> is a 
 sequence of numbers representing a timestamp in the system local time. 

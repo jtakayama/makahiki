@@ -278,8 +278,8 @@ def run(arch, logfile):
     # Groupinstall of "Development tools" (the script does not check if its components are installed or not)
     groupinstall_command = "yum groupinstall -y \"Development tools\""
     groupinstall_result = run_command(groupinstall_command, logfile, "Groupinstall of \"Development tools\"")
-    success = result[0]
-    logfile = result[1]
+    success = groupinstall_result[0]
+    logfile = groupinstall_result[1]
     if not success:
         return logfile
     
@@ -288,9 +288,9 @@ def run(arch, logfile):
         logfile.write("git is already installed.\n")
         print "git is already installed.\n" 
     else:
-        result = yum_install("git", logfile)
-        success = result[0]
-        logfile = result[1]
+        git_result = yum_install("git", logfile)
+        success = git_result[0]
+        logfile = git_result[1]
         if not success:
             return logfile
             
@@ -299,9 +299,9 @@ def run(arch, logfile):
         logfile.write("gcc is already installed.\n")
         print "gcc is already installed.\n" 
     else:
-        result = yum_install("gcc", logfile)
-        success = result[0]
-        logfile = result[1]
+        gcc_result = yum_install("gcc", logfile)
+        success = gcc_result[0]
+        logfile = gcc_result[1]
         if not success:
             return logfile
 
@@ -313,9 +313,9 @@ def run(arch, logfile):
         logfile.write("python-imaging is already installed.\n")
         print "python-imaging is already installed.\n" 
     else:
-        result = yum_install("python-imaging", logfile)
-        success = result[0]
-        logfile = result[1]
+        python_imaging_result = yum_install("python-imaging", logfile)
+        success = python_imaging_result[0]
+        logfile = python_imaging_result[1]
         if not success:
             return logfile
 
@@ -324,9 +324,9 @@ def run(arch, logfile):
         logfile.write("python-devel is already installed.\n")
         print "python-devel is already installed.\n" 
     else:
-        result = yum_install("python-devel", logfile)
-        success = result[0]
-        logfile = result[1]
+        python_devel_result = yum_install("python-devel", logfile)
+        success = python_devel_result[0]
+        logfile = python_devel_result[1]
         if not success:
             return logfile
         
@@ -335,9 +335,9 @@ def run(arch, logfile):
         logfile.write("libjpeg-devel (libjpeg-turbo-devel) is already installed.\n")
         print "libjpeg-devel (libjpeg-turbo-devel) is already installed.\n" 
     else:
-        result = yum_install("libjpeg-turbo-devel", logfile)
-        success = result[0]
-        logfile = result[1]
+        libjpeg_devel_result = yum_install("libjpeg-turbo-devel", logfile)
+        success = libjpeg_devel_result[0]
+        logfile = libjpeg_devel_result[1]
         if not success:
             return logfile
 
@@ -413,9 +413,9 @@ def run(arch, logfile):
         logfile.write("memcached is already installed.\n")
         print "memcached is already installed.\n"   
     else:
-        result = yum_install("memcached", logfile)
-        success = result[0]
-        logfile = result[1]
+        memcached_result = yum_install("memcached", logfile)
+        success = memcached_result[0]
+        logfile = memcached_result[1]
         if not success:
             return logfile
         
