@@ -69,9 +69,9 @@ def scriptrunner(scripttype, os, arch, logfile):
         print "Script could not be completed.\n"
         
     elif os == "redhat":
-        logfile.write("This is not the script for Red Hat Enterprise Linux. Use install_redhat.py instead.\n")
+        logfile.write("This is not the script for Red Hat Enterprise Linux. Use redhat_installer.py instead.\n")
         logfile.write("Script could not be completed.\n")
-        print "This is not the script for Red Hat Enterprise Linux. Use install_redhat.py instead.\n"
+        print "This is not the script for Red Hat Enterprise Linux. Use redhat_installer.py instead.\n"
         print "Script could not be completed.\n"
 
     elif os != "ubuntu" and os != "redhat":
@@ -85,9 +85,9 @@ def scriptrunner(scripttype, os, arch, logfile):
             if os == "ubuntu":
                 logfile = dependency.dependency_ubuntu.run(arch, logfile)
             elif os == "redhat":
-                logfile.write("This is not the script for Red Hat Enterprise Linux. Use install_redhat.py instead.\n")
+                logfile.write("This is not the script for Red Hat Enterprise Linux. Use redhat_installer.py instead.\n")
                 logfile.write("Script could not be completed.")
-                print "This is not the script for Red Hat Enterprise Linux. Use install_redhat.py instead.\n"
+                print "This is not the script for Red Hat Enterprise Linux. Use redhat_installer.py instead.\n"
                 print "Script could not be completed.\n"
         elif scripttype == "pip":
             logfile = pip.pip_install.run(logfile)
@@ -104,7 +104,7 @@ def scriptrunner(scripttype, os, arch, logfile):
 
 def main():
     if len(sys.argv) != 6:
-        print "Usage: install.py < --dependencies | --pip | --initialize_instance | --update_instance > --os < ubuntu > --arch < x86 | x64 >"
+        print "Usage: ubuntu_installer.py < --dependencies | --pip | --initialize_instance | --update_instance > --os < ubuntu > --arch < x86 | x64 >"
         print "--dependencies: Install Makahiki dependencies (software packages)."
         print "--pip: Install Makahiki local dependencies using pip."
         print "--initialize_instance: Initialize the Makahiki installation."

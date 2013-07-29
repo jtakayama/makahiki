@@ -71,9 +71,9 @@ def scriptrunner(scripttype, os, arch, logfile):
         4. logfile: The log file to pass to the installation script.
     """
     if os == "ubuntu":
-        logfile.write("This is not the script for Ubuntu Linux. Use install_ubuntu.py instead.\n")
+        logfile.write("This is not the script for Ubuntu Linux. Use ubuntu_installer.py instead.\n")
         logfile.write("Script could not be completed.\n")
-        print "This is not the script for Ubuntu Linux. Use install_ubuntu.py instead.\n"
+        print "This is not the script for Ubuntu Linux. Use ubuntu_installer.py instead.\n"
         print "Script could not be completed.\n"
     elif os == "redhat" and arch != "x64":
         logfile.write("Unsupported architecture for %s: %s" % (os, arch))
@@ -90,9 +90,9 @@ def scriptrunner(scripttype, os, arch, logfile):
             if os == "redhat":
                 logfile = dependency.dependency_redhat.run(arch, logfile)
             elif os == "ubuntu":
-                logfile.write("This is not the script for Ubuntu Linux. Use install_ubuntu.py instead.\n")
+                logfile.write("This is not the script for Ubuntu Linux. Use ubuntu_installer.py instead.\n")
                 logfile.write("Script could not be completed.\n")
-                print "This is not the script for Ubuntu Linux. Use install_ubuntu.py instead.\n"
+                print "This is not the script for Ubuntu Linux. Use ubuntu_installer.py instead.\n"
                 print "Script could not be completed.\n"
         elif scripttype == "pip":
             logfile = pip.pip_install.run(logfile)
@@ -101,14 +101,14 @@ def scriptrunner(scripttype, os, arch, logfile):
         elif scripttype == "update_instance":
             logfile = run_update_instance.run(logfile)
         else:
-            logfile.write("Error: install.py invoked with invalid command: %s" % scripttype)
-            print "Error: install.py invoked with invalid command: %s" % scripttype
+            logfile.write("Error: redhat_altinstall_installer.py invoked with invalid command: %s" % scripttype)
+            print "Error: redhat_altinstall_installer.py invoked with invalid command: %s" % scripttype
     # After the function is done, return the logfile.
     return logfile
 
 def main():
     if len(sys.argv) != 6:
-        print "Usage: install_altinstall.py < --dependencies | --pip | --initialize_instance | --update_instance > --os < redhat > --arch < x64 >"
+        print "Usage: redhat_altinstall_installer.py < --dependencies | --pip | --initialize_instance | --update_instance > --os < redhat > --arch < x64 >"
         print "--dependencies: Install Makahiki dependencies (software packages)."
         print "--pip: Install Makahiki local dependencies using pip."
         print "--initialize_instance: Initialize the Makahiki installation."
