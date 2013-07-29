@@ -212,6 +212,7 @@ def run_command273(command, logfile, message="Operation"):
         run_output = subprocess.check_output(shlex.split(command), stderr=subprocess.STDOUT)
         logfile.write(run_output + "\n")
         print run_output + "\n"
+        success = True
     except OSError as ose:
         logfile.write("OSError: ")
         print "OSError: "
