@@ -189,6 +189,46 @@ def yum_install(packagename, logfile):
         success = False
     return [success, logfile] 
 
+def run_command273(command, logfile, message="Operation"):
+    """
+    Executes <command> and logs its output to <logfile> with <message>.
+    Note that this does not log the console output of commands.
+    This function only works on Python 2.7.3 or higher.
+    
+    Parameters:
+       1. command: The command to be executed.
+       2. logfile: The logfile to write output to.
+       3. message: The custom message. The output is: 
+          Output of success: <message> successful: <command>
+          Output of failure: <message> failed: <command>
+    Returns the tuple "result."
+    result[0] is True if the installation succeeded and False if it did not.
+    result[1] is a reference to the logfile passed in as parameter 2.
+    """
+    success = False
+    logfile.write("Attempting: " + command + "\n")
+    print "Attempting: " + command + "\n"
+    try:
+        run_output = subprocess.check_output(shlex.split(command), stderr=subprocess.STDOUT)
+        logfile.write(run_output + "\n")
+        print run_output + "\n"
+    except OSError as ose:
+        logfile.write("OSError: ")
+        print "OSError: "
+        oserror_output = " errno: %s\n filename: %s\n strerror: %s\n" % (ose.errno, ose.filename, ose.strerror) 
+        logfile.write(oserror_output)
+        print oserror_output
+        closing = "\n%s failed:\n%s" % (message, command)
+        logfile.write(closing)
+        print closing
+        end_time = termination_string()
+        logfile.write(end_time)
+        print end_time
+        success = False
+    # Return result tuple
+    result = [success, logfile]
+    return result
+
 def run(arch, logfile):
     """
     Installs and configures some Makahiki dependencies by issuing 
@@ -615,7 +655,7 @@ def run(arch, logfile):
             remove_libmemcached_command = "yum remove -y libmemcached"
             logfile.write(remove_libmemcached_command + "\n")
             print remove_libmemcached_command + "\n"
-            remove_libmemcached_result = run_command(remove_libmemcached_command, logfile, "Removal of libmemcached package")
+            remove_libmemcached_result = run_command273(remove_libmemcached_command, logfile, "Removal of libmemcached package")
             success = removed_libmemcached_result[0]
             logfile = removed_libmemcached_result[1]
             if not success:
@@ -644,7 +684,7 @@ def run(arch, logfile):
         
         # wget libmemcached-0.53
         wget_command = "wget http://launchpad.net/libmemcached/1.0/0.53/+download/libmemcached-0.53.tar.gz --no-check-certificate"
-        wget_command_result = run_command(wget_command, logfile, "Download of libmemcached-0.53.tar.gz")
+        wget_command_result = run_command273(wget_command, logfile, "Download of libmemcached-0.53.tar.gz")
         success = wget_command_result[0]
         logfile = wget_command_result[1]
         if not success:
@@ -654,7 +694,7 @@ def run(arch, logfile):
         logfile.write("Extracting libmemcached-0.53.\n")
         print "Extracting libmemcached-0.53.\n"
         tar_command = "tar xzvf libmemcached-0.53.tar.gz"
-        tar_command_result = run_command(tar_command, logfile, "Extraction of libmemcached-0.53")
+        tar_command_result = run_command273(tar_command, logfile, "Extraction of libmemcached-0.53")
         success = tar_command_result[0]
         logfile = tar_command_result[1]
         if not success:
@@ -682,7 +722,7 @@ def run(arch, logfile):
         logfile.write("Running ./configure for libmemcached-0.53.\n")
         print "Running ./configure for  libmemcached-0.53.\n"
         lm_configure_command = "./configure"
-        lm_configure_result = run_command(lm_configure_command, logfile, "Extraction of libmemcached-0.53")
+        lm_configure_result = run_command273(lm_configure_command, logfile, "Extraction of libmemcached-0.53")
         success = lm_configure_result[0]
         logfile = lm_configure_result[1]
         if not success:
@@ -692,7 +732,7 @@ def run(arch, logfile):
         logfile.write("Running make for libmemcached-0.53.\n")
         print "Running make for  libmemcached-0.53.\n"
         lm_make_command = "make"
-        lm_make_result = run_command(lm_make_command, logfile, "Extraction of libmemcached-0.53")
+        lm_make_result = run_command273(lm_make_command, logfile, "Extraction of libmemcached-0.53")
         success = lm_make_result[0]
         logfile = lm_make_result[1]
         if not success:
@@ -702,7 +742,7 @@ def run(arch, logfile):
         logfile.write("Running make install for libmemcached-0.53.\n")
         print "Running make install for  libmemcached-0.53.\n"
         lm_install_command = "make install"
-        lm_install_result = run_command(lm_install_command, logfile, "Extraction of libmemcached-0.53")
+        lm_install_result = run_command273(lm_install_command, logfile, "Extraction of libmemcached-0.53")
         success = lm_install_result[0]
         logfile = lm_install_result[1]
         if not success:
