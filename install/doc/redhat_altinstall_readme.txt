@@ -198,6 +198,8 @@ For more information, see Appendix A.
 ===============================================================================
 You will need to add the following lines to the current user's .bashrc file:
 
+% vi ~/.bashrc
+
 # Virtualenvwrapper settings for makahiki
 export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/makahiki
@@ -205,6 +207,7 @@ export PATH=/usr/pgsql-9.1/bin:$PATH
 export PATH=/usr/pgsql-9.1/lib:$PATH
 export PATH=/usr/pgsql-9.1/include:$PATH
 export PATH=/usr/pgsql-9.1:$PATH
+export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib
 export VIRTUALENVWRAPPER_VIRTUALENV=/usr/bin/virtualenv
 export VIRTUALENVWRAPPER_VIRTUALENV_ARGS='--no-site-packages'
 source /usr/bin/virtualenvwrapper.sh

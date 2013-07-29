@@ -53,6 +53,17 @@ causing problems with operating system tools.
 ===============================================================================
 This step requires an Internet connection.
 
+(1) Obtain the Makahiki source code:
+This readme file usually comes with the Makahiki source code. If you already 
+have the Makahiki source code, move or copy the top-level makahiki directory 
+to your home directory:
+% cp makahiki ~/makahiki
+
+If you do not have the Makahiki source code, clone the GitHub repository into 
+your user home directory:
+% cd ~/makahiki
+% git clone http://github.com/csdl/makahiki.git
+
 (1) Install wget if it is not already installed:
 % sudo yum install wget
 
@@ -165,9 +176,10 @@ RHEL 6 x64:
 
 The script installs these packages and their dependencies, if they are not 
 already installed:
+- All packages in the groupinstall of "Development tools"
 - git
 - gcc
-- Python Imaging Library (packages: python-dev, python-imaging, libjpeg-dev)
+- Python Imaging Library (packages: python-devel, python-imaging, libjpeg-devel)
   - This also checks that the libjpeg.so and libz.so libraries (or symlinks 
     to them) exist in /usr/lib64. These symlinks should be created automatically 
     upon installation.
@@ -178,7 +190,7 @@ already installed:
   - postgresql91-contrib
   - postgresql91-devel
 - memcached
-- libmemcached-dev
+- libmemcached-0.53
 
 The script will create a log file in makahiki/install/logs with a filename of 
 the format "install_dependencies_<timestamp>.log," where <timestamp> is a 
@@ -339,6 +351,7 @@ you will need to do this again.
 % export PATH=/usr/pgsql-9.1/bin:$PATH
 % export PATH=/usr/pgsql-9.1/lib:$PATH # Not sure if necessary
 % export PATH=/usr/pgsql-9.1/include:$PATH # Not sure if necessary
+% export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib
 
 Check that the pg_config library's location is part of the PATH.
 

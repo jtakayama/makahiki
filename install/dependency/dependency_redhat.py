@@ -240,7 +240,7 @@ def run(arch, logfile):
          python-devel,\n\
          libjpeg-devel,\n\
          postgresql91-server,\n\
-         postgresql91-contribs,\n\
+         postgresql91-contrib,\n\
          postgresql91-devel,\n\
          memcached,\n\
          libmemcached-0.53\n"
