@@ -243,7 +243,8 @@ def run(arch, logfile):
          postgresql91-contrib,\n\
          postgresql91-devel,\n\
          memcached,\n\
-         libmemcached-0.53\n"
+         libmemcached-0.53,\n\
+         zlib-devel\n"
     logfile.write(dependencies_list)
     print dependencies_list
     value = raw_input("Do you wish to continue (Y/n)? ")
@@ -274,6 +275,7 @@ def run(arch, logfile):
     memcached_installed = rpm_check("memcached")
     libmemcached_installed = rpm_check("libmemcached-devel")
     libmemcached053_installed = libmemcached053_check()
+    zlib_devel_installed = rpm_check("zlib-devel")
     
     # Groupinstall of "Development tools" (the script does not check if its components are installed or not)
     groupinstall_command = "yum groupinstall -y \"Development tools\""
@@ -633,6 +635,17 @@ def run(arch, logfile):
         postgres91_devel_result = yum_install("postgresql91-devel", logfile)
         success = postgres91_devel_result[0]
         logfile = postgres91_devel_result[1]
+        if not success:
+            return logfile
+    
+    # zlib-devel
+    if zlib_devel_installed:
+        logfile.write("zlib-devel is already installed.\n")
+        print "zlib-devel is already installed.\n"   
+    else:
+        zlib_devel_result = yum_install("zlib-devel", logfile)
+        success = zlib_devel_result[0]
+        logfile = zlib_devel_result[1]
         if not success:
             return logfile
         

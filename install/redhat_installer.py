@@ -101,14 +101,14 @@ def scriptrunner(scripttype, os, arch, logfile):
         elif scripttype == "update_instance":
             logfile = run_update_instance.run(logfile)
         else:
-            logfile.write("Error: redhat_altinstall_installer.py invoked with invalid command: %s" % scripttype)
-            print "Error: redhat_altinstall_installer.py invoked with invalid command: %s" % scripttype
+            logfile.write("Error: redhat_installer.py invoked with invalid command: %s" % scripttype)
+            print "Error: redhat_installer.py invoked with invalid command: %s" % scripttype
     # After the function is done, return the logfile.
     return logfile
 
 def main():
     if len(sys.argv) != 6:
-        print "Usage: redhat_altinstall_installer.py < --dependencies | --pip | --initialize_instance | --update_instance > --os < redhat > --arch < x64 >"
+        print "Usage: redhat_installer.py < --dependencies | --pip | --initialize_instance | --update_instance > --os < redhat > --arch < x64 >"
         print "--dependencies: Install Makahiki dependencies (software packages)."
         print "--pip: Install Makahiki local dependencies using pip."
         print "--initialize_instance: Initialize the Makahiki installation."

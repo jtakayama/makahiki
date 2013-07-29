@@ -191,6 +191,7 @@ already installed:
   - postgresql91-devel
 - memcached
 - libmemcached-0.53
+- zlib-devel
 
 The groupinstall may appear to freeze. This is normal: it installs a large 
 number of packages, and the script does not print the output until it is 
@@ -229,7 +230,7 @@ if [ !$PROFILE_ENV ];
     then
         source /opt/rh/python27/root/usr/bin/virtualenvwrapper.sh
 fi
-
+export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib:$LD_LIBRARY_PATH
 After you are done editing .bashrc, source it to apply the 
 new settings to your shell:
 
@@ -240,7 +241,7 @@ NOTE:
 Because virtualenvwrapper was not installed to the default Python installation, 
 the user will see this error at logon:
 -------------------------------------------------------------------------------
-/usr/bin/python: No module named virtualenvwtapper
+/usr/bin/python: No module named virtualenvwrapper
 virtualenvwrapper.sh: There was a problem running the initialization hooks.
 
 If Python could not import the module virtualenvwrapper.hook_loader, 
@@ -261,7 +262,7 @@ Switch to the top-level makahiki directory:
 
 Then, create the makahiki virtual environment: 
 
-% mkvirtualenv makahiki -p /opt/rh/python27/root/usr/bin/python2.7
+% mkvirtualenv makahiki -p /opt/rh/python27/root/usr/bin/python
 
 Creating a virtual environment should switch you to the virtual environment.
 The terminal prompt will be preceded by the name of the virtual environment.
@@ -337,9 +338,6 @@ Stopping postgresql-9.1 service:                           [  OK  ]
 Starting postgresql-9.1 service:                           [  OK  ]
 ===============================================================================
 
-[EVERYTHING BELOW THIS LINE IS UNDER REVISION]
-[TODO: INSERT MEMCACHED COMPILATION INSTRUCTIONS HERE]
-
 2.1.6. Install Dependencies With Pip
 ===============================================================================
 You should still be in the makahiki virtual environment.
@@ -353,9 +351,8 @@ system PATH. This is temporary. If you exit the current shell,
 you will need to do this again.
 
 % export PATH=/usr/pgsql-9.1/bin:$PATH
-% export PATH=/usr/pgsql-9.1/lib:$PATH # Not sure if necessary
-% export PATH=/usr/pgsql-9.1/include:$PATH # Not sure if necessary
-% export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib
+% export PATH=/usr/pgsql-9.1/lib:$PATH
+% export PATH=/usr/pgsql-9.1/include:$PATH
 
 Check that the pg_config library's location is part of the PATH.
 
