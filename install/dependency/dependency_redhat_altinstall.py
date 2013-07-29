@@ -267,7 +267,7 @@ def run(arch, logfile):
          postgresql91-devel,\n\
          memcached,\n\
          libmemcached-0.53,\n\
-         virtualenvwrapper (Python 2.6)\n"
+         virtualenvwrapper (Python 2.6),\n"
     logfile.write(dependencies_list)
     print dependencies_list
     value = raw_input("Do you wish to continue (Y/n)? ")
@@ -311,9 +311,9 @@ def run(arch, logfile):
         logfile.write("git is already installed.\n")
         print "git is already installed.\n" 
     else:
-        result = yum_install("git", logfile)
-        success = result[0]
-        logfile = result[1]
+        git_result = yum_install("git", logfile)
+        success = git_result[0]
+        logfile = git_result[1]
         if not success:
             return logfile
             
@@ -322,9 +322,9 @@ def run(arch, logfile):
         logfile.write("gcc is already installed.\n")
         print "gcc is already installed.\n" 
     else:
-        result = yum_install("gcc", logfile)
-        success = result[0]
-        logfile = result[1]
+        gcc_result = yum_install("gcc", logfile)
+        success = gcc_result[0]
+        logfile = gcc_result[1]
         if not success:
             return logfile
     
@@ -496,9 +496,9 @@ def run(arch, logfile):
         logfile.write("python-imaging is already installed.\n")
         print "python-imaging is already installed.\n" 
     else:
-        result = yum_install("python-imaging", logfile)
-        success = result[0]
-        logfile = result[1]
+        python_imaging_result = yum_install("python-imaging", logfile)
+        success = python_imaging_result[0]
+        logfile = python_imaging_result[1]
         if not success:
             return logfile
 
@@ -507,9 +507,9 @@ def run(arch, logfile):
         logfile.write("python-devel is already installed.\n")
         print "python-devel is already installed.\n" 
     else:
-        result = yum_install("python-devel", logfile)
-        success = result[0]
-        logfile = result[1]
+        python_devel_result = yum_install("python-devel", logfile)
+        success = python_devel_result[0]
+        logfile = python_devel_result[1]
         if not success:
             return logfile
         
@@ -518,9 +518,9 @@ def run(arch, logfile):
         logfile.write("libjpeg-devel (libjpeg-turbo-devel) is already installed.\n")
         print "libjpeg-devel (libjpeg-turbo-devel) is already installed.\n" 
     else:
-        result = yum_install("libjpeg-turbo-devel", logfile)
-        success = result[0]
-        logfile = result[1]
+        libjpeg_devel_result = yum_install("libjpeg-turbo-devel", logfile)
+        success = libjpeg_devel_result[0]
+        logfile = libjpeg_devel_result[1]
         if not success:
             return logfile
 
@@ -601,9 +601,9 @@ def run(arch, logfile):
         logfile.write("postgresql91-server is already installed.\n")
         print "postgresql91-server is already installed.\n"
     else:
-        result = yum_install("postgresql91-server", logfile)
-        success = result[0]
-        logfile = result[1]
+        postgresql91_server_result = yum_install("postgresql91-server", logfile)
+        success = postgresql91_server_result[0]
+        logfile = postgresql91_server_result[1]
         if not success:
             return logfile
     
@@ -612,9 +612,9 @@ def run(arch, logfile):
         logfile.write("postgresql91-contrib is already installed.\n")
         print "postgresql91-contrib is already installed.\n"   
     else:
-        result = yum_install("postgresql91-contrib", logfile)
-        success = result[0]
-        logfile = result[1]
+        postgresql91_contrib_result = yum_install("postgresql91-contrib", logfile)
+        success = postgresql91_contrib_result[0]
+        logfile = postgresql91_contrib_result[1]
         if not success:
             return logfile
     
@@ -623,9 +623,9 @@ def run(arch, logfile):
         logfile.write("postgresql91-devel is already installed.\n")
         print "postgresql91-devel is already installed.\n"   
     else:
-        result = yum_install("postgresql91-devel", logfile)
-        success = result[0]
-        logfile = result[1]
+        postgresql91devel_result = yum_install("postgresql91-devel", logfile)
+        success = postgresql91devel_result[0]
+        logfile = postgresql91devel_result[1]
         if not success:
             return logfile
         
@@ -634,9 +634,9 @@ def run(arch, logfile):
         logfile.write("memcached is already installed.\n")
         print "memcached is already installed.\n"   
     else:
-        result = yum_install("memcached", logfile)
-        success = result[0]
-        logfile = result[1]
+        memcached_result = yum_install("memcached", logfile)
+        success = memcached_result[0]
+        logfile = memcached_result[1]
         if not success:
             return logfile
         
@@ -797,10 +797,10 @@ def run(arch, logfile):
             logfile.write(end_time)
             print end_time
             return logfile
-    
-        logfile.write("RHEL x64 installation script completed successfully.\n")
-        print "RHEL x64 installation script completed successfully.\n"
-        end_time = termination_string()
-        logfile.write(end_time)
-        print end_time
-        return logfile
+    # Closing
+    logfile.write("RHEL x64 installation script completed successfully.\n")
+    print "RHEL x64 installation script completed successfully.\n"
+    end_time = termination_string()
+    logfile.write(end_time)
+    print end_time
+    return logfile
