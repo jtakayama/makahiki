@@ -229,8 +229,6 @@ def run(arch, logfile):
          virtualenvwrapper (Python 2.6)\n"
     logfile.write(dependencies_list)
     print dependencies_list
-    logfile.write("This script will also append to the current user's .bashrc file.\n")
-    print ("This script will also append to the current user's .bashrc file.\n")
     value = raw_input("Do you wish to continue (Y/n)? ")
     while value != "Y" and value != "n":
         logfile.write("Invalid option %s\n" % value)
