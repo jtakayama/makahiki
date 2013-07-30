@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-MD5SUM_PGHBA_EXPECTED=$(md5sum "/vagrant/pg_hba.conf.ubuntu.default")
+MD5SUM_PGHBA_EXPECTED=$(md5sum "/vagrant/config_examples/pg_hba.conf.ubuntu.default")
 MD5SUM_PGHBA_ACTUAL=$(md5sum "/etc/postgresql/9.1/main/pg_hba.conf")
-MD5SUM_PGHBA_MAKAHIKI=$(md5sum "/vagrant/pg_hba.conf.ubuntu.makahiki")
+MD5SUM_PGHBA_MAKAHIKI=$(md5sum "/vagrant/config_examples/pg_hba.conf.ubuntu.makahiki")
 
 # Split string <checksum><2 spaces><filename> on spaces (awk default)
 MD5_PGHBA_EXPECTED=$(echo "$MD5SUM_PGHBA_EXPECTED" | awk '{ print $1 }')
@@ -14,8 +14,8 @@ echo "Actual md5 checksum of default PostgreSQL 9.1 pg_hba.conf: $MD5_PGHBA_ACTU
 if [ $MD5_PGHBA_EXPECTED = $MD5_PGHBA_ACTUAL ]
     then
         echo "Checksums match. pg_hba.conf will be overwritten with Makahiki settings."
-        echo "sudo cp /vagrant/pg_hba.conf.ubuntu.makahiki /etc/postgresql/9.1/main/pg_hba.conf"
-        sudo cp /vagrant/pg_hba.conf.ubuntu.makahiki /etc/postgresql/9.1/main/pg_hba.conf
+        echo "sudo cp /vagrant/config_examples/pg_hba.conf.ubuntu.makahiki /etc/postgresql/9.1/main/pg_hba.conf"
+        sudo cp /vagrant/config_examples/pg_hba.conf.ubuntu.makahiki /etc/postgresql/9.1/main/pg_hba.conf
         echo "pg_hba.conf copy succeeded. [ OK ]"
     else
         if [ $MD5_PGHBA_MAKAHIKI = $MD5_PGHBA_ACTUAL ]

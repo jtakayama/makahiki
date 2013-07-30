@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-MD5SUM_POSTACTIVATE_EXPECTED=$(md5sum "/vagrant/postactivate.default")
+MD5SUM_POSTACTIVATE_EXPECTED=$(md5sum "/vagrant/config_examples/postactivate.default")
 MD5SUM_POSTACTIVATE_ACTUAL=$(md5sum /home/vagrant/.virtualenvs/makahiki/bin/postactivate)
-MD5SUM_POSTACTIVATE_MAKAHIKI=$(md5sum "/vagrant/postactivate.makahiki")
+MD5SUM_POSTACTIVATE_MAKAHIKI=$(md5sum "/vagrant/config_examples/postactivate.makahiki")
 
 # Split string <checksum><2 spaces><filename> on spaces (awk default)
 MD5_POSTACTIVATE_EXPECTED=$(echo "$MD5SUM_POSTACTIVATE_EXPECTED" | awk '{ print $1 }')
@@ -14,8 +14,8 @@ echo "Actual md5 checksum of default makahiki postactivate: $MD5_POSTACTIVATE_AC
 if [ $MD5_POSTACTIVATE_EXPECTED = $MD5_POSTACTIVATE_ACTUAL ]
     then
         echo "Checksums match. postactivate will be overwritten with Makahiki settings."
-        echo "cp /vagrant/postactivate.makahiki /home/vagrant/.virtualenvs/makahiki/bin/postactivate"
-        cp /vagrant/postactivate.makahiki /home/vagrant/.virtualenvs/makahiki/bin/postactivate
+        echo "cp /vagrant/config_examples/postactivate.makahiki /home/vagrant/.virtualenvs/makahiki/bin/postactivate"
+        cp /vagrant/config_examples/postactivate.makahiki /home/vagrant/.virtualenvs/makahiki/bin/postactivate
         echo "postactivate copy succeeded. [ OK ]"
     else
         if [ $MD5_POSTACTIVATE_MAKAHIKI = $MD5_POSTACTIVATE_ACTUAL ]
