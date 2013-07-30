@@ -96,6 +96,12 @@ pg_dropcluster 9.1 main --stop
 echo "pg_createcluster --locale en_US.UTF8 9.1 main"
 pg_createcluster --locale en_US.UTF8 9.1 main
 echo "Configuring PostgreSQL cluster \"main\" with locale en_US.UTF8: finished at $(date)"
+echo "Copying PostgreSQL 9.1 config: started at $(date)"
+echo "sh /home/vagrant/common/md5test_ubuntu_pg_hba_conf.sh"
+sh /home/vagrant/common/md5test_ubuntu_pg_hba_conf.sh"
+echo "/etc/init.d/postgresql-9.1 restart"
+/etc/init.d/postgresql-9.1 restart
+echo "Copying PostgreSQL 9.1 config: finished at $(date)"
 echo "Installing memcached: started at $(date)"
 echo "apt-get install -y memcached"
 apt-get install -y memcached
@@ -123,5 +129,21 @@ git clone http://github.com/jtakayama/makahiki.git
 echo "chown -R vagrant:vagrant /home/vagrant/makahiki"
 chown -R vagrant:vagrant /home/vagrant/makahiki
 echo "Downloading source code from Github: finished at $(date)"
+echo "Creating virtualenv: started at $(date)"
+echo "cd /home/vagrant/makahiki"
+cd /home/vagrant/makahiki
+echo "mkvirtualenv makahiki"
+mkvirtualenv makahiki
+echo "Creating virtualenv: finished at $(date)"
+echo "pip install: started at $(date)"
+echo "pip install -r requirements.txt"
+pip install -r requirements.txt
+echo "pip install: finished at $(date)"
+echo "Setting Makahiki environment variables: started at $(date)"
+echo "sh /home/vagrant/common/md5test_ubuntu_postactivate.sh"
+sh /home/vagrant/common/md5test_ubuntu_postactivate.sh
+echo "workon makahiki"
+workon makahiki
+echo "Setting Makahiki environment variables: finished at $(date)"
 echo "Script completed at $(date)"
 exit 0
