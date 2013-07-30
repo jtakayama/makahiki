@@ -69,9 +69,17 @@ def termination_string():
     Gets the current system time and appends it to a termination notice.
     """
     now = datetime.datetime.now()
-    time = now.strftime("%Y-%m-%d %H:%M:%S")
+    time = now.strftime("%Y-%m-%d %H:%M:%S:%f")
     end_time = "Script exiting at %s\n" % time
     return end_time
+
+def current_time():
+    """
+    Returns the current system time as a string.
+    """
+    now = datetime.datetime.now()
+    time = now.strftime("%Y-%m-%d %H:%M:%S:%f")
+    return time
 
 def run(arch, logfile):
     """
@@ -105,8 +113,7 @@ def run(arch, logfile):
     logfile.write(firstline)
     print firstline
     
-    now = datetime.datetime.now()
-    time = now.strftime("%Y-%m-%d %H:%M:%S")
+    time = current_time()
     start_time = "Script started at %s\n" % time
     logfile.write(start_time)
     print start_time
@@ -149,8 +156,9 @@ def run(arch, logfile):
             logfile.write("git is already installed.\n")
             print "git is already installed.\n"
         else:
-            logfile.write("git will be installed.\n")
-            print "git will be installed.\n"
+            time = current_time()
+            logfile.write("git installation started at %s.\n" % time)
+            print "git installation started at %s.\n" % time
             logfile.write("apt-get install -y git\n")
             print "apt-get install -y git\n"
             git_output = subprocess.check_output(["apt-get", "install", "-y", "git"], stderr=subprocess.STDOUT)
@@ -158,8 +166,9 @@ def run(arch, logfile):
             print git_output
             git_installed = dpkg_check("git")
             if git_installed:
-                logfile.write("git was successfully installed.\n")
-                print "git was successfully installed.\n"
+                time = current_time()
+                logfile.write("git was successfully installed at %s.\n" % time())
+                print "git was successfully installed at %s.\n" % time()
                 # Flush the buffer and force a write to disk after each successful installation
                 logfile.flush()
                 os.fsync(logfile)
@@ -176,8 +185,9 @@ def run(arch, logfile):
             logfile.write("gcc is already installed.\n")
             print "gcc is already installed.\n"
         else:
-            logfile.write("gcc will be installed.\n")
-            print "gcc will be installed.\n"
+            time = current_time()
+            logfile.write("gcc installation started at %s.\n" % time)
+            print "gcc installation started at %s.\n" % time
             logfile.write("apt-get install -y gcc\n")
             print "apt-get install -y gcc\n"
             gcc_output = subprocess.check_output(["apt-get", "install", "-y", "gcc"], stderr=subprocess.STDOUT)
@@ -185,8 +195,9 @@ def run(arch, logfile):
             print gcc_output
             gcc_installed = dpkg_check("gcc")
             if gcc_installed:
-                logfile.write("gcc was successfully installed.\n")
-                print "gcc was successfully installed.\n"
+                time = current_time()
+                logfile.write("gcc was successfully installed at %s.\n" % time)
+                print "gcc was successfully installed at %s.\n" % time
                 # Flush the buffer and force a write to disk after each successful installation
                 logfile.flush()
                 os.fsync(logfile)
@@ -203,8 +214,9 @@ def run(arch, logfile):
             logfile.write("python-setuptools is already installed.\n")
             print "python-setuptools is already installed.\n"
         else:
-            logfile.write("python-setuptools will be installed.\n")
-            print "python-setuptools will be installed.\n"
+            time = current_time()
+            logfile.write("python-setuptools installation started at %s.\n" % time)
+            print "python-setuptools installation started at %s.\n" % time
             logfile.write("apt-get install -y python-setuptools\n")
             print "apt-get install -y python-setuptools\n"
             setuptools_output = subprocess.check_output(["apt-get", "install", "-y", "python-setuptools"], stderr=subprocess.STDOUT)
@@ -212,8 +224,9 @@ def run(arch, logfile):
             print setuptools_output
             python_setuptools_installed = dpkg_check("python-setuptools")
             if python_setuptools_installed:
-                logfile.write("python-setuptools was successfully installed.\n")
-                print "python-setuptools was successfully installed.\n"
+                time = current_time()
+                logfile.write("python-setuptools was successfully installed at %s.\n" % time)
+                print "python-setuptools was successfully installed at %s.\n" % time
                 # Flush the buffer and force a write to disk after each successful installation
                 logfile.flush()
                 os.fsync(logfile)
@@ -230,8 +243,9 @@ def run(arch, logfile):
             logfile.write("pip is already installed.\n")
             print "pip is already installed.\n"
         else:
-            logfile.write("pip will be installed.\n")
-            print "pip will be installed.\n"
+            time = current_time()
+            logfile.write("pip installation started at %s.\n" % time)
+            print "pip installation started at %s.\n" % time
             logfile.write("easy_install pip\n")
             print "easy_install pip\n"
             try:
@@ -246,8 +260,9 @@ def run(arch, logfile):
                 print pip_output
                 pip_installed = pip_check()
                 if pip_installed:
-                    logfile.write("pip was successfully installed.\n")
-                    print "pip was successfully installed.\n"
+                    time = current_time()
+                    logfile.write("pip was successfully installed at %s.\n" % time)
+                    print "pip was successfully installed at %s.\n" % time
                     # Flush the buffer and force a write to disk after each successful installation
                     logfile.flush()
                     os.fsync(logfile)
@@ -278,8 +293,9 @@ def run(arch, logfile):
             logfile.write("python-imaging is already installed.\n")
             print "python-imaging is already installed.\n"
         else:
-            logfile.write("python-imaging will be installed.\n")
-            print "python-imaging will be installed.\n"
+            time = current_time()
+            logfile.write("python-imaging installation started at %s.\n" % time)
+            print "python-imaging installation started at %s.\n" % time
             logfile.write("apt-get install -y python-imaging\n")
             print "apt-get install -y python-imaging\n"
             python_imaging_output = subprocess.check_output(["apt-get", "install", "-y",  "python-imaging"], stderr=subprocess.STDOUT)
@@ -287,8 +303,9 @@ def run(arch, logfile):
             print python_imaging_output
             python_imaging_installed = dpkg_check("python-imaging")
             if python_imaging_installed:
-                logfile.write("python-imaging was successfully installed.\n")
-                print "python-imaging was successfully installed.\n"
+                time = current_time()
+                logfile.write("python-imaging was successfully installed at %s.\n" % time)
+                print "python-imaging was successfully installed at %s.\n" % time
                 # Flush the buffer and force a write to disk after each successful installation
                 logfile.flush()
                 os.fsync(logfile)
@@ -305,8 +322,9 @@ def run(arch, logfile):
             logfile.write("python-dev is already installed.\n")
             print "python-dev is already installed.\n"
         else:
-            logfile.write("python-dev will be installed.\n")
-            print "python-dev will be installed.\n"
+            time = current_time()
+            logfile.write("python-dev installation started at %s.\n" % time)
+            print "python-dev installation started at %s.\n" % time
             logfile.write("apt-get install -y python-dev\n")
             print "apt-get install -y python-dev\n"
             python_dev_output = subprocess.check_output(["apt-get", "install", "-y",  "python-dev"], stderr=subprocess.STDOUT)
@@ -314,8 +332,9 @@ def run(arch, logfile):
             print python_dev_output
             python_dev_installed = dpkg_check("python-dev")
             if python_dev_installed:
-                logfile.write("python-dev was successfully installed.\n")
-                print "python-dev was successfully installed.\n"
+                time = current_time()
+                logfile.write("python-dev was successfully installed at %s.\n" % time)
+                print "python-dev was successfully installed at %s.\n" % time
                 # Flush the buffer and force a write to disk after each successful installation
                 logfile.flush()
                 os.fsync(logfile)
@@ -332,8 +351,9 @@ def run(arch, logfile):
             logfile.write("libjpeg-dev is already installed.\n")
             print "libjpeg-dev is already installed.\n"
         else:
-            logfile.write("libjpeg-dev will be installed.\n")
-            print "libjpeg-dev will be installed.\n"
+            time = current_time()
+            logfile.write("libjpeg-dev installation started at %s.\n" % time)
+            print "libjpeg-dev installation started at %s.\n" % time
             logfile.write("apt-get install -y libjpeg-dev\n")
             print "apt-get install -y libjpeg-dev\n"
             libjpeg_dev_output = subprocess.check_output(["apt-get", "install", "-y",  "libjpeg-dev"], stderr=subprocess.STDOUT)
@@ -341,8 +361,9 @@ def run(arch, logfile):
             print libjpeg_dev_output
             libjpeg_dev_installed = dpkg_check("libjpeg-dev")
             if libjpeg_dev_installed:
-                logfile.write("libjpeg-dev was successfully installed.\n")
-                print "libjpeg-dev was successfully installed.\n"
+                time = current_time()
+                logfile.write("libjpeg-dev was successfully installed at %s.\n" % time)
+                print "libjpeg-dev was successfully installed at %s.\n" % time
                 # Flush the buffer and force a write to disk after each successful installation
                 logfile.flush()
                 os.fsync(logfile)
@@ -355,8 +376,9 @@ def run(arch, logfile):
                 return logfile
             
         # Check for shared libraries and configure symbolic links if needed
-        logfile.write("Checking for Python Imaging Library shared libraries.\n")
-        print "Checking for Python Imaging Library shared libraries.\n"
+        time = current_time()
+        logfile.write("Configuring Python Imaging Library shared libraries: started at %s.\n" % time)
+        print "Configuring Python Imaging Library shared libraries: started at %s.\n" % time
         # libjpeg.so
         try:
             libjpeg_stat = os.stat("/usr/lib/libjpeg.so")
@@ -498,7 +520,10 @@ def run(arch, logfile):
                 logfile.write(end_time)
                 print end_time
                 return logfile
-            
+        
+        time = current_time()
+        logfile.write("Configuring Python Imaging Library shared libraries: finished at %s.\n" % time)
+        print "Configuring Python Imaging Library shared libraries: finished at %s.\n" % time
         logfile.write("Installation of Python Imaging Library components is complete.\n")
         print "Installation of Python Imaging Library components is complete.\n"
         
@@ -507,8 +532,9 @@ def run(arch, logfile):
             logfile.write("postgresql-9.1 is already installed.\n")
             print "postgresql-9.1 is already installed.\n"
         else:
-            logfile.write("postgresql-9.1 will be installed.\n")
-            print "postgresql-9.1 will be installed.\n"
+            time = current_time()
+            logfile.write("postgresql-9.1 installation started at %s.\n" % time)
+            print "postgresql-9.1 installation started at %s.\n" % time
             logfile.write("apt-get install -y postgresql-9.1\n")
             print "apt-get install -y postgresql-9.1\n"
             psql_output = subprocess.check_output(["apt-get", "install", "-y",  "postgresql-9.1"], stderr=subprocess.STDOUT)
@@ -516,8 +542,9 @@ def run(arch, logfile):
             print psql_output
             postgresql91_installed = dpkg_check("postgresql-9.1")
             if postgresql91_installed:
-                logfile.write("postgresql-9.1 was successfully installed.\n")
-                print "postgresql-9.1 was successfully installed.\n"
+                time = current_time()
+                logfile.write("postgresql-9.1 was successfully installed at %s.\n" % time)
+                print "postgresql-9.1 was successfully installed at %s.\n" % time
                 # Flush the buffer and force a write to disk after each successful installation
                 logfile.flush()
                 os.fsync(logfile)
@@ -534,8 +561,9 @@ def run(arch, logfile):
             logfile.write("libpq-dev is already installed.\n")
             print "libpq-dev is already installed.\n"
         else:
-            logfile.write("libpq-dev will be installed.\n")
-            print "libpq-dev will be installed.\n"
+            time = current_time()
+            logfile.write("libpq-dev installation started at %s.\n" % time)
+            print "libpq-dev installation started at %s.\n" % time
             logfile.write("apt-get install -y libpq-dev\n")
             print "apt-get install -y libpq-dev\n"
             libpq_dev_output = subprocess.check_output(["apt-get", "install", "-y",  "libpq-dev"], stderr=subprocess.STDOUT)
@@ -543,8 +571,9 @@ def run(arch, logfile):
             print libpq_dev_output
             libpq_dev_installed = dpkg_check("libpq-dev")
             if libpq_dev_installed:
-                logfile.write("libpq-dev was successfully installed.\n")
-                print "libpq-dev was successfully installed.\n"
+                time = current_time()
+                logfile.write("libpq-dev was successfully installed at %s.\n" % time)
+                print "libpq-dev was successfully installed at %s.\n" % time
                 # Flush the buffer and force a write to disk after each successful installation
                 logfile.flush()
                 os.fsync(logfile)
@@ -561,8 +590,9 @@ def run(arch, logfile):
             logfile.write("memcached is already installed.\n")
             print "memcached is already installed.\n"
         else:
-            logfile.write("memcached will be installed.\n")
-            print "memcached will be installed.\n"
+            time = current_time()
+            logfile.write("memcached installation started at %s.\n" % time)
+            print "memcached installation started at %s.\n" % time
             logfile.write("apt-get install -y memcached\n")
             print "apt-get install -y memcached\n"
             memcached_output = subprocess.check_output(["apt-get", "install", "-y",  "memcached"], stderr=subprocess.STDOUT)
@@ -570,8 +600,9 @@ def run(arch, logfile):
             print memcached_output
             memcached_installed = dpkg_check("memcached")
             if memcached_installed:
-                logfile.write("memcached was successfully installed.\n")
-                print "memcached was successfully installed.\n"
+                time = current_time()
+                logfile.write("memcached was successfully installed at %s.\n" % time)
+                print "memcached was successfully installed at %s.\n" % time
                 # Flush the buffer and force a write to disk after each successful installation
                 logfile.flush()
                 os.fsync(logfile)
@@ -588,8 +619,9 @@ def run(arch, logfile):
             logfile.write("libmemcached-dev is already installed.\n")
             print "libmemcached-dev is already installed.\n"
         else:
-            logfile.write("libmemcached-dev will be installed.\n")
-            print "libmemcached-dev will be installed.\n"
+            time = current_time()
+            logfile.write("libmemcached-dev installation started at %s.\n" % time)
+            print "libmemcached-dev installation started at %s.\n" % time
             logfile.write("apt-get install -y libmemcached-dev\n")
             print "apt-get install -y libmemcached-dev\n"
             libmemcached_output = subprocess.check_output(["apt-get", "install", "-y",  "libmemcached-dev"], stderr=subprocess.STDOUT)
@@ -597,8 +629,9 @@ def run(arch, logfile):
             print libmemcached_output
             libmemcached_installed = dpkg_check("libmemcached-dev")
             if libmemcached_installed:
-                logfile.write("libmemcached-dev was successfully installed.\n")
-                print "libmemcached-dev was successfully installed.\n"
+                time = current_time()
+                logfile.write("libmemcached-dev was successfully installed at %s.\n" % time)
+                print "libmemcached-dev was successfully installed at %s.\n" % time
                 # Flush the buffer and force a write to disk after each successful installation
                 logfile.flush()
                 os.fsync(logfile)
@@ -615,8 +648,9 @@ def run(arch, logfile):
             logfile.write("virtualenvwrapper is already installed.\n")
             print "virtualenvwrapper is already installed.\n"
         else:
-            logfile.write("virtualenvwrapper will be installed.\n")
-            print "virtualenvwrapper will be installed.\n"
+            time = current_time()
+            logfile.write("virtualenvwrapper installation started at %s.\n" % time)
+            print "virtualenvwrapper installation started at %s.\n" % time
             logfile.write("pip install virtualenvwrapper\n")
             print "pip install virtualenvwrapper\n"
             virtualenvwrapper_output = subprocess.check_output(["pip", "install",  "virtualenvwrapper"], stderr=subprocess.STDOUT)
@@ -624,8 +658,9 @@ def run(arch, logfile):
             print virtualenvwrapper_output
             virtualenvwrapper_installed = virtualenvwrapper_check()
             if virtualenvwrapper_installed:
-                logfile.write("virtualenvwrapper was successfully installed.\n")
-                print "virtualenvwrapper was successfully installed.\n"
+                time = current_time()
+                logfile.write("virtualenvwrapper was successfully installed at %s.\n" % time)
+                print "virtualenvwrapper was successfully installed at %s.\n" % time
                 # Flush the buffer and force a write to disk after each successful installation
                 logfile.flush()
                 os.fsync(logfile)
@@ -637,6 +672,9 @@ def run(arch, logfile):
                 print end_time
                 return logfile
         
+        time = current_time()
+        logfile.write("Appending virtualenvwrapper settings to user's ~./bashrc: started at %s." % time)
+        print "Appending virtualenvwrapper settings to user's ~./bashrc: started at %s." % time
         # bashrc
         USER_HOME = subprocess.check_output(["echo $HOME"], stderr=subprocess.STDOUT, shell=True) 
         # Remove newline from expected "/home/<username>\n"
@@ -657,8 +695,9 @@ def run(arch, logfile):
         bashrc.write("source /usr/local/bin/virtualenvwrapper.sh\n")
         bashrc.close()
         # Done appending to file
-        logfile.write("Done appending to ~/.bashrc file.\n")
-        print "Done appending to ~/.bashrc file.\n"
+        time = current_time()
+        logfile.write("Finished appending to ~/.bashrc file at %s.\n" % time)
+        print "Finished appending to ~/.bashrc file at %s.\n" % time
         
         # Done with installation process   
         logfile.write("Script completed successfully.\n")
