@@ -98,7 +98,7 @@ pg_createcluster --locale en_US.UTF8 9.1 main
 echo "Configuring PostgreSQL cluster \"main\" with locale en_US.UTF8: finished at $(date)"
 echo "Copying PostgreSQL 9.1 config: started at $(date)"
 echo "sh /home/vagrant/copy_config/md5test_ubuntu_pg_hba_conf.sh"
-sh /home/vagrant/copy_config/md5test_ubuntu_pg_hba_conf.sh"
+sh /home/vagrant/copy_config/md5test_ubuntu_pg_hba_conf.sh
 echo "/etc/init.d/postgresql-9.1 restart"
 /etc/init.d/postgresql-9.1 restart
 echo "Copying PostgreSQL 9.1 config: finished at $(date)"
