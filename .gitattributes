@@ -1,7 +1,2 @@
-﻿# Explicitly set Linux shell scripts to always have LF line endings
-*.sh text eol=lf
-# Linux configuration files must have LF line endings
-pg_hba.conf.* text eol=lf
-postactivate.* text eol=lf
-# Windows .bat files must have CRLF line endings
-*.bat text eol=crlf
+﻿# Always convert line endings to Linux on checkout.
+text eol=lf
