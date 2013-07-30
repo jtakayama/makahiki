@@ -45,3 +45,6 @@ doc/_build
 
 # Ignore celerybeat
 celerybeat-schedule
+
+# Ignore .vagrant folder created when Vagrant virtual machine is initialized
+vagrant/.vagrant/
