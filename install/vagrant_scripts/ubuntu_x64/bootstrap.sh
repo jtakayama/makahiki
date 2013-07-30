@@ -2,46 +2,50 @@
 echo "Makahiki Environment Setup Script for Ubuntu (x64)"
 echo "--------------------------------------------------"
 echo "Script started at $(date)"
-echo "Appending locale settings (UTF-8) to /etc/bash.bashrc"
+echo "Appending locale settings (UTF-8) to /etc/bash.bashrc: started at $(date)"
 echo "# UTF-8 locale settings for Makahiki" >> /etc/bash.bashrc
 echo "export LANGUAGE=en_US.UTF-8" >> /etc/bash.bashrc
 echo "export LANG=en_US.UTF-8" >> /etc/bash.bashrc
 echo "export LC_ALL=en_US.UTF-8" >> /etc/bash.bashrc
+echo "Appending locale settings (UTF-8) to /etc/bash.bashrc: finished at $(date)"
+echo "Configuring locale settings: started at $(date)"
 locale-gen en_US.UTF-8
 dpkg-reconfigure locales
-echo "Done configuring locale settings."
-echo "Updating package list."
+echo "Configuring locale settings: finished at $(date)"
+echo "Updating package list: started at $(date)"
 echo "apt-get update"
 apt-get update
-echo "Done updating package list."
-echo "Installing git."
+echo "Updating package list: finished at $(date)"
+echo "Installing git: started at $(date)"
 echo "apt-get install -y git"
 apt-get install -y git
-echo "Done installing git."
-echo "Installing gcc."
+echo "Installing git: finished at $(date)"
+echo "Installing gcc: started at $(date)"
 echo "apt-get install -y gcc"
 apt-get install -y gcc
-echo "Done installing gcc."
-echo "Installing python-setuptools."
+echo "Installing gcc: finished at $(date)"
+echo "Installing python-setuptools: started at $(date)"
 echo "apt-get install -y python-setuptools" 
 apt-get install -y python-setuptools
-echo "Done installing python-setuptools."
-echo "Installing pip."
+echo "Installing python-setuptools: finished at $(date)"
+echo "Installing pip: started at $(date)"
 echo "easy_install pip"
 easy_install pip
-echo "Done installing pip."
-echo "Installing python-imaging."
+echo "Installing pip: finished at $(date)"
+echo "Installing python-imaging: started at $(date)"
 echo "apt-get install -y python-imaging"
 apt-get install -y python-imaging
-echo "Done installing python-imaging."
-echo "Installing python-dev."
+echo "Installing python-imaging: finished at $(date)"
+echo "Installing python-dev: started at $(date)"
 echo "apt-get install -y python-dev"
 apt-get install -y python-dev
-echo "Done installing python-dev."
+echo "Installing python-dev: finished at $(date)"
+echo "Installing libjpeg-dev: started at $(date)"
 echo "apt-get install -y libjpeg-dev"
 apt-get install -y libjpeg-dev
+echo "Installing libjpeg-dev: finished at $(date)"
 # Python Imaging Library shared library symlink setup
-echo "Checking locations of Python Imaging Library shared libraries."
+echo "Configuring Python Imaging Library shared libraries: started at $(date)"
 if [ ! -f /usr/lib/libjpeg.so ]
     then
         if [ -f /usr/lib/x86_64-linux-gnu/libjpeg.so ]
@@ -77,40 +81,40 @@ if [ ! -f /usr/lib/libz.so ]
     else
         echo "Found: /usr/lib/libz.so"
 fi
-echo "Python Imaging Library shared libraries check is complete."
-echo "Installing postgresql-9.1."
+echo "Configuring Python Imaging Library shared libraries: finished at $(date)"
+echo "Installing postgresql-9.1: started at $(date)"
 echo "apt-get install -y postgresql-9.1"
 apt-get install -y postgresql-9.1
-echo "Done installing postgresql-9.1."
-echo "Installing libpq-dev."
+echo "Installing postgresql-9.1: finished at $(date)"
+echo "Installing libpq-dev: started at $(date)"
 echo "apt-get install -y libpq-dev"
 apt-get install -y libpq-dev
-echo "Done installing libpq-dev."
-echo "Configuring PostgreSQL cluster \"main\" with locale en_US.UTF8"
+echo "Installing libpq-dev: finished at $(date)"
+echo "Configuring PostgreSQL cluster \"main\" with locale en_US.UTF8: started at $(date)"
 echo "pg_dropcluster 9.1 main --stop"
 pg_dropcluster 9.1 main --stop
 echo "pg_createcluster --locale en_US.UTF8 9.1 main"
 pg_createcluster --locale en_US.UTF8 9.1 main
-echo "Done configuring cluster \"main\"."
-echo "Installing memcached."
+echo "Configuring PostgreSQL cluster \"main\" with locale en_US.UTF8: finished at $(date)"
+echo "Installing memcached: started at $(date)"
 echo "apt-get install -y memcached"
 apt-get install -y memcached
-echo "Finished installing memcached."
-echo "Installing libmemcached-dev."
+echo "Installing memcached: finished at $(date)"
+echo "Installing libmemcached-dev: started at $(date)"
 echo "apt-get install -y libmemcached-dev"
 apt-get install -y libmemcached-dev
-echo "Done installing libmemcached-dev."
-echo "Installing virtualenvwrapper."
+echo "Installing libmemcached-dev: finished at $(date)"
+echo "Installing virtualenvwrapper: started at $(date)"
 echo "pip install virtualenvwrapper"
 pip install virtualenvwrapper
-echo "Done installing virtualenvwrapper."
-echo "Appending virtualenvwrapper settings to /home/vagrant/.bashrc."
+echo "Installing virtualenvwrapper: finished at $(date)"
+echo "Appending virtualenvwrapper settings to /home/vagrant/.bashrc: started at $(date)"
 echo "# Virtualenvwrapper settings for makahiki" >> /home/vagrant/.bashrc
 echo "export WORKON_HOME=/home/vagrant/.virtualenvs" >> /home/vagrant/.bashrc
 echo "export PROJECT_HOME=/home/vagrant/makahiki" >> /home/vagrant/.bashrc
 echo "source /usr/local/bin/virtualenvwrapper.sh" >> /home/vagrant/.bashrc
-echo "Done appending settings to /home/vagrant/.bashrc."
-echo "Downloading source code from Github."
+echo "Appending virtualenvwrapper settings to /home/vagrant/.bashrc: finished at $(date)"
+echo "Downloading source code from Github: started at $(date)"
 echo "cd /home/vagrant"
 cd /home/vagrant
 # This line needs to be changed before merging with the main repository
@@ -118,6 +122,6 @@ echo "git clone http://github.com/jtakayama/makahiki"
 git clone http://github.com/jtakayama/makahiki.git
 echo "chown -R vagrant:vagrant /home/vagrant/makahiki"
 chown -R vagrant:vagrant /home/vagrant/makahiki
-echo "Done downloading source code."
+echo "Downloading source code from Github: finished at $(date)"
 echo "Script completed at $(date)"
 exit 0
