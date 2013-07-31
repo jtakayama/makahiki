@@ -607,8 +607,8 @@ After saving your changes, restart the VM and start the SSH session:
 > vagrant up --no-provision
 > vagrant ssh
 
-In the SSH session, switch to makahiki/makahiki, activate the virtual 
-environment, and start the server with manage.py or gunicorn:
+In the SSH session, switch to makahiki/makahiki and start the server with 
+manage.py or gunicorn:
 
 vagrant@precise32:~$ cd /vagrant/makahiki 
 
