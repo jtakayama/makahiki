@@ -8,26 +8,22 @@ Contents:
 1.0.1. Install VirtualBox
 1.0.2. Install Vagrant
 2.0. Vagrant Virtual Machine Setup
-2.0.1. Virtual Machine Setup
-2.0.2. Download the Makahiki Source Code
-2.0.3. Copy Setup Files
-2.0.4. Download the Base Virtual Machine
+2.0.1. Download the Makahiki Source Code
+2.0.2. Download the Base Virtual Machine
 2.1. Set up Makahiki in the Virtual Machine
 2.1.1. Start the Virtual Machine and Run the Provisioning Script
 2.1.2. Connect to the Vagrant Virtual Machine with SSH
 2.1.3. Download the Makahiki Source Code
-2.1.4. Apply .bashrc Changes
-2.1.5. Set Up the "makahiki" Virtual Environment
-2.1.6. PostgreSQL Configuration
+2.1.4. Environment Variables Verification
+2.1.5. PostgreSQL Configuration Verification
 2.1.7. Install Dependencies With Pip
 2.1.8. Environment Variables Configuration
 2.1.9. Initialize Makahiki
 2.1.10. Start the Server
 2.1.11. Update the Makahiki Instance
-Appendix A. Notes on Log Files
-Appendix B. Vagrant Commands
-Appendix C. Re-Provisioning Vagrant
-Appendix D. Configure the RAM of the Virtual Machine
+Appendix A. Vagrant Commands
+Appendix B. Re-Provisioning Vagrant
+Appendix C. Configure the RAM of the Virtual Machine
 -------------------------------------------------------------------------------
 
 0.0. Introduction
@@ -99,57 +95,30 @@ Command Prompt, type "cmd.exe" in Run.) This terminal will be used to configure
 and access the Vagrant virtual machine.
 ===============================================================================
 
-2.0.1. Virtual Machine Setup
+2.0.1. Download the Makahiki Source Code
 ===============================================================================
-First, create a new directory for your Vagrant virtual machine. This guide 
-uses the example directory "ubuntu_x86_makahiki." A Vagrant virtual machine 
-can be "placed" anywhere. The virtual machine files will not really be located 
-here, but you will issue Vagrant commands for the virtual machine in this 
-directory.
+Downloading the Makahiki source code will create a folder called "makahiki."
 
-> mkdir ubuntu_x86_makahiki
-> cd ubuntu_x86_makahiki
-===============================================================================
-
-2.0.2. Download the Makahiki Source Code
-===============================================================================
 There are two ways of obtaining the Makahiki source code. (If you have this 
 text file, you likely already have the Makahiki source code and can skip this 
 section.)
-
-This guide assumes that you will be placing the source code in the 
-ubuntu_x86_makahiki directory.
 
 A. If you do not have Git for Windows, download the source code from 
    Github as a .zip file:
     A1. In a web browser, go to https://github.com/csdl/makahiki.
     A2. Click the button to "Download ZIP."
     A3. Extract the makahiki.zip file that is downloaded.
-    A4. Copy or move the resulting "makahiki" directory to your 
-        ubuntu_x86_makahiki directory.
 
 B. If you have Git for Windows, you can clone the repository:
-   B1. If you are not in it, change to the "ubuntu_x86_makahiki" directory.
-   B2. Clone the repository into this directory:
-> git clone http://github.com/csdl/makahiki.git
+   > git clone http://github.com/csdl/makahiki.git
 
 Git for Windows can be downloaded from http://git-scm.com/download/win.
+
+Now switch your working directory to makahiki/vagrant:
+> cd makahiki/vagrant
 ===============================================================================
 
-2.0.3. Copy Setup Files
-===============================================================================
-Copy some configuration files and the logs/ directory to the current 
-ubuntu_x86_makahiki directory from the makahiki directory:
-
-> cd makahiki\install
-> copy_ubuntu_x86_scripts.bat
-> cd ../../
-
-On the Vagrant virtual machine, the ubuntu_x86_makahiki directory will be 
-the /vagrant directory, which is shared with the virtual machine.
-===============================================================================
-
-2.0.4. Download the Base Virtual Machine
+2.0.2. Download the Base Virtual Machine
 ===============================================================================
 This step adds the base virtual machine specified in the last step, 
 "precise32," for Vagrant to use. (Replace "precise32" with whatever 
@@ -203,8 +172,9 @@ The bootstrap.sh script:
     memcached
     libmemcached-dev
     virtualenvwrapper
-4. Appends virtualenv settings to /home/vagrant/.bashrc
-5. Initializes the postgresql cluster data directory with en_US.UTF-8 encoding
+4. Creates /home/vagrant/makahiki_env.sh, which sets Makahiki environment variables in the shell
+5. Edits /home/vagrant/.bashrc so it will source /home/vagrant/makahiki_env.sh
+6. Initializes the postgresql cluster data directory with en_US.UTF-8 encoding
 
 The bootstrap_runner.sh script logs the output of bootstrap.sh to a text 
 file in the logs directory. This file is called "ubuntu_x86_<timestamp>.log,"
@@ -239,75 +209,72 @@ Check that the bootstrap.sh script downloaded the makahiki repository:
 vagrant@precise32:~$ ls
 makahiki postinstall.sh
 -------------------------------------------------------------------------------
-If there is no "makahiki" directory, you will have to clone the repository:
+If there is no "makahiki" directory listed in the "ls" output, you will have 
+to clone the repository:
 vagrant@precise32:~$ git clone http://github.com/csdl/makahiki.git
 ===============================================================================
 
-2.1.4. Apply .bashrc Changes
+2.1.4. Environment Variables Verification
 ===============================================================================
-bootstrap.sh appended these lines to the "vagrant" user's .bashrc file:
+bootstrap.sh appended this line to the "vagrant" user's .bashrc file:
 -------------------------------------------------------------------------------
-# Virtualenvwrapper settings for makahiki
-export WORKON_HOME=/home/vagrant/.virtualenvs
-export PROJECT_HOME=/home/vagrant/makahiki
-source /usr/local/bin/virtualenvwrapper.sh
+source /home/vagrant/makahiki_env.sh
 -------------------------------------------------------------------------------
-Source the .bashrc file in order for the changes to take effect.
-
-vagrant@precise32:~$ source .bashrc
-===============================================================================
-
-2.1.5. Set Up the "makahiki" Virtual Environment
-===============================================================================
-Switch to the top-level makahiki directory:
-
-vagrant@precise32:~$ cd makahiki
-
-Then, create the makahiki virtual environment: 
-
-vagrant@precise32:~/makahiki$ mkvirtualenv makahiki
-
-Creating a virtual environment should switch you to the virtual environment.
-The terminal prompt will be preceded by the name of the virtual environment.
-On Ubuntu, this looks like:
-
-(makahiki)vagrant@precise32:~/makahiki$
-
-If creating the virtual environment did not switch you to the virtual 
-environment, use "workon" to switch to it:
-
-vagrant@precise32:~/makahiki$ workon makahiki
-(makahiki)vagrant@precise32:~/makahiki$
-===============================================================================
-
-2.1.6. PostgreSQL Configuration
-===============================================================================
-The next step is to configure the PostgreSQL server authentication settings.
-Run the md5test_ubuntu_pg_hba_conf.sh script to replace the default settings 
-with Makahiki settings:
-(makahiki)vagrant@precise32:~/makahiki sudo sh /vagrant/md5test_ubuntu_pg_hba_conf.sh
-
-If the script succeeds, you will see this message:
-"Checksums match. pg_hba.conf will be overwritten with Makahiki settings."
-"sudo cp /vagrant/pg_hba.conf.ubuntu.makahiki /etc/postgresql/9.1/main/pg_hba.conf"
-"pg_hba.conf copy succeeded. [ OK ]"
-
-If the script was edited previously and matches the Makahiki settings, you will 
-see this message:
-"pg_hba.conf file already overwritten with makahiki settings. [ OK ]"
-
-If you see either of these messages, the correct settings have been applied.
-Now, restart the Postgresql service:
-(makahiki)vagrant@precise32:~/makahiki$ sudo /etc/init.d/postgresql restart
-
-IF THE SCRIPT FAILS:
+makahiki_env.sh sets values for Makahiki environment variables 
+MAKAHIKI_DATABASE_URL and MAKAHIKI_ADMIN_INFO. Check that these values 
+have been set:
 -------------------------------------------------------------------------------
-If the pg_hba.conf file is different from the expected file, you will 
-see this message indicating that the script has failed:
-"WARNING! pg_hba.conf default file is different from expected file."
- File could not be safely overwritten with Makahiki defaults.
- You will need to edit it manually."
-If this happens, follow the instructions below.
+vagrant@precise32:~/makahiki/makahiki$ echo $MAKAHIKI_DATABASE_URL
+postgres://makahiki:makahiki@localhost:5432/makahiki
+vagrant@precise32:~/makahiki/makahiki$ echo $MAKAHIKI_ADMIN_INFO
+admin:admin
+-------------------------------------------------------------------------------
+If your output matches the example shown above, skip "Troubleshooting" 
+and continue.
+
+Troubleshooting:
+*******************************************************************************
+Source the .bashrc file, then check the variables again:
+vagrant@precise32:~/makahiki/makahiki$ source ~/.bashrc
+vagrant@precise32:~/makahiki/makahiki$ echo $MAKAHIKI_DATABASE_URL
+postgres://makahiki:makahiki@localhost:5432/makahiki
+vagrant@precise32:~/makahiki/makahiki$ echo $MAKAHIKI_ADMIN_INFO
+admin:admin
+
+If MAKAHIKI_DATABASE_URL and MAKAHIKI_ADMIN_INFO are still not set after 
+sourcing ~/.bashrc, you need to add them to /home/vagrant/makahiki_env.sh.
+Create this file if it does not exist.
+
+When you are done editing .bashrc, source it:
+vagrant@precise32:~/makahiki/makahiki$ source ~/.bashrc
+*******************************************************************************
+
+Note:
+-----
+The username:password combination of admin:admin is meant for use in 
+development. In a production server, the value of MAKAHIKI_ADMIN_INFO would be 
+changed to a more secure value. To edit this value, edit 
+/home/vagrant/makahiki_env.sh.
+===============================================================================
+
+2.1.5. PostgreSQL Configuration Verification
+===============================================================================
+The next step is to verify the PostgreSQL server authentication settings.
+At the prompt, type "psql -U postgres." If it succeeds, type \q to quit.
+-------------------------------------------------------------------------------
+vagrant@precise32:~$ psql -U postgres
+psql (9.1.9)
+Type "help" for help.
+
+postgres=#\q
+vagrant@precise32:~$
+-------------------------------------------------------------------------------
+If it succeeds, skip "Troubleshooting" and continue.
+
+Troubleshooting:
+*******************************************************************************
+If you cannot connect to the database with "psql -U postgres," you will need to 
+edit the pg_hba.conf file manually.
 
 On Ubuntu 12.04 LTS, pg_hba.conf is at /etc/postgresql/9.1/main/pg_hba.conf. 
 Open it in a text editor with sudo (root) privileges:
@@ -333,88 +300,16 @@ host    all             all             ::1/128                 md5
 
 After you have edited the pg_hba.conf file, restart the Postgresql service:
 (makahiki)vagrant@precise32:~/makahiki$ sudo /etc/init.d/postgresql restart
--------------------------------------------------------------------------------
-===============================================================================
-
-2.1.7. Install Dependencies With Pip
-===============================================================================
-You should still be in the makahiki virtual environment.
-
-If you are not currently in the top-level makahiki directory 
-(/home/vagrant/makahiki in this guide), switch to it:
-(makahiki)vagrant@precise32:~/$ cd ~/makahiki
-
-Run the script with the options specified for your operating system:
-(makahiki)vagrant@precise32:~/makahiki$ ./install/ubuntu_installer.py --pip --os ubuntu --arch x86
-
-The list of packages that this step will install with pip are listed in the 
-makahiki/requirements.txt file.
-
-The script will create a log file in makahiki/install/logs with a filename of 
-the format "install_pip_<timestamp>.log," where <timestamp> is a sequence of 
-numbers representing a timestamp in the system local time. For more information, 
-see Appendix A.
-==============================================================================
-
-2.1.8. Environment Variables Configuration
-==============================================================================
-The next step is to configure the Makahiki environment variables.
-Run the md5test_ubuntu_postactivate.sh script to replace the default settings 
-with Makahiki settings:
-(makahiki)vagrant@precise32:~/makahiki sh /vagrant/md5test_ubuntu_postactivate.sh
-
-If the script succeeds, you will see this message:
-"Checksums match. postactivate will be overwritten with Makahiki settings."
-"sudo cp /vagrant/postactivate.makahiki $WORKON_HOME/makahiki/bin/postactivate"
-"postactivate copy succeeded. [ OK ]"
-
-If the script was edited previously and matches the Makahiki settings, you 
-will see this message:
-"postactivate file already overwritten with makahiki settings. [ OK ]"
-
-If you see either of these messages, the correct settings have been applied.
-Now, apply the new virtual environment settings:
-(makahiki)vagrant@precise32:~/makahiki$ workon makahiki
-
-IF THE SCRIPT FAILS:
--------------------------------------------------------------------------------
-If the postactivate file is different from the expected file, you will 
-see this message indicating that the script has failed:
-"WARNING! postactivate default file is different from expected file."
- File could not be safely overwritten with Makahiki defaults.
- You will need to edit it manually."
-If this happens, follow the instructions below.
-
-Edit $WORKON_HOME/bin/makahiki/postactivate:
-(makahiki)vagrant@precise32:~/makahiki$ nano $WORKON_HOME/makahiki/bin/postactivate
-
-Add these lines to the end of the file:
-------------------------------------------------------------------------------
-# Syntax: postgres://<db_user>:<db_password>@<db_host>:<db_port>/<db_name>
-export MAKAHIKI_DATABASE_URL=postgres://makahiki:makahiki@localhost:5432/makahiki
-
-# Syntax: <admin_name>:<admin_password>
-export MAKAHIKI_ADMIN_INFO=admin:admin
-------------------------------------------------------------------------------
-Production instances of Makahiki should change the <admin_password> to something 
-other than "admin."
-
-You will need to do "workon makahiki" for the changes to take effect:
-
-(makahiki)vagrant@precise32:~/makahiki$ workon makahiki
+*******************************************************************************
 ===============================================================================
 
 2.1.9. Initialize Makahiki
 ===============================================================================
 You should still be in the makahiki virtual environment.
 
-If you are not currently in the top-level makahiki directory 
-(/home/vagrant/makahiki in this guide), switch to it:
-(makahiki)vagrant@precise32:~/$ cd ~/makahiki
-
 WARNING:
 -------------------------------------------------------------------------------
-Running the script with --initialize_instance will:
+Running the initialize_instance.py script will:
 - Install and/or update all Python packages required by Makahiki.
 - Reinitialize the database contents and perform any needed database 
   migrations.
@@ -428,30 +323,21 @@ is invoked with --initialize_instance again. Use the --update_instance option
 subsequent configuration actions.
 
 The script initializes the Makahiki database and populates it with default 
-information and users. It is equivalent to running the standalone 
-makahiki/makahiki/scripts/initialize_instance.py script with 
-"--type default" options.
+information and users.
 -------------------------------------------------------------------------------
 
-Run the script with the options specified for your operating system:
-
-Ubuntu x86:
-(makahiki)vagrant@precise32:~/makahiki$ ./install/ubuntu_installer.py --initialize_instance --os ubuntu --arch x86
+If you are not currently in the second-level makahiki directory 
+(/home/vagrant/makahiki/makahiki in this guide), switch to it:
+vagrant@precise32:~/$ cd ~/makahiki/makahiki
+vagrant@precise32:~/makahiki/makahiki$ ./scripts/initialize_instance.py --type default
 
 You will need to answer "Y" to the question "Do you wish to continue (Y/n)?"
-
-The script will create a log file in makahiki/install/logs with a filename of 
-the format "install_initialize_instance_<timestamp>.log," where <timestamp> is 
-a sequence of numbers representing a timestamp in the system local time. 
-For more information, see Appendix A.
 ===============================================================================
 
 2.1.10. Start the Server
 ===============================================================================
-You should still be in the makahiki virtual environment.
-
-Switch to the makahiki/makahiki directory:
-(makahiki)vagrant@precise32:~/makahiki$ cd makahiki
+You should still be in the makahiki virtual environment. This guide assumes 
+you are currently in the directory ~/makahiki/makahiki.
 
 You can now start the web server using manage.py or gunicorn. The manage.py 
 web server is better for development, while gunicorn is better for production 
@@ -471,29 +357,21 @@ View the site in your host machine's web browser at http://localhost:8001.
 Makahiki is designed to support post-installation updating of your configured 
 system when bug fixes or system enhancements become available. Updating an 
 installed Makahiki instance using the ubuntu_installer.py script requires the 
-following steps (the % represents a Linux terminal prompt):
+following steps (the % represents any working directory):
 
 (1.) Close the running server in the shell process that is running Makahiki:
-% (type control-c in the shell running the makahiki server process)
+(type control-c in the shell running the makahiki server process)
 
-(2.) Go to the makahiki directory and set up the Makahiki virtual environment:
+(2.) Go to the makahiki directory:
 % cd ~/makahiki
-% workon makahiki
+vagrant@precise32:~/makahiki$
 
 (3.) Download the updated source code into the Makahiki installation:
-% git pull origin master
+vagrant@precise32:~/makahiki$ git pull origin master
 
-(4.) Run the ubuntu_installer.py script with --update_instance:
-
-Run the script with the options specified for your operating system:
-
-Ubuntu x86:
-% ./install/ubuntu_installer.py --update_instance --os ubuntu --arch x86
-
-The script will create a log file in makahiki/install/logs with a filename of 
-the format "install_update_instance_<timestamp>.log," where <timestamp> is 
-a sequence of numbers representing a timestamp in the system local time. 
-For more information, see Appendix A.
+(4.) Run the update_instance.py script:
+vagrant@precise32:~/makahiki$ cd makahiki
+vagrant@precise32:~/makahiki/makahiki$ ./scripts/
 
 (5.) Start the server with runserver or gunicorn:
 To start the server with manage.py:
@@ -503,27 +381,7 @@ To start the server with gunicorn:
 % ./manage.py run_gunicorn
 ===============================================================================
 
-Appendix A. Notes on Log Files
-===============================================================================
-Log files are created by ubuntu_installer.py in makahiki/install/logs.
-The log file names follow this format:
-<script-type>_<timestamp>.log
-
-The timestamp in log file names breaks down as follows:
-    year (4 places)
-    month (2 places)
-    day (2 places)
-    hour (2 places)
-    minute (2 places)
-    second (2 places)
-    microsecond (6 places)
-
-The example timestamp 20130101000000102542 breaks down as follows:
-Year: 2013, month: 01, day: 01, hour: 00, minute: 00, seconds: 00, 
-microseconds: 102542.
-===============================================================================
-
-Appendix B. Vagrant Commands
+Appendix A. Vagrant Commands
 ===============================================================================
 vagrant up: Start the virtual machine and run the provisioning script.
             If the virtual machine defined in the Vagrantfile does 
@@ -541,14 +399,14 @@ vagrant destroy: Deletes a virtual machine. The Vagrantfile is not deleted.
 The Vagrant 1.2 documentation can be found at http://docs.vagrantup.com/v2/.
 ===============================================================================
 
-Appendix C. Re-Provisioning Vagrant
+Appendix B. Re-Provisioning Vagrant
 ===============================================================================
 If you are developing for Makahiki using a Vagrant virtual machine and change 
 the provisioning scripts (bootstrap.sh or run_bootstrap.sh), you will need 
 to provision the virtual machine again. You can do this in one of two ways.
 
 A. Re-provision the virtual machine on startup with "vagrant up":
-In the ubuntu_x86_makahiki folder, start the virtual machine with "vagrant up."
+In the makahiki/vagrant directory, start the virtual machine with "vagrant up."
 This will run the provisioning script designated in the Vagrantfile.
 > vagrant up 
 
@@ -556,7 +414,7 @@ B. Re-provision a virtual machine that is already running:
 > vagrant provision
 ===============================================================================
 
-Appendix D. Configure the RAM of the Virtual Machine
+Appendix C. Configure the RAM of the Virtual Machine
 ===============================================================================
 The default settings in the Vagrantfile that comes with this project limit 
 the virtual machine to 1536 MB (1.5 GB) of RAM. To change these settings, you 

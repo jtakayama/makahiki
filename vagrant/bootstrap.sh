@@ -142,20 +142,23 @@ echo "Installing virtualenvwrapper: started at $(date)"
 echo "pip install virtualenvwrapper"
 pip install virtualenvwrapper
 echo "Installing virtualenvwrapper: finished at $(date)"
-echo "Creating /home/vagrant/makahiki_env.sh: started at $(date)"
-echo "touch /home/vagrant/makahiki_env.sh"
-touch /home/vagrant/makahiki_env.sh
-echo "chown vagrant:vagrant /home/vagrant/makahiki_env.sh"
-chown vagrant:vagrant /home/vagrant/makahiki_env.sh
-echo "Appending Makahiki environment variables..."
-echo "# Syntax: postgres://<db_user>:<db_password>@<db_host>:<db_port>/<db_name>" >> /home/vagrant/makahiki_env.sh
-echo "export MAKAHIKI_DATABASE_URL=postgres://makahiki:makahiki@localhost:5432/makahiki" >> /home/vagrant/makahiki_env.sh
-echo "# Syntax: <admin_name>:<admin_password>" >> /home/vagrant/makahiki_env.sh
-echo "export MAKAHIKI_ADMIN_INFO=admin:admin" >> /home/vagrant/makahiki_env.sh
-echo "Creating /home/vagrant/makahiki_env.sh: finished at $(date)"
-echo "Appending Makahiki settings to /home/vagrant/.bashrc: started at $(date)"
-echo "source /home/vagrant/makahiki_env.sh" >> /home/vagrant/.bashrc
-echo "Appending Makahiki settings to /home/vagrant/.bashrc: finished at $(date)"
+if [ ! -f /home/vagrant/makahiki_env.sh ]
+    echo "Creating /home/vagrant/makahiki_env.sh: started at $(date)"
+    echo "touch /home/vagrant/makahiki_env.sh"
+    touch /home/vagrant/makahiki_env.sh
+    echo "chown vagrant:vagrant /home/vagrant/makahiki_env.sh"
+    chown vagrant:vagrant /home/vagrant/makahiki_env.sh
+    echo "Appending Makahiki environment variables..."
+    echo "# Syntax: postgres://<db_user>:<db_password>@<db_host>:<db_port>/<db_name>" >> /home/vagrant/makahiki_env.sh
+    echo "export MAKAHIKI_DATABASE_URL=postgres://makahiki:makahiki@localhost:5432/makahiki" >> /home/vagrant/makahiki_env.sh
+    echo "# Syntax: <admin_name>:<admin_password>" >> /home/vagrant/makahiki_env.sh
+    echo "export MAKAHIKI_ADMIN_INFO=admin:admin" >> /home/vagrant/makahiki_env.sh
+    echo "Creating /home/vagrant/makahiki_env.sh: finished at $(date)"
+    echo "Appending Makahiki settings to /home/vagrant/.bashrc: started at $(date)"
+    echo "source /home/vagrant/makahiki_env.sh" >> /home/vagrant/.bashrc
+    echo "Appending Makahiki settings to /home/vagrant/.bashrc: finished at $(date)"   
+else
+    echo "/home/vagrant/makahiki_env.sh already exists. No changes will be made to .bashrc."
 echo "Downloading source code from Github: started at $(date)"
 echo "cd /home/vagrant"
 cd /home/vagrant
