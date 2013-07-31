@@ -37,7 +37,7 @@ Instructions in appendices are optional.
 ===============================================================================
 This is a README file that describes the process for deploying Makahiki in a 
 Vagrant virtual machine on a Windows host machine. The virtual machine is 
-intended for testing or development use and is NOT SUITABLE for use in a 
+intended for testing or development use. It is not suitable for use in a 
 production deployment of the Makahiki software.
 
 If you would prefer to install Makahiki on Windows manually, without using 
@@ -119,7 +119,8 @@ https://www.virtualbox.org/manual/ch02.html#installation_windows.
 Select "Yes" when you are asked to install drivers for USB support and 
 VirtualBox Host-Only Networking.
 
-This guide was tested with VirtualBox 4.2.16.
+This guide was tested with VirtualBox 4.2.16. It should be compatible with 
+later versions, but this has not been tested.
 ===============================================================================
 
 1.0.2. Install Vagrant
@@ -128,7 +129,8 @@ Download the Vagrant .msi installer from http://downloads.vagrantup.com/.
 To install Vagrant on Windows, follow the instructions at 
 http://docs.vagrantup.com/v2/installation/index.html.
 
-This guide was tested with Vagrant 1.2.4.
+This guide was tested with Vagrant 1.2.4 It should be compatible with 
+later versions of Vagrant 1.2, but this has not been tested.
 ===============================================================================
 
 2.0. Vagrant Virtual Machine Setup 
@@ -173,7 +175,8 @@ This step adds the base virtual machine specified in the last step,
 This will download the virtual machine from Vagrant's servers.
 
 It is only necessary to download each specific box once; if you create more 
-virtual machines with the same base box ("precise32"), you can skip this step.
+virtual machines with the same base box ("precise32") specified in the 
+Vagrantfile, you can skip this step.
 ===============================================================================
 
 2.1. Set up Makahiki in the Virtual Machine
@@ -197,7 +200,8 @@ script runs and logs the "bootstrap.sh" script.
 
 The bootstrap.sh script: 
 1. Updates the apt package lists
-2. Sets the system encoding to en_US.UTF8
+2. Sets the system encoding and locale to en_US.UTF8
+   - Note that this will also set the system time to UTC.
 3. Installs the following packages and their dependencies:
     git
     gcc
@@ -216,7 +220,8 @@ The bootstrap.sh script:
     memcached
     libmemcached-dev
     virtualenvwrapper
-4. Creates /home/vagrant/makahiki_env.sh, which sets Makahiki environment variables in the shell
+4. Creates /home/vagrant/makahiki_env.sh, which sets Makahiki environment 
+   variables in the shell
 5. Edits /home/vagrant/.bashrc so it will source /home/vagrant/makahiki_env.sh
 6. Initializes the postgresql cluster data directory with en_US.UTF-8 encoding
 7. Copies the Makahiki pg_hba.conf file over the default pg_hba.conf file
@@ -592,61 +597,46 @@ vagrant@precise32:/vagrant/makahiki/makahiki$ ./manage.py runserver
 
 Appendix E. Using Eclipse To Develop with Vagrant
 ===============================================================================
-Use of Eclipse is optional. The Makahiki development team has provided 
-.project and .pydevproject files for the convenience of Eclipse users.
+Developing in Eclipse is OPTIONAL. However, Eclipse is the development 
+environment of the Makahiki development team, and .project and .pydevproject 
+are provided for the convenience of Eclipse users.
 
 Prerequisites (host machine):
-- Python 2.7.3 or later (but not Python 3).
-- Java JRE or JDK (Java 6 or newer required)
-- Eclipse IDE (Eclipse 4.2 Juno or newer recommended)
-  - Eclipse addons:
-    - PyDev (Required)
-    - Add-ons from Web, XML, Java EE and OSGi Enterprise Development (Optional)
-      - Eclipse Web Developer Tools (HTML/XHTML/CSS editors) (Optional)
-      - JavaScript Development Tools (JavaScript editor) (Optional)
-- Configure Line Endings and Character Encodings (Required)
+[REQUIRED] Python 2.7.3 or later (but not Python 3).
+[REQUIRED] Java JRE or JDK (Java 6 or newer required)
+[REQUIRED] Eclipse IDE (Eclipse 4.2 Juno or newer recommended)
+[REQUIRED] PyDev Eclipse Add-on
+[REQUIRED] Configure Line Endings and Character Encodings
+[OPTIONAL] Eclipse Add-ons: Web, XML, Java EE and OSGi Enterprise Development:
+           - [RECOMMENDED] Eclipse Web Developer Tools (HTML/XHTML/CSS editors)
+           - [RECOMMENDED] JavaScript Development Tools (JavaScript editor)
+[OPTIONAL] Set Hidden Files and Folders as Visible
 
-Python:
+Prerequisites: Python [REQUIRED]
 -------------------------------------------------------------------------------
 For Python binaries and installation instructions, see http://python.org.
+- Makahiki requires Python 2.7.3 or later, or a newer version of Python 2.
+- Makahiki IS NOT compatible with Python 3.
 -------------------------------------------------------------------------------
 
-Eclipse:
+Prerequisites: Eclipse [REQUIRED]
 -------------------------------------------------------------------------------
 Eclipse is an Integrated Development Environment (IDE) available 
 from http://eclipse.org. 
 - If you do not have Eclipse, follow the instructions at 
   http://wiki.eclipse.org/Eclipse/Installation.
-- At a minimum, Eclipse requires that the Java JRE be installed on the host 
+- Eclipse requires that the Java JRE (Java 6 or later) be installed on the host 
   machine. The full Java JDK (which includes the JRE) is useful for Java 
   development, but it is NOT required for Makahiki development.
 -------------------------------------------------------------------------------
 
-PyDev:
+Prerequisites: PyDev [REQUIRED]
 -------------------------------------------------------------------------------
 PyDev is an Eclipse add-on that is required for Python development. 
 See http://pydev.org for installation instructions.
 -------------------------------------------------------------------------------
 
-Web Development Add-Ons:
--------------------------------------------------------------------------------
-The "Web, XML, Java EE and OSGi Enterprise Development" set of add-ons is 
-available from within Eclipse. None of these add-ons are required for Python 
-development, but some are useful for general web development.
-1. In the Help menu, select "Install New Software."
-2. For the "Work with:" dropdown menu, select the "releases" URL that matches 
-   your Eclipse version. For Eclipse 4.2 Juno, for example, this 
-   would be "Juno - http://download.eclipse.org/releases/juno."
-3. In the list of packages that appears below, click on the 
-   arrow to the left of "Web, XML, Java EE and OSGi Enterprise Development."
-   to expand the category.
-4. Check the boxes for the add-ons you want to install. 
-5. Click "Next," then "Next." You may need to agree to one or more licenses.
-6. Restart Eclipse when prompted. After the restart, any new editors or 
-   features will be installed and ready for use.
--------------------------------------------------------------------------------
-
-Configure Line Endings and Character Encodings:
+Prerequisites: Configure Line Endings and Character Encodings [REQUIRED]
 -------------------------------------------------------------------------------
 If you are using Eclipse, it is very important to set these preferences before 
 editing any of the project files or creating new ones.
@@ -661,7 +651,29 @@ editing any of the project files or creating new ones.
 5. Click "Apply" when finished.
 -------------------------------------------------------------------------------
 
-View Hidden Files and Folders in Eclipse
+Prequisites: Web Development Add-Ons [OPTIONAL]
+-------------------------------------------------------------------------------
+The "Web, XML, Java EE and OSGi Enterprise Development" set of add-ons is 
+available from within Eclipse. None of these add-ons are required for Python 
+development, but some are useful for general web development. Makahiki 
+uses Django and contains JavaScript, HTML, and CSS files.
+
+1. In the Help menu, select "Install New Software."
+2. For the "Work with:" dropdown menu, select the "releases" URL that matches 
+   your Eclipse version. For Eclipse 4.2 Juno, for example, this 
+   would be "Juno - http://download.eclipse.org/releases/juno."
+3. In the list of packages that appears below, click on the 
+   arrow to the left of "Web, XML, Java EE and OSGi Enterprise Development."
+   to expand the category. 
+   - The "Eclipse Web Developer Tools" provide HTML/XHTML/CSS editors.
+   - The "JavaScript Development Tools" provide a JavaScript (.js) editor.
+4. Check the boxes for the add-ons you want to install. 
+5. Click "Next," then "Next." You may need to agree to one or more licenses.
+6. Restart Eclipse when prompted. After the restart, any new editors or 
+   features will be installed and ready for use.
+-------------------------------------------------------------------------------
+
+Prerequisites: Set Hidden Files and Folders as Visible [OPTIONAL]
 -------------------------------------------------------------------------------
 1. Open Eclipse.
 2. In the "Package Explorer" sidebar, click on the white down-pointing arrow 
@@ -675,6 +687,16 @@ View Hidden Files and Folders in Eclipse
 
 Appendix F. Import Makahiki as an Eclipse Project
 ===============================================================================
+If you followed the previous instructions to set up a Vagrant virtual machine 
+in the earlier part of this guide, your Vagrant virtual machine and its 
+.vagrant folder should be located at the top level of the cloned makahiki 
+repository, where the Vagrantfile is.
+
+Importing Makahiki as an Eclipse project when it has also been set up as the 
+Vagrant shared directory allows you to modify Makahiki source files on your 
+host machine, then deploy the changes in your Vagrant virtual machine 
+immediately.
+
 1. Open Eclipse.
 2. When prompted to select a workspace, select the directory that you cloned the 
    Makahiki repository into earlier (e.g., the directory that contains the 
