@@ -112,15 +112,14 @@ B. If you have Git for Windows, you can clone the repository:
 
 Git for Windows can be downloaded from http://git-scm.com/download/win.
 
-Now switch your working directory to makahiki/vagrant:
-> cd makahiki/vagrant
+Now switch your working directory to makahiki:
+> cd makahiki
 ===============================================================================
 
 2.0.2. Download the Base Virtual Machine
 ===============================================================================
 This step adds the base virtual machine specified in the last step, 
-"precise32," for Vagrant to use. (Replace "precise32" with whatever 
-value you specified for config.vm.box in the last step.)
+"precise32," for Vagrant to use.
 
 > vagrant box add precise32 http://files.vagrantup.com/precise32.box
 
@@ -143,7 +142,7 @@ Use the "vagrant up" command to start the virtual machine:
 > vagrant up
 
 Each time you start Vagrant with "vagrant up," it will run the 
-"bootstrap_runner.sh" script specified in the Vagrantfile. This 
+"run_bootstrap.sh" script specified in the Vagrantfile. This 
 script runs and logs the "bootstrap.sh" script.
 
 (Later, if you want to start the virtual machine without provisioning 
@@ -173,6 +172,7 @@ The bootstrap.sh script:
 4. Creates /home/vagrant/makahiki_env.sh, which sets Makahiki environment variables in the shell
 5. Edits /home/vagrant/.bashrc so it will source /home/vagrant/makahiki_env.sh
 6. Initializes the postgresql cluster data directory with en_US.UTF-8 encoding
+7. Copies the Makahiki pg_hba.conf file over the default pg_hba.conf file
 
 The bootstrap_runner.sh script logs the output of bootstrap.sh to a text 
 file in the logs directory. This file is called "ubuntu_x86_<timestamp>.log,"
@@ -202,14 +202,12 @@ vagrant@precise32:~$
 
 2.1.3. Download the Makahiki Source Code
 ===============================================================================
-Check that the bootstrap.sh script downloaded the makahiki repository:
--------------------------------------------------------------------------------
-vagrant@precise32:~$ ls
-makahiki postinstall.sh
--------------------------------------------------------------------------------
-If there is no "makahiki" directory listed in the "ls" output, you will have 
-to clone the repository:
-vagrant@precise32:~$ git clone http://github.com/csdl/makahiki.git
+The makahiki source code should show up in the /vagrant/ directory.
+vagrant@precise32:~$ cd /vagrant
+vagrant@precise32:/vagrant/$ ls
+
+The output of ls should match the contents of the makahiki directory on your 
+host machine.
 ===============================================================================
 
 2.1.4. Environment Variables Verification
@@ -222,9 +220,9 @@ makahiki_env.sh sets values for Makahiki environment variables
 MAKAHIKI_DATABASE_URL and MAKAHIKI_ADMIN_INFO. Check that these values 
 have been set:
 -------------------------------------------------------------------------------
-vagrant@precise32:~/makahiki/makahiki$ echo $MAKAHIKI_DATABASE_URL
+vagrant@precise32:/vagrant$ echo $MAKAHIKI_DATABASE_URL
 postgres://makahiki:makahiki@localhost:5432/makahiki
-vagrant@precise32:~/makahiki/makahiki$ echo $MAKAHIKI_ADMIN_INFO
+vagrant@precise32:/vagrant$ echo $MAKAHIKI_ADMIN_INFO
 admin:admin
 -------------------------------------------------------------------------------
 If your output matches the example shown above, skip "Troubleshooting" 
@@ -233,10 +231,10 @@ and continue.
 Troubleshooting:
 *******************************************************************************
 Source the .bashrc file, then check the variables again:
-vagrant@precise32:~/makahiki/makahiki$ source ~/.bashrc
-vagrant@precise32:~/makahiki/makahiki$ echo $MAKAHIKI_DATABASE_URL
+vagrant@precise32:/vagrant$ source ~/.bashrc
+vagrant@precise32:/vagrant$ echo $MAKAHIKI_DATABASE_URL
 postgres://makahiki:makahiki@localhost:5432/makahiki
-vagrant@precise32:~/makahiki/makahiki$ echo $MAKAHIKI_ADMIN_INFO
+vagrant@precise32:/vagrant$ echo $MAKAHIKI_ADMIN_INFO
 admin:admin
 
 If MAKAHIKI_DATABASE_URL and MAKAHIKI_ADMIN_INFO are still not set after 
@@ -244,7 +242,7 @@ sourcing ~/.bashrc, you need to add them to /home/vagrant/makahiki_env.sh.
 Create this file if it does not exist.
 
 When you are done editing .bashrc, source it:
-vagrant@precise32:~/makahiki/makahiki$ source ~/.bashrc
+vagrant@precise32:/vagrant$ source ~/.bashrc
 *******************************************************************************
 
 Note:
@@ -260,12 +258,12 @@ changed to a more secure value. To edit this value, edit
 The next step is to verify the PostgreSQL server authentication settings.
 At the prompt, type "psql -U postgres." If it succeeds, type \q to quit.
 -------------------------------------------------------------------------------
-vagrant@precise32:~$ psql -U postgres
+vagrant@precise32:/vagrant$ psql -U postgres
 psql (9.1.9)
 Type "help" for help.
 
 postgres=#\q
-vagrant@precise32:~$
+vagrant@precise32:/vagrant$
 -------------------------------------------------------------------------------
 If it succeeds, skip "Troubleshooting" and continue.
 
@@ -277,7 +275,7 @@ edit the pg_hba.conf file manually.
 On Ubuntu 12.04 LTS, pg_hba.conf is at /etc/postgresql/9.1/main/pg_hba.conf. 
 Open it in a text editor with sudo (root) privileges:
 
-(makahiki)vagrant@precise32:~/makahiki$ sudo nano /etc/postgresql/9.1/main/pg_hba.conf
+vagrant@precise32:/vagrant$ sudo nano /etc/postgresql/9.1/main/pg_hba.conf
 
 To configure PostgreSQL, edit the "local all postgres", "local all all", 
 "host all all 127.0.0.1/32", and "host all all ::1/128" lines in the 
@@ -297,14 +295,12 @@ host    all             all             ::1/128                 md5
 -------------------------------------------------------------------------------
 
 After you have edited the pg_hba.conf file, restart the Postgresql service:
-(makahiki)vagrant@precise32:~/makahiki$ sudo /etc/init.d/postgresql restart
+vagrant@precise32:/vagrant$ sudo /etc/init.d/postgresql restart
 *******************************************************************************
 ===============================================================================
 
 2.1.6. Initialize Makahiki
 ===============================================================================
-You should still be in the makahiki virtual environment.
-
 WARNING:
 -------------------------------------------------------------------------------
 Running the initialize_instance.py script will:
@@ -324,28 +320,27 @@ The script initializes the Makahiki database and populates it with default
 information and users.
 -------------------------------------------------------------------------------
 
-If you are not currently in the second-level makahiki directory 
-(/home/vagrant/makahiki/makahiki in this guide), switch to it:
-vagrant@precise32:~/$ cd ~/makahiki/makahiki
-vagrant@precise32:~/makahiki/makahiki$ ./scripts/initialize_instance.py --type default
+If you are not currently in the /vagrant/makahiki directory 
+(/vagrant/makahiki/makahiki in this guide), switch to it:
+vagrant@precise32:~/$ cd /vagrant/makahiki
+vagrant@precise32:/vagrant/makahiki$ ./scripts/initialize_instance.py --type default
 
 You will need to answer "Y" to the question "Do you wish to continue (Y/n)?"
 ===============================================================================
 
 2.1.7. Start the Server
 ===============================================================================
-You should still be in the makahiki virtual environment. This guide assumes 
-you are currently in the directory ~/makahiki/makahiki.
+This guide assumes you are currently in the directory ~/makahiki/makahiki.
 
 You can now start the web server using manage.py or gunicorn. The manage.py 
 web server is better for development, while gunicorn is better for production 
 use.
 
 To start the server with manage.py:
-(makahiki)vagrant@precise32:~/makahiki/makahiki$ ./manage.py runserver 0.0.0.0:8000
+vagrant@precise32:/vagrant/makahiki$ ./manage.py runserver 0.0.0.0:8000
 
 To start the server with gunicorn:
-(makahiki)vagrant@precise32:~/makahiki/makahiki$ ./manage.py run_gunicorn -b 0.0.0.0:8000
+vagrant@precise32:/vagrant/makahiki$ ./manage.py run_gunicorn -b 0.0.0.0:8000
 
 View the site in your host machine's web browser at http://localhost:8001.
 ===============================================================================
@@ -420,7 +415,7 @@ will need to edit the Vagrantfile while the virtual machine is shut down.
 
 Stop the web server by pressing Ctrl-C in the SSH terminal.
 Then shut down the virtual machine:
-(makahiki)vagrant@precise32:~/makahiki/makahiki$ sudo shutdown -h now
+vagrant@precise32:~/makahiki/makahiki$ sudo shutdown -h now
 
 This will end the SSH session.
 
@@ -438,7 +433,6 @@ After saving your changes, restart the VM and start the SSH session:
 
 In the SSH session, switch to makahiki/makahiki, activate the virtual 
 environment, and start the server with manage.py:
-vagrant@precise32:~$ workon makahiki
-(makahiki)vagrant@precise32:~$ cd makahiki/makahiki
-(makahiki)vagrant@precise32:~/makahiki/makahiki$ ./manage.py runserver
+vagrant@precise32:~$ cd /vagrant/makahiki/makahiki 
+vagrant@precise32:/vagrant/makahiki/makahiki$ ./manage.py runserver
 ===============================================================================

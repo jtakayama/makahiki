@@ -1,2 +1,2 @@
-# Always convert line endings to Linux on checkout.
+﻿# Always convert line endings to Linux on checkout.
 * text eol=lf

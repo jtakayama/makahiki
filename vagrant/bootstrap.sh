@@ -98,9 +98,9 @@ pg_createcluster --locale en_US.UTF8 9.1 main
 echo "Configuring PostgreSQL cluster \"main\" with locale en_US.UTF8: finished at $(date)"
 echo "Copying PostgreSQL 9.1 pg_hba.conf: started at $(date)"
 # Begin pg_hba.conf copying code:
-MD5SUM_PGHBA_EXPECTED=$(md5sum "/vagrant/config_examples/pg_hba.conf.ubuntu.default")
+MD5SUM_PGHBA_EXPECTED=$(md5sum "/vagrant/vagrant/config_examples/pg_hba.conf.ubuntu.default")
 MD5SUM_PGHBA_ACTUAL=$(md5sum "/etc/postgresql/9.1/main/pg_hba.conf")
-MD5SUM_PGHBA_MAKAHIKI=$(md5sum "/vagrant/config_examples/pg_hba.conf.ubuntu.makahiki")
+MD5SUM_PGHBA_MAKAHIKI=$(md5sum "/vagrant/vagrant/config_examples/pg_hba.conf.ubuntu.makahiki")
 
 # Split string <checksum><2 spaces><filename> on spaces (awk default)
 MD5_PGHBA_EXPECTED=$(echo "$MD5SUM_PGHBA_EXPECTED" | awk '{ print $1 }')
@@ -113,8 +113,8 @@ echo "Actual md5 checksum of default PostgreSQL 9.1 pg_hba.conf: $MD5_PGHBA_ACTU
 if [ $MD5_PGHBA_EXPECTED = $MD5_PGHBA_ACTUAL ]
     then
         echo "Checksums match. pg_hba.conf will be overwritten with Makahiki settings."
-        echo "sudo cp /vagrant/config_examples/pg_hba.conf.ubuntu.makahiki /etc/postgresql/9.1/main/pg_hba.conf"
-        sudo cp /vagrant/config_examples/pg_hba.conf.ubuntu.makahiki /etc/postgresql/9.1/main/pg_hba.conf
+        echo "sudo cp /vagrant/vagrant/config_examples/pg_hba.conf.ubuntu.makahiki /etc/postgresql/9.1/main/pg_hba.conf"
+        sudo cp /vagrant/vagrant/config_examples/pg_hba.conf.ubuntu.makahiki /etc/postgresql/9.1/main/pg_hba.conf
         echo "pg_hba.conf copy succeeded. [ OK ]"
     else
         if [ $MD5_PGHBA_MAKAHIKI = $MD5_PGHBA_ACTUAL ]
@@ -128,7 +128,7 @@ if [ $MD5_PGHBA_EXPECTED = $MD5_PGHBA_ACTUAL ]
 fi
 # End pg_hba.conf copying code.
 echo "/etc/init.d/postgresql-9.1 restart"
-/etc/init.d/postgresql-9.1 restart
+sudo /etc/init.d/postgresql-9.1 restart
 echo "Copying PostgreSQL 9.1 pg_hba.conf: finished at $(date)"
 echo "Installing memcached: started at $(date)"
 echo "apt-get install -y memcached"
@@ -143,31 +143,23 @@ echo "pip install virtualenvwrapper"
 pip install virtualenvwrapper
 echo "Installing virtualenvwrapper: finished at $(date)"
 if [ ! -f /home/vagrant/makahiki_env.sh ]
-    echo "Creating /home/vagrant/makahiki_env.sh: started at $(date)"
-    echo "touch /home/vagrant/makahiki_env.sh"
-    touch /home/vagrant/makahiki_env.sh
-    echo "chown vagrant:vagrant /home/vagrant/makahiki_env.sh"
-    chown vagrant:vagrant /home/vagrant/makahiki_env.sh
-    echo "Appending Makahiki environment variables..."
-    echo "# Syntax: postgres://<db_user>:<db_password>@<db_host>:<db_port>/<db_name>" >> /home/vagrant/makahiki_env.sh
-    echo "export MAKAHIKI_DATABASE_URL=postgres://makahiki:makahiki@localhost:5432/makahiki" >> /home/vagrant/makahiki_env.sh
-    echo "# Syntax: <admin_name>:<admin_password>" >> /home/vagrant/makahiki_env.sh
-    echo "export MAKAHIKI_ADMIN_INFO=admin:admin" >> /home/vagrant/makahiki_env.sh
-    echo "Creating /home/vagrant/makahiki_env.sh: finished at $(date)"
-    echo "Appending Makahiki settings to /home/vagrant/.bashrc: started at $(date)"
-    echo "source /home/vagrant/makahiki_env.sh" >> /home/vagrant/.bashrc
-    echo "Appending Makahiki settings to /home/vagrant/.bashrc: finished at $(date)"   
+    then
+        echo "Creating /home/vagrant/makahiki_env.sh: started at $(date)"
+        echo "touch /home/vagrant/makahiki_env.sh"
+        touch /home/vagrant/makahiki_env.sh
+        echo "chown vagrant:vagrant /home/vagrant/makahiki_env.sh"
+        chown vagrant:vagrant /home/vagrant/makahiki_env.sh
+        echo "Appending Makahiki environment variables..."
+        echo "# Syntax: postgres://<db_user>:<db_password>@<db_host>:<db_port>/<db_name>" >> /home/vagrant/makahiki_env.sh
+        echo "export MAKAHIKI_DATABASE_URL=postgres://makahiki:makahiki@localhost:5432/makahiki" >> /home/vagrant/makahiki_env.sh
+        echo "# Syntax: <admin_name>:<admin_password>" >> /home/vagrant/makahiki_env.sh
+        echo "export MAKAHIKI_ADMIN_INFO=admin:admin" >> /home/vagrant/makahiki_env.sh
+        echo "Creating /home/vagrant/makahiki_env.sh: finished at $(date)"
+        echo "Appending Makahiki settings to /home/vagrant/.bashrc: started at $(date)"
+        echo "source /home/vagrant/makahiki_env.sh" >> /home/vagrant/.bashrc
+        echo "Appending Makahiki settings to /home/vagrant/.bashrc: finished at $(date)"   
 else
     echo "/home/vagrant/makahiki_env.sh already exists. No changes will be made to .bashrc."
-echo "Downloading source code from Github: started at $(date)"
-echo "cd /home/vagrant"
-cd /home/vagrant
-# This line needs to be changed before merging with the main repository
-echo "git clone http://github.com/csdl/makahiki.git"
-git clone http://github.com/csdl/makahiki.git
-echo "chown -R vagrant:vagrant /home/vagrant/makahiki"
-chown -R vagrant:vagrant /home/vagrant/makahiki
-echo "Downloading source code from Github: finished at $(date)"
 echo "pip install: started at $(date)"
 echo "cd /home/vagrant/makahiki"
 cd /home/vagrant/makahiki
