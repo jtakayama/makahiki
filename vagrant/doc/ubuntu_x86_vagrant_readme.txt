@@ -19,15 +19,26 @@ Contents:
 2.1.6. Initialize Makahiki
 2.1.7. Start the Server
 2.1.8. Update the Makahiki Instance
-Appendix A. Vagrant Commands
-Appendix B. Re-Provisioning Vagrant
-Appendix C. Configure the RAM of the Virtual Machine
+Appendix A.0. Troubleshooting Configuration Files - Editing Configuration Files
+Appendix A.0.1. Troubleshooting /etc/bash.bashrc
+Appendix A.0.2. Troubleshooting pg_hba.conf
+Appendix A.0.3. Troubleshooting /home/vagrant/makahiki_env.sh
+Appendix A.0.4. Troubleshooting /home/vagrant/.bashrc
+Appendix B. Vagrant Commands
+Appendix C. Re-Provisioning Vagrant
+Appendix D. Configure the RAM of the Virtual Machine
+Appendix E. Using Eclipse To Develop with Vagrant
+Appendix F. Import Makahiki as an Eclipse Project
+
+Instructions in appendices are optional.
 -------------------------------------------------------------------------------
 
 0.0. Introduction
 ===============================================================================
 This is a README file that describes the process for deploying Makahiki in a 
-Vagrant virtual machine on a Windows host machine.
+Vagrant virtual machine on a Windows host machine. The virtual machine is 
+intended for testing or development use and is NOT SUITABLE for use in a 
+production deployment of the Makahiki software.
 
 If you would prefer to install Makahiki on Windows manually, without using 
 Vagrant, see the documentation at:
@@ -39,6 +50,19 @@ In the examples in this document, the > represents the Windows command prompt.
 
 This guide assumes a basic level of familiarity with Windows.
 
+System requirements:
+- Operating System:
+  - Windows 7 or 8 are recommended.
+  - The applications used in this guide are compatible with 
+    x86 (32-bit) and x64 (64-bit) operating systems.
+  - The virtual machine that will be configured will have x86 architecture
+    and is compatible with x86 or x64 host operating systems.
+- Hardware:
+  - CPU: Modern dual or quad core
+  - RAM: 4 GB
+  - The Vagrant virtual machine will be configured by default to have 1.5 GB 
+    of RAM (1536 MB). To change this amount, see Appendix D.
+
 WARNING:
 -------------------------------------------------------------------------------
 This guide should not be used to deploy Makahiki on a cloud-based hosting 
@@ -46,21 +70,44 @@ system such as Heroku. For instructions to deploy Makahiki on Heroku, see
 http://makahiki.readthedocs.org/en/latest/installation-makahiki-heroku.html.
 -------------------------------------------------------------------------------
 
-System requirements:
-- Operating System:
-  - Windows 7 or 8 are recommended.
-  - The applications used in this guide are compatible with 
-    x86 (32-bit) and x64 (64-bit) architectures.
-- Hardware:
-  - CPU: Modern dual or quad core
-  - RAM: 4 GB
-  - The Vagrant virtual machine will be configured by default to have 1.5 GB 
-    of RAM (1536 MB). To change this amount, see Section 2.1.12.
+WARNING FOR DEVELOPERS:
+-------------------------------------------------------------------------------
+If you plan to use Makahiki for software development:
+
+Though not required, it is STRONGLY RECOMMENDED that you use Eclipse or 
+another integrated development environment (IDE) that can maintain 
+UTF-8 encoding and LF line endings within the project. UTF-8 and LF line 
+endings are required by certain Makahiki dependencies.
+
+To set up Eclipse, see Appendix E.
+To import Makahiki into Eclipse, see Appendix F.
+
+Above all, DO NOT EDIT OR CREATE ANY FILES IN NOTEPAD:
+1. Notepad ends lines with Windows line endings (CR-LF). Linux 
+   applications expect LF endings and may have problems parsing CR-LF.
+2. Notepad defaults to ANSI encoding when a file is saved. Some Linux 
+   applications like PostgreSQL require UTF-8 input.
+3. Notepad adds a Byte Order Mark (BOM) to the beginning of each new file
+   that is saved with an encoding other than ANSI. On Linux, this appears 
+   as random characters (e.g., "ï»?") that appear before the first word in 
+   the file. Linux applications may not be able to process files that start 
+   with a BOM.
+4. If you are using Windows and accidentally add a BOM to a text file, you 
+   can use the Notepad++ application to remove it. In Notepad++, use 
+   "Encoding" --> "Encode in UTF-8 Without BOM" to remove the BOM from 
+   the beginning of a text file. Doing this for each new file you create 
+   is not recommended; it is easier if your IDE can enforce it for you.
+-------------------------------------------------------------------------------
 ===============================================================================
 
 1.0. VirtualBox and Vagrant Setup
 ===============================================================================
 This section installs VirtualBox and Vagrant onto a Windows computer.
+
+This guide uses the terms "virtual machine" and "host machine." 
+A virtual machine is an operating system running on simulated hardware, which 
+is simulated using the hardware of the host machine. The host machine is the 
+computer that Vagrant and VirtualBox use to run the virtual machine.
 ===============================================================================
 
 1.0.1. Install VirtualBox
@@ -178,6 +225,22 @@ The bootstrap_runner.sh script logs the output of bootstrap.sh to a text
 file in the logs directory. This file is called "ubuntu_x86_<timestamp>.log,"
 where <timestamp> is in the format yyyy-mm-dd-HH-MM-SS (year, month, day, 
 hour, minute, second).
+
+When the script finishes, look at the last few lines of output:
+-------------------------------------------------------------------------------
+Configuration setup results:
+-------------------------------------------------------------------------------
+1. Copying locale settings to /etc/bash.bashrc: [Succeeded]"
+2. Copying settings to pg_hba.conf: [Succeeded]"
+3. Creating /home/vagrant/makahiki_env.sh: [Succeeded]"
+4. Appending to /home/vagrant/.bashrc: [Succeeded]"
+-------------------------------------------------------------------------------
+If the value for a task is "Succeeded" or "Already completed," continue.
+
+If Task 1's result is "Failed," go to "A.0.1. Troubleshooting bash.bashrc"
+If Task 2's result is "Failed," go to "A.0.2. Troubleshooting pg_hba.conf"
+If Task 2's result is "Failed," go to "A.0.3. Troubleshooting /home/vagrant/makahiki_env.sh" 
+If Task 4's result is "Failed," go to "A.0.4. Troubleshooting /home/vagrant/.bashrc" 
 ===============================================================================
 
 2.1.2. Connect to the Vagrant Virtual Machine with SSH
@@ -212,10 +275,6 @@ host machine.
 
 2.1.4. Environment Variables Verification
 ===============================================================================
-bootstrap.sh appended this line to the "vagrant" user's .bashrc file:
--------------------------------------------------------------------------------
-source /home/vagrant/makahiki_env.sh
--------------------------------------------------------------------------------
 makahiki_env.sh sets values for Makahiki environment variables 
 MAKAHIKI_DATABASE_URL and MAKAHIKI_ADMIN_INFO. Check that these values 
 have been set:
@@ -225,25 +284,8 @@ postgres://makahiki:makahiki@localhost:5432/makahiki
 vagrant@precise32:/vagrant$ echo $MAKAHIKI_ADMIN_INFO
 admin:admin
 -------------------------------------------------------------------------------
-If your output matches the example shown above, skip "Troubleshooting" 
-and continue.
-
-Troubleshooting:
-*******************************************************************************
-Source the .bashrc file, then check the variables again:
-vagrant@precise32:/vagrant$ source ~/.bashrc
-vagrant@precise32:/vagrant$ echo $MAKAHIKI_DATABASE_URL
-postgres://makahiki:makahiki@localhost:5432/makahiki
-vagrant@precise32:/vagrant$ echo $MAKAHIKI_ADMIN_INFO
-admin:admin
-
-If MAKAHIKI_DATABASE_URL and MAKAHIKI_ADMIN_INFO are still not set after 
-sourcing ~/.bashrc, you need to add them to /home/vagrant/makahiki_env.sh.
-Create this file if it does not exist.
-
-When you are done editing .bashrc, source it:
-vagrant@precise32:/vagrant$ source ~/.bashrc
-*******************************************************************************
+If "echo" returns nothing, or you want to change the administrator username or 
+password, see "A.0.3. Troubleshooting /home/vagrant/makahiki_env.sh."
 
 Note:
 -----
@@ -265,38 +307,7 @@ Type "help" for help.
 postgres=#\q
 vagrant@precise32:/vagrant$
 -------------------------------------------------------------------------------
-If it succeeds, skip "Troubleshooting" and continue.
-
-Troubleshooting:
-*******************************************************************************
-If you cannot connect to the database with "psql -U postgres," you will need to 
-edit the pg_hba.conf file manually.
-
-On Ubuntu 12.04 LTS, pg_hba.conf is at /etc/postgresql/9.1/main/pg_hba.conf. 
-Open it in a text editor with sudo (root) privileges:
-
-vagrant@precise32:/vagrant$ sudo nano /etc/postgresql/9.1/main/pg_hba.conf
-
-To configure PostgreSQL, edit the "local all postgres", "local all all", 
-"host all all 127.0.0.1/32", and "host all all ::1/128" lines in the 
-pg_hba.conf file to match the below example:
--------------------------------------------------------------------------------
-# Database administrative login by Unix domain socket
-local   all             postgres                                trust
-
-# TYPE  DATABASE        USER            ADDRESS                 METHOD
-
-# "local" is for Unix domain socket connections only
-local   all             all                                     trust
-# IPv4 local connections:
-host    all             all             127.0.0.1/32            md5
-# IPv6 local connections:
-host    all             all             ::1/128                 md5
--------------------------------------------------------------------------------
-
-After you have edited the pg_hba.conf file, restart the Postgresql service:
-vagrant@precise32:/vagrant$ sudo /etc/init.d/postgresql restart
-*******************************************************************************
+If this fails, go to section "Appendix A.0.2: Troubleshooting pg_hba.conf."
 ===============================================================================
 
 2.1.6. Initialize Makahiki
@@ -304,17 +315,15 @@ vagrant@precise32:/vagrant$ sudo /etc/init.d/postgresql restart
 WARNING:
 -------------------------------------------------------------------------------
 Running the initialize_instance.py script will:
-- Install and/or update all Python packages required by Makahiki.
+- Install and/or update all pip-installed packages required by Makahiki.
 - Reinitialize the database contents and perform any needed database 
   migrations.
 - Initialize the system with data.
 - Set up static files.
 
 This script should be run only a single time in production scenarios, because 
-any subsequent configuration modifications will be lost if ubuntu_installer.py 
-is invoked with --initialize_instance again. Use the --update_instance option 
-(discussed in Section 1.1.9, below) to update source code without losing 
-subsequent configuration actions.
+any subsequent configuration modifications will be lost if initialize_instance 
+is invoked again.
 
 The script initializes the Makahiki database and populates it with default 
 information and users.
@@ -326,6 +335,9 @@ vagrant@precise32:~/$ cd /vagrant/makahiki
 vagrant@precise32:/vagrant/makahiki$ ./scripts/initialize_instance.py --type default
 
 You will need to answer "Y" to the question "Do you wish to continue (Y/n)?"
+
+If the script causes errors while connecting to the database, see 
+"Appendix A.0.2. Troubleshooting pg_hba.conf".
 ===============================================================================
 
 2.1.7. Start the Server
@@ -374,7 +386,148 @@ To start the server with gunicorn:
 % ./manage.py run_gunicorn
 ===============================================================================
 
-Appendix A. Vagrant Commands
+Appendix A.0. Troubleshooting Configuration Files - Editing Configuration Files
+===============================================================================
+Appendix A contains troubleshooting instructions for configuration files.
+The instructions refer to the GNU nano text editor, which is installed 
+by default in the "precise32" Ubuntu virtual machine. GNU nano is one of many 
+Linux text editors (including vi, emacs, pico, etc.)
+
+Basic nano Controls
+-------------------
+Move the cursor with the arrow keys.
+Type to insert text at the cursor.
+Ctrl-G (^G) opens Help and Ctrl-X (^X) closes it.
+Ctrl-O (^O) saves the document.
+Ctrl-X (^X) closes a document.
+Ctrl-W (^W) searches the document for a string that you specify.
+Ctrl-Y (^Y) is Page Up.
+Ctrl-V (^V) is Page Down.
+Ctrl-K (^K) cuts the entire current line.
+Ctrl-U (^U) pastes the last line that was cut.
+Ctrl-C (^C) shows the current position of the cursor in a readout at the 
+            bottom of the screen.
+Other controls are displayed along the bottom of the screen.
+
+If you close a document without saving changes, you will be prompted:
+"Save modified buffer (ANSWERING "No" WILL DESTROY CHANGES) ?"
+Y is yes, N is no, ^C is cancel.
+
+When you save a document (e.g., one called test.txt), you will be prompted:
+"File Name to Write: test.txt"
+Press Enter to continue, or type to edit the file name.
+
+For the full nano documentation, see http://www.nano-editor.org/docs.php.
+===============================================================================
+
+Appendix A.0.1. Troubleshooting /etc/bash.bashrc and UTF-8 Encodings
+===============================================================================
+If the UTF-8 settings were not properly applied, you will need to reconfigure 
+the system encodings.
+
+Open /etc/bash.bashrc with sudo:
+vagrant@precise32:~$ sudo nano /etc/bash.bashrc
+
+Add these lines to the end of the file:
+-------------------------------------------------------------------------------
+# UTF-8 locale settings for Makahiki
+export LANGUAGE=en_US.UTF-8
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+-------------------------------------------------------------------------------
+After you are done editing the file, run these commands:
+
+vagrant@precise32:~$ sudo locale-gen en_US.UTF-8
+vagrant@precise32:~$ sudo dpkg-reconfigure locales
+vagrant@precise32:~$ sudo pg_dropcluster 9.1 main --stop
+vagrant@precise32:~$ sudo pg_createcluster --locale en_US.UTF8 9.1 main
+vagrant@precise32:~$ sudo /etc/init.d/postgresql restart
+===============================================================================
+
+Appendix A.0.2. Troubleshooting pg_hba.conf
+===============================================================================
+If you cannot connect to the database with "psql -U postgres," or experience 
+errors when running initialize_instance.py, check that the pg_hba.conf file 
+has the correct settings applied.
+
+On Ubuntu 12.04 LTS, pg_hba.conf is at /etc/postgresql/9.1/main/pg_hba.conf. 
+Open it in the nano text editor with sudo (root) privileges:
+
+vagrant@precise32:/vagrant$ sudo nano /etc/postgresql/9.1/main/pg_hba.conf
+
+To configure PostgreSQL, edit the "local all postgres", "local all all", 
+"host all all 127.0.0.1/32", and "host all all ::1/128" lines in the 
+pg_hba.conf file to match the below example:
+-------------------------------------------------------------------------------
+# Database administrative login by Unix domain socket
+local   all             postgres                                trust
+
+# TYPE  DATABASE        USER            ADDRESS                 METHOD
+
+# "local" is for Unix domain socket connections only
+local   all             all                                     trust
+# IPv4 local connections:
+host    all             all             127.0.0.1/32            md5
+# IPv6 local connections:
+host    all             all             ::1/128                 md5
+-------------------------------------------------------------------------------
+
+After you have edited the pg_hba.conf file, restart the Postgresql service:
+vagrant@precise32:/vagrant$ sudo /etc/init.d/postgresql restart
+===============================================================================
+
+Appendix A.0.3. Troubleshooting /home/vagrant/makahiki_env.sh
+===============================================================================
+If MAKAHIKI_DATABASE_URL and MAKAHIKI_ADMIN_INFO are still not set after 
+sourcing ~/.bashrc, you need to add them to /home/vagrant/makahiki_env.sh.
+
+Create this file if it does not exist:
+
+vagrant@precise32:~$ touch makahiki_env.sh
+
+Open the file in the nano text editor. (The ~ is a shortcut for the 
+current user's home directory, which is /home/vagrant.)
+
+vagrant@precise32:~$ nano makahiki_env.sh
+
+The file should contain the lines shown below:
+-------------------------------------------------------------------------------
+# Makahiki environment variables
+# Syntax: postgres://<db_user>:<db_password>@<db_host>:<db_port>/<db_name>
+export MAKAHIKI_DATABASE_URL=postgres://makahiki:makahiki@localhost:5432/makahiki
+# Syntax: <admin_name>:<admin_password>
+export MAKAHIKI_ADMIN_INFO=admin:admin
+-------------------------------------------------------------------------------
+
+When you are done editing makahiki_env.sh, source the .bashrc file. This will 
+source the makahiki_env.sh file, which will set the environment variables:
+-------------------------------------------------------------------------------
+vagrant@precise32:/vagrant$ source ~/.bashrc
+vagrant@precise32:/vagrant$ echo $MAKAHIKI_DATABASE_URL
+postgres://makahiki:makahiki@localhost:5432/makahiki
+vagrant@precise32:/vagrant$ echo $MAKAHIKI_ADMIN_INFO
+admin:admin
+-------------------------------------------------------------------------------
+If this fails, continue to A.0.4., "Troubleshooting /home/vagrant/.bashrc."
+===============================================================================
+
+Appendix A.0.4. Troubleshooting /home/vagrant/.bashrc
+===============================================================================
+bootstrap.sh normally appends this line to the "vagrant" user's .bashrc file:
+-------------------------------------------------------------------------------
+source /home/vagrant/makahiki_env.sh
+-------------------------------------------------------------------------------
+Open /home/vagrant/.bashrc in the nano editor. (The ~ is a shortcut for the 
+current user's home directory, which is /home/vagrant.)
+
+vagrant@precise32:~$ nano ~/.bashrc
+
+Add the line "source /home/vagrant/makahiki_env.sh" to the end of the file.
+Save the file and source it for changes to take effect:
+vagrant@precise32:~$ source ~/.bashrc
+===============================================================================
+
+Appendix B. Vagrant Commands
 ===============================================================================
 vagrant up: Start the virtual machine and run the provisioning script.
             If the virtual machine defined in the Vagrantfile does 
@@ -392,7 +545,7 @@ vagrant destroy: Deletes a virtual machine. The Vagrantfile is not deleted.
 The Vagrant 1.2 documentation can be found at http://docs.vagrantup.com/v2/.
 ===============================================================================
 
-Appendix B. Re-Provisioning Vagrant
+Appendix C. Re-Provisioning Vagrant
 ===============================================================================
 If you are developing for Makahiki using a Vagrant virtual machine and change 
 the provisioning scripts (bootstrap.sh or run_bootstrap.sh), you will need 
@@ -407,7 +560,7 @@ B. Re-provision a virtual machine that is already running:
 > vagrant provision
 ===============================================================================
 
-Appendix C. Configure the RAM of the Virtual Machine
+Appendix D. Configure the RAM of the Virtual Machine
 ===============================================================================
 The default settings in the Vagrantfile that comes with this project limit 
 the virtual machine to 1536 MB (1.5 GB) of RAM. To change these settings, you 
@@ -435,4 +588,117 @@ In the SSH session, switch to makahiki/makahiki, activate the virtual
 environment, and start the server with manage.py:
 vagrant@precise32:~$ cd /vagrant/makahiki/makahiki 
 vagrant@precise32:/vagrant/makahiki/makahiki$ ./manage.py runserver
+===============================================================================
+
+Appendix E. Using Eclipse To Develop with Vagrant
+===============================================================================
+Use of Eclipse is optional. The Makahiki development team has provided 
+.project and .pydevproject files for the convenience of Eclipse users.
+
+Prerequisites (host machine):
+- Python 2.7.3 or later (but not Python 3).
+- Java JRE or JDK (Java 6 or newer required)
+- Eclipse IDE (Eclipse 4.2 Juno or newer recommended)
+  - Eclipse addons:
+    - PyDev (Required)
+    - Add-ons from Web, XML, Java EE and OSGi Enterprise Development (Optional)
+      - Eclipse Web Developer Tools (HTML/XHTML/CSS editors) (Optional)
+      - JavaScript Development Tools (JavaScript editor) (Optional)
+- Configure Line Endings and Character Encodings (Required)
+
+Python:
+-------------------------------------------------------------------------------
+For Python binaries and installation instructions, see http://python.org.
+-------------------------------------------------------------------------------
+
+Eclipse:
+-------------------------------------------------------------------------------
+Eclipse is an Integrated Development Environment (IDE) available 
+from http://eclipse.org. 
+- If you do not have Eclipse, follow the instructions at 
+  http://wiki.eclipse.org/Eclipse/Installation.
+- At a minimum, Eclipse requires that the Java JRE be installed on the host 
+  machine. The full Java JDK (which includes the JRE) is useful for Java 
+  development, but it is NOT required for Makahiki development.
+-------------------------------------------------------------------------------
+
+PyDev:
+-------------------------------------------------------------------------------
+PyDev is an Eclipse add-on that is required for Python development. 
+See http://pydev.org for installation instructions.
+-------------------------------------------------------------------------------
+
+Web Development Add-Ons:
+-------------------------------------------------------------------------------
+The "Web, XML, Java EE and OSGi Enterprise Development" set of add-ons is 
+available from within Eclipse. None of these add-ons are required for Python 
+development, but some are useful for general web development.
+1. In the Help menu, select "Install New Software."
+2. For the "Work with:" dropdown menu, select the "releases" URL that matches 
+   your Eclipse version. For Eclipse 4.2 Juno, for example, this 
+   would be "Juno - http://download.eclipse.org/releases/juno."
+3. In the list of packages that appears below, click on the 
+   arrow to the left of "Web, XML, Java EE and OSGi Enterprise Development."
+   to expand the category.
+4. Check the boxes for the add-ons you want to install. 
+5. Click "Next," then "Next." You may need to agree to one or more licenses.
+6. Restart Eclipse when prompted. After the restart, any new editors or 
+   features will be installed and ready for use.
+-------------------------------------------------------------------------------
+
+Configure Line Endings and Character Encodings:
+-------------------------------------------------------------------------------
+If you are using Eclipse, it is very important to set these preferences before 
+editing any of the project files or creating new ones.
+
+1. In Eclipse, go to Window --> Preferences.
+2. Go to Preferences --> General --> Workspace. Click DIRECTLY ON "Workspace."
+3. In "Workspace:" 
+   3a. Under "Text File Encoding," select "Other," then select "UTF-8" from 
+       the dropdown menu. 
+   3b. Under "New Text File Line Delimiter," select "Other," then select 
+       "Unix" from the dropdown menu.
+5. Click "Apply" when finished.
+-------------------------------------------------------------------------------
+
+View Hidden Files and Folders in Eclipse
+-------------------------------------------------------------------------------
+1. Open Eclipse.
+2. In the "Package Explorer" sidebar, click on the white down-pointing arrow 
+   (the leftmost toolbar item). In this menu, click "Filters."
+3. In the "Java Element Filters" popup that appears, uncheck the checkbox 
+   for ".*resources," then click "OK."
+4. The hidden files and folders that start with a "." character (e.g., 
+   ".project" and ".pydevproject") should now be visible in Eclipse.
+-------------------------------------------------------------------------------
+===============================================================================
+
+Appendix F. Import Makahiki as an Eclipse Project
+===============================================================================
+1. Open Eclipse.
+2. When prompted to select a workspace, select the directory that you cloned the 
+   Makahiki repository into earlier (e.g., the directory that contains the 
+   top-level makahiki folder). For example, if Makahiki had been cloned into 
+   C:/Users/Tester/Vagrant, that would be the workspace directory.   Click "OK."
+3. Select File --> Import.
+    3a. Click the arrow to expand "General," then select 
+        "Existing Projects Into Workspace." Click "Next."
+    3b. Uncheck the checkbox for "Copy Projects into Workspace."
+        Then select the top-level makahiki directory as the root directory.
+        For example, if Makahiki had been cloned into C:/Users/Tester/Vagrant, 
+        the root directory of the project would be located at 
+        C:/Users/Tester/Vagrant/makahiki.
+    3c. Check the checkbox for "makahiki" when it appears. Click "Finish."
+4. Assuming that you installed PyDev, you will receive a warning:
+   "It seems that the Python interpreter is not currently configured."
+   Select "Auto config" if your Python interpreter is on the Windows PATH; 
+   otherwise, use "Manual config" to select it manually. These instuctions 
+   assume you selected "Auto config."
+5. If you selected "Auto config," you will get a "Selection needed" popup.
+   The defaults are usually fine. Click "OK" to continue. 
+6. You will be shown the "Interpreter - Python" menu.
+   Click "Apply" to configure the Pythonpath for Eclipse.
+   If you need to change these libraries later, go to 
+   "Window" --> "Preferences" --> "PyDev" --> "Interpeter - Python," 
+   and select the "Libraries" tab.
 ===============================================================================
