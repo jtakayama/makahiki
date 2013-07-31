@@ -1,4 +1,4 @@
-ubuntu_x86_vagrant_readme.txt
+﻿ubuntu_x86_vagrant_readme.txt
 =============================
 
 Contents:
@@ -16,11 +16,9 @@ Contents:
 2.1.3. Download the Makahiki Source Code
 2.1.4. Environment Variables Verification
 2.1.5. PostgreSQL Configuration Verification
-2.1.7. Install Dependencies With Pip
-2.1.8. Environment Variables Configuration
-2.1.9. Initialize Makahiki
-2.1.10. Start the Server
-2.1.11. Update the Makahiki Instance
+2.1.6. Initialize Makahiki
+2.1.7. Start the Server
+2.1.8. Update the Makahiki Instance
 Appendix A. Vagrant Commands
 Appendix B. Re-Provisioning Vagrant
 Appendix C. Configure the RAM of the Virtual Machine
@@ -303,7 +301,7 @@ After you have edited the pg_hba.conf file, restart the Postgresql service:
 *******************************************************************************
 ===============================================================================
 
-2.1.9. Initialize Makahiki
+2.1.6. Initialize Makahiki
 ===============================================================================
 You should still be in the makahiki virtual environment.
 
@@ -334,7 +332,7 @@ vagrant@precise32:~/makahiki/makahiki$ ./scripts/initialize_instance.py --type d
 You will need to answer "Y" to the question "Do you wish to continue (Y/n)?"
 ===============================================================================
 
-2.1.10. Start the Server
+2.1.7. Start the Server
 ===============================================================================
 You should still be in the makahiki virtual environment. This guide assumes 
 you are currently in the directory ~/makahiki/makahiki.
@@ -352,7 +350,7 @@ To start the server with gunicorn:
 View the site in your host machine's web browser at http://localhost:8001.
 ===============================================================================
 
-2.1.11. Update the Makahiki Instance
+2.1.8. Update the Makahiki Instance
 ===============================================================================
 Makahiki is designed to support post-installation updating of your configured 
 system when bug fixes or system enhancements become available. Updating an 
