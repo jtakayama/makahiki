@@ -13,7 +13,7 @@ Contents:
 2.1. Set up Makahiki in the Virtual Machine
 2.1.1. Start the Virtual Machine and Run the Provisioning Script
 2.1.2. Connect to the Vagrant Virtual Machine with SSH
-2.1.3. Download the Makahiki Source Code
+2.1.3. Check for the Makahiki Source Code
 2.1.4. Environment Variables Verification
 2.1.5. PostgreSQL Configuration Verification
 2.1.6. Initialize Makahiki
@@ -129,7 +129,7 @@ Download the Vagrant .msi installer from http://downloads.vagrantup.com/.
 To install Vagrant on Windows, follow the instructions at 
 http://docs.vagrantup.com/v2/installation/index.html.
 
-This guide was tested with Vagrant 1.2.4 It should be compatible with 
+This guide was tested with Vagrant 1.2.4. It should be compatible with 
 later versions of Vagrant 1.2, but this has not been tested.
 ===============================================================================
 
@@ -147,7 +147,7 @@ and access the Vagrant virtual machine.
 Downloading the Makahiki source code will create a folder called "makahiki."
 
 There are two ways of obtaining the Makahiki source code. (If you have this 
-text file, you likely already have the Makahiki source code and can skip this 
+text file, you likely already have the Makahiki source code, and can skip this 
 section.)
 
 A. If you do not have Git for Windows, download the source code from 
@@ -187,6 +187,7 @@ the virtual machine.
 
 2.1.1. Start the Virtual Machine and Run the Provisioning Script
 ===============================================================================
+You should be in the top-level Makahiki directory, where the Vagrantfile is.
 Use the "vagrant up" command to start the virtual machine:
 
 > vagrant up
@@ -231,6 +232,15 @@ file in the logs directory. This file is called "ubuntu_x86_<timestamp>.log,"
 where <timestamp> is in the format yyyy-mm-dd-HH-MM-SS (year, month, day, 
 hour, minute, second).
 
+If run more than once, the script will:
+1. Installs packages only on its first run.
+2. Overwrites bash.bashrc and /home/vagrant/.bashrc only on its first run.
+3. Creates /home/vagrant/makahiki_env.sh only on its first run, or 
+   unless it is deleted.
+4. [WARNING] Reset the PostgreSQL cluster data directory, which 
+   erases all databases on the system.  This happens each time that the 
+   script is run.
+
 When the script finishes, look at the last few lines of output:
 -------------------------------------------------------------------------------
 Configuration setup results:
@@ -268,7 +278,7 @@ referred to as ~). The Ubuntu Linux terminal prompt will look like this:
 vagrant@precise32:~$
 ===============================================================================
 
-2.1.3. Download the Makahiki Source Code
+2.1.3. Check For Makahiki Source Code
 ===============================================================================
 The makahiki source code should show up in the /vagrant/ directory.
 vagrant@precise32:~$ cd /vagrant
@@ -333,9 +343,7 @@ is invoked again.
 The script initializes the Makahiki database and populates it with default 
 information and users.
 -------------------------------------------------------------------------------
-
-If you are not currently in the /vagrant/makahiki directory 
-(/vagrant/makahiki/makahiki in this guide), switch to it:
+Switch to the /vagrant/makahiki directory:
 vagrant@precise32:~/$ cd /vagrant/makahiki
 vagrant@precise32:/vagrant/makahiki$ ./scripts/initialize_instance.py --type default
 
@@ -347,11 +355,14 @@ If the script causes errors while connecting to the database, see
 
 2.1.7. Start the Server
 ===============================================================================
-This guide assumes you are currently in the directory ~/makahiki/makahiki.
+This guide assumes you are currently in the directory /vagrant/makahiki on 
+your virtual machine.
 
 You can now start the web server using manage.py or gunicorn. The manage.py 
 web server is better for development, while gunicorn is better for production 
-use.
+use. It is important to bind the server to IP 0.0.0.0 (accepts incoming connections 
+on any IP address) and port 8000 in order to work with the port forwarding settings 
+in the Vagrantfile.
 
 To start the server with manage.py:
 vagrant@precise32:/vagrant/makahiki$ ./manage.py runserver 0.0.0.0:8000
@@ -367,21 +378,25 @@ View the site in your host machine's web browser at http://localhost:8001.
 Makahiki is designed to support post-installation updating of your configured 
 system when bug fixes or system enhancements become available. Updating an 
 installed Makahiki instance using the ubuntu_installer.py script requires the 
-following steps (the % represents any working directory):
+following steps:
+
+(The % indicates that the command can be done from anywhere in the virtual 
+ machine, regardless of working directory.)
 
 (1.) Close the running server in the shell process that is running Makahiki:
 (type control-c in the shell running the makahiki server process)
 
-(2.) Go to the makahiki directory:
-% cd ~/makahiki
-vagrant@precise32:~/makahiki$
+(2.) Go to the vagrant directory (this is the makahiki directory 
+     on the host machine):
+% cd /vagrant
+vagrant@precise32:/vagrant$
 
 (3.) Download the updated source code into the Makahiki installation:
-vagrant@precise32:~/makahiki$ git pull origin master
+vagrant@precise32:/vagrant$ git pull origin master
 
 (4.) Run the update_instance.py script:
-vagrant@precise32:~/makahiki$ cd makahiki
-vagrant@precise32:~/makahiki/makahiki$ ./scripts/
+vagrant@precise32:/vagrant$ cd makahiki
+vagrant@precise32:/vagrant$ ./scripts/
 
 (5.) Start the server with runserver or gunicorn:
 To start the server with manage.py:
@@ -571,9 +586,12 @@ The default settings in the Vagrantfile that comes with this project limit
 the virtual machine to 1536 MB (1.5 GB) of RAM. To change these settings, you 
 will need to edit the Vagrantfile while the virtual machine is shut down.
 
+(The % indicates that the command can be done from anywhere in the virtual 
+ machine, regardless of working directory.)
+
 Stop the web server by pressing Ctrl-C in the SSH terminal.
 Then shut down the virtual machine:
-vagrant@precise32:~/makahiki/makahiki$ sudo shutdown -h now
+% sudo shutdown -h now
 
 This will end the SSH session.
 
@@ -590,9 +608,15 @@ After saving your changes, restart the VM and start the SSH session:
 > vagrant ssh
 
 In the SSH session, switch to makahiki/makahiki, activate the virtual 
-environment, and start the server with manage.py:
-vagrant@precise32:~$ cd /vagrant/makahiki/makahiki 
-vagrant@precise32:/vagrant/makahiki/makahiki$ ./manage.py runserver
+environment, and start the server with manage.py or gunicorn:
+
+vagrant@precise32:~$ cd /vagrant/makahiki 
+
+To start the server with manage.py:
+vagrant@precise32:/vagrant/makahiki$ ./manage.py runserver 0.0.0.0:8000
+
+To start the server with gunicorn:
+vagrant@precise32:/vagrant/makahiki$ ./manage.py run_gunicorn -b 0.0.0.0:8000
 ===============================================================================
 
 Appendix E. Using Eclipse To Develop with Vagrant
@@ -601,7 +625,7 @@ Developing in Eclipse is OPTIONAL. However, Eclipse is the development
 environment of the Makahiki development team, and .project and .pydevproject 
 are provided for the convenience of Eclipse users.
 
-Prerequisites (host machine):
+Host Machine Prerequisites:
 [REQUIRED] Python 2.7.3 or later (but not Python 3).
 [REQUIRED] Java JRE or JDK (Java 6 or newer required)
 [REQUIRED] Eclipse IDE (Eclipse 4.2 Juno or newer recommended)
@@ -692,10 +716,10 @@ in the earlier part of this guide, your Vagrant virtual machine and its
 .vagrant folder should be located at the top level of the cloned makahiki 
 repository, where the Vagrantfile is.
 
-Importing Makahiki as an Eclipse project when it has also been set up as the 
-Vagrant shared directory allows you to modify Makahiki source files on your 
-host machine, then deploy the changes in your Vagrant virtual machine 
-immediately.
+Importing the makahiki directory as an Eclipse project when the makahiki 
+directory is also the Vagrant shared directory allows you to modify Makahiki 
+source files on your host machine, then deploy the changes in your Vagrant 
+virtual machine immediately.
 
 1. Open Eclipse.
 2. When prompted to select a workspace, select the directory that you cloned the 

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-BASH_BASHRC_COPY_RESULT = "Unknown"
-PG_HBA_CONF_COPY_RESULT = "Unknown"
-MAKAHIKI_ENV_SETUP_RESULT = "Unknown"
+export BASH_BASHRC_COPY_RESULT="Unknown"
+export PG_HBA_CONF_COPY_RESULT="Unknown"
+export MAKAHIKI_ENV_SETUP_RESULT="Unknown"
 
 echo "Makahiki Environment Setup Script for Ubuntu (x86)"
 echo "--------------------------------------------------"
@@ -9,7 +9,7 @@ echo "Script started at $(date)"
 echo "Copying bash.bashrc with locale settings (UTF-8) to /etc/bash.bashrc: started at $(date)"
 # Begin bash.bashrc copying code:
 MD5SUM_BASH_EXPECTED=$(md5sum "/vagrant/vagrant/config_examples/bash.bashrc.ubuntu.default")
-MD5SUM_BASH_ACTUAL=$(md5sum "/etc/bash.bashrc.ubuntu.default")
+MD5SUM_BASH_ACTUAL=$(md5sum "/etc/bash.bashrc")
 MD5SUM_BASH_MAKAHIKI=$(md5sum "/vagrant/vagrant/config_examples/bash.bashrc.ubuntu.makahiki")
 
 # Split string <checksum><2 spaces><filename> on spaces (awk default)
@@ -17,8 +17,8 @@ MD5_BASH_EXPECTED=$(echo "$MD5SUM_BASH_EXPECTED" | awk '{ print $1 }')
 MD5_BASH_ACTUAL=$(echo "$MD5SUM_BASH_ACTUAL" | awk '{ print $1 }')
 MD5_BASH_MAKAHIKI=$(echo "$MD5SUM_BASH_MAKAHIKI" | awk '{ print $1 }')
 
-echo "Expected md5 checksum of default PostgreSQL 9.1 pg_hba.conf: $MD5_BASH_EXPECTED"
-echo "Actual md5 checksum of default PostgreSQL 9.1 pg_hba.conf: $MD5_BASH_ACTUAL"
+echo "Expected md5 checksum of default /etc/bash.bashrc: $MD5_BASH_EXPECTED"
+echo "Actual md5 checksum of default /etc/bash.bashrc: $MD5_BASH_ACTUAL"
 
 if [ $MD5_BASH_EXPECTED = $MD5_BASH_ACTUAL ]
     then
@@ -164,8 +164,8 @@ if [ $MD5_PGHBA_EXPECTED = $MD5_PGHBA_ACTUAL ]
                 export PG_HBA_CONF_COPY_RESULT="Failed"
         fi
 fi
-echo "/etc/init.d/postgresql-9.1 restart"
-sudo /etc/init.d/postgresql-9.1 restart
+echo "/etc/init.d/postgresql restart"
+/etc/init.d/postgresql restart
 echo "Copying PostgreSQL 9.1 pg_hba.conf: finished at $(date)"
 # End pg_hba.conf copying code.
 echo "Installing memcached: started at $(date)"
@@ -194,23 +194,24 @@ if [ ! -f /home/vagrant/makahiki_env.sh ]
         echo "# Syntax: <admin_name>:<admin_password>" >> /home/vagrant/makahiki_env.sh
         echo "export MAKAHIKI_ADMIN_INFO=admin:admin" >> /home/vagrant/makahiki_env.sh
         echo "Creating /home/vagrant/makahiki_env.sh: finished at $(date)"
-        MAKAHIKI_ENV_SETUP_RESULT="Succeeded."
-else
-    echo "/home/vagrant/makahiki_environment.sh already exists. [ OK ]"
-    MAKAHIKI_ENV_SETUP_RESULT="Already completed."
+        MAKAHIKI_ENV_SETUP_RESULT="Succeeded"
+    else
+        echo "/home/vagrant/makahiki_environment.sh already exists. [ OK ]"
+        MAKAHIKI_ENV_SETUP_RESULT="Already completed."
+fi
 # Begin .bashrc appending code:
 echo "Appending Makahiki settings to /home/vagrant/.bashrc: started at $(date)"
-MD5SUM_HOME_BASHRC_EXPECTED=$(md5sum "/vagrant/vagrant/config_examples/pg_hba.conf.ubuntu.default")
-MD5SUM_HOME_BASHRC_ACTUAL=$(md5sum "/etc/postgresql/9.1/main/pg_hba.conf")
-MD5SUM_HOME_BASHRC_MAKAHIKI=$(md5sum "/vagrant/vagrant/config_examples/pg_hba.conf.ubuntu.makahiki")
+MD5SUM_HOME_BASHRC_EXPECTED=$(md5sum "/vagrant/vagrant/config_examples/home.bashrc.ubuntu.default")
+MD5SUM_HOME_BASHRC_ACTUAL=$(md5sum "/home/vagrant/.bashrc")
+MD5SUM_HOME_BASHRC_MAKAHIKI=$(md5sum "/vagrant/vagrant/config_examples/home.bashrc.ubuntu.makahiki")
 
 # Split string <checksum><2 spaces><filename> on spaces (awk default)
 MD5_HOME_BASHRC_EXPECTED=$(echo "$MD5SUM_HOME_BASHRC_EXPECTED" | awk '{ print $1 }')
 MD5_HOME_BASHRC_ACTUAL=$(echo "$MD5SUM_HOME_BASHRC_ACTUAL" | awk '{ print $1 }')
 MD5_HOME_BASHRC_MAKAHIKI=$(echo "$MD5SUM_HOME_BASHRC_MAKAHIKI" | awk '{ print $1 }')
 
-echo "Expected md5 checksum of default PostgreSQL 9.1 pg_hba.conf: $MD5_HOME_BASHRC_EXPECTED"
-echo "Actual md5 checksum of default PostgreSQL 9.1 pg_hba.conf: $MD5_HOME_BASHRC_ACTUAL"
+echo "Expected md5 checksum of default /home/vagrant/.bashrc: $MD5_HOME_BASHRC_EXPECTED"
+echo "Actual md5 checksum of default /home/vagrant/.bashrc: $MD5_HOME_BASHRC_ACTUAL"
 
 if [ $MD5_HOME_BASHRC_EXPECTED = $MD5_HOME_BASHRC_ACTUAL ]
     then
@@ -234,8 +235,8 @@ fi
 echo "Appending Makahiki settings to /home/vagrant/.bashrc: finished at $(date)"
 # End .bashrc appending code.
 echo "pip install: started at $(date)"
-echo "cd /home/vagrant/makahiki"
-cd /home/vagrant/makahiki
+echo "cd /vagrant"
+cd /vagrant
 echo "pip install -r requirements.txt"
 pip install -r requirements.txt
 echo "pip install: finished at $(date)"
