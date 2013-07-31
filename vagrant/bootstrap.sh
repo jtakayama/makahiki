@@ -163,8 +163,8 @@ echo "Downloading source code from Github: started at $(date)"
 echo "cd /home/vagrant"
 cd /home/vagrant
 # This line needs to be changed before merging with the main repository
-echo "git clone http://github.com/jtakayama/makahiki"
-git clone http://github.com/jtakayama/makahiki.git
+echo "git clone http://github.com/csdl/makahiki.git"
+git clone http://github.com/csdl/makahiki.git
 echo "chown -R vagrant:vagrant /home/vagrant/makahiki"
 chown -R vagrant:vagrant /home/vagrant/makahiki
 echo "Downloading source code from Github: finished at $(date)"
