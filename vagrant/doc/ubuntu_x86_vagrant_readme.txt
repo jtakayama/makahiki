@@ -307,8 +307,10 @@ vagrant@precise32:~$
 2.1.3. Check For Makahiki Source Code
 ===============================================================================
 The makahiki source code should show up in the /vagrant/ directory.
+-------------------------------------------------------------------------------
 vagrant@precise32:~$ cd /vagrant
 vagrant@precise32:/vagrant/$ ls
+-------------------------------------------------------------------------------
 
 The output of ls should match the contents of the makahiki directory on your 
 host machine.
@@ -317,13 +319,19 @@ host machine.
 2.1.4. Start The Server
 ===============================================================================
 The Makahiki server is started manually from the /vagrant/makahiki directory: 
+-------------------------------------------------------------------------------
 vagrant@precise32:/vagrant$ cd /vagrant/makahiki
+-------------------------------------------------------------------------------
 
 To start the server with manage.py:
+-------------------------------------------------------------------------------
 vagrant@precise32:/vagrant/makahiki$ ./manage.py runserver 0.0.0.0:8000
+-------------------------------------------------------------------------------
 
 To start the server with gunicorn:
+-------------------------------------------------------------------------------
 vagrant@precise32:/vagrant/makahiki$ ./manage.py run_gunicorn -b 0.0.0.0:8000
+-------------------------------------------------------------------------------
 
 The web server can be accessed in a browser on the host machine at 
 http://localhost:8001.
@@ -380,16 +388,20 @@ A. You experience a DatabaseError when the initialize_instance.py script runs,
    with the message "character 0x##### of encoding "UTF8" has no equivalent 
    in "LATIN1"."
 B. The "locale" command returns a non-UTF-8 encoding setting:
+   ----------------------------------------------------------------------------
    vagrant@precise32:~$ locale
    LANG=en_US.LATIN1
    LANGUAGE=en_US.LATIN1
    ...
    LC_ALL=en_US.LATIN1
+   ----------------------------------------------------------------------------
 
 If this is the case, continue.
 
 Open /etc/bash.bashrc with sudo:
+-------------------------------------------------------------------------------
 vagrant@precise32:~$ sudo nano /etc/bash.bashrc
+-------------------------------------------------------------------------------
 
 Add these lines to the end of the file:
 -------------------------------------------------------------------------------
@@ -398,15 +410,16 @@ export LANGUAGE=en_US.UTF-8
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 -------------------------------------------------------------------------------
-After you are done editing the file, run these commands:
 
+After you are done editing the file, run these commands:
+-------------------------------------------------------------------------------
 vagrant@precise32:~$ sudo locale-gen en_US.UTF-8
 vagrant@precise32:~$ sudo dpkg-reconfigure locales
 vagrant@precise32:~$ sudo pg_dropcluster 9.1 main --stop
 vagrant@precise32:~$ sudo pg_createcluster --locale en_US.UTF8 9.1 main
 vagrant@precise32:~$ sudo cp /vagrant/vagrant/config_examples/pg_hba.conf.ubuntu.makahiki /etc/postgresql/9.1/main/pg_hba.conf
 vagrant@precise32:~$ sudo /etc/init.d/postgresql restart
-
+-------------------------------------------------------------------------------
 Continue to Appendix A.0.2., "Troubleshooting pg_hba.conf."
 ===============================================================================
 
@@ -463,22 +476,25 @@ postgres://makahiki:makahiki@localhost:5432/makahiki
 vagrant@precise32:/vagrant$ echo $MAKAHIKI_ADMIN_INFO
 admin:admin
 -------------------------------------------------------------------------------
-If "echo" returns nothing, try sourcing home/vagrant/.bashrc (~/.bashrc) and 
+If "echo" returns nothing, source home/vagrant/.bashrc (~/.bashrc) and 
 check again:
-
+-------------------------------------------------------------------------------
 vagrant@precise32:/vagrant$ source ~/.bashrc
+-------------------------------------------------------------------------------
 
 If MAKAHIKI_DATABASE_URL and MAKAHIKI_ADMIN_INFO are still not set after 
 sourcing ~/.bashrc, you need to add them to /home/vagrant/makahiki_env.sh.
 
 1. Create this file if it does not exist:
-
+-------------------------------------------------------------------------------
 vagrant@precise32:~$ touch makahiki_env.sh
+-------------------------------------------------------------------------------
 
 2. Open the file in the nano text editor. (The ~ is a shortcut for the 
 current user's home directory, which is /home/vagrant.)
-
+-------------------------------------------------------------------------------
 vagrant@precise32:~$ nano makahiki_env.sh
+-------------------------------------------------------------------------------
 
 The file should contain the lines shown below:
 -------------------------------------------------------------------------------
@@ -516,10 +532,12 @@ bootstrap.sh normally appends this line to the "vagrant" user's .bashrc file:
 -------------------------------------------------------------------------------
 source /home/vagrant/makahiki_env.sh
 -------------------------------------------------------------------------------
+
 Open /home/vagrant/.bashrc in the nano editor. (The ~ is a shortcut for the 
 current user's home directory, which is /home/vagrant.)
-
+-------------------------------------------------------------------------------
 vagrant@precise32:~$ nano ~/.bashrc
+-------------------------------------------------------------------------------
 
 Add the line "source /home/vagrant/makahiki_env.sh" to the end of the file.
 Save the file and source it for changes to take effect:
@@ -555,10 +573,12 @@ is invoked again.
 The script initializes the Makahiki database and populates it with default 
 information and users.
 -------------------------------------------------------------------------------
+
 Switch to the /vagrant/makahiki directory:
+-------------------------------------------------------------------------------
 vagrant@precise32:~/$ cd /vagrant/makahiki
 vagrant@precise32:/vagrant/makahiki$ ./scripts/initialize_instance.py --type default
-
+-------------------------------------------------------------------------------
 You will need to answer "Y" to the question "Do you wish to continue (Y/n)?"
 
 If the script experiences errors while connecting to the database, see 
@@ -579,10 +599,14 @@ connections on any IP address) and port 8000 in order to work with the port
 forwarding settings in the Vagrantfile.
 
 To start the server with manage.py:
+-------------------------------------------------------------------------------
 vagrant@precise32:/vagrant/makahiki$ ./manage.py runserver 0.0.0.0:8000
+-------------------------------------------------------------------------------
 
 To start the server with gunicorn:
+-------------------------------------------------------------------------------
 vagrant@precise32:/vagrant/makahiki$ ./manage.py run_gunicorn -b 0.0.0.0:8000
+-------------------------------------------------------------------------------
 
 View the site in your host machine's web browser at http://localhost:8001.
 Log in with the username (admin) and password (admin) in MAKAHIKI_ADMIN_INFO. 
@@ -605,24 +629,33 @@ following steps:
 (1.) Close the running server in the shell process that is running Makahiki:
 (type control-c in the shell running the makahiki server process)
 
-(2.) Go to the vagrant directory (this is the makahiki directory 
-     on the host machine):
+(2.) Go to the vagrant directory (the makahiki directory on the host machine):
+-------------------------------------------------------------------------------
 % cd /vagrant
 vagrant@precise32:/vagrant$
+-------------------------------------------------------------------------------
 
 (3.) Download the updated source code into the Makahiki installation:
+-------------------------------------------------------------------------------
 vagrant@precise32:/vagrant$ git pull origin master
+-------------------------------------------------------------------------------
 
 (4.) Run the update_instance.py script:
+-------------------------------------------------------------------------------
 vagrant@precise32:/vagrant$ cd makahiki
 vagrant@precise32:/vagrant/makahiki$ ./scripts/update_instance.py
+-------------------------------------------------------------------------------
 
 (5.) Start the server with runserver or gunicorn:
 To start the server with manage.py:
+-------------------------------------------------------------------------------
 vagrant@precise32:/vagrant/makahiki$ ./manage.py runserver
+-------------------------------------------------------------------------------
 
 To start the server with gunicorn:
+-------------------------------------------------------------------------------
 vagrant@precise32:/vagrant/makahiki$ ./manage.py run_gunicorn
+-------------------------------------------------------------------------------
 ===============================================================================
 
 Appendix C. Vagrant Commands
@@ -673,7 +706,9 @@ will need to edit the Vagrantfile while the virtual machine is shut down.
 
 Stop the web server by pressing Control-C in the SSH terminal.
 Then shut down the virtual machine:
+-------------------------------------------------------------------------------
 % sudo shutdown -h now
+-------------------------------------------------------------------------------
 
 This will end the SSH session.
 
@@ -686,19 +721,25 @@ line in the Vagrantfile by changing the number after the "--memory" flag.
 -------------------------------------------------------------------------------
 
 After saving your changes, restart the VM and start the SSH session:
+-------------------------------------------------------------------------------
 > vagrant up --no-provision
 > vagrant ssh
+-------------------------------------------------------------------------------
 
-In the SSH session, switch to makahiki/makahiki and start the server with 
-manage.py or gunicorn:
-
+In the SSH session, switch to makahiki/makahiki and start the server:
+-------------------------------------------------------------------------------
 vagrant@precise32:~$ cd /vagrant/makahiki 
+-------------------------------------------------------------------------------
 
 To start the server with manage.py:
+-------------------------------------------------------------------------------
 vagrant@precise32:/vagrant/makahiki$ ./manage.py runserver 0.0.0.0:8000
+-------------------------------------------------------------------------------
 
 To start the server with gunicorn:
+-------------------------------------------------------------------------------
 vagrant@precise32:/vagrant/makahiki$ ./manage.py run_gunicorn -b 0.0.0.0:8000
+-------------------------------------------------------------------------------
 ===============================================================================
 
 Appendix F. Using Eclipse To Develop with Vagrant
