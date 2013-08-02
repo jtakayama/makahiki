@@ -775,7 +775,8 @@ Prerequisites: Set Hidden Files and Folders as Visible [OPTIONAL]
 -------------------------------------------------------------------------------
 1. Open Eclipse.
 2. In the "Package Explorer" sidebar, click on the white down-pointing arrow 
-   (the leftmost toolbar item). In this menu, click "Filters."
+   (the rightmost toolbar item before the minimize and maximize buttons). 
+   In this menu, click "Filters."
 3. In the "Java Element Filters" popup that appears, uncheck the checkbox 
    for ".*resources," then click "OK."
 4. The hidden files and folders that start with a "." character (e.g., 
