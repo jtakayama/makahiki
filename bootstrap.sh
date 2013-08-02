@@ -240,6 +240,16 @@ cd /vagrant
 echo "pip install -r requirements.txt"
 pip install -r requirements.txt
 echo "pip install: finished at $(date)"
+echo "Initializing Makahiki database with default MAKAHIKI_DATABASE_URL"
+echo "and MAKAHIKI_ADMIN_INFO: started at $(date)"
+export MAKAHIKI_DATABASE_URL=postgres://makahiki:makahiki@localhost:5432/makahiki
+export MAKAHIKI_ADMIN_INFO=admin:admin
+echo "cd /vagrant/makahiki"
+cd /vagrant/makahiki
+echo "echo \"Y\" | ./scripts/initialize_instance.py --type default"
+# This assumes that the initialize_instance.py script only requires one Y/n response.
+echo "Y" | python ./scripts/initialize_instance.py --type default
+echo "Initializing Makahiki database: finished at $(date)"
 echo "-------------------------------------------------------------------------------"
 echo "Configuration setup results:"
 echo "-------------------------------------------------------------------------------"
