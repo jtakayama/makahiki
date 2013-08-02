@@ -407,12 +407,12 @@ vagrant@precise32:~$ sudo pg_createcluster --locale en_US.UTF8 9.1 main
 vagrant@precise32:~$ sudo cp /vagrant/vagrant/config_examples/pg_hba.conf.ubuntu.makahiki /etc/postgresql/9.1/main/pg_hba.conf
 vagrant@precise32:~$ sudo /etc/init.d/postgresql restart
 
-After restarting postgresql, go to "Appendix B.0.1. Initialize Makahiki."
+Continue to Appendix A.0.2., "Troubleshooting pg_hba.conf."
 ===============================================================================
 
 Appendix A.0.2. Troubleshooting pg_hba.conf
 ===============================================================================
-The next step is to verify the PostgreSQL server authentication settings.
+Begin by verifying the PostgreSQL server authentication settings.
 At the prompt, type "psql -U postgres." If it succeeds, type \q to quit.
 -------------------------------------------------------------------------------
 vagrant@precise32:/vagrant$ psql -U postgres
