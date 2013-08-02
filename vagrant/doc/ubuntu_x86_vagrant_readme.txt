@@ -646,6 +646,10 @@ In the makahiki/vagrant directory, start the virtual machine with "vagrant up."
 This will run the provisioning script designated in the Vagrantfile.
 > vagrant up 
 
+An error may occur during virtual machine startup:
+"dpkg-preconfigure: unable to re-open stdin: No such file or directory"
+This error does not affect the provisioning script and can be ignored.
+
 B. Re-provision a virtual machine that is already running:
 > vagrant provision
 ===============================================================================
