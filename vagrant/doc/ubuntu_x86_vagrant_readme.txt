@@ -14,10 +14,9 @@ Contents:
 2.1.1. Start the Virtual Machine and Run the Provisioning Script
 2.1.2. Connect to the Vagrant Virtual Machine with SSH
 2.1.3. Check for the Makahiki Source Code
-2.1.4. Environment Variables Verification
-2.1.5. PostgreSQL Configuration Verification
-2.1.6. Start the Server
-Appendix A.0. Troubleshooting Configuration Files - Editing Configuration Files
+2.1.4. Start the Server
+2.1.5. If the Server Does Not Start
+Appendix A.0. Troubleshooting Configuration Files
 Appendix A.0.1. Troubleshooting /etc/bash.bashrc
 Appendix A.0.2. Troubleshooting pg_hba.conf
 Appendix A.0.3. Troubleshooting /home/vagrant/makahiki_env.sh
@@ -247,7 +246,7 @@ The bootstrap_runner.sh script logs the output of bootstrap.sh to a text
 file. This file is called "ubuntu_x86_<timestamp>.log," where <timestamp> is 
 in the format yyyy-mm-dd-HH-MM-SS (year, month, day, hour, minute, second).
 These logs are stored at:
-- On the host machine: <path-to-makahiki>makahiki/vagrant/logs.
+- On the host machine: <path-to-makahiki>/makahiki/vagrant/logs.
 - On the virtual machine: /vagrant/vagrant/logs
 
 If run more than once, the script will:
@@ -315,44 +314,7 @@ The output of ls should match the contents of the makahiki directory on your
 host machine.
 ===============================================================================
 
-2.1.4. Environment Variables Verification
-===============================================================================
-makahiki_env.sh sets values for Makahiki environment variables 
-MAKAHIKI_DATABASE_URL and MAKAHIKI_ADMIN_INFO. Check that these values 
-have been set:
--------------------------------------------------------------------------------
-vagrant@precise32:/vagrant$ echo $MAKAHIKI_DATABASE_URL
-postgres://makahiki:makahiki@localhost:5432/makahiki
-vagrant@precise32:/vagrant$ echo $MAKAHIKI_ADMIN_INFO
-admin:admin
--------------------------------------------------------------------------------
-If "echo" returns nothing, or you want to change the administrator username or 
-password, see "A.0.3. Troubleshooting /home/vagrant/makahiki_env.sh."
-
-Note:
------
-The username:password combination of admin:admin is meant for use in 
-development. In a production server, the value of MAKAHIKI_ADMIN_INFO would be 
-changed to a more secure value. To edit this value, edit 
-/home/vagrant/makahiki_env.sh.
-===============================================================================
-
-2.1.5. PostgreSQL Configuration Verification
-===============================================================================
-The next step is to verify the PostgreSQL server authentication settings.
-At the prompt, type "psql -U postgres." If it succeeds, type \q to quit.
--------------------------------------------------------------------------------
-vagrant@precise32:/vagrant$ psql -U postgres
-psql (9.1.9)
-Type "help" for help.
-
-postgres=#\q
-vagrant@precise32:/vagrant$
--------------------------------------------------------------------------------
-If this fails, go to section "Appendix A.0.2: Troubleshooting pg_hba.conf."
-===============================================================================
-
-2.1.6. Start The Server
+2.1.4. Start The Server
 ===============================================================================
 The Makahiki server is started manually from the /vagrant/makahiki directory: 
 vagrant@precise32:/vagrant$ cd /vagrant/makahiki
@@ -371,7 +333,12 @@ Stop the server by typing Control-C in the terminal.
 For more information, see "Appendix B.0.2. The Makahiki Server."
 ===============================================================================
 
-Appendix A.0. Troubleshooting Configuration Files - Editing Configuration Files
+2.1.5. If the Server Does Not Start
+===============================================================================
+Continue to Appendix A.0., "Troubleshooting Configuration Files."
+===============================================================================
+
+Appendix A.0. Troubleshooting Configuration Files
 ===============================================================================
 Appendix A contains troubleshooting instructions for configuration files.
 The instructions refer to the GNU nano text editor, which is installed 
@@ -407,8 +374,19 @@ For the full nano documentation, see http://www.nano-editor.org/docs.php.
 
 Appendix A.0.1. Troubleshooting /etc/bash.bashrc and UTF-8 Encodings
 ===============================================================================
-If the UTF-8 settings were not properly applied, you will need to reconfigure 
-the system encodings.
+You need to change the system and postgresql database encodings if one of the 
+following applies:
+A. You experience a DatabaseError when the initialize_instance.py script runs, 
+   with the message "character 0x##### of encoding "UTF8" has no equivalent 
+   in "LATIN1"."
+B. The "locale" command returns a non-UTF-8 encoding setting:
+   vagrant@precise32:~$ locale
+   LANG=en_US.LATIN1
+   LANGUAGE=en_US.LATIN1
+   ...
+   LC_ALL=en_US.LATIN1
+
+If this is the case, continue.
 
 Open /etc/bash.bashrc with sudo:
 vagrant@precise32:~$ sudo nano /etc/bash.bashrc
@@ -434,6 +412,16 @@ After restarting postgresql, go to "Appendix B.0.1. Initialize Makahiki."
 
 Appendix A.0.2. Troubleshooting pg_hba.conf
 ===============================================================================
+The next step is to verify the PostgreSQL server authentication settings.
+At the prompt, type "psql -U postgres." If it succeeds, type \q to quit.
+-------------------------------------------------------------------------------
+vagrant@precise32:/vagrant$ psql -U postgres
+psql (9.1.9)
+Type "help" for help.
+
+postgres=#\q
+vagrant@precise32:/vagrant$
+-------------------------------------------------------------------------------
 If you cannot connect to the database with "psql -U postgres," or experience 
 errors when running initialize_instance.py, check that the pg_hba.conf file 
 has the correct settings applied.
@@ -466,6 +454,20 @@ vagrant@precise32:/vagrant$ sudo /etc/init.d/postgresql restart
 
 Appendix A.0.3. Troubleshooting /home/vagrant/makahiki_env.sh
 ===============================================================================
+makahiki_env.sh sets values for Makahiki environment variables 
+MAKAHIKI_DATABASE_URL and MAKAHIKI_ADMIN_INFO. Check that these values 
+have been set:
+-------------------------------------------------------------------------------
+vagrant@precise32:/vagrant$ echo $MAKAHIKI_DATABASE_URL
+postgres://makahiki:makahiki@localhost:5432/makahiki
+vagrant@precise32:/vagrant$ echo $MAKAHIKI_ADMIN_INFO
+admin:admin
+-------------------------------------------------------------------------------
+If "echo" returns nothing, try sourcing home/vagrant/.bashrc (~/.bashrc) and 
+check again:
+
+vagrant@precise32:/vagrant$ source ~/.bashrc
+
 If MAKAHIKI_DATABASE_URL and MAKAHIKI_ADMIN_INFO are still not set after 
 sourcing ~/.bashrc, you need to add them to /home/vagrant/makahiki_env.sh.
 
@@ -489,6 +491,12 @@ export MAKAHIKI_ADMIN_INFO=admin:admin
 These settings are only used to initialize the Makahiki database. If you change 
 the username or password in the Makahiki user interface, these settings will 
 no longer apply.
+
+Note:
+-----
+The username:password combination of admin:admin is meant for use in 
+development. In a production server, the value of MAKAHIKI_ADMIN_INFO would be 
+changed to a more secure value.
 
 3. When you are done editing makahiki_env.sh, source the .bashrc file. This will 
 source the makahiki_env.sh file, which will set the environment variables:
