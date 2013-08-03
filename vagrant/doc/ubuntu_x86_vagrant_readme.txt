@@ -153,21 +153,24 @@ A. If you do not have Git for Windows, download the source code from
     A3. Extract the makahiki.zip file that is downloaded.
 
 B. If you have Git for Windows, you can clone the repository:
+   ----------------------------------------------------------------------------
    > git clone http://github.com/csdl/makahiki.git
-
+   ----------------------------------------------------------------------------
 Git for Windows can be downloaded from http://git-scm.com/download/win.
 
 Now switch your working directory to makahiki:
+-------------------------------------------------------------------------------
 > cd makahiki
+-------------------------------------------------------------------------------
 ===============================================================================
 
 2.0.2. Download the Base Virtual Machine
 ===============================================================================
 This step adds the base virtual machine specified in the last step, 
 "precise32," for Vagrant to use.
-
+-------------------------------------------------------------------------------
 > vagrant box add precise32 http://files.vagrantup.com/precise32.box
-
+-------------------------------------------------------------------------------
 This will download the virtual machine from Vagrant's servers.
 
 It is only necessary to download each specific box once; if you create more 
@@ -185,12 +188,12 @@ the virtual machine.
 ===============================================================================
 You should be in the top-level Makahiki directory, where the Vagrantfile is.
 Use the "vagrant up" command to start the virtual machine:
-
+-------------------------------------------------------------------------------
 > vagrant up
-
+-------------------------------------------------------------------------------
 Each time you start Vagrant with "vagrant up," it will run the 
-"run_bootstrap.sh" script specified in the Vagrantfile. This 
-script runs and logs the "bootstrap.sh" script.
+"run_bootstrap.sh" script specified in the Vagrantfile. This script runs and 
+logs the "bootstrap.sh" script.
 
 WARNING:
 -------------------------------------------------------------------------------
@@ -199,8 +202,9 @@ directory and re-initializes it, then re-initializes the Makahiki database.
 This will erase ALL DATA in ALL DATABASES on the system.
 
 To start the virtual machine without provisioning it, use --no-provision: 
-
+-------------------------------------------------------------------------------
 > vagrant up --no-provision
+-------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
 
 The bootstrap.sh script: 
@@ -747,6 +751,10 @@ Appendix F. Using Eclipse To Develop with Vagrant
 Developing in Eclipse is OPTIONAL. However, Eclipse is the development 
 environment of the Makahiki development team, and .project and .pydevproject 
 are provided for the convenience of Eclipse users.
+
+You will not be able to run Django-based Python files on your host machine. 
+You will need to run them in Vagrant after editing them in Eclipse on your 
+host machine.
 
 Host Machine Prerequisites:
 [REQUIRED] Python 2.7.3 or later (but not Python 3).
