@@ -829,11 +829,11 @@ uses Django and contains JavaScript, HTML, and CSS files.
 
 Prerequisites: Set Hidden Files and Folders as Visible [OPTIONAL]
 -------------------------------------------------------------------------------
-1. Open Eclipse.
+1. Open Eclipse. If you are not in the PyDev perspective,
+   click on the "Open Perspective" button, and select PyDev.
 2. In the "Package Explorer" sidebar, click on the white down-pointing arrow 
-   (the rightmost toolbar item before the minimize and maximize buttons). 
-   In this menu, click "Filters."
-3. In the "Java Element Filters" popup that appears, uncheck the checkbox 
+   In this menu, click "Customize View."
+3. In the "Available Customizations" popup that appears, uncheck the checkbox 
    for ".*resources," then click "OK."
 4. The hidden files and folders that start with a "." character (e.g., 
    ".project" and ".pydevproject") should now be visible in Eclipse.
