@@ -748,8 +748,7 @@ vagrant@precise32:/vagrant/makahiki$ ./manage.py run_gunicorn -b 0.0.0.0:8000
 
 Appendix F. Using Eclipse To Develop with Vagrant
 ===============================================================================
-Developing in Eclipse is OPTIONAL. However, Eclipse is the development 
-environment of the Makahiki development team, and .project and .pydevproject 
+Developing in Eclipse is OPTIONAL. However .project and .pydevproject files
 are provided for the convenience of Eclipse users.
 
 You will not be able to run Django-based Python files on your host machine. 
