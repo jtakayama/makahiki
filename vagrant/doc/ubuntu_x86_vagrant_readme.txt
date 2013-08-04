@@ -30,6 +30,9 @@ Appendix D. Re-Provisioning Vagrant
 Appendix E. Configure the RAM of the Virtual Machine
 Appendix F. Using Eclipse To Develop with Vagrant
 Appendix G. Import Makahiki as an Eclipse Project
+Appendix H.0. Opening an SSH Session in Eclipse
+Appendix H.0.1. Start or Resume Vagrant in a Local Shell
+Appendix H.0.2. Define and Start an SSH Session
 
 Instructions in appendices are optional.
 -------------------------------------------------------------------------------
@@ -762,8 +765,11 @@ Host Machine Prerequisites:
 [REQUIRED] PyDev Eclipse Add-on
 [REQUIRED] Configure Line Endings and Character Encodings
 [OPTIONAL] Eclipse Add-ons: Web, XML, Java EE and OSGi Enterprise Development:
-           - [RECOMMENDED] Eclipse Web Developer Tools (HTML/XHTML/CSS editors)
-           - [RECOMMENDED] JavaScript Development Tools (JavaScript editor)
+           - Eclipse Web Developer Tools (HTML/XHTML/CSS editors)
+           - JavaScript Development Tools (JavaScript editor)
+[OPTIONAL] Eclipse Add-ons: Remote System Explorer:
+           - Remote System Explorer End-User Runtime
+           - Remote System Explorer User Actions
 [OPTIONAL] Set Hidden Files and Folders as Visible
 
 Prerequisites: Python [REQUIRED]
@@ -827,6 +833,23 @@ uses Django and contains JavaScript, HTML, and CSS files.
    features will be installed and ready for use.
 -------------------------------------------------------------------------------
 
+Prequisites: Remote Systems Explorer [OPTIONAL]
+-------------------------------------------------------------------------------
+These addons are only required if you plan to connect to the Vagrant virtual 
+machine directly in Eclipse (see Appendix H).
+
+1. In the Help menu, select "Install New Software."
+2. For the "Work with:" dropdown menu, select the "releases" URL that matches 
+   your Eclipse version. For Eclipse 4.2 Juno, for example, this 
+   would be "Juno - http://download.eclipse.org/releases/juno."
+3. Type "remote" in the search bar and wait for the search to finish. 
+   Check the boxes for the add-ons "Remote System Explorer End-User Runtime" 
+   and "Remote System Explorer User Actions."
+4. Click "Next," then "Next." You may need to agree to one or more licenses.
+5. Restart Eclipse when prompted. After the restart, any new editors or 
+   features will be installed and ready for use.
+-------------------------------------------------------------------------------
+
 Prerequisites: Set Hidden Files and Folders as Visible [OPTIONAL]
 -------------------------------------------------------------------------------
 1. Open Eclipse. If you are not in the PyDev perspective,
@@ -878,4 +901,64 @@ virtual machine immediately.
    If you need to change these libraries later, go to 
    "Window" --> "Preferences" --> "PyDev" --> "Interpeter - Python," 
    and select the "Libraries" tab.
+===============================================================================
+
+Appendix H.0. Opening an SSH Session in Eclipse
+===============================================================================
+If you have installed the Remote System Explorer perspective (see Appendix F), 
+you can start an SSH session to the Vagrant virtual machine directly within 
+Eclipse. The following steps involve the Remote System Explorer perspective.
+
+In the Perspectives toolbar (upper-left-hand corner), click 
+"Open Perspective." Select "Remote System Explorer."
+===============================================================================
+
+H.0.1. Start or Resume Vagrant in a Local Shell
+===============================================================================
+If you previously started your Vagrant virtual machine with "vagrant up" 
+or "vagrant resume" (see Appendix C), skip this and continue to Appendix H.0.2.
+1. In the "Remote System Explorer" tab, go to "Local" --> "Local Shells."
+   Right-click "Local Shells" and click "Launch Shell."
+2. A "Remote Shell" tab will open. It runs the command shell on your host 
+   machine, and commands are entered in the "Command" text field. 
+   The current directory will be the directory you installed Eclipse into. 
+   Switch to the "makahiki" directory:
+   > cd <path-to-makahiki>/makahiki
+4. Check the virtual machine's status:
+   > vagrant status
+3. If your Vagrant virtual machine is shut down, bring it up:
+   > vagrant up --no-provision
+   If your Vagrant virtual machine is suspended, resume:
+   > vagrant resume
+===============================================================================
+
+H.0.2. Define and Start an SSH Session
+===============================================================================
+In the "Remote Systems" sidebar, click "Define a connection to remote system."
+1. In the "New Connection" popup, click "SSH Only" then click "Next."
+2. Set the "Host name" to 127.0.0.1. Set the "Connection name" to anything you 
+   like. Click "Finish."
+3. The connection you defined will appear in the sidebar. Click the black arrow 
+   to the left of it to expand it.
+4. Right-click "SSH Shells" then click on "Properties."
+5. Click "Subsystem" in the "Properties for Ssh shells" popup.
+   Specify "Port" as "2222," and "User ID" as "vagrant." 
+   When finished, click "OK."
+6. Right-click "Ssh Terminals," then click "Connect." 
+   Use the password "vagrant" when prompted.
+7. If you see a warning similar to the below example, click "Yes" to continue:
+   "The authenticity of host 'LOCALHOST' can't be established. 
+    RSA key fingerprint is e6:ad:1e:ee:15:53:7d:a6:ee:7c:aa:04:7a:ad:9a:9a.
+    Are you sure you want to continue connecting?"
+8. If you see a popup similar to the below example, click "Yes" to continue:
+   "C:\Users\<username?\.ssh\known_hosts does not exist.
+    Are you sure you want to create it?"
+9. In the Remote Systems sidebar, right-click "Ssh Terminals" and click 
+   "Launch Terminal." This will open an SSH session terminal under 
+   "Terminals."
+
+The SSH session can be used to run Makahiki scripts and the Makahiki web 
+server, like a normal SSH session. Using "exit" or "logout" will close the 
+session, but pressing Enter will launch a new session. Close the "Terminals" 
+tab when you are done.
 ===============================================================================
