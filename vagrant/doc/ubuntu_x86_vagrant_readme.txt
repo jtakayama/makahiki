@@ -911,6 +911,10 @@ Eclipse. The following steps involve the Remote System Explorer perspective.
 
 In the Perspectives toolbar (upper-left-hand corner), click 
 "Open Perspective." Select "Remote System Explorer."
+
+If you want to view your project files, you can switch back to the PyDev 
+perspective, or expand the "Local" --> "Local Files" directory tree in the 
+Remote Systems tab until you find your project directory. 
 ===============================================================================
 
 H.0.1. Start or Resume Vagrant in a Local Shell
