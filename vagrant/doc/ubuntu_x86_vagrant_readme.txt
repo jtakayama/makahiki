@@ -33,6 +33,9 @@ Appendix G. Import Makahiki as an Eclipse Project
 Appendix H.0. Opening an SSH Session in Eclipse
 Appendix H.0.1. Start or Resume Vagrant in a Local Shell
 Appendix H.0.2. Define and Start an SSH Session
+Appendix I.0. Enabling Makahiki Code Completion in Eclipse / PyDev
+Appendix I.0.1. Copying Makahiki Dependencies to the Shared Directory
+Appendix I.0.2. Pythonpath and Code Completion Settings in PyDev
 
 Instructions in appendices are optional.
 -------------------------------------------------------------------------------
@@ -40,23 +43,28 @@ Instructions in appendices are optional.
 0.0. Introduction
 ===============================================================================
 This is a README file that describes the process for deploying Makahiki in a 
-Vagrant virtual machine on a Windows host machine. The virtual machine is 
+Vagrant virtual machine on a given host machine. The virtual machine is 
 intended for testing or development use. It is not suitable for use in a 
 production deployment of the Makahiki software.
 
-If you would prefer to install Makahiki on Windows manually, without using 
-Vagrant, see the documentation at:
-http://makahiki.readthedocs.org/en/latest/installation-makahiki-windows.html
+If you would prefer to install Makahiki manually, without using Vagrant, see 
+the documentation at:
+- Windows: http://makahiki.readthedocs.org/en/latest/installation-makahiki-windows.html
+- OS X and Unix: http://makahiki.readthedocs.org/en/latest/installation-makahiki-unix.html
 
 The Makahiki source code is available from https://github.com/csdl/makahiki.
 
-In the examples in this document, the > represents the Windows command prompt.
+In the examples in this document, the > represents a generic terminal prompt.
 
-This guide assumes a basic level of familiarity with Windows.
+This guide assumes a basic level of familiarity with your host operating 
+system.
 
 System requirements:
 - Operating System:
-  - Windows 7 or 8 are recommended.
+  - Windows 7 or 8 
+  - Mac OS X
+  - A Linux distro that can run VirtualBox and Vagrant (and Java, if you 
+    choose to use Eclipse for development).
   - The applications used in this guide are compatible with 
     x86 (32-bit) and x64 (64-bit) operating systems.
   - The virtual machine that will be configured will have x86 architecture
@@ -83,10 +91,12 @@ another integrated development environment (IDE) that can maintain
 UTF-8 encoding and LF line endings within the project. UTF-8 and LF line 
 endings are required by certain Makahiki dependencies.
 
+Eclipse is available for Windows, OS X, and many Linux distributions.
+
 To set up Eclipse, see Appendix F.
 To import Makahiki into Eclipse, see Appendix G.
 
-Above all, DO NOT EDIT OR CREATE ANY FILES IN NOTEPAD:
+Above all, Windows users SHOULD NOT EDIT OR CREATE ANY FILES IN NOTEPAD:
 1. Notepad ends lines with Windows line endings (CR-LF). Linux 
    applications expect LF endings and may have problems parsing CR-LF.
 2. Notepad defaults to ANSI encoding when a file is saved. Some Linux 
@@ -101,7 +111,7 @@ Above all, DO NOT EDIT OR CREATE ANY FILES IN NOTEPAD:
 
 1.0. VirtualBox and Vagrant Setup
 ===============================================================================
-This section installs VirtualBox and Vagrant onto a Windows computer.
+This section installs VirtualBox and Vagrant onto a computer.
 
 This guide uses the terms "virtual machine" and "host machine." 
 A virtual machine is an operating system running on simulated hardware, which 
@@ -112,8 +122,8 @@ computer that Vagrant and VirtualBox use to run the virtual machine.
 1.0.1. Install VirtualBox
 ===============================================================================
 Download VirtualBox from https://www.virtualbox.org/wiki/Downloads.
-To install VirtualBox on Windows, follow the instructions at 
-https://www.virtualbox.org/manual/ch02.html#installation_windows.
+To install VirtualBox, follow the instructions at 
+https://www.virtualbox.org/manual/ch02.html.
 
 Select "Yes" when you are asked to install drivers for USB support and 
 VirtualBox Host-Only Networking.
@@ -124,9 +134,12 @@ later versions, but this has not been tested.
 
 1.0.2. Install Vagrant
 ===============================================================================
-Download the Vagrant .msi installer from http://downloads.vagrantup.com/.
-To install Vagrant on Windows, follow the instructions at 
+Download the Vagrant installer from http://downloads.vagrantup.com/.
+To install Vagrant on your operating system, follow the instructions at 
 http://docs.vagrantup.com/v2/installation/index.html.
+- Windows users: download the .msi file.
+- Mac OS X users: download the .dmg file.
+- Linux users: download the package format used for your distro.
 
 This guide was tested with Vagrant 1.2.4. It should be compatible with 
 later versions of Vagrant 1.2, but this has not been tested.
@@ -134,32 +147,38 @@ later versions of Vagrant 1.2, but this has not been tested.
 
 2.0. Vagrant Virtual Machine Setup 
 ===============================================================================
-This section contains instructions for creating the Vagrant virtual machine.
+Section 2.0 and subsections contain instructions for creating the Vagrant 
+virtual machine. Start by opening a terminal window in your host operating 
+system.
 
-Open a Windows Command Prompt (cmd) terminal window. (If you can't find the 
-Command Prompt, type "cmd.exe" in Run.) This terminal will be used to configure 
-and access the Vagrant virtual machine.
+- Windows Users: Open a Windows Command Prompt (cmd) terminal window. 
+  If you can't find the Command Prompt, type "cmd.exe" in Run.
+- OS X Users: Open a Terminal window.
+- Linux users: Open a Terminal window.
 ===============================================================================
 
 2.0.1. Download the Makahiki Source Code
 ===============================================================================
-Downloading the Makahiki source code will create a folder called "makahiki."
+Downloading the Makahiki source code will create the "makahiki" directory.
 
 There are two ways of obtaining the Makahiki source code. (If you have this 
 text file, you likely already have the Makahiki source code, and can skip this 
 section.)
 
-A. If you do not have Git for Windows, download the source code from 
+A. If you do not have Git or Git for Windows, download the source code from 
    Github as a .zip file:
     A1. In a web browser, go to https://github.com/csdl/makahiki.
     A2. Click the button to "Download ZIP."
     A3. Extract the makahiki.zip file that is downloaded.
 
-B. If you have Git for Windows, you can clone the repository:
+B. If you have Git, or Git for Windows, you can clone the repository:
    ----------------------------------------------------------------------------
    > git clone http://github.com/csdl/makahiki.git
    ----------------------------------------------------------------------------
-Git for Windows can be downloaded from http://git-scm.com/download/win.
+   Windows: Git for Windows can be downloaded from 
+            http://git-scm.com/download/win.
+   OS X and Unix: Git is available through various package managers and
+            installers. Linux users may already have Git on their OS.
 
 Now switch your working directory to makahiki:
 -------------------------------------------------------------------------------
@@ -879,7 +898,8 @@ virtual machine immediately.
 2. When prompted to select a workspace, select the directory that you cloned the 
    Makahiki repository into earlier (e.g., the directory that contains the 
    top-level makahiki folder). For example, if Makahiki had been cloned into 
-   C:/Users/Tester/Vagrant, that would be the workspace directory.   Click "OK."
+   C:/Users/Tester/Vagrant on Windows, that would be the workspace directory.   
+   Click "OK."
 3. Select File --> Import.
     3a. Click the arrow to expand "General," then select 
         "Existing Projects Into Workspace." Click "Next."
@@ -891,9 +911,9 @@ virtual machine immediately.
     3c. Check the checkbox for "makahiki" when it appears. Click "Finish."
 4. Assuming that you installed PyDev, you will receive a warning:
    "It seems that the Python interpreter is not currently configured."
-   Select "Auto config" if your Python interpreter is on the Windows PATH; 
-   otherwise, use "Manual config" to select it manually. These instuctions 
-   assume you selected "Auto config."
+   Select "Auto config" if your Python interpreter is on your operating 
+   system's PATH; otherwise, use "Manual config" to select it manually. 
+   These instructions assume you selected "Auto config."
 5. If you selected "Auto config," you will get a "Selection needed" popup.
    The defaults are usually fine. Click "OK" to continue. 
 6. You will be shown the "Interpreter - Python" menu.
@@ -965,4 +985,68 @@ The SSH session can be used to run Makahiki scripts and the Makahiki web
 server, like a normal SSH session. Using "exit" or "logout" will close the 
 session, but pressing Enter will launch a new session. Close the "Terminals" 
 tab when you are done.
+===============================================================================
+
+Appendix I.0. Enabling Makahiki Code Completion in Eclipse / PyDev
+===============================================================================
+Appendix I.0 and its subsections cover the process of configuring code 
+completion for Makahiki dependencies in Eclipse's PyDev add-on.
+===============================================================================
+
+Appendix I.0.1. Copying Makahiki Dependencies to the Shared Directory
+===============================================================================
+Assuming that the pip installation completed successfully when the 
+provisioning script was run, the pip packages will be located in 
+/usr/local/lib/python2.7/dist-packages.
+
+Copy the entire dist-packages directory into the /vagrant shared directory:
+-------------------------------------------------------------------------------
+vagrant@precise32:~$ cd /usr/local/lib/python2.7/dist-packages
+vagrant@precise32:/usr/local/lib/python2.7/dist-packages$ ls
+-- output omitted --
+vagrant@precise32:/usr/local/lib/python2.7/dist-packages$ cd ../
+vagrant@precise32:/usr/local/lib/python2.7$ cp -rL dist-packages /vagrant/vagrant/
+-------------------------------------------------------------------------------
+On your host machine, the dist-packages directory will appear at 
+<path-to-makahiki>/makahiki/vagrant/dist-packages.
+
+Continue to the next section to add this directory to Eclipse's Pythonpath.
+===============================================================================
+
+Appendix I.0.2. Pythonpath and Code Completion Settings in PyDev
+===============================================================================
+Open Eclipse. Switch to or open the PyDev perspective if you are not in it.
+
+1. Click on "Window" --> "Preferences" --> "PyDev" --> "Interpreter - Python."
+2. Click on "New Folder."
+3. In the "New Folder" window, click the white right-pointing arrow to expand 
+   the directory tree. Browse to <path-to-makahiki>/makahiki/vagrant/dist-packages. 
+   Click on the directory to highlight it, then click "OK."
+4. In the main "Interpreter - Python" window, click "Apply" to rebuild 
+   Eclipse's System Pythonpath.
+5. In the menu tree, go back up to "PyDev" --> "Editor" --> "Code Completion."
+   These options may be useful:
+   - Request completion on '.'?
+   - Request completion on all letter chars and '_'?
+6. To test the code completion, open any file. At the top of the file, 
+   begin typing this line:
+   from django.core.cache import File
+   When the code completion popup opens, press Control+Space to switch  
+   from "templates" to "default completions." "Default completions" 
+   gives you a list of suggested package modules, while "templates" 
+   gives you common Python keywords. Use Control+Space to cycle between 
+   the two.
+
+WARNING:
+-------------------------------------------------------------------------------
+Code completion does not always mean that a Python script will run correctly 
+or safely in Eclipse on the host machine (as opposed to the virtual machine).
+- Environment variables may not have the right values on the host OS.
+- Shell commands and system calls may fail if your host OS is different from 
+  the virtual machine OS.
+- If your host OS is Linux / Unix-based (especially Ubuntu or any distro 
+  that is based on Debian) and has some of the same applications, 
+  running any script in Eclipse that makes system calls may result in the 
+  script's changes being applied to your operating system. 
+-------------------------------------------------------------------------------
 ===============================================================================
