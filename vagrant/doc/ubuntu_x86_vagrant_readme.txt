@@ -63,8 +63,8 @@ System requirements:
 - Operating System:
   - Windows 7 or 8 
   - Mac OS X
-  - A Linux distro that can run VirtualBox and Vagrant (and Java, if you 
-    choose to use Eclipse for development).
+  - A recent Red Hat-based or Debian-based Linux distro 
+    (Vagrant comes in .rpm or .deb installers).
   - The applications used in this guide are compatible with 
     x86 (32-bit) and x64 (64-bit) operating systems.
   - The virtual machine that will be configured will have x86 architecture
@@ -135,11 +135,12 @@ later versions, but this has not been tested.
 1.0.2. Install Vagrant
 ===============================================================================
 Download the Vagrant installer from http://downloads.vagrantup.com/.
-To install Vagrant on your operating system, follow the instructions at 
-http://docs.vagrantup.com/v2/installation/index.html.
 - Windows users: download the .msi file.
 - Mac OS X users: download the .dmg file.
-- Linux users: download the package format used for your distro.
+- Linux users: download the .rpm or .deb package appropriate for your 
+  distro and architecture.
+To install Vagrant on your operating system, follow the instructions at 
+http://docs.vagrantup.com/v2/installation/index.html.
 
 This guide was tested with Vagrant 1.2.4. It should be compatible with 
 later versions of Vagrant 1.2, but this has not been tested.
@@ -154,6 +155,10 @@ system.
 - Windows Users: Open a Windows Command Prompt (cmd) terminal window. 
   If you can't find the Command Prompt, type "cmd.exe" in Run.
 - OS X Users: Open a Terminal window.
+  - bash has been the default Terminal shell since OS X 10.3.
+  - If your default shell is different, type "bash" to temporarily 
+    switch to bash.
+  - Setting the shell to Bash permanently is left as an exercise for the user.
 - Linux users: Open a Terminal window.
 ===============================================================================
 
@@ -175,10 +180,10 @@ B. If you have Git, or Git for Windows, you can clone the repository:
    ----------------------------------------------------------------------------
    > git clone http://github.com/csdl/makahiki.git
    ----------------------------------------------------------------------------
-   Windows: Git for Windows can be downloaded from 
-            http://git-scm.com/download/win.
+   Windows: Get "Git for Windows" from http://git-scm.com/download/win.
    OS X and Unix: Git is available through various package managers and
-            installers. Linux users may already have Git on their OS.
+            installers; see https://help.github.com/articles/set-up-git
+            for further instructions.
 
 Now switch your working directory to makahiki:
 -------------------------------------------------------------------------------
@@ -278,14 +283,14 @@ These logs are stored at:
 If run more than once, the script will:
 1. Update the apt package lists: Every time
 2. Overwrite bash.bashrc: First run only
-2. Regenerate and reconfigure locale settings: Every time
-3. Install packages: First run only
-4. Edit /home/vagrant/.bashrc: First run only
-5. Creates /home/vagrant/makahiki_env.sh: On first run or if file is deleted
-6. Drop/regenerate the PostgreSQL cluster data directory, which erases all 
+3. Regenerate and reconfigure locale settings: Every time
+4. Install packages: First run only
+5. Edit /home/vagrant/.bashrc: First run only
+6. Creates /home/vagrant/makahiki_env.sh: On first run or if file is deleted
+7. Drop/regenerate the PostgreSQL cluster data directory, which erases all 
    databases on the system: Every time
-7. Install pip packages: First run only
-8. Re-initialize the Makahiki database: Every time
+8. Install pip packages: First run only
+9. Re-initialize the Makahiki database: Every time
 
 When the script finishes, look at the last few lines of output:
 -------------------------------------------------------------------------------
