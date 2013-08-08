@@ -33,9 +33,10 @@ Appendix G. Import Makahiki as an Eclipse Project
 Appendix H.0. Opening an SSH Session in Eclipse
 Appendix H.0.1. Start or Resume Vagrant in a Local Shell
 Appendix H.0.2. Define and Start an SSH Session
-Appendix I.0. Enabling Makahiki Code Completion in Eclipse / PyDev
+Appendix I.0. Enabling Makahiki Code Completion in Eclipse PyDev
 Appendix I.0.1. Copying Makahiki Dependencies to the Shared Directory
 Appendix I.0.2. Pythonpath and Code Completion Settings in PyDev
+Appendix J. Enabling Remote Debugging in Eclipse PyDev [Placeholder]
 
 Instructions in appendices are optional.
 -------------------------------------------------------------------------------
@@ -1055,3 +1056,7 @@ or safely in Eclipse on the host machine (as opposed to the virtual machine).
   script's effects being applied to your host operating system. 
 -------------------------------------------------------------------------------
 ===============================================================================
+
+Appendix J. Enabling Remote Debugging in Eclipse PyDev
+===============================================================================
+[Placeholder: Section not complete]
