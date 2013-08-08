@@ -176,8 +176,8 @@ echo "Installing libmemcached-dev: started at $(date)"
 echo "apt-get install -y libmemcached-dev"
 apt-get install -y libmemcached-dev
 echo "Installing libmemcached-dev: finished at $(date)"
-# LIBMEMCACHED-0.53 TEST CODE
-echo "Installing libmemcahced-0.53: started at $(date)"
+# Begin libmemcached-0.53 installation
+echo "Installing libmemcached-0.53: started at $(date)"
 if [ ! -f /usr/local/lib/libmemcached.so ]
     then
         echo "apt-get remove -y libmemcached"
@@ -212,6 +212,7 @@ if [ ! -f /usr/local/lib/libmemcached.so ]
                 print "libmemcached-0.53 built and installed successfully."
             else:
                 print "libmemached-0.53 installation failed."
+        fi
         echo "Cleaning up..."
         echo "cd /home/vagrant"
         cd /home/vagrant
@@ -221,7 +222,7 @@ if [ ! -f /usr/local/lib/libmemcached.so ]
         echo "libmemcached-0.53 was already installed."
 fi
 echo "Installing libmemcached-0.53: finished at $(date)"
-# END LIBMEMCACHED-0.53 TEST CODE
+# End of libmemcached-0.53 installation
 echo "Installing virtualenvwrapper: started at $(date)"
 echo "pip install virtualenvwrapper"
 pip install virtualenvwrapper

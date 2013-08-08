@@ -707,7 +707,7 @@ In the virtual machine, switch to the /vagrant/makahiki directory and run some
 commands in the manage.py shell:
 -------------------------------------------------------------------------------
 vagrant@precise32:~$ export LD_LIBRARY_PATH_OLD=$LD_LIBRARY_PATH
-vagrant@precise32:~$ export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+vagrant@precise32:~$ export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib:$LD_LIBRARY_PATH
 vagrant@precise32:~$ export MAKAHIKI_USE_MEMCACHED=True
 vagrant@precise32:~$ cd /vagrant/makahiki
 vagrant@precise32:/vagrant/makahiki$ ./manage.py shell
@@ -726,7 +726,7 @@ True
 'Hello World'
 >>> exit()
 vagrant@precise32:/vagrant/makahiki$ unset MAKAHIKI_USE_MEMCACHED
-vagrant@precise32:/vagrant/makahiki$ export LD_LIBRARY_PATH=LD_LIBRARY_PATH_OLD
+vagrant@precise32:/vagrant/makahiki$ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH_OLD
 vagrant@precise32:/vagrant/makahiki$ unset LD_LIBRARY_PATH_OLD
 -------------------------------------------------------------------------------
 If any of the following errors occur, then Memcached was not correctly 
