@@ -25,18 +25,20 @@ Appendix B.0. Makahiki Maintenance Tasks
 Appendix B.0.1. Initialize Makahiki
 Appendix B.0.2. The Makahiki Server
 Appendix B.0.3. Update the Makahiki Instance
+Appendix B.0.4. Check The Memcached Installation
 Appendix C. Vagrant Commands
 Appendix D. Re-Provisioning Vagrant
 Appendix E. Configure the RAM of the Virtual Machine
-Appendix F. Using Eclipse To Develop with Vagrant
-Appendix G. Import Makahiki as an Eclipse Project
-Appendix H.0. Opening an SSH Session in Eclipse
-Appendix H.0.1. Start or Resume Vagrant in a Local Shell
-Appendix H.0.2. Define and Start an SSH Session
-Appendix I.0. Enabling Makahiki Code Completion in Eclipse PyDev
-Appendix I.0.1. Copying Makahiki Dependencies to the Shared Directory
-Appendix I.0.2. Pythonpath and Code Completion Settings in PyDev
-Appendix J. Enabling Remote Debugging in Eclipse PyDev [Placeholder]
+Appendix F. Configure Networking on the Virtual Machine
+Appendix G. Using Eclipse To Develop with Vagrant
+Appendix H. Import Makahiki as an Eclipse Project
+Appendix I.0. Opening an SSH Session in Eclipse
+Appendix I.0.1. Start or Resume Vagrant in a Local Shell
+Appendix I.0.2. Define and Start an SSH Session
+Appendix J.0. Enabling Makahiki Code Completion in Eclipse PyDev
+Appendix J.0.1. Copying Makahiki Dependencies to the Shared Directory
+Appendix J.0.2. Pythonpath and Code Completion Settings in PyDev
+Appendix K. Enabling Remote Debugging in Eclipse PyDev
 
 Instructions in appendices are optional.
 -------------------------------------------------------------------------------
@@ -94,8 +96,8 @@ endings are required by certain Makahiki dependencies.
 
 Eclipse is available for Windows, OS X, and many Linux distributions.
 
-To set up Eclipse, see Appendix F.
-To import Makahiki into Eclipse, see Appendix G.
+To set up Eclipse, see Appendix G.
+To import Makahiki into Eclipse, see Appendix H.
 
 Above all, Windows users SHOULD NOT EDIT OR CREATE ANY FILES IN NOTEPAD:
 1. Notepad ends lines with Windows line endings (CR-LF). Linux 
@@ -261,8 +263,8 @@ The bootstrap.sh script:
             authentication settings.
        5f5. Restarts the postgresql service.
    5g. memcached
-   5h. libmemcached-dev
-   5i. virtualenvwrapper
+   5h. libmemcached-dev, which is removed and replaced with libmemcached-0.53
+   5j. virtualenvwrapper
 6. Creates /home/vagrant/makahiki_env.sh, which sets Makahiki environment 
    variables in the shell
 7. Edits /home/vagrant/.bashrc so that it will source 
@@ -366,7 +368,9 @@ vagrant@precise32:/vagrant/makahiki$ ./manage.py run_gunicorn -b 0.0.0.0:8000
 -------------------------------------------------------------------------------
 
 The web server can be accessed in a browser on the host machine at 
-http://localhost:8001.
+http://192.168.56.4:8000. 
+
+If this fails, see "2.1.6. If the Site Is Unreachable."
 
 Stop the server by typing Control-C in the terminal.
 
@@ -376,6 +380,11 @@ For more information, see "Appendix B.0.2. The Makahiki Server."
 2.1.5. If the Server Does Not Start
 ===============================================================================
 Continue to Appendix A.0., "Troubleshooting Configuration Files."
+===============================================================================
+
+2.1.6. If The Site Is Unreachable
+===============================================================================
+Continue to Appendix B. 
 ===============================================================================
 
 Appendix A.0. Troubleshooting Configuration Files
@@ -640,7 +649,8 @@ To start the server with gunicorn:
 vagrant@precise32:/vagrant/makahiki$ ./manage.py run_gunicorn -b 0.0.0.0:8000
 -------------------------------------------------------------------------------
 
-View the site in your host machine's web browser at http://localhost:8001.
+View the site in your host machine's web browser at http://192.168.56.4:8000.
+
 Log in with the username (admin) and password (admin) in MAKAHIKI_ADMIN_INFO. 
 See "Appendix A.0.3. Troubleshooting /home/vagrant/makahiki_env.sh" to change 
 them.
@@ -688,6 +698,49 @@ To start the server with gunicorn:
 -------------------------------------------------------------------------------
 vagrant@precise32:/vagrant/makahiki$ ./manage.py run_gunicorn
 -------------------------------------------------------------------------------
+===============================================================================
+
+Appendix B.0.4. Check The Memcached Installation
+===============================================================================
+The provisioning script installed Memcached and libmemcached-0.53 on the 
+system. If you plan to configure Memcached, you will need to test the 
+Memcached installation.
+
+In the virtual machine, switch to the /vagrant/makahiki directory and run some 
+commands in the manage.py shell:
+-------------------------------------------------------------------------------
+vagrant@precise32:~$ export LD_LIBRARY_PATH_OLD=$LD_LIBRARY_PATH
+vagrant@precise32:~$ export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+vagrant@precise32:~$ export MAKAHIKI_USE_MEMCACHED=True
+vagrant@precise32:~$ cd /vagrant/makahiki
+vagrant@precise32:/vagrant/makahiki$ ./manage.py shell
+Python 2.7.3 (default, Apr 10 2013, 05:46:21)
+[GCC 4.6.3] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from django.core.cache import cache
+>>> cache
+<django_pylibmc.memcached.PyLibMCCache object at 0x8c93c4c>
+>>> cache == None
+False
+>>> cache.set('test','Hello World')
+True
+>>> cache.get('test')
+'Hello World'
+>>> exit()
+vagrant@precise32:/vagrant/makahiki$ unset MAKAHIKI_USE_MEMCACHED
+vagrant@precise32:/vagrant/makahiki$ export LD_LIBRARY_PATH=LD_LIBRARY_PATH_OLD
+vagrant@precise32:/vagrant/makahiki$ unset LD_LIBRARY_PATH_OLD
+-------------------------------------------------------------------------------
+If any of the following errors occur, then Memcached was not correctly 
+installed:
+(1) cache prints a blank to the console, or cache == None returns True.
+(2) cache.set returns False.
+(3) cache.get returns False or causes a segmentation fault.
+
+If the tests succeed, you can configure Makahiki to use Memcached. This is 
+beyond the scope of this guide; consult the Makahiki documentation for 
+more information.
 ===============================================================================
 
 Appendix C. Vagrant Commands
@@ -774,7 +827,97 @@ vagrant@precise32:/vagrant/makahiki$ ./manage.py run_gunicorn -b 0.0.0.0:8000
 -------------------------------------------------------------------------------
 ===============================================================================
 
-Appendix F. Using Eclipse To Develop with Vagrant
+Appendix F. Configure Networking on the Virtual Machine
+===============================================================================
+By default, the Vagrantfile specifies the IP address 192.168.56.4 for the 
+virtual machine's eth1 interface. This is part of a host-only network. It 
+assumes the host machine has the first usable address in the 192.168.56.0/24 
+subnet, 192.168.56.1.
+
+If the Makahiki site is unreachable from the host machine after the web 
+server is started, the 192.168.56.0/24 network may not be correct.
+
+To fix this, check the IP addresses assigned to VirtualBox's networking 
+interfaces.
+1. Open VirtualBox.
+2. Go to File --> Preferences. This will launch the 
+   "VirtualBox - Settings" window.
+3. In the left sidebar, click "Network."
+4. Click on "VirtualBox Host-Only Ethernet Adapter" once to select it, 
+   and click the screwdriver icon (or the icon which, when moused over, shows 
+   "Edit host-only network.")
+5. The "Host-only Network Details" window should show:
+   "IPv4 Address: 192.168.56.1
+    IPv4 Network Mask: 255.255.255.0"
+   If the settings are different, you will need to change the settings 
+   in the Vagrantfile to match. Continue to the next step.
+6. Open the Vagrantfile in a text editor. Look for the line:
+   ----------------------------------------------------------------------------
+   config.vm.network :private_network, ip: "192.168.56.4"
+   ----------------------------------------------------------------------------
+   Change the address in quotes after the "ip:" field to something 
+   in the address range that was specified in "Host-only Network Details."
+   For example, if the "IPv4 Address" is 192.168.56.1 and the 
+   "IPv4 Network Mask" is 255.255.255.0, the range of usable addresses is 
+   192.168.56.1 - 192.168.56.254. VirtualBox reserves the first usable 
+   address, 192.168.56.1, for the host machine.
+   An explanation of IPv4 network addresses is beyond the scope of this guide.
+7. Switch to the directory holding the Vagrantfile. Then, reload the virtual 
+   machine configuration.
+   ----------------------------------------------------------------------------
+   > vagrant reload
+   ----------------------------------------------------------------------------
+8. SSH into the virtual machine and check the network interfaces:
+   ----------------------------------------------------------------------------
+   > vagrant ssh
+   Welcome to Ubuntu 12.04 LTS (GNU/Linux 3.2.0-23-generic-pae i686)
+   
+    * Documentation:  https://help.ubuntu.com/
+   Welcome to your Vagrant-built virtual machine.
+   Last login: Thu Aug  8 07:55:06 2013 from 10.0.2.2
+   vagrant@precise32:~$ ifconfig
+   eth0      Link encap:Ethernet  HWaddr 08:00:27:12:96:98
+             inet addr:10.0.2.15  Bcast:10.0.2.255  Mask:255.255.255.0
+             inet6 addr: fe80::a00:27ff:fe12:9698/64 Scope:Link
+   -- output omitted -- 
+   eth1      Link encap:Ethernet  HWaddr 08:00:27:fd:05:73
+             inet addr:192.168.56.4  Bcast:192.168.56.255  Mask:255.255.255.0
+             inet6 addr: fe80::a00:27ff:fefd:573/64 Scope:Link
+   -- output omitted --
+   lo        Link encap:Local Loopback
+             inet addr:127.0.0.1  Mask:255.0.0.0
+             inet6 addr: ::1/128 Scope:Host
+   -- output omitted --
+   vagrant@precise32:~$
+   ----------------------------------------------------------------------------
+   The eth0 interface is used for port forwarding.
+   The eth1 interface should match the IP address you just configured.
+   The lo interface is the loopback interface.
+9. Ping the host machine's "VirtualBox Host Adapter Network Address" 
+   from the virtual machine. Press Control-C (^C) to stop.
+   ----------------------------------------------------------------------------
+   vagrant@precise32:~$ ping 192.168.56.1
+   PING 192.168.56.1 (192.168.56.1) 56(84) bytes of data.
+   64 bytes from 192.168.56.1: icmp_req=1 ttl=128 time=1.49 ms
+   64 bytes from 192.168.56.1: icmp_req=2 ttl=128 time=0.710 ms
+   64 bytes from 192.168.56.1: icmp_req=3 ttl=128 time=0.609 ms
+   64 bytes from 192.168.56.1: icmp_req=4 ttl=128 time=0.685 ms
+   ^C
+   --- 192.168.56.1 ping statistics ---
+   4 packets transmitted, 4 received, 0% packet loss, time 3000ms
+   rtt min/avg/max/mdev = 0.609/0.874/1.493/0.359 ms
+   vagrant@precise32:~$
+   ----------------------------------------------------------------------------
+   If the ping succeeds, then networking is correctly configured.
+   
+   From now on, you should use the IP address configured in the Vagrantfile 
+   to access the site when the webserver is running.
+
+For more information on VirtualBox host-only networking, see 
+http://www.virtualbox.org/manual/ch06.html.
+===============================================================================
+
+Appendix G. Using Eclipse To Develop with Vagrant
 ===============================================================================
 Developing in Eclipse is OPTIONAL. However .project and .pydevproject files
 are provided for the convenience of Eclipse users.
@@ -888,7 +1031,7 @@ Prerequisites: Set Hidden Files and Folders as Visible [OPTIONAL]
 -------------------------------------------------------------------------------
 ===============================================================================
 
-Appendix G. Import Makahiki as an Eclipse Project
+Appendix H. Import Makahiki as an Eclipse Project
 ===============================================================================
 If you followed the previous instructions to set up a Vagrant virtual machine 
 in the earlier part of this guide, your Vagrant virtual machine and its 
@@ -929,9 +1072,9 @@ virtual machine immediately.
    and select the "Libraries" tab.
 ===============================================================================
 
-Appendix H.0. Opening an SSH Session in Eclipse
+Appendix I.0. Opening an SSH Session in Eclipse
 ===============================================================================
-If you have installed the Remote System Explorer perspective (see Appendix F), 
+If you have installed the Remote System Explorer perspective (see Appendix G), 
 you can start an SSH session to the Vagrant virtual machine directly within 
 Eclipse. The following steps involve the Remote System Explorer perspective.
 
@@ -943,10 +1086,10 @@ perspective, or expand the "Local" --> "Local Files" directory tree in the
 Remote Systems tab to find the "makahiki" directory.
 ===============================================================================
 
-H.0.1. Start or Resume Vagrant in a Local Shell
+I.0.1. Start or Resume Vagrant in a Local Shell
 ===============================================================================
 If you previously started your Vagrant virtual machine with "vagrant up" 
-or "vagrant resume" (see Appendix C), skip this and continue to Appendix H.0.2.
+or "vagrant resume" (see Appendix C), skip this and continue to Appendix I.0.2.
 1. In the "Remote System Explorer" tab, go to "Local" --> "Local Shells."
    Right-click "Local Shells" and click "Launch Shell."
 2. A "Remote Shell" tab will open. It runs the command shell on your host 
@@ -962,7 +1105,7 @@ or "vagrant resume" (see Appendix C), skip this and continue to Appendix H.0.2.
    > vagrant resume
 ===============================================================================
 
-H.0.2. Define and Start an SSH Session
+I.0.2. Define and Start an SSH Session
 ===============================================================================
 In the "Remote Systems" sidebar, click "Define a connection to remote system."
 1. In the "New Connection" popup, click "SSH Only" then click "Next."
@@ -993,13 +1136,13 @@ session, but pressing Enter will launch a new session. Close the "Terminals"
 tab when you are done.
 ===============================================================================
 
-Appendix I.0. Enabling Makahiki Code Completion in Eclipse / PyDev
+Appendix J.0. Enabling Makahiki Code Completion in Eclipse / PyDev
 ===============================================================================
-Appendix I.0 and its subsections cover the process of configuring code 
+Appendix J.0 and its subsections cover the process of configuring code 
 completion for Makahiki dependencies in Eclipse's PyDev add-on.
 ===============================================================================
 
-Appendix I.0.1. Copying Makahiki Dependencies to the Shared Directory
+Appendix J.0.1. Copying Makahiki Dependencies to the Shared Directory
 ===============================================================================
 Assuming that the pip installation completed successfully when the 
 provisioning script was run, the pip packages will be located in 
@@ -1019,7 +1162,7 @@ On your host machine, the dist-packages directory will appear at
 Continue to the next section to add this directory to Eclipse's Pythonpath.
 ===============================================================================
 
-Appendix I.0.2. Pythonpath and Code Completion Settings in PyDev
+Appendix J.0.2. Pythonpath and Code Completion Settings in PyDev
 ===============================================================================
 Open Eclipse. Switch to or open the PyDev perspective if you are not in it.
 
@@ -1057,6 +1200,37 @@ or safely in Eclipse on the host machine (as opposed to the virtual machine).
 -------------------------------------------------------------------------------
 ===============================================================================
 
-Appendix J. Enabling Remote Debugging in Eclipse PyDev
+Appendix K. Enabling Remote Debugging in Eclipse PyDev
 ===============================================================================
-[Placeholder: Section not complete]
+The PyDev addon contains a Remote Debugger feature that allows programs 
+started outside of Eclipse to be debugged from within Eclipse. This allows 
+Python scripts on the virtual machine to be debugged in Eclipse on the host 
+machine.
+
+WARNING ABOUT FIREWALLS:
+-------------------------------------------------------------------------------
+Using the Remote Debugger requires the process running the script on the 
+virtual machine to be able to communicate with PyDev on port 5678.
+
+Windows users, depending on their settings, may need to disable the Windows 
+Firewall completely for the Remote Debugger to work. Disabling the Windows 
+Firewall requires administrative privileges. It is a security risk and 
+should ideally be done on a machine not connected to any networks (or at 
+least any unsecured and/or public networks).
+
+Similarly, Linux users may need to change their iptables or other firewall 
+settings if they want to use this feature. This usually requires 
+administrative privileges on the host machine.
+-------------------------------------------------------------------------------
+
+1. On the host machine, look for the directory you installed Eclipse into 
+   (the directory that contains the "eclipse" directory). In this directory, 
+   navigate to eclipse/plugins/
+2. Copy the directory with a name of the form 
+   org.python.pydev_<version number X.X.X>.<nine digits representing build date>
+   (e.g., org.python.pydev_2.7.5.2013052819) to the 
+   <path-to-makahiki>/makahiki/vagrant directory.
+3. In Eclipse, open the Debug perspective.
+
+[Section incomplete.]
+===============================================================================
