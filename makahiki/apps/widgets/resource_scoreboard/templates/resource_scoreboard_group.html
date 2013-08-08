@@ -5,13 +5,18 @@
 <div class="content-box">
     <div class="widget-content">
         <div class="content-box-title">
-            {{ TEAM_LABEL.capitalize }} {{ resource.name|capfirst }} Scoreboard
+            {{ TEAM_LABEL.capitalize }}/Group {{ resource.name|capfirst }} Scoreboard
         </div>
         <ul id="{{resource.name}}-tab" class="nav nav-tabs">
             {% for round_name, ranks in round_resource_ranks.items reversed %}
             <li class="">
                 <a data-toggle="tab" href="#{{resource.name}}-{{round_name|cut:" "}}">{{ TEAM_LABEL.capitalize }} {{round_name }}</a>
             </li>
+            {% endfor %}
+            {% for round_name, ranks in round_group_resource_ranks.items reversed %}
+                <li class="">
+                    <a data-toggle="tab" href="#group-{{resource.name}}-{{round_name|cut:" "}}">Group {{round_name }}</a>
+                </li>
             {% endfor %}
             {% for round_name, ranks in round_resource_goal_ranks.items reversed %}
                 <li class="">

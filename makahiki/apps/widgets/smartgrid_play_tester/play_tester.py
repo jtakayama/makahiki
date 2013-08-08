@@ -109,7 +109,8 @@ def get_designer_grid(draft, user):  # pylint: disable=R0914,R0912
     levels = []
     for level in DesignerLevel.objects.filter(draft=draft):
         level.is_unlock = predicate_mgr.eval_play_tester_predicates(level.unlock_condition,
-                                                                    user=user, draft=draft)
+                                                                    user=user,
+                                                                    draft_slug=draft.slug)
         if level.is_unlock:  # only include unlocked levels
             if level.unlock_condition != "True":
                 contents = "%s is unlocked." % level
