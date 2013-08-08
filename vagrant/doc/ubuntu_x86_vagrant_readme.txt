@@ -225,6 +225,13 @@ Each time you start Vagrant with "vagrant up," it will run the
 "run_bootstrap.sh" script specified in the Vagrantfile. This script runs and 
 logs the "bootstrap.sh" script.
 
+While "vagrant up" is running, Windows users may see the following warnings: 
+1. A Windows Firewall warning about vboxheadless.exe. This exception is needed 
+   for Vagrant, and should be allowed.
+2. A warning that VirtualBox is attempting to make changes to the system. 
+   This is needed for the host-only networking to work correctly, and should 
+   be allowed.
+
 WARNING:
 -------------------------------------------------------------------------------
 Each time the provisioning script is run, it drops the PostgreSQL cluster data 
@@ -1207,6 +1214,9 @@ started outside of Eclipse to be debugged from within Eclipse. This allows
 Python scripts on the virtual machine to be debugged in Eclipse on the host 
 machine.
 
+For more information about the remote debugger, see 
+http://www.pydev.org/manual_adv_remote_debugger.html.
+
 WARNING ABOUT FIREWALLS:
 -------------------------------------------------------------------------------
 Using the Remote Debugger requires the process running the script on the 
@@ -1223,6 +1233,7 @@ settings if they want to use this feature. This usually requires
 administrative privileges on the host machine.
 -------------------------------------------------------------------------------
 
+Run the demonstration class to see the remote debugger in action:
 1. On the host machine, look for the directory you installed Eclipse into 
    (the directory that contains the "eclipse" directory). In this directory, 
    navigate to eclipse/plugins/
@@ -1231,6 +1242,66 @@ administrative privileges on the host machine.
    (e.g., org.python.pydev_2.7.5.2013052819) to the 
    <path-to-makahiki>/makahiki/vagrant directory.
 3. In Eclipse, open the Debug perspective.
+4. In the top button menu bar (usually below the File/Edit/Navigate/etc. 
+   menu bar), search for a bug icon with a "P" next to it (which, when 
+   moused over, displays the text "PyDev: Start the pydev Server."
+   Click this. In the Debug tab, icons for the "Debug Server [Python Server]" 
+   will appear. In the Console tab, the phrase "Debug Server at port: 5678" 
+   will appear.
+5. Switch to the PyDev perspective. Navigate to makahiki/vagrant and open 
+   pydevd_demo.py. This is an example file that uses the PyDev debugger. 
+6. Look at the two import statements at the beginning of the file. These 
+   statements must be added to any file in this project that uses the 
+   remote debugger.
+   ----------------------------------------------------------------------------
+   import sys;sys.path.append(r'org.python.pydev_2.7.5.2013052819\pysrc')
+   import pydevd
+   ----------------------------------------------------------------------------
+   Check that the path to org.python.pydev_#.#.#.##########\pysrc matches the 
+   relative path from pydevd_demo.py to the directory copied into 
+   makahiki/vagrant in Step 2. Edit it if it does not. 
+7. Examine the TestDebugServer class. Look for the "pydevd.settrace()."
+   Each occurrence of pydevd.settrace() acts as a breakpoint when the remote 
+   debugger is used.
+8. Switch back to the Debug perspective. Run pydevd_demo.py in Eclipse.
+9. pydevd_demo.py will appear under a item called "MainThread." Note the 
+   value for "i" that appears in the Variables tab. Step through the 
+   program using the debugger; i will be decremented as the loop runs. 
+   Output from the program will appear in the Console tab.
+10. Leave Eclipse open in the Debug perspective. Open a Command Prompt or 
+    Terminal, and SSH into your Vagrant virtual machine.
+    ---------------------------------------------------------------------------
+    > vagrant ssh
+    ---------------------------------------------------------------------------
+11. In Vagrant, switch to /vagrant/vagrant and run pydevd_demo.py:
+    ---------------------------------------------------------------------------
+    vagrant@precise32:~$ cd /vagrant/vagrant
+    vagrant@precise32:/vagrant/vagrant$ python pydevd_demo.py
+    ---------------------------------------------------------------------------
+12. You should see the same debugging information appear as when you ran the 
+    program locally. If it does not work, you may see Errno 110:
+    ---------------------------------------------------------------------------
+    socket.error: [Errno 110] Connection timed out
+    ---------------------------------------------------------------------------
+    If you see Errno 110, see the "Warning About Firewalls" at the beginning 
+    of this appendix.
+13. When you are finished, right-click the Debug Server and click 
+    "Terminate and remove" to stop the server and remove it from the tab.
 
-[Section incomplete.]
+To add the remote debugging functionality in pydevd_demo.py to any file:
+1. Edit it so it includes two import statements: one to import the 
+   org.python.pydev_*\pysrc directory, and one to import pydevd.
+2. Add "pydevd.settrace()" wherever you would insert a breakpoint in 
+   normal Eclipse debugging. It can have up to 4 parameters set:
+   - The first parameter, the IP address, must match the .1 address 
+     of the host-only network configured in the Vagrantfile.
+   - The port, 5678, is the remote debugger's default port. To edit 
+     this setting, go to "Windows" --> "Preferences" --> "PyDev" --> "Debug".
+     Edit "Connect timeout for debugger (ms)" to change the timeout setting.
+     Edit "Port for remote debugger" to change the port.
+     Click "Apply" when finished.
+   - stdoutToServer sends standard output to the Eclipse debug server.
+   - stderrToServer sends standard error output to the Eclipse debug server.
+3. When you are done debugging, remove the import statements and the 
+   calls to pydevd.settrace().
 ===============================================================================
