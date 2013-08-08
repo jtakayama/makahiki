@@ -413,8 +413,8 @@ to be tested in pydevd_file_utils.py.
    makahiki/vagrant earlier, then go to the pysrc directory. Open the 
    pydevd_file_utils.py file.
 2. Follow the instructions at the beginning of the file to edit the 
-    PATHS_FROM_ECLIPSE_TO_PYTHON variable's value to match the location 
-    of your file on the host machine and on the virtual machine.
+   PATHS_FROM_ECLIPSE_TO_PYTHON variable's value to match the location 
+   of your file on the host machine and on the virtual machine.
 ===============================================================================
 
 5.0.2. Adding Remote Debugging Code to a Python File
@@ -440,6 +440,6 @@ To add the remote debugging functionality in pydevd_demo.py to any Python file:
 
 As in Section 5.0.1, if you experience problems other than Errno 110, you may 
 need to edit PATHS_FROM_ECLIPSE_TO_PYTHON in pydevd_file_utils.py. If this is 
-the case, you will need to change the file every time you debug a different 
-file. 
+the case, you will need to change the file paths every time you debug a 
+different file.
 ===============================================================================
