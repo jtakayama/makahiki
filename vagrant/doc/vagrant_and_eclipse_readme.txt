@@ -84,7 +84,7 @@ If you are using Eclipse, it is very important to set these preferences before
 editing any of the project files or creating new ones.
 
 1. In Eclipse, go to Window --> Preferences.
-2. Go to Preferences --> General --> Workspace. Click DIRECTLY ON "Workspace."
+2. Go to Preferences --> General --> Workspace. Click once on "Workspace."
 3. In "Workspace:" 
    3a. Under "Text File Encoding," select "Other," then select "UTF-8" from 
        the dropdown menu. 
@@ -118,7 +118,7 @@ uses Django and contains JavaScript, HTML, and CSS files.
 Prequisites: Remote Systems Explorer [OPTIONAL]
 -------------------------------------------------------------------------------
 These addons are only required if you plan to connect to the Vagrant virtual 
-machine directly in Eclipse (see Section 3.0).
+machine from within Eclipse (see Section 3.0).
 
 1. In the Help menu, select "Install New Software."
 2. For the "Work with:" dropdown menu, select the "releases" URL that matches 
@@ -189,7 +189,7 @@ virtual machine immediately.
 3.0. Opening an SSH Session in Eclipse
 ===============================================================================
 If you have installed the Remote System Explorer perspective (see Appendix G), 
-you can start an SSH session to the Vagrant virtual machine directly within 
+you can start an SSH session to the Vagrant virtual machine from within 
 Eclipse. The following steps involve the Remote System Explorer perspective.
 
 In the Perspectives toolbar (upper-left-hand corner), click 
@@ -385,7 +385,7 @@ Run the demonstration class to see the remote debugger in action:
     from Eclipse, but this should work anyway.)
 10. pydevd_demo.py will appear under a item called "MainThread." Note the 
    value for "i" that appears in the Variables tab. Step through the 
-   program using the debugger; i will be decremented as the loop runs. 
+   program using the debugger; "i" will be decremented as the loop runs. 
    Output from the program will appear in the Console tab.
 11. Leave Eclipse open in the Debug perspective. Open a Command Prompt or 
     Terminal, and SSH into your Vagrant virtual machine.
@@ -407,7 +407,7 @@ Run the demonstration class to see the remote debugger in action:
 14. When you are finished, right-click the Debug Server and click 
     "Terminate and remove" to stop the server and remove it from the tab.
     
-If this does not work, you may need to explicitly set the location of the file 
+If this does not work, you may need to set the location of the file 
 to be tested in pydevd_file_utils.py. 
 1. Navigate to the org.python.pydev_* directory you copied into 
    makahiki/vagrant earlier, then go to the pysrc directory. Open the 
