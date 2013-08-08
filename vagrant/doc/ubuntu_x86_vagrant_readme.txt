@@ -1052,6 +1052,6 @@ or safely in Eclipse on the host machine (as opposed to the virtual machine).
 - If your host OS is Linux / Unix-based (especially Ubuntu or any distro 
   that is based on Debian) and has some of the same applications, 
   running any script in Eclipse that makes system calls may result in the 
-  script's changes being applied to your operating system. 
+  script's effects being applied to your host operating system. 
 -------------------------------------------------------------------------------
 ===============================================================================
