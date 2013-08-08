@@ -433,8 +433,8 @@ if MAKAHIKI_USE_MEMCACHED:
     else:
         CACHES = {'default':
                     {'BACKEND': 'django_pylibmc.memcached.PyLibMCCache',
-                     #'LOCATION': '127.0.0.1',
-                     #'BINARY': True,
+                     'LOCATION': '127.0.0.1',
+                     'BINARY': True,
 		 }}
 else:
     CACHES = {'default':
