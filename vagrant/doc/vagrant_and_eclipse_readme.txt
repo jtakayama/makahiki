@@ -23,8 +23,7 @@ This is a README file that describes the process for using Eclipse to develop
 with Makahiki. It assumes that the user has followed the instructions in 
 ubuntu_x86_vagrant_readme.txt to configure the Vagrant virtual machine.
 
-Eclipse is an Integrated Development Environment (IDE) that requires Java. 
-.project and .pydevproject files are provided for Eclipse users' convenience.
+Eclipse is an Integrated Development Environment (IDE) that requires Java.
 Eclipse is available for Windows, OS X, and Linux at http://eclipse.org.
 
 The system requirements for Eclipse are the same as those in 
@@ -33,8 +32,11 @@ ubuntu_x86_vagrant_readme.txt.
 
 1.0. Using Eclipse To Develop with Vagrant
 ===============================================================================
-Developing in Eclipse is OPTIONAL. However .project and .pydevproject files
-are provided for the convenience of Eclipse users.
+Developing in Eclipse is OPTIONAL. .project and .pydevproject files
+are provided for the convenience of Eclipse users; however, these allow 
+makahiki/makahiki to be imported directly, but not the full project.
+
+This guide imports the entire project starting from the top-level directory.
 
 You will not be able to run Django-based Python files on your host machine. 
 You will need to run them in Vagrant after editing them in Eclipse on your 
