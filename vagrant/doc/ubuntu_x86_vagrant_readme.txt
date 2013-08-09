@@ -25,6 +25,7 @@ Appendix A.0.4. Troubleshooting /home/vagrant/.bashrc
 Appendix B.0. Makahiki Maintenance Tasks
 Appendix B.0.1. Initialize Makahiki
 Appendix B.0.2. The Makahiki Server
+Appendix B.0.2.1. Testing The Server Without a Web Browser
 Appendix B.0.3. Update the Makahiki Instance
 Appendix B.0.4. Check The Memcached Installation
 Appendix C. Vagrant Commands
@@ -64,6 +65,10 @@ System requirements:
     x86 (32-bit) and x64 (64-bit) operating systems.
   - The virtual machine that will be configured will have x86 architecture
     and is compatible with x86 or x64 host operating systems.
+  - Linux users:
+    It is recommended that the host machine have a graphical user interface 
+    or a window manager. This guide assumes the use of a graphical user 
+    interface in some sections. It is required if you choose to use Eclipse.
 - Hardware:
   - CPU: Modern dual or quad core
   - RAM: 4 GB
@@ -79,14 +84,13 @@ http://makahiki.readthedocs.org/en/latest/installation-makahiki-heroku.html.
 
 WARNING FOR DEVELOPERS:
 -------------------------------------------------------------------------------
-If you plan to use Makahiki for software development:
-
 Though not required, it is STRONGLY RECOMMENDED that you use Eclipse or 
 another integrated development environment (IDE) that can maintain 
 UTF-8 encoding and LF line endings within the project. UTF-8 and LF line 
 endings are required by certain Makahiki dependencies.
 
 Eclipse is available for Windows, OS X, and many Linux distributions.
+Linux users should note that Eclipse is a graphical application.
 
 To set up Eclipse for Makahiki development, see vagrant_and_eclipse_readme.txt.
 
@@ -132,7 +136,7 @@ Download the Vagrant installer from http://downloads.vagrantup.com/.
 - Windows users: download the .msi file.
 - Mac OS X users: download the .dmg file.
 - Linux users: download the .rpm or .deb package appropriate for your 
-  distro and architecture.
+  host machine's distribution and architecture.
 To install Vagrant on your operating system, follow the instructions at 
 http://docs.vagrantup.com/v2/installation/index.html.
 
@@ -152,7 +156,6 @@ system.
   - bash has been the default Terminal shell since OS X 10.3.
   - If your default shell is different, type "bash" to temporarily 
     switch to bash.
-  - Setting the shell to Bash permanently is left as an exercise for the user.
 - Linux users: Open a Terminal window.
 ===============================================================================
 
@@ -654,6 +657,63 @@ See "Appendix A.0.3. Troubleshooting /home/vagrant/makahiki_env.sh" to change
 them.
 
 To stop either of the servers, type Control-C in the virtual machine terminal.
+===============================================================================
+
+Appendix B.0.2.1. Testing the Server Without a Web Browser
+===============================================================================
+If you are having problems accessing the web server from the host machine and 
+want to verify that it is working, you will need to use wget to test the 
+server on the virtual machine.
+-------------------------------------------------------------------------------
+vagrant@precise32:/vagrant/makahiki$ ./manage.py runserver &
+Validating models...
+
+Development server is running at http://127.0.0.1:8000/
+Quit the server with CONTROL-C.
+vagrant@precise32:/vagrant/makahiki$^M    # Note: Press "Enter" here.
+vagrant@precise32:/vagrant/makahiki$ cd ~/
+vagrant@precise32:~$ mkdir test
+vagrant@precise32:~/test$ cd test
+vagrant@precise32:~/test$ wget http://127.0.0.1:8000
+--2013-08-09 11:19:25--  http://127.0.0.1:8000/
+Connecting to 127.0.0.1:8000... connected.
+HTTP request sent, awaiting response... 302 FOUND
+Location: http://127.0.0.1:8000/landing/ [following]
+[09/Aug/2013 11:19:26] "GET / HTTP/1.0" 302 0
+--2013-08-09 11:19:26--  http://127.0.0.1:8000/landing/
+Connecting to 127.0.0.1:8000... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: unspecified [text/html]
+[09/Aug/2013 11:19:26] "GET /landing/ HTTP/1.0" 200 6181
+Saving to: “index.html"
+
+    [ <=>                                   ] 6,181       --.-K/s   in 0s
+
+2013-08-09 11:19:26 (192 MB/s) - “index.html" saved [6181]
+-------------------------------------------------------------------------------
+If your HTTP response is "200 OK," the server is running correctly. You can 
+delete the "test" directory when you are done.
+
+Because this server was started in the background with &, you cannot stop it 
+with Control-C. You will need to find the PID of the process first:
+-------------------------------------------------------------------------------
+vagrant@precise32:~/test$ ps ax | grep manage.py
+21791 tty1     S     0:00 python ./manage.py runserver
+21798 tty1     Sl    0:52 /root/.virtualenvs/makahiki/bin/python ./manage.py ru
+nserver
+21893 tty1     S+    0:00 grep manage.py
+% kill -9 21791
+% 
+[1]+  Killed                 ./manage.py runserver  (wd: ~/makahiki/makahiki)
+(wd now: ~/test)
+-------------------------------------------------------------------------------
+The PID of the process is 21791 here, but will be different each time.
+"kill -9 <PID>" forces the OS to stop the process, and the 
+"python ./manage.py runserver" is what needs to be stopped.
+
+Later, if you restart the web server and get an error stating that the port 
+is already in use, you may need to use kill -9 to stop the other process,
+"/root/.virtualenvs/makahiki/bin/python ./manage.py runserver," as well.
 ===============================================================================
 
 Appendix B.0.3. Update the Makahiki Instance
