@@ -193,7 +193,7 @@ already installed:
 
 The groupinstall may appear to freeze. This is normal: it installs a large 
 number of packages, and the script does not print the output until it is 
-finished. This step alone takes about 30 minutes on a broadband connection.
+finished. This step alone can take up to a half-hour on some connections.
 
 The script will create a log file in makahiki/install/logs with a filename of 
 the format "install_dependencies_<timestamp>.log," where <timestamp> is a 
@@ -219,8 +219,10 @@ Sudo does not work: it will try to execute the command in Python 2.6.6.
 
 2.1.4. Set Up the "makahiki" Virtual Environment
 ===============================================================================
-You will need to add the following lines to the current user's .bashrc file:
+You will need to add the following lines to the current user's .bashrc file.
 
+~/.bashrc settings:
+-------------------------------------------------------------------------------
 # Virtualenvwrapper settings for makahiki
 export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/makahiki
@@ -229,6 +231,7 @@ if [ !$PROFILE_ENV ];
         source /opt/rh/python27/root/usr/bin/virtualenvwrapper.sh
 fi
 export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib:$LD_LIBRARY_PATH
+------------------------------------------------------------------------------
 After you are done editing .bashrc, source it to apply the 
 new settings to your shell:
 
@@ -381,13 +384,13 @@ The environment variables MAKAHIKI_DATABASE_URL and MAKAHIKI_ADMIN_INFO need
 to be added to the shell environment. To make them permanently available 
 whenever you "workon makahiki," add these variables to the 
 $WORKON_HOME/makahiki/bin/postactivate file:
-
+-------------------------------------------------------------------------------
 # Syntax: postgres://<db_user>:<db_password>@<db_host>:<db_port>/<db_name>
 export MAKAHIKI_DATABASE_URL=postgres://makahiki:makahiki@localhost:5432/makahiki
 
 # Syntax: <admin_name>:<admin_password>
 export MAKAHIKI_ADMIN_INFO=admin:admin
-
+-------------------------------------------------------------------------------
 Production instances of Makahiki should change the <admin_password> to 
 something other than "admin."
 

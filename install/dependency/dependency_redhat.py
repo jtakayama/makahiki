@@ -420,19 +420,6 @@ def run(arch, logfile):
         logfile = memcached_result[1]
         if not success:
             return logfile
-        
-    # libmemcached-devel
-    # Old code
-    #if libmemcached_installed:
-    #    logfile.write("libmemcached-devel is already installed.\n")
-    #    print "libmemcached-devel is already installed.\n"   
-    #else:
-    #    result = yum_install("libmemcached-devel", logfile)
-    #    success = result[0]
-    #    logfile = result[1]
-    #    if not success:
-    #        return logfile 
-    # end old code
     
     # Beginning of libmemcached installation code.
     if libmemcached053_installed:
@@ -543,8 +530,8 @@ def run(arch, logfile):
             return logfile
         
         # Check libmemcached installation
-        libmemcached_installed = libmemcached053_check()
-        if libmemcached_installed:
+        libmemcached053_installed = libmemcached053_check()
+        if libmemcached053_installed:
             logfile.write("libmemcached-0.53 installed successfully.\n")
             print "libmemcached-0.53 installed successfully.\n"
             # Flush the buffer and force a write to disk
