@@ -260,7 +260,7 @@ The bootstrap.sh script:
             authentication settings.
        5f5. Restarts the postgresql service.
    5g. memcached
-   5h. libmemcached-dev, which is removed and replaced with libmemcached-0.53
+   5h. libmemcached-0.53
    5j. virtualenvwrapper
 6. Creates /home/vagrant/makahiki_env.sh, which sets Makahiki environment 
    variables in the shell
