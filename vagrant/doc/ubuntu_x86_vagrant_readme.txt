@@ -16,6 +16,7 @@ Contents:
 2.1.3. Check for the Makahiki Source Code
 2.1.4. Start the Server
 2.1.5. If the Server Does Not Start
+2.1.6. If the Site Is Unreachable
 Appendix A.0. Troubleshooting Configuration Files
 Appendix A.0.1. Troubleshooting /etc/bash.bashrc
 Appendix A.0.2. Troubleshooting pg_hba.conf
