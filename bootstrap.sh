@@ -51,6 +51,11 @@ echo "Updating package list: started at $(date)"
 echo "apt-get update"
 apt-get update
 echo "Updating package list: finished at $(date)"
+# wget is usually already installed.
+echo "Installing wget: started at $(date)"
+echo "apt-get -y install wget"
+apt-get install -y wget
+echo "Installing wget: finished at $(date)"
 echo "Installing git: started at $(date)"
 echo "apt-get install -y git"
 apt-get install -y git
