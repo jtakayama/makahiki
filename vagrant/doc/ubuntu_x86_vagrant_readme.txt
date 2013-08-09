@@ -14,10 +14,9 @@ Contents:
 2.1.1. Start the Virtual Machine and Run the Provisioning Script
 2.1.2. Connect to the Vagrant Virtual Machine with SSH
 2.1.3. Check for the Makahiki Source Code
-2.1.4. Environment Variables Verification
-2.1.5. PostgreSQL Configuration Verification
-2.1.6. Start the Server
-Appendix A.0. Troubleshooting Configuration Files - Editing Configuration Files
+2.1.4. Start the Server
+2.1.5. If the Server Does Not Start
+Appendix A.0. Troubleshooting Configuration Files
 Appendix A.0.1. Troubleshooting /etc/bash.bashrc
 Appendix A.0.2. Troubleshooting pg_hba.conf
 Appendix A.0.3. Troubleshooting /home/vagrant/makahiki_env.sh
@@ -26,11 +25,11 @@ Appendix B.0. Makahiki Maintenance Tasks
 Appendix B.0.1. Initialize Makahiki
 Appendix B.0.2. The Makahiki Server
 Appendix B.0.3. Update the Makahiki Instance
+Appendix B.0.4. Check The Memcached Installation
 Appendix C. Vagrant Commands
 Appendix D. Re-Provisioning Vagrant
 Appendix E. Configure the RAM of the Virtual Machine
-Appendix F. Using Eclipse To Develop with Vagrant
-Appendix G. Import Makahiki as an Eclipse Project
+Appendix F. Configure Networking on the Virtual Machine
 
 Instructions in appendices are optional.
 -------------------------------------------------------------------------------
@@ -38,23 +37,28 @@ Instructions in appendices are optional.
 0.0. Introduction
 ===============================================================================
 This is a README file that describes the process for deploying Makahiki in a 
-Vagrant virtual machine on a Windows host machine. The virtual machine is 
+Vagrant virtual machine on a given host machine. The virtual machine is 
 intended for testing or development use. It is not suitable for use in a 
 production deployment of the Makahiki software.
 
-If you would prefer to install Makahiki on Windows manually, without using 
-Vagrant, see the documentation at:
-http://makahiki.readthedocs.org/en/latest/installation-makahiki-windows.html
+If you would prefer to install Makahiki manually, without using Vagrant, see 
+the documentation at:
+- Windows: http://makahiki.readthedocs.org/en/latest/installation-makahiki-windows.html
+- OS X and Unix: http://makahiki.readthedocs.org/en/latest/installation-makahiki-unix.html
 
 The Makahiki source code is available from https://github.com/csdl/makahiki.
 
-In the examples in this document, the > represents the Windows command prompt.
+In the examples in this document, the > represents a generic terminal prompt.
 
-This guide assumes a basic level of familiarity with Windows.
+This guide assumes a basic level of familiarity with your host operating 
+system.
 
 System requirements:
 - Operating System:
-  - Windows 7 or 8 are recommended.
+  - Windows 7 or 8 
+  - Mac OS X
+  - A recent Red Hat-based or Debian-based Linux distro 
+    (Vagrant comes in .rpm or .deb installers).
   - The applications used in this guide are compatible with 
     x86 (32-bit) and x64 (64-bit) operating systems.
   - The virtual machine that will be configured will have x86 architecture
@@ -81,10 +85,11 @@ another integrated development environment (IDE) that can maintain
 UTF-8 encoding and LF line endings within the project. UTF-8 and LF line 
 endings are required by certain Makahiki dependencies.
 
-To set up Eclipse, see Appendix F.
-To import Makahiki into Eclipse, see Appendix G.
+Eclipse is available for Windows, OS X, and many Linux distributions.
 
-Above all, DO NOT EDIT OR CREATE ANY FILES IN NOTEPAD:
+To set up Eclipse for Makahiki development, see vagrant_and_eclipse_readme.txt.
+
+Above all, Windows users SHOULD NOT EDIT OR CREATE ANY FILES IN NOTEPAD:
 1. Notepad ends lines with Windows line endings (CR-LF). Linux 
    applications expect LF endings and may have problems parsing CR-LF.
 2. Notepad defaults to ANSI encoding when a file is saved. Some Linux 
@@ -99,7 +104,7 @@ Above all, DO NOT EDIT OR CREATE ANY FILES IN NOTEPAD:
 
 1.0. VirtualBox and Vagrant Setup
 ===============================================================================
-This section installs VirtualBox and Vagrant onto a Windows computer.
+This section installs VirtualBox and Vagrant onto a computer.
 
 This guide uses the terms "virtual machine" and "host machine." 
 A virtual machine is an operating system running on simulated hardware, which 
@@ -110,8 +115,8 @@ computer that Vagrant and VirtualBox use to run the virtual machine.
 1.0.1. Install VirtualBox
 ===============================================================================
 Download VirtualBox from https://www.virtualbox.org/wiki/Downloads.
-To install VirtualBox on Windows, follow the instructions at 
-https://www.virtualbox.org/manual/ch02.html#installation_windows.
+To install VirtualBox, follow the instructions at 
+https://www.virtualbox.org/manual/ch02.html.
 
 Select "Yes" when you are asked to install drivers for USB support and 
 VirtualBox Host-Only Networking.
@@ -122,8 +127,12 @@ later versions, but this has not been tested.
 
 1.0.2. Install Vagrant
 ===============================================================================
-Download the Vagrant .msi installer from http://downloads.vagrantup.com/.
-To install Vagrant on Windows, follow the instructions at 
+Download the Vagrant installer from http://downloads.vagrantup.com/.
+- Windows users: download the .msi file.
+- Mac OS X users: download the .dmg file.
+- Linux users: download the .rpm or .deb package appropriate for your 
+  distro and architecture.
+To install Vagrant on your operating system, follow the instructions at 
 http://docs.vagrantup.com/v2/installation/index.html.
 
 This guide was tested with Vagrant 1.2.4. It should be compatible with 
@@ -132,43 +141,56 @@ later versions of Vagrant 1.2, but this has not been tested.
 
 2.0. Vagrant Virtual Machine Setup 
 ===============================================================================
-This section contains instructions for creating the Vagrant virtual machine.
+Section 2.0 and subsections contain instructions for creating the Vagrant 
+virtual machine. Start by opening a terminal window in your host operating 
+system.
 
-Open a Windows Command Prompt (cmd) terminal window. (If you can't find the 
-Command Prompt, type "cmd.exe" in Run.) This terminal will be used to configure 
-and access the Vagrant virtual machine.
+- Windows Users: Open a Windows Command Prompt (cmd) terminal window. 
+  If you can't find the Command Prompt, type "cmd.exe" in Run.
+- OS X Users: Open a Terminal window.
+  - bash has been the default Terminal shell since OS X 10.3.
+  - If your default shell is different, type "bash" to temporarily 
+    switch to bash.
+  - Setting the shell to Bash permanently is left as an exercise for the user.
+- Linux users: Open a Terminal window.
 ===============================================================================
 
 2.0.1. Download the Makahiki Source Code
 ===============================================================================
-Downloading the Makahiki source code will create a folder called "makahiki."
+Downloading the Makahiki source code will create the "makahiki" directory.
 
 There are two ways of obtaining the Makahiki source code. (If you have this 
 text file, you likely already have the Makahiki source code, and can skip this 
 section.)
 
-A. If you do not have Git for Windows, download the source code from 
+A. If you do not have Git or Git for Windows, download the source code from 
    Github as a .zip file:
     A1. In a web browser, go to https://github.com/csdl/makahiki.
     A2. Click the button to "Download ZIP."
     A3. Extract the makahiki.zip file that is downloaded.
 
-B. If you have Git for Windows, you can clone the repository:
+B. If you have Git, or Git for Windows, you can clone the repository:
+   ----------------------------------------------------------------------------
    > git clone http://github.com/csdl/makahiki.git
-
-Git for Windows can be downloaded from http://git-scm.com/download/win.
+   ----------------------------------------------------------------------------
+   Windows: Get "Git for Windows" from http://git-scm.com/download/win.
+   OS X and Unix: Git is available through various package managers and
+            installers; see https://help.github.com/articles/set-up-git
+            for further instructions.
 
 Now switch your working directory to makahiki:
+-------------------------------------------------------------------------------
 > cd makahiki
+-------------------------------------------------------------------------------
 ===============================================================================
 
 2.0.2. Download the Base Virtual Machine
 ===============================================================================
 This step adds the base virtual machine specified in the last step, 
 "precise32," for Vagrant to use.
-
+-------------------------------------------------------------------------------
 > vagrant box add precise32 http://files.vagrantup.com/precise32.box
-
+-------------------------------------------------------------------------------
 This will download the virtual machine from Vagrant's servers.
 
 It is only necessary to download each specific box once; if you create more 
@@ -186,12 +208,19 @@ the virtual machine.
 ===============================================================================
 You should be in the top-level Makahiki directory, where the Vagrantfile is.
 Use the "vagrant up" command to start the virtual machine:
-
+-------------------------------------------------------------------------------
 > vagrant up
-
+-------------------------------------------------------------------------------
 Each time you start Vagrant with "vagrant up," it will run the 
-"run_bootstrap.sh" script specified in the Vagrantfile. This 
-script runs and logs the "bootstrap.sh" script.
+"run_bootstrap.sh" script specified in the Vagrantfile. This script runs and 
+logs the "bootstrap.sh" script.
+
+While "vagrant up" is running, Windows users may see the following warnings: 
+1. A Windows Firewall warning about vboxheadless.exe. This exception is needed 
+   for Vagrant, and should be allowed.
+2. A warning that VirtualBox is attempting to make changes to the system. 
+   This is needed for the host-only networking to work correctly, and should 
+   be allowed.
 
 WARNING:
 -------------------------------------------------------------------------------
@@ -200,8 +229,9 @@ directory and re-initializes it, then re-initializes the Makahiki database.
 This will erase ALL DATA in ALL DATABASES on the system.
 
 To start the virtual machine without provisioning it, use --no-provision: 
-
+-------------------------------------------------------------------------------
 > vagrant up --no-provision
+-------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
 
 The bootstrap.sh script: 
@@ -230,8 +260,8 @@ The bootstrap.sh script:
             authentication settings.
        5f5. Restarts the postgresql service.
    5g. memcached
-   5h. libmemcached-dev
-   5i. virtualenvwrapper
+   5h. libmemcached-0.53
+   5j. virtualenvwrapper
 6. Creates /home/vagrant/makahiki_env.sh, which sets Makahiki environment 
    variables in the shell
 7. Edits /home/vagrant/.bashrc so that it will source 
@@ -247,20 +277,20 @@ The bootstrap_runner.sh script logs the output of bootstrap.sh to a text
 file. This file is called "ubuntu_x86_<timestamp>.log," where <timestamp> is 
 in the format yyyy-mm-dd-HH-MM-SS (year, month, day, hour, minute, second).
 These logs are stored at:
-- On the host machine: <path-to-makahiki>makahiki/vagrant/logs.
+- On the host machine: <path-to-makahiki>/makahiki/vagrant/logs.
 - On the virtual machine: /vagrant/vagrant/logs
 
 If run more than once, the script will:
 1. Update the apt package lists: Every time
 2. Overwrite bash.bashrc: First run only
-2. Regenerate and reconfigure locale settings: Every time
-3. Install packages: First run only
-4. Edit /home/vagrant/.bashrc: First run only
-5. Creates /home/vagrant/makahiki_env.sh: On first run or if file is deleted
-6. Drop/regenerate the PostgreSQL cluster data directory, which erases all 
+3. Regenerate and reconfigure locale settings: Every time
+4. Install packages: First run only
+5. Edit /home/vagrant/.bashrc: First run only
+6. Creates /home/vagrant/makahiki_env.sh: On first run or if file is deleted
+7. Drop/regenerate the PostgreSQL cluster data directory, which erases all 
    databases on the system: Every time
-7. Install pip packages: First run only
-8. Re-initialize the Makahiki database: Every time
+8. Install pip packages: First run only
+9. Re-initialize the Makahiki database: Every time
 
 When the script finishes, look at the last few lines of output:
 -------------------------------------------------------------------------------
@@ -308,70 +338,53 @@ vagrant@precise32:~$
 2.1.3. Check For Makahiki Source Code
 ===============================================================================
 The makahiki source code should show up in the /vagrant/ directory.
+-------------------------------------------------------------------------------
 vagrant@precise32:~$ cd /vagrant
 vagrant@precise32:/vagrant/$ ls
+-------------------------------------------------------------------------------
 
 The output of ls should match the contents of the makahiki directory on your 
 host machine.
 ===============================================================================
 
-2.1.4. Environment Variables Verification
-===============================================================================
-makahiki_env.sh sets values for Makahiki environment variables 
-MAKAHIKI_DATABASE_URL and MAKAHIKI_ADMIN_INFO. Check that these values 
-have been set:
--------------------------------------------------------------------------------
-vagrant@precise32:/vagrant$ echo $MAKAHIKI_DATABASE_URL
-postgres://makahiki:makahiki@localhost:5432/makahiki
-vagrant@precise32:/vagrant$ echo $MAKAHIKI_ADMIN_INFO
-admin:admin
--------------------------------------------------------------------------------
-If "echo" returns nothing, or you want to change the administrator username or 
-password, see "A.0.3. Troubleshooting /home/vagrant/makahiki_env.sh."
-
-Note:
------
-The username:password combination of admin:admin is meant for use in 
-development. In a production server, the value of MAKAHIKI_ADMIN_INFO would be 
-changed to a more secure value. To edit this value, edit 
-/home/vagrant/makahiki_env.sh.
-===============================================================================
-
-2.1.5. PostgreSQL Configuration Verification
-===============================================================================
-The next step is to verify the PostgreSQL server authentication settings.
-At the prompt, type "psql -U postgres." If it succeeds, type \q to quit.
--------------------------------------------------------------------------------
-vagrant@precise32:/vagrant$ psql -U postgres
-psql (9.1.9)
-Type "help" for help.
-
-postgres=#\q
-vagrant@precise32:/vagrant$
--------------------------------------------------------------------------------
-If this fails, go to section "Appendix A.0.2: Troubleshooting pg_hba.conf."
-===============================================================================
-
-2.1.6. Start The Server
+2.1.4. Start The Server
 ===============================================================================
 The Makahiki server is started manually from the /vagrant/makahiki directory: 
+-------------------------------------------------------------------------------
 vagrant@precise32:/vagrant$ cd /vagrant/makahiki
+-------------------------------------------------------------------------------
 
 To start the server with manage.py:
+-------------------------------------------------------------------------------
 vagrant@precise32:/vagrant/makahiki$ ./manage.py runserver 0.0.0.0:8000
+-------------------------------------------------------------------------------
 
 To start the server with gunicorn:
+-------------------------------------------------------------------------------
 vagrant@precise32:/vagrant/makahiki$ ./manage.py run_gunicorn -b 0.0.0.0:8000
+-------------------------------------------------------------------------------
 
 The web server can be accessed in a browser on the host machine at 
-http://localhost:8001.
+http://192.168.56.4:8000. 
+
+If this fails, see "2.1.6. If the Site Is Unreachable."
 
 Stop the server by typing Control-C in the terminal.
 
 For more information, see "Appendix B.0.2. The Makahiki Server."
 ===============================================================================
 
-Appendix A.0. Troubleshooting Configuration Files - Editing Configuration Files
+2.1.5. If the Server Does Not Start
+===============================================================================
+Continue to Appendix A.0., "Troubleshooting Configuration Files."
+===============================================================================
+
+2.1.6. If The Site Is Unreachable
+===============================================================================
+Continue to Appendix B. 
+===============================================================================
+
+Appendix A.0. Troubleshooting Configuration Files
 ===============================================================================
 Appendix A contains troubleshooting instructions for configuration files.
 The instructions refer to the GNU nano text editor, which is installed 
@@ -407,11 +420,26 @@ For the full nano documentation, see http://www.nano-editor.org/docs.php.
 
 Appendix A.0.1. Troubleshooting /etc/bash.bashrc and UTF-8 Encodings
 ===============================================================================
-If the UTF-8 settings were not properly applied, you will need to reconfigure 
-the system encodings.
+You need to change the system and postgresql database encodings if one of the 
+following applies:
+A. You experience a DatabaseError when the initialize_instance.py script runs, 
+   with the message "character 0x##### of encoding "UTF8" has no equivalent 
+   in "LATIN1"."
+B. The "locale" command returns a non-UTF-8 encoding setting:
+   ----------------------------------------------------------------------------
+   vagrant@precise32:~$ locale
+   LANG=en_US.LATIN1
+   LANGUAGE=en_US.LATIN1
+   ...
+   LC_ALL=en_US.LATIN1
+   ----------------------------------------------------------------------------
+
+If this is the case, continue.
 
 Open /etc/bash.bashrc with sudo:
+-------------------------------------------------------------------------------
 vagrant@precise32:~$ sudo nano /etc/bash.bashrc
+-------------------------------------------------------------------------------
 
 Add these lines to the end of the file:
 -------------------------------------------------------------------------------
@@ -420,20 +448,31 @@ export LANGUAGE=en_US.UTF-8
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 -------------------------------------------------------------------------------
-After you are done editing the file, run these commands:
 
+After you are done editing the file, run these commands:
+-------------------------------------------------------------------------------
 vagrant@precise32:~$ sudo locale-gen en_US.UTF-8
 vagrant@precise32:~$ sudo dpkg-reconfigure locales
 vagrant@precise32:~$ sudo pg_dropcluster 9.1 main --stop
 vagrant@precise32:~$ sudo pg_createcluster --locale en_US.UTF8 9.1 main
 vagrant@precise32:~$ sudo cp /vagrant/vagrant/config_examples/pg_hba.conf.ubuntu.makahiki /etc/postgresql/9.1/main/pg_hba.conf
 vagrant@precise32:~$ sudo /etc/init.d/postgresql restart
-
-After restarting postgresql, go to "Appendix B.0.1. Initialize Makahiki."
+-------------------------------------------------------------------------------
+Continue to Appendix A.0.2., "Troubleshooting pg_hba.conf."
 ===============================================================================
 
 Appendix A.0.2. Troubleshooting pg_hba.conf
 ===============================================================================
+Begin by verifying the PostgreSQL server authentication settings.
+At the prompt, type "psql -U postgres." If it succeeds, type \q to quit.
+-------------------------------------------------------------------------------
+vagrant@precise32:/vagrant$ psql -U postgres
+psql (9.1.9)
+Type "help" for help.
+
+postgres=#\q
+vagrant@precise32:/vagrant$
+-------------------------------------------------------------------------------
 If you cannot connect to the database with "psql -U postgres," or experience 
 errors when running initialize_instance.py, check that the pg_hba.conf file 
 has the correct settings applied.
@@ -466,17 +505,34 @@ vagrant@precise32:/vagrant$ sudo /etc/init.d/postgresql restart
 
 Appendix A.0.3. Troubleshooting /home/vagrant/makahiki_env.sh
 ===============================================================================
+makahiki_env.sh sets values for Makahiki environment variables 
+MAKAHIKI_DATABASE_URL and MAKAHIKI_ADMIN_INFO. Check that these values 
+have been set:
+-------------------------------------------------------------------------------
+vagrant@precise32:/vagrant$ echo $MAKAHIKI_DATABASE_URL
+postgres://makahiki:makahiki@localhost:5432/makahiki
+vagrant@precise32:/vagrant$ echo $MAKAHIKI_ADMIN_INFO
+admin:admin
+-------------------------------------------------------------------------------
+If "echo" returns nothing, source home/vagrant/.bashrc (~/.bashrc) and 
+check again:
+-------------------------------------------------------------------------------
+vagrant@precise32:/vagrant$ source ~/.bashrc
+-------------------------------------------------------------------------------
+
 If MAKAHIKI_DATABASE_URL and MAKAHIKI_ADMIN_INFO are still not set after 
 sourcing ~/.bashrc, you need to add them to /home/vagrant/makahiki_env.sh.
 
 1. Create this file if it does not exist:
-
+-------------------------------------------------------------------------------
 vagrant@precise32:~$ touch makahiki_env.sh
+-------------------------------------------------------------------------------
 
 2. Open the file in the nano text editor. (The ~ is a shortcut for the 
 current user's home directory, which is /home/vagrant.)
-
+-------------------------------------------------------------------------------
 vagrant@precise32:~$ nano makahiki_env.sh
+-------------------------------------------------------------------------------
 
 The file should contain the lines shown below:
 -------------------------------------------------------------------------------
@@ -489,6 +545,12 @@ export MAKAHIKI_ADMIN_INFO=admin:admin
 These settings are only used to initialize the Makahiki database. If you change 
 the username or password in the Makahiki user interface, these settings will 
 no longer apply.
+
+Note:
+-----
+The username:password combination of admin:admin is meant for use in 
+development. In a production server, the value of MAKAHIKI_ADMIN_INFO would be 
+changed to a more secure value.
 
 3. When you are done editing makahiki_env.sh, source the .bashrc file. This will 
 source the makahiki_env.sh file, which will set the environment variables:
@@ -508,10 +570,12 @@ bootstrap.sh normally appends this line to the "vagrant" user's .bashrc file:
 -------------------------------------------------------------------------------
 source /home/vagrant/makahiki_env.sh
 -------------------------------------------------------------------------------
+
 Open /home/vagrant/.bashrc in the nano editor. (The ~ is a shortcut for the 
 current user's home directory, which is /home/vagrant.)
-
+-------------------------------------------------------------------------------
 vagrant@precise32:~$ nano ~/.bashrc
+-------------------------------------------------------------------------------
 
 Add the line "source /home/vagrant/makahiki_env.sh" to the end of the file.
 Save the file and source it for changes to take effect:
@@ -547,10 +611,12 @@ is invoked again.
 The script initializes the Makahiki database and populates it with default 
 information and users.
 -------------------------------------------------------------------------------
+
 Switch to the /vagrant/makahiki directory:
+-------------------------------------------------------------------------------
 vagrant@precise32:~/$ cd /vagrant/makahiki
 vagrant@precise32:/vagrant/makahiki$ ./scripts/initialize_instance.py --type default
-
+-------------------------------------------------------------------------------
 You will need to answer "Y" to the question "Do you wish to continue (Y/n)?"
 
 If the script experiences errors while connecting to the database, see 
@@ -571,12 +637,17 @@ connections on any IP address) and port 8000 in order to work with the port
 forwarding settings in the Vagrantfile.
 
 To start the server with manage.py:
+-------------------------------------------------------------------------------
 vagrant@precise32:/vagrant/makahiki$ ./manage.py runserver 0.0.0.0:8000
+-------------------------------------------------------------------------------
 
 To start the server with gunicorn:
+-------------------------------------------------------------------------------
 vagrant@precise32:/vagrant/makahiki$ ./manage.py run_gunicorn -b 0.0.0.0:8000
+-------------------------------------------------------------------------------
 
-View the site in your host machine's web browser at http://localhost:8001.
+View the site in your host machine's web browser at http://192.168.56.4:8000.
+
 Log in with the username (admin) and password (admin) in MAKAHIKI_ADMIN_INFO. 
 See "Appendix A.0.3. Troubleshooting /home/vagrant/makahiki_env.sh" to change 
 them.
@@ -597,24 +668,78 @@ following steps:
 (1.) Close the running server in the shell process that is running Makahiki:
 (type control-c in the shell running the makahiki server process)
 
-(2.) Go to the vagrant directory (this is the makahiki directory 
-     on the host machine):
+(2.) Go to the vagrant directory (the makahiki directory on the host machine):
+-------------------------------------------------------------------------------
 % cd /vagrant
 vagrant@precise32:/vagrant$
+-------------------------------------------------------------------------------
 
 (3.) Download the updated source code into the Makahiki installation:
+-------------------------------------------------------------------------------
 vagrant@precise32:/vagrant$ git pull origin master
+-------------------------------------------------------------------------------
 
 (4.) Run the update_instance.py script:
+-------------------------------------------------------------------------------
 vagrant@precise32:/vagrant$ cd makahiki
 vagrant@precise32:/vagrant/makahiki$ ./scripts/update_instance.py
+-------------------------------------------------------------------------------
 
 (5.) Start the server with runserver or gunicorn:
 To start the server with manage.py:
+-------------------------------------------------------------------------------
 vagrant@precise32:/vagrant/makahiki$ ./manage.py runserver
+-------------------------------------------------------------------------------
 
 To start the server with gunicorn:
+-------------------------------------------------------------------------------
 vagrant@precise32:/vagrant/makahiki$ ./manage.py run_gunicorn
+-------------------------------------------------------------------------------
+===============================================================================
+
+Appendix B.0.4. Check The Memcached Installation
+===============================================================================
+The provisioning script installed Memcached and libmemcached-0.53 on the 
+system. If you plan to configure Memcached, you will need to test the 
+Memcached installation.
+
+In the virtual machine, switch to the /vagrant/makahiki directory and run some 
+commands in the manage.py shell:
+-------------------------------------------------------------------------------
+vagrant@precise32:~$ export LD_LIBRARY_PATH_OLD=$LD_LIBRARY_PATH
+vagrant@precise32:~$ export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib:$LD_LIBRARY_PATH
+vagrant@precise32:~$ export MAKAHIKI_USE_MEMCACHED=True
+vagrant@precise32:~$ cd /vagrant/makahiki
+vagrant@precise32:/vagrant/makahiki$ ./manage.py shell
+Python 2.7.3 (default, Apr 10 2013, 05:46:21)
+[GCC 4.6.3] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from django.core.cache import cache
+>>> cache
+<django_pylibmc.memcached.PyLibMCCache object at 0x8c93c4c>
+>>> cache == None
+False
+>>> cache.set('test','Hello World')
+True
+>>> cache.get('test')
+'Hello World'
+>>> exit()
+vagrant@precise32:/vagrant/makahiki$ unset MAKAHIKI_USE_MEMCACHED
+vagrant@precise32:/vagrant/makahiki$ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH_OLD
+vagrant@precise32:/vagrant/makahiki$ unset LD_LIBRARY_PATH_OLD
+-------------------------------------------------------------------------------
+If any of the following errors occur, then Memcached is not working:
+(1) cache prints a blank to the console, or cache == None returns True.
+(2) cache.set returns False.
+(3) cache.get returns False or causes a segmentation fault.
+
+Try restarting the Memcached service, then try again:
+vagrant@precise32:/vagrant/makahiki$ sudo service memcached restart
+
+If the tests succeed, you can configure Makahiki to use Memcached. This is 
+beyond the scope of this guide; consult the Makahiki documentation for 
+more information.
 ===============================================================================
 
 Appendix C. Vagrant Commands
@@ -665,7 +790,9 @@ will need to edit the Vagrantfile while the virtual machine is shut down.
 
 Stop the web server by pressing Control-C in the SSH terminal.
 Then shut down the virtual machine:
+-------------------------------------------------------------------------------
 % sudo shutdown -h now
+-------------------------------------------------------------------------------
 
 This will end the SSH session.
 
@@ -678,147 +805,113 @@ line in the Vagrantfile by changing the number after the "--memory" flag.
 -------------------------------------------------------------------------------
 
 After saving your changes, restart the VM and start the SSH session:
+-------------------------------------------------------------------------------
 > vagrant up --no-provision
 > vagrant ssh
+-------------------------------------------------------------------------------
 
-In the SSH session, switch to makahiki/makahiki and start the server with 
-manage.py or gunicorn:
-
+In the SSH session, switch to makahiki/makahiki and start the server:
+-------------------------------------------------------------------------------
 vagrant@precise32:~$ cd /vagrant/makahiki 
+-------------------------------------------------------------------------------
 
 To start the server with manage.py:
+-------------------------------------------------------------------------------
 vagrant@precise32:/vagrant/makahiki$ ./manage.py runserver 0.0.0.0:8000
+-------------------------------------------------------------------------------
 
 To start the server with gunicorn:
+-------------------------------------------------------------------------------
 vagrant@precise32:/vagrant/makahiki$ ./manage.py run_gunicorn -b 0.0.0.0:8000
-===============================================================================
-
-Appendix F. Using Eclipse To Develop with Vagrant
-===============================================================================
-Developing in Eclipse is OPTIONAL. However, Eclipse is the development 
-environment of the Makahiki development team, and .project and .pydevproject 
-are provided for the convenience of Eclipse users.
-
-Host Machine Prerequisites:
-[REQUIRED] Python 2.7.3 or later (but not Python 3).
-[REQUIRED] Java JRE or JDK (Java 6 or newer required)
-[REQUIRED] Eclipse IDE (Eclipse 4.2 Juno or newer recommended)
-[REQUIRED] PyDev Eclipse Add-on
-[REQUIRED] Configure Line Endings and Character Encodings
-[OPTIONAL] Eclipse Add-ons: Web, XML, Java EE and OSGi Enterprise Development:
-           - [RECOMMENDED] Eclipse Web Developer Tools (HTML/XHTML/CSS editors)
-           - [RECOMMENDED] JavaScript Development Tools (JavaScript editor)
-[OPTIONAL] Set Hidden Files and Folders as Visible
-
-Prerequisites: Python [REQUIRED]
--------------------------------------------------------------------------------
-For Python binaries and installation instructions, see http://python.org.
-- Makahiki requires Python 2.7.3 or later, or a newer version of Python 2.
-- Makahiki IS NOT compatible with Python 3.
--------------------------------------------------------------------------------
-
-Prerequisites: Eclipse [REQUIRED]
--------------------------------------------------------------------------------
-Eclipse is an Integrated Development Environment (IDE) available 
-from http://eclipse.org. 
-- If you do not have Eclipse, follow the instructions at 
-  http://wiki.eclipse.org/Eclipse/Installation.
-- Eclipse requires that the Java JRE (Java 6 or later) be installed on the host 
-  machine. The full Java JDK (which includes the JRE) is useful for Java 
-  development, but it is NOT required for Makahiki development.
--------------------------------------------------------------------------------
-
-Prerequisites: PyDev [REQUIRED]
--------------------------------------------------------------------------------
-PyDev is an Eclipse add-on that is required for Python development. 
-See http://pydev.org for installation instructions.
--------------------------------------------------------------------------------
-
-Prerequisites: Configure Line Endings and Character Encodings [REQUIRED]
--------------------------------------------------------------------------------
-If you are using Eclipse, it is very important to set these preferences before 
-editing any of the project files or creating new ones.
-
-1. In Eclipse, go to Window --> Preferences.
-2. Go to Preferences --> General --> Workspace. Click DIRECTLY ON "Workspace."
-3. In "Workspace:" 
-   3a. Under "Text File Encoding," select "Other," then select "UTF-8" from 
-       the dropdown menu. 
-   3b. Under "New Text File Line Delimiter," select "Other," then select 
-       "Unix" from the dropdown menu.
-5. Click "Apply" when finished.
--------------------------------------------------------------------------------
-
-Prequisites: Web Development Add-Ons [OPTIONAL]
--------------------------------------------------------------------------------
-The "Web, XML, Java EE and OSGi Enterprise Development" set of add-ons is 
-available from within Eclipse. None of these add-ons are required for Python 
-development, but some are useful for general web development. Makahiki 
-uses Django and contains JavaScript, HTML, and CSS files.
-
-1. In the Help menu, select "Install New Software."
-2. For the "Work with:" dropdown menu, select the "releases" URL that matches 
-   your Eclipse version. For Eclipse 4.2 Juno, for example, this 
-   would be "Juno - http://download.eclipse.org/releases/juno."
-3. In the list of packages that appears below, click on the 
-   arrow to the left of "Web, XML, Java EE and OSGi Enterprise Development."
-   to expand the category. 
-   - The "Eclipse Web Developer Tools" provide HTML/XHTML/CSS editors.
-   - The "JavaScript Development Tools" provide a JavaScript (.js) editor.
-4. Check the boxes for the add-ons you want to install. 
-5. Click "Next," then "Next." You may need to agree to one or more licenses.
-6. Restart Eclipse when prompted. After the restart, any new editors or 
-   features will be installed and ready for use.
--------------------------------------------------------------------------------
-
-Prerequisites: Set Hidden Files and Folders as Visible [OPTIONAL]
--------------------------------------------------------------------------------
-1. Open Eclipse.
-2. In the "Package Explorer" sidebar, click on the white down-pointing arrow 
-   (the leftmost toolbar item). In this menu, click "Filters."
-3. In the "Java Element Filters" popup that appears, uncheck the checkbox 
-   for ".*resources," then click "OK."
-4. The hidden files and folders that start with a "." character (e.g., 
-   ".project" and ".pydevproject") should now be visible in Eclipse.
 -------------------------------------------------------------------------------
 ===============================================================================
 
-Appendix G. Import Makahiki as an Eclipse Project
+Appendix F. Configure Networking on the Virtual Machine
 ===============================================================================
-If you followed the previous instructions to set up a Vagrant virtual machine 
-in the earlier part of this guide, your Vagrant virtual machine and its 
-.vagrant folder should be located at the top level of the cloned makahiki 
-repository, where the Vagrantfile is.
+By default, the Vagrantfile specifies the IP address 192.168.56.4 for the 
+virtual machine's eth1 interface. This is part of a host-only network. It 
+assumes the host machine has the first usable address in the 192.168.56.0/24 
+subnet, 192.168.56.1.
 
-Importing the makahiki directory as an Eclipse project when the makahiki 
-directory is also the Vagrant shared directory allows you to modify Makahiki 
-source files on your host machine, then deploy the changes in your Vagrant 
-virtual machine immediately.
+If the Makahiki site is unreachable from the host machine after the web 
+server is started, the 192.168.56.0/24 network may not be correct.
 
-1. Open Eclipse.
-2. When prompted to select a workspace, select the directory that you cloned the 
-   Makahiki repository into earlier (e.g., the directory that contains the 
-   top-level makahiki folder). For example, if Makahiki had been cloned into 
-   C:/Users/Tester/Vagrant, that would be the workspace directory.   Click "OK."
-3. Select File --> Import.
-    3a. Click the arrow to expand "General," then select 
-        "Existing Projects Into Workspace." Click "Next."
-    3b. Uncheck the checkbox for "Copy Projects into Workspace."
-        Then select the top-level makahiki directory as the root directory.
-        For example, if Makahiki had been cloned into C:/Users/Tester/Vagrant, 
-        the root directory of the project would be located at 
-        C:/Users/Tester/Vagrant/makahiki.
-    3c. Check the checkbox for "makahiki" when it appears. Click "Finish."
-4. Assuming that you installed PyDev, you will receive a warning:
-   "It seems that the Python interpreter is not currently configured."
-   Select "Auto config" if your Python interpreter is on the Windows PATH; 
-   otherwise, use "Manual config" to select it manually. These instuctions 
-   assume you selected "Auto config."
-5. If you selected "Auto config," you will get a "Selection needed" popup.
-   The defaults are usually fine. Click "OK" to continue. 
-6. You will be shown the "Interpreter - Python" menu.
-   Click "Apply" to configure the Pythonpath for Eclipse.
-   If you need to change these libraries later, go to 
-   "Window" --> "Preferences" --> "PyDev" --> "Interpeter - Python," 
-   and select the "Libraries" tab.
+To fix this, check the IP addresses assigned to VirtualBox's networking 
+interfaces.
+1. Open VirtualBox.
+2. Go to File --> Preferences. This will launch the 
+   "VirtualBox - Settings" window.
+3. In the left sidebar, click "Network."
+4. Click on "VirtualBox Host-Only Ethernet Adapter" once to select it, 
+   and click the screwdriver icon (or the icon which, when moused over, shows 
+   "Edit host-only network.")
+5. The "Host-only Network Details" window should show:
+   "IPv4 Address: 192.168.56.1
+    IPv4 Network Mask: 255.255.255.0"
+   If the settings are different, you will need to change the settings 
+   in the Vagrantfile to match. Continue to the next step.
+6. Open the Vagrantfile in a text editor. Look for the line:
+   ----------------------------------------------------------------------------
+   config.vm.network :private_network, ip: "192.168.56.4"
+   ----------------------------------------------------------------------------
+   Change the address in quotes after the "ip:" field to something 
+   in the address range that was specified in "Host-only Network Details."
+   For example, if the "IPv4 Address" is 192.168.56.1 and the 
+   "IPv4 Network Mask" is 255.255.255.0, the range of usable addresses is 
+   192.168.56.1 - 192.168.56.254. VirtualBox reserves the first usable 
+   address, 192.168.56.1, for the host machine.
+   An explanation of IPv4 network addresses is beyond the scope of this guide.
+7. Switch to the directory holding the Vagrantfile. Then, reload the virtual 
+   machine configuration.
+   ----------------------------------------------------------------------------
+   > vagrant reload
+   ----------------------------------------------------------------------------
+8. SSH into the virtual machine and check the network interfaces:
+   ----------------------------------------------------------------------------
+   > vagrant ssh
+   Welcome to Ubuntu 12.04 LTS (GNU/Linux 3.2.0-23-generic-pae i686)
+   
+    * Documentation:  https://help.ubuntu.com/
+   Welcome to your Vagrant-built virtual machine.
+   Last login: Thu Aug  8 07:55:06 2013 from 10.0.2.2
+   vagrant@precise32:~$ ifconfig
+   eth0      Link encap:Ethernet  HWaddr 08:00:27:12:96:98
+             inet addr:10.0.2.15  Bcast:10.0.2.255  Mask:255.255.255.0
+             inet6 addr: fe80::a00:27ff:fe12:9698/64 Scope:Link
+   -- output omitted -- 
+   eth1      Link encap:Ethernet  HWaddr 08:00:27:fd:05:73
+             inet addr:192.168.56.4  Bcast:192.168.56.255  Mask:255.255.255.0
+             inet6 addr: fe80::a00:27ff:fefd:573/64 Scope:Link
+   -- output omitted --
+   lo        Link encap:Local Loopback
+             inet addr:127.0.0.1  Mask:255.0.0.0
+             inet6 addr: ::1/128 Scope:Host
+   -- output omitted --
+   vagrant@precise32:~$
+   ----------------------------------------------------------------------------
+   The eth0 interface is used for port forwarding.
+   The eth1 interface should match the IP address you just configured.
+   The lo interface is the loopback interface.
+9. Ping the host machine's "VirtualBox Host Adapter Network Address" 
+   from the virtual machine. Press Control-C (^C) to stop.
+   ----------------------------------------------------------------------------
+   vagrant@precise32:~$ ping 192.168.56.1
+   PING 192.168.56.1 (192.168.56.1) 56(84) bytes of data.
+   64 bytes from 192.168.56.1: icmp_req=1 ttl=128 time=1.49 ms
+   64 bytes from 192.168.56.1: icmp_req=2 ttl=128 time=0.710 ms
+   64 bytes from 192.168.56.1: icmp_req=3 ttl=128 time=0.609 ms
+   64 bytes from 192.168.56.1: icmp_req=4 ttl=128 time=0.685 ms
+   ^C
+   --- 192.168.56.1 ping statistics ---
+   4 packets transmitted, 4 received, 0% packet loss, time 3000ms
+   rtt min/avg/max/mdev = 0.609/0.874/1.493/0.359 ms
+   vagrant@precise32:~$
+   ----------------------------------------------------------------------------
+   If the ping succeeds, then networking is correctly configured.
+   
+   From now on, you should use the IP address configured in the Vagrantfile 
+   to access the site when the webserver is running.
+
+For more information on VirtualBox host-only networking, see 
+http://www.virtualbox.org/manual/ch06.html.
 ===============================================================================

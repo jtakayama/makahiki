@@ -172,10 +172,51 @@ echo "Installing memcached: started at $(date)"
 echo "apt-get install -y memcached"
 apt-get install -y memcached
 echo "Installing memcached: finished at $(date)"
-echo "Installing libmemcached-dev: started at $(date)"
-echo "apt-get install -y libmemcached-dev"
-apt-get install -y libmemcached-dev
-echo "Installing libmemcached-dev: finished at $(date)"
+# Begin libmemcached-0.53 installation
+echo "Installing libmemcached-0.53: started at $(date)"
+if [ ! -f /usr/local/lib/libmemcached.so ]
+    then
+        echo "apt-get install -y build-essential"
+        apt-get install -y build-essential
+        echo "apt-get install -y g++"
+        apt-get install -y g++
+        echo "apt-get install -y libcloog-ppl-dev"
+        apt-get install -y libcloog-ppl-dev
+        echo "apt-get install -y libcloog-ppl0"
+        apt-get install -y libcloog-ppl0
+        # make creates symlinks, so it must occur in a non-shared folder.
+        echo "mkdir /home/vagrant/makahiki-temp-downloads"
+        mkdir /home/vagrant/makahiki-temp-downloads
+        echo "cd /home/vagrant/makahiki-temp-downloads"
+        cd /home/vagrant/makahiki-temp-downloads
+        echo "wget http://launchpad.net/libmemcached/1.0/0.53/+download/libmemcached-0.53.tar.gz"
+        wget http://launchpad.net/libmemcached/1.0/0.53/+download/libmemcached-0.53.tar.gz
+        echo "tar xzvf libmemcached-0.53.tar.gz"
+        tar xzvf libmemcached-0.53.tar.gz
+        echo "cd libmemcached-0.53"
+        cd libmemcached-0.53
+        echo "./configure"
+        ./configure
+        echo "make"
+        make
+        echo "make install"
+        make install
+        if [ -f /usr/local/lib/libmemcached.so ]
+            then
+                print "libmemcached-0.53 built and installed successfully."
+            else:
+                print "libmemcached-0.53 installation failed."
+        fi
+        echo "Cleaning up..."
+        echo "cd /home/vagrant"
+        cd /home/vagrant
+        echo "rm -rf makahiki-temp-downloads"
+        rm -rf makahiki-temp-downloads
+    else
+        echo "libmemcached-0.53 was already installed."
+fi
+echo "Installing libmemcached-0.53: finished at $(date)"
+# End of libmemcached-0.53 installation
 echo "Installing virtualenvwrapper: started at $(date)"
 echo "pip install virtualenvwrapper"
 pip install virtualenvwrapper
