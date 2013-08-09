@@ -15,12 +15,12 @@ def termination_string():
 
 def run(logfile):
     """
-    Runs the makahiki/makahiki/scripts/update_instance.py
+    Runs the makahiki/makahiki/scripts/initialize_instance.py
     script and logs the output to a file.
     """
     now = datetime.datetime.now()
     time = now.strftime("%Y-%m-%d %H:%M:%S")
-    start_time = "Makahiki instance update script started at %s\n" % time
+    start_time = "Makahiki instance initialization script started at %s\n" % time
     logfile.write(start_time)
     print start_time
 
