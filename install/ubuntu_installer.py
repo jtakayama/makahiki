@@ -4,7 +4,7 @@ import sys
 import os
 import datetime
 import datestring_functions
-import dependency.dependency_ubuntu
+import ubuntu.dependency_ubuntu
 import pip.pip_install
 import run_update_instance
 import run_initialize_instance
@@ -83,7 +83,7 @@ def scriptrunner(scripttype, os, arch, logfile):
     else: 
         if scripttype == "dependencies":
             if os == "ubuntu":
-                logfile = dependency.dependency_ubuntu.run(arch, logfile)
+                logfile = ubuntu.dependency_ubuntu.run(arch, logfile)
             elif os == "redhat":
                 logfile.write("This is not the script for Red Hat Enterprise Linux. Use redhat_installer.py instead.\n")
                 logfile.write("Script could not be completed.")
