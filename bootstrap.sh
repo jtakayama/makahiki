@@ -174,14 +174,15 @@ apt-get install -y memcached
 echo "Installing memcached: finished at $(date)"
 echo "Installing libmemcached-dev: started at $(date)"
 echo "apt-get install -y libmemcached-dev"
-apt-get install -y libmemcached-dev
-echo "Installing libmemcached-dev: finished at $(date)"
+#apt-get install -y libmemcached-dev
+#echo "Installing libmemcached-dev: finished at $(date)"
 # Begin libmemcached-0.53 installation
 echo "Installing libmemcached-0.53: started at $(date)"
 if [ ! -f /usr/local/lib/libmemcached.so ]
     then
-        echo "apt-get remove -y libmemcached"
-        apt-get remove -y libmemcached
+        # Developer's note (remove later): libmemcached-dev? libmemcached doesn't seem to be available.
+        #echo "apt-get remove -y libmemcached-dev"
+        #apt-get remove -y libmemcached-dev
         echo "apt-get install -y build-essential"
         apt-get install -y build-essential
         echo "apt-get install -y g++"
@@ -211,7 +212,7 @@ if [ ! -f /usr/local/lib/libmemcached.so ]
             then
                 print "libmemcached-0.53 built and installed successfully."
             else:
-                print "libmemached-0.53 installation failed."
+                print "libmemcached-0.53 installation failed."
         fi
         echo "Cleaning up..."
         echo "cd /home/vagrant"

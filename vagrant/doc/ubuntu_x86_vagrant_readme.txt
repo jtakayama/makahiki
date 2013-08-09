@@ -729,11 +729,13 @@ vagrant@precise32:/vagrant/makahiki$ unset MAKAHIKI_USE_MEMCACHED
 vagrant@precise32:/vagrant/makahiki$ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH_OLD
 vagrant@precise32:/vagrant/makahiki$ unset LD_LIBRARY_PATH_OLD
 -------------------------------------------------------------------------------
-If any of the following errors occur, then Memcached was not correctly 
-installed:
+If any of the following errors occur, then Memcached is not working:
 (1) cache prints a blank to the console, or cache == None returns True.
 (2) cache.set returns False.
 (3) cache.get returns False or causes a segmentation fault.
+
+Try restarting the Memcached service, then try again:
+vagrant@precise32:/vagrant/makahiki$ sudo service memcached restart
 
 If the tests succeed, you can configure Makahiki to use Memcached. This is 
 beyond the scope of this guide; consult the Makahiki documentation for 
