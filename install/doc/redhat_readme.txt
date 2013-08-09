@@ -70,8 +70,8 @@ your user home directory:
 (2) Switch to your top-level makahiki directory:
 % cd ~/makahiki
 
-(3) Run the install/python273_sclinstall.py script as follows 
-to install Python 2.7.3 from Red Hat Software Collections:
+(3) Run the install/python273_sclinstall.py script to install Python 2.7.3 
+    from Red Hat Software Collections:
 % sudo ./install/python273_sclinstall.py
 
 This script will:
@@ -169,9 +169,7 @@ This software requires an internet connection in order to install packages.
 Switch to your top-level makahiki directory:
 % cd ~/makahiki
 
-Run the script with the options specified for your operating system:
-
-RHEL 6 x64:
+Run the script as specified:
 % sudo ./install/redhat_installer.py --dependencies --os redhat --arch x64
 
 The script installs these packages and their dependencies, if they are not 
@@ -362,9 +360,7 @@ Check that the pg_config library's location is part of the PATH.
 If the system cannot find pg_config, pip will not be able to compile the 
 psycopg2 module.
 
-Run the script with the options specified for your operating system:
-
-RHEL 6 x64:
+Run the script as specified:
 % ./install/redhat_installer.py --pip --os redhat --arch x64
 
 The list of packages that this step will attempt to install with pip are 
@@ -429,9 +425,7 @@ makahiki/makahiki/scripts/initialize_instance.py script with
 "--type default" options.
 -------------------------------------------------------------------------------
 
-Run the script with the options specified for your operating system:
-
-RHEL 6 x64:
+Run the script as follows:
 % ./install/redhat_installer.py --initialize_instance --os redhat --arch x64
 
 You will need to answer "Y" to the question "Do you wish to continue (Y/n)?"
@@ -482,9 +476,7 @@ following steps:
 
 (4.) Run the install.py script with --update_instance:
 
-Run the script with the options specified for your operating system:
-
-RHEL 6 x64:
+Run the script as specified:
 % python ./install/redhat_installer.py --update_instance --os redhat --arch x64
 
 The script will create a log file in makahiki/install/logs with a filename of 
