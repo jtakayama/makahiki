@@ -381,7 +381,7 @@ Continue to Appendix A.0., "Troubleshooting Configuration Files."
 
 2.1.6. If The Site Is Unreachable
 ===============================================================================
-Continue to Appendix B. 
+Continue to Appendix F, "Configure Networking on the Virtual Machine."
 ===============================================================================
 
 Appendix A.0. Troubleshooting Configuration Files
@@ -839,17 +839,22 @@ server is started, the 192.168.56.0/24 network may not be correct.
 To fix this, check the IP addresses assigned to VirtualBox's networking 
 interfaces.
 1. Open VirtualBox.
+
 2. Go to File --> Preferences. This will launch the 
    "VirtualBox - Settings" window.
+
 3. In the left sidebar, click "Network."
+
 4. Click on "VirtualBox Host-Only Ethernet Adapter" once to select it, 
    and click the screwdriver icon (or the icon which, when moused over, shows 
    "Edit host-only network.")
-5. The "Host-only Network Details" window should show:
+
+5. The "Host-only Network Details" window should show the following:
    "IPv4 Address: 192.168.56.1
     IPv4 Network Mask: 255.255.255.0"
    If the settings are different, you will need to change the settings 
    in the Vagrantfile to match. Continue to the next step.
+
 6. Open the Vagrantfile in a text editor. Look for the line:
    ----------------------------------------------------------------------------
    config.vm.network :private_network, ip: "192.168.56.4"
@@ -861,11 +866,13 @@ interfaces.
    192.168.56.1 - 192.168.56.254. VirtualBox reserves the first usable 
    address, 192.168.56.1, for the host machine.
    An explanation of IPv4 network addresses is beyond the scope of this guide.
+
 7. Switch to the directory holding the Vagrantfile. Then, reload the virtual 
    machine configuration.
    ----------------------------------------------------------------------------
    > vagrant reload
    ----------------------------------------------------------------------------
+
 8. SSH into the virtual machine and check the network interfaces:
    ----------------------------------------------------------------------------
    > vagrant ssh
@@ -892,6 +899,7 @@ interfaces.
    The eth0 interface is used for port forwarding.
    The eth1 interface should match the IP address you just configured.
    The lo interface is the loopback interface.
+   
 9. Ping the host machine's "VirtualBox Host Adapter Network Address" 
    from the virtual machine. Press Control-C (^C) to stop.
    ----------------------------------------------------------------------------
