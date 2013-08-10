@@ -266,8 +266,8 @@ The bootstrap.sh script:
    5g. memcached
    5h. libmemcached-0.53
    5j. virtualenvwrapper
-6. Creates /home/vagrant/makahiki_env.sh, which sets Makahiki environment 
-   variables in the shell
+6. Copies /home/vagrant/makahiki_env.sh to the vagrant user's home 
+   directory to set Makahiki environment variables in the shell
 7. Edits /home/vagrant/.bashrc so that it will source 
    /home/vagrant/makahiki_env.sh
 8. Executes "pip install -r requirements.txt" in the makahiki directory 
@@ -767,6 +767,7 @@ Memcached installation.
 In the virtual machine, switch to the /vagrant/makahiki directory and run some 
 commands in the manage.py shell:
 -------------------------------------------------------------------------------
+vagrant@precise32:~$ sudo service memcached restart
 vagrant@precise32:~$ export LD_LIBRARY_PATH_OLD=$LD_LIBRARY_PATH
 vagrant@precise32:~$ export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib:$LD_LIBRARY_PATH
 vagrant@precise32:~$ export MAKAHIKI_USE_MEMCACHED=True
@@ -795,12 +796,23 @@ If any of the following errors occur, then Memcached is not working:
 (2) cache.set returns False.
 (3) cache.get returns False or causes a segmentation fault.
 
-Try restarting the Memcached service, then try again:
-vagrant@precise32:/vagrant/makahiki$ sudo service memcached restart
+If the tests succeed, you can configure Makahiki to use Memcached. To do this, 
+add these lines to the end of the makahiki_env.sh file:
+-------------------------------------------------------------------------------
+export MAKAHIKI_USE_MEMCACHED=True
+# Don't add libmemcached paths more than once
+if [ ! $LIBMEMCACHED_PATHS_ADDED ];
+    then
+        export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib:$LD_LIBRARY_PATH
+        export LIBMEMCACHED_PATHS_ADDED=True
+fi
+-------------------------------------------------------------------------------
 
-If the tests succeed, you can configure Makahiki to use Memcached. This is 
-beyond the scope of this guide; consult the Makahiki documentation for 
-more information.
+On Vagrant, the memcached service should run automatically once installed by 
+the provisioning script. If it does not run, start it manually:
+-------------------------------------------------------------------------------
+vagrant@precise32:~$ sudo service memcached start
+-------------------------------------------------------------------------------
 ===============================================================================
 
 Appendix C. Vagrant Commands
