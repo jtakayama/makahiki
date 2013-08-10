@@ -18,6 +18,7 @@ Contents:
 2.1.9. Start the Server
 2.1.9.1. Testing the Server Without a Web Browser
 2.1.10. Update the Makahiki Instance
+2.1.11. Check the Memcached Installation
 Appendix A. Notes on Log Files
 -------------------------------------------------------------------------------
 
@@ -607,6 +608,53 @@ To start the server with gunicorn:
 -------------------------------------------------------------------------------
 % ./manage.py run_gunicorn
 -------------------------------------------------------------------------------
+===============================================================================
+
+2.1.11. Check the Memcached Installation
+===============================================================================
+The provisioning script installed Memcached and libmemcached-0.53 on the 
+system. If you plan to configure Memcached, you will need to test the 
+Memcached installation.
+
+In the virtual machine, switch to the makahiki/makahiki directory and run some 
+commands in the manage.py shell:
+-------------------------------------------------------------------------------
+% export LD_LIBRARY_PATH_OLD=$LD_LIBRARY_PATH
+% export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib:$LD_LIBRARY_PATH
+% export MAKAHIKI_USE_MEMCACHED=True
+% cd ~/makahiki/makahiki
+% ./manage.py shell
+Python 2.7.3 (default, Apr 10 2013, 05:46:21)
+[GCC 4.6.3] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from django.core.cache import cache
+>>> cache
+<django_pylibmc.memcached.PyLibMCCache object at 0x8c93c4c>
+>>> cache == None
+False
+>>> cache.set('test','Hello World')
+True
+>>> cache.get('test')
+'Hello World'
+>>> exit()
+% unset MAKAHIKI_USE_MEMCACHED
+% export LD_LIBRARY_PATH=$LD_LIBRARY_PATH_OLD
+% unset LD_LIBRARY_PATH_OLD
+-------------------------------------------------------------------------------
+If any of the following errors occur, then Memcached is not working:
+(1) cache prints a blank to the console, or cache == None returns True.
+(2) cache.set returns False.
+(3) cache.get returns False or causes a segmentation fault.
+
+Try restarting the Memcached service, then try again:
+-------------------------------------------------------------------------------
+% sudo service memcached restart
+-------------------------------------------------------------------------------
+
+If the tests succeed, you can configure Makahiki to use Memcached. This is 
+beyond the scope of this guide; consult the Makahiki documentation for 
+more information.
 ===============================================================================
 
 Appendix A. Notes on Log Files
