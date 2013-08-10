@@ -245,11 +245,11 @@ Add these lines to ~/.bashrc:
 # Virtualenvwrapper settings for makahiki
 export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/makahiki
-if [ !$PROFILE_ENV ]; 
+# SCL Python settings
+if [ ! $PROFILE_ENV ]; 
     then
         source /opt/rh/python27/root/usr/bin/virtualenvwrapper.sh
 fi
-export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib:$LD_LIBRARY_PATH
 ------------------------------------------------------------------------------
 
 After you are done editing .bashrc, source it to apply the 
@@ -619,6 +619,8 @@ Memcached installation.
 In the virtual machine, switch to the makahiki/makahiki directory and run some 
 commands in the manage.py shell:
 -------------------------------------------------------------------------------
+% sudo service memcached start
+Starting memcached:                                        [  OK  ]
 % export LD_LIBRARY_PATH_OLD=$LD_LIBRARY_PATH
 % export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib:$LD_LIBRARY_PATH
 % export MAKAHIKI_USE_MEMCACHED=True
@@ -641,20 +643,38 @@ True
 % unset MAKAHIKI_USE_MEMCACHED
 % export LD_LIBRARY_PATH=$LD_LIBRARY_PATH_OLD
 % unset LD_LIBRARY_PATH_OLD
+% sudo service memcached stop
+Stopping memcached:                                        [  OK  ]
 -------------------------------------------------------------------------------
 If any of the following errors occur, then Memcached is not working:
 (1) cache prints a blank to the console, or cache == None returns True.
-(2) cache.set returns False.
-(3) cache.get returns False or causes a segmentation fault.
+(2) cache.set returns False or returns nothing.
+(3) cache.get returns False, returns nothing, or causes a segmentation fault.
 
 Try restarting the Memcached service, then try again:
 -------------------------------------------------------------------------------
 % sudo service memcached restart
 -------------------------------------------------------------------------------
 
-If the tests succeed, you can configure Makahiki to use Memcached. This is 
-beyond the scope of this guide; consult the Makahiki documentation for 
-more information.
+If the tests succeed, you can configure Makahiki to use Memcached. To do this, 
+add these lines to the end of the $WORKON_HOME/makahiki/bin/postactivate file:
+-------------------------------------------------------------------------------
+export MAKAHIKI_USE_MEMCACHED=True
+# Don't add libmemcached paths more than once
+if [ ! $LIBMEMCACHED_PATHS_ADDED ];
+    then
+        export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib:$LD_LIBRARY_PATH
+        export LIBMEMCACHED_PATHS_ADDED=True
+fi
+-------------------------------------------------------------------------------
+
+Then, use chkconfig to set the memcached service to run at startup, and 
+restart the memcached service:
+-------------------------------------------------------------------------------
+% sudo chkconfig memcached on
+% sudo service memcached restart
+-------------------------------------------------------------------------------
+The memcached service will now run automatically at startup.
 ===============================================================================
 
 Appendix A. Notes on Log Files
