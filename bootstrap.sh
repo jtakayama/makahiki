@@ -228,18 +228,12 @@ pip install virtualenvwrapper
 echo "Installing virtualenvwrapper: finished at $(date)"
 if [ ! -f /home/vagrant/makahiki_env.sh ]
     then
-        echo "Creating /home/vagrant/makahiki_env.sh: started at $(date)"
-        echo "touch /home/vagrant/makahiki_env.sh"
-        touch /home/vagrant/makahiki_env.sh
+        echo "Copying into /home/vagrant/makahiki_env.sh: started at $(date)"
+        echo "cp /vagrant/vagrant/config_examples/makahiki_env.sh /home/vagrant/makahiki_env.sh"
+        cp /vagrant/vagrant/config_examples/makahiki_env.sh /home/vagrant/makahiki_env.sh
         echo "chown vagrant:vagrant /home/vagrant/makahiki_env.sh"
         chown vagrant:vagrant /home/vagrant/makahiki_env.sh
-        echo "Appending Makahiki environment variables..."
-        echo "# Makahiki environment variables" >> /home/vagrant/makahiki_env.sh
-        echo "# Syntax: postgres://<db_user>:<db_password>@<db_host>:<db_port>/<db_name>" >> /home/vagrant/makahiki_env.sh
-        echo "export MAKAHIKI_DATABASE_URL=postgres://makahiki:makahiki@localhost:5432/makahiki" >> /home/vagrant/makahiki_env.sh
-        echo "# Syntax: <admin_name>:<admin_password>" >> /home/vagrant/makahiki_env.sh
-        echo "export MAKAHIKI_ADMIN_INFO=admin:admin" >> /home/vagrant/makahiki_env.sh
-        echo "Creating /home/vagrant/makahiki_env.sh: finished at $(date)"
+        echo "Copying into /home/vagrant/makahiki_env.sh: finished at $(date)"
         MAKAHIKI_ENV_SETUP_RESULT="Succeeded"
     else
         echo "/home/vagrant/makahiki_environment.sh already exists. [ OK ]"
