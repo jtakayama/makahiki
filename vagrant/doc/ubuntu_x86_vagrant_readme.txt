@@ -266,10 +266,8 @@ The bootstrap.sh script:
    5g. memcached
    5h. libmemcached-0.53
    5j. virtualenvwrapper
-6. Copies /home/vagrant/makahiki_env.sh to the vagrant user's home 
-   directory to set Makahiki environment variables in the shell
-7. Edits /home/vagrant/.bashrc so that it will source 
-   /home/vagrant/makahiki_env.sh
+6. Copies /home/vagrant/makahiki_env.sh to the vagrant user's home directory.
+7. Edits /home/vagrant/.bashrc to source /home/vagrant/makahiki_env.sh
 8. Executes "pip install -r requirements.txt" in the makahiki directory 
    (/vagrant on the virtual machine), installing Makahiki dependencies 
    with pip.
@@ -726,27 +724,27 @@ following steps:
 (The % indicates that the command can be done from anywhere in the virtual 
  machine, regardless of working directory.)
 
-(1.) Close the running server in the shell process that is running Makahiki:
+1. Close the running server in the shell process that is running Makahiki:
 (type control-c in the shell running the makahiki server process)
 
-(2.) Go to the vagrant directory (the makahiki directory on the host machine):
+2. Go to the vagrant directory (the makahiki directory on the host machine):
 -------------------------------------------------------------------------------
 % cd /vagrant
 vagrant@precise32:/vagrant$
 -------------------------------------------------------------------------------
 
-(3.) Download the updated source code into the Makahiki installation:
+3. Download the updated source code into the Makahiki installation:
 -------------------------------------------------------------------------------
 vagrant@precise32:/vagrant$ git pull origin master
 -------------------------------------------------------------------------------
 
-(4.) Run the update_instance.py script:
+4. Run the update_instance.py script:
 -------------------------------------------------------------------------------
 vagrant@precise32:/vagrant$ cd makahiki
 vagrant@precise32:/vagrant/makahiki$ ./scripts/update_instance.py
 -------------------------------------------------------------------------------
 
-(5.) Start the server with runserver or gunicorn:
+5. Start the server with runserver or gunicorn:
 To start the server with manage.py:
 -------------------------------------------------------------------------------
 vagrant@precise32:/vagrant/makahiki$ ./manage.py runserver
@@ -796,8 +794,21 @@ If any of the following errors occur, then Memcached is not working:
 (2) cache.set returns False.
 (3) cache.get returns False or causes a segmentation fault.
 
-If the tests succeed, you can configure Makahiki to use Memcached. To do this, 
-add these lines to the end of the makahiki_env.sh file:
+If the tests succeed, you can configure Makahiki to use Memcached:
+1. Run /vagrant/vagrant/makahiki_env_memcached_append.sh to add some code to 
+the end of the /home/vagrant/makahiki_env.sh file:
+-------------------------------------------------------------------------------
+vagrant@precise32:~$ sh /vagrant/vagrant/makahiki_env_memcached_append.sh
+-------------------------------------------------------------------------------
+In most cases the script will copy the correct lines automatically. If you 
+have made other changes to makahiki_env.sh between the time the virtual 
+machine was created and now, the script will ask permission to append to the 
+file instead of copying over it:
+-------------------------------------------------------------------------------
+WARNING! /home/vagrant/makahiki_env.sh file is different from expected file.
+Append settings anyway? (Result may contain duplicate lines.) [Y/n]
+-------------------------------------------------------------------------------
+Answer "Y" to add these lines to the end of makahiki_env.sh:
 -------------------------------------------------------------------------------
 export MAKAHIKI_USE_MEMCACHED=True
 # Don't add libmemcached paths more than once
@@ -806,6 +817,11 @@ if [ ! $LIBMEMCACHED_PATHS_ADDED ];
         export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib:$LD_LIBRARY_PATH
         export LIBMEMCACHED_PATHS_ADDED=True
 fi
+-------------------------------------------------------------------------------
+
+2. Source /home/vagrant/.bashrc to apply changes:
+-------------------------------------------------------------------------------
+vagrant@precise32:~$ source home/vagrant/.bashrc
 -------------------------------------------------------------------------------
 
 On Vagrant, the memcached service should run automatically once installed by 
@@ -842,14 +858,18 @@ to provision the virtual machine again. You can do this in one of two ways.
 A. Re-provision the virtual machine on startup with "vagrant up":
 In the makahiki/vagrant directory, start the virtual machine with "vagrant up."
 This will run the provisioning script designated in the Vagrantfile.
+-------------------------------------------------------------------------------
 > vagrant up 
+-------------------------------------------------------------------------------
 
-An error may occur during virtual machine startup:
+An error may occur during provisioning:
 "dpkg-preconfigure: unable to re-open stdin: No such file or directory"
 This error does not affect the provisioning script and can be ignored.
 
 B. Re-provision a virtual machine that is already running:
+-------------------------------------------------------------------------------
 > vagrant provision
+-------------------------------------------------------------------------------
 ===============================================================================
 
 Appendix E. Configure the RAM of the Virtual Machine
@@ -913,85 +933,84 @@ To fix this, check the IP addresses assigned to VirtualBox's networking
 interfaces.
 1. Open VirtualBox.
 
-2. Go to File --> Preferences. This will launch the 
-   "VirtualBox - Settings" window.
+2. Go to File --> Preferences to launch the "VirtualBox - Settings" window.
 
 3. In the left sidebar, click "Network."
 
-4. Click on "VirtualBox Host-Only Ethernet Adapter" once to select it, 
-   and click the screwdriver icon (or the icon which, when moused over, shows 
-   "Edit host-only network.")
+4. Click on "VirtualBox Host-Only Ethernet Adapter" once to select it, and 
+click the screwdriver icon (the icon which, when moused over, shows 
+"Edit host-only network.")
 
 5. The "Host-only Network Details" window should show the following:
-   "IPv4 Address: 192.168.56.1
-    IPv4 Network Mask: 255.255.255.0"
-   If the settings are different, you will need to change the settings 
-   in the Vagrantfile to match. Continue to the next step.
+"IPv4 Address: 192.168.56.1
+ IPv4 Network Mask: 255.255.255.0"
+If the settings are different, you will need to change the settings 
+in the Vagrantfile to match. Continue to the next step.
 
 6. Open the Vagrantfile in a text editor. Look for the line:
-   ----------------------------------------------------------------------------
-   config.vm.network :private_network, ip: "192.168.56.4"
-   ----------------------------------------------------------------------------
-   Change the address in quotes after the "ip:" field to something 
-   in the address range that was specified in "Host-only Network Details."
-   For example, if the "IPv4 Address" is 192.168.56.1 and the 
-   "IPv4 Network Mask" is 255.255.255.0, the range of usable addresses is 
-   192.168.56.1 - 192.168.56.254. VirtualBox reserves the first usable 
-   address, 192.168.56.1, for the host machine.
-   An explanation of IPv4 network addresses is beyond the scope of this guide.
+----------------------------------------------------------------------------
+config.vm.network :private_network, ip: "192.168.56.4"
+----------------------------------------------------------------------------
+Change the address in quotes after the "ip:" field to something 
+in the address range that was specified in "Host-only Network Details."
+For example, if the "IPv4 Address" is 192.168.56.1 and the 
+"IPv4 Network Mask" is 255.255.255.0, the range of usable addresses is 
+192.168.56.1 - 192.168.56.254. VirtualBox reserves the first usable 
+address, 192.168.56.1, for the host machine.
+An explanation of IPv4 network addresses is beyond the scope of this guide.
 
 7. Switch to the directory holding the Vagrantfile. Then, reload the virtual 
    machine configuration.
-   ----------------------------------------------------------------------------
-   > vagrant reload
-   ----------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+> vagrant reload
+-------------------------------------------------------------------------------
 
 8. SSH into the virtual machine and check the network interfaces:
-   ----------------------------------------------------------------------------
-   > vagrant ssh
-   Welcome to Ubuntu 12.04 LTS (GNU/Linux 3.2.0-23-generic-pae i686)
+----------------------------------------------------------------------------
+> vagrant ssh
+Welcome to Ubuntu 12.04 LTS (GNU/Linux 3.2.0-23-generic-pae i686)
+
+ * Documentation:  https://help.ubuntu.com/
+Welcome to your Vagrant-built virtual machine.
+Last login: Thu Aug  8 07:55:06 2013 from 10.0.2.2
+vagrant@precise32:~$ ifconfig
+eth0      Link encap:Ethernet  HWaddr 08:00:27:12:96:98
+          inet addr:10.0.2.15  Bcast:10.0.2.255  Mask:255.255.255.0
+          inet6 addr: fe80::a00:27ff:fe12:9698/64 Scope:Link
+-- output omitted -- 
+eth1      Link encap:Ethernet  HWaddr 08:00:27:fd:05:73
+          inet addr:192.168.56.4  Bcast:192.168.56.255  Mask:255.255.255.0
+          inet6 addr: fe80::a00:27ff:fefd:573/64 Scope:Link
+-- output omitted --
+lo        Link encap:Local Loopback
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+-- output omitted --
+vagrant@precise32:~$
+-------------------------------------------------------------------------------
+The eth0 interface is used for port forwarding.
+The eth1 interface should match the IP address you just configured.
+The lo interface is the loopback interface.
    
-    * Documentation:  https://help.ubuntu.com/
-   Welcome to your Vagrant-built virtual machine.
-   Last login: Thu Aug  8 07:55:06 2013 from 10.0.2.2
-   vagrant@precise32:~$ ifconfig
-   eth0      Link encap:Ethernet  HWaddr 08:00:27:12:96:98
-             inet addr:10.0.2.15  Bcast:10.0.2.255  Mask:255.255.255.0
-             inet6 addr: fe80::a00:27ff:fe12:9698/64 Scope:Link
-   -- output omitted -- 
-   eth1      Link encap:Ethernet  HWaddr 08:00:27:fd:05:73
-             inet addr:192.168.56.4  Bcast:192.168.56.255  Mask:255.255.255.0
-             inet6 addr: fe80::a00:27ff:fefd:573/64 Scope:Link
-   -- output omitted --
-   lo        Link encap:Local Loopback
-             inet addr:127.0.0.1  Mask:255.0.0.0
-             inet6 addr: ::1/128 Scope:Host
-   -- output omitted --
-   vagrant@precise32:~$
-   ----------------------------------------------------------------------------
-   The eth0 interface is used for port forwarding.
-   The eth1 interface should match the IP address you just configured.
-   The lo interface is the loopback interface.
+9. Ping the host machine's "VirtualBox Host Adapter Network Address" from the 
+virtual machine. Press Control-C (^C) to stop.
+-------------------------------------------------------------------------------
+vagrant@precise32:~$ ping 192.168.56.1
+PING 192.168.56.1 (192.168.56.1) 56(84) bytes of data.
+64 bytes from 192.168.56.1: icmp_req=1 ttl=128 time=1.49 ms
+64 bytes from 192.168.56.1: icmp_req=2 ttl=128 time=0.710 ms
+64 bytes from 192.168.56.1: icmp_req=3 ttl=128 time=0.609 ms
+64 bytes from 192.168.56.1: icmp_req=4 ttl=128 time=0.685 ms
+^C
+--- 192.168.56.1 ping statistics ---
+4 packets transmitted, 4 received, 0% packet loss, time 3000ms
+rtt min/avg/max/mdev = 0.609/0.874/1.493/0.359 ms
+vagrant@precise32:~$
+----------------------------------------------------------------------------
+If the ping succeeds, then networking is correctly configured.
    
-9. Ping the host machine's "VirtualBox Host Adapter Network Address" 
-   from the virtual machine. Press Control-C (^C) to stop.
-   ----------------------------------------------------------------------------
-   vagrant@precise32:~$ ping 192.168.56.1
-   PING 192.168.56.1 (192.168.56.1) 56(84) bytes of data.
-   64 bytes from 192.168.56.1: icmp_req=1 ttl=128 time=1.49 ms
-   64 bytes from 192.168.56.1: icmp_req=2 ttl=128 time=0.710 ms
-   64 bytes from 192.168.56.1: icmp_req=3 ttl=128 time=0.609 ms
-   64 bytes from 192.168.56.1: icmp_req=4 ttl=128 time=0.685 ms
-   ^C
-   --- 192.168.56.1 ping statistics ---
-   4 packets transmitted, 4 received, 0% packet loss, time 3000ms
-   rtt min/avg/max/mdev = 0.609/0.874/1.493/0.359 ms
-   vagrant@precise32:~$
-   ----------------------------------------------------------------------------
-   If the ping succeeds, then networking is correctly configured.
-   
-   From now on, you should use the IP address configured in the Vagrantfile 
-   to access the site when the webserver is running.
+From now on, you should use the IP address configured in the Vagrantfile 
+to access the site when the webserver is running.
 
 For more information on VirtualBox host-only networking, see 
 http://www.virtualbox.org/manual/ch06.html.

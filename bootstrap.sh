@@ -226,19 +226,19 @@ echo "Installing virtualenvwrapper: started at $(date)"
 echo "pip install virtualenvwrapper"
 pip install virtualenvwrapper
 echo "Installing virtualenvwrapper: finished at $(date)"
+echo "Copying configuration into /home/vagrant/makahiki_env.sh: started at $(date)"
 if [ ! -f /home/vagrant/makahiki_env.sh ]
     then
-        echo "Copying into /home/vagrant/makahiki_env.sh: started at $(date)"
         echo "cp /vagrant/vagrant/config_examples/makahiki_env.sh /home/vagrant/makahiki_env.sh"
         cp /vagrant/vagrant/config_examples/makahiki_env.sh /home/vagrant/makahiki_env.sh
         echo "chown vagrant:vagrant /home/vagrant/makahiki_env.sh"
         chown vagrant:vagrant /home/vagrant/makahiki_env.sh
-        echo "Copying into /home/vagrant/makahiki_env.sh: finished at $(date)"
         MAKAHIKI_ENV_SETUP_RESULT="Succeeded"
     else
         echo "/home/vagrant/makahiki_environment.sh already exists. [ OK ]"
         MAKAHIKI_ENV_SETUP_RESULT="Already completed."
 fi
+echo "Copying configuration into /home/vagrant/makahiki_env.sh: finished at $(date)"
 # Begin .bashrc appending code:
 echo "Appending Makahiki settings to /home/vagrant/.bashrc: started at $(date)"
 MD5SUM_HOME_BASHRC_EXPECTED=$(md5sum "/vagrant/vagrant/config_examples/home.bashrc.ubuntu.default")
