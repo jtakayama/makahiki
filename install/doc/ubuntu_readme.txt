@@ -14,7 +14,9 @@ Contents:
 1.1.6. Environment Variables Configuration
 1.1.7. Initialize Makahiki
 1.1.8. Start the Server
+1.1.8.1. Testing the Server Without a Web Browser [UNTESTED]
 1.1.9. Update the Makahiki Instance
+1.1.10. Check the Memcached Installation [UNTESTED]
 Appendix A. Notes on Log Files
 -------------------------------------------------------------------------------
 
@@ -400,6 +402,63 @@ To start the server with gunicorn:
 In a web browser, go to http://localhost:8000 to see the landing page.
 ===============================================================================
 
+1.1.8.1. Testing the Server Without a Web Browser [UNTESTED]
+===============================================================================
+If you are using a headless machine (no GUI) and cannot view the page 
+in a web browser from another computer, you will need to run the server in the 
+background and test it with wget:
+-------------------------------------------------------------------------------
+% ./manage.py runserver &
+Validating models...
+
+Development server is running at http://127.0.0.1:8000/
+Quit the server with CONTROL-C.
+^M                              # Note: Press "enter" here to get command prompt.
+% cd ~/
+% mkdir test
+% cd test
+% wget http://127.0.0.1:8000
+--2013-08-09 11:19:25--  http://127.0.0.1:8000/
+Connecting to 127.0.0.1:8000... connected.
+HTTP request sent, awaiting response... 302 FOUND
+Location: http://127.0.0.1:8000/landing/ [following]
+[09/Aug/2013 11:19:26] "GET / HTTP/1.0" 302 0
+--2013-08-09 11:19:26--  http://127.0.0.1:8000/landing/
+Connecting to 127.0.0.1:8000... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: unspecified [text/html]
+[09/Aug/2013 11:19:26] "GET /landing/ HTTP/1.0" 200 6181
+Saving to: “index.html"
+
+    [ <=>                                   ] 6,181       --.-K/s   in 0s
+
+2013-08-09 11:19:26 (192 MB/s) - “index.html" saved [6181]
+-------------------------------------------------------------------------------
+If your HTTP response is "200 OK," the server is running correctly. You can 
+delete the "test" directory when you are done.
+
+Because this server was started in the background with &, you cannot stop it 
+with Control-C. You will need to find the PID of the process first:
+-------------------------------------------------------------------------------
+% ps ax | grep manage.py
+21791 tty1     S     0:00 python ./manage.py runserver
+21798 tty1     Sl    0:52 /root/.virtualenvs/makahiki/bin/python ./manage.py ru
+nserver
+21893 tty1     S+    0:00 grep manage.py
+% kill -9 21791
+% 
+[1]+  Killed                 ./manage.py runserver  (wd: ~/makahiki/makahiki)
+(wd now: ~/test)
+-------------------------------------------------------------------------------
+The PID of the process is 21791 here, but will be different each time.
+"kill -9 <PID>" forces the OS to stop the process, and the 
+"python ./manage.py runserver" is what needs to be stopped.
+
+If you restart the web server and get an error stating that the port is 
+already in use, you may need to use kill -9 to stop the other process,
+"/root/.virtualenvs/makahiki/bin/python ./manage.py runserver," as well.
+===============================================================================
+
 1.1.9. Update the Makahiki Instance
 ===============================================================================
 Makahiki is designed to support post-installation updating of your configured 
@@ -453,6 +512,73 @@ To start the server with gunicorn:
 -------------------------------------------------------------------------------
 % ./manage.py run_gunicorn
 -------------------------------------------------------------------------------
+===============================================================================
+
+1.1.10. Check the Memcached Installation [UNTESTED]
+===============================================================================
+The provisioning script installed Memcached and libmemcached-0.53 on the 
+system. If you plan to configure Memcached, you will need to test the 
+Memcached installation.
+
+In the virtual machine, switch to the makahiki/makahiki directory and run some 
+commands in the manage.py shell:
+-------------------------------------------------------------------------------
+% sudo service memcached start
+Starting memcached:                                        [  OK  ]
+% export LD_LIBRARY_PATH_OLD=$LD_LIBRARY_PATH
+% export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib:$LD_LIBRARY_PATH
+% export MAKAHIKI_USE_MEMCACHED=True
+% cd ~/makahiki/makahiki
+% ./manage.py shell
+Python 2.7.3 (default, Apr 10 2013, 05:46:21)
+[GCC 4.6.3] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from django.core.cache import cache
+>>> cache
+<django_pylibmc.memcached.PyLibMCCache object at 0x8c93c4c>
+>>> cache == None
+False
+>>> cache.set('test','Hello World')
+True
+>>> cache.get('test')
+'Hello World'
+>>> exit()
+% unset MAKAHIKI_USE_MEMCACHED
+% export LD_LIBRARY_PATH=$LD_LIBRARY_PATH_OLD
+% unset LD_LIBRARY_PATH_OLD
+% sudo service memcached stop
+Stopping memcached:                                        [  OK  ]
+-------------------------------------------------------------------------------
+If any of the following errors occur, then Memcached is not working:
+(1) cache prints a blank to the console, or cache == None returns True.
+(2) cache.set returns False or returns nothing.
+(3) cache.get returns False, returns nothing, or causes a segmentation fault.
+
+Try restarting the Memcached service, then try again:
+-------------------------------------------------------------------------------
+% sudo service memcached restart
+-------------------------------------------------------------------------------
+
+If the tests succeed, you can configure Makahiki to use Memcached. To do this, 
+add these lines to the end of the $WORKON_HOME/makahiki/bin/postactivate file:
+-------------------------------------------------------------------------------
+export MAKAHIKI_USE_MEMCACHED=True
+# Don't add libmemcached paths more than once
+if [ ! $LIBMEMCACHED_PATHS_ADDED ];
+    then
+        export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib:$LD_LIBRARY_PATH
+        export LIBMEMCACHED_PATHS_ADDED=True
+fi
+-------------------------------------------------------------------------------
+
+Then, use chkconfig to set the memcached service to run at startup, and 
+restart the memcached service:
+-------------------------------------------------------------------------------
+% sudo chkconfig memcached on
+% sudo service memcached restart
+-------------------------------------------------------------------------------
+The memcached service will now run automatically at startup.
 ===============================================================================
 
 Appendix A. Notes on Log Files
