@@ -17,6 +17,8 @@ def termination_string():
 def run(logfile):
     """
     Runs "pip install -r requirements.txt", logging output to the logfile.
+    Parameters: 
+        1. logfile: A file to log output to.
     """
     # Write first line to file
     firstline = "pip installation script"

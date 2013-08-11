@@ -4,9 +4,10 @@ import os
 import datetime
 import datestring_functions
 import ubuntu.dependency_ubuntu
-import pip.pip_install
+import pip_install
 import run_update_instance
 import run_initialize_instance
+import cleanup
 
 def logfile_open(scripttype):
     """
@@ -80,11 +81,13 @@ def scriptrunner(scripttype, arch, logfile):
         if scripttype == "dependencies":
             logfile = ubuntu.dependency_ubuntu.run(arch, logfile)
         elif scripttype == "pip":
-            logfile = pip.pip_install.run(logfile)
+            logfile = pip_install.run(logfile)
         elif scripttype == "initialize_instance":
             logfile = run_initialize_instance.run(logfile)
         elif scripttype == "update_instance":
             logfile = run_update_instance.run(logfile)
+        elif scripttype == "cleanup":
+            logfile = cleanup.run(logfile)
         else:
             logfile.write("Error: install.py invoked with invalid command: %s\n" % scripttype)
             print "Error: install.py invoked with invalid command: %s\n" % scripttype
@@ -93,11 +96,12 @@ def scriptrunner(scripttype, arch, logfile):
 
 def main():
     if ((len(sys.argv) != 4) or (sys.argv[2] != "--arch")):
-        print "Usage: ubuntu_installer.py < --dependencies | --pip | --initialize_instance | --update_instance > --arch < x86 | x64 >"
+        print "Usage: ubuntu_installer.py < --dependencies | --pip | --initialize_instance | --update_instance | --cleanup > --arch < x86 | x64 >"
         print "--dependencies: Install Makahiki dependencies (software packages)."
         print "--pip: Install Makahiki local dependencies using pip."
         print "--initialize_instance: Initialize the Makahiki installation."
         print "--update_instance: Update the Makahiki installation."
+        print "--cleanup: Remove archives and other files downloaded by Makahiki scripts."
         print "--arch: Architecture. Supported values for Ubuntu Linux are x86 and x64."
     else:
         args = sys.argv[1:]

@@ -6,9 +6,10 @@ import subprocess
 import shlex
 import datestring_functions
 import redhat.dependency_redhat
-import pip.pip_install
+import pip_install
 import run_update_instance
 import run_initialize_instance
+import cleanup
 
 def logfile_open(scripttype):
     """
@@ -87,11 +88,13 @@ def scriptrunner(scripttype, arch, logfile):
         if scripttype == "dependencies":
             logfile = redhat.dependency_redhat.run(arch, logfile)
         elif scripttype == "pip":
-            logfile = pip.pip_install.run(logfile)
+            logfile = pip_install.run(logfile)
         elif scripttype == "initialize_instance":
             logfile = run_initialize_instance.run(logfile)
         elif scripttype == "update_instance":
             logfile = run_update_instance.run(logfile)
+        elif scripttype == "cleanup":
+            logfile = cleanup.run(logfile)
         else:
             logfile.write("Error: redhat_installer.py invoked with invalid command: %s" % scripttype)
             print "Error: redhat_installer.py invoked with invalid command: %s" % scripttype
@@ -100,11 +103,12 @@ def scriptrunner(scripttype, arch, logfile):
 
 def main():
     if ((len(sys.argv) != 4) or (sys.argv[2] != "--arch")):
-        print "Usage: redhat_installer.py < --dependencies | --pip | --initialize_instance | --update_instance > --arch < x64 >"
+        print "Usage: redhat_installer.py < --dependencies | --pip | --initialize_instance | --update_instance | --cleanup > --arch < x64 >"
         print "--dependencies: Install Makahiki dependencies (software packages)."
         print "--pip: Install Makahiki local dependencies using pip."
         print "--initialize_instance: Initialize the Makahiki installation."
         print "--update_instance: Update the Makahiki installation."
+        print "--cleanup: Remove archives and other files downloaded by Makahiki scripts."
         print "--arch: Architecture. This script only supports x64 for RHEL / CentOS."
     else:
         args = sys.argv[1:]
