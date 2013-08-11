@@ -94,6 +94,13 @@ def run(logfile):
     if not success:
         return logfile
     
+    # Clean up the .repo file when done.
+    result = run_command("rm ./scl_python27.repo", logfile)
+    success = result[0]
+    logfile = result[1]
+    if not success:
+        return logfile
+    
     logfile.write("Python 2.7.3 will be installed from SCL.\n")
     print "Python 2.7.3 will be installed from SCL.\n"
     
