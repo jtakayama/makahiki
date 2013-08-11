@@ -261,142 +261,99 @@ def run(arch, logfile):
         logfile.write("Do you wish to continue (Y/n)? %s\n" % value)
         logfile.write("Starting dependency installation for RHEL 6 %s.\nChecking for dependencies...\n" % arch)
         print "Starting dependency installation for RHEL 6 %s.\nChecking for dependencies...\n" % arch
-    
-    # Boolean variables for each dependency
-    git_installed = rpm_check("git")
-    gcc_installed = rpm_check("gcc")
-    python_imaging_installed = rpm_check("python-imaging")
-    python_devel_installed = rpm_check("python-devel")
-    libjpeg_devel_installed = rpm_check("libjpeg-turbo-devel")
-    postgresql91_repo = postgresql91_repocheck()
-    postgresql91_server_installed = rpm_check("postgresql91-server")
-    postgresql91_contrib_installed = rpm_check("postgresql91-contrib")
-    postgresql91devel_installed = rpm_check("postgresql91-devel")
-    memcached_installed = rpm_check("memcached")
-    libmemcached_installed = rpm_check("libmemcached-devel")
-    libmemcached053_installed = libmemcached053_check()
-    zlib_devel_installed = rpm_check("zlib-devel")
-    
-    # Groupinstall of "Development tools" (the script does not check if its components are installed or not)
-    groupinstall_command = "yum groupinstall -y \"Development tools\""
-    groupinstall_result = run_command(groupinstall_command, logfile, "Groupinstall of \"Development tools\"")
-    success = groupinstall_result[0]
-    logfile = groupinstall_result[1]
-    if not success:
-        return logfile
-    
-    # git
-    if git_installed:
-        logfile.write("git is already installed.\n")
-        print "git is already installed.\n" 
-    else:
-        git_result = yum_install("git", logfile)
-        success = git_result[0]
-        logfile = git_result[1]
+        # Boolean variables for each dependency
+        git_installed = rpm_check("git")
+        gcc_installed = rpm_check("gcc")
+        python_imaging_installed = rpm_check("python-imaging")
+        python_devel_installed = rpm_check("python-devel")
+        libjpeg_devel_installed = rpm_check("libjpeg-turbo-devel")
+        postgresql91_repo = postgresql91_repocheck()
+        postgresql91_server_installed = rpm_check("postgresql91-server")
+        postgresql91_contrib_installed = rpm_check("postgresql91-contrib")
+        postgresql91devel_installed = rpm_check("postgresql91-devel")
+        memcached_installed = rpm_check("memcached")
+        libmemcached_installed = rpm_check("libmemcached-devel")
+        libmemcached053_installed = libmemcached053_check()
+        zlib_devel_installed = rpm_check("zlib-devel")
+        
+        # Groupinstall of "Development tools" (the script does not check if its components are installed or not)
+        groupinstall_command = "yum groupinstall -y \"Development tools\""
+        groupinstall_result = run_command(groupinstall_command, logfile, "Groupinstall of \"Development tools\"")
+        success = groupinstall_result[0]
+        logfile = groupinstall_result[1]
         if not success:
             return logfile
+        
+        # git
+        if git_installed:
+            logfile.write("git is already installed.\n")
+            print "git is already installed.\n" 
+        else:
+            git_result = yum_install("git", logfile)
+            success = git_result[0]
+            logfile = git_result[1]
+            if not success:
+                return logfile
+                
+        # gcc
+        if gcc_installed:
+            logfile.write("gcc is already installed.\n")
+            print "gcc is already installed.\n" 
+        else:
+            gcc_result = yum_install("gcc", logfile)
+            success = gcc_result[0]
+            logfile = gcc_result[1]
+            if not success:
+                return logfile
+    
+        logfile.write("Beginning installation of Python Imaging Library components python-imaging, python-devel, and libjpeg-devel.\n")
+        print "Beginning installation of Python Imaging Library components python-imaging, python-devel, and libjpeg-devel.\n"
             
-    # gcc
-    if gcc_installed:
-        logfile.write("gcc is already installed.\n")
-        print "gcc is already installed.\n" 
-    else:
-        gcc_result = yum_install("gcc", logfile)
-        success = gcc_result[0]
-        logfile = gcc_result[1]
-        if not success:
-            return logfile
-
-    logfile.write("Beginning installation of Python Imaging Library components python-imaging, python-devel, and libjpeg-devel.\n")
-    print "Beginning installation of Python Imaging Library components python-imaging, python-devel, and libjpeg-devel.\n"
-        
-    # python-imaging    
-    if python_imaging_installed:
-        logfile.write("python-imaging is already installed.\n")
-        print "python-imaging is already installed.\n" 
-    else:
-        python_imaging_result = yum_install("python-imaging", logfile)
-        success = python_imaging_result[0]
-        logfile = python_imaging_result[1]
-        if not success:
-            return logfile
-
-    # postgresql91-server
-    if python_devel_installed:
-        logfile.write("python-devel is already installed.\n")
-        print "python-devel is already installed.\n" 
-    else:
-        python_devel_result = yum_install("python-devel", logfile)
-        success = python_devel_result[0]
-        logfile = python_devel_result[1]
-        if not success:
-            return logfile
-        
-    # libjpeg-devel
-    if libjpeg_devel_installed:
-        logfile.write("libjpeg-devel (libjpeg-turbo-devel) is already installed.\n")
-        print "libjpeg-devel (libjpeg-turbo-devel) is already installed.\n" 
-    else:
-        libjpeg_devel_result = yum_install("libjpeg-turbo-devel", logfile)
-        success = libjpeg_devel_result[0]
-        logfile = libjpeg_devel_result[1]
-        if not success:
-            return logfile
-
-    # Check locations of shared libraries
-    logfile.write("Checking for Python Imaging Library shared libraries.\n")
-    print "Checking for Python Imaging Library shared libraries.\n"
-    # libjpeg.so
-    try:
-        libjpeg_stat = os.stat("/usr/lib64/libjpeg.so")
-        if libjpeg_stat:
-            output1 = "Found libjpeg.so at /usr/lib64/libjpeg.so\n"
-            logfile.write(output1)
-            print output1
-    except OSError as libjpeg_error:
-        error1 = "Error: Could not find libjpeg.so in /usr/lib64.\n"
-        error2 = "Python Imaging Library-related packages may not have installed properly.\n"
-        logfile.write(error1)
-        logfile.write(error2)
-        print error1
-        print error2
-        end_time = termination_string()
-        logfile.write(end_time)
-        print end_time
-        return logfile
+        # python-imaging    
+        if python_imaging_installed:
+            logfile.write("python-imaging is already installed.\n")
+            print "python-imaging is already installed.\n" 
+        else:
+            python_imaging_result = yum_install("python-imaging", logfile)
+            success = python_imaging_result[0]
+            logfile = python_imaging_result[1]
+            if not success:
+                return logfile
     
-    # libz.so
-    try:
-        libjpeg_stat = os.stat("/usr/lib64/libz.so")
-        if libjpeg_stat:
-            output1 = "Found libz.so at /usr/lib64/libz.so\n"
-            logfile.write(output1)
-            print output1
-    except OSError as libjpeg_error:
+        # postgresql91-server
+        if python_devel_installed:
+            logfile.write("python-devel is already installed.\n")
+            print "python-devel is already installed.\n" 
+        else:
+            python_devel_result = yum_install("python-devel", logfile)
+            success = python_devel_result[0]
+            logfile = python_devel_result[1]
+            if not success:
+                return logfile
+            
+        # libjpeg-devel
+        if libjpeg_devel_installed:
+            logfile.write("libjpeg-devel (libjpeg-turbo-devel) is already installed.\n")
+            print "libjpeg-devel (libjpeg-turbo-devel) is already installed.\n" 
+        else:
+            libjpeg_devel_result = yum_install("libjpeg-turbo-devel", logfile)
+            success = libjpeg_devel_result[0]
+            logfile = libjpeg_devel_result[1]
+            if not success:
+                return logfile
+    
+        # Check locations of shared libraries
+        logfile.write("Checking for Python Imaging Library shared libraries.\n")
+        print "Checking for Python Imaging Library shared libraries.\n"
+        # libjpeg.so
         try:
-            libz_stat2 = os.stat("/lib64/libz.so.1")
-            if libz_stat2:
-                output2 = "Found: libz.so at /lib64/libz.so.1\n"
-                output3 = "Symbolic link will be created: /usr/lib64/libz.so --> /lib64/libz.so.1\n"
-                output4 = "ln -s /lib64/libz.so.1 /usr/lib64/libz.so\n"
-                logfile.write(output2)
-                logfile.write(output3)
-                logfile.write(output4)
-                print output2
-                print output3
-                print output4
-                libjpeg_tuple = commands.getstatusoutput("ln -s /lib64/libz.so.1 /usr/lib64/libz.so")
-                status = libjpeg_tuple[0]
-                if status != 0:
-                    error1 = "Error: Could not create symbolic link: /usr/lib64/libz.so --> /lib64/libz.so.1\n"
-                    logfile.write(error1)
-                    print error1
-                    end_time = termination_string()
-                    logfile.write(end_time)
-                    print end_time
-                    return logfile 
-        except OSError as libjpeg_error3:
-            error1 = "Error: Could not find libz.so in /lib64.\n"
+            libjpeg_stat = os.stat("/usr/lib64/libjpeg.so")
+            if libjpeg_stat:
+                output1 = "Found libjpeg.so at /usr/lib64/libjpeg.so\n"
+                logfile.write(output1)
+                print output1
+        except OSError as libjpeg_error:
+            error1 = "Error: Could not find libjpeg.so in /usr/lib64.\n"
             error2 = "Python Imaging Library-related packages may not have installed properly.\n"
             logfile.write(error1)
             logfile.write(error2)
@@ -405,240 +362,283 @@ def run(arch, logfile):
             end_time = termination_string()
             logfile.write(end_time)
             print end_time
-            return logfile 
-    
-    logfile.write("Installation of Python Imaging Library components is complete.\n")
-    print "Installation of Python Imaging Library components is complete.\n"
-    
-    # memcached
-    if memcached_installed:
-        logfile.write("memcached is already installed.\n")
-        print "memcached is already installed.\n"   
-    else:
-        memcached_result = yum_install("memcached", logfile)
-        success = memcached_result[0]
-        logfile = memcached_result[1]
-        if not success:
             return logfile
-    
-    # Beginning of libmemcached installation code.
-    if libmemcached053_installed:
-        logfile.write("libmemcached alternate installation found in /usr/local/lib\n")
-        logfile.write("The user should check that this alternate installation is libmemcached-0.53.\n")
-        logfile.write("libmemcached-0.53 will not be installed. Continuing...\n")
-        print "libmemcached alternate installation found in /usr/local/lib\n"
-        print "The user should check that this alternate installation is libmemcached-0.53.\n"
-        print "libmemcached-0.53 will not be installed. Continuing...\n"
-    elif libmemcached053_installed is False:
-        if libmemcached_installed:
-            logfile.write("libmemcached will be removed.\n")
-            print "libmemcached will be removed.\n"
-            remove_libmemcached_command = "yum remove -y libmemcached"
-            logfile.write(remove_libmemcached_command + "\n")
-            print remove_libmemcached_command + "\n"
-            remove_libmemcached_result = run_command(remove_libmemcached_command, logfile, "Removal of libmemcached package")
-            success = removed_libmemcached_result[0]
-            logfile = removed_libmemcached_result[1]
+        
+        # libz.so
+        try:
+            libjpeg_stat = os.stat("/usr/lib64/libz.so")
+            if libjpeg_stat:
+                output1 = "Found libz.so at /usr/lib64/libz.so\n"
+                logfile.write(output1)
+                print output1
+        except OSError as libjpeg_error:
+            try:
+                libz_stat2 = os.stat("/lib64/libz.so.1")
+                if libz_stat2:
+                    output2 = "Found: libz.so at /lib64/libz.so.1\n"
+                    output3 = "Symbolic link will be created: /usr/lib64/libz.so --> /lib64/libz.so.1\n"
+                    output4 = "ln -s /lib64/libz.so.1 /usr/lib64/libz.so\n"
+                    logfile.write(output2)
+                    logfile.write(output3)
+                    logfile.write(output4)
+                    print output2
+                    print output3
+                    print output4
+                    libjpeg_tuple = commands.getstatusoutput("ln -s /lib64/libz.so.1 /usr/lib64/libz.so")
+                    status = libjpeg_tuple[0]
+                    if status != 0:
+                        error1 = "Error: Could not create symbolic link: /usr/lib64/libz.so --> /lib64/libz.so.1\n"
+                        logfile.write(error1)
+                        print error1
+                        end_time = termination_string()
+                        logfile.write(end_time)
+                        print end_time
+                        return logfile 
+            except OSError as libjpeg_error3:
+                error1 = "Error: Could not find libz.so in /lib64.\n"
+                error2 = "Python Imaging Library-related packages may not have installed properly.\n"
+                logfile.write(error1)
+                logfile.write(error2)
+                print error1
+                print error2
+                end_time = termination_string()
+                logfile.write(end_time)
+                print end_time
+                return logfile 
+        
+        logfile.write("Installation of Python Imaging Library components is complete.\n")
+        print "Installation of Python Imaging Library components is complete.\n"
+        
+        # memcached
+        if memcached_installed:
+            logfile.write("memcached is already installed.\n")
+            print "memcached is already installed.\n"   
+        else:
+            memcached_result = yum_install("memcached", logfile)
+            success = memcached_result[0]
+            logfile = memcached_result[1]
+            if not success:
+                return logfile
+        
+        # Beginning of libmemcached-0.53 installation code.
+        if libmemcached053_installed:
+            logfile.write("libmemcached alternate installation found in /usr/local/lib\n")
+            logfile.write("The user should check that this alternate installation is libmemcached-0.53.\n")
+            logfile.write("libmemcached-0.53 will not be installed. Continuing...\n")
+            print "libmemcached alternate installation found in /usr/local/lib\n"
+            print "The user should check that this alternate installation is libmemcached-0.53.\n"
+            print "libmemcached-0.53 will not be installed. Continuing...\n"
+        elif libmemcached053_installed is False:
+            if libmemcached_installed:
+                logfile.write("libmemcached will be removed.\n")
+                print "libmemcached will be removed.\n"
+                remove_libmemcached_command = "yum remove -y libmemcached-devel"
+                logfile.write(remove_libmemcached_command + "\n")
+                print remove_libmemcached_command + "\n"
+                remove_libmemcached_result = run_command(remove_libmemcached_command, logfile, "Removal of libmemcached package")
+                success = removed_libmemcached_result[0]
+                logfile = removed_libmemcached_result[1]
+                if not success:
+                    return logfile
+                
+                libmemcached_installed = rpm_check("libmemcached-devel")
+                if libmemcached_installed:
+                    logfile.write("Failed to remove default version of libmemcached.\n")
+                    print "Failed to remove default version of libmemcached.\n"
+                    end_time = termination_string()
+                    logfile.write(end_time)
+                    return logfile
+                else:
+                    logfile.write("Successfully removed default version of libmemcached.\n")
+                    print "Successfully removed default version of libmemcached."
+            # If libmemcached is not installed, there is no need to uninstall it, so the installation can continue.
+            logfile.write("libmemcached-0.53 will be built and installed.\n")
+            print "libmemcached-0.53 will be built and installed."
+            # Switch to downloads directory
+            download_dir = os.path.normpath(os.path.dirname(os.path.realpath(__file__)) + os.sep + os.pardir + os.sep + "download")
+            logfile.write("Switching to downloads directory: %s" % download_dir)
+            print "Switching to downloads directory: %s" % download_dir
+            os.chdir(download_dir)
+            logfile.write("Operation succeeded.\n")
+            print "Operation succeeded.\n"
+            
+            # wget libmemcached-0.53
+            wget_command = "wget http://launchpad.net/libmemcached/1.0/0.53/+download/libmemcached-0.53.tar.gz --no-check-certificate"
+            wget_command_result = run_command(wget_command, logfile, "Download of libmemcached-0.53.tar.gz")
+            success = wget_command_result[0]
+            logfile = wget_command_result[1]
             if not success:
                 return logfile
             
-            libmemcached_installed = rpm_check("libmemcached-devel")
-            if libmemcached_installed:
-                logfile.write("Failed to remove default version of libmemcached.\n")
-                print "Failed to remove default version of libmemcached.\n"
-                end_time = termination_string()
-                logfile.write(end_time)
+            # Extract libmemcached-0.53
+            logfile.write("Extracting libmemcached-0.53.\n")
+            print "Extracting libmemcached-0.53.\n"
+            tar_command = "tar xzvf libmemcached-0.53.tar.gz"
+            tar_command_result = run_command(tar_command, logfile, "Extraction of libmemcached-0.53")
+            success = tar_command_result[0]
+            logfile = tar_command_result[1]
+            if not success:
                 return logfile
-            else:
-                logfile.write("Successfully removed default version of libmemcached.\n")
-                print "Successfully removed default version of libmemcached."
-        # If libmemcached is not installed, there is no need to uninstall it, so the installation can continue.
-        logfile.write("libmemcached-0.53 will be built and installed.\n")
-        print "libmemcached-0.53 will be built and installed."
-        # Switch to downloads directory
-        download_dir = os.path.normpath(os.path.dirname(os.path.realpath(__file__)) + os.sep + os.pardir + os.sep + "download")
-        logfile.write("Switching to downloads directory: %s" % download_dir)
-        print "Switching to downloads directory: %s" % download_dir
-        os.chdir(download_dir)
-        logfile.write("Operation succeeded.\n")
-        print "Operation succeeded.\n"
-        
-        # wget libmemcached-0.53
-        wget_command = "wget http://launchpad.net/libmemcached/1.0/0.53/+download/libmemcached-0.53.tar.gz --no-check-certificate"
-        wget_command_result = run_command(wget_command, logfile, "Download of libmemcached-0.53.tar.gz")
-        success = wget_command_result[0]
-        logfile = wget_command_result[1]
-        if not success:
-            return logfile
-        
-        # Extract libmemcached-0.53
-        logfile.write("Extracting libmemcached-0.53.\n")
-        print "Extracting libmemcached-0.53.\n"
-        tar_command = "tar xzvf libmemcached-0.53.tar.gz"
-        tar_command_result = run_command(tar_command, logfile, "Extraction of libmemcached-0.53")
-        success = tar_command_result[0]
-        logfile = tar_command_result[1]
-        if not success:
-            return logfile
-        
-        # Take ownership of extracted directory
-        extracted_dir = os.getcwd() + os.sep + "libmemcached-0.53"
-        logfile.write("Changing ownership of %s to current user\n" % extracted_dir)
-        print "Changing ownership of %s to current user\n" % extracted_dir
-        uname = os.getuid()
-        os.chown(extracted_dir, uname, -1)
-        logfile.write("Operation succeeded.\n")
-        print ("Operation succeeded.\n")
-        
-        # Change to extracted directory
-        logfile.write("Switching to %s\n" % extracted_dir)
-        print "Switching to %s\n" % extracted_dir
-        os.chdir(extracted_dir)
-        logfile.write("Working directory is now %s\n" % os.getcwd())
-        print "Working directory is now %s\n" % os.getcwd()
-        logfile.write("Operation succeeded\n.")
-        print ("Operation succeeded\n.")
-        
-        # ./configure
-        logfile.write("Running ./configure for libmemcached-0.53.\n")
-        print "Running ./configure for  libmemcached-0.53.\n"
-        lm_configure_command = "./configure"
-        lm_configure_result = run_command(lm_configure_command, logfile, "Extraction of libmemcached-0.53")
-        success = lm_configure_result[0]
-        logfile = lm_configure_result[1]
-        if not success:
-            return logfile
-        
-        # make
-        logfile.write("Running make for libmemcached-0.53.\n")
-        print "Running make for  libmemcached-0.53.\n"
-        lm_make_command = "make"
-        lm_make_result = run_command(lm_make_command, logfile, "Extraction of libmemcached-0.53")
-        success = lm_make_result[0]
-        logfile = lm_make_result[1]
-        if not success:
-            return logfile
-        
-        # make install
-        logfile.write("Running make install for libmemcached-0.53.\n")
-        print "Running make install for  libmemcached-0.53.\n"
-        lm_install_command = "make install"
-        lm_install_result = run_command(lm_install_command, logfile, "Extraction of libmemcached-0.53")
-        success = lm_install_result[0]
-        logfile = lm_install_result[1]
-        if not success:
-            return logfile
-        
-        # Check libmemcached installation
-        libmemcached053_installed = libmemcached053_check()
-        if libmemcached053_installed:
-            logfile.write("libmemcached-0.53 installed successfully.\n")
-            print "libmemcached-0.53 installed successfully.\n"
-            # Flush the buffer and force a write to disk
-            logfile.flush()
-            os.fsync(logfile)
-        else:
-            error1 = "Error: Could not find libmemcached.so in /usr/local/lib.\n"
-            error2 = "libmemcached-0.53 may not have installed properly.\n"
-            logfile.write(error1)
-            logfile.write(error2)
-            print error1
-            print error2
-            end_time = termination_string()
-            logfile.write(end_time)
-            print end_time
-            return logfile
-        # End of libmemcached installation code
-    # Check for pgdg91 repo
-    if postgresql91_repo:
-        repo_string = "The repository at http://yum.postgresql.org/9.1/redhat/rhel-6-x86_64/pgdg-redhat91-9.1-5.noarch.rpm is already installed.\n"
-        logfile.write(repo_string)
-        print repo_string
-    else:
-        # Install Postgresql RPM
-        logfile.write("Adding the PostgreSQL 9.1 repo pgdg91...\n")
-        print "Adding the PostgreSQL 9.1 repo pgdg91...\n"
-        pg_repo_command = "rpm -i http://yum.postgresql.org/9.1/redhat/rhel-6-x86_64/pgdg-redhat91-9.1-5.noarch.rpm"
-        logfile.write(pg_repo_command + "\n")
-        print pg_repo_command + "\n"
-        repo_tuple = commands.getstatusoutput(pg_repo_command)
-        status = repo_tuple[0]
-        output = repo_tuple[1]
-        # Print output line by line
-        output2 = output.split("\n")
-        for line in output2:
-            logfile.write(line + "\n")
-            print line + "\n"
-        if status == 0:
-            rpm_installed = postgresql91_repocheck()
-            if rpm_installed:
-                logfile.write("pgdg91 repo installed successfully.\n")
-                print "pgdg91 repo installed successfully.\n"
-                # Flush the buffer and force a write to disk after each successful installation
+            
+            # Take ownership of extracted directory
+            extracted_dir = os.getcwd() + os.sep + "libmemcached-0.53"
+            logfile.write("Changing ownership of %s to current user\n" % extracted_dir)
+            print "Changing ownership of %s to current user\n" % extracted_dir
+            uname = os.getuid()
+            os.chown(extracted_dir, uname, -1)
+            logfile.write("Operation succeeded.\n")
+            print ("Operation succeeded.\n")
+            
+            # Change to extracted directory
+            logfile.write("Switching to %s\n" % extracted_dir)
+            print "Switching to %s\n" % extracted_dir
+            os.chdir(extracted_dir)
+            logfile.write("Working directory is now %s\n" % os.getcwd())
+            print "Working directory is now %s\n" % os.getcwd()
+            logfile.write("Operation succeeded\n.")
+            print ("Operation succeeded\n.")
+            
+            # ./configure
+            logfile.write("Running ./configure for libmemcached-0.53.\n")
+            print "Running ./configure for  libmemcached-0.53.\n"
+            lm_configure_command = "./configure"
+            lm_configure_result = run_command(lm_configure_command, logfile, "Extraction of libmemcached-0.53")
+            success = lm_configure_result[0]
+            logfile = lm_configure_result[1]
+            if not success:
+                return logfile
+            
+            # make
+            logfile.write("Running make for libmemcached-0.53.\n")
+            print "Running make for  libmemcached-0.53.\n"
+            lm_make_command = "make"
+            lm_make_result = run_command(lm_make_command, logfile, "Extraction of libmemcached-0.53")
+            success = lm_make_result[0]
+            logfile = lm_make_result[1]
+            if not success:
+                return logfile
+            
+            # make install
+            logfile.write("Running make install for libmemcached-0.53.\n")
+            print "Running make install for  libmemcached-0.53.\n"
+            lm_install_command = "make install"
+            lm_install_result = run_command(lm_install_command, logfile, "Extraction of libmemcached-0.53")
+            success = lm_install_result[0]
+            logfile = lm_install_result[1]
+            if not success:
+                return logfile
+            
+            # Check libmemcached installation
+            libmemcached053_installed = libmemcached053_check()
+            if libmemcached053_installed:
+                logfile.write("libmemcached-0.53 installed successfully.\n")
+                print "libmemcached-0.53 installed successfully.\n"
+                # Flush the buffer and force a write to disk
                 logfile.flush()
                 os.fsync(logfile)
             else:
+                error1 = "Error: Could not find libmemcached.so in /usr/local/lib.\n"
+                error2 = "libmemcached-0.53 may not have installed properly.\n"
+                logfile.write(error1)
+                logfile.write(error2)
+                print error1
+                print error2
+                end_time = termination_string()
+                logfile.write(end_time)
+                print end_time
+                return logfile
+        # End of libmemcached-0.53 installation code
+        
+        # Check for pgdg91 repo
+        if postgresql91_repo:
+            repo_string = "The repository at http://yum.postgresql.org/9.1/redhat/rhel-6-x86_64/pgdg-redhat91-9.1-5.noarch.rpm is already installed.\n"
+            logfile.write(repo_string)
+            print repo_string
+        else:
+            # Install Postgresql RPM
+            logfile.write("Adding the PostgreSQL 9.1 repo pgdg91...\n")
+            print "Adding the PostgreSQL 9.1 repo pgdg91...\n"
+            pg_repo_command = "rpm -i http://yum.postgresql.org/9.1/redhat/rhel-6-x86_64/pgdg-redhat91-9.1-5.noarch.rpm"
+            logfile.write(pg_repo_command + "\n")
+            print pg_repo_command + "\n"
+            repo_tuple = commands.getstatusoutput(pg_repo_command)
+            status = repo_tuple[0]
+            output = repo_tuple[1]
+            # Print output line by line
+            output2 = output.split("\n")
+            for line in output2:
+                logfile.write(line + "\n")
+                print line + "\n"
+            if status == 0:
+                rpm_installed = postgresql91_repocheck()
+                if rpm_installed:
+                    logfile.write("pgdg91 repo installed successfully.\n")
+                    print "pgdg91 repo installed successfully.\n"
+                    # Flush the buffer and force a write to disk after each successful installation
+                    logfile.flush()
+                    os.fsync(logfile)
+                else:
+                    logfile.write("PostgreSQL 9.1 repo failed to install.\n")
+                    print "PostgreSQL 9.1 repo failed to install.\n"
+                    end_time = termination_string()
+                    logfile.write(end_time)
+                    print end_time
+                    return logfile
+            elif status == 1:
                 logfile.write("PostgreSQL 9.1 repo failed to install.\n")
                 print "PostgreSQL 9.1 repo failed to install.\n"
                 end_time = termination_string()
                 logfile.write(end_time)
                 print end_time
                 return logfile
-        elif status == 1:
-            logfile.write("PostgreSQL 9.1 repo failed to install.\n")
-            print "PostgreSQL 9.1 repo failed to install.\n"
-            end_time = termination_string()
-            logfile.write(end_time)
-            print end_time
-            return logfile
-    
-    # postgresql91-server
-    if postgresql91_server_installed:
-        logfile.write("postgresql91-server is already installed.\n")
-        print "postgresql91-server is already installed.\n"
-    else:
-        postgres91_result = yum_install("postgresql91-server", logfile)
-        success = postgres91_result[0]
-        logfile = postgres91_result[1]
-        if not success:
-            return logfile
-    
-    # postgresql-91-contrib
-    if postgresql91_contrib_installed:
-        logfile.write("postgresql91-contrib is already installed.\n")
-        print "postgresql91-contrib is already installed.\n"   
-    else:
-        postgres91_contrib_result = yum_install("postgresql91-contrib", logfile)
-        success = postgres91_contrib_result[0]
-        logfile = postgres91_contrib_result[1]
-        if not success:
-            return logfile
-    
-    # postgresql91-devel
-    if postgresql91devel_installed:
-        logfile.write("postgresql91-devel is already installed.\n")
-        print "postgresql91-devel is already installed.\n"   
-    else:
-        postgres91_devel_result = yum_install("postgresql91-devel", logfile)
-        success = postgres91_devel_result[0]
-        logfile = postgres91_devel_result[1]
-        if not success:
-            return logfile
-    
-    # zlib-devel
-    if zlib_devel_installed:
-        logfile.write("zlib-devel is already installed.\n")
-        print "zlib-devel is already installed.\n"   
-    else:
-        zlib_devel_result = yum_install("zlib-devel", logfile)
-        success = zlib_devel_result[0]
-        logfile = zlib_devel_result[1]
-        if not success:
-            return logfile
         
-    logfile.write("RHEL x64 installation script completed successfully.\n")
-    print "RHEL x64 installation script completed successfully.\n"
-    end_time = termination_string()
-    logfile.write(end_time)
-    print end_time
-    return logfile
+        # postgresql91-server
+        if postgresql91_server_installed:
+            logfile.write("postgresql91-server is already installed.\n")
+            print "postgresql91-server is already installed.\n"
+        else:
+            postgres91_result = yum_install("postgresql91-server", logfile)
+            success = postgres91_result[0]
+            logfile = postgres91_result[1]
+            if not success:
+                return logfile
+        
+        # postgresql-91-contrib
+        if postgresql91_contrib_installed:
+            logfile.write("postgresql91-contrib is already installed.\n")
+            print "postgresql91-contrib is already installed.\n"   
+        else:
+            postgres91_contrib_result = yum_install("postgresql91-contrib", logfile)
+            success = postgres91_contrib_result[0]
+            logfile = postgres91_contrib_result[1]
+            if not success:
+                return logfile
+        
+        # postgresql91-devel
+        if postgresql91devel_installed:
+            logfile.write("postgresql91-devel is already installed.\n")
+            print "postgresql91-devel is already installed.\n"   
+        else:
+            postgres91_devel_result = yum_install("postgresql91-devel", logfile)
+            success = postgres91_devel_result[0]
+            logfile = postgres91_devel_result[1]
+            if not success:
+                return logfile
+        
+        # zlib-devel
+        if zlib_devel_installed:
+            logfile.write("zlib-devel is already installed.\n")
+            print "zlib-devel is already installed.\n"   
+        else:
+            zlib_devel_result = yum_install("zlib-devel", logfile)
+            success = zlib_devel_result[0]
+            logfile = zlib_devel_result[1]
+            if not success:
+                return logfile
+            
+        logfile.write("RHEL x64 installation script completed successfully.\n")
+        print "RHEL x64 installation script completed successfully.\n"
+        end_time = termination_string()
+        logfile.write(end_time)
+        print end_time
+        return logfile
