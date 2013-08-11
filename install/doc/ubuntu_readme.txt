@@ -63,8 +63,7 @@ The install/ folder contains the ubuntu_installer.py script.
 Usage of ubuntu_installer.py:
 -------------------------------------------------------------------------------
 ./ubuntu_installer.py < --dependencies | --pip | --initialize_instance | 
-                        --update_instance > --os < ubuntu > 
-                        --arch < x86 | x64 >
+                        --update_instance > --arch < x86 | x64 >
                         
 All options require Python 2.7.3 or higher (but not Python 3) to run.
     
@@ -74,13 +73,11 @@ All options require Python 2.7.3 or higher (but not Python 3) to run.
     --pip: Runs "pip install -r requirements.txt." The requirements.txt file 
       is located in the top-level makahiki directory.
 
-    --initialize_instance: Initializes the Makahiki instance with default 
-      options.
+    --initialize_instance: Runs the makahiki/scripts/initialize_instance.py 
+      script with default options.
 
     --update_instance: Runs the makahiki/scripts/update_instance.py script 
       with default options.
-    
-    --os: This script supports ubuntu (Ubuntu Linux).
     
     --arch: This script supports Ubuntu x86 and x64 architectures.
 -------------------------------------------------------------------------------
@@ -123,10 +120,10 @@ Switch to your top-level makahiki directory:
 Run the script with the options specified for your operating system:
 
 Ubuntu x86:
-% sudo ./install/ubuntu_installer.py --dependencies --os ubuntu --arch x86
+% sudo ./install/ubuntu_installer.py --dependencies --arch x86
 
 Ubuntu x64:
-% sudo ./install/ubuntu_installer.py --dependencies --os ubuntu --arch x86
+% sudo ./install/ubuntu_installer.py --dependencies --arch x64
 
 The script installs these packages and their dependencies:
 - git
@@ -236,10 +233,10 @@ Switch to the makahiki directory:
 Run the script with the options specified for your operating system:
 
 Ubuntu x86:
-% ./install/ubuntu_installer.py --pip --os ubuntu --arch x86
+% ./install/ubuntu_installer.py --pip --arch x86
 
 Ubuntu x64:
-% ./install/ubuntu_installer.py --pip --os ubuntu --arch x64
+% ./install/ubuntu_installer.py --pip --arch x64
 
 The list of packages that this step will attempt to install with pip are 
 listed in the makahiki/requirements.txt file.
@@ -306,10 +303,10 @@ makahiki/makahiki/scripts/initialize_instance.py script with
 Run the script with the options specified for your operating system:
 
 Ubuntu x86:
-% ./install/ubuntu_installer.py --initialize_instance --os ubuntu --arch x86
+% ./install/ubuntu_installer.py --initialize_instance --arch x86
 
 Ubuntu x64:
-% ./install/ubuntu_installer.py --initialize_instance --os ubuntu --arch x64
+% ./install/ubuntu_installer.py --initialize_instance --arch x64
 
 You will need to answer "Y" to the question "Do you wish to continue (Y/n)?"
 
@@ -362,10 +359,10 @@ following steps:
 Run the script with the options specified for your operating system:
 
 Ubuntu x86:
-% python ./install/ubuntu_installer.py --update_instance --os ubuntu --arch x86
+% python ./install/ubuntu_installer.py --update_instance --arch x86
 
 Ubuntu x64:
-% python ./install/ubuntu_installer.py --update_instance --os ubuntu --arch x64
+% python ./install/ubuntu_installer.py --update_instance --arch x64
 
 The script will create a log file in makahiki/install/logs with a filename of 
 the format "install_update_instance_<timestamp>.log," where <timestamp> is 

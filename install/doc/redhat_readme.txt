@@ -130,7 +130,7 @@ redhat_installer.py script. It is used to install dependencies for Makahiki.
 Usage of redhat_installer.py:
 -------------------------------------------------------------------------------
 ./redhat_installer.py < --dependencies | --pip | --initialize_instance | 
-                        --update_instance > --os < redhat > --arch < x64 >
+                        --update_instance > --arch < x64 >
     
 All options require Python 2.7.3 or higher (but not Python 3) to run.
     
@@ -144,8 +144,6 @@ All options require Python 2.7.3 or higher (but not Python 3) to run.
 
     --update_instance: Runs the makahiki/scripts/update_instance.py script 
       with default options.
-    
-    --os: Only redhat (RHEL 6) is supported by this script.
     
     --arch: For RHEL 6, only the x64 architecture is currently supported.
 -------------------------------------------------------------------------------
@@ -185,7 +183,7 @@ Switch to your top-level makahiki directory:
 
 Run the script as specified:
 -------------------------------------------------------------------------------
-% sudo ./install/redhat_installer.py --dependencies --os redhat --arch x64
+% sudo ./install/redhat_installer.py --dependencies --arch x64
 -------------------------------------------------------------------------------
 The script installs these packages and their dependencies, if they are not 
 already installed:
@@ -396,7 +394,7 @@ psycopg2 module.
 
 Run the script as specified:
 -------------------------------------------------------------------------------
-% ./install/redhat_installer.py --pip --os redhat --arch x64
+% ./install/redhat_installer.py --pip --arch x64
 -------------------------------------------------------------------------------
 The list of packages that this step will attempt to install with pip are 
 listed in the makahiki/requirements.txt file.
@@ -469,7 +467,7 @@ makahiki/makahiki/scripts/initialize_instance.py script with
 
 Run the script as specified:
 -------------------------------------------------------------------------------
-% ./install/redhat_installer.py --initialize_instance --os redhat --arch x64
+% ./install/redhat_installer.py --initialize_instance --arch x64
 -------------------------------------------------------------------------------
 
 You will need to answer "Y" to the question "Do you wish to continue (Y/n)?"
@@ -590,7 +588,7 @@ following steps:
 
 (4.) Run the redhat_installer.py script with --update_instance:
 -------------------------------------------------------------------------------
-% python ./install/redhat_installer.py --update_instance --os redhat --arch x64
+% python ./install/redhat_installer.py --update_instance --arch x64
 -------------------------------------------------------------------------------
 
 The script will create a log file in makahiki/install/logs with a filename of 
