@@ -286,13 +286,14 @@ export MAKAHIKI_DATABASE_URL=postgres://makahiki:makahiki@localhost:5432/makahik
 # Syntax: <admin_name>:<admin_password>
 export MAKAHIKI_ADMIN_INFO=admin:admin
 -------------------------------------------------------------------------------
-Production instances of Makahiki should change the <admin_password> to something 
-other than "admin."
+Production instances of Makahiki should change the <admin_password> to 
+something other than "admin."
 
-You will need to do "workon makahiki" after you have edited the postactivate file
-for the changes to take effect:
-
+You will need to do "workon makahiki" after you have edited the postactivate 
+file for the changes to take effect:
+-------------------------------------------------------------------------------
 % workon makahiki
+-------------------------------------------------------------------------------
 ===============================================================================
 
 1.1.7. Initialize Makahiki
