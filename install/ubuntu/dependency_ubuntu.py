@@ -64,6 +64,22 @@ def virtualenvwrapper_check():
         compare_result = False
     return compare_result
 
+def libmemcached053_check():
+    """
+    Checks for the existence of the libmemcached.so library in 
+    /usr/local/lib, which is where this script installs 
+    libmemcached-0.53 after building it.
+    """
+    result = False
+    try:
+        # The libmemcached-0.53 install is not a dpkg and must be checked another way
+        libmemcached053_installed = os.stat("/usr/local/lib/libmemcached.so")
+        if libmemcached053_installed:
+            result = True
+    except OSError as libmemcached_error:
+        result = False
+    return result
+
 def termination_string():
     """
     Gets the current system time and appends it to a termination notice.
@@ -80,6 +96,131 @@ def current_time():
     now = datetime.datetime.now()
     time = now.strftime("%Y-%m-%d %H:%M:%S:%f")
     return time
+
+def apt_get_install(packagename, logfile):
+    """
+    Installs <packagename> with "apt-get install -y <packagename>" and then 
+    checks whether or not the package installed correctly. Output is logged to 
+    the logfile.
+    
+    Parameters:
+        1. packagename: A string with the name of the package to be installed.
+        2. logfile: The file to write output to.
+    Returns a tuple, result:
+    result[0] is True if the installation succeeded and False if it did not.
+    result[1] is a reference to the logfile passed in as parameter 2.
+    """
+    success = False
+    logfile.write("%s will be installed.\n" % packagename)
+    print ("%s will be installed.\n" % packagename)
+    logfile.write("yum install -y %s\n" % packagename)
+    print "yum install -y %s\n" % packagename
+    try:
+        output = subprocess.check_output(shlex.split("apt-get install -y %s" % packagename), stderr=subprocess.STDOUT)
+        logfile.write(output + "\n")
+        print output
+        # Check if RPM was installed
+        is_installed = dpkg_check(packagename)
+        if is_installed:
+            logfile.write("%s installed successfully.\n" % packagename)
+            print "%s installed successfully.\n" % packagename
+            # Flush the buffer and force a write to disk after each successful installation
+            logfile.flush()
+            os.fsync(logfile)
+            success = True
+        else:
+            logfile.write("Package %s failed to install.\n" % packagename)
+            print "Package %s failed to install.\n" % packagename
+            end_time = termination_string()
+            logfile.write(end_time)
+            print end_time
+            success = False
+        return [success, logfile]
+    except CalledProcessError as cpe:
+        # Print and log the error message
+        logfile.write("CalledProcessError: ")
+        print "CalledProcessError: "
+        logfile.write(cpe.output)
+        print cpe.output
+        closing = "\nPackage %s failed to install.\n" % packagename
+        logfile.write(closing)
+        print closing
+        end_time = termination_string()
+        logfile.write(end_time)
+        print end_time
+        success = False
+        return [success, logfile]
+    except OSError as ose:
+        logfile.write("OSError: ")
+        print "OSError: "
+        oserror_output = " errno: %s\n filename: %s\n strerror: %s\n" % (ose.errno, ose.filename, ose.strerror) 
+        logfile.write(oserror_output)
+        print oserror_output
+        closing = "\nPackage %s failed to install.\n" % command
+        logfile.write(closing)
+        print closing
+        end_time = termination_string()
+        logfile.write(end_time)
+        print end_time
+        success = False
+        return [success, logfile] 
+
+def run_command(command, logfile, message="Operation"):
+    """
+    Executes <command> and logs its output to <logfile> with <message>.
+    Note that this does not log the console output of commands.
+    
+    Parameters:
+       1. command: The command to be executed.
+       2. logfile: The logfile to write output to.
+       3. message: The custom message. The output is: 
+          Output of success: <message> successful: <command>
+          Output of failure: <message> failed: <command>
+    Returns the tuple "result."
+    result[0] is True if the installation succeeded and False if it did not.
+    result[1] is a reference to the logfile passed in as parameter 2.
+    """
+    success = False
+    logfile.write("Attempting: " + command + "\n")
+    print "Attempting: " + command + "\n"
+    try:
+        output = subprocess.check_output(shlex.split(command), stderr=subprocess.STDOUT)
+        logfile.write(output + "\n")
+        print output
+        logfile.write("%s successful:\n%s\n" % (message, command))
+        print "%s successful:\n%s\n" % (message, command)
+        success = True
+    except CalledProcessError as cpe:
+        # Print and log the error message
+        logfile.write("CalledProcessError: ")
+        print "CalledProcessError: "
+        logfile.write(cpe.output)
+        print cpe.output
+        closing = "\n %s failed:\n" % command
+        logfile.write(closing)
+        print closing
+        end_time = termination_string()
+        logfile.write(end_time)
+        print end_time
+        success = False
+        return [success, logfile]
+    except OSError as ose:
+        logfile.write("OSError: ")
+        print "OSError: "
+        oserror_output = " errno: %s\n filename: %s\n strerror: %s\n" % (ose.errno, ose.filename, ose.strerror) 
+        logfile.write(oserror_output)
+        print oserror_output
+        closing = "\n%s failed:\n%s" % (message, command)
+        logfile.write(closing)
+        print closing
+        end_time = termination_string()
+        logfile.write(end_time)
+        print end_time
+        success = False
+
+    # Return result tuple
+    result = [success, logfile]
+    return result
 
 def run(arch, logfile):
     """
@@ -106,6 +247,11 @@ def run(arch, logfile):
     libpq_dev_installed = dpkg_check("libpq-dev")
     memcached_installed = dpkg_check("memcached")
     libmemcached_installed = dpkg_check("libmemcached-dev")
+    libmemcached053_installed = libmemcached053_check()
+    build_essential_installed = dpkg_check("build-essential")
+    gplusplus_installed = dpkg_check("g++")
+    libcloog_ppl_dev_installed = dpkg_check("libcloog-ppl-dev")
+    libcloog_ppl0_installed = dpkg_check("libcloog-ppl0")
     virtualenvwrapper_installed = virtualenvwrapper_check()
     
     # Write start time to file
@@ -130,7 +276,7 @@ def run(arch, logfile):
          postgresql-9.1,\n\
          libpq-dev,\n\
          memcached,\n\
-         libmemcached-dev,\n\
+         libmemcached-0.53,\n\
          virtualenvwrapper\n"
     logfile.write(dependencies_list)
     print dependencies_list
@@ -159,25 +305,13 @@ def run(arch, logfile):
             time = current_time()
             logfile.write("git installation started at %s.\n" % time)
             print "git installation started at %s.\n" % time
-            logfile.write("apt-get install -y git\n")
-            print "apt-get install -y git\n"
-            git_output = subprocess.check_output(["apt-get", "install", "-y", "git"], stderr=subprocess.STDOUT)
-            logfile.write(git_output)
-            print git_output
-            git_installed = dpkg_check("git")
-            if git_installed:
-                time = current_time()
-                logfile.write("git was successfully installed at %s.\n" % time())
-                print "git was successfully installed at %s.\n" % time()
-                # Flush the buffer and force a write to disk after each successful installation
-                logfile.flush()
-                os.fsync(logfile)
-            else:
-                logfile.write("Error: git failed to install.\n")
-                print "Error: git failed to install.\n"
-                end_time = termination_string()
-                logfile.write(end_time)
-                print end_time
+            git_result = apt_get_install("git", logfile)
+            success = git_result[0]
+            logfile = git_result[1]
+            time = current_time()
+            logfile.write("git installation finished at %s.\n" % time)
+            print "git installation finished at %s.\n" % time
+            if not success:
                 return logfile
             
         # gcc
@@ -188,25 +322,13 @@ def run(arch, logfile):
             time = current_time()
             logfile.write("gcc installation started at %s.\n" % time)
             print "gcc installation started at %s.\n" % time
-            logfile.write("apt-get install -y gcc\n")
-            print "apt-get install -y gcc\n"
-            gcc_output = subprocess.check_output(["apt-get", "install", "-y", "gcc"], stderr=subprocess.STDOUT)
-            logfile.write(gcc_output)
-            print gcc_output
-            gcc_installed = dpkg_check("gcc")
-            if gcc_installed:
-                time = current_time()
-                logfile.write("gcc was successfully installed at %s.\n" % time)
-                print "gcc was successfully installed at %s.\n" % time
-                # Flush the buffer and force a write to disk after each successful installation
-                logfile.flush()
-                os.fsync(logfile)
-            else:
-                logfile.write("Error: gcc failed to install.\n")
-                print "Error: gcc failed to install.\n"
-                end_time = termination_string()
-                logfile.write(end_time)
-                print end_time
+            gcc_result = apt_get_install("gcc", logfile)
+            success = gcc_result[0]
+            logfile = gcc_result[1]
+            time = current_time()
+            logfile.write("gcc installation finished at %s.\n" % time)
+            print "gcc installation finished at %s.\n" % time
+            if not success:
                 return logfile
             
         # python-setuptools
@@ -217,25 +339,13 @@ def run(arch, logfile):
             time = current_time()
             logfile.write("python-setuptools installation started at %s.\n" % time)
             print "python-setuptools installation started at %s.\n" % time
-            logfile.write("apt-get install -y python-setuptools\n")
-            print "apt-get install -y python-setuptools\n"
-            setuptools_output = subprocess.check_output(["apt-get", "install", "-y", "python-setuptools"], stderr=subprocess.STDOUT)
-            logfile.write(setuptools_output)
-            print setuptools_output
-            python_setuptools_installed = dpkg_check("python-setuptools")
-            if python_setuptools_installed:
-                time = current_time()
-                logfile.write("python-setuptools was successfully installed at %s.\n" % time)
-                print "python-setuptools was successfully installed at %s.\n" % time
-                # Flush the buffer and force a write to disk after each successful installation
-                logfile.flush()
-                os.fsync(logfile)
-            else:
-                logfile.write("Error: python-setuptools failed to install.\n")
-                print "Error: python-setuptools failed to install.\n"
-                end_time = termination_string()
-                logfile.write(end_time)
-                print end_time
+            python_setuptools_result = apt_get_install("python-setuptools", logfile)
+            success = python_setuptools_result[0]
+            logfile = python_setuptools_result[1]
+            time = current_time()
+            logfile.write("python-setuptools installation finished at %s.\n" % time)
+            print "python-setuptools installation finished at %s.\n" % time
+            if not success:
                 return logfile
             
         # pip
@@ -296,25 +406,13 @@ def run(arch, logfile):
             time = current_time()
             logfile.write("python-imaging installation started at %s.\n" % time)
             print "python-imaging installation started at %s.\n" % time
-            logfile.write("apt-get install -y python-imaging\n")
-            print "apt-get install -y python-imaging\n"
-            python_imaging_output = subprocess.check_output(["apt-get", "install", "-y",  "python-imaging"], stderr=subprocess.STDOUT)
-            logfile.write(python_imaging_output)
-            print python_imaging_output
-            python_imaging_installed = dpkg_check("python-imaging")
-            if python_imaging_installed:
-                time = current_time()
-                logfile.write("python-imaging was successfully installed at %s.\n" % time)
-                print "python-imaging was successfully installed at %s.\n" % time
-                # Flush the buffer and force a write to disk after each successful installation
-                logfile.flush()
-                os.fsync(logfile)
-            else:
-                logfile.write("Error: python-imaging failed to install.\n")
-                print "Error: python-imaging failed to install.\n"
-                end_time = termination_string()
-                logfile.write(end_time)
-                print end_time
+            python_imaging_result = apt_get_install("python-imaging", logfile)
+            success = python_imaging_result[0]
+            logfile = python_imaging_result[1]
+            time = current_time()
+            logfile.write("python-imaging installation finished at %s.\n" % time)
+            print "python-imaging installation finished at %s.\n" % time
+            if not success:
                 return logfile
             
         # python-dev
@@ -325,25 +423,13 @@ def run(arch, logfile):
             time = current_time()
             logfile.write("python-dev installation started at %s.\n" % time)
             print "python-dev installation started at %s.\n" % time
-            logfile.write("apt-get install -y python-dev\n")
-            print "apt-get install -y python-dev\n"
-            python_dev_output = subprocess.check_output(["apt-get", "install", "-y",  "python-dev"], stderr=subprocess.STDOUT)
-            logfile.write(python_dev_output)
-            print python_dev_output
-            python_dev_installed = dpkg_check("python-dev")
-            if python_dev_installed:
-                time = current_time()
-                logfile.write("python-dev was successfully installed at %s.\n" % time)
-                print "python-dev was successfully installed at %s.\n" % time
-                # Flush the buffer and force a write to disk after each successful installation
-                logfile.flush()
-                os.fsync(logfile)
-            else:
-                logfile.write("Error: python-dev failed to install.\n")
-                print "Error: python-dev failed to install.\n"
-                end_time = termination_string()
-                logfile.write(end_time)
-                print end_time
+            python_dev_result = apt_get_install("python-dev", logfile)
+            success = python_dev_result[0]
+            logfile = python_dev_result[1]
+            time = current_time()
+            logfile.write("python-dev installation finished at %s.\n" % time)
+            print "python-dev installation finished at %s.\n" % time
+            if not success:
                 return logfile
             
         # libjpeg-dev
@@ -354,25 +440,13 @@ def run(arch, logfile):
             time = current_time()
             logfile.write("libjpeg-dev installation started at %s.\n" % time)
             print "libjpeg-dev installation started at %s.\n" % time
-            logfile.write("apt-get install -y libjpeg-dev\n")
-            print "apt-get install -y libjpeg-dev\n"
-            libjpeg_dev_output = subprocess.check_output(["apt-get", "install", "-y",  "libjpeg-dev"], stderr=subprocess.STDOUT)
-            logfile.write(libjpeg_dev_output)
-            print libjpeg_dev_output
-            libjpeg_dev_installed = dpkg_check("libjpeg-dev")
-            if libjpeg_dev_installed:
-                time = current_time()
-                logfile.write("libjpeg-dev was successfully installed at %s.\n" % time)
-                print "libjpeg-dev was successfully installed at %s.\n" % time
-                # Flush the buffer and force a write to disk after each successful installation
-                logfile.flush()
-                os.fsync(logfile)
-            else:
-                logfile.write("Error: libjpeg-dev failed to install.\n")
-                print "Error: libjpeg-dev failed to install.\n"
-                end_time = termination_string()
-                logfile.write(end_time)
-                print end_time
+            libjpeg_dev_result = apt_get_install("libjpeg-dev", logfile)
+            success = libjpeg_dev_result[0]
+            logfile = libjpeg_dev_result[1]
+            time = current_time()
+            logfile.write("libjpeg-dev installation finished at %s.\n" % time)
+            print "libjpeg-dev installation finished at %s.\n" % time
+            if not success:
                 return logfile
             
         # Check for shared libraries and configure symbolic links if needed
@@ -535,25 +609,13 @@ def run(arch, logfile):
             time = current_time()
             logfile.write("postgresql-9.1 installation started at %s.\n" % time)
             print "postgresql-9.1 installation started at %s.\n" % time
-            logfile.write("apt-get install -y postgresql-9.1\n")
-            print "apt-get install -y postgresql-9.1\n"
-            psql_output = subprocess.check_output(["apt-get", "install", "-y",  "postgresql-9.1"], stderr=subprocess.STDOUT)
-            logfile.write(psql_output)
-            print psql_output
-            postgresql91_installed = dpkg_check("postgresql-9.1")
-            if postgresql91_installed:
-                time = current_time()
-                logfile.write("postgresql-9.1 was successfully installed at %s.\n" % time)
-                print "postgresql-9.1 was successfully installed at %s.\n" % time
-                # Flush the buffer and force a write to disk after each successful installation
-                logfile.flush()
-                os.fsync(logfile)
-            else:
-                logfile.write("Error: postgresql-9.1 failed to install.\n")
-                print "Error: postgresql-9.1 failed to install.\n"
-                end_time = termination_string()
-                logfile.write(end_time)
-                print end_time
+            postgresql_91_result = apt_get_install("postgresql-9.1", logfile)
+            success = postgresql_91_result[0]
+            logfile = postgresql_91_result[1]
+            time = current_time()
+            logfile.write("postgresql-9.1 installation finished at %s.\n" % time)
+            print "postgresql-9.1 installation finished at %s.\n" % time
+            if not success:
                 return logfile
         
         #libpq-dev
@@ -564,25 +626,13 @@ def run(arch, logfile):
             time = current_time()
             logfile.write("libpq-dev installation started at %s.\n" % time)
             print "libpq-dev installation started at %s.\n" % time
-            logfile.write("apt-get install -y libpq-dev\n")
-            print "apt-get install -y libpq-dev\n"
-            libpq_dev_output = subprocess.check_output(["apt-get", "install", "-y",  "libpq-dev"], stderr=subprocess.STDOUT)
-            logfile.write(libpq_dev_output)
-            print libpq_dev_output
-            libpq_dev_installed = dpkg_check("libpq-dev")
-            if libpq_dev_installed:
-                time = current_time()
-                logfile.write("libpq-dev was successfully installed at %s.\n" % time)
-                print "libpq-dev was successfully installed at %s.\n" % time
-                # Flush the buffer and force a write to disk after each successful installation
-                logfile.flush()
-                os.fsync(logfile)
-            else:
-                logfile.write("Error: libpq-dev failed to install.\n")
-                print "Error: libpq-dev failed to install.\n"
-                end_time = termination_string()
-                logfile.write(end_time)
-                print end_time
+            libpq_dev_result = apt_get_install("libpq-dev", logfile)
+            success = libpq_dev_result[0]
+            logfile = libpq_dev_result[1]
+            time = current_time()
+            logfile.write("libpq-dev installation finished at %s.\n" % time)
+            print "libpq-dev installation finished at %s.\n" % time
+            if not success:
                 return logfile
             
         #memcached
@@ -593,56 +643,241 @@ def run(arch, logfile):
             time = current_time()
             logfile.write("memcached installation started at %s.\n" % time)
             print "memcached installation started at %s.\n" % time
-            logfile.write("apt-get install -y memcached\n")
-            print "apt-get install -y memcached\n"
-            memcached_output = subprocess.check_output(["apt-get", "install", "-y",  "memcached"], stderr=subprocess.STDOUT)
-            logfile.write(memcached_output)
-            print memcached_output
-            memcached_installed = dpkg_check("memcached")
-            if memcached_installed:
-                time = current_time()
-                logfile.write("memcached was successfully installed at %s.\n" % time)
-                print "memcached was successfully installed at %s.\n" % time
-                # Flush the buffer and force a write to disk after each successful installation
-                logfile.flush()
-                os.fsync(logfile)
-            else:
-                logfile.write("Error: memcached failed to install.\n")
-                print "Error: memcached failed to install.\n"
-                end_time = termination_string()
-                logfile.write(end_time)
-                print end_time
+            memcached_result = apt_get_install("memcached", logfile)
+            success = memcached_result[0]
+            logfile = memcached_result[1]
+            time = current_time()
+            logfile.write("memcached installation finished at %s.\n" % time)
+            print "memcached installation finished at %s.\n" % time
+            if not success:
                 return logfile
     
-        #libmemcached-dev
-        if libmemcached_installed:
-            logfile.write("libmemcached-dev is already installed.\n")
-            print "libmemcached-dev is already installed.\n"
-        else:
-            time = current_time()
-            logfile.write("libmemcached-dev installation started at %s.\n" % time)
-            print "libmemcached-dev installation started at %s.\n" % time
-            logfile.write("apt-get install -y libmemcached-dev\n")
-            print "apt-get install -y libmemcached-dev\n"
-            libmemcached_output = subprocess.check_output(["apt-get", "install", "-y",  "libmemcached-dev"], stderr=subprocess.STDOUT)
-            logfile.write(libmemcached_output)
-            print libmemcached_output
-            libmemcached_installed = dpkg_check("libmemcached-dev")
+        #libmemcached-dev  # TODO: Replace with libmemcached-0.53
+        #if libmemcached_installed:
+        #    logfile.write("libmemcached-dev is already installed.\n")
+        #    print "libmemcached-dev is already installed.\n"
+        #else:
+        #    time = current_time()
+        #    logfile.write("libmemcached-dev installation started at %s.\n" % time)
+        #    print "libmemcached-dev installation started at %s.\n" % time
+        #    logfile.write("apt-get install -y libmemcached-dev\n")
+        #    print "apt-get install -y libmemcached-dev\n"
+        #    libmemcached_output = subprocess.check_output(["apt-get", "install", "-y",  "libmemcached-dev"], stderr=subprocess.STDOUT)
+        #    logfile.write(libmemcached_output)
+        #    print libmemcached_output
+        #    libmemcached_installed = dpkg_check("libmemcached-dev")
+        #    if libmemcached_installed:
+        #        time = current_time()
+        #        logfile.write("libmemcached-dev was successfully installed at %s.\n" % time)
+        #        print "libmemcached-dev was successfully installed at %s.\n" % time
+        #        # Flush the buffer and force a write to disk after each successful installation
+        #        logfile.flush()
+        #        os.fsync(logfile)
+        #    else:
+        #        logfile.write("Error: libmemcached-dev failed to install.\n")
+        #        print "Error: libmemcached-dev failed to install.\n"
+        #        end_time = termination_string()
+        #        logfile.write(end_time)
+        #        print end_time
+        #        return logfile
+        
+        # Beginning of libmemcached-0.53 installation code
+        if libmemcached053_installed:
+            logfile.write("libmemcached alternate installation found in /usr/local/lib\n")
+            logfile.write("The user should check that this alternate installation is libmemcached-0.53.\n")
+            logfile.write("libmemcached-0.53 will not be installed. Continuing...\n")
+            print "libmemcached alternate installation found in /usr/local/lib\n"
+            print "The user should check that this alternate installation is libmemcached-0.53.\n"
+            print "libmemcached-0.53 will not be installed. Continuing...\n"
+        elif libmemcached053_installed is False:
             if libmemcached_installed:
+                logfile.write("libmemcached-dev will be removed.\n")
+                print "libmemcached-dev will be removed.\n"
+                remove_libmemcached_command = "apt-get remove -y libmemcached-dev"
+                logfile.write(remove_libmemcached_command + "\n")
+                print remove_libmemcached_command + "\n"
+                remove_libmemcached_result = run_command(remove_libmemcached_command, logfile, "Removal of libmemcached package")
+                success = removed_libmemcached_result[0]
+                logfile = removed_libmemcached_result[1]
+                if not success:
+                    return logfile
+                
+                libmemcached_installed = dpkg_check("libmemcached-dev")
+                if libmemcached_installed:
+                    logfile.write("Failed to remove default version of libmemcached-dev.\n")
+                    print "Failed to remove default version of libmemcached-dev.\n"
+                    end_time = termination_string()
+                    logfile.write(end_time)
+                    return logfile
+                else:
+                    logfile.write("Successfully removed default version of libmemcached-dev.\n")
+                    print "Successfully removed default version of libmemcached-dev."
+            # If libmemcached is not installed, there is no need to uninstall it, so the installation can continue.
+            logfile.write("libmemcached-0.53 will be built and installed.\n")
+            print "libmemcached-0.53 will be built and installed."
+            # Switch to downloads directory
+            download_dir = os.path.normpath(os.path.dirname(os.path.realpath(__file__)) + os.sep + os.pardir + os.sep + "download")
+            logfile.write("Switching to downloads directory: %s" % download_dir)
+            print "Switching to downloads directory: %s" % download_dir
+            os.chdir(download_dir)
+            logfile.write("Operation succeeded.\n")
+            print "Operation succeeded.\n"
+            
+            # build-essential
+            if build_essential_installed:
+                logfile.write("build-essential is already installed.\n")
+                print "build-essential is already installed.\n"
+            else:
                 time = current_time()
-                logfile.write("libmemcached-dev was successfully installed at %s.\n" % time)
-                print "libmemcached-dev was successfully installed at %s.\n" % time
-                # Flush the buffer and force a write to disk after each successful installation
+                logfile.write("build-essential installation started at %s.\n" % time)
+                print "build-essential installation started at %s.\n" % time
+                build_essential_result = apt_get_install("build-essential", logfile)
+                success = build_essential_result[0]
+                logfile = build_essential_result[1]
+                time = current_time()
+                logfile.write("build-essential installation finished at %s.\n" % time)
+                print "build-essential installation finished at %s.\n" % time
+                if not success:
+                    return logfile
+            
+            # g++
+            if gplusplus_installed:
+                logfile.write("g++ is already installed.\n")
+                print "g++ is already installed.\n"
+            else:
+                time = current_time()
+                logfile.write("g++ installation started at %s.\n" % time)
+                print "g++ installation started at %s.\n" % time
+                gplusplus_result = apt_get_install("g++", logfile)
+                success = gplusplus_result[0]
+                logfile = gplusplus_result[1]
+                time = current_time()
+                logfile.write("g++ installation finished at %s.\n" % time)
+                print "g++ installation finished at %s.\n" % time
+                if not success:
+                    return logfile
+            
+            # libcloog-ppl-dev
+            if libcloog_ppl_dev_installed:
+                logfile.write("libcloog-ppl-dev is already installed.\n")
+                print "libcloog-ppl-dev is already installed.\n"
+            else:
+                time = current_time()
+                logfile.write("libcloog-ppl-dev installation started at %s.\n" % time)
+                print "libcloog-ppl-dev installation started at %s.\n" % time
+                libcloog_ppl_dev_result = apt_get_install("libcloog-ppl-dev", logfile)
+                success = libcloog_ppl_dev_result[0]
+                logfile = libcloog_ppl_dev_result[1]
+                time = current_time()
+                logfile.write("libcloog-ppl-dev installation finished at %s.\n" % time)
+                print "libcloog-ppl-dev installation finished at %s.\n" % time
+                if not success:
+                    return logfile
+            
+            # libcloog-ppl0
+            if libcloog_ppl0_installed:
+                logfile.write("libcloog-ppl0 is already installed.\n")
+                print "libcloog-ppl0 is already installed.\n"
+            else:
+                time = current_time()
+                logfile.write("libcloog-ppl0 installation started at %s.\n" % time)
+                print "libcloog-ppl0 installation started at %s.\n" % time
+                libcloog_ppl0_result = apt_get_install("libcloog-ppl0", logfile)
+                success = libcloog_ppl0_result[0]
+                logfile = libcloog_ppl0_result[1]
+                time = current_time()
+                logfile.write("libcloog-ppl0 installation finished at %s.\n" % time)
+                print "libcloog-ppl0 installation finished at %s.\n" % time
+                if not success:
+                    return logfile
+            
+            # wget libmemcached-0.53
+            wget_command = "wget http://launchpad.net/libmemcached/1.0/0.53/+download/libmemcached-0.53.tar.gz --no-check-certificate"
+            wget_command_result = run_command(wget_command, logfile, "Download of libmemcached-0.53.tar.gz")
+            success = wget_command_result[0]
+            logfile = wget_command_result[1]
+            if not success:
+                return logfile
+            
+            # Extract libmemcached-0.53
+            logfile.write("Extracting libmemcached-0.53.\n")
+            print "Extracting libmemcached-0.53.\n"
+            tar_command = "tar xzvf libmemcached-0.53.tar.gz"
+            tar_command_result = run_command(tar_command, logfile, "Extraction of libmemcached-0.53")
+            success = tar_command_result[0]
+            logfile = tar_command_result[1]
+            if not success:
+                return logfile
+            
+            # Take ownership of extracted directory
+            extracted_dir = os.getcwd() + os.sep + "libmemcached-0.53"
+            logfile.write("Changing ownership of %s to current user\n" % extracted_dir)
+            print "Changing ownership of %s to current user\n" % extracted_dir
+            uname = os.getuid()
+            os.chown(extracted_dir, uname, -1)
+            logfile.write("Operation succeeded.\n")
+            print ("Operation succeeded.\n")
+            
+            # Change to extracted directory
+            logfile.write("Switching to %s\n" % extracted_dir)
+            print "Switching to %s\n" % extracted_dir
+            os.chdir(extracted_dir)
+            logfile.write("Working directory is now %s\n" % os.getcwd())
+            print "Working directory is now %s\n" % os.getcwd()
+            logfile.write("Operation succeeded\n.")
+            print ("Operation succeeded\n.")
+            
+            # ./configure
+            logfile.write("Running ./configure for libmemcached-0.53.\n")
+            print "Running ./configure for  libmemcached-0.53.\n"
+            lm_configure_command = "./configure"
+            lm_configure_result = run_command(lm_configure_command, logfile, "Extraction of libmemcached-0.53")
+            success = lm_configure_result[0]
+            logfile = lm_configure_result[1]
+            if not success:
+                return logfile
+            
+            # make
+            logfile.write("Running make for libmemcached-0.53.\n")
+            print "Running make for  libmemcached-0.53.\n"
+            lm_make_command = "make"
+            lm_make_result = run_command(lm_make_command, logfile, "Extraction of libmemcached-0.53")
+            success = lm_make_result[0]
+            logfile = lm_make_result[1]
+            if not success:
+                return logfile
+            
+            # make install
+            logfile.write("Running make install for libmemcached-0.53.\n")
+            print "Running make install for  libmemcached-0.53.\n"
+            lm_install_command = "make install"
+            lm_install_result = run_command(lm_install_command, logfile, "Extraction of libmemcached-0.53")
+            success = lm_install_result[0]
+            logfile = lm_install_result[1]
+            if not success:
+                return logfile
+            
+            # Check libmemcached installation
+            libmemcached053_installed = libmemcached053_check()
+            if libmemcached053_installed:
+                logfile.write("libmemcached-0.53 installed successfully.\n")
+                print "libmemcached-0.53 installed successfully.\n"
+                # Flush the buffer and force a write to disk
                 logfile.flush()
                 os.fsync(logfile)
             else:
-                logfile.write("Error: libmemcached-dev failed to install.\n")
-                print "Error: libmemcached-dev failed to install.\n"
+                error1 = "Error: Could not find libmemcached.so in /usr/local/lib.\n"
+                error2 = "libmemcached-0.53 may not have installed properly.\n"
+                logfile.write(error1)
+                logfile.write(error2)
+                print error1
+                print error2
                 end_time = termination_string()
                 logfile.write(end_time)
                 print end_time
                 return logfile
-            
+        # End of libmemcached-0.53 installation code
+        
         #virtualenvwrapper
         if virtualenvwrapper_installed:
             logfile.write("virtualenvwrapper is already installed.\n")

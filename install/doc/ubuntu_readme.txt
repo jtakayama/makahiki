@@ -152,7 +152,11 @@ The script installs these packages and their dependencies:
   - postgresql-9.1
   - libpq-dev
 - memcached
-- libmemcached-dev
+- build-essential
+- g++
+- libcloog-ppl-dev
+- libcloog-ppl0
+- libmemcached-0.53
 - virtualenvwrapper
 
 The script also appends lines to the end of the current user's .bashrc 
