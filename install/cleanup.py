@@ -13,6 +13,42 @@ def termination_string():
     end_time = "Script exiting at %s\n" % time
     return end_time
 
+def path_to_subdirectory(subdirectory):
+    """
+    Builds an absolute path to a subdirectory of the directory that this 
+    file exists in.
+    Parameters:
+        1. subdirectory: Name of directory in the same directory as this file. 
+    """
+    runpath = os.path.dirname(os.path.realpath(__file__))
+    pathdirs = runpath.split(os.sep)
+    assembled_path = ""
+    i = 0
+    while i < len(pathdirs):
+        if i == 0:
+            assembled_path = pathdirs[i]
+        else:
+            assembled_path = assembled_path + os.sep + pathdirs[i]
+        i = i + 1
+    downloads_dir = assembled_path + os.sep + subdirectory
+    return downloads_dir
+
+def build_item_list(path_to_directory, exclude_list):
+    """
+    Lists all items in a directory, except for items in exclude_list.
+    Parameters:
+        1. path_to_directory: The directory being listed.
+        2. exclude_list: Directories, files, etc. that are expected to be 
+           in the directory and need to be excluded from the listing.
+    """
+    item_list = []
+    all_files = os.listdir(path_to_directory)
+    # Build list of files. Exclude project file download_readme.txt
+    for entry in all_files:
+        if entry not in exclude_list:
+            item_list.append(path_to_directory + os.sep + entry)
+    return item_list
+
 def run(logfile):
     """
     Erases all files and directories in makahiki/install/download 
@@ -26,26 +62,8 @@ def run(logfile):
     logfile.write(start_time)
     print start_time
     try:
-        # Build file path to "download" directory based on location of this file
-        runpath = os.path.dirname(os.path.realpath(__file__))
-        pathdirs = runpath.split(os.sep)
-        assembled_path = ""
-        i = 0
-        # Assume the last part is the filename
-        while i < len(pathdirs):
-            if i == 0:
-                assembled_path = pathdirs[i]
-            else:
-                assembled_path = assembled_path + os.sep + pathdirs[i]
-            i = i + 1
-        downloads_dir = assembled_path + os.sep + "download"
-        all_files = os.listdir(downloads_dir)
-        j = len(all_files)
-        delete_list = []
-        # Build list of files. Exclude project file download_readme.txt
-        for entry in all_files:
-            if entry != "download_readme.txt":
-                delete_list.append(downloads_dir + os.sep + entry)
+        downloads_dir = path_to_subdirectory("download")
+        delete_list = build_item_list(downloads_dir,["download_readme.txt"])
         if len(delete_list) == 0:
             logfile.write("Nothing to remove.\n")
             print "Nothing to remove."
