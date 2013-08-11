@@ -48,8 +48,8 @@ def run(logfile):
         print "CalledProcessError: "
         logfile.write(cpe.output)
         print cpe.output
-        logfile.write("Warning: Makahiki instance update did not complete successfully.")
-        print "Warning: Makahiki instance update did not complete successfully."
+        logfile.write("Warning: Makahiki instance update did not complete successfully.\n")
+        print "Warning: Makahiki instance update did not complete successfully.\n"
         end_time = termination_string()
         logfile.write(end_time)
         print end_time
@@ -60,8 +60,8 @@ def run(logfile):
         oserror_output = " errno: %s\n filename: %s\n strerror: %s\n" % (ose.errno, ose.filename, ose.strerror) 
         logfile.write(oserror_output)
         print oserror_output
-        logfile.write("Warning: Makahiki instance update did not complete successfully.")
-        print "Warning: Makahiki instance update did not complete successfully."
+        logfile.write("Warning: Makahiki instance update did not complete successfully.\n")
+        print "Warning: Makahiki instance update did not complete successfully.\n"
         end_time = termination_string()
         logfile.write(end_time)
         print end_time
