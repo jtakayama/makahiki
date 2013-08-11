@@ -236,6 +236,7 @@ def run(arch, logfile):
     """
     
     # Boolean variables for each dependency
+    wget_installed = dpkg_check("wget")
     git_installed = dpkg_check("git")
     gcc_installed = dpkg_check("gcc")
     python_setuptools_installed = dpkg_check("python-setuptools")
@@ -266,6 +267,7 @@ def run(arch, logfile):
     
     # Confirm that the user wants to continue.
     dependencies_list = "This script will install these packages and their dependencies:\n\
+         wget,\n\
          git,\n\
          gcc,\n\
          python-setuptools,\n\
@@ -276,6 +278,10 @@ def run(arch, logfile):
          postgresql-9.1,\n\
          libpq-dev,\n\
          memcached,\n\
+         all packages in build-essential,\n\
+         g++,\n\
+         libcloog-ppl-dev,\n\
+         libcloog-ppl0,\n\
          libmemcached-0.53,\n\
          virtualenvwrapper\n"
     logfile.write(dependencies_list)
@@ -296,6 +302,23 @@ def run(arch, logfile):
         logfile.write("Do you wish to continue (Y/n)? %s\n" % value)
         logfile.write("Starting dependency installation for Ubuntu %s.\nChecking for dependencies...\n" % arch)
         print "Starting dependency installation for Ubuntu %s.\nChecking for dependencies...\n" % arch
+        
+        # wget
+        if wget_installed:
+            logfile.write("wget is already installed.\n")
+            print "wget is already installed.\n"
+        else:
+            time = current_time()
+            logfile.write("wget installation started at %s.\n" % time)
+            print "wget installation started at %s.\n" % time
+            wget_result = apt_get_install("wget", logfile)
+            success = wget_result[0]
+            logfile = wget_result[1]
+            time = current_time()
+            logfile.write("wget installation finished at %s.\n" % time)
+            print "wget installation finished at %s.\n" % time
+            if not success:
+                return logfile
         
         # git
         if git_installed:

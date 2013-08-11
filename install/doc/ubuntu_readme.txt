@@ -132,6 +132,7 @@ Ubuntu x64:
 -------------------------------------------------------------------------------
 
 The script installs these packages and their dependencies:
+- wget
 - git
 - gcc
 - python-setuptools
