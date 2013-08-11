@@ -201,6 +201,7 @@ already installed:
   - postgresql91-contrib
   - postgresql91-devel
 - memcached
+- Uninstalls libmemcached-devel if installed
 - libmemcached-0.53
 - zlib-devel
 

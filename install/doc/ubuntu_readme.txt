@@ -153,6 +153,7 @@ The script installs these packages and their dependencies:
   - postgresql-9.1
   - libpq-dev
 - memcached
+- Uninstalls libmemcached-dev if installed
 - build-essential
 - g++
 - libcloog-ppl-dev

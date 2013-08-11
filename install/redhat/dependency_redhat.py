@@ -84,6 +84,14 @@ def termination_string():
     end_time = "Script exiting at %s\n" % time
     return end_time
 
+def current_time():
+    """
+    Returns the current system time as a string.
+    """
+    now = datetime.datetime.now()
+    time = now.strftime("%Y-%m-%d %H:%M:%S:%f")
+    return time
+
 def yum_install(packagename, logfile):
     """
     Installs <packagename> with "yum install -y <packagename>" and then 
@@ -232,6 +240,8 @@ def run(arch, logfile):
     # Confirm that the user wants to continue.
     logfile.write("This script will add PostgreSQL's pgdg91 repository to the system.\n")
     print "This script will add PostgreSQL's pgdg91 repository to the system.\n"
+    logfile.write("This script will uninstall libmemcached-devel if installed.\n")
+    print "This script will uninstall libmemcached-devel if installed.\n"
     dependencies_list = "This script will install these packages and their dependencies:\n\
          All packages in groupinstall \"Development tools\",\n\
          git,\n\
@@ -277,34 +287,55 @@ def run(arch, logfile):
         zlib_devel_installed = rpm_check("zlib-devel")
         
         # Groupinstall of "Development tools" (the script does not check if its components are installed or not)
+        time = current_time()
+        logfile.write("Development tools groupinstall started at %s.\n" % time)
+        print "Development tools groupinstall started at %s.\n" % time
         groupinstall_command = "yum groupinstall -y \"Development tools\""
         groupinstall_result = run_command(groupinstall_command, logfile, "Groupinstall of \"Development tools\"")
         success = groupinstall_result[0]
         logfile = groupinstall_result[1]
         if not success:
             return logfile
+        else:
+            time = current_time()
+            logfile.write("Development tools groupinstall finished at %s.\n" % time)
+            print "Development tools groupinstall finished at %s.\n" % time
         
         # git
         if git_installed:
             logfile.write("git is already installed.\n")
             print "git is already installed.\n" 
         else:
+            time = current_time()
+            logfile.write("git installation started at %s.\n" % time)
+            print "git installation started at %s.\n" % time
             git_result = yum_install("git", logfile)
             success = git_result[0]
             logfile = git_result[1]
             if not success:
                 return logfile
+            else:
+                time = current_time()
+                logfile.write("git installation finished at %s.\n" % time)
+                print "git installation finished at %s.\n" % time
                 
         # gcc
         if gcc_installed:
             logfile.write("gcc is already installed.\n")
             print "gcc is already installed.\n" 
         else:
+            time = current_time()
+            logfile.write("gcc installation started at %s.\n" % time)
+            print "gcc installation started at %s.\n" % time
             gcc_result = yum_install("gcc", logfile)
             success = gcc_result[0]
             logfile = gcc_result[1]
             if not success:
                 return logfile
+            else:
+                time = current_time()
+                logfile.write("gcc installation finished at %s.\n" % time)
+                print "gcc installation finished at %s.\n" % time
     
         logfile.write("Beginning installation of Python Imaging Library components python-imaging, python-devel, and libjpeg-devel.\n")
         print "Beginning installation of Python Imaging Library components python-imaging, python-devel, and libjpeg-devel.\n"
@@ -314,37 +345,59 @@ def run(arch, logfile):
             logfile.write("python-imaging is already installed.\n")
             print "python-imaging is already installed.\n" 
         else:
+            time = current_time()
+            logfile.write("python-imaging installation started at %s.\n" % time)
+            print "python-imaging installation started at %s.\n" % time
             python_imaging_result = yum_install("python-imaging", logfile)
             success = python_imaging_result[0]
             logfile = python_imaging_result[1]
             if not success:
                 return logfile
+            else:
+                time = current_time()
+                logfile.write("python-imaging installation finished at %s.\n" % time)
+                print "python-imaging installation finished at %s.\n" % time
     
         # postgresql91-server
         if python_devel_installed:
             logfile.write("python-devel is already installed.\n")
             print "python-devel is already installed.\n" 
         else:
+            time = current_time()
+            logfile.write("python-devel installation started at %s.\n" % time)
+            print "python-devel installation started at %s.\n" % time
             python_devel_result = yum_install("python-devel", logfile)
             success = python_devel_result[0]
             logfile = python_devel_result[1]
             if not success:
                 return logfile
+            else:
+                time = current_time()
+                logfile.write("python-devel installation finished at %s.\n" % time)
+                print "python-devel installation finished at %s.\n" % time
             
         # libjpeg-devel
         if libjpeg_devel_installed:
             logfile.write("libjpeg-devel (libjpeg-turbo-devel) is already installed.\n")
             print "libjpeg-devel (libjpeg-turbo-devel) is already installed.\n" 
         else:
+            time = current_time()
+            logfile.write("libjpeg-devel (libjpeg-turbo-devel) installation started at %s.\n" % time)
+            print "libjpeg-devel (libjpeg-turbo-devel) installation started at %s.\n" % time
             libjpeg_devel_result = yum_install("libjpeg-turbo-devel", logfile)
             success = libjpeg_devel_result[0]
             logfile = libjpeg_devel_result[1]
             if not success:
                 return logfile
+            else:
+                time = current_time()
+                logfile.write("libjpeg-devel (libjpeg-turbo-devel) installation finished at %s.\n" % time)
+                print "libjpeg-devel (libjpeg-turbo-devel) installation finished at %s.\n" % time
     
         # Check locations of shared libraries
-        logfile.write("Checking for Python Imaging Library shared libraries.\n")
-        print "Checking for Python Imaging Library shared libraries.\n"
+        time = current_time()
+        logfile.write("Checking for Python Imaging Library shared libraries: started at%s\n" % time)
+        print "Checking for Python Imaging Library shared libraries: started at %s\n" % time
         # libjpeg.so
         try:
             libjpeg_stat = os.stat("/usr/lib64/libjpeg.so")
@@ -404,8 +457,11 @@ def run(arch, logfile):
                 end_time = termination_string()
                 logfile.write(end_time)
                 print end_time
-                return logfile 
+                return logfile
         
+        time = current_time()
+        logfile.write("Checking for Python Imaging Library shared libraries: finished at%s\n" % time)
+        print "Checking for Python Imaging Library shared libraries: finished at %s\n" % time
         logfile.write("Installation of Python Imaging Library components is complete.\n")
         print "Installation of Python Imaging Library components is complete.\n"
         
@@ -414,11 +470,18 @@ def run(arch, logfile):
             logfile.write("memcached is already installed.\n")
             print "memcached is already installed.\n"   
         else:
+            time = current_time()
+            logfile.write("memcached installation started at %s.\n" % time)
+            print "memcached installation started at %s.\n" % time
             memcached_result = yum_install("memcached", logfile)
             success = memcached_result[0]
             logfile = memcached_result[1]
             if not success:
                 return logfile
+            else:
+                time = current_time()
+                logfile.write("memcached installation finished at %s.\n" % time)
+                print "memcached installation finished at %s.\n" % time
         
         # Beginning of libmemcached-0.53 installation code.
         if libmemcached053_installed:
@@ -430,6 +493,9 @@ def run(arch, logfile):
             print "libmemcached-0.53 will not be installed. Continuing...\n"
         elif libmemcached053_installed is False:
             if libmemcached_installed:
+                time = current_time()
+                logfile.write("libmemcached-devel removal started at %s.\n" % time)
+                print "libmemcached-devel removal started at %s.\n" % time
                 logfile.write("libmemcached will be removed.\n")
                 print "libmemcached will be removed.\n"
                 remove_libmemcached_command = "yum remove -y libmemcached-devel"
@@ -451,9 +517,16 @@ def run(arch, logfile):
                 else:
                     logfile.write("Successfully removed default version of libmemcached.\n")
                     print "Successfully removed default version of libmemcached."
+                    time = current_time()
+                    logfile.write("libmemcached-devel removal finished at %s.\n" % time)
+                    print "libmemcached-devel removal finished at %s.\n" % time
+                    
             # If libmemcached is not installed, there is no need to uninstall it, so the installation can continue.
-            logfile.write("libmemcached-0.53 will be built and installed.\n")
-            print "libmemcached-0.53 will be built and installed."
+            time = current_time()
+            logfile.write("libmemcached-0.53 download/build/install started at %s.\n" % time)
+            print "libmemcached-0.53 download/build/install started at %s.\n" % time
+            logfile.write("libmemcached-0.53 will be downloade, built, and installed.\n")
+            print "libmemcached-0.53 will be downloaded, built, and installed."
             # Switch to downloads directory
             download_dir = os.path.normpath(os.path.dirname(os.path.realpath(__file__)) + os.sep + os.pardir + os.sep + "download")
             logfile.write("Switching to downloads directory: %s" % download_dir)
@@ -533,6 +606,9 @@ def run(arch, logfile):
             if libmemcached053_installed:
                 logfile.write("libmemcached-0.53 installed successfully.\n")
                 print "libmemcached-0.53 installed successfully.\n"
+                time = current_time()
+                logfile.write("libmemcached-0.53 download/build/install finished at %s.\n" % time)
+                print "libmemcached-0.53 download/build/install finished at %s.\n" % time
                 # Flush the buffer and force a write to disk
                 logfile.flush()
                 os.fsync(logfile)
@@ -556,6 +632,9 @@ def run(arch, logfile):
             print repo_string
         else:
             # Install Postgresql RPM
+            time = current_time()
+            logfile.write("pgdg91 repo installation started at %s.\n" % time)
+            print "pgdg91 repo installation started at %s.\n" % time
             logfile.write("Adding the PostgreSQL 9.1 repo pgdg91...\n")
             print "Adding the PostgreSQL 9.1 repo pgdg91...\n"
             pg_repo_command = "rpm -i http://yum.postgresql.org/9.1/redhat/rhel-6-x86_64/pgdg-redhat91-9.1-5.noarch.rpm"
@@ -574,6 +653,9 @@ def run(arch, logfile):
                 if rpm_installed:
                     logfile.write("pgdg91 repo installed successfully.\n")
                     print "pgdg91 repo installed successfully.\n"
+                    time = current_time()
+                    logfile.write("pgdg91 repo installation finished at %s.\n" % time)
+                    print "pgdg91 repo installation finished at %s.\n" % time
                     # Flush the buffer and force a write to disk after each successful installation
                     logfile.flush()
                     os.fsync(logfile)
@@ -597,44 +679,72 @@ def run(arch, logfile):
             logfile.write("postgresql91-server is already installed.\n")
             print "postgresql91-server is already installed.\n"
         else:
+            time = current_time()
+            logfile.write("postgresql91-server installation started at %s.\n" % time)
+            print "postgresql91-server installation started at %s.\n" % time
             postgres91_result = yum_install("postgresql91-server", logfile)
             success = postgres91_result[0]
             logfile = postgres91_result[1]
             if not success:
                 return logfile
+            else:
+                time = current_time()
+                logfile.write("postgresql91-server installation finished at %s.\n" % time)
+                print "postgresql91-server installation finished at %s.\n" % time
         
         # postgresql-91-contrib
         if postgresql91_contrib_installed:
             logfile.write("postgresql91-contrib is already installed.\n")
             print "postgresql91-contrib is already installed.\n"   
         else:
+            time = current_time()
+            logfile.write("postgresql91-contrib installation started at %s.\n" % time)
+            print "postgresql91-contrib installation started at %s.\n" % time
             postgres91_contrib_result = yum_install("postgresql91-contrib", logfile)
             success = postgres91_contrib_result[0]
             logfile = postgres91_contrib_result[1]
             if not success:
                 return logfile
+            else:
+                time = current_time()
+                logfile.write("postgresql91-contrib installation finished at %s.\n" % time)
+                print "postgresql91-contrib installation finished at %s.\n" % time
         
         # postgresql91-devel
         if postgresql91devel_installed:
             logfile.write("postgresql91-devel is already installed.\n")
             print "postgresql91-devel is already installed.\n"   
         else:
+            time = current_time()
+            logfile.write("postgresql91-devel installation started at %s.\n" % time)
+            print "postgresql91-devel installation started at %s.\n" % time
             postgres91_devel_result = yum_install("postgresql91-devel", logfile)
             success = postgres91_devel_result[0]
             logfile = postgres91_devel_result[1]
             if not success:
                 return logfile
+            else:
+                time = current_time()
+                logfile.write("postgresql91-devel installation finished at %s.\n" % time)
+                print "postgresql91-devel installation finished at %s.\n" % time
         
         # zlib-devel
         if zlib_devel_installed:
             logfile.write("zlib-devel is already installed.\n")
             print "zlib-devel is already installed.\n"   
         else:
+            time = current_time()
+            logfile.write("zlib-devel installation started at %s.\n" % time)
+            print "zlib-devel installation started at %s.\n" % time
             zlib_devel_result = yum_install("zlib-devel", logfile)
             success = zlib_devel_result[0]
             logfile = zlib_devel_result[1]
             if not success:
                 return logfile
+            else:
+                time = current_time()
+                logfile.write("zlib-devel installation finished at %s.\n" % time)
+                print "zlib-devel installation finished at %s.\n" % time
             
         logfile.write("RHEL x64 installation script completed successfully.\n")
         print "RHEL x64 installation script completed successfully.\n"

@@ -286,6 +286,8 @@ def run(arch, logfile):
          virtualenvwrapper\n"
     logfile.write(dependencies_list)
     print dependencies_list
+    logfile.write("This script will uninstall libmemcached-dev if installed.\n")
+    print "This script will uninstall libmemcached-dev if installed.\n"
     logfile.write("This script will also append to the current user's .bashrc file.\n")
     print ("This script will also append to the current user's .bashrc file.\n")
     value = raw_input("Do you wish to continue (Y/n)? ")
@@ -714,6 +716,9 @@ def run(arch, logfile):
             print "libmemcached-0.53 will not be installed. Continuing...\n"
         elif libmemcached053_installed is False:
             if libmemcached_installed:
+                time = current_time()
+                logfile.write("libmemcached-dev removal started at %s.\n" % time)
+                print "libmemcached-dev removal started at %s.\n" % time
                 logfile.write("libmemcached-dev will be removed.\n")
                 print "libmemcached-dev will be removed.\n"
                 remove_libmemcached_command = "apt-get remove -y libmemcached-dev"
@@ -735,9 +740,15 @@ def run(arch, logfile):
                 else:
                     logfile.write("Successfully removed default version of libmemcached-dev.\n")
                     print "Successfully removed default version of libmemcached-dev."
+                    time = current_time()
+                    logfile.write("libmemcached-dev removal finished at %s.\n" % time)
+                    print "libmemcached-dev removal finished at %s.\n" % time
             # If libmemcached is not installed, there is no need to uninstall it, so the installation can continue.
-            logfile.write("libmemcached-0.53 will be built and installed.\n")
-            print "libmemcached-0.53 will be built and installed."
+            time = current_time()
+            logfile.write("libmemcached-0.53 download/build/install started at %s.\n" % time)
+            print "libmemcached-0.53 download/build/install started at %s.\n" % time
+            logfile.write("libmemcached-0.53 will be downloaded, built, and installed.\n")
+            print "libmemcached-0.53 will be downloaded, built, and installed."
             # Switch to downloads directory
             download_dir = os.path.normpath(os.path.dirname(os.path.realpath(__file__)) + os.sep + os.pardir + os.sep + "download")
             logfile.write("Switching to downloads directory: %s" % download_dir)
@@ -888,6 +899,9 @@ def run(arch, logfile):
                 # Flush the buffer and force a write to disk
                 logfile.flush()
                 os.fsync(logfile)
+                time = current_time()
+                logfile.write("libmemcached-0.53 download/build/install finished at %s.\n" % time)
+                print "libmemcached-0.53 download/build/install finished at %s.\n" % time
             else:
                 error1 = "Error: Could not find libmemcached.so in /usr/local/lib.\n"
                 error2 = "libmemcached-0.53 may not have installed properly.\n"
