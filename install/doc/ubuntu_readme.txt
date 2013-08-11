@@ -98,9 +98,10 @@ directory. For a user named "robot," the user home directory would be
 At a minimum, you need to have Python 2.7.3 or higher (but not Python 3) 
 installed. Use python --version in the terminal to check the version of 
 your default Python installation:
-
+-------------------------------------------------------------------------------
 % python --version
-
+Python 2.7.3
+-------------------------------------------------------------------------------
 Ubuntu versions 12.04.1 LTS and later LTS versions come with Python 2.7.3 
 installed by default. If Python 2.7.3, or a higher version of Python 2.7, is 
 not the default Python installation on your system, you will need to download 
@@ -115,15 +116,20 @@ Makahiki setup requires an Internet connection.
 1.1.2. Install System Environment Dependencies:
 ===============================================================================
 Switch to your top-level makahiki directory:
+-------------------------------------------------------------------------------
 % cd ~/makahiki
-
+-------------------------------------------------------------------------------
 Run the script with the options specified for your operating system:
 
 Ubuntu x86:
+-------------------------------------------------------------------------------
 % sudo ./install/ubuntu_installer.py --dependencies --arch x86
+-------------------------------------------------------------------------------
 
 Ubuntu x64:
+-------------------------------------------------------------------------------
 % sudo ./install/ubuntu_installer.py --dependencies --arch x64
+-------------------------------------------------------------------------------
 
 The script installs these packages and their dependencies:
 - git
@@ -151,10 +157,12 @@ The script installs these packages and their dependencies:
 
 The script also appends lines to the end of the current user's .bashrc 
 file (~/.bashrc). The example below uses a user named "robot":
+-------------------------------------------------------------------------------
 # Virtualenvwrapper settings for makahiki
 export WORKON_HOME=home/robot/.virtualenvs
 export PROJECT_HOME=home/robot/makahiki
 source /usr/local/bin/virtualenvwrapper.sh
+-------------------------------------------------------------------------------
 
 The script will create a log file in makahiki/install/logs with a filename of 
 the format "install_dependencies_<timestamp>.log," where <timestamp> is a 
@@ -165,28 +173,32 @@ For more information, see Appendix A.
 1.1.3. Set Up the "makahiki" Virtual Environment
 ===============================================================================
 When the ubuntu_installer.py script finishes, source the ~/.bashrc file:
-
+-------------------------------------------------------------------------------
 % source ~/.bashrc
+-------------------------------------------------------------------------------
 
 Switch to the top-level makahiki directory:
+-------------------------------------------------------------------------------
 % cd ~/makahiki
+-------------------------------------------------------------------------------
 
 Then, create the makahiki virtual environment: 
-
+-------------------------------------------------------------------------------
 % makahiki$ mkvirtualenv makahiki
-
+-------------------------------------------------------------------------------
 Creating a virtual environment should switch you to the virtual environment.
 The terminal prompt will be preceded by the name of the virtual environment.
 On Ubuntu, this looks like:
-
+-------------------------------------------------------------------------------
 (makahiki)robot@computer:~/makahiki$
+-------------------------------------------------------------------------------
 
 If creating the virtual environment did not switch you to the virtual 
 environment, use "workon" to switch to it:
-
+-------------------------------------------------------------------------------
 robot@computer:~/makahiki$ workon makahiki
 (makahiki)robot@computer:~/makahiki$
-
+-------------------------------------------------------------------------------
 For further instructions, see the Makahiki documentation for section 
 2.1.1.1.1.6, "Install Virtual Environment Wrapper":
 https://makahiki.readthedocs.org/en/latest/installation-makahiki-unix.html#install-virtual-environment-wrapper
@@ -199,7 +211,9 @@ The next step is to configure the PostgreSQL server authentication settings.
 On Ubuntu 12.04.1 LTS and later, the pg_hba.conf file is usually located at 
 /etc/postgresql/9.1/main/pg_hba.conf. Open it in a text editor with sudo (root) 
 privileges:
+-------------------------------------------------------------------------------
 % sudo nano /etc/postgresql/9.1/main/pg_hba.conf
+-------------------------------------------------------------------------------
 
 To configure PostgreSQL, edit the "local all postgres", "local all all", 
 "host all all 127.0.0.1/32", and "host all all ::1/128" lines in the 
@@ -219,8 +233,11 @@ host    all             all             ::1/128                 md5
 -------------------------------------------------------------------------------
 
 After you have edited the pg_hba.conf file, restart the Postgresql service:
+-------------------------------------------------------------------------------
 % sudo /etc/init.d/postgresql restart
  * Restarting PostgreSQL 9.1 database server                             [ OK ]
+-------------------------------------------------------------------------------
+Newer versions of Ubuntu can also use "sudo service postgresql restart."
 ===============================================================================
    
 1.1.5. Install Dependencies With Pip
@@ -228,15 +245,21 @@ After you have edited the pg_hba.conf file, restart the Postgresql service:
 You should still be in the makahiki virtual environment.
 
 Switch to the makahiki directory:
+-------------------------------------------------------------------------------
 % cd ~/makahiki
+-------------------------------------------------------------------------------
 
 Run the script with the options specified for your operating system:
 
 Ubuntu x86:
+-------------------------------------------------------------------------------
 % ./install/ubuntu_installer.py --pip --arch x86
+-------------------------------------------------------------------------------
 
 Ubuntu x64:
+-------------------------------------------------------------------------------
 % ./install/ubuntu_installer.py --pip --arch x64
+-------------------------------------------------------------------------------
 
 The list of packages that this step will attempt to install with pip are 
 listed in the makahiki/requirements.txt file.
@@ -256,13 +279,13 @@ The environment variables MAKAHIKI_DATABASE_URL and MAKAHIKI_ADMIN_INFO need
 to be added to the shell environment. To make them permanently available 
 whenever you "workon makahiki," add these variables to the 
 $WORKON_HOME/makahiki/bin/postactivate file:
-
+-------------------------------------------------------------------------------
 # Syntax: postgres://<db_user>:<db_password>@<db_host>:<db_port>/<db_name>
 export MAKAHIKI_DATABASE_URL=postgres://makahiki:makahiki@localhost:5432/makahiki
 
 # Syntax: <admin_name>:<admin_password>
 export MAKAHIKI_ADMIN_INFO=admin:admin
-
+-------------------------------------------------------------------------------
 Production instances of Makahiki should change the <admin_password> to something 
 other than "admin."
 
@@ -277,7 +300,9 @@ for the changes to take effect:
 You should still be in the makahiki virtual environment.
 
 Switch to the makahiki directory:
+-------------------------------------------------------------------------------
 % cd ~/makahiki
+-------------------------------------------------------------------------------
 
 WARNING:
 -------------------------------------------------------------------------------
@@ -303,10 +328,14 @@ makahiki/makahiki/scripts/initialize_instance.py script with
 Run the script with the options specified for your operating system:
 
 Ubuntu x86:
+-------------------------------------------------------------------------------
 % ./install/ubuntu_installer.py --initialize_instance --arch x86
+-------------------------------------------------------------------------------
 
 Ubuntu x64:
+-------------------------------------------------------------------------------
 % ./install/ubuntu_installer.py --initialize_instance --arch x64
+-------------------------------------------------------------------------------
 
 You will need to answer "Y" to the question "Do you wish to continue (Y/n)?"
 
@@ -321,17 +350,22 @@ For more information, see Appendix A.
 You should still be in the makahiki virtual environment.
 
 Switch to the top-level makahiki directory:
+-------------------------------------------------------------------------------
 % cd ~/makahiki
-
+-------------------------------------------------------------------------------
 You can now start the web server using manage.py or gunicorn. The manage.py 
 web server is better for development, while gunicorn is better for production 
 use.
 
 To start the server with manage.py:
+-------------------------------------------------------------------------------
 % ./manage.py runserver
+-------------------------------------------------------------------------------
 
 To start the server with gunicorn:
+-------------------------------------------------------------------------------
 % ./manage.py run_gunicorn
+-------------------------------------------------------------------------------
 
 In a web browser, go to http://localhost:8000 to see the landing page.
 ===============================================================================
@@ -344,25 +378,35 @@ installed Makahiki instance using the ubuntu_installer.py script requires the
 following steps:
 
 (1.) Close the running server in the shell process that is running Makahiki:
+-------------------------------------------------------------------------------
 % (type control-c in the shell running the makahiki server process)
+-------------------------------------------------------------------------------
 
 (2.) In the current shell or a new shell, go to the makahiki directory and 
      set up the Makahiki virtual environment:
+-------------------------------------------------------------------------------
 % cd ~/makahiki
 % workon makahiki
+-------------------------------------------------------------------------------
 
 (3.) Download the updated source code into the Makahiki installation:
+-------------------------------------------------------------------------------
 % git pull origin master
+-------------------------------------------------------------------------------
 
 (4.) Run the ubuntu_installer.py script with --update_instance:
 
 Run the script with the options specified for your operating system:
 
 Ubuntu x86:
+-------------------------------------------------------------------------------
 % python ./install/ubuntu_installer.py --update_instance --arch x86
+-------------------------------------------------------------------------------
 
 Ubuntu x64:
+-------------------------------------------------------------------------------
 % python ./install/ubuntu_installer.py --update_instance --arch x64
+-------------------------------------------------------------------------------
 
 The script will create a log file in makahiki/install/logs with a filename of 
 the format "install_update_instance_<timestamp>.log," where <timestamp> is 
@@ -371,10 +415,14 @@ For more information, see Appendix A.
 
 (5.) Start the server with runserver or gunicorn:
 To start the server with manage.py:
+-------------------------------------------------------------------------------
 % ./manage.py runserver
+-------------------------------------------------------------------------------
 
 To start the server with gunicorn:
+-------------------------------------------------------------------------------
 % ./manage.py run_gunicorn
+-------------------------------------------------------------------------------
 ===============================================================================
 
 Appendix A. Notes on Log Files
