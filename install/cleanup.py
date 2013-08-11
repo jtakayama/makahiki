@@ -1,8 +1,8 @@
 import os
-import datetime.datetime
+import datetime
 import sys
 import stat
-import shutil.rmtree
+from shutil import rmtree
 
 def termination_string():
     """
@@ -59,9 +59,9 @@ def run(logfile):
                     print "Removing file: %s." % entry
                     os.remove(entry)
                 elif stat.S_ISDIR(mode):
-                    logfile.write("Removing directory recursively: %s." % entry)
+                    logfile.write("Removing directory recursively: %s.\n" % entry)
                     print "Removing directory recursively: %s." % entry
-                    shutil.rmtree(entry)
+                    rmtree(entry)
             logfile.write("Done.\n")
             print "Done."
         closing = "\nMakahiki downloads cleanup script has completed.\n"
@@ -79,7 +79,7 @@ def run(logfile):
         logfile.write(oserror_output)
         print oserror_output
         logfile.write("Warning: Makahiki downloads cleanup did not complete successfully.\n")
-        print "Warning: Makahiki downloads cleanup did not complete successfully."
+        print "Warning: Makahiki downloads cleanup did not complete successfully.\n"
         end_time = termination_string()
         logfile.write(end_time)
         print end_time

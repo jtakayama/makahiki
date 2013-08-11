@@ -62,13 +62,17 @@ The install/ folder contains the ubuntu_installer.py script.
 
 Usage of ubuntu_installer.py:
 -------------------------------------------------------------------------------
-./ubuntu_installer.py < --dependencies | --pip | --initialize_instance | 
-                        --update_instance > --arch < x86 | x64 >
+./ubuntu_installer.py < --dependencies | --cleanup | --pip | 
+                        --initialize_instance | --update_instance > 
+                      --arch < x86 | x64 >
                         
 All options require Python 2.7.3 or higher (but not Python 3) to run.
     
     --dependencies: Installs dependencies. This script must be run with root 
       privileges.
+
+    --cleanup: Deletes all files and directories in makahiki/install/download 
+      except for download_readme.txt. Cleans up after dependency installation.
 
     --pip: Runs "pip install -r requirements.txt." The requirements.txt file 
       is located in the top-level makahiki directory.
@@ -78,7 +82,7 @@ All options require Python 2.7.3 or higher (but not Python 3) to run.
 
     --update_instance: Runs the makahiki/scripts/update_instance.py script 
       with default options.
-    
+   
     --arch: This script supports Ubuntu x86 and x64 architectures.
 -------------------------------------------------------------------------------
 ===============================================================================
@@ -174,6 +178,25 @@ The script will create a log file in makahiki/install/logs with a filename of
 the format "install_dependencies_<timestamp>.log," where <timestamp> is a 
 sequence of numbers representing a timestamp in the system local time. 
 For more information, see Appendix A.
+
+OPTIONAL: 
+-------------------------------------------------------------------------------
+You can run the cleanup script to remove source files that were downloaded 
+when building and installing libmemcached-0.53:
+Ubuntu x86:
+-------------------------------------------------------------------------------
+% sudo ./install/ubuntu_installer.py --cleanup --arch x86
+-------------------------------------------------------------------------------
+
+Ubuntu x64:
+-------------------------------------------------------------------------------
+% sudo ./install/ubuntu_installer.py --cleanup --arch x64
+-------------------------------------------------------------------------------
+The script will create a log file in makahiki/install/logs with a filename of 
+the format "install_cleanup_<timestamp>.log," where <timestamp> is a sequence 
+of numbers representing a timestamp in the system local time. For more 
+information, see Appendix A.
+-------------------------------------------------------------------------------
 ===============================================================================
 
 1.1.3. Set Up the "makahiki" Virtual Environment

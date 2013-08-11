@@ -67,8 +67,8 @@ def scriptrunner(scripttype, arch, logfile):
     Parameters:
         1. scripttype: The installation script that is being run. 
            Supported values: 
-           "dependencies", "pip", "initialize_instance," "update_instance"
-        2. arch: Architecture. Ubuntu is supported for "x86" and "x64" architectures.
+           "dependencies", "cleanup", "pip", "initialize_instance", "update_instance"
+        2. arch: Architecture. Ubuntu is supported for x86 and x64 architectures.
         3. logfile: The log file to pass to the installation script.
     """
     if (arch != "x86" and arch != "x64"):
@@ -80,14 +80,14 @@ def scriptrunner(scripttype, arch, logfile):
     else: 
         if scripttype == "dependencies":
             logfile = ubuntu.dependency_ubuntu.run(arch, logfile)
+        elif scripttype == "cleanup":
+            logfile = cleanup.run(logfile)
         elif scripttype == "pip":
             logfile = pip_install.run(logfile)
         elif scripttype == "initialize_instance":
             logfile = run_initialize_instance.run(logfile)
         elif scripttype == "update_instance":
             logfile = run_update_instance.run(logfile)
-        elif scripttype == "cleanup":
-            logfile = cleanup.run(logfile)
         else:
             logfile.write("Error: install.py invoked with invalid command: %s\n" % scripttype)
             print "Error: install.py invoked with invalid command: %s\n" % scripttype
@@ -96,12 +96,12 @@ def scriptrunner(scripttype, arch, logfile):
 
 def main():
     if ((len(sys.argv) != 4) or (sys.argv[2] != "--arch")):
-        print "Usage: ubuntu_installer.py < --dependencies | --pip | --initialize_instance | --update_instance | --cleanup > --arch < x86 | x64 >"
+        print "Usage: ubuntu_installer.py < --dependencies | --cleanup | --pip | --initialize_instance | --update_instance > --arch < x86 | x64 >"
         print "--dependencies: Install Makahiki dependencies (software packages)."
+        print "--cleanup: Remove archives and other files downloaded by Makahiki scripts."
         print "--pip: Install Makahiki local dependencies using pip."
         print "--initialize_instance: Initialize the Makahiki installation."
         print "--update_instance: Update the Makahiki installation."
-        print "--cleanup: Remove archives and other files downloaded by Makahiki scripts."
         print "--arch: Architecture. Supported values for Ubuntu Linux are x86 and x64."
     else:
         args = sys.argv[1:]
