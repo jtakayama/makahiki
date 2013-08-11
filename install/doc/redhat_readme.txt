@@ -69,26 +69,22 @@ your user home directory:
 % git clone http://github.com/csdl/makahiki.git
 -------------------------------------------------------------------------------
 
-(2) Install wget if it is not already installed:
--------------------------------------------------------------------------------
-% sudo yum install wget
--------------------------------------------------------------------------------
-
-(3) Switch to your top-level makahiki directory:
+(2) Switch to your top-level makahiki directory:
 -------------------------------------------------------------------------------
 % cd ~/makahiki
 -------------------------------------------------------------------------------
 
-(4) Run the install/python273_sclinstall.py script to install Python 2.7.3 
+(3) Run the install/python273_sclinstall.py script to install Python 2.7.3 
     from Red Hat Software Collections:
 -------------------------------------------------------------------------------
 % sudo ./install/python273_sclinstall.py
 -------------------------------------------------------------------------------
 This script will:
-A. Add the repository file for Red Hat's Python 2.7.3 software collection, 
+A. Install wget if it is not already installed.
+B. Add the repository file for Red Hat's Python 2.7.3 software collection, 
    http://people.redhat.com/bkabrda/scl_python27.repo, to your 
    /etc/yum.repos.d directory.
-B. Install Python 2.7.3 in /opt/rh/python27.
+C. Install Python 2.7.3 in /opt/rh/python27.
 
 The script will create a log file in makahiki/install/logs with a filename of 
 the format "install_sclinstall_<timestamp>.log," where <timestamp> is a 

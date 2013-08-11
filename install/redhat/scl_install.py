@@ -77,17 +77,25 @@ def run(logfile):
     download_dir = os.path.normpath(os.path.dirname(os.path.realpath(__file__)) + os.sep + os.pardir + os.sep + "download")
     os.chdir(download_dir)
     
+    # Install wget
+    result = run_command("yum install -y wget", logfile)
+    success = result[0]
+    logfile = result[1]
+    if not success:
+        return logfile
+    
+    # Retrieve the repo file
     repo_url = "http://people.redhat.com/bkabrda/scl_python27.repo"
     repoadd = "The repository at %s will be added to the system.\n" % repo_url
     logfile.write(repoadd)
     print repoadd
-    
     result = run_command("wget %s" % repo_url, logfile)
     success = result[0]
     logfile = result[1]
     if not success:
         return logfile
     
+    # Copy the repo file to the system repos directory
     result = run_command("cp ./scl_python27.repo /etc/yum.repos.d/scl_python27.repo", logfile)
     success = result[0]
     logfile = result[1]
@@ -101,9 +109,9 @@ def run(logfile):
     if not success:
         return logfile
     
+    # Install Python 2.7.3 from SCL collections
     logfile.write("Python 2.7.3 will be installed from SCL.\n")
     print "Python 2.7.3 will be installed from SCL.\n"
-    
     result = run_command("yum install -y python27", logfile)
     success = result[0]
     logfile = result[1]
