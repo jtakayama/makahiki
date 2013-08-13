@@ -17,7 +17,8 @@ def dpkg_check(packagename):
         if lines[1] == dpkg_success:
             compare_result = True
     except subprocess.CalledProcessError as cpe:
-        dpkg_fail = re.compile("(Package `)(%s)+(\' is not installed and no info is available.)" % packagename)
+        escaped_packagename = re.escape(packagename)
+        dpkg_fail = re.compile("(Package `)(%s)+(\' is not installed and no info is available.)" % escaped_packagename)
         lines = cpe.output.split("\n")
         line0_result = dpkg_fail.match(lines[0])
         if (line0_result):
