@@ -221,7 +221,11 @@ def get_history_resource_usage(resource, session, team, date, hour):
 
     if not usage and goal_settings and not goal_settings.manual_entry:
         storage = get_resource_storage(goal_settings.data_storage)
-        usage = resource_mgr.get_history_resource_data(session, team, date, hour, storage)
+        if goal_settings.wattdepot_source_name:
+            team_resource_name = goal_settings.wattdepot_source_name
+        else:
+            team_resource_name = team.name        
+        usage = resource_mgr.get_history_resource_data(session, team_resource_name, date, hour, storage)
 
     return usage
 
@@ -249,7 +253,11 @@ def update_resource_usage(resource, date):
         goal_settings = team_goal_settings(team, resource)
         if not goal_settings.manual_entry:
             storage = get_resource_storage(goal_settings.data_storage)
-            resource_mgr.update_team_resource_usage(resource, session, date, team, storage)
+            if goal_settings.wattdepot_source_name:
+                team_resource_name = goal_settings.wattdepot_source_name
+            else:
+                team_resource_name = team.name
+            resource_mgr.update_team_resource_usage(resource, session, date, team_resource_name, storage)
 
     # clear the cache for energy ranking, and RIB where it displays
     round_name = challenge_mgr.get_round_name(date)

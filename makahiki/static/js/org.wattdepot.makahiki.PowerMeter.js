@@ -61,7 +61,7 @@ function Makahiki_PowerMeter(server_url, source, refresh_interval, viz_id, optio
         var titleStyle = options.titleStyle || {fontWeight:'bold'};
         var captionStyle = options.captionStyle || {fontSize:'0.70em'};
         var powerRange = options.powerRange || 6000;
-        var title = options.title || source;
+        var title = options.title;
 
         // Create a datatable with this source's data and baseline.
         datatable = addBaseline(datatable);
