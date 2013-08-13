@@ -185,6 +185,7 @@ Run the script as specified:
 -------------------------------------------------------------------------------
 % sudo ./install/redhat_installer.py --dependencies --arch x64
 -------------------------------------------------------------------------------
+
 The script installs these packages and their dependencies, if they are not 
 already installed:
 - All packages in the groupinstall of "Development tools"
@@ -219,7 +220,7 @@ OPTIONAL:
 You can run the cleanup script to remove source files that were downloaded 
 when building and installing libmemcached-0.53:
 -------------------------------------------------------------------------------
-% sudo ./install/ubuntu_installer.py --cleanup --arch x64
+% sudo ./install/redhat_installer.py --cleanup --arch x64
 -------------------------------------------------------------------------------
 The script will create a log file in makahiki/install/logs with a filename of 
 the format "install_cleanup_<timestamp>.log," where <timestamp> is a sequence 
@@ -552,28 +553,28 @@ Saving to: “index.html"
 2013-08-09 11:19:26 (192 MB/s) - “index.html" saved [6181]
 -------------------------------------------------------------------------------
 If your HTTP response is "200 OK," the server is running correctly. You can 
-delete the "test" directory when you are done.
+delete the "test" directory when you are done:
+-------------------------------------------------------------------------------
+% cd ~/
+% rm -rf test
+-------------------------------------------------------------------------------
 
 Because this server was started in the background with &, you cannot stop it 
-with Control-C. You will need to find the PID of the process first:
+with Control-C. You will need to find the PIDs of its processes first:
 -------------------------------------------------------------------------------
 % ps ax | grep manage.py
 21791 tty1     S     0:00 python ./manage.py runserver
 21798 tty1     Sl    0:52 /root/.virtualenvs/makahiki/bin/python ./manage.py ru
 nserver
 21893 tty1     S+    0:00 grep manage.py
-% kill -9 21791
+% kill -9 21791 21798
 % 
-[1]+  Killed                 ./manage.py runserver  (wd: ~/makahiki/makahiki)
-(wd now: ~/test)
+[1]+  Killed                 ./manage.py runserver
 -------------------------------------------------------------------------------
-The PID of the process is 21791 here, but will be different each time.
-"kill -9 <PID>" forces the OS to stop the process, and the 
-"python ./manage.py runserver" is what needs to be stopped.
-
-If you restart the web server and get an error stating that the port is 
-already in use, you may need to use kill -9 to stop the other process,
-"/root/.virtualenvs/makahiki/bin/python ./manage.py runserver," as well.
+The PID of a given process will be different each time it runs.
+"kill -9 <PID>" forces the OS to stop the process.
+Kill both the "python ./manage.py runserver" and 
+"/root/.virtualenvs/makahiki/bin/python ./manage.py runserver" processes.
 ===============================================================================
 
 2.1.10. Update the Makahiki Instance
