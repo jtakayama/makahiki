@@ -59,7 +59,7 @@ Host Machine Prerequisites:
 Prerequisites: Python [REQUIRED]
 -------------------------------------------------------------------------------
 For Python binaries and installation instructions, see http://python.org.
-- Makahiki requires Python 2.7.3 or later, or a newer version of Python 2.
+- Makahiki requires Python 2.7.3, or newer versions of Python 2.
 - Makahiki IS NOT compatible with Python 3.
 -------------------------------------------------------------------------------
 
@@ -160,19 +160,24 @@ source files on your host machine, then deploy the changes in your Vagrant
 virtual machine immediately.
 
 1. Open Eclipse.
-2. When prompted to select a workspace, select the directory that you cloned the 
-   Makahiki repository into earlier (e.g., the directory that contains the 
-   top-level makahiki folder). For example, if Makahiki had been cloned into 
-   C:/Users/Tester/Vagrant on Windows, that would be the workspace directory.   
-   Click "OK."
-3. Select File --> Import.
+2. When prompted to select a workspace, click "Browse." In the file system's 
+   browser (Windows Explorer, OS X Finder, etc.), select the directory that 
+   you cloned the Makahiki repository into earlier, then click "OK."
+   EXAMPLE:
+   ----------------------------------------------------------------------------
+   A. Makahiki was cloned into: C:/Users/Tester/Vagrant
+   B. Workspace directory should be: C:/Users/Tester/Vagrant. 
+   ----------------------------------------------------------------------------
+3. Eclipse will open. In the menu, click File --> Import.
     3a. Click the arrow to expand "General," then select 
         "Existing Projects Into Workspace." Click "Next."
-    3b. Uncheck the checkbox for "Copy Projects into Workspace."
-        Then select the top-level makahiki directory as the root directory.
-        For example, if Makahiki had been cloned into C:/Users/Tester/Vagrant, 
-        the root directory of the project would be located at 
-        C:/Users/Tester/Vagrant/makahiki.
+    3b. Uncheck the "Copy Projects into Workspace" checkbox.
+        Select the top-level makahiki directory as the root directory.
+        EXAMPLE:
+        -----------------------------------------------------------------------
+        A. Makahiki was cloned into: C:/Users/Tester/Vagrant
+        B. Project root directory should be: C:/Users/Tester/Vagrant/makahiki
+        -----------------------------------------------------------------------
     3c. Check the checkbox for "makahiki" when it appears. Click "Finish."
 4. Assuming that you installed PyDev, you will receive a warning:
    "It seems that the Python interpreter is not currently configured."
@@ -186,6 +191,10 @@ virtual machine immediately.
    If you need to change these libraries later, go to 
    "Window" --> "Preferences" --> "PyDev" --> "Interpeter - Python," 
    and select the "Libraries" tab.
+   
+On Mac OS X, the project may import only the makahiki/makahiki directory, 
+which does not contain any of the other top-level folders. The other 
+steps in this guide will continue to work correctly if this occurs.
 ===============================================================================
 
 3.0. Opening an SSH Session in Eclipse
@@ -290,25 +299,35 @@ Continue to Section 4.0.2. to add this directory to Eclipse's Pythonpath.
 ===============================================================================
 Open Eclipse. Switch to or open the PyDev perspective if you are not in it.
 
-1. Click on "Window" --> "Preferences" --> "PyDev" --> "Interpreter - Python."
+1. In the PyDev perspective, click on 
+   "Window" --> "Preferences" --> "PyDev" --> "Interpreter - Python," 
+   then select the "Libraries" tab.
 2. Click on "New Folder."
 3. In the "New Folder" window, click the white right-pointing arrow to expand 
-   the directory tree. Browse to <path-to-makahiki>/makahiki/vagrant/dist-packages. 
+   the directory tree. In the directory tree, browse to 
+   <path-to-makahiki>/makahiki/vagrant/dist-packages. 
    Click on the directory to highlight it, then click "OK."
 4. In the main "Interpreter - Python" window, click "Apply" to rebuild 
    Eclipse's System Pythonpath.
-5. In the menu tree, go back up to "PyDev" --> "Editor" --> "Code Completion."
+5. In the PyDev perspective, click on 
+   "Window" --> "Preferences" --> "PyDev" --> "Editor" --> "Code Completion."
    These options may be useful:
    - Request completion on '.'?
    - Request completion on all letter chars and '_'?
 6. To test the code completion, open any file. At the top of the file, 
    begin typing this line:
+   ----------------------------------------------------------------------------
    from django.core.cache import File
+   ----------------------------------------------------------------------------
    When the code completion popup opens, press Control+Space to switch  
    from "templates" to "default completions." "Default completions" 
    gives you a list of suggested package modules, while "templates" 
    gives you common Python keywords. Use Control+Space to cycle between 
    the two.
+   
+If imports are still marked as not found, you may need to refresh the project 
+before changes to the Pythonpath take effect. Right-click the top-level
+makahiki folder in Eclipse, and click "Refresh."
 
 WARNING:
 -------------------------------------------------------------------------------
@@ -345,9 +364,9 @@ Firewall requires administrative privileges. It is a security risk and
 should ideally be done on a machine not connected to any networks (or at 
 least any unsecured and/or public networks).
 
-Similarly, Linux users may need to change their iptables or other firewall 
-settings if they want to use this feature. This usually requires 
-administrative privileges on the host machine.
+Similarly, Linux and OS X users may need to change their firewall settings if 
+they want to use this feature. This usually requires administrative privileges 
+on the host machine.
 -------------------------------------------------------------------------------
 ===============================================================================
 
@@ -386,9 +405,9 @@ Run the demonstration class to see the remote debugger in action:
    (The file paths won't match because you are running it directly 
     from Eclipse, but this should work anyway.)
 10. pydevd_demo.py will appear under a item called "MainThread." Note the 
-   value for "i" that appears in the Variables tab. Step through the 
-   program using the debugger; "i" will be decremented as the loop runs. 
-   Output from the program will appear in the Console tab.
+    value for "i" that appears in the Variables tab. Step through the 
+    program using the debugger; "i" will be decremented as the loop runs. 
+    Output from the program will appear in the Console tab.
 11. Leave Eclipse open in the Debug perspective. Open a Command Prompt or 
     Terminal, and SSH into your Vagrant virtual machine.
     ---------------------------------------------------------------------------
