@@ -27,12 +27,14 @@ Appendix B.0.1. Initialize Makahiki
 Appendix B.0.2. The Makahiki Server
 Appendix B.0.2.1. Testing The Server Without a Web Browser
 Appendix B.0.3. Update the Makahiki Instance
-Appendix B.0.4. Check The Memcached Installation
-Appendix B.0.5. Configuring Memcached
-Appendix C. Vagrant Commands
-Appendix D. Re-Provisioning Vagrant
-Appendix E. Configure the RAM of the Virtual Machine
-Appendix F. Configure Networking on the Virtual Machine
+Appendix C.0. Check The Memcached Installation
+Appendix C.0.1. Configuring Memcached For The First Time
+Appendix C.0.2. Deactivating Memcached
+Appendix C.0.3. Reactivating Memcached
+Appendix D. Vagrant Commands
+Appendix E. Re-Provisioning Vagrant
+Appendix F. Configure the RAM of the Virtual Machine
+Appendix G. Configure Networking on the Virtual Machine
 
 Instructions in appendices are optional.
 -------------------------------------------------------------------------------
@@ -74,7 +76,7 @@ System requirements:
   - CPU: Modern dual or quad core
   - RAM: 4 GB
   - The Vagrant virtual machine will be configured by default to have 1.5 GB 
-    of RAM (1536 MB). To change this amount, see Appendix E.
+    of RAM (1536 MB). To change this amount, see Appendix F.
 
 WARNING:
 -------------------------------------------------------------------------------
@@ -384,7 +386,7 @@ Continue to Appendix A.0., "Troubleshooting Configuration Files."
 
 2.1.6. If The Site Is Unreachable
 ===============================================================================
-Continue to Appendix F, "Configure Networking on the Virtual Machine."
+Continue to Appendix G, "Configure Networking on the Virtual Machine."
 ===============================================================================
 
 Appendix A.0. Troubleshooting Configuration Files
@@ -758,7 +760,7 @@ vagrant@precise32:/vagrant/makahiki$ ./manage.py run_gunicorn
 -------------------------------------------------------------------------------
 ===============================================================================
 
-Appendix B.0.4. Check The Memcached Installation
+Appendix C.0. Check The Memcached Installation
 ===============================================================================
 The provisioning script installed Memcached and libmemcached-0.53 on the 
 system. If you plan to configure Memcached, you will need to test the 
@@ -790,13 +792,18 @@ True
 vagrant@precise32:/vagrant/makahiki$ unset MAKAHIKI_USE_MEMCACHED
 vagrant@precise32:/vagrant/makahiki$ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH_OLD
 vagrant@precise32:/vagrant/makahiki$ unset LD_LIBRARY_PATH_OLD
+vagrant@precise32:/vagrant/makahiki$ sudo service memcached stop
+Stopping memcached: memcached.
 -------------------------------------------------------------------------------
 If any of the following errors occur, then Memcached is not working:
-(1) cache prints a blank to the console, or cache == None returns True.
+(1) cache prints a blank to the console, or cache == None returns True, 
+    or cache is a "django.core.cache.backends.dummy.DummyCache object."
 (2) cache.set returns False.
 (3) cache.get returns False or causes a segmentation fault.
 If so, make sure environment variables are set and Memcached is running.
+===============================================================================
 
+Appendix C.0.1. Configuring Memcached For The First Time
 ===============================================================================
 Memcached is a backend cache for the Makahiki web server. 
 Configuring memcached is optional.
@@ -808,8 +815,14 @@ the end of the /home/vagrant/makahiki_env.sh file:
 -------------------------------------------------------------------------------
 vagrant@precise32:~$ sh /vagrant/vagrant/makahiki_env_memcached_append.sh
 -------------------------------------------------------------------------------
-In most cases the script will copy the correct lines automatically. If you 
-have made other changes to makahiki_env.sh between the time the virtual 
+If the file is the same as the one created by the bootstrap.sh script, lines 
+will be appended automatically, with the result [Succeeded]. 
+
+If the makahiki_env_memcached_append.sh script has been run already but no 
+changes have been made, the script will do nothing and output the result 
+[Already completed].
+
+If you have made other changes to makahiki_env.sh between the time the virtual 
 machine was created and now, the script will ask permission to append to the 
 file instead of copying over it:
 -------------------------------------------------------------------------------
@@ -817,7 +830,7 @@ WARNING! /home/vagrant/makahiki_env.sh file is different from expected file.
 Append settings anyway? (Result may contain duplicate lines.) [Y/n]
 -------------------------------------------------------------------------------
 
-1b. Answer "Y" to add these lines to the end of makahiki_env.sh:
+If so, answer "Y" to add these lines to the end of makahiki_env.sh:
 -------------------------------------------------------------------------------
 export MAKAHIKI_USE_MEMCACHED=True
 # Don't add libmemcached paths more than once
@@ -827,10 +840,12 @@ if [ ! $LIBMEMCACHED_PATHS_ADDED ];
         export LIBMEMCACHED_PATHS_ADDED=True
 fi
 -------------------------------------------------------------------------------
+If you answer "n" the script's result will be [Cancelled].
+If the operation succeeds, the result will be [Succeeded].
 
 2. Source /home/vagrant/.bashrc to apply changes:
 -------------------------------------------------------------------------------
-vagrant@precise32:~$ source home/vagrant/.bashrc
+vagrant@precise32:~$ source /home/vagrant/.bashrc
 -------------------------------------------------------------------------------
 
 On Vagrant, the memcached service should run automatically once installed by 
@@ -840,11 +855,25 @@ vagrant@precise32:~$ sudo service memcached start
 -------------------------------------------------------------------------------
 On Ubuntu, the memcached service should run automatically at startup.
 
-To test this, restart the computer. After the restart, you should be able to 
-test memcached without setting any environment variables. 
+To test this, shut down the virtual machine, then restart it:
 -------------------------------------------------------------------------------
-vagrant@precise32:~$ cd ~/makahiki/makahiki
-vagrant@precise32:~/makahiki/makahiki$ ./manage.py shell
+vagrant@precise32:~$ sudo shutdown -h now
+-- output omitted --
+Connection to 127.0.0.1 closed by remote host.
+Connection to 127.0.0.1 closed.
+
+> vagrant up --no-provision
+-- output omitted --
+> vagrant ssh
+-------------------------------------------------------------------------------
+(Do not use "sudo shutdown -r now" here. This will restart the virtual machine 
+without mounting the /vagrant shared folder.)
+
+After the restart, you should be able to test memcached without setting any 
+environment variables. 
+-------------------------------------------------------------------------------
+vagrant@precise32:~$ cd /vagrant/makahiki
+vagrant@precise32:/vagrant/makahiki$ ./manage.py shell
 Python 2.7.3 (default, Apr 10 2013, 05:46:21)
 [GCC 4.6.3] on linux2
 Type "help", "copyright", "credits" or "license" for more information.
@@ -864,7 +893,135 @@ If this test works, then the memcached service is running and will be used
 by Makahiki.
 ===============================================================================
 
-Appendix C. Vagrant Commands
+Appendix C.0.2. Deactivating Memcached
+===============================================================================
+To deactivate memcached, edit makahiki_env.sh to set 
+MAKAHIKI_USE_MEMCACHED to False and comment out LD_LIBRARY_PATH settings:
+-------------------------------------------------------------------------------
+export MAKAHIKI_USE_MEMCACHED=False
+# Don't add libmemcached paths more than once
+#if [ ! $LIBMEMCACHED_PATHS_ADDED ];
+#    then
+#        export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib:$LD_LIBRARY_PATH
+#        export LIBMEMCACHED_PATHS_ADDED=True
+#fi
+-------------------------------------------------------------------------------
+
+Then stop the memcached service, and stop it from running at startup:
+-------------------------------------------------------------------------------
+vagrant@precise32:~$ sudo service memcached stop
+Stopping memcached: memcached.
+vagrant@precise32:~$ sudo update-rc.d -f memcached disable
+vagrant@precise32:/etc/init.d$ sudo update-rc.d -f memcached disable
+update-rc.d: warning: memcached start runlevel arguments (none) do not match LSB Default-Start values (2 3 4 5)
+update-rc.d: warning: memcached stop runlevel arguments (none) do not match LSB Default-Stop values (0 1 6)
+ Disabling system startup links for /etc/init.d/memcached ...
+ Removing any system startup links for /etc/init.d/memcached ...
+   /etc/rc0.d/K20memcached
+   /etc/rc1.d/K20memcached
+   /etc/rc2.d/S20memcached
+   /etc/rc3.d/S20memcached
+   /etc/rc4.d/S20memcached
+   /etc/rc5.d/S20memcached
+   /etc/rc6.d/K20memcached
+ Adding system startup for /etc/init.d/memcached ...
+   /etc/rc0.d/K20memcached -> ../init.d/memcached
+   /etc/rc1.d/K20memcached -> ../init.d/memcached
+   /etc/rc6.d/K20memcached -> ../init.d/memcached
+   /etc/rc2.d/K80memcached -> ../init.d/memcached
+   /etc/rc3.d/K80memcached -> ../init.d/memcached
+   /etc/rc4.d/K80memcached -> ../init.d/memcached
+   /etc/rc5.d/K80memcached -> ../init.d/memcached
+vagrant@precise32:~$
+-------------------------------------------------------------------------------
+The memcached service will no longer be used by Makahiki, and will no longer 
+run at startup.
+
+To test this, shut down the virtual machine, then restart it:
+-------------------------------------------------------------------------------
+vagrant@precise32:~$ sudo shutdown -h now
+-- output omitted --
+Connection to 127.0.0.1 closed by remote host.
+Connection to 127.0.0.1 closed.
+
+> vagrant up --no-provision
+-- output omitted --
+> vagrant ssh
+-------------------------------------------------------------------------------
+(Do not use "sudo shutdown -r now" here. This will restart the virtual machine 
+without mounting the /vagrant shared folder.)
+
+After starting the new SSH session, test memcached once again:
+-------------------------------------------------------------------------------
+vagrant@precise32:~$ cd /vagrant/makahiki
+vagrant@precise32:/vagrant/makahiki$ ./manage.py shell
+Python 2.7.3 (default, Apr 10 2013, 05:46:21)
+[GCC 4.6.3] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from django.core.cache import cache
+>>> cache
+<django.core.cache.backends.dummy.DummyCache object at 0x964b72c>
+>>> cache.set('test','Hello World') == None
+True
+>>> exit()
+vagrant@precise32:/vagrant/makahiki$
+-------------------------------------------------------------------------------
+Cache should be a DummyCache, and cache.set('test','Hello World') == None 
+should return True.
+===============================================================================
+
+Appendix C.0.3. Reactivating Memcached
+===============================================================================
+1. Edit makahiki_env.sh to set MAKAHIKI_USE_MEMCACHED to True, and uncomment 
+   the LD_LIBRARY_PATH settings:
+-------------------------------------------------------------------------------
+export MAKAHIKI_USE_MEMCACHED=True
+# Don't add libmemcached paths more than once
+if [ ! $LIBMEMCACHED_PATHS_ADDED ];
+    then
+        export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib:$LD_LIBRARY_PATH
+        export LIBMEMCACHED_PATHS_ADDED=True
+fi
+-------------------------------------------------------------------------------
+
+2. Source ~/.bashrc to apply the changes:
+-------------------------------------------------------------------------------
+vagrant@precise32:~$ source ~/.bashrc
+-------------------------------------------------------------------------------
+
+3a. If you just want to re-enable memcached temporarily, start the service:
+-------------------------------------------------------------------------------
+vagrant@precise32:~$ sudo service memcached start
+Starting memcached: memcached.
+-------------------------------------------------------------------------------
+
+3b. If you want to permanently set memcached to run at startup, do this:
+-------------------------------------------------------------------------------
+vagrant@precise32:~$ sudo update-rc.d -f memcached enable
+update-rc.d: warning: memcached start runlevel arguments (none) do not match LSB Default-Start values (2 3 4 5)
+update-rc.d: warning: memcached stop runlevel arguments (none) do not match LSB Default-Stop values (0 1 6)
+ Enabling system startup links for /etc/init.d/memcached ...
+ Removing any system startup links for /etc/init.d/memcached ...
+   /etc/rc0.d/K20memcached
+   /etc/rc1.d/K20memcached
+   /etc/rc2.d/K80memcached
+   /etc/rc3.d/K80memcached
+   /etc/rc4.d/K80memcached
+   /etc/rc5.d/K80memcached
+   /etc/rc6.d/K20memcached
+ Adding system startup for /etc/init.d/memcached ...
+   /etc/rc0.d/K20memcached -> ../init.d/memcached
+   /etc/rc1.d/K20memcached -> ../init.d/memcached
+   /etc/rc6.d/K20memcached -> ../init.d/memcached
+   /etc/rc2.d/S20memcached -> ../init.d/memcached
+   /etc/rc3.d/S20memcached -> ../init.d/memcached
+   /etc/rc4.d/S20memcached -> ../init.d/memcached
+   /etc/rc5.d/S20memcached -> ../init.d/memcached
+-------------------------------------------------------------------------------
+===============================================================================
+
+Appendix D. Vagrant Commands
 ===============================================================================
 vagrant up: Start the virtual machine and run the provisioning script.
             If the virtual machine defined in the Vagrantfile does 
@@ -882,7 +1039,7 @@ vagrant destroy: Deletes a virtual machine. The Vagrantfile is not deleted.
 The Vagrant 1.2 documentation can be found at http://docs.vagrantup.com/v2/.
 ===============================================================================
 
-Appendix D. Re-Provisioning Vagrant
+Appendix E. Re-Provisioning Vagrant
 ===============================================================================
 If you are developing for Makahiki using a Vagrant virtual machine and change 
 the provisioning scripts (bootstrap.sh or run_bootstrap.sh), you will need 
@@ -905,7 +1062,7 @@ B. Re-provision a virtual machine that is already running:
 -------------------------------------------------------------------------------
 ===============================================================================
 
-Appendix E. Configure the RAM of the Virtual Machine
+Appendix F. Configure the RAM of the Virtual Machine
 ===============================================================================
 The default settings in the Vagrantfile that comes with this project limit 
 the virtual machine to 1536 MB (1.5 GB) of RAM. To change these settings, you 
@@ -952,7 +1109,7 @@ vagrant@precise32:/vagrant/makahiki$ ./manage.py run_gunicorn -b 0.0.0.0:8000
 -------------------------------------------------------------------------------
 ===============================================================================
 
-Appendix F. Configure Networking on the Virtual Machine
+Appendix G. Configure Networking on the Virtual Machine
 ===============================================================================
 By default, the Vagrantfile specifies the IP address 192.168.56.4 for the 
 virtual machine's eth1 interface. This is part of a host-only network. It 

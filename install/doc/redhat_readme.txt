@@ -19,7 +19,9 @@ Contents:
 2.1.9.1. Testing the Server Without a Web Browser
 2.1.10. Update the Makahiki Instance
 2.1.11. Check the Memcached Installation
-2.1.12. Configuring Memcached
+2.1.11.1. Configuring Memcached for the First Time
+2.1.11.2. Deactivating Memcached
+2.1.11.3. Reactivating Memcached
 Appendix A. Notes on Log Files
 -------------------------------------------------------------------------------
 
@@ -661,18 +663,19 @@ True
 Stopping memcached:                                        [  OK  ]
 -------------------------------------------------------------------------------
 If any of the following errors occur, then Memcached is not working:
-(1) cache prints a blank to the console, or cache == None returns True.
+(1) cache prints a blank to the console, or cache == None returns True, 
+    or cache is a DummyCache.
 (2) cache.set returns False or returns nothing.
 (3) cache.get returns False, returns nothing, or causes a segmentation fault.
 If so, make sure environment variables are set and Memcached is running..
 ===============================================================================
 
-2.1.12. Configuring Memcached
+2.1.11.1. Configuring Memcached for the First Time
 ===============================================================================
 Memcached is a backend cache for the Makahiki web server. 
 Configuring memcached is optional.
 
-If the tests in 2.1.11 succeed, you can configure Makahiki to use Memcached. 
+If the tests in 2.1.11 succeed, you can configure Makahiki to use memcached. 
 Add these lines to the end of the $WORKON_HOME/makahiki/bin/postactivate file:
 -------------------------------------------------------------------------------
 export MAKAHIKI_USE_MEMCACHED=True
@@ -693,7 +696,7 @@ restart the memcached service:
 The memcached service will now run automatically at startup.
 
 To test this, restart the computer. After the restart, you should be able to 
-test memcached without setting any environment variables. 
+test memcached without setting any environment variables:
 -------------------------------------------------------------------------------
 % scl enable python27 bash
 % workon makahiki
@@ -716,6 +719,81 @@ True
 -------------------------------------------------------------------------------
 If this test works, then the memcached service is running and will be used 
 by Makahiki.
+===============================================================================
+
+2.1.11.2. Deactivating Memcached
+===============================================================================
+To deactivate memcached, edit $WORKON_HOME/makahiki/bin/postactivate to 
+set MAKAHIKI_USE_MEMCACHED to False and comment out LD_LIBRARY_PATH settings:
+-------------------------------------------------------------------------------
+export MAKAHIKI_USE_MEMCACHED=False
+# Don't add libmemcached paths more than once
+#if [ ! $LIBMEMCACHED_PATHS_ADDED ];
+#    then
+#        export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib:$LD_LIBRARY_PATH
+#        export LIBMEMCACHED_PATHS_ADDED=True
+#fi
+-------------------------------------------------------------------------------
+
+Then stop the memcached service, and stop it from running at startup:
+-------------------------------------------------------------------------------
+% sudo service memcached stop
+% sudo chkconfig memcached off
+-------------------------------------------------------------------------------
+The memcached service will no longer be used by Makahiki, and will no longer 
+run at startup.
+
+To verify this, test memcached once again:
+-------------------------------------------------------------------------------
+% scl enable python27 bash
+% workon makahiki
+% cd ~/makahiki/makahiki
+% ./manage.py shell
+Python 2.7.3 (default, Dec  3 2012, 07:01:20)
+[GCC 4.4.6 20120305 (Red Hat 4.4.6-4)] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from django.core.cache import cache
+>>> cache
+<django.core.cache.backends.dummy.DummyCache object at 0x1b20c90>
+>>> cache.set('test','Hello World') == None
+True
+>>> exit()
+-------------------------------------------------------------------------------
+Cache should be a DummyCache, and cache.set == None should return True.
+===============================================================================
+
+2.1.11.3. Reactivating Memcached
+===============================================================================
+This section assumes that "scl enable python27 bash" has been run.
+
+1. Edit $WORKON_HOME/makahiki/bin/postactivate to set MAKAHIKI_USE_MEMCACHED 
+   to True, and uncomment the LD_LIBRARY_PATH settings:
+-------------------------------------------------------------------------------
+export MAKAHIKI_USE_MEMCACHED=True
+# Don't add libmemcached paths more than once
+if [ ! $LIBMEMCACHED_PATHS_ADDED ];
+    then
+        export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib:$LD_LIBRARY_PATH
+        export LIBMEMCACHED_PATHS_ADDED=True
+fi
+-------------------------------------------------------------------------------
+
+2. workon makahiki to apply the changes:
+-------------------------------------------------------------------------------
+% workon makahiki
+-------------------------------------------------------------------------------
+
+3a. If you just want to re-enable memcached temporarily, start the service:
+-------------------------------------------------------------------------------
+% sudo service memcached start
+Starting memcached:                                        [  OK  ]
+-------------------------------------------------------------------------------
+
+3b. If you want to permanently set memcached to run at startup, do this:
+-------------------------------------------------------------------------------
+% sudo chkconfig memcached on
+-------------------------------------------------------------------------------
 ===============================================================================
 
 Appendix A. Notes on Log Files
