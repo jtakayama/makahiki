@@ -28,6 +28,7 @@ Appendix B.0.2. The Makahiki Server
 Appendix B.0.2.1. Testing The Server Without a Web Browser
 Appendix B.0.3. Update the Makahiki Instance
 Appendix B.0.4. Check The Memcached Installation
+Appendix B.0.5. Configuring Memcached
 Appendix C. Vagrant Commands
 Appendix D. Re-Provisioning Vagrant
 Appendix E. Configure the RAM of the Virtual Machine
@@ -794,9 +795,15 @@ If any of the following errors occur, then Memcached is not working:
 (1) cache prints a blank to the console, or cache == None returns True.
 (2) cache.set returns False.
 (3) cache.get returns False or causes a segmentation fault.
+If so, make sure environment variables are set and Memcached is running.
 
-If the tests succeed, you can configure Makahiki to use Memcached:
-1. Run /vagrant/vagrant/makahiki_env_memcached_append.sh to add some code to 
+===============================================================================
+Memcached is a backend cache for the Makahiki web server. 
+Configuring memcached is optional.
+
+If the tests in B.0.4 succeed, you can configure Makahiki to use Memcached:
+
+1a. Run /vagrant/vagrant/makahiki_env_memcached_append.sh to add some code to 
 the end of the /home/vagrant/makahiki_env.sh file:
 -------------------------------------------------------------------------------
 vagrant@precise32:~$ sh /vagrant/vagrant/makahiki_env_memcached_append.sh
@@ -810,7 +817,7 @@ WARNING! /home/vagrant/makahiki_env.sh file is different from expected file.
 Append settings anyway? (Result may contain duplicate lines.) [Y/n]
 -------------------------------------------------------------------------------
 
-Answer "Y" to add these lines to the end of makahiki_env.sh:
+1b. Answer "Y" to add these lines to the end of makahiki_env.sh:
 -------------------------------------------------------------------------------
 export MAKAHIKI_USE_MEMCACHED=True
 # Don't add libmemcached paths more than once
@@ -831,6 +838,30 @@ the provisioning script. If it does not run, start it manually:
 -------------------------------------------------------------------------------
 vagrant@precise32:~$ sudo service memcached start
 -------------------------------------------------------------------------------
+On Ubuntu, the memcached service should run automatically at startup.
+
+To test this, restart the computer. After the restart, you should be able to 
+test memcached without setting any environment variables. 
+-------------------------------------------------------------------------------
+vagrant@precise32:~$ cd ~/makahiki/makahiki
+vagrant@precise32:~/makahiki/makahiki$ ./manage.py shell
+Python 2.7.3 (default, Apr 10 2013, 05:46:21)
+[GCC 4.6.3] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from django.core.cache import cache
+>>> cache
+<django_pylibmc.memcached.PyLibMCCache object at 0x8c93c4c>
+>>> cache == None
+False
+>>> cache.set('test','Hello World')
+True
+>>> cache.get('test')
+'Hello World'
+>>> exit()
+-------------------------------------------------------------------------------
+If this test works, then the memcached service is running and will be used 
+by Makahiki.
 ===============================================================================
 
 Appendix C. Vagrant Commands

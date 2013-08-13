@@ -19,6 +19,7 @@ Contents:
 2.1.9.1. Testing the Server Without a Web Browser
 2.1.10. Update the Makahiki Instance
 2.1.11. Check the Memcached Installation
+2.1.12. Configuring Memcached
 Appendix A. Notes on Log Files
 -------------------------------------------------------------------------------
 
@@ -663,14 +664,16 @@ If any of the following errors occur, then Memcached is not working:
 (1) cache prints a blank to the console, or cache == None returns True.
 (2) cache.set returns False or returns nothing.
 (3) cache.get returns False, returns nothing, or causes a segmentation fault.
+If so, make sure environment variables are set and Memcached is running..
+===============================================================================
 
-Try restarting the Memcached service, then try again:
--------------------------------------------------------------------------------
-% sudo service memcached restart
--------------------------------------------------------------------------------
+2.1.12. Configuring Memcached
+===============================================================================
+Memcached is a backend cache for the Makahiki web server. 
+Configuring memcached is optional.
 
-If the tests succeed, you can configure Makahiki to use Memcached. To do this, 
-add these lines to the end of the $WORKON_HOME/makahiki/bin/postactivate file:
+If the tests in 2.1.11 succeed, you can configure Makahiki to use Memcached. 
+Add these lines to the end of the $WORKON_HOME/makahiki/bin/postactivate file:
 -------------------------------------------------------------------------------
 export MAKAHIKI_USE_MEMCACHED=True
 # Don't add libmemcached paths more than once
@@ -688,6 +691,31 @@ restart the memcached service:
 % sudo service memcached restart
 -------------------------------------------------------------------------------
 The memcached service will now run automatically at startup.
+
+To test this, restart the computer. After the restart, you should be able to 
+test memcached without setting any environment variables. 
+-------------------------------------------------------------------------------
+% scl enable python27 bash
+% workon makahiki
+% cd ~/makahiki/makahiki
+% ./manage.py shell
+Python 2.7.3 (default, Dec  3 2012, 07:01:20)
+[GCC 4.4.6 20120305 (Red Hat 4.4.6-4)] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from django.core.cache import cache
+>>> cache
+<django_pylibmc.memcached.PyLibMCCache object at 0x1a4fc50>
+>>> cache == None
+False
+>>> cache.set('test','Hello World')
+True
+>>> cache.get('test')
+'Hello World'
+>>> exit()
+-------------------------------------------------------------------------------
+If this test works, then the memcached service is running and will be used 
+by Makahiki.
 ===============================================================================
 
 Appendix A. Notes on Log Files
