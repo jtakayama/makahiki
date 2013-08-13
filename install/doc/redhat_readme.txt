@@ -488,8 +488,6 @@ Run the script as specified:
 % ./install/redhat_installer.py --initialize_instance --arch x64
 -------------------------------------------------------------------------------
 
-You will need to answer "Y" to the question "Do you wish to continue (Y/n)?"
-
 The script will create a log file in makahiki/install/logs with a filename of 
 the format "install_initialize_instance_<timestamp>.log," where <timestamp> is 
 a sequence of numbers representing a timestamp in the system local time. 

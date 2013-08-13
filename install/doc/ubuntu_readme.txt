@@ -372,8 +372,6 @@ Ubuntu x64:
 % ./install/ubuntu_installer.py --initialize_instance --arch x64
 -------------------------------------------------------------------------------
 
-You will need to answer "Y" to the question "Do you wish to continue (Y/n)?"
-
 The script will create a log file in makahiki/install/logs with a filename of 
 the format "install_initialize_instance_<timestamp>.log," where <timestamp> is 
 a sequence of numbers representing a timestamp in the system local time. 
@@ -384,9 +382,9 @@ For more information, see Appendix A.
 ===============================================================================
 You should still be in the makahiki virtual environment.
 
-Switch to the top-level makahiki directory:
+Switch to the makahiki/makahiki directory:
 -------------------------------------------------------------------------------
-% cd ~/makahiki
+% cd ~/makahiki/makahiki
 -------------------------------------------------------------------------------
 You can now start the web server using manage.py or gunicorn. The manage.py 
 web server is better for development, while gunicorn is better for production 
@@ -405,7 +403,7 @@ To start the server with gunicorn:
 In a web browser, go to http://localhost:8000 to see the landing page.
 ===============================================================================
 
-1.1.8.1. Testing the Server Without a Web Browser [UNTESTED]
+1.1.8.1. Testing the Server Without a Web Browser
 ===============================================================================
 If you are using a headless machine (no GUI) and cannot view the page 
 in a web browser from another computer, you will need to run the server in the 
@@ -421,21 +419,22 @@ Quit the server with CONTROL-C.
 % mkdir test
 % cd test
 % wget http://127.0.0.1:8000
---2013-08-09 11:19:25--  http://127.0.0.1:8000/
+--2013-08-13 01:06:47--  http://127.0.0.1:8000/
 Connecting to 127.0.0.1:8000... connected.
 HTTP request sent, awaiting response... 302 FOUND
 Location: http://127.0.0.1:8000/landing/ [following]
-[09/Aug/2013 11:19:26] "GET / HTTP/1.0" 302 0
---2013-08-09 11:19:26--  http://127.0.0.1:8000/landing/
+--2013-08-13 01:06:47--  http://127.0.0.1:8000/landing/
+[13/Aug/2013 01:06:47] "GET / HTTP/1.1" 302 0
 Connecting to 127.0.0.1:8000... connected.
 HTTP request sent, awaiting response... 200 OK
 Length: unspecified [text/html]
-[09/Aug/2013 11:19:26] "GET /landing/ HTTP/1.0" 200 6181
-Saving to: “index.html"
+Saving to: `index.html'
 
-    [ <=>                                   ] 6,181       --.-K/s   in 0s
+    [<=>                                    ] 0           --.-K/s              
+[13/Aug/2013 01:06:47] "GET /landing/ HTTP/1.1" 200 6181
+    [ <=>                                   ] 6,181       --.-K/s   in 0s      
 
-2013-08-09 11:19:26 (192 MB/s) - “index.html" saved [6181]
+2013-08-13 01:06:47 (29.2 MB/s) - `index.html' saved [6181]
 -------------------------------------------------------------------------------
 If your HTTP response is "200 OK," the server is running correctly. You can 
 delete the "test" directory when you are done:
@@ -448,19 +447,20 @@ Because this server was started in the background with &, you cannot stop it
 with Control-C. You will need to find the PIDs of its processes first:
 -------------------------------------------------------------------------------
 % ps ax | grep manage.py
-21791 tty1     S     0:00 python ./manage.py runserver
-21798 tty1     Sl    0:52 /root/.virtualenvs/makahiki/bin/python ./manage.py ru
-nserver
-21893 tty1     S+    0:00 grep manage.py
-% kill -9 21791 21798
+ 2242 pts/1    S      0:00 python ./manage.py runserver
+ 2249 pts/1    Sl     0:04 /home/makahikidev/.virtualenvs/makahiki/bin/python ./
+manage.py runserver
+ 2278 pts/1    S+     0:00 grep --color=auto manage.py
+% kill -9 2242 2249
 % 
-[1]+  Killed                 ./manage.py runserver  (wd: ~/makahiki/makahiki)
-(wd now: ~/test)
+[1]+  Killed                  ./manage.py runserver  (wd: ~/makahiki/makahiki)
+(wd now: ~)
 -------------------------------------------------------------------------------
 The PID of a given process will be different each time it runs.
 "kill -9 <PID>" forces the OS to stop the process.
 Kill both the "python ./manage.py runserver" and 
-"/root/.virtualenvs/makahiki/bin/python ./manage.py runserver" processes.
+"/home/makahikidev/.virtualenvs/makahiki/bin/python ./manage.py runserver" 
+processes.
 ===============================================================================
 
 1.1.9. Update the Makahiki Instance
@@ -470,35 +470,35 @@ system when bug fixes or system enhancements become available. Updating an
 installed Makahiki instance using the ubuntu_installer.py script requires the 
 following steps:
 
-(1.) Close the running server in the shell process that is running Makahiki:
+1. Close the running server in the shell process that is running Makahiki:
 -------------------------------------------------------------------------------
 % (type control-c in the shell running the makahiki server process)
 -------------------------------------------------------------------------------
 
-(2.) In the current shell or a new shell, go to the makahiki directory and 
+2. In the current shell or a new shell, go to the makahiki directory and 
      set up the Makahiki virtual environment:
 -------------------------------------------------------------------------------
 % cd ~/makahiki
 % workon makahiki
 -------------------------------------------------------------------------------
 
-(3.) Download the updated source code into the Makahiki installation:
+3. Download the updated source code into the Makahiki installation:
 -------------------------------------------------------------------------------
 % git pull origin master
 -------------------------------------------------------------------------------
 
-(4.) Run the ubuntu_installer.py script with --update_instance:
+4. Run the ubuntu_installer.py script with --update_instance:
 
 Run the script with the options specified for your operating system:
 
 Ubuntu x86:
 -------------------------------------------------------------------------------
-% python ./install/ubuntu_installer.py --update_instance --arch x86
+% ./install/ubuntu_installer.py --update_instance --arch x86
 -------------------------------------------------------------------------------
 
 Ubuntu x64:
 -------------------------------------------------------------------------------
-% python ./install/ubuntu_installer.py --update_instance --arch x64
+% ./install/ubuntu_installer.py --update_instance --arch x64
 -------------------------------------------------------------------------------
 
 The script will create a log file in makahiki/install/logs with a filename of 
@@ -506,7 +506,12 @@ the format "install_update_instance_<timestamp>.log," where <timestamp> is
 a sequence of numbers representing a timestamp in the system local time. 
 For more information, see Appendix A.
 
-(5.) Start the server with runserver or gunicorn:
+5. Switch to makahiki/makahiki:
+-------------------------------------------------------------------------------
+% cd ~/makahiki/makahiki
+-------------------------------------------------------------------------------
+
+6. Start the server with runserver or gunicorn:
 To start the server with manage.py:
 -------------------------------------------------------------------------------
 % ./manage.py runserver
@@ -528,19 +533,19 @@ In the virtual machine, switch to the makahiki/makahiki directory and run some
 commands in the manage.py shell:
 -------------------------------------------------------------------------------
 % sudo service memcached start
-Starting memcached:                                        [  OK  ]
+Starting memcached: memcached.
 % export LD_LIBRARY_PATH_OLD=$LD_LIBRARY_PATH
 % export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib:$LD_LIBRARY_PATH
 % export MAKAHIKI_USE_MEMCACHED=True
 % cd ~/makahiki/makahiki
 % ./manage.py shell
-Python 2.7.3 (default, Apr 10 2013, 05:46:21)
+Python 2.7.3 (default, Apr 10 2013, 05:46:21) 
 [GCC 4.6.3] on linux2
 Type "help", "copyright", "credits" or "license" for more information.
 (InteractiveConsole)
 >>> from django.core.cache import cache
 >>> cache
-<django_pylibmc.memcached.PyLibMCCache object at 0x8c93c4c>
+<django_pylibmc.memcached.PyLibMCCache object at 0x93f7bec>
 >>> cache == None
 False
 >>> cache.set('test','Hello World')
@@ -552,7 +557,7 @@ True
 % export LD_LIBRARY_PATH=$LD_LIBRARY_PATH_OLD
 % unset LD_LIBRARY_PATH_OLD
 % sudo service memcached stop
-Stopping memcached:                                        [  OK  ]
+Stopping memcached: memcached.
 -------------------------------------------------------------------------------
 If any of the following errors occur, then Memcached is not working:
 (1) cache prints a blank to the console, or cache == None returns True, 
@@ -580,13 +585,12 @@ if [ ! $LIBMEMCACHED_PATHS_ADDED ];
 fi
 -------------------------------------------------------------------------------
 
-Then, use chkconfig to set the memcached service to run at startup, and 
-restart the memcached service:
+On Ubuntu, memcached will usually run automatically at startup. 
+Start the server if it is not running:
 -------------------------------------------------------------------------------
-% sudo chkconfig memcached on
 % sudo service memcached restart
+Restarting memcached: memcached.
 -------------------------------------------------------------------------------
-The memcached service will now run automatically at startup.
 
 To test this, restart the computer. After the restart, you should be able to 
 test memcached without setting any environment variables. 
@@ -594,13 +598,13 @@ test memcached without setting any environment variables.
 % workon makahiki
 % cd ~/makahiki/makahiki
 % ./manage.py shell
-Python 2.7.3 (default, Apr 10 2013, 05:46:21)
+Python 2.7.3 (default, Apr 10 2013, 05:46:21) 
 [GCC 4.6.3] on linux2
 Type "help", "copyright", "credits" or "license" for more information.
 (InteractiveConsole)
 >>> from django.core.cache import cache
 >>> cache
-<django_pylibmc.memcached.PyLibMCCache object at 0x8c93c4c>
+<django_pylibmc.memcached.PyLibMCCache object at 0xa669c0c>
 >>> cache == None
 False
 >>> cache.set('test','Hello World')
@@ -615,7 +619,7 @@ by Makahiki.
 
 1.1.10.2. Deactivating Memcached
 ===============================================================================
-To deactivate memcached, edit makahiki_env.sh to set 
+To deactivate memcached, edit $WORKON_HOME/makahiki/bin/postactivate to set 
 MAKAHIKI_USE_MEMCACHED to False and comment out LD_LIBRARY_PATH settings:
 -------------------------------------------------------------------------------
 export MAKAHIKI_USE_MEMCACHED=False
@@ -655,22 +659,23 @@ update-rc.d: warning: memcached stop runlevel arguments (none) do not match LSB 
 The memcached service will no longer be used by Makahiki, and will no longer 
 run at startup.
 
-To test this, shut down the virtual machine, then restart it:
+To test this, restart the computer:
 -------------------------------------------------------------------------------
 vagrant@precise32:~$ sudo shutdown -r now
 -------------------------------------------------------------------------------
 
 After logging in, test memcached once again:
 -------------------------------------------------------------------------------
-% cd ~/makahiki
+% workon makahiki
+% cd ~/makahiki/makahiki
 % ./manage.py shell
-Python 2.7.3 (default, Apr 10 2013, 05:46:21)
+Python 2.7.3 (default, Apr 10 2013, 05:46:21) 
 [GCC 4.6.3] on linux2
 Type "help", "copyright", "credits" or "license" for more information.
 (InteractiveConsole)
 >>> from django.core.cache import cache
 >>> cache
-<django.core.cache.backends.dummy.DummyCache object at 0x964b72c>
+<django.core.cache.backends.dummy.DummyCache object at 0x9ef470c>
 >>> cache.set('test','Hello World') == None
 True
 >>> exit()
@@ -681,7 +686,52 @@ should return True.
 
 1.1.10.3. Reactivating Memcached
 ===============================================================================
+1. Edit $WORKON_HOME/makahiki/bin/postactivate to set MAKAHIKI_USE_MEMCACHED 
+   to True, and uncomment the LD_LIBRARY_PATH settings:
+-------------------------------------------------------------------------------
+export MAKAHIKI_USE_MEMCACHED=True
+# Don't add libmemcached paths more than once
+if [ ! $LIBMEMCACHED_PATHS_ADDED ];
+    then
+        export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib:$LD_LIBRARY_PATH
+        export LIBMEMCACHED_PATHS_ADDED=True
+fi
+-------------------------------------------------------------------------------
 
+2. workon makahiki to apply the changes:
+-------------------------------------------------------------------------------
+% workon makahiki
+-------------------------------------------------------------------------------
+
+3a. If you just want to re-enable memcached temporarily, start the service:
+-------------------------------------------------------------------------------
+% sudo service memcached start
+Starting memcached: memcached.
+-------------------------------------------------------------------------------
+
+3b. If you want to permanently set memcached to run at startup, do this:
+-------------------------------------------------------------------------------
+vagrant@precise32:~$ sudo update-rc.d -f memcached enable
+update-rc.d: warning: memcached start runlevel arguments (none) do not match LSB Default-Start values (2 3 4 5)
+update-rc.d: warning: memcached stop runlevel arguments (none) do not match LSB Default-Stop values (0 1 6)
+ Enabling system startup links for /etc/init.d/memcached ...
+ Removing any system startup links for /etc/init.d/memcached ...
+   /etc/rc0.d/K20memcached
+   /etc/rc1.d/K20memcached
+   /etc/rc2.d/K80memcached
+   /etc/rc3.d/K80memcached
+   /etc/rc4.d/K80memcached
+   /etc/rc5.d/K80memcached
+   /etc/rc6.d/K20memcached
+ Adding system startup for /etc/init.d/memcached ...
+   /etc/rc0.d/K20memcached -> ../init.d/memcached
+   /etc/rc1.d/K20memcached -> ../init.d/memcached
+   /etc/rc6.d/K20memcached -> ../init.d/memcached
+   /etc/rc2.d/S20memcached -> ../init.d/memcached
+   /etc/rc3.d/S20memcached -> ../init.d/memcached
+   /etc/rc4.d/S20memcached -> ../init.d/memcached
+   /etc/rc5.d/S20memcached -> ../init.d/memcached
+-------------------------------------------------------------------------------
 ===============================================================================
 
 Appendix A. Notes on Log Files
