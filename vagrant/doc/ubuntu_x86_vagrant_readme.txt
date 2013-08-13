@@ -808,6 +808,7 @@ file instead of copying over it:
 WARNING! /home/vagrant/makahiki_env.sh file is different from expected file.
 Append settings anyway? (Result may contain duplicate lines.) [Y/n]
 -------------------------------------------------------------------------------
+
 Answer "Y" to add these lines to the end of makahiki_env.sh:
 -------------------------------------------------------------------------------
 export MAKAHIKI_USE_MEMCACHED=True
