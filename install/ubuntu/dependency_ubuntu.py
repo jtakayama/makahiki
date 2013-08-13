@@ -85,7 +85,7 @@ def termination_string():
     Gets the current system time and appends it to a termination notice.
     """
     now = datetime.datetime.now()
-    time = now.strftime("%Y-%m-%d %H:%M:%S:%f")
+    time = now.strftime("%Y-%m-%d %H:%M:%S.%f")
     end_time = "Script exiting at %s\n" % time
     return end_time
 
@@ -94,7 +94,7 @@ def current_time():
     Returns the current system time as a string.
     """
     now = datetime.datetime.now()
-    time = now.strftime("%Y-%m-%d %H:%M:%S:%f")
+    time = now.strftime("%Y-%m-%d %H:%M:%S.%f")
     return time
 
 def apt_get_install(packagename, logfile):

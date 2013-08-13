@@ -8,7 +8,7 @@ def termination_string():
     Gets the current system time and appends it to a termination notice.
     """
     now = datetime.datetime.now()
-    time = now.strftime("%Y-%m-%d %H:%M:%S")
+    time = now.strftime("%Y-%m-%d %H:%M:%S.%f")
     end_time = "Script exiting at %s\n" % time
     return end_time
 
@@ -69,7 +69,7 @@ def run(logfile):
         1.    logfile: The logfile to write output to. 
     """
     now = datetime.datetime.now()
-    time = now.strftime("%Y-%m-%d %H:%M:%S")
+    time = now.strftime("%Y-%m-%d %H:%M:%S.%f")
     start_time = "Script starting at %s\n" % time
     logfile.write(start_time)
     print start_time
