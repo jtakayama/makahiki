@@ -14,12 +14,12 @@ Contents:
 1.1.6. Environment Variables Configuration
 1.1.7. Initialize Makahiki
 1.1.8. Start the Server
-1.1.8.1. Testing the Server Without a Web Browser [UNTESTED]
+1.1.8.1. Testing the Server Without a Web Browser
 1.1.9. Update the Makahiki Instance
-1.1.10. Check the Memcached Installation [UNTESTED]
-1.1.10.1. Configuring Memcached for the First Time [UNTESTED]
-1.1.10.2. Deactivating Memcached [UNTESTED]
-1.1.10.3. Reactivating Memcached [UNTESTED]
+1.1.10. Check the Memcached Installation
+1.1.10.1. Configuring Memcached for the First Time
+1.1.10.2. Deactivating Memcached
+1.1.10.3. Reactivating Memcached
 Appendix A. Notes on Log Files
 -------------------------------------------------------------------------------
 
