@@ -1034,6 +1034,10 @@ vagrant halt: Attempt to shut down the virtual machine gracefully.
 vagrant status: Show the status of the virtual machine.
 vagrant destroy: Deletes a virtual machine. The Vagrantfile is not deleted.
 
+Note that Vagrant virtual machines are linked to the directory in which 
+they were created with "vagrant up." If the same Vagrantfile is copied into 
+another directory, the "vagrant up" command will create a new virtual machine.
+
 The Vagrant 1.2 documentation can be found at http://docs.vagrantup.com/v2/.
 ===============================================================================
 
