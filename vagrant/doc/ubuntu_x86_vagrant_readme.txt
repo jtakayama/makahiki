@@ -690,28 +690,29 @@ Saving to: “index.html"
 2013-08-09 11:19:26 (192 MB/s) - “index.html" saved [6181]
 -------------------------------------------------------------------------------
 If your HTTP response is "200 OK," the server is running correctly. You can 
-delete the "test" directory when you are done.
+delete the "test" directory when you are done:
+-------------------------------------------------------------------------------
+% cd ~/
+% rm -rf test
+-------------------------------------------------------------------------------
 
 Because this server was started in the background with &, you cannot stop it 
-with Control-C. You will need to find the PID of the process first:
+with Control-C. You will need to find the PIDs of its processes first:
 -------------------------------------------------------------------------------
 vagrant@precise32:~/test$ ps ax | grep manage.py
 21791 tty1     S     0:00 python ./manage.py runserver
 21798 tty1     Sl    0:52 /root/.virtualenvs/makahiki/bin/python ./manage.py ru
 nserver
 21893 tty1     S+    0:00 grep manage.py
-% kill -9 21791
+% kill -9 21791 21798
 % 
 [1]+  Killed                 ./manage.py runserver  (wd: ~/makahiki/makahiki)
 (wd now: ~/test)
 -------------------------------------------------------------------------------
-The PID of the process is 21791 here, but will be different each time.
-"kill -9 <PID>" forces the OS to stop the process, and the 
-"python ./manage.py runserver" is what needs to be stopped.
-
-Later, if you restart the web server and get an error stating that the port 
-is already in use, you may need to use kill -9 to stop the other process,
-"/root/.virtualenvs/makahiki/bin/python ./manage.py runserver," as well.
+The PID of a given process will be different each time it runs.
+"kill -9 <PID>" forces the OS to stop the process.
+Kill both the "python ./manage.py runserver" and 
+"/root/.virtualenvs/makahiki/bin/python ./manage.py runserver" processes.
 ===============================================================================
 
 Appendix B.0.3. Update the Makahiki Instance
