@@ -5,39 +5,51 @@ import datetime
 import subprocess
 import shlex
 import datestring_functions
-import dependency.dependency_redhat
-import pip.pip_install
+import redhat.dependency_redhat
+import pip_install
 import run_update_instance
 import run_initialize_instance
+import cleanup
 
 def logfile_open(scripttype):
     """
     Returns an open logfile with a timestamp. It is left to the 
     calling function to write to the file and close it.
     
-    This function will terminate the calling function if an IOError 
-    occurs while opening the file.
+    This function will return None if an IOError occurs while 
+    opening the file.
     
     Parameters:
         1. scripttype: A string describing the installation script
            that is being run.
     """
-    rundir = os.getcwd()
-    logsdir = "/install/logs/"
+    # Build file path to logs directory based on location of this file
+    runpath = os.path.dirname(os.path.realpath(__file__))
+    pathdirs = runpath.split(os.sep)
+    assembled_path = ""
+    i = 0
+    # Assume the last part is the filename
+    while i < len(pathdirs):
+        if i == 0:
+            assembled_path = pathdirs[i]
+        else:
+            assembled_path = assembled_path + os.sep + pathdirs[i]
+        i = i + 1
+    
+    logsdir = assembled_path + os.sep + "logs"
     prefix = "install_" + scripttype + "_"
     dt = datetime.datetime
     date_suffix = "null"
     logfile = None
     try:
         date_suffix = datestring_functions.datestring(dt)
-        # Assumes rundir is not terminated with a "/"
-        logfile_path = rundir + logsdir + prefix + date_suffix + ".log"
+        logfile_path = logsdir + os.sep + prefix + date_suffix + ".log"
         try:
             result = subprocess.check_call(shlex.split("touch %s" % logfile_path))
             if result == 0:
                 logfile = open(logfile_path, 'a')
             elif result == 1:
-                print "Could not create file at %s." % logfile_path
+                print "Could not create logfile at %s." % logfile_path
                 print "Script will terminate."
                 logfile = None
         except IOError as ioe:
@@ -52,78 +64,62 @@ def logfile_open(scripttype):
         logfile = None
     return logfile
 
-def scriptrunner(scripttype, os, arch, logfile):
+def scriptrunner(scripttype, arch, logfile):
     """
-    Chooses and runs an installation script, and which logfile 
-    that script will write its output to.
+    Chooses and runs an installation script, and supplies the
+    logfile that the script will write its output to.
     
-    Though not all scripts are OS-dependent, the "os" and "arch" 
-    variables are used to determine if the system is supported.
+    Though not all scripts are OS-dependent, the "arch" 
+    parameter is used to determine if the system is supported.
     
     Parameters:
-        1. scripttype: A string describing the installation script
-           that is being run.
-           Supported values: "dependencies", "pip", "initialize_instance," "update_instance"
-        2. os: A string describing the operating system.
-           Supported values: "redhat"
-        3. arch: Architecture. Supported values: "x86" or "x64".
-           Red Hat is supported for x64.
-        4. logfile: The log file to pass to the installation script.
+        1. scripttype: The installation script that is being run. 
+           Supported values: 
+           "dependencies", "cleanup", "pip", "initialize_instance", "update_instance"
+        2. arch: Architecture. RHEL / CentOS are supported for x64 architectures.
+        3. logfile: The log file to pass to the installation script.
     """
-    if os == "ubuntu":
-        logfile.write("This is not the script for Ubuntu Linux. Use ubuntu_installer.py instead.\n")
+    if arch != "x64":
+        logfile.write("Unsupported architecture for RHEL / CentOS: %s\n" % arch)
         logfile.write("Script could not be completed.\n")
-        print "This is not the script for Ubuntu Linux. Use ubuntu_installer.py instead.\n"
-        print "Script could not be completed.\n"
-    elif os == "redhat" and arch != "x64":
-        logfile.write("Unsupported architecture for %s: %s" % (os, arch))
-        logfile.write("Script could not be completed.")
-        print "Unsupported architecture for %s: %s" % (os, arch)
-        print "Script could not be completed."
-    elif os != "ubuntu" and os != "redhat":
-        logfile.write("Unsupported operating system: %s" % os)
-        logfile.write("Script could not be completed.")
-        print "Unsupported operating system: %s" % os
+        print "Unsupported architecture for RHEL / CentOS: %s" % arch
         print "Script could not be completed."
     else: 
         if scripttype == "dependencies":
-            if os == "redhat":
-                logfile = dependency.dependency_redhat.run(arch, logfile)
-            elif os == "ubuntu":
-                logfile.write("This is not the script for Ubuntu Linux. Use ubuntu_installer.py instead.\n")
-                logfile.write("Script could not be completed.\n")
-                print "This is not the script for Ubuntu Linux. Use ubuntu_installer.py instead.\n"
-                print "Script could not be completed.\n"
+            logfile = redhat.dependency_redhat.run(arch, logfile)
+        elif scripttype == "cleanup":
+            logfile = cleanup.run(logfile)
         elif scripttype == "pip":
-            logfile = pip.pip_install.run(logfile)
+            logfile = pip_install.run(logfile)
         elif scripttype == "initialize_instance":
             logfile = run_initialize_instance.run(logfile)
         elif scripttype == "update_instance":
             logfile = run_update_instance.run(logfile)
         else:
-            logfile.write("Error: redhat_installer.py invoked with invalid command: %s" % scripttype)
+            logfile.write("Error: redhat_installer.py invoked with invalid command: %s\n" % scripttype)
             print "Error: redhat_installer.py invoked with invalid command: %s" % scripttype
     # After the function is done, return the logfile.
     return logfile
 
 def main():
-    if len(sys.argv) != 6:
-        print "Usage: redhat_installer.py < --dependencies | --pip | --initialize_instance | --update_instance > --os < redhat > --arch < x64 >"
+    if ((len(sys.argv) != 4) or (sys.argv[2] != "--arch")):
+        print "Usage: redhat_installer.py < --dependencies | --cleanup | --pip | --initialize_instance | --update_instance > --arch < x64 >"
         print "--dependencies: Install Makahiki dependencies (software packages)."
+        print "--cleanup: Remove files downloaded by Makahiki scripts."
         print "--pip: Install Makahiki local dependencies using pip."
         print "--initialize_instance: Initialize the Makahiki installation."
         print "--update_instance: Update the Makahiki installation."
-        print "--os: Operating system. This script supports redhat (Red Hat Enterprise Linux)."
-        print "--arch: Architecture. This script only supports x64 for redhat."
+        print "--arch: Architecture. This script only supports x64 for RHEL / CentOS."
     else:
         args = sys.argv[1:]
         scripttype = args[0].strip()[2:]
-        os = args[2].strip()
-        arch = args[4].strip()
+        arch = args[2].strip()
         
         logfile = logfile_open(scripttype)
-        if logfile is not None:
-            logfile = scriptrunner(scripttype,os,arch,logfile)
+        if logfile == None:
+            exit(1)
+        else:
+            logfile = scriptrunner(scripttype, arch,logfile)
             logfile.close()
 
 if __name__ == '__main__':

@@ -7,7 +7,7 @@ def termination_string():
     Gets the current system time and appends it to a termination notice.
     """
     now = datetime.datetime.now()
-    time = now.strftime("%Y-%m-%d %H:%M:%S")
+    time = now.strftime("%Y-%m-%d %H:%M:%S.%f")
     end_time = "Script exiting at %s\n" % time
     return end_time
 
@@ -17,7 +17,7 @@ def run(logfile):
     script and logs the output to a file.
     """
     now = datetime.datetime.now()
-    time = now.strftime("%Y-%m-%d %H:%M:%S")
+    time = now.strftime("%Y-%m-%d %H:%M:%S.%f")
     start_time = "Makahiki instance update script started at %s\n" % time
     logfile.write(start_time)
     print start_time
@@ -48,8 +48,8 @@ def run(logfile):
         print "CalledProcessError: "
         logfile.write(cpe.output)
         print cpe.output
-        logfile.write("Warning: Makahiki instance update did not complete successfully.")
-        print "Warning: Makahiki instance update did not complete successfully."
+        logfile.write("Warning: Makahiki instance update did not complete successfully.\n")
+        print "Warning: Makahiki instance update did not complete successfully.\n"
         end_time = termination_string()
         logfile.write(end_time)
         print end_time
@@ -60,8 +60,8 @@ def run(logfile):
         oserror_output = " errno: %s\n filename: %s\n strerror: %s\n" % (ose.errno, ose.filename, ose.strerror) 
         logfile.write(oserror_output)
         print oserror_output
-        logfile.write("Warning: Makahiki instance update did not complete successfully.")
-        print "Warning: Makahiki instance update did not complete successfully."
+        logfile.write("Warning: Makahiki instance update did not complete successfully.\n")
+        print "Warning: Makahiki instance update did not complete successfully.\n"
         end_time = termination_string()
         logfile.write(end_time)
         print end_time

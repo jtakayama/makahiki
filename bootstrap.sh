@@ -51,6 +51,11 @@ echo "Updating package list: started at $(date)"
 echo "apt-get update"
 apt-get update
 echo "Updating package list: finished at $(date)"
+# wget is usually already installed.
+echo "Installing wget: started at $(date)"
+echo "apt-get -y install wget"
+apt-get install -y wget
+echo "Installing wget: finished at $(date)"
 echo "Installing git: started at $(date)"
 echo "apt-get install -y git"
 apt-get install -y git
@@ -221,25 +226,19 @@ echo "Installing virtualenvwrapper: started at $(date)"
 echo "pip install virtualenvwrapper"
 pip install virtualenvwrapper
 echo "Installing virtualenvwrapper: finished at $(date)"
+echo "Copying configuration into /home/vagrant/makahiki_env.sh: started at $(date)"
 if [ ! -f /home/vagrant/makahiki_env.sh ]
     then
-        echo "Creating /home/vagrant/makahiki_env.sh: started at $(date)"
-        echo "touch /home/vagrant/makahiki_env.sh"
-        touch /home/vagrant/makahiki_env.sh
+        echo "cp /vagrant/vagrant/config_examples/makahiki_env.sh /home/vagrant/makahiki_env.sh"
+        cp /vagrant/vagrant/config_examples/makahiki_env.sh /home/vagrant/makahiki_env.sh
         echo "chown vagrant:vagrant /home/vagrant/makahiki_env.sh"
         chown vagrant:vagrant /home/vagrant/makahiki_env.sh
-        echo "Appending Makahiki environment variables..."
-        echo "# Makahiki environment variables" >> /home/vagrant/makahiki_env.sh
-        echo "# Syntax: postgres://<db_user>:<db_password>@<db_host>:<db_port>/<db_name>" >> /home/vagrant/makahiki_env.sh
-        echo "export MAKAHIKI_DATABASE_URL=postgres://makahiki:makahiki@localhost:5432/makahiki" >> /home/vagrant/makahiki_env.sh
-        echo "# Syntax: <admin_name>:<admin_password>" >> /home/vagrant/makahiki_env.sh
-        echo "export MAKAHIKI_ADMIN_INFO=admin:admin" >> /home/vagrant/makahiki_env.sh
-        echo "Creating /home/vagrant/makahiki_env.sh: finished at $(date)"
         MAKAHIKI_ENV_SETUP_RESULT="Succeeded"
     else
         echo "/home/vagrant/makahiki_environment.sh already exists. [ OK ]"
         MAKAHIKI_ENV_SETUP_RESULT="Already completed."
 fi
+echo "Copying configuration into /home/vagrant/makahiki_env.sh: finished at $(date)"
 # Begin .bashrc appending code:
 echo "Appending Makahiki settings to /home/vagrant/.bashrc: started at $(date)"
 MD5SUM_HOME_BASHRC_EXPECTED=$(md5sum "/vagrant/vagrant/config_examples/home.bashrc.ubuntu.default")

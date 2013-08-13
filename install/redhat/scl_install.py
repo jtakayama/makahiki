@@ -8,7 +8,7 @@ def termination_string():
     Gets the current system time and appends it to a termination notice.
     """
     now = datetime.datetime.now()
-    time = now.strftime("%Y-%m-%d %H:%M:%S")
+    time = now.strftime("%Y-%m-%d %H:%M:%S.%f")
     end_time = "Script exiting at %s\n" % time
     return end_time
 
@@ -69,7 +69,7 @@ def run(logfile):
         1.    logfile: The logfile to write output to. 
     """
     now = datetime.datetime.now()
-    time = now.strftime("%Y-%m-%d %H:%M:%S")
+    time = now.strftime("%Y-%m-%d %H:%M:%S.%f")
     start_time = "Script starting at %s\n" % time
     logfile.write(start_time)
     print start_time
@@ -77,26 +77,41 @@ def run(logfile):
     download_dir = os.path.normpath(os.path.dirname(os.path.realpath(__file__)) + os.sep + os.pardir + os.sep + "download")
     os.chdir(download_dir)
     
+    # Install wget
+    result = run_command("yum install -y wget", logfile)
+    success = result[0]
+    logfile = result[1]
+    if not success:
+        return logfile
+    
+    # Retrieve the repo file
     repo_url = "http://people.redhat.com/bkabrda/scl_python27.repo"
     repoadd = "The repository at %s will be added to the system.\n" % repo_url
     logfile.write(repoadd)
     print repoadd
-    
     result = run_command("wget %s" % repo_url, logfile)
     success = result[0]
     logfile = result[1]
     if not success:
         return logfile
     
+    # Copy the repo file to the system repos directory
     result = run_command("cp ./scl_python27.repo /etc/yum.repos.d/scl_python27.repo", logfile)
     success = result[0]
     logfile = result[1]
     if not success:
         return logfile
     
+    # Clean up the .repo file when done.
+    result = run_command("rm ./scl_python27.repo", logfile)
+    success = result[0]
+    logfile = result[1]
+    if not success:
+        return logfile
+    
+    # Install Python 2.7.3 from SCL collections
     logfile.write("Python 2.7.3 will be installed from SCL.\n")
     print "Python 2.7.3 will be installed from SCL.\n"
-    
     result = run_command("yum install -y python27", logfile)
     success = result[0]
     logfile = result[1]

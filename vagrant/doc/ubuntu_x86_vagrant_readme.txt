@@ -16,6 +16,7 @@ Contents:
 2.1.3. Check for the Makahiki Source Code
 2.1.4. Start the Server
 2.1.5. If the Server Does Not Start
+2.1.6. If the Site Is Unreachable
 Appendix A.0. Troubleshooting Configuration Files
 Appendix A.0.1. Troubleshooting /etc/bash.bashrc
 Appendix A.0.2. Troubleshooting pg_hba.conf
@@ -24,12 +25,16 @@ Appendix A.0.4. Troubleshooting /home/vagrant/.bashrc
 Appendix B.0. Makahiki Maintenance Tasks
 Appendix B.0.1. Initialize Makahiki
 Appendix B.0.2. The Makahiki Server
+Appendix B.0.2.1. Testing The Server Without a Web Browser
 Appendix B.0.3. Update the Makahiki Instance
-Appendix B.0.4. Check The Memcached Installation
-Appendix C. Vagrant Commands
-Appendix D. Re-Provisioning Vagrant
-Appendix E. Configure the RAM of the Virtual Machine
-Appendix F. Configure Networking on the Virtual Machine
+Appendix C.0. Check The Memcached Installation
+Appendix C.0.1. Configuring Memcached For The First Time
+Appendix C.0.2. Deactivating Memcached
+Appendix C.0.3. Reactivating Memcached
+Appendix D. Vagrant Commands
+Appendix E. Re-Provisioning Vagrant
+Appendix F. Configure the RAM of the Virtual Machine
+Appendix G. Configure Networking on the Virtual Machine
 
 Instructions in appendices are optional.
 -------------------------------------------------------------------------------
@@ -63,11 +68,15 @@ System requirements:
     x86 (32-bit) and x64 (64-bit) operating systems.
   - The virtual machine that will be configured will have x86 architecture
     and is compatible with x86 or x64 host operating systems.
+  - Linux users:
+    It is recommended that the host machine have a graphical user interface 
+    or a window manager. This guide assumes the use of a graphical user 
+    interface in some sections. It is required if you choose to use Eclipse.
 - Hardware:
   - CPU: Modern dual or quad core
   - RAM: 4 GB
   - The Vagrant virtual machine will be configured by default to have 1.5 GB 
-    of RAM (1536 MB). To change this amount, see Appendix E.
+    of RAM (1536 MB). To change this amount, see Appendix F.
 
 WARNING:
 -------------------------------------------------------------------------------
@@ -78,14 +87,13 @@ http://makahiki.readthedocs.org/en/latest/installation-makahiki-heroku.html.
 
 WARNING FOR DEVELOPERS:
 -------------------------------------------------------------------------------
-If you plan to use Makahiki for software development:
-
 Though not required, it is STRONGLY RECOMMENDED that you use Eclipse or 
 another integrated development environment (IDE) that can maintain 
 UTF-8 encoding and LF line endings within the project. UTF-8 and LF line 
 endings are required by certain Makahiki dependencies.
 
 Eclipse is available for Windows, OS X, and many Linux distributions.
+Linux users should note that Eclipse is a graphical application.
 
 To set up Eclipse for Makahiki development, see vagrant_and_eclipse_readme.txt.
 
@@ -131,7 +139,7 @@ Download the Vagrant installer from http://downloads.vagrantup.com/.
 - Windows users: download the .msi file.
 - Mac OS X users: download the .dmg file.
 - Linux users: download the .rpm or .deb package appropriate for your 
-  distro and architecture.
+  host machine's distribution and architecture.
 To install Vagrant on your operating system, follow the instructions at 
 http://docs.vagrantup.com/v2/installation/index.html.
 
@@ -151,7 +159,6 @@ system.
   - bash has been the default Terminal shell since OS X 10.3.
   - If your default shell is different, type "bash" to temporarily 
     switch to bash.
-  - Setting the shell to Bash permanently is left as an exercise for the user.
 - Linux users: Open a Terminal window.
 ===============================================================================
 
@@ -262,10 +269,8 @@ The bootstrap.sh script:
    5g. memcached
    5h. libmemcached-0.53
    5j. virtualenvwrapper
-6. Creates /home/vagrant/makahiki_env.sh, which sets Makahiki environment 
-   variables in the shell
-7. Edits /home/vagrant/.bashrc so that it will source 
-   /home/vagrant/makahiki_env.sh
+6. Copies /home/vagrant/makahiki_env.sh to the vagrant user's home directory.
+7. Edits /home/vagrant/.bashrc to source /home/vagrant/makahiki_env.sh
 8. Executes "pip install -r requirements.txt" in the makahiki directory 
    (/vagrant on the virtual machine), installing Makahiki dependencies 
    with pip.
@@ -381,7 +386,7 @@ Continue to Appendix A.0., "Troubleshooting Configuration Files."
 
 2.1.6. If The Site Is Unreachable
 ===============================================================================
-Continue to Appendix B. 
+Continue to Appendix G, "Configure Networking on the Virtual Machine."
 ===============================================================================
 
 Appendix A.0. Troubleshooting Configuration Files
@@ -655,6 +660,64 @@ them.
 To stop either of the servers, type Control-C in the virtual machine terminal.
 ===============================================================================
 
+Appendix B.0.2.1. Testing the Server Without a Web Browser
+===============================================================================
+If you are having problems accessing the web server from the host machine and 
+want to verify that it is working, you will need to use wget to test the 
+server on the virtual machine.
+-------------------------------------------------------------------------------
+vagrant@precise32:/vagrant/makahiki$ ./manage.py runserver &
+Validating models...
+
+Development server is running at http://127.0.0.1:8000/
+Quit the server with CONTROL-C.
+vagrant@precise32:/vagrant/makahiki$^M    # Note: Press "Enter" here.
+vagrant@precise32:/vagrant/makahiki$ cd ~/
+vagrant@precise32:~$ mkdir test
+vagrant@precise32:~/test$ cd test
+vagrant@precise32:~/test$ wget http://127.0.0.1:8000
+--2013-08-09 11:19:25--  http://127.0.0.1:8000/
+Connecting to 127.0.0.1:8000... connected.
+HTTP request sent, awaiting response... 302 FOUND
+Location: http://127.0.0.1:8000/landing/ [following]
+[09/Aug/2013 11:19:26] "GET / HTTP/1.0" 302 0
+--2013-08-09 11:19:26--  http://127.0.0.1:8000/landing/
+Connecting to 127.0.0.1:8000... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: unspecified [text/html]
+[09/Aug/2013 11:19:26] "GET /landing/ HTTP/1.0" 200 6181
+Saving to: “index.html"
+
+    [ <=>                                   ] 6,181       --.-K/s   in 0s
+
+2013-08-09 11:19:26 (192 MB/s) - “index.html" saved [6181]
+-------------------------------------------------------------------------------
+If your HTTP response is "200 OK," the server is running correctly. You can 
+delete the "test" directory when you are done:
+-------------------------------------------------------------------------------
+% cd ~/
+% rm -rf test
+-------------------------------------------------------------------------------
+
+Because this server was started in the background with &, you cannot stop it 
+with Control-C. You will need to find the PIDs of its processes first:
+-------------------------------------------------------------------------------
+vagrant@precise32:~/test$ ps ax | grep manage.py
+21791 tty1     S     0:00 python ./manage.py runserver
+21798 tty1     Sl    0:52 /root/.virtualenvs/makahiki/bin/python ./manage.py ru
+nserver
+21893 tty1     S+    0:00 grep manage.py
+% kill -9 21791 21798
+% 
+[1]+  Killed                 ./manage.py runserver  (wd: ~/makahiki/makahiki)
+(wd now: ~/test)
+-------------------------------------------------------------------------------
+The PID of a given process will be different each time it runs.
+"kill -9 <PID>" forces the OS to stop the process.
+Kill both the "python ./manage.py runserver" and 
+"/root/.virtualenvs/makahiki/bin/python ./manage.py runserver" processes.
+===============================================================================
+
 Appendix B.0.3. Update the Makahiki Instance
 ===============================================================================
 Makahiki is designed to support post-installation updating of your configured 
@@ -665,27 +728,27 @@ following steps:
 (The % indicates that the command can be done from anywhere in the virtual 
  machine, regardless of working directory.)
 
-(1.) Close the running server in the shell process that is running Makahiki:
+1. Close the running server in the shell process that is running Makahiki:
 (type control-c in the shell running the makahiki server process)
 
-(2.) Go to the vagrant directory (the makahiki directory on the host machine):
+2. Go to the vagrant directory (the makahiki directory on the host machine):
 -------------------------------------------------------------------------------
 % cd /vagrant
 vagrant@precise32:/vagrant$
 -------------------------------------------------------------------------------
 
-(3.) Download the updated source code into the Makahiki installation:
+3. Download the updated source code into the Makahiki installation:
 -------------------------------------------------------------------------------
 vagrant@precise32:/vagrant$ git pull origin master
 -------------------------------------------------------------------------------
 
-(4.) Run the update_instance.py script:
+4. Run the update_instance.py script:
 -------------------------------------------------------------------------------
 vagrant@precise32:/vagrant$ cd makahiki
 vagrant@precise32:/vagrant/makahiki$ ./scripts/update_instance.py
 -------------------------------------------------------------------------------
 
-(5.) Start the server with runserver or gunicorn:
+5. Start the server with runserver or gunicorn:
 To start the server with manage.py:
 -------------------------------------------------------------------------------
 vagrant@precise32:/vagrant/makahiki$ ./manage.py runserver
@@ -697,7 +760,7 @@ vagrant@precise32:/vagrant/makahiki$ ./manage.py run_gunicorn
 -------------------------------------------------------------------------------
 ===============================================================================
 
-Appendix B.0.4. Check The Memcached Installation
+Appendix C.0. Check The Memcached Installation
 ===============================================================================
 The provisioning script installed Memcached and libmemcached-0.53 on the 
 system. If you plan to configure Memcached, you will need to test the 
@@ -706,6 +769,7 @@ Memcached installation.
 In the virtual machine, switch to the /vagrant/makahiki directory and run some 
 commands in the manage.py shell:
 -------------------------------------------------------------------------------
+vagrant@precise32:~$ sudo service memcached restart
 vagrant@precise32:~$ export LD_LIBRARY_PATH_OLD=$LD_LIBRARY_PATH
 vagrant@precise32:~$ export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib:$LD_LIBRARY_PATH
 vagrant@precise32:~$ export MAKAHIKI_USE_MEMCACHED=True
@@ -728,21 +792,234 @@ True
 vagrant@precise32:/vagrant/makahiki$ unset MAKAHIKI_USE_MEMCACHED
 vagrant@precise32:/vagrant/makahiki$ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH_OLD
 vagrant@precise32:/vagrant/makahiki$ unset LD_LIBRARY_PATH_OLD
+vagrant@precise32:/vagrant/makahiki$ sudo service memcached stop
+Stopping memcached: memcached.
 -------------------------------------------------------------------------------
 If any of the following errors occur, then Memcached is not working:
-(1) cache prints a blank to the console, or cache == None returns True.
+(1) cache prints a blank to the console, or cache == None returns True, 
+    or cache is a "django.core.cache.backends.dummy.DummyCache object."
 (2) cache.set returns False.
 (3) cache.get returns False or causes a segmentation fault.
-
-Try restarting the Memcached service, then try again:
-vagrant@precise32:/vagrant/makahiki$ sudo service memcached restart
-
-If the tests succeed, you can configure Makahiki to use Memcached. This is 
-beyond the scope of this guide; consult the Makahiki documentation for 
-more information.
+If so, make sure environment variables are set and Memcached is running.
 ===============================================================================
 
-Appendix C. Vagrant Commands
+Appendix C.0.1. Configuring Memcached For The First Time
+===============================================================================
+Memcached is a backend cache for the Makahiki web server. 
+Configuring memcached is optional.
+
+If the tests in B.0.4 succeed, you can configure Makahiki to use Memcached:
+
+1a. Run /vagrant/vagrant/makahiki_env_memcached_append.sh to add some code to 
+the end of the /home/vagrant/makahiki_env.sh file:
+-------------------------------------------------------------------------------
+vagrant@precise32:~$ sh /vagrant/vagrant/makahiki_env_memcached_append.sh
+-------------------------------------------------------------------------------
+If the file is the same as the one created by the bootstrap.sh script, lines 
+will be appended automatically, with the result [Succeeded]. 
+
+If the makahiki_env_memcached_append.sh script has been run already but no 
+changes have been made, the script will do nothing and output the result 
+[Already completed].
+
+If you have made other changes to makahiki_env.sh between the time the virtual 
+machine was created and now, the script will ask permission to append to the 
+file instead of copying over it:
+-------------------------------------------------------------------------------
+WARNING! /home/vagrant/makahiki_env.sh file is different from expected file.
+Append settings anyway? (Result may contain duplicate lines.) [Y/n]
+-------------------------------------------------------------------------------
+
+If so, answer "Y" to add these lines to the end of makahiki_env.sh:
+-------------------------------------------------------------------------------
+export MAKAHIKI_USE_MEMCACHED=True
+# Don't add libmemcached paths more than once
+if [ ! $LIBMEMCACHED_PATHS_ADDED ];
+    then
+        export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib:$LD_LIBRARY_PATH
+        export LIBMEMCACHED_PATHS_ADDED=True
+fi
+-------------------------------------------------------------------------------
+If you answer "n" the script's result will be [Cancelled].
+If the operation succeeds, the result will be [Succeeded].
+
+2. Source /home/vagrant/.bashrc to apply changes:
+-------------------------------------------------------------------------------
+vagrant@precise32:~$ source /home/vagrant/.bashrc
+-------------------------------------------------------------------------------
+
+On Vagrant, the memcached service should run automatically once installed by 
+the provisioning script. If it does not run, start it manually:
+-------------------------------------------------------------------------------
+vagrant@precise32:~$ sudo service memcached start
+-------------------------------------------------------------------------------
+On Ubuntu, the memcached service should run automatically at startup.
+
+To test this, shut down the virtual machine, then restart it:
+-------------------------------------------------------------------------------
+vagrant@precise32:~$ sudo shutdown -h now
+-- output omitted --
+Connection to 127.0.0.1 closed by remote host.
+Connection to 127.0.0.1 closed.
+
+> vagrant up --no-provision
+-- output omitted --
+> vagrant ssh
+-------------------------------------------------------------------------------
+(Do not use "sudo shutdown -r now" here. This will restart the virtual machine 
+without mounting the /vagrant shared folder.)
+
+After the restart, you should be able to test memcached without setting any 
+environment variables. 
+-------------------------------------------------------------------------------
+vagrant@precise32:~$ cd /vagrant/makahiki
+vagrant@precise32:/vagrant/makahiki$ ./manage.py shell
+Python 2.7.3 (default, Apr 10 2013, 05:46:21)
+[GCC 4.6.3] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from django.core.cache import cache
+>>> cache
+<django_pylibmc.memcached.PyLibMCCache object at 0x8c93c4c>
+>>> cache == None
+False
+>>> cache.set('test','Hello World')
+True
+>>> cache.get('test')
+'Hello World'
+>>> exit()
+-------------------------------------------------------------------------------
+If this test works, then the memcached service is running and will be used 
+by Makahiki.
+===============================================================================
+
+Appendix C.0.2. Deactivating Memcached
+===============================================================================
+To deactivate memcached, edit makahiki_env.sh to set 
+MAKAHIKI_USE_MEMCACHED to False and comment out LD_LIBRARY_PATH settings:
+-------------------------------------------------------------------------------
+export MAKAHIKI_USE_MEMCACHED=False
+# Don't add libmemcached paths more than once
+#if [ ! $LIBMEMCACHED_PATHS_ADDED ];
+#    then
+#        export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib:$LD_LIBRARY_PATH
+#        export LIBMEMCACHED_PATHS_ADDED=True
+#fi
+-------------------------------------------------------------------------------
+
+Then stop the memcached service, and stop it from running at startup:
+-------------------------------------------------------------------------------
+vagrant@precise32:~$ sudo service memcached stop
+Stopping memcached: memcached.
+vagrant@precise32:~$ sudo update-rc.d -f memcached disable
+update-rc.d: warning: memcached start runlevel arguments (none) do not match LSB Default-Start values (2 3 4 5)
+update-rc.d: warning: memcached stop runlevel arguments (none) do not match LSB Default-Stop values (0 1 6)
+ Disabling system startup links for /etc/init.d/memcached ...
+ Removing any system startup links for /etc/init.d/memcached ...
+   /etc/rc0.d/K20memcached
+   /etc/rc1.d/K20memcached
+   /etc/rc2.d/S20memcached
+   /etc/rc3.d/S20memcached
+   /etc/rc4.d/S20memcached
+   /etc/rc5.d/S20memcached
+   /etc/rc6.d/K20memcached
+ Adding system startup for /etc/init.d/memcached ...
+   /etc/rc0.d/K20memcached -> ../init.d/memcached
+   /etc/rc1.d/K20memcached -> ../init.d/memcached
+   /etc/rc6.d/K20memcached -> ../init.d/memcached
+   /etc/rc2.d/K80memcached -> ../init.d/memcached
+   /etc/rc3.d/K80memcached -> ../init.d/memcached
+   /etc/rc4.d/K80memcached -> ../init.d/memcached
+   /etc/rc5.d/K80memcached -> ../init.d/memcached
+-------------------------------------------------------------------------------
+The memcached service will no longer be used by Makahiki, and will no longer 
+run at startup.
+
+To test this, shut down the virtual machine, then restart it:
+-------------------------------------------------------------------------------
+vagrant@precise32:~$ sudo shutdown -h now
+-- output omitted --
+Connection to 127.0.0.1 closed by remote host.
+Connection to 127.0.0.1 closed.
+
+> vagrant up --no-provision
+-- output omitted --
+> vagrant ssh
+-------------------------------------------------------------------------------
+(Do not use "sudo shutdown -r now" here. This will restart the virtual machine 
+without mounting the /vagrant shared folder.)
+
+After starting the new SSH session, test memcached once again:
+-------------------------------------------------------------------------------
+vagrant@precise32:~$ cd /vagrant/makahiki
+vagrant@precise32:/vagrant/makahiki$ ./manage.py shell
+Python 2.7.3 (default, Apr 10 2013, 05:46:21)
+[GCC 4.6.3] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from django.core.cache import cache
+>>> cache
+<django.core.cache.backends.dummy.DummyCache object at 0x964b72c>
+>>> cache.set('test','Hello World') == None
+True
+>>> exit()
+vagrant@precise32:/vagrant/makahiki$
+-------------------------------------------------------------------------------
+Cache should be a DummyCache, and cache.set('test','Hello World') == None 
+should return True.
+===============================================================================
+
+Appendix C.0.3. Reactivating Memcached
+===============================================================================
+1. Edit makahiki_env.sh to set MAKAHIKI_USE_MEMCACHED to True, and uncomment 
+   the LD_LIBRARY_PATH settings:
+-------------------------------------------------------------------------------
+export MAKAHIKI_USE_MEMCACHED=True
+# Don't add libmemcached paths more than once
+if [ ! $LIBMEMCACHED_PATHS_ADDED ];
+    then
+        export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib:$LD_LIBRARY_PATH
+        export LIBMEMCACHED_PATHS_ADDED=True
+fi
+-------------------------------------------------------------------------------
+
+2. Source ~/.bashrc to apply the changes:
+-------------------------------------------------------------------------------
+vagrant@precise32:~$ source ~/.bashrc
+-------------------------------------------------------------------------------
+
+3a. If you just want to re-enable memcached temporarily, start the service:
+-------------------------------------------------------------------------------
+vagrant@precise32:~$ sudo service memcached start
+Starting memcached: memcached.
+-------------------------------------------------------------------------------
+
+3b. If you want to permanently set memcached to run at startup, do this:
+-------------------------------------------------------------------------------
+vagrant@precise32:~$ sudo update-rc.d -f memcached enable
+update-rc.d: warning: memcached start runlevel arguments (none) do not match LSB Default-Start values (2 3 4 5)
+update-rc.d: warning: memcached stop runlevel arguments (none) do not match LSB Default-Stop values (0 1 6)
+ Enabling system startup links for /etc/init.d/memcached ...
+ Removing any system startup links for /etc/init.d/memcached ...
+   /etc/rc0.d/K20memcached
+   /etc/rc1.d/K20memcached
+   /etc/rc2.d/K80memcached
+   /etc/rc3.d/K80memcached
+   /etc/rc4.d/K80memcached
+   /etc/rc5.d/K80memcached
+   /etc/rc6.d/K20memcached
+ Adding system startup for /etc/init.d/memcached ...
+   /etc/rc0.d/K20memcached -> ../init.d/memcached
+   /etc/rc1.d/K20memcached -> ../init.d/memcached
+   /etc/rc6.d/K20memcached -> ../init.d/memcached
+   /etc/rc2.d/S20memcached -> ../init.d/memcached
+   /etc/rc3.d/S20memcached -> ../init.d/memcached
+   /etc/rc4.d/S20memcached -> ../init.d/memcached
+   /etc/rc5.d/S20memcached -> ../init.d/memcached
+-------------------------------------------------------------------------------
+===============================================================================
+
+Appendix D. Vagrant Commands
 ===============================================================================
 vagrant up: Start the virtual machine and run the provisioning script.
             If the virtual machine defined in the Vagrantfile does 
@@ -757,10 +1034,14 @@ vagrant halt: Attempt to shut down the virtual machine gracefully.
 vagrant status: Show the status of the virtual machine.
 vagrant destroy: Deletes a virtual machine. The Vagrantfile is not deleted.
 
+Note that Vagrant virtual machines are linked to the directory in which 
+they were created with "vagrant up." If the same Vagrantfile is copied into 
+another directory, the "vagrant up" command will create a new virtual machine.
+
 The Vagrant 1.2 documentation can be found at http://docs.vagrantup.com/v2/.
 ===============================================================================
 
-Appendix D. Re-Provisioning Vagrant
+Appendix E. Re-Provisioning Vagrant
 ===============================================================================
 If you are developing for Makahiki using a Vagrant virtual machine and change 
 the provisioning scripts (bootstrap.sh or run_bootstrap.sh), you will need 
@@ -769,17 +1050,21 @@ to provision the virtual machine again. You can do this in one of two ways.
 A. Re-provision the virtual machine on startup with "vagrant up":
 In the makahiki/vagrant directory, start the virtual machine with "vagrant up."
 This will run the provisioning script designated in the Vagrantfile.
+-------------------------------------------------------------------------------
 > vagrant up 
+-------------------------------------------------------------------------------
 
-An error may occur during virtual machine startup:
+An error may occur during provisioning:
 "dpkg-preconfigure: unable to re-open stdin: No such file or directory"
 This error does not affect the provisioning script and can be ignored.
 
 B. Re-provision a virtual machine that is already running:
+-------------------------------------------------------------------------------
 > vagrant provision
+-------------------------------------------------------------------------------
 ===============================================================================
 
-Appendix E. Configure the RAM of the Virtual Machine
+Appendix F. Configure the RAM of the Virtual Machine
 ===============================================================================
 The default settings in the Vagrantfile that comes with this project limit 
 the virtual machine to 1536 MB (1.5 GB) of RAM. To change these settings, you 
@@ -826,7 +1111,7 @@ vagrant@precise32:/vagrant/makahiki$ ./manage.py run_gunicorn -b 0.0.0.0:8000
 -------------------------------------------------------------------------------
 ===============================================================================
 
-Appendix F. Configure Networking on the Virtual Machine
+Appendix G. Configure Networking on the Virtual Machine
 ===============================================================================
 By default, the Vagrantfile specifies the IP address 192.168.56.4 for the 
 virtual machine's eth1 interface. This is part of a host-only network. It 
@@ -839,78 +1124,85 @@ server is started, the 192.168.56.0/24 network may not be correct.
 To fix this, check the IP addresses assigned to VirtualBox's networking 
 interfaces.
 1. Open VirtualBox.
-2. Go to File --> Preferences. This will launch the 
-   "VirtualBox - Settings" window.
+
+2. Go to File --> Preferences to launch the "VirtualBox - Settings" window.
+
 3. In the left sidebar, click "Network."
-4. Click on "VirtualBox Host-Only Ethernet Adapter" once to select it, 
-   and click the screwdriver icon (or the icon which, when moused over, shows 
-   "Edit host-only network.")
-5. The "Host-only Network Details" window should show:
-   "IPv4 Address: 192.168.56.1
-    IPv4 Network Mask: 255.255.255.0"
-   If the settings are different, you will need to change the settings 
-   in the Vagrantfile to match. Continue to the next step.
+
+4. Click on "VirtualBox Host-Only Ethernet Adapter" once to select it, and 
+click the screwdriver icon (the icon which, when moused over, shows 
+"Edit host-only network.")
+
+5. The "Host-only Network Details" window should show the following:
+"IPv4 Address: 192.168.56.1
+ IPv4 Network Mask: 255.255.255.0"
+If the settings are different, you will need to change the settings 
+in the Vagrantfile to match. Continue to the next step.
+
 6. Open the Vagrantfile in a text editor. Look for the line:
-   ----------------------------------------------------------------------------
-   config.vm.network :private_network, ip: "192.168.56.4"
-   ----------------------------------------------------------------------------
-   Change the address in quotes after the "ip:" field to something 
-   in the address range that was specified in "Host-only Network Details."
-   For example, if the "IPv4 Address" is 192.168.56.1 and the 
-   "IPv4 Network Mask" is 255.255.255.0, the range of usable addresses is 
-   192.168.56.1 - 192.168.56.254. VirtualBox reserves the first usable 
-   address, 192.168.56.1, for the host machine.
-   An explanation of IPv4 network addresses is beyond the scope of this guide.
+----------------------------------------------------------------------------
+config.vm.network :private_network, ip: "192.168.56.4"
+----------------------------------------------------------------------------
+Change the address in quotes after the "ip:" field to something 
+in the address range that was specified in "Host-only Network Details."
+For example, if the "IPv4 Address" is 192.168.56.1 and the 
+"IPv4 Network Mask" is 255.255.255.0, the range of usable addresses is 
+192.168.56.1 - 192.168.56.254. VirtualBox reserves the first usable 
+address, 192.168.56.1, for the host machine.
+An explanation of IPv4 network addresses is beyond the scope of this guide.
+
 7. Switch to the directory holding the Vagrantfile. Then, reload the virtual 
    machine configuration.
-   ----------------------------------------------------------------------------
-   > vagrant reload
-   ----------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+> vagrant reload
+-------------------------------------------------------------------------------
+
 8. SSH into the virtual machine and check the network interfaces:
-   ----------------------------------------------------------------------------
-   > vagrant ssh
-   Welcome to Ubuntu 12.04 LTS (GNU/Linux 3.2.0-23-generic-pae i686)
+----------------------------------------------------------------------------
+> vagrant ssh
+Welcome to Ubuntu 12.04 LTS (GNU/Linux 3.2.0-23-generic-pae i686)
+
+ * Documentation:  https://help.ubuntu.com/
+Welcome to your Vagrant-built virtual machine.
+Last login: Thu Aug  8 07:55:06 2013 from 10.0.2.2
+vagrant@precise32:~$ ifconfig
+eth0      Link encap:Ethernet  HWaddr 08:00:27:12:96:98
+          inet addr:10.0.2.15  Bcast:10.0.2.255  Mask:255.255.255.0
+          inet6 addr: fe80::a00:27ff:fe12:9698/64 Scope:Link
+-- output omitted -- 
+eth1      Link encap:Ethernet  HWaddr 08:00:27:fd:05:73
+          inet addr:192.168.56.4  Bcast:192.168.56.255  Mask:255.255.255.0
+          inet6 addr: fe80::a00:27ff:fefd:573/64 Scope:Link
+-- output omitted --
+lo        Link encap:Local Loopback
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+-- output omitted --
+vagrant@precise32:~$
+-------------------------------------------------------------------------------
+The eth0 interface is used for port forwarding.
+The eth1 interface should match the IP address you just configured.
+The lo interface is the loopback interface.
    
-    * Documentation:  https://help.ubuntu.com/
-   Welcome to your Vagrant-built virtual machine.
-   Last login: Thu Aug  8 07:55:06 2013 from 10.0.2.2
-   vagrant@precise32:~$ ifconfig
-   eth0      Link encap:Ethernet  HWaddr 08:00:27:12:96:98
-             inet addr:10.0.2.15  Bcast:10.0.2.255  Mask:255.255.255.0
-             inet6 addr: fe80::a00:27ff:fe12:9698/64 Scope:Link
-   -- output omitted -- 
-   eth1      Link encap:Ethernet  HWaddr 08:00:27:fd:05:73
-             inet addr:192.168.56.4  Bcast:192.168.56.255  Mask:255.255.255.0
-             inet6 addr: fe80::a00:27ff:fefd:573/64 Scope:Link
-   -- output omitted --
-   lo        Link encap:Local Loopback
-             inet addr:127.0.0.1  Mask:255.0.0.0
-             inet6 addr: ::1/128 Scope:Host
-   -- output omitted --
-   vagrant@precise32:~$
-   ----------------------------------------------------------------------------
-   The eth0 interface is used for port forwarding.
-   The eth1 interface should match the IP address you just configured.
-   The lo interface is the loopback interface.
-9. Ping the host machine's "VirtualBox Host Adapter Network Address" 
-   from the virtual machine. Press Control-C (^C) to stop.
-   ----------------------------------------------------------------------------
-   vagrant@precise32:~$ ping 192.168.56.1
-   PING 192.168.56.1 (192.168.56.1) 56(84) bytes of data.
-   64 bytes from 192.168.56.1: icmp_req=1 ttl=128 time=1.49 ms
-   64 bytes from 192.168.56.1: icmp_req=2 ttl=128 time=0.710 ms
-   64 bytes from 192.168.56.1: icmp_req=3 ttl=128 time=0.609 ms
-   64 bytes from 192.168.56.1: icmp_req=4 ttl=128 time=0.685 ms
-   ^C
-   --- 192.168.56.1 ping statistics ---
-   4 packets transmitted, 4 received, 0% packet loss, time 3000ms
-   rtt min/avg/max/mdev = 0.609/0.874/1.493/0.359 ms
-   vagrant@precise32:~$
-   ----------------------------------------------------------------------------
-   If the ping succeeds, then networking is correctly configured.
+9. Ping the host machine's "VirtualBox Host Adapter Network Address" from the 
+virtual machine. Press Control-C (^C) to stop.
+-------------------------------------------------------------------------------
+vagrant@precise32:~$ ping 192.168.56.1
+PING 192.168.56.1 (192.168.56.1) 56(84) bytes of data.
+64 bytes from 192.168.56.1: icmp_req=1 ttl=128 time=1.49 ms
+64 bytes from 192.168.56.1: icmp_req=2 ttl=128 time=0.710 ms
+64 bytes from 192.168.56.1: icmp_req=3 ttl=128 time=0.609 ms
+64 bytes from 192.168.56.1: icmp_req=4 ttl=128 time=0.685 ms
+^C
+--- 192.168.56.1 ping statistics ---
+4 packets transmitted, 4 received, 0% packet loss, time 3000ms
+rtt min/avg/max/mdev = 0.609/0.874/1.493/0.359 ms
+vagrant@precise32:~$
+----------------------------------------------------------------------------
+If the ping succeeds, then networking is correctly configured.
    
-   From now on, you should use the IP address configured in the Vagrantfile 
-   to access the site when the webserver is running.
+From now on, you should use the IP address configured in the Vagrantfile 
+to access the site when the webserver is running.
 
 For more information on VirtualBox host-only networking, see 
 http://www.virtualbox.org/manual/ch06.html.
