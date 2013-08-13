@@ -16,7 +16,8 @@ def rpm_check(packagename):
     It does not check the version. Returns True if it is installed, and 
     False if it is not.
     """
-    rpm_regex = re.compile("(%s)(.)+(\.)(.)+" % packagename)
+    escaped_packagename = re.escape(packagename)
+    rpm_regex = re.compile("(%s)(.)+(\.)(.)+" % escaped_packagename)
     result = False
     try:
         tuple = commands.getstatusoutput("rpm -q %s" % packagename)

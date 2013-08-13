@@ -912,7 +912,6 @@ Then stop the memcached service, and stop it from running at startup:
 vagrant@precise32:~$ sudo service memcached stop
 Stopping memcached: memcached.
 vagrant@precise32:~$ sudo update-rc.d -f memcached disable
-vagrant@precise32:/etc/init.d$ sudo update-rc.d -f memcached disable
 update-rc.d: warning: memcached start runlevel arguments (none) do not match LSB Default-Start values (2 3 4 5)
 update-rc.d: warning: memcached stop runlevel arguments (none) do not match LSB Default-Stop values (0 1 6)
  Disabling system startup links for /etc/init.d/memcached ...
@@ -932,7 +931,6 @@ update-rc.d: warning: memcached stop runlevel arguments (none) do not match LSB 
    /etc/rc3.d/K80memcached -> ../init.d/memcached
    /etc/rc4.d/K80memcached -> ../init.d/memcached
    /etc/rc5.d/K80memcached -> ../init.d/memcached
-vagrant@precise32:~$
 -------------------------------------------------------------------------------
 The memcached service will no longer be used by Makahiki, and will no longer 
 run at startup.

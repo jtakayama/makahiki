@@ -17,7 +17,9 @@ Contents:
 1.1.8.1. Testing the Server Without a Web Browser [UNTESTED]
 1.1.9. Update the Makahiki Instance
 1.1.10. Check the Memcached Installation [UNTESTED]
-1.1.11. Configuring Memcached
+1.1.10.1. Configuring Memcached for the First Time [UNTESTED]
+1.1.10.2. Deactivating Memcached [UNTESTED]
+1.1.10.3. Reactivating Memcached [UNTESTED]
 Appendix A. Notes on Log Files
 -------------------------------------------------------------------------------
 
@@ -50,7 +52,7 @@ If the default version of Python on your system is not a version of Python 2.7
 that is 2.7.3 or higher (but not Python 3), the ubuntu_installer.py file, and 
 this guide, will not work for you. 
 
-If you are using Ubuntu Linux 12.04.1 LTS or higher, Python 2.7.3, or a higher 
+If you are using Ubuntu Linux 12.04.1 LTS or higher, Python 2.7.3 or a higher 
 version of Python 2.7, should be the system default. If this is not the case, 
 you will need to:
 1. Build and install Python 2.7.3 as an altinstall, manually
@@ -516,7 +518,7 @@ To start the server with gunicorn:
 -------------------------------------------------------------------------------
 ===============================================================================
 
-1.1.10. Check the Memcached Installation [UNTESTED]
+1.1.10. Check the Memcached Installation
 ===============================================================================
 The provisioning script installed Memcached and libmemcached-0.53 on the 
 system. If you plan to configure Memcached, you will need to test the 
@@ -553,19 +555,21 @@ True
 Stopping memcached:                                        [  OK  ]
 -------------------------------------------------------------------------------
 If any of the following errors occur, then Memcached is not working:
-(1) cache prints a blank to the console, or cache == None returns True.
+(1) cache prints a blank to the console, or cache == None returns True, 
+    or cache is a "django.core.cache.backends.dummy.DummyCache object."
 (2) cache.set returns False or returns nothing.
 (3) cache.get returns False, returns nothing, or causes a segmentation fault.
 If so, make sure environment variables are set and Memcached is running.
 ===============================================================================
 
-1.1.11. Configuring Memcached
+1.1.10.1. Configuring Memcached for the First Time
 ===============================================================================
 Memcached is a backend cache for the Makahiki web server. 
 Configuring Memcached is optional.
 
-If the tests in 1.1.10 succeed, you can configure Makahiki to use Memcached. 
-Add these lines to the end of the $WORKON_HOME/makahiki/bin/postactivate file:
+If the tests in the previous section succeeded, you can configure Makahiki to 
+use Memcached. Add these lines to the end of the 
+$WORKON_HOME/makahiki/bin/postactivate file:
 -------------------------------------------------------------------------------
 export MAKAHIKI_USE_MEMCACHED=True
 # Don't add libmemcached paths more than once
@@ -607,6 +611,77 @@ True
 -------------------------------------------------------------------------------
 If this test works, then the memcached service is running and will be used 
 by Makahiki.
+===============================================================================
+
+1.1.10.2. Deactivating Memcached
+===============================================================================
+To deactivate memcached, edit makahiki_env.sh to set 
+MAKAHIKI_USE_MEMCACHED to False and comment out LD_LIBRARY_PATH settings:
+-------------------------------------------------------------------------------
+export MAKAHIKI_USE_MEMCACHED=False
+# Don't add libmemcached paths more than once
+#if [ ! $LIBMEMCACHED_PATHS_ADDED ];
+#    then
+#        export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib:$LD_LIBRARY_PATH
+#        export LIBMEMCACHED_PATHS_ADDED=True
+#fi
+-------------------------------------------------------------------------------
+
+Then stop the memcached service, and stop it from running at startup:
+-------------------------------------------------------------------------------
+% sudo service memcached stop
+Stopping memcached: memcached.
+% sudo update-rc.d -f memcached disable
+update-rc.d: warning: memcached start runlevel arguments (none) do not match LSB Default-Start values (2 3 4 5)
+update-rc.d: warning: memcached stop runlevel arguments (none) do not match LSB Default-Stop values (0 1 6)
+ Disabling system startup links for /etc/init.d/memcached ...
+ Removing any system startup links for /etc/init.d/memcached ...
+   /etc/rc0.d/K20memcached
+   /etc/rc1.d/K20memcached
+   /etc/rc2.d/S20memcached
+   /etc/rc3.d/S20memcached
+   /etc/rc4.d/S20memcached
+   /etc/rc5.d/S20memcached
+   /etc/rc6.d/K20memcached
+ Adding system startup for /etc/init.d/memcached ...
+   /etc/rc0.d/K20memcached -> ../init.d/memcached
+   /etc/rc1.d/K20memcached -> ../init.d/memcached
+   /etc/rc6.d/K20memcached -> ../init.d/memcached
+   /etc/rc2.d/K80memcached -> ../init.d/memcached
+   /etc/rc3.d/K80memcached -> ../init.d/memcached
+   /etc/rc4.d/K80memcached -> ../init.d/memcached
+   /etc/rc5.d/K80memcached -> ../init.d/memcached
+-------------------------------------------------------------------------------
+The memcached service will no longer be used by Makahiki, and will no longer 
+run at startup.
+
+To test this, shut down the virtual machine, then restart it:
+-------------------------------------------------------------------------------
+vagrant@precise32:~$ sudo shutdown -r now
+-------------------------------------------------------------------------------
+
+After logging in, test memcached once again:
+-------------------------------------------------------------------------------
+% cd ~/makahiki
+% ./manage.py shell
+Python 2.7.3 (default, Apr 10 2013, 05:46:21)
+[GCC 4.6.3] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from django.core.cache import cache
+>>> cache
+<django.core.cache.backends.dummy.DummyCache object at 0x964b72c>
+>>> cache.set('test','Hello World') == None
+True
+>>> exit()
+-------------------------------------------------------------------------------
+Cache should be a DummyCache, and cache.set('test','Hello World') == None 
+should return True.
+===============================================================================
+
+1.1.10.3. Reactivating Memcached
+===============================================================================
+
 ===============================================================================
 
 Appendix A. Notes on Log Files
