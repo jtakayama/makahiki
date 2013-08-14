@@ -259,7 +259,7 @@ def update_resource_usage(resource, date):
                 team_resource_name = goal_settings.wattdepot_source_name
             else:
                 team_resource_name = team.name
-            resource_mgr.update_team_resource_usage(resource, session, date, team_resource_name,
+            resource_mgr.update_team_resource_usage(resource, session, date, team, team_resource_name,
                                                     storage)
 
     # clear the cache for energy ranking, and RIB where it displays
