@@ -18,7 +18,12 @@ def supply(request, page_name):
         interval = 10
 
     all_lounges = Team.objects.order_by('name').all()
-
+    
+    for team in all_lounges:
+        team.source_name = team.energygoalsetting_set.all()[0].wattdepot_source_name
+        if not team.source_name:
+            team.source_name = team.name
+    
     return {
         "interval": interval,
         "data": {"all_lounges": all_lounges, }

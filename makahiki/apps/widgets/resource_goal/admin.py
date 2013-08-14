@@ -8,7 +8,7 @@ class GoalSettingsAdmin(admin.ModelAdmin):
     fields = ("team", "goal_percent_reduction", 'goal_points', 'baseline_method', 'data_storage', 'wattdepot_source_name', 
               ('manual_entry', 'manual_entry_time'), 'realtime_meter_interval')
     list_display = ["team", "goal_percent_reduction", "goal_points",
-                    'baseline_method', 'data_storage', "manual_entry", ]
+                    'baseline_method', 'data_storage', 'wattdepot_source_name', "manual_entry", ]
 
 
 class GoalAdmin(admin.ModelAdmin):
