@@ -15,15 +15,15 @@ class Wattdepot(ResourceStorage):
         """returns the name of the resource storage."""
         return "Wattdepot"
 
-    def get_latest_resource_data(self, session, team, date):
+    def get_latest_resource_data(self, session, source_name, date):
         """Returns the latest usage of the specified resource for the current date."""
         start_time = date.strftime("%Y-%m-%dT00:00:00")
         end_time = "latest"
 
         session.params = {'startTime': start_time, 'endTime': end_time}
-        return self._get_energy_usage(session, team.name)
+        return self._get_energy_usage(session, source_name)
 
-    def get_history_resource_data(self, session, team, date, hour):
+    def get_history_resource_data(self, session, source_name, date, hour):
         """Return the history energy usage of the team for the date and hour."""
         start_time = date.strftime("%Y-%m-%dT00:00:00")
         if hour and hour < 24:
@@ -32,7 +32,7 @@ class Wattdepot(ResourceStorage):
             end_time = (date + datetime.timedelta(days=1)).strftime("%Y-%m-%dT00:00:00")
 
         session.params = {'startTime': start_time, 'endTime': end_time}
-        return self._get_energy_usage(session, team.name)
+        return self._get_energy_usage(session, source_name)
 
     def _get_energy_usage(self, session, source):
         """Return the energy usage from wattdepot."""
