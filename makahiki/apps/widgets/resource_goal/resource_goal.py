@@ -22,12 +22,13 @@ def team_goal_settings(team, resource):
     elif resource == "water":
         goalsetting = WaterGoalSetting
 
-    goalsettings = cache_mgr.get_cache("goal_setting-%s-%s" % (resource, team.name))
+    cache_key = "goal_setting-%s-%s" % (resource, slugify(team.name))
+    goalsettings = cache_mgr.get_cache(cache_key)
     if goalsettings is None:
         goalsettings = goalsetting.objects.filter(team=team)
         if goalsettings:
             goalsettings = goalsettings[0]
-            cache_mgr.set_cache("goal_setting-%s-%s" % (resource, team.name), goalsettings, 2592000)
+            cache_mgr.set_cache(cache_key, goalsettings, 2592000)
     return goalsettings
 
 
@@ -385,7 +386,11 @@ def resource_goal_ranks(resource, round_name=None):
         goal_ranks = []
         goal = get_resource_goal(resource)
 
-        start, end = challenge_mgr.get_round_start_end(round_name)
+        start_end = challenge_mgr.get_round_start_end(round_name)
+        if start_end is not None:
+            start, end = start_end
+        else:
+            return None
 
         ranks = goal.objects.filter(
             goal_status="Below the goal",

@@ -116,7 +116,11 @@ def resource_ranks(name, round_name=None):
         else:
             ordering = "-total"
 
-        start, end = challenge_mgr.get_round_start_end(round_name)
+        start_end = challenge_mgr.get_round_start_end(round_name)
+        if start_end is not None:
+            start, end = start_end
+        else:
+            return None
 
         usage_ranks = resource_usage.objects.filter(
             date__lte=end,
@@ -147,7 +151,11 @@ def group_resource_ranks(name, round_name=None):
         else:
             ordering = "-total"
 
-        start, end = challenge_mgr.get_round_start_end(round_name)
+        start_end = challenge_mgr.get_round_start_end(round_name)
+        if start_end is not None:
+            start, end = start_end
+        else:
+            return None
 
         usage_ranks = resource_usage.objects.filter(
             date__lte=end,
