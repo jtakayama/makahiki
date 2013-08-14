@@ -100,13 +100,13 @@ class ResourceGoalSetting(models.Model):
         max_length=20,
         help_text="The storage service of the usage data."
     )
-    
+
     wattdepot_source_name = models.CharField(
         default=team.name,
         max_length=100,
         blank=True, null=True,
         help_text="The source name in wattdepot server for the team. It defaults to the team name.")
-    
+
     goal_points = models.IntegerField(
         default=20,
         help_text="The amount of points to award for completing a goal.")
