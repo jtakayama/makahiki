@@ -666,7 +666,7 @@ If you are having problems accessing the web server from the host machine and
 want to verify that it is working, you will need to use wget to test the 
 server on the virtual machine.
 -------------------------------------------------------------------------------
-vagrant@precise32:/vagrant/makahiki$ ./manage.py runserver &
+vagrant@precise32:/vagrant/makahiki$ ./manage.py runserver 0.0.0.0:8000 &
 Validating models...
 
 Development server is running at http://127.0.0.1:8000/
@@ -795,6 +795,14 @@ vagrant@precise32:/vagrant/makahiki$ unset LD_LIBRARY_PATH_OLD
 vagrant@precise32:/vagrant/makahiki$ sudo service memcached stop
 Stopping memcached: memcached.
 -------------------------------------------------------------------------------
+If running "manage.py shell" causes the error:
+-----------------------------------------------------------------------------------
+django.core.cache.backends.base.InvalidCacheBackendError: Could not import pylibmc.
+-----------------------------------------------------------------------------------
+then the LD_LIBRARY_PATH may not be set correctly in makahiki_env.sh. This error 
+occurs when MAKAHIKI_USE_MEMCACHED=True but LD_LIBRARY_PATH does not include 
+the location of pylibmc.
+
 If any of the following errors occur, then Memcached is not working:
 (1) cache prints a blank to the console, or cache == None returns True, 
     or cache is a "django.core.cache.backends.dummy.DummyCache object."
