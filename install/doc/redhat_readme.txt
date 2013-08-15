@@ -660,6 +660,14 @@ True
 % sudo service memcached stop
 Stopping memcached:                                        [  OK  ]
 -------------------------------------------------------------------------------
+If running "manage.py shell" causes the error:
+-----------------------------------------------------------------------------------
+django.core.cache.backends.base.InvalidCacheBackendError: Could not import pylibmc.
+-----------------------------------------------------------------------------------
+then the LD_LIBRARY_PATH may not be set correctly in postactivate. This error 
+occurs when MAKAHIKI_USE_MEMCACHED=True but LD_LIBRARY_PATH does not include 
+the location of pylibmc.
+
 If any of the following errors occur, then Memcached is not working:
 (1) cache prints a blank to the console, or cache == None returns True, 
     or cache is a DummyCache.
