@@ -56,13 +56,18 @@ Next, install some libraries and packages needed to build libmemcached::
   % apt-get install -y build-essential g++ libcloog-ppl-dev libcloog-ppl0
   
 Next, create the makahiki-temp-downloads directory to download the libmemcached-0.53 source code 
-archive into. Do not create this directory in any directory that is shared with a Windows 
-file system. The Windows file system is not compatible with the creation of symbolic links 
-that occurs during the libmemcached installation process. Create the directory and switch 
-to it::
+archive into.
 
-  % mkdir <path-to-parent-directory>/makahiki-temp-downloads
-  % cd <path-to-parent-directory>/makahiki-temp-downloads
+Create the directory in the current user's home directory and switch to it::
+
+  % mkdir ~/makahiki-temp-downloads
+  % cd ~/makahiki-temp-downloads
+
+.. note:: 
+   If the current user's home directory is synchronized with a Windows file system, you will need to 
+   create this directory somewhere else instead. Do not create this directory in any directory that is 
+   synchronized with a Windows file system. If you do this, the creation of hard links and symbolic links 
+   during libmemcached-0.53 installation may fail, and libmemcached may not work correctly. 
  
 Next, download the source code archive::
  
@@ -90,7 +95,7 @@ On a Linux system, your output should be similar to the output shown below::
 If libmemcached.so was found successfully, the installation is complete. 
 The makahiki-temp-downloads directory can be removed if desired::
 
-  % rm -rf <path-to-parent-directory>/makahiki-temp-downloads
+  % rm -rf ~/makahiki-temp-downloads
 
 Continue to the next section to configure environment variables.
 
