@@ -16,12 +16,84 @@ the backend cache for its web server.
 These instructions assume that you are using a Bourne-type shell (such as 
 bash), which is the default on Mac OS X and Linux.
 
+Replace the Default libmemcached Installation
+---------------------------------------------
+
+If you have followed the instructions in ref::install-makahiki-unix, you installed a default 
+version of memcached and its dependency libmemcached for your operating system. Check your 
+libmemcached version.
+
+On Ubuntu, libmemcached cannot be checked directly. Check libmemcached-dev instead 
+(version 0.44-1 in the example below):
+  % dpkg -s libmemcached-dev
+  Package: libmemcached-dev
+  Status: install ok installed
+  -- output omitted --
+  Version: 0.44-1.1build1
+  -- output omitted --
+
+On Red Hat Enterprise Linux or CentOS (this example shows libmemcached 0.31)::
+  % rpm -q libmemcached
+  libmemcached-0.31-1.1.el6.x86_64
+
+For production use, libmemcached-0.53 is recommended. If you have a different version, it will 
+be necessary to uninstall libmemcached-dev. This section uninstalls libmemcached-dev, downloads 
+libmemcached-0.53, and builds and installs libmemcached-0.53 from its source code.
+
+Start by uninstalling libmemcached. On Ubuntu, uninstall libmemcached-dev::
+
+  % apt-get remove libmemcached-dev
+
+On Red Hat Enterprise Linux or CentOS, uninstall libmemcached (which will also 
+uninstall libmemcached-devel)::
+
+  % yum remove libmemcached
+
+First, install some libraries and packages needed to build libmemcached::
+
+  % apt-get install -y build-essential g++ libcloog-ppl-dev libcloog-ppl0
+  
+Next, create the makahiki-temp-downloads directory to download the libmemcached-0.53 source code 
+archive into. Do not create this directory in any directory that is shared with a Windows 
+file system. The Windows file system is not compatible with the creation of symbolic links 
+that occurs during the libmemcached installation process. Create the directory and switch 
+to it:
+
+  % mkdir <path-to-parent-directory>/makahiki-temp-downloads
+  % cd <path-to-parent-directory>/makahiki-temp-downloads
+ 
+Download the source code as an archive::
+ 
+  % wget http://launchpad.net/libmemcached/1.0/0.53/+download/libmemcached-0.53.tar.gz
+
+Extract the archive and switch into the extracted directory::
+
+  % tar xzvf libmemcached-0.53.tar.gz
+  % cd libmemcached-0.53
+
+Configure, make, and make install:: 
+
+  % ./configure
+  % make
+  % make install
+  
+After "make install" finishes, check for the location of the libmemcached.so library. 
+On a Linux system, your output should be similar to the output shown below::
+
+  % stat /usr/local/lib/libmemcached.so
+  vagrant@precise32:~$ stat /usr/local/lib/libmemcached.so
+  File: `/usr/local/lib/libmemcached.so' -> `libmemcached.so.8.0.0'
+  -- output omitted --
+
+If libmemcached.so was found successfully, the installation is complete. 
+The makahiki-temp-downloads directory can be removed if desired::
+
+  % rm -rf <path-to-parent-directory>/makahiki-temp-downloads
+
+Continue to the next section to configure environment variables.
+
 Environment Variables
 ---------------------
-
-Switch to the makahiki virtual environment::
-
-  % workon makahiki
 
 Open the $WORKON_HOME/makahiki/bin/postactivate file. Add these lines to the end::
 
@@ -33,12 +105,13 @@ Open the $WORKON_HOME/makahiki/bin/postactivate file. Add these lines to the end
           export LIBMEMCACHED_PATHS_ADDED=True
   fi
 
-Workon makahiki once more to apply the changes::
+Workon makahiki to apply the changes::
 
   % workon makahiki
 
+Continue to the next section to start the memcached service.
 
-Start the memcached service
+Start the memcached Service
 ---------------------------
 
 Next, the memcached service must be started if it is not running::
@@ -49,7 +122,6 @@ On Ubuntu, the memcached daemon will automatically run at startup.
 In Red Hat / CentOS systems, however, the user must use chkconfig to enable the daemon to run at startup::
 
   % sudo chkconfig memcached on
-
 
 Verify Memcached Settings
 -------------------------
