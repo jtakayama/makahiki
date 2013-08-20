@@ -23,8 +23,8 @@ If you have followed the instructions in ref::install-makahiki-unix, you install
 version of memcached and its dependency libmemcached for your operating system. Check your 
 libmemcached version.
 
-On Ubuntu, libmemcached cannot be checked directly. Check libmemcached-dev instead 
-(version 0.44-1 in the example below):
+On Ubuntu, libmemcached cannot be checked directly. Check libmemcached-dev instead. This example shows version 0.44::
+
   % dpkg -s libmemcached-dev
   Package: libmemcached-dev
   Status: install ok installed
@@ -32,7 +32,8 @@ On Ubuntu, libmemcached cannot be checked directly. Check libmemcached-dev inste
   Version: 0.44-1.1build1
   -- output omitted --
 
-On Red Hat Enterprise Linux or CentOS (this example shows libmemcached 0.31)::
+On Red Hat Enterprise Linux or CentOS, check for libmemcached. This example shows version 0.31::
+
   % rpm -q libmemcached
   libmemcached-0.31-1.1.el6.x86_64
 
