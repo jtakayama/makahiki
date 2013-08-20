@@ -58,21 +58,21 @@ Next, create the makahiki-temp-downloads directory to download the libmemcached-
 archive into. Do not create this directory in any directory that is shared with a Windows 
 file system. The Windows file system is not compatible with the creation of symbolic links 
 that occurs during the libmemcached installation process. Create the directory and switch 
-to it:
+to it::
 
   % mkdir <path-to-parent-directory>/makahiki-temp-downloads
   % cd <path-to-parent-directory>/makahiki-temp-downloads
  
-Download the source code as an archive::
+Next, download the source code archive::
  
   % wget http://launchpad.net/libmemcached/1.0/0.53/+download/libmemcached-0.53.tar.gz
 
-Extract the archive and switch into the extracted directory::
+Next, extract the archive and switch into the extracted directory::
 
   % tar xzvf libmemcached-0.53.tar.gz
   % cd libmemcached-0.53
 
-Configure, make, and make install:: 
+Next, configure, make, and make install:: 
 
   % ./configure
   % make
@@ -106,7 +106,7 @@ Open the $WORKON_HOME/makahiki/bin/postactivate file. Add these lines to the end
           export LIBMEMCACHED_PATHS_ADDED=True
   fi
 
-Workon makahiki to apply the changes::
+Next, workon makahiki to apply the changes::
 
   % workon makahiki
 
