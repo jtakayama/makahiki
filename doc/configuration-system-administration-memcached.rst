@@ -1,5 +1,6 @@
 .. _section-configuration-system-administration-memcached:
 
+.. _Memcached: http://memcached.org
 
 Configure Memcached
 ========================
@@ -7,21 +8,21 @@ Configure Memcached
 About Memcached
 ---------------
 
-`Memcached <http://memcached.org>`_ is a memory object caching daemon that stores objects in memory to 
+`Memcached`_ is a memory object caching daemon that stores objects in memory to 
 reduce the load on the database. This section explains how to configure Makahiki to use memcached as 
 the backend cache for its web server.
 
 .. note:: Memcached is optional. However, it is recommended that Memcached be configured on production servers.
 
-These instructions assume that you are using a Bourne-type shell (such as 
-bash), which is the default on Mac OS X and Linux.
+These instructions assume that you have followed the instructions in :ref:`section-installation-makahiki-local-unix` to 
+configure a Linux installation of Makahiki. It is also assumed that you are using a Bourne-type shell, which 
+is the default on Linux.
 
 Replace the Default libmemcached Installation
 ---------------------------------------------
 
-If you have followed the instructions in ref::install-makahiki-unix, you installed a default 
-version of memcached and its dependency libmemcached for your operating system. Check your 
-libmemcached version.
+Start by checking your libmemcached version. memcached and libmemcached should have been previously installed 
+by following the instructions in :ref:`section-installation-makahiki-local-unix`.
 
 On Ubuntu, libmemcached cannot be checked directly. Check libmemcached-dev instead. This example shows version 0.44::
 
@@ -45,12 +46,12 @@ Start by uninstalling libmemcached. On Ubuntu, uninstall libmemcached-dev::
 
   % apt-get remove libmemcached-dev
 
-On Red Hat Enterprise Linux or CentOS, uninstall libmemcached (which will also 
-uninstall libmemcached-devel)::
+On Red Hat Enterprise Linux or CentOS, uninstall libmemcached instead. This will also 
+uninstall libmemcached-devel::
 
   % yum remove libmemcached
 
-First, install some libraries and packages needed to build libmemcached::
+Next, install some libraries and packages needed to build libmemcached::
 
   % apt-get install -y build-essential g++ libcloog-ppl-dev libcloog-ppl0
   
@@ -78,7 +79,7 @@ Next, configure, make, and make install::
   % make
   % make install
   
-After "make install" finishes, check for the location of the libmemcached.so library. 
+After "make install" finishes, check the location of the libmemcached.so library. 
 On a Linux system, your output should be similar to the output shown below::
 
   % stat /usr/local/lib/libmemcached.so
@@ -154,14 +155,18 @@ In the shell, run the below commands to test whether Memcached is configured and
   'Hello World'
   >>> exit()
 
+If your output matches the example output shown above, then Memcached has been successfully configured and started.
+If your output does not match or you experience errors, continue to the next section.
+
 Troubleshooting
 ---------------
 
 If running ``manage.py shell`` causes the error ``django.core.cache.backends.base.InvalidCacheBackendError: Could not import pylibmc``, 
-then the LD_LIBRARY_PATH may not be set correctly in $WORKON_HOME\makahiki\bin\postactivate. This error occurs when ``MAKAHIKI_USE_MEMCACHED=True`` but 
-LD_LIBRARY_PATH does not include the location of pylibmc.
+then the LD_LIBRARY_PATH environment variable may not be set correctly in $WORKON_HOME/makahiki/bin/postactivate. 
+This error occurs when ``MAKAHIKI_USE_MEMCACHED=True`` but LD_LIBRARY_PATH does not include the location of pylibmc.
 
-If any of the following errors occurs, memcached is not correctly configured:
+If the ``manage.py shell`` starts correctly but one of the following errors occurs when you run the test commands, 
+then memcached is not correctly configured:
 
 * cache is a ``DummyCache object``
 * ``cache == None`` returns True
@@ -172,7 +177,7 @@ Verify that your postactivate settings for MAKAHIKI_USE_MEMCACHED and LD_LIBRARY
 the settings added in these instructions.
 
 If you are testing memcached on your local machine, verify that the makahiki/makahiki/settings.py file
-specifies a ``django_pylibmc.memcached.PyLibMCCache`` cache as its backend cache for location 127.0.0.1.
+specifies the backend cache for location 127.0.0.1 as ``django_pylibmc.memcached.PyLibMCCache``.
 The settings.py file should include the following lines::
 
     else:
