@@ -62,7 +62,7 @@
     {
         "model": "quests.quest",
         "fields": {
-            "completion_conditions": "allocated_ticket()",
+            "completion_conditions": "allocated_raffle_ticket()",
             "unlock_conditions": "submitted_action('intro-video') and has_points(25) and not allocated_ticket()",
             "name": "Participate in the Raffle",
             "priority": 4,
