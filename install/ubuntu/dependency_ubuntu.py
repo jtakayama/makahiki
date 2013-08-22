@@ -677,35 +677,6 @@ def run(arch, logfile):
             print "memcached installation finished at %s.\n" % time
             if not success:
                 return logfile
-    
-        #libmemcached-dev  # TODO: Replace with libmemcached-0.53
-        #if libmemcached_installed:
-        #    logfile.write("libmemcached-dev is already installed.\n")
-        #    print "libmemcached-dev is already installed.\n"
-        #else:
-        #    time = current_time()
-        #    logfile.write("libmemcached-dev installation started at %s.\n" % time)
-        #    print "libmemcached-dev installation started at %s.\n" % time
-        #    logfile.write("apt-get install -y libmemcached-dev\n")
-        #    print "apt-get install -y libmemcached-dev\n"
-        #    libmemcached_output = subprocess.check_output(["apt-get", "install", "-y",  "libmemcached-dev"], stderr=subprocess.STDOUT)
-        #    logfile.write(libmemcached_output)
-        #    print libmemcached_output
-        #    libmemcached_installed = dpkg_check("libmemcached-dev")
-        #    if libmemcached_installed:
-        #        time = current_time()
-        #        logfile.write("libmemcached-dev was successfully installed at %s.\n" % time)
-        #        print "libmemcached-dev was successfully installed at %s.\n" % time
-        #        # Flush the buffer and force a write to disk after each successful installation
-        #        logfile.flush()
-        #        os.fsync(logfile)
-        #    else:
-        #        logfile.write("Error: libmemcached-dev failed to install.\n")
-        #        print "Error: libmemcached-dev failed to install.\n"
-        #        end_time = termination_string()
-        #        logfile.write(end_time)
-        #        print end_time
-        #        return logfile
         
         # Beginning of libmemcached-0.53 installation code
         if libmemcached053_installed:
