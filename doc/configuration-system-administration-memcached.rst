@@ -1,7 +1,5 @@
 .. _section-configuration-system-administration-memcached:
 
-.. _Memcached: http://memcached.org
-
 Configure Memcached
 ========================
 
@@ -9,7 +7,7 @@ About Memcached
 ---------------
 
 `Memcached`_ is a memory object caching daemon that stores objects in memory to 
-reduce the load on the database. This section explains how to configure Makahiki to use memcached as 
+reduce the load on a database. This section explains how to configure Makahiki to use memcached as 
 the backend cache for its web server.
 
 .. note:: Memcached is optional. However, it is recommended that Memcached be configured on production servers.
@@ -17,6 +15,8 @@ the backend cache for its web server.
 These instructions assume that you have followed the instructions in :ref:`section-installation-makahiki-local-unix` to 
 configure a Linux installation of Makahiki. It is also assumed that you are using a Bourne-type shell, which 
 is the default on Linux.
+
+.. _Memcached: http://memcached.org
 
 Environment Variables
 ---------------------
@@ -31,7 +31,7 @@ Open the $WORKON_HOME/makahiki/bin/postactivate file. Add these lines to the end
           export LIBMEMCACHED_PATHS_ADDED=True
   fi
 
-Next, workon makahiki to apply the changes::
+Next, ``workon makahiki`` to apply the changes::
 
   % workon makahiki
 
@@ -44,8 +44,8 @@ Next, the memcached service must be started if it is not running::
 
   % sudo service memcached start
   
-On Ubuntu, the memcached daemon will automatically run at startup. 
-In Red Hat Enterprise Linux or CentOS systems, however, the user must use chkconfig to enable the daemon to run at startup::
+On Ubuntu, the memcached service will automatically run at startup. 
+In Red Hat Enterprise Linux or CentOS systems, however, the user must use chkconfig to enable the service to run at startup::
 
   % sudo chkconfig memcached on
 
@@ -71,8 +71,6 @@ In the shell, run the below commands to test whether Memcached is configured and
   >>> from django.core.cache import cache
   >>> cache
   <django_pylibmc.memcached.PyLibMCCache object at 0xa669c0c>
-  >>> cache == None
-  False
   >>> cache.set('test','Hello World')
   True
   >>> cache.get('test')
@@ -93,7 +91,6 @@ If the ``manage.py shell`` starts correctly but one of the following errors occu
 then memcached is not correctly configured:
 
 * cache is a ``DummyCache object``
-* ``cache == None`` returns True
 * ``cache.set('test','Hello World')`` returns ``False``
 * ``cache.get('test')`` causes a segmentation fault or exits the Python shell
 
@@ -111,12 +108,81 @@ The settings.py file should include the following lines::
                      'BINARY': True,
          }}
 
+Disabling Memcached
+-------------------
 
+In $WORKON_HOME/makahiki/bin/postactivate, set ``MAKAHIKI_USE_MEMCACHED=False`` and 
+comment out memcached environment variable settings::
 
+  export MAKAHIKI_USE_MEMCACHED=False
+  # Don't add libmemcached paths more than once
+  #if [ ! $LIBMEMCACHED_PATHS_ADDED ];
+  #    then
+  #        export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib:$LD_LIBRARY_PATH
+  #        export LIBMEMCACHED_PATHS_ADDED=True
+  #fi
 
+Then ``workon makahiki`` to apply changes::
 
+  % workon makahiki
+  
+Finally, stop the makahiki service, and stop it from running at startup.
 
+Ubuntu users::
 
+  % sudo service memcached stop
+  % sudo update-rc.d -f memcached disable
+
+RHEL and CentOS users::
+
+  % sudo service memcached stop
+  % sudo chkconfig memcached off
+
+The ``manage.py shell`` tests should fail now::
+
+  % ./manage.py shell
+  Python 2.7.3 (default, Apr 10 2013, 05:46:21) 
+  [GCC 4.6.3] on linux2
+  Type "help", "copyright", "credits" or "license" for more information.
+  (InteractiveConsole)
+  >>> from django.core.cache import cache
+  >>> cache
+  <django.core.cache.backends.dummy.DummyCache object at 0x9ef470c>
+  >>> cache.set('test','Hello World') == None
+  True
+  >>> exit()
+
+Re-enabling Memcached
+---------------------
+
+In $WORKON_HOME/makahiki/bin/postactivate, set ``MAKAHIKI_USE_MEMCACHED=True`` and 
+uncomment the memcached environment variable settings::
+
+  export MAKAHIKI_USE_MEMCACHED=True
+  # Don't add libmemcached paths more than once
+  if [ ! $LIBMEMCACHED_PATHS_ADDED ];
+      then
+          export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib:$LD_LIBRARY_PATH
+          export LIBMEMCACHED_PATHS_ADDED=True
+  fi
+
+Then ``workon makahiki`` to apply changes::
+
+  % workon makahiki
+  
+Finally, start the makahiki service, and set it to run at startup.
+
+Ubuntu users::
+
+  % sudo service memcached start
+  % sudo update-rc.d -f memcached enable
+
+RHEL and CentOS users::
+
+  % sudo service memcached start
+  % sudo chkconfig memcached on
+  
+The ``manage.py shell`` tests should work correctly now.
 
 
 

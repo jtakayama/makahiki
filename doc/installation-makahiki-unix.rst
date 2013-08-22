@@ -168,7 +168,7 @@ To check that virtual environment wrapper is installed::
    
    This error is related to the system not being able to find Python 2.7.3's virtualenvwrapper installation.
    
-   Run ``scl enable python27 bash`` to re-enable the Python 2.7.3 environment.
+   Every time you log on, you must use ``scl enable python27 bash`` to re-enable the Python 2.7.3 environment.
 
 Install Python Imaging Library
 ------------------------------
@@ -356,16 +356,15 @@ RHEL and CentOS users::
 
   % sudo yum groupinstall -y "Development tools"
 
-Next, create the makahiki-temp-downloads directory to download the libmemcached-0.53 source code 
-archive into. Create the directory in the current user's home directory and switch to it::
-
-  % mkdir ~/makahiki-temp-downloads
-  % cd ~/makahiki-temp-downloads
-
 Next, download the source code and extract the archive::
  
   % wget http://launchpad.net/libmemcached/1.0/0.53/+download/libmemcached-0.53.tar.gz
   % tar xzvf libmemcached-0.53.tar.gz
+
+.. warning:: Do not download and extract the source code in a directory that is synchronized with a Windows 
+   file system. This will cause the libmemcached-0.53 installation process to fail to create hard 
+   links and symbolic links during installation.
+   
 
 Switch into the extracted directory, then configure, make, and make install::
   
@@ -377,14 +376,8 @@ Switch into the extracted directory, then configure, make, and make install::
 Finally, check the location of the libmemcached.so library:: 
 
   % stat /usr/local/lib/libmemcached.so
-  vagrant@precise32:~$ stat /usr/local/lib/libmemcached.so
-  File: `/usr/local/lib/libmemcached.so' -> `libmemcached.so.8.0.0'
-  -- output omitted --
 
-If libmemcached.so was found successfully, the installation is complete. 
-The makahiki-temp-downloads directory can be removed now::
-
-  % rm -rf ~/makahiki-temp-downloads
+If libmemcached.so was found successfully, the installation is complete.
 
 .. _Python: http://www.python.org/download/
 .. _Python Imaging Library: http://www.pythonware.com/products/pil/
