@@ -302,7 +302,7 @@ Switch to the top-level makahiki directory:
 
 Then, create the makahiki virtual environment: 
 -------------------------------------------------------------------------------
-% mkvirtualenv makahiki -p /opt/rh/python27/root/usr/bin/python
+% mkvirtualenv makahiki
 -------------------------------------------------------------------------------
 
 Creating a virtual environment should switch you to the virtual environment.
