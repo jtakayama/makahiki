@@ -129,13 +129,14 @@ redhat_installer.py script. It is used to install dependencies for Makahiki.
 
 Usage of redhat_installer.py:
 -------------------------------------------------------------------------------
-./redhat_installer.py < --dependencies | --cleanup | --pip | 
-                        --initialize_instance | --update_instance > 
-                      --arch < x86 | x64 >
+./redhat_installer.py < --dependencies --arch < x86 | x64 > | --cleanup | 
+                        --pip | --initialize_instance | --update_instance > 
     
 All options require Python 2.7.3 or higher (but not Python 3) to run.
     
-    --dependencies: Installs dependencies.
+    --dependencies: Installs dependencies. This is the only option that 
+      requires --arch to be specified. This script must be run with root 
+      privileges.
     
     --cleanup: Deletes all files and directories in makahiki/install/download 
       except for download_readme.txt. Cleans up after dependency installation.
@@ -185,7 +186,7 @@ Switch to your top-level makahiki directory:
 % cd ~/makahiki
 -------------------------------------------------------------------------------
 
-Run the script with your architecture specified:
+Run the script with your OS architecture specified:
 -------------------------------------------------------------------------------
 % sudo ./install/redhat_installer.py --dependencies --arch x86
 -------------------------------------------------------------------------------
@@ -200,9 +201,11 @@ already installed:
 - git
 - gcc
 - Python Imaging Library (packages: python-devel, python-imaging, libjpeg-devel, zlib-devel)
-  - This also creates symbolic links for libjpeg.so and libz.so if necessary.
+  - This also creates symbolic links for libjpeg.so and libz.so on x64 systems: 
+    /usr/lib/libjpeg.so --> /usr/lib64/libjpeg.so
+    /usr/lib/libz.so --> /usr/lib64/libz.so
 - PostgreSQL 9.1:
-  - The repository http://yum.postgresql.org/9.1/redhat/rhel-6-x86_64/pgdg-redhat91-9.1-5.noarch.rpm
+  - http://yum.postgresql.org/9.1/redhat/rhel-6-x86_64/pgdg-redhat91-9.1-5.noarch.rpm
     will be added to the yum repositories. 
   - postgresql91-server 
   - postgresql91-contrib
@@ -222,14 +225,10 @@ For more information, see Appendix A.
 
 OPTIONAL: 
 -------------------------------------------------------------------------------
-You can run the cleanup script to remove source files that were downloaded 
-when building and installing libmemcached-0.53:
+You can run the script with --cleanup to remove source files that were 
+downloaded when building and installing libmemcached-0.53:
 -------------------------------------------------------------------------------
-% sudo ./install/redhat_installer.py --cleanup --arch x86
--------------------------------------------------------------------------------
-or
--------------------------------------------------------------------------------
-% sudo ./install/redhat_installer.py --cleanup --arch x64
+% sudo ./install/redhat_installer.py --cleanup
 -------------------------------------------------------------------------------
 The script will create a log file in makahiki/install/logs with a filename of 
 the format "install_cleanup_<timestamp>.log," where <timestamp> is a sequence 
@@ -416,13 +415,9 @@ Check that the pg_config library's location is part of the PATH.
 If the system cannot find pg_config, pip will not be able to compile the 
 psycopg2 module.
 
-Run the script with your architecture specified:
+Run the script with --pip:
 -------------------------------------------------------------------------------
-% ./install/redhat_installer.py --pip --arch x86
--------------------------------------------------------------------------------
-or
--------------------------------------------------------------------------------
-% ./install/redhat_installer.py --pip --arch x64
+% ./install/redhat_installer.py --pip
 -------------------------------------------------------------------------------
 The list of packages that this step will attempt to install with pip are 
 listed in the makahiki/requirements.txt file.
@@ -493,15 +488,10 @@ makahiki/makahiki/scripts/initialize_instance.py script with
 "--type default" options.
 -------------------------------------------------------------------------------
 
-Run the script with your architecture specified:
+Run the script with --initialize_instance:
 -------------------------------------------------------------------------------
-% ./install/redhat_installer.py --initialize_instance --arch x86
+% ./install/redhat_installer.py --initialize_instance
 -------------------------------------------------------------------------------
-or
--------------------------------------------------------------------------------
-% ./install/redhat_installer.py --initialize_instance --arch x64
--------------------------------------------------------------------------------
-
 The script will create a log file in makahiki/install/logs with a filename of 
 the format "install_initialize_instance_<timestamp>.log," where <timestamp> is 
 a sequence of numbers representing a timestamp in the system local time. 
@@ -618,13 +608,8 @@ following steps:
 
 (4.) Run the redhat_installer.py script with --update_instance:
 -------------------------------------------------------------------------------
-% python ./install/redhat_installer.py --update_instance --arch x86
+% python ./install/redhat_installer.py --update_instance
 -------------------------------------------------------------------------------
-or
--------------------------------------------------------------------------------
-% python ./install/redhat_installer.py --update_instance --arch x64
--------------------------------------------------------------------------------
-
 
 The script will create a log file in makahiki/install/logs with a filename of 
 the format "install_update_instance_<timestamp>.log," where <timestamp> is 
