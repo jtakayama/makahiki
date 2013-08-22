@@ -377,7 +377,7 @@ Finally, check the location of the libmemcached.so library::
 
   % stat /usr/local/lib/libmemcached.so
 
-If libmemcached.so was found successfully, the installation is complete.
+If libmemcached.so is found successfully, then the installation is complete.
 
 .. _Python: http://www.python.org/download/
 .. _Python Imaging Library: http://www.pythonware.com/products/pil/
