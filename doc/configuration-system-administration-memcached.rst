@@ -18,87 +18,6 @@ These instructions assume that you have followed the instructions in :ref:`secti
 configure a Linux installation of Makahiki. It is also assumed that you are using a Bourne-type shell, which 
 is the default on Linux.
 
-Replace the Default libmemcached Installation
----------------------------------------------
-
-Start by checking your libmemcached version. memcached and libmemcached should have been previously installed 
-by following the instructions in :ref:`section-installation-makahiki-local-unix`.
-
-On Ubuntu, libmemcached cannot be checked directly. Check libmemcached-dev instead. This example shows version 0.44::
-
-  % dpkg -s libmemcached-dev
-  Package: libmemcached-dev
-  Status: install ok installed
-  -- output omitted --
-  Version: 0.44-1.1build1
-  -- output omitted --
-
-On Red Hat Enterprise Linux or CentOS, check for libmemcached. This example shows version 0.31::
-
-  % rpm -q libmemcached
-  libmemcached-0.31-1.1.el6.x86_64
-
-For production use, libmemcached-0.53 is recommended. If you have a different version, it will 
-be necessary to uninstall libmemcached-dev. This section uninstalls libmemcached-dev, downloads 
-libmemcached-0.53, and builds and installs libmemcached-0.53 from its source code.
-
-Start by uninstalling libmemcached. On Ubuntu, uninstall libmemcached-dev::
-
-  % apt-get remove libmemcached-dev
-
-On Red Hat Enterprise Linux or CentOS, uninstall libmemcached instead. This will also 
-uninstall libmemcached-devel::
-
-  % yum remove libmemcached
-
-Next, install some libraries and packages needed to build libmemcached::
-
-  % apt-get install -y build-essential g++ libcloog-ppl-dev libcloog-ppl0
-  
-Next, create the makahiki-temp-downloads directory to download the libmemcached-0.53 source code 
-archive into.
-
-Create the directory in the current user's home directory and switch to it::
-
-  % mkdir ~/makahiki-temp-downloads
-  % cd ~/makahiki-temp-downloads
-
-.. note:: 
-   If the current user's home directory is synchronized with a Windows file system, you will need to 
-   create this directory somewhere else instead. Do not create this directory in any directory that is 
-   synchronized with a Windows file system. If you do this, the creation of hard links and symbolic links 
-   during libmemcached-0.53 installation may fail, and libmemcached may not work correctly. 
- 
-Next, download the source code archive::
- 
-  % wget http://launchpad.net/libmemcached/1.0/0.53/+download/libmemcached-0.53.tar.gz
-
-Next, extract the archive and switch into the extracted directory::
-
-  % tar xzvf libmemcached-0.53.tar.gz
-  % cd libmemcached-0.53
-
-Next, configure, make, and make install:: 
-
-  % ./configure
-  % make
-  % make install
-  
-After "make install" finishes, check the location of the libmemcached.so library. 
-On a Linux system, your output should be similar to the output shown below::
-
-  % stat /usr/local/lib/libmemcached.so
-  vagrant@precise32:~$ stat /usr/local/lib/libmemcached.so
-  File: `/usr/local/lib/libmemcached.so' -> `libmemcached.so.8.0.0'
-  -- output omitted --
-
-If libmemcached.so was found successfully, the installation is complete. 
-The makahiki-temp-downloads directory can be removed if desired::
-
-  % rm -rf ~/makahiki-temp-downloads
-
-Continue to the next section to configure environment variables.
-
 Environment Variables
 ---------------------
 
@@ -126,7 +45,7 @@ Next, the memcached service must be started if it is not running::
   % sudo service memcached start
   
 On Ubuntu, the memcached daemon will automatically run at startup. 
-In Red Hat / CentOS systems, however, the user must use chkconfig to enable the daemon to run at startup::
+In Red Hat Enterprise Linux or CentOS systems, however, the user must use chkconfig to enable the daemon to run at startup::
 
   % sudo chkconfig memcached on
 
