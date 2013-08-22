@@ -546,8 +546,6 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> from django.core.cache import cache
 >>> cache
 <django_pylibmc.memcached.PyLibMCCache object at 0x93f7bec>
->>> cache == None
-False
 >>> cache.set('test','Hello World')
 True
 >>> cache.get('test')
@@ -568,8 +566,8 @@ occurs when MAKAHIKI_USE_MEMCACHED=True but LD_LIBRARY_PATH does not include
 the location of pylibmc.
 
 If any of the following errors occur, then Memcached is not working:
-(1) cache prints a blank to the console, or cache == None returns True, 
-    or cache is a "django.core.cache.backends.dummy.DummyCache object."
+(1) cache prints a blank to the console, or cache is a 
+    "django.core.cache.backends.dummy.DummyCache object."
 (2) cache.set returns False or returns nothing.
 (3) cache.get returns False, returns nothing, or causes a segmentation fault.
 If so, make sure environment variables are set and Memcached is running.
@@ -613,8 +611,6 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> from django.core.cache import cache
 >>> cache
 <django_pylibmc.memcached.PyLibMCCache object at 0xa669c0c>
->>> cache == None
-False
 >>> cache.set('test','Hello World')
 True
 >>> cache.get('test')
