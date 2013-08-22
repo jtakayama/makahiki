@@ -83,8 +83,8 @@ def scriptrunner(scripttype, arch, logfile):
         elif scripttype == "update_instance":
             logfile = run_update_instance.run(logfile)
         else:
-            logfile.write("Error: install.py invoked with invalid command: %s\n" % scripttype)
-            print "Error: install.py invoked with invalid command: %s\n" % scripttype
+            logfile.write("Error: ubuntu_installer.py invoked with invalid command: %s\n" % scripttype)
+            print "Error: ubuntu_installer.py invoked with invalid command: %s\n" % scripttype
     else:
         logfile.write("Unsupported architecture for Ubuntu: %s\n" % arch)
         logfile.write("Script could not be completed.\n")

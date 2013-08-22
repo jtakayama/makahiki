@@ -236,26 +236,6 @@ def run(arch, logfile):
     versions of all packages specified.
     """
     
-    # Boolean variables for each dependency
-    wget_installed = dpkg_check("wget")
-    git_installed = dpkg_check("git")
-    gcc_installed = dpkg_check("gcc")
-    python_setuptools_installed = dpkg_check("python-setuptools")
-    pip_installed = pip_check()
-    python_imaging_installed = dpkg_check("python-imaging")
-    python_dev_installed = dpkg_check("python-dev")
-    libjpeg_dev_installed = dpkg_check("libjpeg-dev")
-    postgresql91_installed = dpkg_check("postgresql-9.1")
-    libpq_dev_installed = dpkg_check("libpq-dev")
-    memcached_installed = dpkg_check("memcached")
-    libmemcached_installed = dpkg_check("libmemcached-dev")
-    libmemcached053_installed = libmemcached053_check()
-    build_essential_installed = dpkg_check("build-essential")
-    gplusplus_installed = dpkg_check("g++")
-    libcloog_ppl_dev_installed = dpkg_check("libcloog-ppl-dev")
-    libcloog_ppl0_installed = dpkg_check("libcloog-ppl0")
-    virtualenvwrapper_installed = virtualenvwrapper_check()
-    
     # Write start time to file
     firstline = "Makahiki installation script for Ubuntu %s" % arch
     logfile.write(firstline)
@@ -305,6 +285,26 @@ def run(arch, logfile):
         logfile.write("Do you wish to continue (Y/n)? %s\n" % value)
         logfile.write("Starting dependency installation for Ubuntu %s.\nChecking for dependencies...\n" % arch)
         print "Starting dependency installation for Ubuntu %s.\nChecking for dependencies...\n" % arch
+        
+        # Boolean variables for each dependency
+        wget_installed = dpkg_check("wget")
+        git_installed = dpkg_check("git")
+        gcc_installed = dpkg_check("gcc")
+        python_setuptools_installed = dpkg_check("python-setuptools")
+        pip_installed = pip_check()
+        python_imaging_installed = dpkg_check("python-imaging")
+        python_dev_installed = dpkg_check("python-dev")
+        libjpeg_dev_installed = dpkg_check("libjpeg-dev")
+        postgresql91_installed = dpkg_check("postgresql-9.1")
+        libpq_dev_installed = dpkg_check("libpq-dev")
+        memcached_installed = dpkg_check("memcached")
+        libmemcached_installed = dpkg_check("libmemcached-dev")
+        libmemcached053_installed = libmemcached053_check()
+        build_essential_installed = dpkg_check("build-essential")
+        gplusplus_installed = dpkg_check("g++")
+        libcloog_ppl_dev_installed = dpkg_check("libcloog-ppl-dev")
+        libcloog_ppl0_installed = dpkg_check("libcloog-ppl0")
+        virtualenvwrapper_installed = virtualenvwrapper_check()
         
         # wget
         if wget_installed:
