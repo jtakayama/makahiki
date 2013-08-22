@@ -71,13 +71,7 @@ def scriptrunner(scripttype, arch, logfile):
         2. arch: Architecture. Ubuntu is supported for x86 and x64 architectures.
         3. logfile: The log file to pass to the installation script.
     """
-    if (arch != "x86" and arch != "x64"):
-        logfile.write("Unsupported architecture for Ubuntu Linux: %s\n" % arch)
-        logfile.write("Script could not be completed.\n")
-        print "Unsupported architecture for Ubuntu Linux: %s\n" % arch
-        print "Script could not be completed.\n"
-    
-    else: 
+    if (arch == "x86" or arch == "x64"): 
         if scripttype == "dependencies":
             logfile = ubuntu.dependency_ubuntu.run(arch, logfile)
         elif scripttype == "cleanup":
@@ -91,6 +85,11 @@ def scriptrunner(scripttype, arch, logfile):
         else:
             logfile.write("Error: install.py invoked with invalid command: %s\n" % scripttype)
             print "Error: install.py invoked with invalid command: %s\n" % scripttype
+    else:
+        logfile.write("Unsupported architecture for Ubuntu: %s\n" % arch)
+        logfile.write("Script could not be completed.\n")
+        print "Unsupported architecture for Ubuntu: %s\n" % arch
+        print "Script could not be completed.\n"
     # After the function is done, return the logfile.
     return logfile
 
