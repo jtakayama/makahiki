@@ -1074,22 +1074,20 @@ B. Re-provision a virtual machine that is already running:
 
 Appendix F. Configure the RAM of the Virtual Machine
 ===============================================================================
-The default settings in the Vagrantfile that comes with this project limit 
-the virtual machine to 1536 MB (1.5 GB) of RAM. To change these settings, you 
-will need to edit the Vagrantfile while the virtual machine is shut down.
+The default settings in the Vagrantfile that comes with this project allow
+the virtual machine to use up to 1536 MB (1.5 GB) of RAM. To change this, 
+you will need to edit the Vagrantfile while the virtual machine is shut down.
 
 (The % indicates that the command can be done from anywhere in the virtual 
  machine, regardless of working directory.)
 
 Stop the web server by pressing Control-C in the SSH terminal.
-Then shut down the virtual machine:
+Then shut down the virtual machine to end the SSH session:
 -------------------------------------------------------------------------------
 % sudo shutdown -h now
 -------------------------------------------------------------------------------
 
-This will end the SSH session.
-
-To increase the RAM allocated to the Virtualbox VM, edit the "vb.customize" 
+To change the RAM allocated to the Virtualbox VM, edit the "vb.customize" 
 line in the Vagrantfile by changing the number after the "--memory" flag.
 -------------------------------------------------------------------------------
   config.vm.provider :virtualbox do |vb|
