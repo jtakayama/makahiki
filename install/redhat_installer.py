@@ -76,15 +76,10 @@ def scriptrunner(scripttype, arch, logfile):
         1. scripttype: The installation script that is being run. 
            Supported values: 
            "dependencies", "cleanup", "pip", "initialize_instance", "update_instance"
-        2. arch: Architecture. RHEL / CentOS are supported for x64 architectures.
+        2. arch: Architecture. RHEL / CentOS are supported for x86 and x64 architectures.
         3. logfile: The log file to pass to the installation script.
     """
-    if arch != "x64":
-        logfile.write("Unsupported architecture for RHEL / CentOS: %s\n" % arch)
-        logfile.write("Script could not be completed.\n")
-        print "Unsupported architecture for RHEL / CentOS: %s" % arch
-        print "Script could not be completed."
-    else: 
+    if (arch == "x86" or arch == "x64"): 
         if scripttype == "dependencies":
             logfile = redhat.dependency_redhat.run(arch, logfile)
         elif scripttype == "cleanup":
@@ -98,18 +93,23 @@ def scriptrunner(scripttype, arch, logfile):
         else:
             logfile.write("Error: redhat_installer.py invoked with invalid command: %s\n" % scripttype)
             print "Error: redhat_installer.py invoked with invalid command: %s" % scripttype
+    else:
+        logfile.write("Unsupported architecture for RHEL / CentOS: %s\n" % arch)
+        logfile.write("Script could not be completed.\n")
+        print "Unsupported architecture for RHEL / CentOS: %s" % arch
+        print "Script could not be completed."
     # After the function is done, return the logfile.
     return logfile
 
 def main():
     if ((len(sys.argv) != 4) or (sys.argv[2] != "--arch")):
-        print "Usage: redhat_installer.py < --dependencies | --cleanup | --pip | --initialize_instance | --update_instance > --arch < x64 >"
+        print "Usage: redhat_installer.py < --dependencies | --cleanup | --pip | --initialize_instance | --update_instance > --arch < x86 | x64 >"
         print "--dependencies: Install Makahiki dependencies (software packages)."
         print "--cleanup: Remove files downloaded by Makahiki scripts."
         print "--pip: Install Makahiki local dependencies using pip."
         print "--initialize_instance: Initialize the Makahiki installation."
         print "--update_instance: Update the Makahiki installation."
-        print "--arch: Architecture. This script only supports x64 for RHEL / CentOS."
+        print "--arch: Architecture. This script supports x86 and x64 for RHEL / CentOS."
     else:
         args = sys.argv[1:]
         scripttype = args[0].strip()[2:]

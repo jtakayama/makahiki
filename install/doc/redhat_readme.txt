@@ -30,12 +30,13 @@ Appendix A. Notes on Log Files
 This is a README file for the Makahiki installation scripts.
 
 The redhat_installer.py script calls a set of Python scripts which partially 
-automate the process of installing Makahiki on Red Hat Enterprise Linux 6 x64.
+automate the process of installing Makahiki on Red Hat Enterprise Linux 6 
+and CentOS 6, x86 or x64.
 
 In these instructions, a % represents your terminal prompt.
 
 The scripts rely on the yum package manager. The scripts have been tested on 
-CentOS 6 x64. Other Red Hat-based operating systems are not supported.
+CentOS 6 x86 and x64. Other Red Hat-based operating systems are not supported.
 
 If you would prefer to install Makahiki manually, see 
 https://makahiki.readthedocs.org/en/latest/installation-makahiki-unix.html.
@@ -130,7 +131,7 @@ Usage of redhat_installer.py:
 -------------------------------------------------------------------------------
 ./redhat_installer.py < --dependencies | --cleanup | --pip | 
                         --initialize_instance | --update_instance > 
-                      --arch < x64 >
+                      --arch < x86 | x64 >
     
 All options require Python 2.7.3 or higher (but not Python 3) to run.
     
@@ -148,7 +149,7 @@ All options require Python 2.7.3 or higher (but not Python 3) to run.
     --update_instance: Runs the makahiki/scripts/update_instance.py script 
       with default options.
     
-    --arch: For RHEL 6, only the x64 architecture is currently supported.
+    --arch: For RHEL 6, the x86 and x64 architectures are currently supported.
 -------------------------------------------------------------------------------
 ===============================================================================
 
@@ -184,7 +185,11 @@ Switch to your top-level makahiki directory:
 % cd ~/makahiki
 -------------------------------------------------------------------------------
 
-Run the script as specified:
+Run the script with your architecture specified:
+-------------------------------------------------------------------------------
+% sudo ./install/redhat_installer.py --dependencies --arch x86
+-------------------------------------------------------------------------------
+or
 -------------------------------------------------------------------------------
 % sudo ./install/redhat_installer.py --dependencies --arch x64
 -------------------------------------------------------------------------------
@@ -194,10 +199,8 @@ already installed:
 - All packages in the groupinstall of "Development tools"
 - git
 - gcc
-- Python Imaging Library (packages: python-devel, python-imaging, libjpeg-devel)
-  - This also checks that the libjpeg.so and libz.so libraries (or symlinks 
-    to them) exist in /usr/lib64. These symlinks should be created automatically 
-    upon installation.
+- Python Imaging Library (packages: python-devel, python-imaging, libjpeg-devel, zlib-devel)
+  - This also creates symbolic links for libjpeg.so and libz.so if necessary.
 - PostgreSQL 9.1:
   - The repository http://yum.postgresql.org/9.1/redhat/rhel-6-x86_64/pgdg-redhat91-9.1-5.noarch.rpm
     will be added to the yum repositories. 
@@ -207,7 +210,6 @@ already installed:
 - memcached
 - Uninstalls libmemcached-devel if installed
 - libmemcached-0.53
-- zlib-devel
 
 The groupinstall may appear to freeze. This is normal: it installs a large 
 number of packages, and the script does not print the output until it is 
@@ -222,6 +224,10 @@ OPTIONAL:
 -------------------------------------------------------------------------------
 You can run the cleanup script to remove source files that were downloaded 
 when building and installing libmemcached-0.53:
+-------------------------------------------------------------------------------
+% sudo ./install/redhat_installer.py --cleanup --arch x86
+-------------------------------------------------------------------------------
+or
 -------------------------------------------------------------------------------
 % sudo ./install/redhat_installer.py --cleanup --arch x64
 -------------------------------------------------------------------------------
@@ -410,7 +416,11 @@ Check that the pg_config library's location is part of the PATH.
 If the system cannot find pg_config, pip will not be able to compile the 
 psycopg2 module.
 
-Run the script as specified:
+Run the script with your architecture specified:
+-------------------------------------------------------------------------------
+% ./install/redhat_installer.py --pip --arch x86
+-------------------------------------------------------------------------------
+or
 -------------------------------------------------------------------------------
 % ./install/redhat_installer.py --pip --arch x64
 -------------------------------------------------------------------------------
@@ -483,7 +493,11 @@ makahiki/makahiki/scripts/initialize_instance.py script with
 "--type default" options.
 -------------------------------------------------------------------------------
 
-Run the script as specified:
+Run the script with your architecture specified:
+-------------------------------------------------------------------------------
+% ./install/redhat_installer.py --initialize_instance --arch x86
+-------------------------------------------------------------------------------
+or
 -------------------------------------------------------------------------------
 % ./install/redhat_installer.py --initialize_instance --arch x64
 -------------------------------------------------------------------------------
@@ -604,8 +618,13 @@ following steps:
 
 (4.) Run the redhat_installer.py script with --update_instance:
 -------------------------------------------------------------------------------
+% python ./install/redhat_installer.py --update_instance --arch x86
+-------------------------------------------------------------------------------
+or
+-------------------------------------------------------------------------------
 % python ./install/redhat_installer.py --update_instance --arch x64
 -------------------------------------------------------------------------------
+
 
 The script will create a log file in makahiki/install/logs with a filename of 
 the format "install_update_instance_<timestamp>.log," where <timestamp> is 
