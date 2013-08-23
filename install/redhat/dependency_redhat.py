@@ -233,7 +233,7 @@ def run(arch, logfile):
     print firstline
     
     now = datetime.datetime.now()
-    time = now.strftime("%Y-%m-%d %H:%M:%S")
+    time = now.strftime("%Y-%m-%d %H:%M:%S.%f")
     start_time = "Script started at %s\n" % time
     logfile.write(start_time)
     print start_time

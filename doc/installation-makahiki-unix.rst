@@ -245,6 +245,14 @@ After Installation
 Once installed, be sure that your PostgreSQL installation's bin/ directory is on
 $PATH so that ``pg_config`` and ``psql`` are defined.
 
+RHEL and CentOS users will need to add the bin/ directory to the $PATH::
+
+  % export PATH=/usr/pgsql-9.1/bin:$PATH
+  % which pg_config
+  /usr/pgsql-9.1/bin/pg_config
+  % which psql
+  /usr/pgsql-9.1/bin/psql
+
 You will also need to configure authentication for the "postgres" database user.   
 
 During development, a simple way to configure authentication is to make the postgres user

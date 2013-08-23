@@ -67,9 +67,11 @@ to your home directory:
 % cp makahiki ~/makahiki
 -------------------------------------------------------------------------------
 If you do not have the Makahiki source code, clone the GitHub repository into 
-your user home directory:
+your user home directory. (You will need to install Git if you do not have 
+it already.)
 -------------------------------------------------------------------------------
-% cd ~/makahiki
+% sudo yum install git
+% cd ~/
 % git clone http://github.com/csdl/makahiki.git
 -------------------------------------------------------------------------------
 
@@ -403,17 +405,17 @@ system PATH. This is temporary. If you exit the current shell,
 you will need to do this again.
 -------------------------------------------------------------------------------
 % export PATH=/usr/pgsql-9.1/bin:$PATH
-% export PATH=/usr/pgsql-9.1/lib:$PATH
-% export PATH=/usr/pgsql-9.1/include:$PATH
 -------------------------------------------------------------------------------
 
-Check that the pg_config library's location is part of the PATH.
+Check that pg_config and psql are on the PATH.
 -------------------------------------------------------------------------------
 % which pg_config
 /usr/pgsql-9.1/bin/pg_config
+% which psql
+/usr/pgsql-9.1/bin/psql
 -------------------------------------------------------------------------------
-If the system cannot find pg_config, pip will not be able to compile the 
-psycopg2 module.
+If the system cannot find pg_config and psql, pip will not be able to compile 
+the psycopg2 module.
 
 Run the script with --pip:
 -------------------------------------------------------------------------------
@@ -692,6 +694,11 @@ if [ ! $LIBMEMCACHED_PATHS_ADDED ];
         export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib:$LD_LIBRARY_PATH
         export LIBMEMCACHED_PATHS_ADDED=True
 fi
+-------------------------------------------------------------------------------
+
+Then, workon makahiki to apply the changes:
+-------------------------------------------------------------------------------
+% workon makahiki
 -------------------------------------------------------------------------------
 
 Then, use chkconfig to set the memcached service to run at startup, and 
