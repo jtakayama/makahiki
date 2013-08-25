@@ -33,8 +33,7 @@ ubuntu_x86_vagrant_readme.txt.
 1.0. Using Eclipse To Develop with Vagrant
 ===============================================================================
 Developing in Eclipse is OPTIONAL. .project and .pydevproject files
-are provided for the convenience of Eclipse users; however, these allow 
-makahiki/makahiki to be imported directly, but not the full project.
+are provided in makahiki/makahiki for the convenience of Eclipse users.
 
 This guide imports the entire project starting from the top-level directory.
 
@@ -172,12 +171,12 @@ virtual machine immediately.
     3a. Click the arrow to expand "General," then select 
         "Existing Projects Into Workspace." Click "Next."
     3b. Uncheck the "Copy Projects into Workspace" checkbox.
-        Select the top-level makahiki directory as the root directory.
+        Select the makahiki/makahiki directory as the root directory.
         EXAMPLE:
-        -----------------------------------------------------------------------
+        ------------------------------------------------------------------------------
         A. Makahiki was cloned into: C:/Users/Tester/Vagrant
-        B. Project root directory should be: C:/Users/Tester/Vagrant/makahiki
-        -----------------------------------------------------------------------
+        B. Project root directory should be: C:/Users/Tester/Vagrant/makahiki/makahiki
+        ------------------------------------------------------------------------------
     3c. Check the checkbox for "makahiki" when it appears. Click "Finish."
 4. Assuming that you installed PyDev, you will receive a warning:
    "It seems that the Python interpreter is not currently configured."
@@ -222,7 +221,7 @@ or "vagrant resume," skip this and continue to Section 3.0.2.
    The current directory will be the directory you installed Eclipse into. 
    Switch to the "makahiki" directory:
    ----------------------------------------------------------------------------
-   > cd <path-to-makahiki>/makahiki
+   > cd <path-to-makahiki>/makahiki/makahiki
    ----------------------------------------------------------------------------
 4. Check the virtual machine's status:
    ----------------------------------------------------------------------------
@@ -257,7 +256,7 @@ In the "Remote Systems" sidebar, click "Define a connection to remote system."
     RSA key fingerprint is e6:ad:1e:ee:15:53:7d:a6:ee:7c:aa:04:7a:ad:9a:9a.
     Are you sure you want to continue connecting?"
 8. If you see a popup similar to the below example, click "Yes" to continue:
-   "C:\Users\<username?\.ssh\known_hosts does not exist.
+   "C:\Users\<username>\.ssh\known_hosts does not exist.
     Are you sure you want to create it?"
 9. In the Remote Systems sidebar, right-click "Ssh Terminals" and click 
    "Launch Terminal." This will open an SSH session terminal under 
@@ -282,15 +281,15 @@ provisioning script was run, the pip packages will be located in
 /usr/local/lib/python2.7/dist-packages.
 
 Copy the dist-packages directory into the /vagrant/vagrant shared directory:
--------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------
 vagrant@precise32:~$ cd /usr/local/lib/python2.7/dist-packages
 vagrant@precise32:/usr/local/lib/python2.7/dist-packages$ ls
 -- output omitted --
 vagrant@precise32:/usr/local/lib/python2.7/dist-packages$ cd ../
-vagrant@precise32:/usr/local/lib/python2.7$ cp -rL dist-packages /vagrant/vagrant/
--------------------------------------------------------------------------------
+vagrant@precise32:/usr/local/lib/python2.7$ cp -rL dist-packages /vagrant/makahiki/
+-----------------------------------------------------------------------------------
 On your host machine, the dist-packages directory will appear at 
-<path-to-makahiki>/makahiki/vagrant/dist-packages.
+<path-to-makahiki>/makahiki/makahiki/dist-packages.
 
 Continue to Section 4.0.2. to add this directory to Eclipse's Pythonpath.
 ===============================================================================
@@ -305,7 +304,7 @@ Open Eclipse. Switch to or open the PyDev perspective if you are not in it.
 2. Click on "New Folder."
 3. In the "New Folder" window, click the white right-pointing arrow to expand 
    the directory tree. In the directory tree, browse to 
-   <path-to-makahiki>/makahiki/vagrant/dist-packages. 
+   <path-to-makahiki>/makahiki/makahiki/dist-packages. 
    Click on the directory to highlight it, then click "OK."
 4. In the main "Interpreter - Python" window, click "Apply" to rebuild 
    Eclipse's System Pythonpath.
@@ -375,27 +374,27 @@ on the host machine.
 Run the demonstration class to see the remote debugger in action:
 1. On the host machine, look for the directory you installed Eclipse into 
    (the directory that contains the "eclipse" directory). In this directory, 
-   navigate to eclipse/plugins/
+   navigate to eclipse/plugins/.
 2. Copy the directory with a name of the form 
    org.python.pydev_<version number X.X.X>.<nine digits representing build date>
    (e.g., org.python.pydev_2.7.5.2013052819) to the 
-   <path-to-makahiki>/makahiki/vagrant directory.
+   <path-to-makahiki>/makahiki/makahiki directory.
 3. In Eclipse, open the Debug perspective.
 4. In the top button menu bar (usually below the File/Edit/Navigate/etc. 
    menu bar), search for a bug icon with a "P" next to it (which, when 
-   moused over, displays the text "PyDev: Start the pydev Server."
+   moused over, displays the text "PyDev: Start the pydev Server").
    Click this. In the Debug tab, icons for the "Debug Server [Python Server]" 
    will appear. In the Console tab, the phrase "Debug Server at port: 5678" 
    will appear.
-5. Switch to the PyDev perspective. Navigate to makahiki/vagrant. 
+5. Switch to the PyDev perspective. Navigate to makahiki/makahiki/remote-debugger-demo. 
 6. Open pydevd_demo.py. This is an example file that uses the PyDev debugger. 
 7. Look at the two import statements at the beginning of the file. These 
    statements must be added to any file in this project that uses the 
    remote debugger.
-   ----------------------------------------------------------------------------
-   import sys;sys.path.append(r'org.python.pydev_2.7.5.2013052819\pysrc')
+   -------------------------------------------------------------------------------------------
+   import sys;sys.path.append(os.pardir + os.sep + r'org.python.pydev_2.7.5.2013052819\pysrc')
    import pydevd
-   ----------------------------------------------------------------------------
+   -------------------------------------------------------------------------------------------
    Check that the path to org.python.pydev_#.#.#.##########\pysrc matches the 
    relative path from pydevd_demo.py to the directory copied into 
    makahiki/vagrant in Step 2. Edit it if it does not. 
@@ -413,11 +412,12 @@ Run the demonstration class to see the remote debugger in action:
     ---------------------------------------------------------------------------
     > vagrant ssh
     ---------------------------------------------------------------------------
-12. In Vagrant, switch to /vagrant/vagrant and run pydevd_demo.py:
-    ---------------------------------------------------------------------------
-    vagrant@precise32:~$ cd /vagrant/vagrant
-    vagrant@precise32:/vagrant/vagrant$ python pydevd_demo.py
-    ---------------------------------------------------------------------------
+12. In Vagrant, switch to /vagrant/makahiki/remote-debugger-demo and 
+    run pydevd_demo.py:
+    -------------------------------------------------------------------------------
+    vagrant@precise32:~$ cd /vagrant/makahiki/remote-debugger-demo
+    vagrant@precise32:/vagrant/makahiki/remote-debugger-demo$ python pydevd_demo.py
+    -------------------------------------------------------------------------------
 13. You should see the same debugging information appear as when you ran the 
     program locally. If it does not work, you may see Errno 110:
     ---------------------------------------------------------------------------
@@ -430,8 +430,8 @@ Run the demonstration class to see the remote debugger in action:
     
 If this does not work, you may need to set the location of the file 
 to be tested in pydevd_file_utils.py. 
-1. Navigate to the org.python.pydev_* directory you copied into 
-   makahiki/vagrant earlier, then go to the pysrc directory. Open the 
+1. Navigate to the org.python.pydev_<version> directory you copied into 
+   makahiki/makahiki earlier, then go to the pysrc directory. Open the 
    pydevd_file_utils.py file.
 2. Follow the instructions at the beginning of the file to edit the 
    PATHS_FROM_ECLIPSE_TO_PYTHON variable's value to match the location 
@@ -442,7 +442,7 @@ to be tested in pydevd_file_utils.py.
 ===============================================================================
 To add the remote debugging functionality in pydevd_demo.py to any Python file:
 1. Edit the file so that it includes two import statements: one to import the 
-   org.python.pydev_*\pysrc directory, and one to import pydevd.
+   pysrc directory, and one to import pydevd.
 2. Add "pydevd.settrace()" wherever you would insert a breakpoint in 
    normal Eclipse debugging. It can have up to 4 parameters set:
    - The first parameter, the IP address, must match the .1 address 

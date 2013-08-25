@@ -1,7 +1,7 @@
 .. _section-configuration-system-administration-memcached:
 
 Configure Memcached
-========================
+===================
 
 About Memcached
 ---------------

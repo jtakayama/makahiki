@@ -51,7 +51,7 @@ the documentation at:
 - Windows: http://makahiki.readthedocs.org/en/latest/installation-makahiki-windows.html
 - OS X and Unix: http://makahiki.readthedocs.org/en/latest/installation-makahiki-unix.html
 
-The Makahiki source code is available from https://github.com/csdl/makahiki.
+The Makahiki source code is available from http://github.com/csdl/makahiki.
 
 In the examples in this document, the > represents a generic terminal prompt.
 
@@ -122,9 +122,9 @@ computer that Vagrant and VirtualBox use to run the virtual machine.
 
 1.0.1. Install VirtualBox
 ===============================================================================
-Download VirtualBox from https://www.virtualbox.org/wiki/Downloads.
+Download VirtualBox from http://www.virtualbox.org/wiki/Downloads.
 To install VirtualBox, follow the instructions at 
-https://www.virtualbox.org/manual/ch02.html.
+http://www.virtualbox.org/manual/ch02.html.
 
 Select "Yes" when you are asked to install drivers for USB support and 
 VirtualBox Host-Only Networking.
@@ -172,7 +172,7 @@ section.)
 
 A. If you do not have Git or Git for Windows, download the source code from 
    Github as a .zip file:
-    A1. In a web browser, go to https://github.com/csdl/makahiki.
+    A1. In a web browser, go to http://github.com/csdl/makahiki.
     A2. Click the button to "Download ZIP."
     A3. Extract the makahiki.zip file that is downloaded.
 
@@ -182,7 +182,7 @@ B. If you have Git, or Git for Windows, you can clone the repository:
    ----------------------------------------------------------------------------
    Windows: Get "Git for Windows" from http://git-scm.com/download/win.
    OS X and Unix: Git is available through various package managers and
-            installers; see https://help.github.com/articles/set-up-git
+            installers; see http://help.github.com/articles/set-up-git
             for further instructions.
 
 Now switch your working directory to makahiki:
@@ -193,16 +193,14 @@ Now switch your working directory to makahiki:
 
 2.0.2. Download the Base Virtual Machine
 ===============================================================================
-This step adds the base virtual machine specified in the last step, 
-"precise32," for Vagrant to use.
+This step adds the base virtual machine image "precise32" for Vagrant to use.
 -------------------------------------------------------------------------------
 > vagrant box add precise32 http://files.vagrantup.com/precise32.box
 -------------------------------------------------------------------------------
 This will download the virtual machine from Vagrant's servers.
 
-It is only necessary to download each specific box once; if you create more 
-virtual machines with the same base box ("precise32") specified in the 
-Vagrantfile, you can skip this step.
+Once downloaded, the "precise32" box can be reused by Vagrant to create any 
+virtual machines that specify "precise32" in their Vagrantfiles.
 ===============================================================================
 
 2.1. Set up Makahiki in the Virtual Machine
@@ -301,10 +299,10 @@ When the script finishes, look at the last few lines of output:
 -------------------------------------------------------------------------------
 Configuration setup results:
 -------------------------------------------------------------------------------
-1. Copying locale settings to /etc/bash.bashrc: [Succeeded]"
-2. Copying settings to pg_hba.conf: [Succeeded]"
-3. Creating /home/vagrant/makahiki_env.sh: [Succeeded]"
-4. Appending to /home/vagrant/.bashrc: [Succeeded]"
+1. Copying locale settings to /etc/bash.bashrc: [Succeeded]
+2. Copying settings to pg_hba.conf: [Succeeded]
+3. Creating /home/vagrant/makahiki_env.sh: [Succeeded]
+4. Appending to /home/vagrant/.bashrc: [Succeeded]
 -------------------------------------------------------------------------------
 If the value for a task is "Succeeded" or "Already completed," continue.
 
@@ -345,14 +343,14 @@ vagrant@precise32:~$
 The makahiki source code should show up in the /vagrant/ directory.
 -------------------------------------------------------------------------------
 vagrant@precise32:~$ cd /vagrant
-vagrant@precise32:/vagrant/$ ls
+vagrant@precise32:/vagrant$ ls
 -------------------------------------------------------------------------------
 
 The output of ls should match the contents of the makahiki directory on your 
 host machine.
 ===============================================================================
 
-2.1.4. Start The Server
+2.1.4. Start the Server
 ===============================================================================
 The Makahiki server is started manually from the /vagrant/makahiki directory: 
 -------------------------------------------------------------------------------
@@ -478,9 +476,8 @@ Type "help" for help.
 postgres=#\q
 vagrant@precise32:/vagrant$
 -------------------------------------------------------------------------------
-If you cannot connect to the database with "psql -U postgres," or experience 
-errors when running initialize_instance.py, check that the pg_hba.conf file 
-has the correct settings applied.
+If you cannot connect to the database with "psql -U postgres," 
+check that the pg_hba.conf file has the correct settings applied.
 
 On Ubuntu 12.04 LTS, pg_hba.conf is at /etc/postgresql/9.1/main/pg_hba.conf.
 Open it in the nano text editor with sudo (root) privileges:
@@ -571,7 +568,8 @@ If this fails, continue to A.0.4., "Troubleshooting /home/vagrant/.bashrc."
 
 Appendix A.0.4. Troubleshooting /home/vagrant/.bashrc
 ===============================================================================
-bootstrap.sh normally appends this line to the "vagrant" user's .bashrc file:
+The provisioning script normally appends this line to the "vagrant" user's 
+.bashrc file:
 -------------------------------------------------------------------------------
 source /home/vagrant/makahiki_env.sh
 -------------------------------------------------------------------------------
@@ -582,9 +580,11 @@ current user's home directory, which is /home/vagrant.)
 vagrant@precise32:~$ nano ~/.bashrc
 -------------------------------------------------------------------------------
 
-Add the line "source /home/vagrant/makahiki_env.sh" to the end of the file.
-Save the file and source it for changes to take effect:
+Add the line "source /home/vagrant/makahiki_env.sh" to the end of the file if 
+it is not there. Save the file and source it for changes to take effect:
+-------------------------------------------------------------------------------
 vagrant@precise32:~$ source ~/.bashrc
+-------------------------------------------------------------------------------
 ===============================================================================
 
 Appendix B.0. Makahiki Maintenance Tasks
@@ -630,16 +630,13 @@ If the script experiences errors while connecting to the database, see
 
 Appendix B.0.2. The Makahiki Server
 ===============================================================================
-The Makahiki server must be started manually.
+This guide assumes you are in the directory /vagrant/makahiki on the 
+virtual machine.
 
-This guide assumes you are currently in the directory /vagrant/makahiki on 
-your virtual machine.
-
-The servers provided by manage.py are runserver and gunicorn. The manage.py 
-web server is better for development, while gunicorn is better for production 
-use. It is important to bind the server to IP 0.0.0.0 (accepts incoming 
-connections on any IP address) and port 8000 in order to work with the port 
-forwarding settings in the Vagrantfile.
+The manage.py web server is better for development, while gunicorn is better 
+for production use. It is important to bind the server to IP 0.0.0.0 (accepts 
+incoming connections on any IP address) and port 8000 in order to work with 
+the port forwarding settings in the Vagrantfile.
 
 To start the server with manage.py:
 -------------------------------------------------------------------------------
@@ -654,8 +651,6 @@ vagrant@precise32:/vagrant/makahiki$ ./manage.py run_gunicorn -b 0.0.0.0:8000
 View the site in your host machine's web browser at http://192.168.56.4:8000.
 
 Log in with the username (admin) and password (admin) in MAKAHIKI_ADMIN_INFO. 
-See "Appendix A.0.3. Troubleshooting /home/vagrant/makahiki_env.sh" to change 
-them.
 
 To stop either of the servers, type Control-C in the virtual machine terminal.
 ===============================================================================
@@ -693,11 +688,7 @@ Saving to: “index.html"
 2013-08-09 11:19:26 (192 MB/s) - “index.html" saved [6181]
 -------------------------------------------------------------------------------
 If your HTTP response is "200 OK," the server is running correctly. You can 
-delete the "test" directory when you are done:
--------------------------------------------------------------------------------
-% cd ~/
-% rm -rf test
--------------------------------------------------------------------------------
+delete the "test" directory when you are done.
 
 Because this server was started in the background with &, you cannot stop it 
 with Control-C. You will need to find the PIDs of its processes first:
@@ -782,8 +773,6 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> from django.core.cache import cache
 >>> cache
 <django_pylibmc.memcached.PyLibMCCache object at 0x8c93c4c>
->>> cache == None
-False
 >>> cache.set('test','Hello World')
 True
 >>> cache.get('test')
@@ -804,8 +793,8 @@ occurs when MAKAHIKI_USE_MEMCACHED=True but LD_LIBRARY_PATH does not include
 the location of pylibmc.
 
 If any of the following errors occur, then Memcached is not working:
-(1) cache prints a blank to the console, or cache == None returns True, 
-    or cache is a "django.core.cache.backends.dummy.DummyCache object."
+(1) cache prints a blank to the console, or cache is a 
+    "django.core.cache.backends.dummy.DummyCache object."
 (2) cache.set returns False.
 (3) cache.get returns False or causes a segmentation fault.
 If so, make sure environment variables are set and Memcached is running.
