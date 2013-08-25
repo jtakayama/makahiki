@@ -255,11 +255,20 @@ In the "Remote Systems" sidebar, click the button labeled "Define a connection t
 9. In the Remote Systems sidebar, right-click "Ssh Terminals" and click 
    "Launch Terminal." This will open an SSH session terminal under 
    "Terminals."
+   
+   .. figure:: figs/vagrant-eclipse/remote_systems_explorer_ssh.png
+      :width: 586 px
+      :align: center
 
 The SSH session can be used to run Makahiki scripts and the Makahiki web 
 server, like a normal SSH session. Using "exit" or "logout" will close the 
 session, but pressing Enter will launch a new session. Close the "Terminals" 
 tab when you are done.
+
+.. note:: As of Eclipse Juno, there is a bug in the Terminals display of 
+   the Remote Systems Explorer. Pressing backspace will cause the terminal 
+   prompt to disappear. Any text before your cursor position will also disappear. 
+   The text remains typed in the virtual machine.
 
 Enabling Makahiki Code Completion in Eclipse PyDev
 --------------------------------------------------
@@ -337,7 +346,10 @@ started outside of Eclipse to be debugged from within Eclipse. This allows
 Python scripts on the virtual machine to be debugged in Eclipse on the host 
 machine.
 
-For more information about the remote debugger, see http://www.pydev.org/manual_adv_remote_debugger.html.
+For more information about the remote debugger, refer to the 
+`PyDev remote debugger documentation`_. 
+
+.. _PyDev remote debugger documentation: http://www.pydev.org/manual_adv_remote_debugger.html.
 
 .. warning::
 
@@ -369,7 +381,12 @@ Run the demonstration class to see the remote debugger in action:
 3. In Eclipse, open the Debug perspective.
 4. In the top button menu bar (usually below the File/Edit/Navigate/etc. 
    menu bar), search for a bug icon with a "P" next to it (which, when 
-   moused over, displays the text "PyDev: Start the pydev Server."
+   moused over, displays the text "PyDev: Start the pydev Server":
+   
+     .. figure:: figs/vagrant-eclipse/pydev_server_start_button.png
+        :width: 186 px
+        :align: center
+   
    Click this. In the Debug tab, icons for the "Debug Server [Python Server]" 
    will appear. In the Console tab, the phrase "Debug Server at port: 5678" 
    will appear.
@@ -394,6 +411,12 @@ Run the demonstration class to see the remote debugger in action:
     value for "i" that appears in the Variables tab. Step through the 
     program using the debugger; "i" will be decremented as the loop runs. 
     Output from the program will appear in the Console tab.
+    
+    .. figure:: figs/vagrant-eclipse/debug_server_demo.png
+        :width: 809 px
+        :align: center
+    
+    
 11. Leave Eclipse open in the Debug perspective. Open a Command Prompt or 
     Terminal, and SSH into your Vagrant virtual machine::
     
