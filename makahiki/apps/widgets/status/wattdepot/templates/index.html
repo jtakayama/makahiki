@@ -42,14 +42,13 @@
              var done = true;
             (function () {      
                 {% for team in all_lounges %}
-                    drawOne({{forloop.counter}}, "{{team}}")
+                    drawOne({{forloop.counter}}, "{{team.source_name}}")
                 {% endfor %}
             })();
 
-            function drawOne(id, team) {
+            function drawOne(id, source) {
                 var refreshInterval = {{interval}};
                 var server_url = "{{ CHALLENGE.wattdepot_server_url }}";
-                var source = team;
                 var options = {
                     source: source,
                     width: 200,

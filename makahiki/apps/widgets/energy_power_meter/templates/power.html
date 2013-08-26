@@ -19,8 +19,9 @@
     (function () {
         var refreshInterval = {{ view_objects.energy_power_meter.interval }};
         var server_url = "{{ CHALLENGE.wattdepot_server_url }}";
-        var source = "{{user.get_profile.team.name}}";
+        var source = "{{ view_objects.energy_power_meter.wattdepot_source_name }}";
         var options = {
+        	title: "{{ user.get_profile.team.name }}",
             source: source,
             width: 300,
             powerRange: 2000};

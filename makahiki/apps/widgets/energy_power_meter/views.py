@@ -9,12 +9,18 @@ def supply(request, page_name):
 
     team = request.user.get_profile().team
     if team:
-        interval = resource_goal.team_goal_settings(team, "energy").realtime_meter_interval
+        goal = resource_goal.team_goal_settings(team, "energy")
+        interval = goal.realtime_meter_interval
+        wattdepot_source_name = goal.wattdepot_source_name
+        if not wattdepot_source_name:
+            wattdepot_source_name = team.name
     else:
         interval = None
+        wattdepot_source_name = None
     width = 300
     height = 100
     return {"interval": interval,
+            "wattdepot_source_name": wattdepot_source_name,
             "width": width,
             "height": height
             }
