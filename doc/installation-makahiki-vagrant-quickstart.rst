@@ -170,14 +170,8 @@ When the script finishes, look at the last few lines of output::
   -------------------------------------------------------------------------------
   
 If the value for a task is "Succeeded" or "Already completed," continue to the 
-next step. If the value for a task is "Failed," check one of the troubleshooting 
-sections listed below:
+next step. If the value for a task is "Failed," go to :ref:`section-installation-makahiki-vagrant-troubleshooting`.
 
-  * If "Copying locale settings to /etc/bash.bashrc" failed, go to **Troubleshooting bash.bashrc** in :ref:`section-installation-makahiki-vagrant-troubleshooting`.
-  * If "Copying settings to pg_hba.conf" failed, or there were errors when the script was initializing the database, go to **Troubleshooting postgreSQL** in :ref:`section-installation-makahiki-vagrant-troubleshooting`.
-  * If "Creating /home/vagrant/makahiki_env.sh" failed, go to **Troubleshooting /home/vagrant/makahiki_env.sh** in :ref:`section-installation-makahiki-vagrant-troubleshooting`.
-  * If "Appending to /home/vagrant/.bashrc" failed, go to **Troubleshooting /home/vagrant/.bashrc** in :ref:`section-installation-makahiki-vagrant-troubleshooting`.
-   
 Connect to the Vagrant Virtual Machine
 --------------------------------------
 

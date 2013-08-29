@@ -6,6 +6,16 @@ Troubleshooting Makahiki on Vagrant
 This section contains troubleshooting and configuration instructions for a Makahiki installation 
 on Vagrant. Throughout this guide, a ``%`` prompt represents the virtual machine command prompt.
 
+If you were linked here from :ref:`section-installation-makahiki-vagrant-quickstart`, you should 
+jump to the section specific to your problem.
+
+  * If **Copying locale settings to /etc/bash.bashrc** failed, go to :ref:`troubleshooting-bash-bashrc-and-utf-8-encodings`.
+  * If **Copying settings to pg_hba.conf** failed, go to :ref:`troubleshooting-postgresql`.
+  * If **Creating /home/vagrant/makahiki_env.sh** failed, go to :ref:`troubleshooting-makahiki-env-sh`.
+  * If **Appending to /home/vagrant/.bashrc** failed, go to :ref:`troubleshooting-bashrc`.
+
+.. about-nano:
+
 About nano
 ----------
 
@@ -40,6 +50,8 @@ When you save a document (e.g., one called test.txt), you will be prompted::
 Press Enter to continue, or type to edit the file name.
 
 .. _nano documentation: http://www.nano-editor.org/docs.php
+
+.. _troubleshooting-bash-bashrc-and-utf-8-encodings:
 
 Troubleshooting bash.bashrc and UTF-8 Encodings
 -----------------------------------------------
@@ -79,6 +91,8 @@ After you are done editing the file, run these commands::
   % sudo pg_createcluster --locale en_US.UTF8 9.1 main
   % sudo cp /vagrant/vagrant/config_examples/pg_hba.conf.ubuntu.makahiki /etc/postgresql/9.1/main/pg_hba.conf
   % sudo /etc/init.d/postgresql restart
+
+.. _troubleshooting-postgresql:
 
 Troubleshooting PostgreSQL
 --------------------------
@@ -123,6 +137,9 @@ Edit the file to match the examples below::
 After you have edited the pg_hba.conf file, restart the Postgresql service::
 
   % sudo /etc/init.d/postgresql restart
+
+
+.. _troubleshooting-makahiki-env-sh:
 
 Troubleshooting makahiki_env.sh
 -------------------------------
@@ -178,6 +195,8 @@ source the makahiki_env.sh file, which will set the environment variables::
   admin:admin
 
 If this fails, continue to the next section.
+
+.. _troubleshooting-bashrc:
 
 Troubleshooting .bashrc
 -----------------------
