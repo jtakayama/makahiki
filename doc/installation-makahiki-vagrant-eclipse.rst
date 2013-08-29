@@ -1,6 +1,6 @@
 .. _section-installation-makahiki-vagrant-eclipse:
 
-Using Eclipse to Develop with Makahiki on Vagrant
+Using Eclipse to Develop With Makahiki on Vagrant
 =================================================
 
 Using Eclipse to develop software with Makahiki is optional. However, 
