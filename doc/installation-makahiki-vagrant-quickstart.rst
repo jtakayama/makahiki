@@ -226,7 +226,8 @@ http://192.168.56.4:8000.
 In the virtual machine, stop either server with Control+C when you are finished.
 
 If the site is not reachable from your host machine, or your host machine is headless 
-and has no GUI, refer to :ref:`section-installation-makahiki-vagrant-troubleshooting`.
+and has no GUI, refer to :ref:`section-installation-makahiki-vagrant-running-makahiki-vagrant` 
+and read the section on **Testing the Server Without a Web Browser**.
 
 
 
