@@ -12,6 +12,9 @@ Vagrant can be installed on Linux, Mac OS X, and Windows.
 
 This virtual machine is for development. It should not be used as a production server.
 
+To install VirtualBox and Vagrant and download the Makahiki source code, use 
+:ref:`section-installation-makahiki-vagrant-environment-setup`.
+
 To install Makahiki on Vagrant and start the server, use :ref:`section-installation-makahiki-vagrant-quickstart`.
 
 If you want to use Eclipse to develop software with Makahiki, use :ref:`section-installation-makahiki-vagrant-eclipse`.
@@ -22,6 +25,7 @@ Makahiki and the Vagrant virtual machine.
 .. toctree::
    :maxdepth: 2
    
+   installation-makahiki-vagrant-environment-setup
    installation-makahiki-vagrant-quickstart
    installation-makahiki-vagrant-eclipse
    installation-makahiki-vagrant-troubleshooting
