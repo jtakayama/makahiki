@@ -30,12 +30,13 @@ Appendix A. Notes on Log Files
 This is a README file for the Makahiki installation scripts.
 
 The redhat_installer.py script calls a set of Python scripts which partially 
-automate the process of installing Makahiki on Red Hat Enterprise Linux 6 x64.
+automate the process of installing Makahiki on Red Hat Enterprise Linux 6 
+and CentOS 6, x86 or x64.
 
 In these instructions, a % represents your terminal prompt.
 
 The scripts rely on the yum package manager. The scripts have been tested on 
-CentOS 6 x64. Other Red Hat-based operating systems are not supported.
+CentOS 6 x86 and x64. Other Red Hat-based operating systems are not supported.
 
 If you would prefer to install Makahiki manually, see 
 https://makahiki.readthedocs.org/en/latest/installation-makahiki-unix.html.
@@ -66,9 +67,11 @@ to your home directory:
 % cp makahiki ~/makahiki
 -------------------------------------------------------------------------------
 If you do not have the Makahiki source code, clone the GitHub repository into 
-your user home directory:
+your user home directory. (You will need to install Git if you do not have 
+it already.)
 -------------------------------------------------------------------------------
-% cd ~/makahiki
+% sudo yum install git
+% cd ~/
 % git clone http://github.com/csdl/makahiki.git
 -------------------------------------------------------------------------------
 
@@ -128,13 +131,14 @@ redhat_installer.py script. It is used to install dependencies for Makahiki.
 
 Usage of redhat_installer.py:
 -------------------------------------------------------------------------------
-./redhat_installer.py < --dependencies | --cleanup | --pip | 
-                        --initialize_instance | --update_instance > 
-                      --arch < x64 >
+./redhat_installer.py < --dependencies --arch < x86 | x64 > | --cleanup | 
+                        --pip | --initialize_instance | --update_instance > 
     
 All options require Python 2.7.3 or higher (but not Python 3) to run.
     
-    --dependencies: Installs dependencies.
+    --dependencies: Installs dependencies. This is the only option that 
+      requires --arch to be specified. This script must be run with root 
+      privileges.
     
     --cleanup: Deletes all files and directories in makahiki/install/download 
       except for download_readme.txt. Cleans up after dependency installation.
@@ -148,7 +152,7 @@ All options require Python 2.7.3 or higher (but not Python 3) to run.
     --update_instance: Runs the makahiki/scripts/update_instance.py script 
       with default options.
     
-    --arch: For RHEL 6, only the x64 architecture is currently supported.
+    --arch: For RHEL 6, the x86 and x64 architectures are currently supported.
 -------------------------------------------------------------------------------
 ===============================================================================
 
@@ -184,7 +188,11 @@ Switch to your top-level makahiki directory:
 % cd ~/makahiki
 -------------------------------------------------------------------------------
 
-Run the script as specified:
+Run the script with your OS architecture specified:
+-------------------------------------------------------------------------------
+% sudo ./install/redhat_installer.py --dependencies --arch x86
+-------------------------------------------------------------------------------
+or
 -------------------------------------------------------------------------------
 % sudo ./install/redhat_installer.py --dependencies --arch x64
 -------------------------------------------------------------------------------
@@ -194,12 +202,12 @@ already installed:
 - All packages in the groupinstall of "Development tools"
 - git
 - gcc
-- Python Imaging Library (packages: python-devel, python-imaging, libjpeg-devel)
-  - This also checks that the libjpeg.so and libz.so libraries (or symlinks 
-    to them) exist in /usr/lib64. These symlinks should be created automatically 
-    upon installation.
+- Python Imaging Library (packages: python-devel, python-imaging, libjpeg-devel, zlib-devel)
+  - This also creates symbolic links for libjpeg.so and libz.so on x64 systems: 
+    /usr/lib/libjpeg.so --> /usr/lib64/libjpeg.so
+    /usr/lib/libz.so --> /usr/lib64/libz.so
 - PostgreSQL 9.1:
-  - The repository http://yum.postgresql.org/9.1/redhat/rhel-6-x86_64/pgdg-redhat91-9.1-5.noarch.rpm
+  - http://yum.postgresql.org/9.1/redhat/rhel-6-x86_64/pgdg-redhat91-9.1-5.noarch.rpm
     will be added to the yum repositories. 
   - postgresql91-server 
   - postgresql91-contrib
@@ -207,7 +215,6 @@ already installed:
 - memcached
 - Uninstalls libmemcached-devel if installed
 - libmemcached-0.53
-- zlib-devel
 
 The groupinstall may appear to freeze. This is normal: it installs a large 
 number of packages, and the script does not print the output until it is 
@@ -220,10 +227,10 @@ For more information, see Appendix A.
 
 OPTIONAL: 
 -------------------------------------------------------------------------------
-You can run the cleanup script to remove source files that were downloaded 
-when building and installing libmemcached-0.53:
+You can run the script with --cleanup to remove source files that were 
+downloaded when building and installing libmemcached-0.53:
 -------------------------------------------------------------------------------
-% sudo ./install/redhat_installer.py --cleanup --arch x64
+% sudo ./install/redhat_installer.py --cleanup
 -------------------------------------------------------------------------------
 The script will create a log file in makahiki/install/logs with a filename of 
 the format "install_cleanup_<timestamp>.log," where <timestamp> is a sequence 
@@ -302,7 +309,7 @@ Switch to the top-level makahiki directory:
 
 Then, create the makahiki virtual environment: 
 -------------------------------------------------------------------------------
-% mkvirtualenv makahiki -p /opt/rh/python27/root/usr/bin/python
+% mkvirtualenv makahiki
 -------------------------------------------------------------------------------
 
 Creating a virtual environment should switch you to the virtual environment.
@@ -398,21 +405,21 @@ system PATH. This is temporary. If you exit the current shell,
 you will need to do this again.
 -------------------------------------------------------------------------------
 % export PATH=/usr/pgsql-9.1/bin:$PATH
-% export PATH=/usr/pgsql-9.1/lib:$PATH
-% export PATH=/usr/pgsql-9.1/include:$PATH
 -------------------------------------------------------------------------------
 
-Check that the pg_config library's location is part of the PATH.
+Check that pg_config and psql are on the PATH.
 -------------------------------------------------------------------------------
 % which pg_config
 /usr/pgsql-9.1/bin/pg_config
+% which psql
+/usr/pgsql-9.1/bin/psql
 -------------------------------------------------------------------------------
-If the system cannot find pg_config, pip will not be able to compile the 
-psycopg2 module.
+If the system cannot find pg_config and psql, pip will not be able to compile 
+the psycopg2 module.
 
-Run the script as specified:
+Run the script with --pip:
 -------------------------------------------------------------------------------
-% ./install/redhat_installer.py --pip --arch x64
+% ./install/redhat_installer.py --pip
 -------------------------------------------------------------------------------
 The list of packages that this step will attempt to install with pip are 
 listed in the makahiki/requirements.txt file.
@@ -483,11 +490,10 @@ makahiki/makahiki/scripts/initialize_instance.py script with
 "--type default" options.
 -------------------------------------------------------------------------------
 
-Run the script as specified:
+Run the script with --initialize_instance:
 -------------------------------------------------------------------------------
-% ./install/redhat_installer.py --initialize_instance --arch x64
+% ./install/redhat_installer.py --initialize_instance
 -------------------------------------------------------------------------------
-
 The script will create a log file in makahiki/install/logs with a filename of 
 the format "install_initialize_instance_<timestamp>.log," where <timestamp> is 
 a sequence of numbers representing a timestamp in the system local time. 
@@ -604,7 +610,7 @@ following steps:
 
 (4.) Run the redhat_installer.py script with --update_instance:
 -------------------------------------------------------------------------------
-% python ./install/redhat_installer.py --update_instance --arch x64
+% python ./install/redhat_installer.py --update_instance
 -------------------------------------------------------------------------------
 
 The script will create a log file in makahiki/install/logs with a filename of 
@@ -647,8 +653,6 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> from django.core.cache import cache
 >>> cache
 <django_pylibmc.memcached.PyLibMCCache object at 0x8c93c4c>
->>> cache == None
-False
 >>> cache.set('test','Hello World')
 True
 >>> cache.get('test')
@@ -660,9 +664,16 @@ True
 % sudo service memcached stop
 Stopping memcached:                                        [  OK  ]
 -------------------------------------------------------------------------------
+If running "manage.py shell" causes the error:
+-----------------------------------------------------------------------------------
+django.core.cache.backends.base.InvalidCacheBackendError: Could not import pylibmc.
+-----------------------------------------------------------------------------------
+then the LD_LIBRARY_PATH may not be set correctly in postactivate. This error 
+occurs when MAKAHIKI_USE_MEMCACHED=True but LD_LIBRARY_PATH does not include 
+the location of pylibmc.
+
 If any of the following errors occur, then Memcached is not working:
-(1) cache prints a blank to the console, or cache == None returns True, 
-    or cache is a DummyCache.
+(1) cache prints a blank to the console, or cache is a DummyCache.
 (2) cache.set returns False or returns nothing.
 (3) cache.get returns False, returns nothing, or causes a segmentation fault.
 If so, make sure environment variables are set and Memcached is running..
@@ -683,6 +694,11 @@ if [ ! $LIBMEMCACHED_PATHS_ADDED ];
         export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib:$LD_LIBRARY_PATH
         export LIBMEMCACHED_PATHS_ADDED=True
 fi
+-------------------------------------------------------------------------------
+
+Then, workon makahiki to apply the changes:
+-------------------------------------------------------------------------------
+% workon makahiki
 -------------------------------------------------------------------------------
 
 Then, use chkconfig to set the memcached service to run at startup, and 
@@ -707,8 +723,6 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> from django.core.cache import cache
 >>> cache
 <django_pylibmc.memcached.PyLibMCCache object at 0x1a4fc50>
->>> cache == None
-False
 >>> cache.set('test','Hello World')
 True
 >>> cache.get('test')

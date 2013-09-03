@@ -236,26 +236,6 @@ def run(arch, logfile):
     versions of all packages specified.
     """
     
-    # Boolean variables for each dependency
-    wget_installed = dpkg_check("wget")
-    git_installed = dpkg_check("git")
-    gcc_installed = dpkg_check("gcc")
-    python_setuptools_installed = dpkg_check("python-setuptools")
-    pip_installed = pip_check()
-    python_imaging_installed = dpkg_check("python-imaging")
-    python_dev_installed = dpkg_check("python-dev")
-    libjpeg_dev_installed = dpkg_check("libjpeg-dev")
-    postgresql91_installed = dpkg_check("postgresql-9.1")
-    libpq_dev_installed = dpkg_check("libpq-dev")
-    memcached_installed = dpkg_check("memcached")
-    libmemcached_installed = dpkg_check("libmemcached-dev")
-    libmemcached053_installed = libmemcached053_check()
-    build_essential_installed = dpkg_check("build-essential")
-    gplusplus_installed = dpkg_check("g++")
-    libcloog_ppl_dev_installed = dpkg_check("libcloog-ppl-dev")
-    libcloog_ppl0_installed = dpkg_check("libcloog-ppl0")
-    virtualenvwrapper_installed = virtualenvwrapper_check()
-    
     # Write start time to file
     firstline = "Makahiki installation script for Ubuntu %s" % arch
     logfile.write(firstline)
@@ -305,6 +285,26 @@ def run(arch, logfile):
         logfile.write("Do you wish to continue (Y/n)? %s\n" % value)
         logfile.write("Starting dependency installation for Ubuntu %s.\nChecking for dependencies...\n" % arch)
         print "Starting dependency installation for Ubuntu %s.\nChecking for dependencies...\n" % arch
+        
+        # Boolean variables for each dependency
+        wget_installed = dpkg_check("wget")
+        git_installed = dpkg_check("git")
+        gcc_installed = dpkg_check("gcc")
+        python_setuptools_installed = dpkg_check("python-setuptools")
+        pip_installed = pip_check()
+        python_imaging_installed = dpkg_check("python-imaging")
+        python_dev_installed = dpkg_check("python-dev")
+        libjpeg_dev_installed = dpkg_check("libjpeg-dev")
+        postgresql91_installed = dpkg_check("postgresql-9.1")
+        libpq_dev_installed = dpkg_check("libpq-dev")
+        memcached_installed = dpkg_check("memcached")
+        libmemcached_installed = dpkg_check("libmemcached-dev")
+        libmemcached053_installed = libmemcached053_check()
+        build_essential_installed = dpkg_check("build-essential")
+        gplusplus_installed = dpkg_check("g++")
+        libcloog_ppl_dev_installed = dpkg_check("libcloog-ppl-dev")
+        libcloog_ppl0_installed = dpkg_check("libcloog-ppl0")
+        virtualenvwrapper_installed = virtualenvwrapper_check()
         
         # wget
         if wget_installed:
@@ -677,35 +677,6 @@ def run(arch, logfile):
             print "memcached installation finished at %s.\n" % time
             if not success:
                 return logfile
-    
-        #libmemcached-dev  # TODO: Replace with libmemcached-0.53
-        #if libmemcached_installed:
-        #    logfile.write("libmemcached-dev is already installed.\n")
-        #    print "libmemcached-dev is already installed.\n"
-        #else:
-        #    time = current_time()
-        #    logfile.write("libmemcached-dev installation started at %s.\n" % time)
-        #    print "libmemcached-dev installation started at %s.\n" % time
-        #    logfile.write("apt-get install -y libmemcached-dev\n")
-        #    print "apt-get install -y libmemcached-dev\n"
-        #    libmemcached_output = subprocess.check_output(["apt-get", "install", "-y",  "libmemcached-dev"], stderr=subprocess.STDOUT)
-        #    logfile.write(libmemcached_output)
-        #    print libmemcached_output
-        #    libmemcached_installed = dpkg_check("libmemcached-dev")
-        #    if libmemcached_installed:
-        #        time = current_time()
-        #        logfile.write("libmemcached-dev was successfully installed at %s.\n" % time)
-        #        print "libmemcached-dev was successfully installed at %s.\n" % time
-        #        # Flush the buffer and force a write to disk after each successful installation
-        #        logfile.flush()
-        #        os.fsync(logfile)
-        #    else:
-        #        logfile.write("Error: libmemcached-dev failed to install.\n")
-        #        print "Error: libmemcached-dev failed to install.\n"
-        #        end_time = termination_string()
-        #        logfile.write(end_time)
-        #        print end_time
-        #        return logfile
         
         # Beginning of libmemcached-0.53 installation code
         if libmemcached053_installed:

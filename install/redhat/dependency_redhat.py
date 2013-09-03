@@ -233,7 +233,7 @@ def run(arch, logfile):
     print firstline
     
     now = datetime.datetime.now()
-    time = now.strftime("%Y-%m-%d %H:%M:%S")
+    time = now.strftime("%Y-%m-%d %H:%M:%S.%f")
     start_time = "Script started at %s\n" % time
     logfile.write(start_time)
     print start_time
@@ -241,8 +241,8 @@ def run(arch, logfile):
     # Confirm that the user wants to continue.
     logfile.write("This script will add PostgreSQL's pgdg91 repository to the system.\n")
     print "This script will add PostgreSQL's pgdg91 repository to the system.\n"
-    logfile.write("This script will uninstall libmemcached-devel if installed.\n")
-    print "This script will uninstall libmemcached-devel if installed.\n"
+    logfile.write("This script will uninstall libmemcached if it is installed.\n")
+    print "This script will uninstall libmemcached if it is installed.\n"
     dependencies_list = "This script will install these packages and their dependencies:\n\
          All packages in groupinstall \"Development tools\",\n\
          git,\n\
@@ -250,12 +250,12 @@ def run(arch, logfile):
          python-imaging,\n\
          python-devel,\n\
          libjpeg-devel,\n\
+         zlib-devel,\n\
          postgresql91-server,\n\
          postgresql91-contrib,\n\
          postgresql91-devel,\n\
          memcached,\n\
-         libmemcached-0.53,\n\
-         zlib-devel\n"
+         libmemcached-0.53\n"
     logfile.write(dependencies_list)
     print dependencies_list
     value = raw_input("Do you wish to continue (Y/n)? ")
@@ -272,6 +272,7 @@ def run(arch, logfile):
         logfile.write("Do you wish to continue (Y/n)? %s\n" % value)
         logfile.write("Starting dependency installation for RHEL 6 %s.\nChecking for dependencies...\n" % arch)
         print "Starting dependency installation for RHEL 6 %s.\nChecking for dependencies...\n" % arch
+        
         # Boolean variables for each dependency
         git_installed = rpm_check("git")
         gcc_installed = rpm_check("gcc")
@@ -283,7 +284,7 @@ def run(arch, logfile):
         postgresql91_contrib_installed = rpm_check("postgresql91-contrib")
         postgresql91devel_installed = rpm_check("postgresql91-devel")
         memcached_installed = rpm_check("memcached")
-        libmemcached_installed = rpm_check("libmemcached-devel")
+        libmemcached_installed = rpm_check("libmemcached")
         libmemcached053_installed = libmemcached053_check()
         zlib_devel_installed = rpm_check("zlib-devel")
         
@@ -395,60 +396,125 @@ def run(arch, logfile):
                 logfile.write("libjpeg-devel (libjpeg-turbo-devel) installation finished at %s.\n" % time)
                 print "libjpeg-devel (libjpeg-turbo-devel) installation finished at %s.\n" % time
     
+        # zlib-devel
+        if zlib_devel_installed:
+            logfile.write("zlib-devel is already installed.\n")
+            print "zlib-devel is already installed.\n"   
+        else:
+            time = current_time()
+            logfile.write("zlib-devel installation started at %s.\n" % time)
+            print "zlib-devel installation started at %s.\n" % time
+            zlib_devel_result = yum_install("zlib-devel", logfile)
+            success = zlib_devel_result[0]
+            logfile = zlib_devel_result[1]
+            if not success:
+                return logfile
+            else:
+                time = current_time()
+                logfile.write("zlib-devel installation finished at %s.\n" % time)
+                print "zlib-devel installation finished at %s.\n" % time
+                
         # Check locations of shared libraries
         time = current_time()
         logfile.write("Checking for Python Imaging Library shared libraries: started at%s\n" % time)
         print "Checking for Python Imaging Library shared libraries: started at %s\n" % time
         # libjpeg.so
-        try:
-            libjpeg_stat = os.stat("/usr/lib64/libjpeg.so")
-            if libjpeg_stat:
-                output1 = "Found libjpeg.so at /usr/lib64/libjpeg.so\n"
-                logfile.write(output1)
-                print output1
-        except OSError as libjpeg_error:
-            error1 = "Error: Could not find libjpeg.so in /usr/lib64.\n"
-            error2 = "Python Imaging Library-related packages may not have installed properly.\n"
-            logfile.write(error1)
-            logfile.write(error2)
-            print error1
-            print error2
-            end_time = termination_string()
-            logfile.write(end_time)
-            print end_time
-            return logfile
-        
-        # libz.so
-        try:
-            libjpeg_stat = os.stat("/usr/lib64/libz.so")
-            if libjpeg_stat:
-                output1 = "Found libz.so at /usr/lib64/libz.so\n"
-                logfile.write(output1)
-                print output1
-        except OSError as libjpeg_error:
+        if arch == "x86":
             try:
-                libz_stat2 = os.stat("/lib64/libz.so.1")
-                if libz_stat2:
-                    output2 = "Found: libz.so at /lib64/libz.so.1\n"
-                    output3 = "Symbolic link will be created: /usr/lib64/libz.so --> /lib64/libz.so.1\n"
-                    output4 = "ln -s /lib64/libz.so.1 /usr/lib64/libz.so\n"
+                libjpeg_stat = os.stat("/usr/lib/libjpeg.so")
+                if libjpeg_stat:
+                    output1 = "Found libjpeg.so at /usr/lib/libjpeg.so\n"
+                    logfile.write(output1)
+                    print output1
+            except OSError as libjpeg_error:
+                error1 = "Error: Could not find libjpeg.so in /usr/lib.\n"
+                error2 = "Python Imaging Library-related packages may not have installed properly.\n"
+                logfile.write(error1)
+                logfile.write(error2)
+                print error1
+                print error2
+                end_time = termination_string()
+                logfile.write(end_time)
+                print end_time
+                return logfile
+        elif arch == "x64":
+            try:
+                libjpeg_stat = os.stat("/usr/lib64/libjpeg.so")
+                if libjpeg_stat:
+                    output2 = "Found libjpeg.so at /usr/lib64/libjpeg.so\n"
+                    output3 = "Symbolic link will be created: /usr/lib/libjpeg.so --> /usr/lib64/libjpeg.so\n"
+                    output4 = "ln -s /usr/lib64/libjpeg.so /usr/lib/libjpeg.so\n"
                     logfile.write(output2)
                     logfile.write(output3)
                     logfile.write(output4)
                     print output2
                     print output3
                     print output4
-                    libjpeg_tuple = commands.getstatusoutput("ln -s /lib64/libz.so.1 /usr/lib64/libz.so")
+                    libjpeg_tuple = commands.getstatusoutput("ln -s /usr/lib64/libjpeg.so /usr/lib/libjpeg.so")
                     status = libjpeg_tuple[0]
                     if status != 0:
-                        error1 = "Error: Could not create symbolic link: /usr/lib64/libz.so --> /lib64/libz.so.1\n"
+                        error1 = "Error: Could not create symbolic link: /usr/lib/libjpeg.so --> /usr/lib/64/libjpeg.so\n"
                         logfile.write(error1)
                         print error1
                         end_time = termination_string()
                         logfile.write(end_time)
                         print end_time
                         return logfile 
-            except OSError as libjpeg_error3:
+            except OSError as libjpeg_error:
+                error1 = "Error: Could not find libjpeg.so in /usr/lib64.\n"
+                error2 = "Python Imaging Library-related packages may not have installed properly.\n"
+                logfile.write(error1)
+                logfile.write(error2)
+                print error1
+                print error2
+                end_time = termination_string()
+                logfile.write(end_time)
+                print end_time
+                return logfile
+        
+        # libz.so
+        if arch == "x86":
+            try:
+                libjpeg_stat = os.stat("/usr/lib/libz.so")
+                if libjpeg_stat:
+                    output1 = "Found libz.so at /usr/lib/libz.so\n"
+                    logfile.write(output1)
+                    print output1
+            except OSError as libz_error:
+                error1 = "Error: Could not find libz.so in /usr/lib.\n"
+                error2 = "Python Imaging Library-related packages may not have installed properly.\n"
+                logfile.write(error1)
+                logfile.write(error2)
+                print error1
+                print error2
+                end_time = termination_string()
+                logfile.write(end_time)
+                print end_time
+                return logfile
+        elif arch == "x64":
+            try:
+                libz_stat = os.stat("/usr/lib64/libz.so")
+                if libz_stat:
+                    output2 = "Found libz.so at /usr/lib64/libz.so\n"
+                    output3 = "Symbolic link will be created: /usr/lib/libz.so --> /usr/lib/64/libz.so\n"
+                    output4 = "ln -s /usr/lib64/libz.so /usr/lib/libz.so\n"
+                    logfile.write(output2)
+                    logfile.write(output3)
+                    logfile.write(output4)
+                    print output2
+                    print output3
+                    print output4
+                    libz_tuple = commands.getstatusoutput("ln -s /usr/lib64/libz.so /usr/lib/libz.so")
+                    status = libz_tuple[0]
+                    if status != 0:
+                        error1 = "Error: Could not create symbolic link: /usr/lib/libz.so --> /usr/lib/64/libz.so\n"
+                        logfile.write(error1)
+                        print error1
+                        end_time = termination_string()
+                        logfile.write(end_time)
+                        print end_time
+                        return logfile 
+            except OSError as libz_error:
                 error1 = "Error: Could not find libz.so in /lib64.\n"
                 error2 = "Python Imaging Library-related packages may not have installed properly.\n"
                 logfile.write(error1)
@@ -495,11 +561,11 @@ def run(arch, logfile):
         elif libmemcached053_installed is False:
             if libmemcached_installed:
                 time = current_time()
-                logfile.write("libmemcached-devel removal started at %s.\n" % time)
-                print "libmemcached-devel removal started at %s.\n" % time
+                logfile.write("libmemcached removal started at %s.\n" % time)
+                print "libmemcached removal started at %s.\n" % time
                 logfile.write("libmemcached will be removed.\n")
                 print "libmemcached will be removed.\n"
-                remove_libmemcached_command = "yum remove -y libmemcached-devel"
+                remove_libmemcached_command = "yum remove -y libmemcached"
                 logfile.write(remove_libmemcached_command + "\n")
                 print remove_libmemcached_command + "\n"
                 remove_libmemcached_result = run_command(remove_libmemcached_command, logfile, "Removal of libmemcached package")
@@ -519,14 +585,14 @@ def run(arch, logfile):
                     logfile.write("Successfully removed default version of libmemcached.\n")
                     print "Successfully removed default version of libmemcached."
                     time = current_time()
-                    logfile.write("libmemcached-devel removal finished at %s.\n" % time)
-                    print "libmemcached-devel removal finished at %s.\n" % time
+                    logfile.write("libmemcached removal finished at %s.\n" % time)
+                    print "libmemcached removal finished at %s.\n" % time
                     
             # If libmemcached is not installed, there is no need to uninstall it, so the installation can continue.
             time = current_time()
             logfile.write("libmemcached-0.53 download/build/install started at %s.\n" % time)
             print "libmemcached-0.53 download/build/install started at %s.\n" % time
-            logfile.write("libmemcached-0.53 will be downloade, built, and installed.\n")
+            logfile.write("libmemcached-0.53 will be downloaded, built, and installed.\n")
             print "libmemcached-0.53 will be downloaded, built, and installed."
             # Switch to downloads directory
             download_dir = os.path.normpath(os.path.dirname(os.path.realpath(__file__)) + os.sep + os.pardir + os.sep + "download")
@@ -728,24 +794,6 @@ def run(arch, logfile):
                 time = current_time()
                 logfile.write("postgresql91-devel installation finished at %s.\n" % time)
                 print "postgresql91-devel installation finished at %s.\n" % time
-        
-        # zlib-devel
-        if zlib_devel_installed:
-            logfile.write("zlib-devel is already installed.\n")
-            print "zlib-devel is already installed.\n"   
-        else:
-            time = current_time()
-            logfile.write("zlib-devel installation started at %s.\n" % time)
-            print "zlib-devel installation started at %s.\n" % time
-            zlib_devel_result = yum_install("zlib-devel", logfile)
-            success = zlib_devel_result[0]
-            logfile = zlib_devel_result[1]
-            if not success:
-                return logfile
-            else:
-                time = current_time()
-                logfile.write("zlib-devel installation finished at %s.\n" % time)
-                print "zlib-devel installation finished at %s.\n" % time
             
         logfile.write("RHEL x64 installation script completed successfully.\n")
         print "RHEL x64 installation script completed successfully.\n"

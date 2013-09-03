@@ -67,13 +67,13 @@ The install/ folder contains the ubuntu_installer.py script.
 
 Usage of ubuntu_installer.py:
 -------------------------------------------------------------------------------
-./ubuntu_installer.py < --dependencies | --cleanup | --pip | 
-                        --initialize_instance | --update_instance > 
-                      --arch < x86 | x64 >
+./ubuntu_installer.py < --dependencies --arch < x86 | x64 > | --cleanup | 
+                        --pip | --initialize_instance | --update_instance > 
                         
 All options require Python 2.7.3 or higher (but not Python 3) to run.
     
-    --dependencies: Installs dependencies. This script must be run with root 
+    --dependencies: Installs dependencies. This is the only option that 
+      requires --arch to be specified. This script must be run with root 
       privileges.
 
     --cleanup: Deletes all files and directories in makahiki/install/download 
@@ -128,7 +128,8 @@ Switch to your top-level makahiki directory:
 -------------------------------------------------------------------------------
 % cd ~/makahiki
 -------------------------------------------------------------------------------
-Run the script with the options specified for your operating system:
+
+Run the script with the options specified for your OS architecture:
 
 Ubuntu x86:
 -------------------------------------------------------------------------------
@@ -188,14 +189,8 @@ OPTIONAL:
 -------------------------------------------------------------------------------
 You can run the cleanup script to remove source files that were downloaded 
 when building and installing libmemcached-0.53:
-Ubuntu x86:
 -------------------------------------------------------------------------------
-% sudo ./install/ubuntu_installer.py --cleanup --arch x86
--------------------------------------------------------------------------------
-
-Ubuntu x64:
--------------------------------------------------------------------------------
-% sudo ./install/ubuntu_installer.py --cleanup --arch x64
+% sudo ./install/ubuntu_installer.py --cleanup
 -------------------------------------------------------------------------------
 The script will create a log file in makahiki/install/logs with a filename of 
 the format "install_cleanup_<timestamp>.log," where <timestamp> is a sequence 
@@ -283,16 +278,9 @@ Switch to the makahiki directory:
 % cd ~/makahiki
 -------------------------------------------------------------------------------
 
-Run the script with the options specified for your operating system:
-
-Ubuntu x86:
+Run the script with --pip:
 -------------------------------------------------------------------------------
-% ./install/ubuntu_installer.py --pip --arch x86
--------------------------------------------------------------------------------
-
-Ubuntu x64:
--------------------------------------------------------------------------------
-% ./install/ubuntu_installer.py --pip --arch x64
+% ./install/ubuntu_installer.py --pip
 -------------------------------------------------------------------------------
 
 The list of packages that this step will attempt to install with pip are 
@@ -360,16 +348,9 @@ makahiki/makahiki/scripts/initialize_instance.py script with
 "--type default" options.
 -------------------------------------------------------------------------------
 
-Run the script with the options specified for your operating system:
-
-Ubuntu x86:
+Run the script with --initialize_instance:
 -------------------------------------------------------------------------------
-% ./install/ubuntu_installer.py --initialize_instance --arch x86
--------------------------------------------------------------------------------
-
-Ubuntu x64:
--------------------------------------------------------------------------------
-% ./install/ubuntu_installer.py --initialize_instance --arch x64
+% ./install/ubuntu_installer.py --initialize_instance
 -------------------------------------------------------------------------------
 
 The script will create a log file in makahiki/install/logs with a filename of 
@@ -488,17 +469,8 @@ following steps:
 -------------------------------------------------------------------------------
 
 4. Run the ubuntu_installer.py script with --update_instance:
-
-Run the script with the options specified for your operating system:
-
-Ubuntu x86:
 -------------------------------------------------------------------------------
-% ./install/ubuntu_installer.py --update_instance --arch x86
--------------------------------------------------------------------------------
-
-Ubuntu x64:
--------------------------------------------------------------------------------
-% ./install/ubuntu_installer.py --update_instance --arch x64
+% ./install/ubuntu_installer.py --update_instance
 -------------------------------------------------------------------------------
 
 The script will create a log file in makahiki/install/logs with a filename of 
@@ -530,7 +502,7 @@ system. If you plan to configure Memcached, you will need to test the
 Memcached installation.
 
 In the virtual machine, switch to the makahiki/makahiki directory and run some 
-commands in the manage.py shell:
+commands in the manage.py shell.
 -------------------------------------------------------------------------------
 % sudo service memcached start
 Starting memcached: memcached.
@@ -546,8 +518,6 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> from django.core.cache import cache
 >>> cache
 <django_pylibmc.memcached.PyLibMCCache object at 0x93f7bec>
->>> cache == None
-False
 >>> cache.set('test','Hello World')
 True
 >>> cache.get('test')
@@ -559,9 +529,17 @@ True
 % sudo service memcached stop
 Stopping memcached: memcached.
 -------------------------------------------------------------------------------
+If running "manage.py shell" causes the error:
+-----------------------------------------------------------------------------------
+django.core.cache.backends.base.InvalidCacheBackendError: Could not import pylibmc.
+-----------------------------------------------------------------------------------
+then the LD_LIBRARY_PATH may not be set correctly in postactivate. This error 
+occurs when MAKAHIKI_USE_MEMCACHED=True but LD_LIBRARY_PATH does not include 
+the location of pylibmc.
+
 If any of the following errors occur, then Memcached is not working:
-(1) cache prints a blank to the console, or cache == None returns True, 
-    or cache is a "django.core.cache.backends.dummy.DummyCache object."
+(1) cache prints a blank to the console, or cache is a 
+    "django.core.cache.backends.dummy.DummyCache object."
 (2) cache.set returns False or returns nothing.
 (3) cache.get returns False, returns nothing, or causes a segmentation fault.
 If so, make sure environment variables are set and Memcached is running.
@@ -605,8 +583,6 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> from django.core.cache import cache
 >>> cache
 <django_pylibmc.memcached.PyLibMCCache object at 0xa669c0c>
->>> cache == None
-False
 >>> cache.set('test','Hello World')
 True
 >>> cache.get('test')
