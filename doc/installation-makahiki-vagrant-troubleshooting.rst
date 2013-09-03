@@ -19,9 +19,10 @@ jump to the section specific to your problem.
 About nano
 ----------
 
-The troubleshooting instructions assume the use of the nano text editor, which 
+These instructions assume the use of the nano text editor, which 
 is installed by default on the ``precise32`` virtual machine configured in 
-:ref:`section-installation-makahiki-vagrant`.
+:ref:`section-installation-makahiki-vagrant-environment-setup` and 
+:ref:`section-installation-makahiki-vagrant-quickstart`.
 
 If you are not familiar with nano, see the `nano documentation`_.
 The basic controls are as follows:

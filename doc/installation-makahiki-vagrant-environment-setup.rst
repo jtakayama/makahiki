@@ -73,6 +73,17 @@ Linux
 Open a **Terminal**. If you are in a headless OS (no graphical user interface), you are 
 already in the Terminal.
 
+Download the Base Virtual Machine
+---------------------------------
+
+Download the base virtual machine image ``precise32`` from Vagrant's servers::
+
+  > vagrant box add precise32 http://files.vagrantup.com/precise32.box
+  
+.. note:: It is only necessary to download each base virtual machine once. 
+   Once downloaded, the "precise32" box can be reused by Vagrant to create 
+   any virtual machines that specify "precise32" in their Vagrantfiles.
+   
 Download the Makahiki Source Code
 ---------------------------------
 
@@ -109,15 +120,12 @@ If you have Git or Git for Windows, you can clone the repository::
 
   > git clone http://github.com/csdl/makahiki.git
 
-Download the Base Virtual Machine
----------------------------------
+Install Makahiki On Vagrant
+---------------------------
 
-Download the base virtual machine image ``precise32`` from Vagrant's servers::
-
-  > vagrant box add precise32 http://files.vagrantup.com/precise32.box
+To install Makahiki, continue to :ref:`section-installation-makahiki-vagrant-quickstart`.
   
-.. note:: It is only necessary to download each base virtual machine once. 
-   Once downloaded, the "precise32" box can be reused by Vagrant to create 
-   any virtual machines that specify "precise32" in their Vagrantfiles.
-   
-Continue to :ref:`section-installation-makahiki-vagrant-quickstart`.
+  
+  
+  
+  
