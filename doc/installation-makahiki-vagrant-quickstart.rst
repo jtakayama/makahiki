@@ -89,12 +89,13 @@ Check for Makahiki Source Code
    ``makahiki`` on the host machine, and vice versa.
 
 Check that the /vagrant directory on the virtual machine contains the files 
-from the makahiki directory on the host machine::
+from the makahiki directory on the host machine. Your output from ``ls`` should 
+look similar to the example below::
 
   vagrant@precise32:~$ cd /vagrant
   vagrant@precise32:/vagrant$ ls
-  bootstrap.sh  deploy            doc      LICENSE.md  Procfile   requirements.txt  SGG_Designer_notes.txt  Vagrantfile
-  caminator     DnD-example.html  install  makahiki    README.md  run_bootstrap.sh  vagrant
+  DnD-example.html  Procfile   SGG_Designer_notes.txt  bootstrap.sh  deploy  makahiki          run_bootstrap.sh
+  LICENSE.md        README.md  Vagrantfile             caminator     doc     requirements.txt  vagrant
   
 Start the Server
 ----------------
