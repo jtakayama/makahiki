@@ -256,7 +256,7 @@ In the "Remote Systems" sidebar, click the button labeled "Define a connection t
    "Launch Terminal." This will open an SSH session terminal under 
    "Terminals."
    
-   .. figure:: figs/vagrant-eclipse/remote_systems_explorer_ssh.png
+   .. figure:: figs/vagrant/eclipse-remote-systems-explorer-ssh.png
       :width: 586 px
       :align: center
 
@@ -379,11 +379,11 @@ Run the demonstration class to see the remote debugger in action:
    (e.g., org.python.pydev_2.7.5.2013052819) to the 
    <path-to-makahiki>/makahiki/makahiki directory.
 3. In Eclipse, open the Debug perspective.
-4. In the top button menu bar (usually below the File/Edit/Navigate/etc. 
-   menu bar), search for a bug icon with a "P" next to it (which, when 
-   moused over, displays the text "PyDev: Start the pydev Server":
+4. In the top button menu bar (below the menu bar that contains "File"),
+   search for a bug icon with a "P" next to it. The mouseover text for 
+   the icon is "PyDev: Start the pydev server":
    
-     .. figure:: figs/vagrant-eclipse/pydev_server_start_button.png
+     .. figure:: figs/vagrant/eclipse-pydev-server-start-button.png
         :width: 186 px
         :align: center
    
@@ -405,15 +405,13 @@ Run the demonstration class to see the remote debugger in action:
 8. Look for the "pydevd.settrace()." Each occurrence of pydevd.settrace() acts 
    as a breakpoint when the remote debugger is used.
 9. Switch back to the Debug perspective. Run pydevd_demo.py in Eclipse.
-   (The file paths won't match because you are running it directly 
-   from Eclipse, but this should work anyway.)
 10. pydevd_demo.py will appear under a item called "MainThread." Note the 
     value for "i" that appears in the Variables tab. Step through the 
     program using the debugger; "i" will be decremented as the loop runs. 
     Output from the program will appear in the Console tab.
     
-    .. figure:: figs/vagrant-eclipse/debug_server_demo.png
-        :width: 809 px
+    .. figure:: figs/vagrant/eclipse-debug-server-demo.png
+        :width: 600 px
         :align: center
     
     
@@ -468,7 +466,7 @@ To add the remote debugging functionality in pydevd_demo.py to any Python file:
 5. When you are done debugging, remove the import statements and the 
    calls to ``pydevd.settrace()``.
 
-If you experience problems other than Errno 110, you may need to edit PATHS_FROM_ECLIPSE_TO_PYTHON 
+If you experience problems other than Errno 110, you may need to edit ``PATHS_FROM_ECLIPSE_TO_PYTHON`` 
 in pydevd_file_utils.py. If this is the case, you will need to change the file paths every time 
 you debug a different file.
 
