@@ -19,11 +19,11 @@ jump to the section specific to your problem.
 About nano
 ----------
 
-The troubleshooting instructions assume the use of the nano text editor, which 
+These instructions assume the use of the nano text editor, which 
 is installed by default on the ``precise32`` virtual machine configured in 
-:ref:`section-installation-makahiki-vagrant`.
+:ref:`section-installation-makahiki-vagrant-quickstart`.
 
-If you are not familiar with nano, see the `nano documentation`_.
+Read the `nano documentation`_ if you are unfamiliar with nano.
 The basic controls are as follows:
 
   * Arrow keys: Move cursor
@@ -41,7 +41,7 @@ If you close a document without saving changes, you will be prompted::
 
   Save modified buffer (ANSWERING "No" WILL DESTROY CHANGES) ?
 
-Y is yes, N is no, ^C is cancel.
+Y saves, N closes without saving, and ^C is cancel.
 
 When you save a document (e.g., one called test.txt), you will be prompted::
 
@@ -109,6 +109,8 @@ At the prompt, type ``psql -U postgres``. If it succeeds, type \q to quit::
 
   postgres=#\q
 
+If this fails, you will need to edit pg_hba.conf.
+
 Edit pg_hba.conf
 ****************
 
@@ -137,7 +139,6 @@ Edit the file to match the examples below::
 After you have edited the pg_hba.conf file, restart the Postgresql service::
 
   % sudo /etc/init.d/postgresql restart
-
 
 .. _troubleshooting-makahiki-env-sh:
 
@@ -209,7 +210,7 @@ Open /home/vagrant/.bashrc in the nano editor::
 
   % nano ~/.bashrc
 
-Add the line "source /home/vagrant/makahiki_env.sh" to the end of the file 
+Add the line ``source /home/vagrant/makahiki_env.sh`` to the end of the file 
 if it is not there. Save the file and source it for changes to take effect::
 
   % source ~/.bashrc

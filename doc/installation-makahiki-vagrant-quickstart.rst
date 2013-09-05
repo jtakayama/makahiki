@@ -8,42 +8,44 @@ complete :ref:`section-installation-makahiki-vagrant-environment-setup` before c
 
 Throughout this guide, ``>`` indicates a command prompt on the host OS.
 
+If a Command Prompt (Windows) or Terminal (OS X and Linux) is not open on 
+your host machine, open one.
+
 Set up Makahiki in the Virtual Machine
 --------------------------------------
 
-Open a Command Prompt or Terminal (depending on your system).
-
-Switch your working directory to the makahiki directory that was created 
-in :ref:`section-installation-makahiki-vagrant-environment-setup`::
+In your Command Prompt or Terminal, switch your working directory to the
+makahiki directory that was created in :ref:`section-installation-makahiki-vagrant-environment-setup`. 
+Replace ``<path-to-makahiki>`` with the file system path to the makahiki/ directory::
 
   > cd <path-to-makahiki>/makahiki
   
 This directory contains the Vagrantfile which defines the settings 
 of the Vagrant virtual machine.
 
-Use the ``vagrant up`` command to start the virtual machine::
+Use the ``vagrant up`` command to start the virtual machine for the first time::
 
   > vagrant up
   
-.. warning:: Each time Vagrant is started with ``vagrant up``, it will run the 
+.. warning:: Windows users may see multiple warnings while ``vagrant up`` is running for the first time.
+
+     * **A Windows Firewall warning about vboxheadless.exe**: This application should be allowed.
+     * **VirtualBox is attempting to make changes to the system**: This should be allowed. It is needed for Vagrant / VirtualBox host-only networking to work.
+      
+.. warning:: If you are not starting Vagrant for the first time and do not want to lose 
+   your configuration, start Vagrant with ``--no-provision``::
+   
+     > vagrant up --no-provision
+
+   Each time Vagrant is started with ``vagrant up``, it will run the 
    ``run_bootstrap.sh`` provisioning script specified in the Vagrantfile. This 
    script:
    
      * Sets the system locale to en_US.UTF-8
-     * Drops the PostGreSQL cluster data directory, **erasing all data in all databases**
+     * Drops the PostgreSQL cluster data directory, **erasing all data in all databases**
      * Re-initializes the cluster data directory
      * Re-initializes the Makahiki database
-   
-   If you are not starting Vagrant for the first time and do not want to lose 
-   your configuration, start Vagrant with ``--no-provision``::
-   
-     > vagrant up --no-provision
      
-.. warning:: Windows users may see multiple warnings while ``vagrant up`` is running for the first time.
-
-     * A Windows Firewall warning about ``vboxheadless.exe``. This application should be allowed.
-     * A warning that VirtualBox is attempting to make changes to the system. This should be allowed. It is needed for Vagrant / VirtualBox host-only networking to work.
-      
 The output of run_bootstrap.sh is logged to a file in makahiki/vagrant/logs.
 This file will be called "ubuntu_x86_<timestamp>.log," where **timestamp** is a 
 string in the format yy-mm-dd-HH-MM-SS (year, month, day, hour, minute, second).
@@ -86,12 +88,15 @@ Check for Makahiki Source Code
    machine. Any file added to ``/vagrant`` on the virtual machine will be added to 
    ``makahiki`` on the host machine, and vice versa.
 
-Check that the /vagrant directory on the virtual machine contains the same 
-contents as the makahiki directory on the host machine::
+Check that the /vagrant directory on the virtual machine contains the files 
+from the makahiki directory on the host machine. Your output from ``ls`` should 
+look similar to the example below::
 
   vagrant@precise32:~$ cd /vagrant
   vagrant@precise32:/vagrant$ ls
-   
+  DnD-example.html  Procfile   SGG_Designer_notes.txt  bootstrap.sh  deploy  makahiki          run_bootstrap.sh
+  LICENSE.md        README.md  Vagrantfile             caminator     doc     requirements.txt  vagrant
+  
 Start the Server
 ----------------
 
@@ -110,15 +115,23 @@ To start the server with gunicorn::
 
   vagrant@precise32:/vagrant/makahiki$ ./manage.py run_gunicorn -b 0.0.0.0:8000
 
-The web server can be accessed in a browser on the host machine at 
-http://192.168.56.4:8000.
+Verify that Makahiki Is Running
+-------------------------------
 
-In the virtual machine, stop either server with Control+C when you are finished.
+Open a browser on the host machine and go to http://192.168.56.4:8000 to see 
+the landing page, which should look something like this:
+
+  .. figure:: figs/vagrant/kukui-cup-demo-landing.png
+      :width: 600 px
+      :align: center
+
+In the virtual machine, stop either server with Control-C when you are finished::
+
+  vagrant@precise32:/vagrant/makahiki$ (type control-c in the shell running the makahiki server process)
 
 If the site is not reachable from your host machine, or your host machine is headless 
 and has no GUI, refer to :ref:`section-installation-makahiki-vagrant-running-makahiki-vagrant` 
-and read the section on **Testing the Server Without a Web Browser**.
-
+and follow the section on **Testing the Server Without a Web Browser**.
 
 
 
