@@ -296,8 +296,12 @@ def get_available_golow_actions(user, related_resource):
 
             unlock = is_unlock(user, action)
             if unlock:
-                for loc in Grid.objects.filter(action=action):
-                    unlock = unlock and is_level_unlock(user, loc.level)
+                locs = Grid.objects.filter(action=action)
+                if locs:
+                    for loc in locs:
+                        unlock = unlock and is_level_unlock(user, loc.level)
+                else:
+                    unlock = False
             if unlock:
                 golow_actions.append(action)
                 action_type = action.type
