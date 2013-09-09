@@ -122,8 +122,8 @@ def submitted_some(user, count=1):
 def submitted_some_of_level(user, level_priority, count=1):
     """Returns true if the user has completed count Actions of the specified level."""
     c = 0
-    for action in Grid.objects.filter(level__priority=level_priority):
-        c += user.actionmember_set.filter(action=action).count()
+    for grid in Grid.objects.filter(level__priority=level_priority):
+        c += user.actionmember_set.filter(action=grid.action).count()
     return c >= count
 
 
