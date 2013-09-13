@@ -50,5 +50,5 @@ celerybeat-schedule
 *.vagrant/
 
 # Ignore copies of Python libraries from the Vagrant virtual machine
-vagrant/dist-packages
-vagrant/org.python.pydev_*
+makahiki/dist-packages
+makahiki/org.python.pydev_*

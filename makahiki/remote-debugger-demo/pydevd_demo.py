@@ -1,8 +1,9 @@
 # Copy the two import statements into the file that will use the PyDev remote debugger.
-# This assumes you copied the org.python.pydev_* directory into makahiki/vagrant.
+# This assumes you copied the org.python.pydev_* directory into makahiki/makahiki.
 # Edit the path so that it matches the path to your org.python.pydev_* directory.
-# EXAMPLE: import sys;sys.path.append(r'<path-to-org.python.pydev>\org.python.pydev_2.7.5.2013052819\pysrc')
-import sys;sys.path.append(r'org.python.pydev_2.7.5.2013052819\pysrc')
+# EXAMPLE: import sys;sys.path.append(os.pardir + os.sep + r'<path-to-org.python.pydev>\org.python.pydev_2.7.5.2013052819\pysrc')
+import os
+import sys;sys.path.append(os.pardir + os.sep + r'org.python.pydev_2.7.5.2013052819\pysrc')
 import pydevd
 
 # An example of how to use pydevd.settrace() with the remote debugging server.
