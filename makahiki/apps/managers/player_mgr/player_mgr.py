@@ -6,8 +6,6 @@ from django.core.exceptions import ObjectDoesNotExist
 from apps.managers.player_mgr.models import Profile
 from apps.managers.score_mgr import score_mgr
 from apps.managers.team_mgr.models import Team
-from aifc import Error
-from anydbm import error
 
 
 def get_active_player(username):
