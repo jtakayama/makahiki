@@ -21,6 +21,10 @@ class BonusPointAdmin(admin.ModelAdmin):
     """admin for Bonus Points."""
     actions = ["delete_selected", "deactivate_selected", "view_selected",
                "print_selected"]
+    readonly_fields = ["pk", "code", "point_value", "create_date", "is_active",
+                    "printed_or_distributed", "user"]
+    fields = ["pk", "code", "point_value", "create_date", "is_active",
+                    "printed_or_distributed", "user"]
     list_display = ["pk", "code", "point_value", "create_date", "is_active",
                     "printed_or_distributed", "user"]
     ordering = ["-create_date", "is_active"]
