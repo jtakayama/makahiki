@@ -6,6 +6,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from apps.managers.player_mgr.models import Profile
 from apps.managers.score_mgr import score_mgr
 from apps.managers.team_mgr.models import Team
+from aifc import Error
+from anydbm import error
 
 
 def get_active_player(username):
@@ -51,6 +53,16 @@ def points_leaders(num_results=None, round_name=None):
             results = results[:num_results]
         return results
 
+def username_is_lowercase(username):
+    """Check that usernames do not include uppercase letter characters."""
+    username_input = username
+    username_lower = username.lower()
+    username_valid = False
+    if username_input != username_lower:
+        username_valid = False
+    elif username_input == username_lower:
+        username_valid = True
+    return username_valid
 
 def create_player(username, password, email, firstname, lastname, team_name, is_ra):
     """Create a player with the assigned team"""
@@ -61,6 +73,17 @@ def create_player(username, password, email, firstname, lastname, team_name, is_
     except ObjectDoesNotExist:
         pass
 
+    # This code results in the bulk upload silently changing usernames to lowercase.
+    username_input = username
+    username_lower = username.lower()
+    invalid_username_message = "Username \"%s\" is invalid: usernames must use lowercase. User will be created with username \"%s\" instead." % (username_input, username_lower)
+    try:
+        if username_is_lowercase(username) == False:
+            raise Exception(invalid_username_message)
+    except Exception as mixed_case_error:
+        print mixed_case_error.args
+        username = username_lower
+    
     user = User.objects.create_user(username, email, password)
     user.first_name = firstname
     user.last_name = lastname
