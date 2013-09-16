@@ -71,7 +71,7 @@ def create_player(username, password, email, firstname, lastname, team_name, is_
     except ObjectDoesNotExist:
         pass
 
-    # This code results in the bulk upload silently changing usernames to lowercase.
+    # Uppercase usernames changed to lowercase (Exception not visible to UI)
     username_input = username
     username_lower = username.lower()
     invalid_username_message = "Username \"%s\" is invalid: usernames must use lowercase. User will be created with username \"%s\" instead." % (username_input, username_lower)
