@@ -551,7 +551,7 @@ The finished level:
    :width: 600px
    :align: center
  
-3. Edit the Desginer Actions by clicking on the action names.  Make sure the contents of the 
+3. Edit the Designer Actions by clicking on the action names.  Make sure the contents of the 
 actions is what you want. Pay attention to the unlock_conditions from step 2 and the Social
 Bonus Points from step 3.
 
