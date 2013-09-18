@@ -166,7 +166,7 @@ resource.
 
 Currently, Makahiki provides built-in support for two resource goal games: energy and water.
 Each of those games, when enabled, results in a page devoted to that resource in the web
-application. The default configuration disables support for the Water Goal Game and the
+application. The default configuration enables support for the Water Goal Game and the
 Water page. 
 
 Extending Makahiki to support an additional resource goal game is straightforward, but 
