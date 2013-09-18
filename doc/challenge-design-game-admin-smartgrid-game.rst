@@ -521,7 +521,7 @@ First, create the level(s) in your grid.
  
    - Deleting a level moves all the actions in the level to the palette.
   
-   - Adding a new level creates an empty level. Just supply the unique new level name.
+   - Adding a new level creates an empty level. Just supply the unique new level name and a predicate for the unlock condition.
 
    .. figure:: figs/configuration/configuration-game-admin-smartgrid-designer-new-level.png
       :width: 500px
