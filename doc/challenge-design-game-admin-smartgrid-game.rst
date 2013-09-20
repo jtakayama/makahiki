@@ -521,7 +521,7 @@ First, create the level(s) in your grid.
  
    - Deleting a level moves all the actions in the level to the palette.
   
-   - Adding a new level creates an empty level. Just supply the unique new level name.
+   - Adding a new level creates an empty level. Just supply the unique new level name and a predicate for the unlock condition.
 
    .. figure:: figs/configuration/configuration-game-admin-smartgrid-designer-new-level.png
       :width: 500px
@@ -551,7 +551,7 @@ The finished level:
    :width: 600px
    :align: center
  
-3. Edit the Desginer Actions by clicking on the action names.  Make sure the contents of the 
+3. Edit the Designer Actions by clicking on the action names.  Make sure the contents of the 
 actions is what you want. Pay attention to the unlock_conditions from step 2 and the Social
 Bonus Points from step 3.
 
