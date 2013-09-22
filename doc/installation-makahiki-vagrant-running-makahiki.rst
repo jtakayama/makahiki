@@ -67,11 +67,11 @@ Switch to vagrant/makahiki and run the update_instance.py script::
 
 Start the server with runserver or gunicorn.
 
-To start the server with runserver::
+To start the runserver server::
 
   vagrant@precise32:/vagrant/makahiki$ ./manage.py runserver
 
-To start the server with gunicorn::
+To start the gunicorn server::
 
   vagrant@precise32:/vagrant/makahiki$ ./manage.py run_gunicorn
 

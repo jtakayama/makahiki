@@ -107,11 +107,11 @@ Switch to /vagrant/makahiki::
 
   vagrant@precise32:/vagrant/$ cd /vagrant/makahiki
   
-To start the server with manage.py::
+To start the runserver server::
 
   vagrant@precise32:/vagrant/makahiki$ ./manage.py runserver 0.0.0.0:8000
 
-To start the server with gunicorn::
+To start the gunicorn server::
 
   vagrant@precise32:/vagrant/makahiki$ ./manage.py run_gunicorn -b 0.0.0.0:8000
 
