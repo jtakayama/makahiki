@@ -230,6 +230,7 @@ INSTALLED_WIDGET_APPS = (
     'status.DEGG',
     'status.DWGG',
     'unlock_creator',
+    'enable_games',
 )
 
 for widget in INSTALLED_WIDGET_APPS:

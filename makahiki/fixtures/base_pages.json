@@ -143,6 +143,19 @@
         }
     },
     {
+        "pk": 13,
+        "model": "challenge_mgr.pageinfo",
+        "fields": {
+            "name": "quick_start",
+            "title": "Quick Start Configuration",
+            "introduction": "",
+            "label": "Quick Start",
+            "priority": 101,
+            "url": "/quick_start",
+            "unlock_condition": "is_admin()"
+        }
+    },
+    {
         "pk": 10,
         "model": "challenge_mgr.pagesetting",
         "fields": {

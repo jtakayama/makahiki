@@ -1,0 +1,14 @@
+<div class="content-box">
+    <div class="content-box-title">
+        Enable Games
+    </div>
+    <div class="content-box-contents">
+        {% if not games %}
+            <p>An error has occurred.</p>
+        {% else %}
+        {% for game in view_objects.games % }
+            {{ game }}
+        {% endfor %}
+        {% endif %}
+    </div>
+</div>
