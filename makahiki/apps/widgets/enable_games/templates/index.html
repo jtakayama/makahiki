@@ -3,12 +3,25 @@
         Enable Games
     </div>
     <div class="content-box-contents">
-        {% if not games %}
-            <p>An error has occurred.</p>
-        {% else %}
-        {% for game in view_objects.games % }
-            {{ game }}
-        {% endfor %}
+        Enable or disable games, then save your settings.<br/>
+        <form action="/contact/" method="post">{% csrf_token %}
+        <!-- Replace this part with the correct form format and 
+             move it to the views.py -->
+        {% if view_objects.enable_games.games_enabled %}
+            <h3 class="no-top">Enabled:</h3>
+            <table>
+            {% for game in view_objects.enable_games.games_enabled %}
+               <input type="checkbox" name="game" value="{{ game }}" checked="checked">{{ game }}</input><br/>
+            {% endfor %}
+            </table>
         {% endif %}
+        {% if view_objects.enable_games.games_disabled %}
+            <h3 class="no-top">Disabled:</h3>
+            {% for game in view_objects.enable_games.games_disabled %}
+                <input type="checkbox" name="game" value="{{ game }}">{{ game }}</input><br/>
+            {% endfor %}
+        {% endif %}
+        <input type="submit" value="Submit" />
+        </form>
     </div>
 </div>
