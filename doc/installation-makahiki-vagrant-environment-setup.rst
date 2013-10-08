@@ -44,7 +44,8 @@ when asked to install drivers for USB support and VirtualBox Host-Only Networkin
 Install Vagrant
 ---------------
 
-Download the `Vagrant installer`_ for your host OS. Vagrant 1.2.4 is recommended.
+Download the `Vagrant installer`_ for your host OS. Vagrant 1.2.4 is recommended. 
+Later versions may work but have not been tested.
 
 Follow the `Vagrant installation instructions`_.
 
@@ -80,9 +81,11 @@ Download the base virtual machine image ``precise32`` from Vagrant's servers::
 
   > vagrant box add precise32 http://files.vagrantup.com/precise32.box
   
-.. note:: It is only necessary to download each base virtual machine once. 
-   Once downloaded, the "precise32" box can be reused by Vagrant to create 
-   any virtual machines that specify "precise32" in their Vagrantfiles.
+.. note:: It is only necessary to download each base virtual machine ("box") 
+   once per user account on the host OS. Once downloaded, the "precise32" box 
+   can be reused by Vagrant to create any virtual machines that specify "precise32" 
+   in their Vagrantfiles. If your host OS is Windows and you switch to another 
+   user account, you will need to download the "precise32" box again.
    
 Download the Makahiki Source Code
 ---------------------------------
@@ -92,7 +95,7 @@ Downloading the Makahiki source code will create the "makahiki" directory.
 There are two ways of obtaining the Makahiki source code: downloading it as 
 an archive, or cloning the Git repository.
 
-.. note:: The makahiki directory created by extracting the .zip or 
+.. note:: The makahiki directory created by extracting the .zip file or 
    cloning the repository will be the directory Vagrant uses as a 
    reference point for accessing the virtual machine.
 
@@ -106,7 +109,8 @@ After this, you can download the archive or use Git to clone the repository.
 Download the Archive
 ********************
 
-Follow these instructions if you do not have **Git** or **Git for Windows**.
+Follow these instructions if you do not have **Git** or **Git for Windows** and are 
+unable to install them.
 
 1. Go to https://github.com/csdl/makahiki
 2. Click the button to "Download ZIP."
@@ -129,7 +133,7 @@ following command in your Command Prompt or Terminal to clone the repository::
 
   > git clone http://github.com/csdl/makahiki.git
 
-.. note:: If the `git clone` command does not work in the Windows Command Prompt, 
+.. note:: If the "git clone" command does not work in the Windows Command Prompt, 
    you will need to use the Git for Windows terminal instead.
 
 Install Makahiki On Vagrant
