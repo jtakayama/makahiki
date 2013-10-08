@@ -96,6 +96,13 @@ an archive, or cloning the Git repository.
    cloning the repository will be the directory Vagrant uses as a 
    reference point for accessing the virtual machine.
 
+In the Command Prompt or Terminal, switch to the directory you want to 
+place the Makahiki source code in::
+
+  > cd <path-to-directory>
+
+After this, you can download the archive or use Git to clone the repository.
+
 Download the Archive
 ********************
 
@@ -104,6 +111,7 @@ Follow these instructions if you do not have **Git** or **Git for Windows**.
 1. Go to https://github.com/csdl/makahiki
 2. Click the button to "Download ZIP."
 3. Extract the makahiki.zip file that is downloaded.
+4. Move the extracted "makahiki" directory to the directory you want to start the Vagrant virtual machine from.
 
 Clone the Repository
 ********************
@@ -116,9 +124,13 @@ system. See `GitHub's setup guide`_ for instructions.
 .. _Git for Windows: http://git-scm.com/download/win
 .. _Github's setup guide: http://help.github.com/articles/set-up-git
 
-If you have Git or Git for Windows, you can clone the repository::
+After installing Git or Git for Windows on your operating system, enter the 
+following command in your Command Prompt or Terminal to clone the repository::
 
   > git clone http://github.com/csdl/makahiki.git
+
+.. note:: If the `git clone` command does not work in the Windows Command Prompt, 
+   you will need to use the Git for Windows terminal instead.
 
 Install Makahiki On Vagrant
 ---------------------------
