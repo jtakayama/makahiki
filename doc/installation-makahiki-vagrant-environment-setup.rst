@@ -122,10 +122,10 @@ within the Command Prompt or Terminal.::
   > git clone http://github.com/csdl/makahiki.git
 
 .. note:: Installing Git for Windows with default settings should let you use the 
-   `git clone` command in the Command Prompt without opening Git for Windows. 
+   ``git clone`` command in the Command Prompt without opening Git for Windows. 
    
    If this does not work, you will need to use Git for Windows to execute the 
-   `git clone` command instead.
+   ``git clone`` command instead.
 
 
 Install Makahiki On Vagrant
