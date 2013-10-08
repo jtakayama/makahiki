@@ -116,8 +116,9 @@ system. See `GitHub's setup guide`_ for instructions.
 .. _Git for Windows: http://git-scm.com/download/win
 .. _Github's setup guide: http://help.github.com/articles/set-up-git
 
-If you have Git or Git for Windows, you should be able to clone the repository from 
-within the Command Prompt or Terminal.::
+If you have Git for Windows, you should be able to clone the repository from within the Command Prompt.
+If you have Git on Mac OS X or Linux, you should be able to clone the repository from within the Terminal.
+Enter the following command to clone the repository::
 
   > git clone http://github.com/csdl/makahiki.git
 
