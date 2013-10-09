@@ -6,7 +6,9 @@ Setting Up the Makahiki and Vagrant Development Environment
 These instructions configure a VirtualBox Ubuntu 12.04 LTS 32-bit virtual 
 machine with Vagrant, and download the Makahiki source code.
 
-Throughout this guide, ``>`` indicates a command prompt on the host OS.
+.. note::
+   Throughout this guide, a "``>``" indicates a command prompt on the host OS.
+   Unless otherwise specified, the working directory can be any directory.
 
 With the exception of Windows users, this guide assumes that you are using a 
 Bourne-type shell (such as bash), which is the default on Mac OS X and Linux. 
@@ -82,7 +84,7 @@ Download the base virtual machine image ``precise32`` from Vagrant's servers::
   > vagrant box add precise32 http://files.vagrantup.com/precise32.box
   
 .. note:: It is only necessary to download each base virtual machine ("box") 
-   once per user account on the host OS. Once downloaded, the "precise32" box 
+   once per user account on the host OS. Once the "precise32" box is downloaded, it 
    can be reused by Vagrant to create any virtual machines that specify "precise32" 
    in their Vagrantfiles. If your host OS is Windows and you switch to another 
    user account, you will need to download the "precise32" box again.
@@ -95,16 +97,10 @@ Downloading the Makahiki source code will create the "makahiki" directory.
 There are two ways of obtaining the Makahiki source code: downloading it as 
 an archive, or cloning the Git repository.
 
-.. note:: The makahiki directory created by extracting the .zip file or 
+.. note:: The "makahiki" directory created by extracting the .zip file or 
    cloning the repository will be the directory Vagrant uses as a 
-   reference point for accessing the virtual machine.
-
-In the Command Prompt or Terminal, switch to the directory you want to 
-place the Makahiki source code in::
-
-  > cd <path-to-directory>
-
-After this, you can download the archive or use Git to clone the repository.
+   reference point for accessing the virtual machine. This guide refers 
+   to that directory as the "makahiki directory."
 
 Download the Archive
 ********************
@@ -119,6 +115,8 @@ unable to install them.
 
 Clone the Repository
 ********************
+
+Follow these instructions if you have installed or are going to install Git or Git for Windows.
   
 Windows users can install `Git for Windows`_.
 
@@ -128,13 +126,24 @@ system. See `GitHub's setup guide`_ for instructions.
 .. _Git for Windows: http://git-scm.com/download/win
 .. _Github's setup guide: http://help.github.com/articles/set-up-git
 
-After installing Git or Git for Windows on your operating system, enter the 
-following command in your Command Prompt or Terminal to clone the repository::
+After installing Git or Git for Windows on your operating system, go back
+to your Command Prompt or Terminal.
+
+In the Command Prompt or Terminal, change your working directory to the 
+directory you want to place the Makahiki source code directory in::
+
+  > cd <path-to-directory>
+
+For example, if you wanted the source code to be in ``C:\Users\username\Vagrant``, you 
+would use the command ``cd C:\Users\username\Vagrant`` to change your working directory.
+
+Then, enter this command in your Command Prompt or Terminal to 
+clone the repository::
 
   > git clone http://github.com/csdl/makahiki.git
 
 .. note:: If the "git clone" command does not work in the Windows Command Prompt, 
-   you will need to use the Git for Windows terminal instead.
+   you will need to use the "git clone" command in the Git for Windows terminal instead.
 
 Install Makahiki On Vagrant
 ---------------------------

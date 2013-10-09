@@ -7,9 +7,9 @@ This article describes maintenance tasks for the Makahiki database,
 and describes the process for starting and stopping the Makahiki web 
 server.
 
-Here, ``%`` indicates that a command can be performed from 
-any working directory in the virtual machine. Directories 
-are specified otherwise.
+.. note:: In this article, a "``%``" prompt indicates that a command can be performed from 
+   any working directory in the virtual machine. Directories 
+   are specified otherwise.
 
 Initialize Makahiki
 -------------------
@@ -32,9 +32,12 @@ initialize the database again.
    The script initializes the Makahiki database and populates it with default 
    information and users.
 
-Switch to the /vagrant/makahiki directory::
+Change to the /vagrant/makahiki directory::
 
-  vagrant@precise32:~/$ cd /vagrant/makahiki
+  % cd /vagrant/makahiki
+  
+Next, run the initialize_instance.py script::
+  
   vagrant@precise32:/vagrant/makahiki$ ./scripts/initialize_instance.py --type default
 
 You will need to answer ``Y`` to the question ``Do you wish to continue (Y/n)?``.
@@ -52,7 +55,7 @@ Close the running server in the shell process that is running Makahiki::
 
   (type control-c in the shell running the makahiki server process)
 
-Go to the vagrant directory (the makahiki directory on the host machine)::
+Change to the vagrant directory (the makahiki directory on the host machine)::
 
   % cd /vagrant
 
@@ -60,20 +63,23 @@ Download the updated source code into the Makahiki installation::
 
   vagrant@precise32:/vagrant$ git pull origin master
 
-Switch to vagrant/makahiki and run the update_instance.py script::
+Change your directory to vagrant/makahiki::
 
   vagrant@precise32:/vagrant$ cd makahiki
+  
+Next, run the update_instance.py script::
+
   vagrant@precise32:/vagrant/makahiki$ ./scripts/update_instance.py
 
 Start the server with runserver or gunicorn.
 
 To start the runserver server::
 
-  vagrant@precise32:/vagrant/makahiki$ ./manage.py runserver
+  vagrant@precise32:/vagrant/makahiki$ ./manage.py runserver 0.0.0.0:8000
 
 To start the gunicorn server::
 
-  vagrant@precise32:/vagrant/makahiki$ ./manage.py run_gunicorn
+  vagrant@precise32:/vagrant/makahiki$ ./manage.py run_gunicorn -b 0.0.0.0:8000
 
 Start the Makahiki Server
 -------------------------
@@ -101,7 +107,7 @@ View the site in your host machine's web browser at http://192.168.56.4:8000.
 Log in with the username (admin) and password (admin) specified in 
 makahiki_env.sh. 
 
-To stop either of the servers, type Control-C in the virtual machine terminal.
+To stop either of the servers, type control-c in the virtual machine terminal.
 
 Testing the Server Without a Web Browser
 ****************************************
@@ -138,8 +144,8 @@ use wget to test the server on the virtual machine::
 If your HTTP response is "200 OK," the server is running correctly. You can 
 delete the "test" directory when you are done.
 
-Because this server was started in the background with ``&``, you cannot stop 
-it with Control-C. You will need to find the PIDs of its processes first::
+Because the server was started in the background with ``&``, you cannot stop 
+it with control-c. You will need to find the PIDs of its processes first::
 
   % ps ax | grep manage.py
   21791 tty1     S     0:00 python ./manage.py runserver
@@ -152,7 +158,7 @@ it with Control-C. You will need to find the PIDs of its processes first::
   (wd now: <your-working-directory>)
 
 The PID of a given process will be different each time it runs. ``kill -9 <PID>`` 
-forces the OS to stop the process. Kill the ``python ./manage.py runserver`` 
+forces the OS to stop the process with the specified PID. Kill the ``python ./manage.py runserver`` 
 and ``/root/.virtualenvs/makahiki/bin/python ./manage.py runserver`` processes 
 to stop the server.
 
