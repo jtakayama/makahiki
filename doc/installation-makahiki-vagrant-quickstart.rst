@@ -6,26 +6,37 @@ Quick Start Guide: Makahiki on Vagrant
 If you have not already installed VirtualBox and Vagrant and downloaded the Makahiki source code, 
 complete :ref:`section-installation-makahiki-vagrant-environment-setup` before completing this section.
 
-Throughout this guide, ``>`` indicates a command prompt on the host OS.
+.. note::
+   Throughout this guide, a "``>``" indicates a command prompt on the host OS.
+   
+.. note::
+   The "``makahiki>``" prompt indicates that the working directory is in the 
+   "Makahiki directory" on the host machine. The file path preceding "makahiki"
+   (e.g., "``C:\Users\username\Vagrant\makahiki>``") will be different depending 
+   on the location of the directory in the file system.
 
-If a Command Prompt (Windows) or Terminal (OS X and Linux) is not open on 
+If a Command Prompt (Windows) or Terminal (OS X and Linux) shell is not open on 
 your host machine, open one.
 
 Set up Makahiki in the Virtual Machine
 --------------------------------------
 
 In your Command Prompt or Terminal, switch your working directory to the
-makahiki directory that was created in :ref:`section-installation-makahiki-vagrant-environment-setup`. 
-Replace ``<path-to-makahiki>`` with the file system path to the makahiki/ directory::
+"makahiki" directory that was created in :ref:`section-installation-makahiki-vagrant-environment-setup`::
 
   > cd <path-to-makahiki>/makahiki
   
-This directory contains the Vagrantfile which defines the settings 
+Replace ``<path-to-makahiki>`` with the file system path to the "makahiki" directory. On Windows, if 
+your "makahiki" directory is located at ``C:\Users\username\Vagrant\makahiki``, you would use the command 
+``cd C:\Users\username\Vagrant\makahiki`` here. On Linux, if your "makahiki" directory is at 
+``/home/username/vagrant/makahiki``, you would use the command ``cd /home/username/vagrant/makahiki`` here.
+  
+The "makahiki" directory contains the Vagrantfile which defines the settings 
 of the Vagrant virtual machine.
 
 Use the ``vagrant up`` command to start the virtual machine for the first time::
 
-  > vagrant up
+  makahiki> vagrant up
   
 .. warning:: Windows users may see multiple warnings while ``vagrant up`` is running for the first time.
 
@@ -35,7 +46,7 @@ Use the ``vagrant up`` command to start the virtual machine for the first time::
 .. warning:: If you are not starting Vagrant for the first time and do not want to lose 
    your configuration, start Vagrant with ``--no-provision``::
    
-     > vagrant up --no-provision
+     makahiki> vagrant up --no-provision
 
    Each time Vagrant is started with ``vagrant up``, it will run the 
    ``run_bootstrap.sh`` provisioning script specified in the Vagrantfile. This 
@@ -69,7 +80,7 @@ Connect to the Vagrant Virtual Machine
 
 Start an SSH session with the Ubuntu virtual machine::
 
-  > vagrant ssh
+  makahiki> vagrant ssh
 
 An Ubuntu command prompt will be displayed:: 
 
@@ -89,23 +100,23 @@ Check for Makahiki Source Code
    ``makahiki`` on the host machine, and vice versa.
 
 Check that the /vagrant directory on the virtual machine contains the files 
-from the makahiki directory on the host machine. Your output from ``ls`` should 
-look similar to the example below::
+from the makahiki directory on the host machine. Enter the ``cd`` and ``ls`` commands 
+as shown below. The output of the commands should be similar to this example::
 
   vagrant@precise32:~$ cd /vagrant
   vagrant@precise32:/vagrant$ ls
   DnD-example.html  Procfile   SGG_Designer_notes.txt  bootstrap.sh  deploy  makahiki          run_bootstrap.sh
   LICENSE.md        README.md  Vagrantfile             caminator     doc     requirements.txt  vagrant
-  
+
 Start the Server
 ----------------
 
-Makahiki provides two servers. runserver is better for development, and 
-gunicorn is better for production.
+Makahiki provides two web servers. runserver is better for development, and 
+gunicorn is better for production use.
 
 Switch to /vagrant/makahiki::
 
-  vagrant@precise32:/vagrant/$ cd /vagrant/makahiki
+  vagrant@precise32:/vagrant$ cd /vagrant/makahiki
   
 To start the runserver server::
 
@@ -119,13 +130,13 @@ Verify that Makahiki Is Running
 -------------------------------
 
 Open a browser on the host machine and go to http://192.168.56.4:8000 to see 
-the landing page, which should look something like this:
+the landing page, which should look similar to this:
 
   .. figure:: figs/vagrant/kukui-cup-demo-landing.png
       :width: 600 px
       :align: center
 
-In the virtual machine, stop either server with Control-C when you are finished::
+In the virtual machine, stop either server with control-c when you are finished::
 
   vagrant@precise32:/vagrant/makahiki$ (type control-c in the shell running the makahiki server process)
 
