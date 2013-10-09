@@ -84,8 +84,8 @@ Download the base virtual machine image ``precise32`` from Vagrant's servers::
   > vagrant box add precise32 http://files.vagrantup.com/precise32.box
   
 .. note:: It is only necessary to download each base virtual machine ("box") 
-   once per user account on the host OS. Once the "precise32" box is downloaded, it 
-   can be reused by Vagrant to create any virtual machines that specify "precise32" 
+   once per user account on the host OS. Once the "precise32" box has been downloaded, 
+   it can be reused by Vagrant to create any virtual machines that specify "precise32" 
    in their Vagrantfiles. If your host OS is Windows and you switch to another 
    user account, you will need to download the "precise32" box again.
    
