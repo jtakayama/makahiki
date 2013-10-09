@@ -24,7 +24,7 @@ Set up Makahiki in the Virtual Machine
 In your Command Prompt or Terminal, switch your working directory to the
 "makahiki" directory that was created in :ref:`section-installation-makahiki-vagrant-environment-setup`::
 
-  > cd <path-to-makahiki>\makahiki
+  > cd <path-to-makahiki>/makahiki
   
 Replace ``<path-to-makahiki>`` with the file system path to the "makahiki" directory. On Windows, if 
 your "makahiki" directory is located at ``C:\Users\username\Vagrant\makahiki``, you would use the command 
