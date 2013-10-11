@@ -7,13 +7,14 @@ If you have not already installed VirtualBox and Vagrant and downloaded the Maka
 complete :ref:`section-installation-makahiki-vagrant-environment-setup` before completing this section.
 
 .. note::
-   Throughout this guide, a "``>``" indicates a command prompt on the host OS.
+   In this article, a "``>``" indicates a command prompt on the host OS. Commands appearing after a 
+   "``>``" should work on Windows, OS X, and Linux unless otherwise stated.
    
 .. note::
    The "``makahiki>``" prompt indicates that the working directory is in the 
    "Makahiki directory" on the host machine. The file path preceding "makahiki"
    (e.g., "``C:\Users\username\Vagrant\makahiki>``") will be different depending 
-   on the location of the directory in the file system.
+   on the location of the directory in the file system of the host OS.
 
 If a Command Prompt (Windows) or Terminal (OS X and Linux) shell is not open on 
 your host machine, open one.
