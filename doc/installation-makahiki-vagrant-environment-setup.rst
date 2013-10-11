@@ -6,10 +6,6 @@ Setting Up the Makahiki and Vagrant Development Environment
 These instructions configure a VirtualBox Ubuntu 12.04 LTS 32-bit virtual 
 machine with Vagrant, and download the Makahiki source code.
 
-.. note::
-   Throughout this guide, a "``>``" indicates a command prompt on the host OS.
-   Unless otherwise specified, the working directory can be any directory.
-
 With the exception of Windows users, this guide assumes that you are using a 
 Bourne-type shell (such as bash), which is the default on Mac OS X and Linux. 
 Using a C-shell variant (like tcsh) is possible but not recommended.
@@ -54,8 +50,8 @@ Follow the `Vagrant installation instructions`_.
 .. _Vagrant installer: http://downloads.vagrantup.com/
 .. _Vagrant installation instructions: http://docs.vagrantup.com/v2/installation/index.html
 
-Vagrant Virtual Machine Setup
------------------------------
+Open A Command Line Application
+-------------------------------
 
 Open a command line terminal on your system. The Windows terminal is called "Command Prompt." 
 The Mac OS X terminal is called "Terminal." Most Linux systems with a graphical user interface 
@@ -68,6 +64,12 @@ usually end their input prompt with a special character (e.g., ``>``, ``#``, or 
 When a user types a system command or program-specific command at the input prompt
 and presses Enter, the operating system runs the program specified by the command.
 
+.. note::
+   In the rest of this article, a "``>``" is used to indicate a generic command prompt 
+   on any host OS (Windows, Mac OS X, or Linux). Commands appearing after a "``>``" prompt 
+   in this article should work on all three operating systems. Though some systems automatically 
+   append a space after the prompt, you do not need to type a space before a command.
+   
 Windows
 *******
 
