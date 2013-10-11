@@ -30,9 +30,16 @@ Replace ``<path-to-makahiki>`` with the file system path to the "makahiki" direc
 your "makahiki" directory is located at ``C:\Users\username\Vagrant\makahiki``, you would use the command 
 ``cd C:\Users\username\Vagrant\makahiki`` here. On Linux, if your "makahiki" directory is at 
 ``/home/username/vagrant/makahiki``, you would use the command ``cd /home/username/vagrant/makahiki`` here.
-  
-The "makahiki" directory contains the Vagrantfile which defines the settings 
-of the Vagrant virtual machine.
+
+A Windows example:
+
+  .. figure:: figs/vagrant/windows-command-prompt-vagrant-switch.png
+      :width: 580 px
+      :align: center
+
+The "makahiki" directory was created when you cloned the Git repository in 
+:ref:`section-installation-makahiki-vagrant-environment-setup`. It contains the Vagrantfile which defines the settings 
+of the Vagrant virtual machine. It also contains all of Makahiki's source code.
 
 Use the ``vagrant up`` command to start the virtual machine for the first time::
 

@@ -57,25 +57,66 @@ Follow the `Vagrant installation instructions`_.
 Vagrant Virtual Machine Setup
 -----------------------------
 
-Open a terminal on your system.
+Open a command line terminal on your system. The Windows terminal is called "Command Prompt." 
+The Mac OS X terminal is called "Terminal." Most Linux systems with a graphical user interface 
+call their terminal "Terminal."
+
+Terminals usually begin each input prompt with the directory (also called a "folder") that is the user's 
+current location in the file system. This is called the "working directory." Terminals 
+usually end their input prompt with a special character (e.g., ``>``, ``#``, or ``$``).
+
+When a user types a system command or program-specific command at the input prompt
+and presses Enter, the operating system runs the program specified by the command.
 
 Windows
 *******
 
-Open a **Command Prompt** or type "cmd.exe" in **Run**.
+Open a **Command Prompt** or type ``cmd.exe`` in **Run**.
+
+An example of the Windows command prompt:
+
+  .. figure:: figs/vagrant/example-windows-command-prompt.png
+      :width: 600 px
+      :align: center
+
+The Windows command prompt opens with a working directory of ``C:\Users\<username>``, where ``<username>`` is the 
+username of the current user. A Windows command prompt that has been opened with "Run as 
+Administrator" opens in ``C:\Windows\system32``.
+
+This guide does not require a Command Prompt to be run as an Administrator. However, 
+administrative privileges may be required to resolve security and permissions issues related 
+to Vagrant.
 
 Mac OS X
 ********
 
 Open a **Terminal**. If your default shell is not **bash**, type ``bash`` to temporarily 
-switch to a **bash** shell.
+switch to a **bash** shell. 
+
+If you are using a recent version of OS X, you will not need to change the shell unless 
+you changed the default shell in the past. The bash shell has been the default shell since 
+OS X 10.3.
 
 Linux
 *****
 
-Open a **Terminal**. If you are in a headless OS (no graphical user interface), you are 
+Open a **Terminal**. If you are using a headless OS (an OS that does not have a graphical user interface), you are 
 already in the Terminal.
 
+Though every Linux distribution does this a little differently, most distributions 
+open a terminal with a command prompt of the form::
+
+  <username>@<computer_name>:<working_directory>$
+
+An example of a Terminal shell window from Ubuntu Linux:
+
+  .. figure:: figs/vagrant/example-ubuntu-terminal.png
+      :width: 600 px
+      :align: center
+
+The ``~`` indicates that the user is in their user home directory. 
+On Ubuntu, this is equivalent to ``/home/username``.
+  
 Download the Base Virtual Machine
 ---------------------------------
 
@@ -136,6 +177,12 @@ directory you want to place the Makahiki source code directory in::
 
 For example, if you wanted the source code to be in ``C:\Users\username\Vagrant``, you 
 would use the command ``cd C:\Users\username\Vagrant`` to change your working directory.
+
+An example in Windows:
+
+  .. figure:: figs/vagrant/windows-command-prompt-vagrant.png
+      :width: 580 px
+      :align: center
 
 Then, enter this command in your Command Prompt or Terminal to 
 clone the repository::
