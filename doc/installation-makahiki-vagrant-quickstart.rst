@@ -30,9 +30,16 @@ Replace ``<path-to-makahiki>`` with the file system path to the "makahiki" direc
 your "makahiki" directory is located at ``C:\Users\username\Vagrant\makahiki``, you would use the command 
 ``cd C:\Users\username\Vagrant\makahiki`` here. On Linux, if your "makahiki" directory is at 
 ``/home/username/vagrant/makahiki``, you would use the command ``cd /home/username/vagrant/makahiki`` here.
-  
-The "makahiki" directory contains the Vagrantfile which defines the settings 
-of the Vagrant virtual machine.
+
+A Windows example:
+
+  .. figure:: figs/vagrant/windows-command-prompt-vagrant-switch.png
+      :width: 580 px
+      :align: center
+
+The "makahiki" directory was created when you cloned the Git repository in 
+:ref:`section-installation-makahiki-vagrant-environment-setup`. It contains the Vagrantfile which defines the settings 
+of the Vagrant virtual machine. It also contains all of Makahiki's source code.
 
 Use the ``vagrant up`` command to start the virtual machine for the first time::
 
@@ -85,46 +92,55 @@ Start an SSH session with the Ubuntu virtual machine::
 An Ubuntu command prompt will be displayed:: 
 
   vagrant@precise32:~$
-  
-.. note::
-   You can end your SSH session by typing ``exit`` in the SSH terminal::
-
-     vagrant@precise32:~$ exit 
-
-Check for Makahiki Source Code
-------------------------------
-
-.. note:: The Vagrantfile is configured to mount the directory that contains 
-   it as a synchronized folder called ``/vagrant`` at the root of the virtual 
-   machine. Any file added to ``/vagrant`` on the virtual machine will be added to 
-   ``makahiki`` on the host machine, and vice versa.
-
-Check that the /vagrant directory on the virtual machine contains the files 
-from the makahiki directory on the host machine. Enter the ``cd`` and ``ls`` commands 
-as shown below. The output of the commands should be similar to this example::
-
-  vagrant@precise32:~$ cd /vagrant
-  vagrant@precise32:/vagrant$ ls
-  DnD-example.html  Procfile   SGG_Designer_notes.txt  bootstrap.sh  deploy  makahiki          run_bootstrap.sh
-  LICENSE.md        README.md  Vagrantfile             caminator     doc     requirements.txt  vagrant
 
 Start the Server
 ----------------
 
-Makahiki provides two web servers. runserver is better for development, and 
-gunicorn is better for production use.
+.. note:: The /vagrant directory that contains /vagrant/makahiki is a special directory 
+   that is synchronized with the "makahiki" directory (folder) on your host OS. 
+   
+     * Any file added to ``/vagrant`` on the virtual machine will be added to ``makahiki`` on the host machine. 
+     * Any file added to ``makahiki`` on the host machine will be added to ``/vagrant`` on the virtual machine.
 
-Switch to /vagrant/makahiki::
+To start one of the two web servers that Makahiki provides, switch to the 
+/vagrant/makahiki directory::
 
-  vagrant@precise32:/vagrant$ cd /vagrant/makahiki
+  vagrant@precise32:~$ cd /vagrant/makahiki
+  
+The two servers are runserver, which is better for development, and gunicorn, 
+which is better for production use.
   
 To start the runserver server::
 
   vagrant@precise32:/vagrant/makahiki$ ./manage.py runserver 0.0.0.0:8000
+  
+Example output of starting runserver::
+
+  vagrant@precise32:/vagrant/makahiki$ ./manage.py runserver 0.0.0.0:8000
+  Validating models...
+
+  0 errors found
+  Django version 1.4, using settings 'settings'
+  Development server is running at http://0.0.0.0:8000/
+  Quit the server with CONTROL-C.
 
 To start the gunicorn server::
 
   vagrant@precise32:/vagrant/makahiki$ ./manage.py run_gunicorn -b 0.0.0.0:8000
+
+Example output of starting gunicorn::
+
+  vagrant@precise32:/vagrant/makahiki$ ./manage.py run_gunicorn -b 0.0.0.0:8000
+  Validating models...
+  0 errors found
+  
+  Django version 1.4, using settings 'settings'
+  Server is running
+  Quit the server with CONTROL-C.
+  2013-10-11 01:59:41 [1399] [INFO] Starting gunicorn 0.13.4
+  2013-10-11 01:59:41 [1399] [INFO] Listening at: http://0.0.0.0:8000 (1399)
+  2013-10-11 01:59:41 [1399] [INFO] Using worker: sync
+  2013-10-11 01:59:41 [1408] [INFO] Booting worker with pid: 1408
 
 Verify that Makahiki Is Running
 -------------------------------
@@ -144,5 +160,20 @@ If the site is not reachable from your host machine, or your host machine is hea
 and has no GUI, refer to :ref:`section-installation-makahiki-vagrant-running-makahiki-vagrant` 
 and follow the section on **Testing the Server Without a Web Browser**.
 
+Makahiki Maintenance Tasks
+--------------------------
 
+The basic installation of Makahiki is now complete.
 
+To learn how to reset or update the Makahiki database, continue to 
+:ref:`section-installation-makahiki-vagrant-running-makahiki-vagrant`.
+
+Exit Your SSH Session
+---------------------
+
+When you are finished working with the Vagrant virtual machine,
+end your SSH session by typing ``exit`` in the SSH terminal::
+
+     vagrant@precise32:/vagrant/makahiki$ exit 
+
+On your host OS, you will be returned to the terminal that started the SSH session.
