@@ -75,7 +75,7 @@ Windows
 
 Open a **Command Prompt** or type ``cmd.exe`` in **Run**.
 
-An example of the Windows command prompt:
+An example of the Windows Command Prompt:
 
   .. figure:: figs/vagrant/example-windows-command-prompt.png
       :width: 600 px
@@ -98,6 +98,14 @@ switch to a **bash** shell.
 If you are using a recent version of OS X, you will not need to change the shell unless 
 you changed the default shell in the past. The bash shell has been the default shell since 
 OS X 10.3.
+
+An example of the OS X Terminal:
+
+  .. figure:: figs/vagrant/example-osx-terminal.png
+      :width: 600 px
+      :align: center
+
+The ``~`` indicates that the user is in their user home directory. 
 
 Linux
 *****
