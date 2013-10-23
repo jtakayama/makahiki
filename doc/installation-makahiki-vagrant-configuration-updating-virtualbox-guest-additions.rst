@@ -18,6 +18,12 @@ than your Vagrant virtual machine, you will see this warning when you start the 
 This article covers the process of installing the **vagrant-vbguest** plugin on your system 
 to update your virtual machine's installed Guest Additions automatically.
 
+.. note::
+   In the rest of this article, a "``>``" is used to indicate a generic command prompt 
+   on any host OS (Windows, Mac OS X, or Linux). Commands appearing after a "``>``" prompt 
+   in this article should work on all three operating systems. Though some systems automatically 
+   append a space after the prompt, you do not need to type a space before a command.
+
 Installing vagrant-vbguest
 --------------------------
 
