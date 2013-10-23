@@ -47,8 +47,13 @@ Later versions may work but have not been tested.
 
 Follow the `Vagrant installation instructions`_.
 
+.. note::
+   If your VirtualBox version is 4.3.0, then your Vagrant version must be at least Vagrant 1.3.5.
+   Refer to the `Vagrant changelog`_ for details.
+
 .. _Vagrant installer: http://downloads.vagrantup.com/
 .. _Vagrant installation instructions: http://docs.vagrantup.com/v2/installation/index.html
+.. _Vagrant changelog: https://github.com/mitchellh/vagrant/blob/master/CHANGELOG.md#135-october-15-2013
 
 Open A Command Line Application
 -------------------------------
