@@ -29,7 +29,7 @@ To check that python is installed and has the correct version::
     
 Red Hat Enterprise Linux: Install Python 2.7.3 from SCL
 -------------------------------------------------------
-As of Red Hat Enterprise Linux (RHEL 6) and CentOS 6, Python 2.6.6 is the default, 
+As of Red Hat Enterprise Linux (RHEL 6) and CentOS 6, Python 2.6.6 is the default. 
 Python 2.7.3 will be installed from a Software Collections Library as a non-default 
 Python interpreter.
 
