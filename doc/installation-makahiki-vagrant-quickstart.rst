@@ -69,7 +69,7 @@ The output of run_bootstrap.sh is logged to a file in makahiki/vagrant/logs.
 This file will be called "ubuntu_x86_<timestamp>.log," where **timestamp** is a 
 string in the format yy-mm-dd-HH-MM-SS (year, month, day, hour, minute, second).
 
-When the script finishes, look at the last few lines of output::
+When the script finishes running, look at the last few lines of output::
 
   -------------------------------------------------------------------------------
   Configuration setup results:

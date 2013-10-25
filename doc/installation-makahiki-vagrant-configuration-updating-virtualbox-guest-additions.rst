@@ -1,7 +1,14 @@
 .. _section-installation-makahiki-vagrant-configuration-updating-virtualbox-guest-additions:
 
-Updating The VirtualBox Guest Additions
-=======================================
+Updating The VirtualBox Guest Additions with vbguest
+====================================================
+
+.. note::
+   This article is not applicable to any user whose VirtualBox version is 4.2.18 or lower.
+
+This article covers only users who are using Virtualbox 4.3.0 and cannot use older versions 
+of VirtualBox. It is not recommended that Makahiki on Vagrant be used with any VirtualBox version 
+newer than 4.2.18.
 
 If your version of VirtualBox uses a different version of the VirtualBox Guest Additions
 than your Vagrant virtual machine, you will see this warning when you start the virtual machine::
@@ -95,6 +102,10 @@ If the Guest Additions do not match, you will see this output from the
 To be able to update the Guest Additions, you will need to change the Vagrantfile 
 settings temporarily.
 
+.. warning::
+   Conmpleting the instructions in this article will delete the "makahiki" database and fill 
+   it with default users and settings.
+
 When Updating is Necessary
 **************************
 
@@ -145,7 +156,7 @@ Updating the Guest Additions
 
 In the host machine's Terminal or Command Prompt, start the virtual machine::
 
-  > vagrant up --no-provision
+  > vagrant up --provision
 
 This will start the virtual machine. At this point, vbguest will attempt to 
 update the Guest Additions, producing a lot of output. Eventually you will see 
@@ -203,6 +214,22 @@ output that is similar to this::
    these programs because it has no applications that require a GUI. It does not need 
    the Window System drivers.
    
+After this is complete, the system will run the rest of the provisioning script, 
+reinstalling Makahiki dependencies and configuration files. This will take a while.
+When the script finishes running, look at the last few lines of output::
+
+  -------------------------------------------------------------------------------
+  Configuration setup results:
+  -------------------------------------------------------------------------------
+  1. Copying locale settings to /etc/bash.bashrc: [Succeeded]
+  2. Copying settings to pg_hba.conf: [Succeeded]
+  3. Creating /home/vagrant/makahiki_env.sh: [Succeeded]
+  4. Appending to /home/vagrant/.bashrc: [Succeeded]
+  -------------------------------------------------------------------------------
+
+If the value for a task is "Succeeded" or "Already completed," continue to the 
+next step. If the value for a task is "Failed," go to :ref:`section-installation-makahiki-vagrant-troubleshooting`.
+
 Once the installation is finished, check that the guest additions version is correct::
 
   > vagrant vbguest --status

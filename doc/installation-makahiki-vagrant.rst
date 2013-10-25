@@ -33,6 +33,7 @@ Makahiki and the Vagrant virtual machine.
    installation-makahiki-vagrant-configuration-memcached
    installation-makahiki-vagrant-configuration-vagrant
    installation-makahiki-vagrant-configuration-updating-virtualbox-guest-additions
+   installation-makahiki-vagrant-configuration-alternate-installation-virtualbox-43
 
 
 
