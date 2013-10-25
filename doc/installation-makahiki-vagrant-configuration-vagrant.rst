@@ -30,8 +30,8 @@ Some basic Vagrant commands are listed below:
   * ``vagrant status``: Show the status of the virtual machine.
   * ``vagrant destroy``: Deletes a virtual machine. The Vagrantfile is not deleted.
 
-.. note: The behavior of the ``vagrant up`` and ``vagrant reload`` commands has changed since Vagrant 1.3.0. 
-   On older versions of Vagrant, the behavior of the commands was as follows:
+.. warning: The descriptions above apply only to Vagrant 1.3.0 and later.
+   On Vagrant versions before 1.3.0, the ``vagrant up`` and ``vagrant reload`` commands worked as follows:
    * ``vagrant up``: Start the virtual machine and run the provisioning script. If the virtual machine defined in the Vagrantfile does not exist, it will be created. 
      * ``vagrant up --no-provision``: Start the machine without provisioning it.
    * ``vagrant reload``: Restart the virtual machine and run the provisioning script. Equivalent to ``vagrant halt`` followed by ``vagrant up``.
@@ -62,7 +62,7 @@ This will run the provisioning script designated in the Vagrantfile::
 
   > vagrant up --provision 
 
-.. note: In Vagrant versions prior to 1.3.0, use this command instead::
+.. note: In Vagrant versions before 1.3.0, run this command instead::
 
    > vagrant up
 
