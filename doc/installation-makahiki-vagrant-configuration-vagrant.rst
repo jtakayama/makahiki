@@ -57,10 +57,14 @@ If you want to run the provisioning script again, you can do this in two ways.
 Re-provision the Virtual Machine at Startup
 *******************************************
 
-In the makahiki/vagrant directory, start the virtual machine with "vagrant up."
+In the makahiki/vagrant directory, start the virtual machine with "vagrant up --provision."
 This will run the provisioning script designated in the Vagrantfile::
 
-  > vagrant up 
+  > vagrant up --provision 
+
+.. note: In Vagrant versions prior to 1.3.0, use this command instead::
+
+   > vagrant up
 
 The error ``dpkg-preconfigure: unable to re-open stdin: No such file or directory`` 
 may occur during provisioning. This error does not affect the provisioning script 
@@ -215,6 +219,6 @@ interfaces.
 From now on, you should use the IP address configured in the Vagrantfile 
 to access the site when the webserver is running.
 
-If you continue to have problems with host-only networking, see `Chapter 06`_ of the VirtualBox manual.
+For more documentation of VirtualBox host-only networking, see `Chapter 06`_ of the VirtualBox manual.
 
 .. _Chapter 06: http://www.virtualbox.org/manual/ch06.html
