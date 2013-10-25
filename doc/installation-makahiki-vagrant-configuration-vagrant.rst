@@ -19,14 +19,23 @@ Vagrant Commands
 
 Some basic Vagrant commands are listed below:
 
-  * ``vagrant up``: Starts the virtual machine and runs the provisioning script. If the virtual machine defined in the Vagrantfile does not exist, it will be created. 
-    * ``vagrant up --no-provision``: Start the machine without provisioning it.
+  * ``vagrant up``: Start the virtual machine. If the virtual machine defined in the Vagrantfile does not exist, it will be created and the provisioning script will be run.
+    * ``vagrant up --provision``: Start the virtual machine and force it to run the provisioning script.
+  * ``vagrant reload``: Restart the virtual machine. Equivalent to ``vagrant halt`` followed by ``vagrant up``.
+    * ``vagrant reload --provision``: Restart the virtual machine and force it to run the provisioning script.
   * ``vagrant suspend``: Freeze the current state of the virtual machine.
   * ``vagrant resume``: Reactivate a machine that has been suspended.
   * ``vagrant halt``: Attempt to shut down the virtual machine gracefully.
     * ``vagrant halt --force``: Force a shutdown. This is equivalent to pulling the plug.
   * ``vagrant status``: Show the status of the virtual machine.
   * ``vagrant destroy``: Deletes a virtual machine. The Vagrantfile is not deleted.
+
+.. note: The behavior of the ``vagrant up`` and ``vagrant reload`` commands has changed since Vagrant 1.3.0. 
+   On older versions of Vagrant, the behavior of the commands was as follows:
+   * ``vagrant up``: Start the virtual machine and run the provisioning script. If the virtual machine defined in the Vagrantfile does not exist, it will be created. 
+     * ``vagrant up --no-provision``: Start the machine without provisioning it.
+   * ``vagrant reload``: Restart the virtual machine and run the provisioning script. Equivalent to ``vagrant halt`` followed by ``vagrant up``.
+     * ``vagrant reload --no-provision``: Restart the virtual machine without provisioning it.
 
 You can only run commands for a given Vagrant virtual machine if your working 
 directory is the directory that has the virtual machine's Vagrantfile.
@@ -48,10 +57,14 @@ If you want to run the provisioning script again, you can do this in two ways.
 Re-provision the Virtual Machine at Startup
 *******************************************
 
-In the makahiki/vagrant directory, start the virtual machine with "vagrant up."
+In the makahiki/vagrant directory, start the virtual machine with "vagrant up --provision."
 This will run the provisioning script designated in the Vagrantfile::
 
-  > vagrant up 
+  > vagrant up --provision 
+
+.. note: In Vagrant versions prior to 1.3.0, use this command instead::
+
+   > vagrant up
 
 The error ``dpkg-preconfigure: unable to re-open stdin: No such file or directory`` 
 may occur during provisioning. This error does not affect the provisioning script 
@@ -88,6 +101,14 @@ After saving your changes, restart the VM and start the SSH session::
 
   > vagrant up --no-provision
   > vagrant ssh
+ 
+.. note:: 
+   As of Vagrant 1.3.0, the ``no-provision`` option is redundant because Vagrant 
+   no longer automatically runs the provisioning script when ``vagrant up`` is run. 
+   It is only necessary if your Vagrant version is older than 1.3.0. 
+   See the `Vagrant changelog`_ for more information.
+
+_Vagrant changelog: https://github.com/mitchellh/vagrant/blob/master/CHANGELOG.md#130-september-5-2013
 
 In the SSH session, switch to makahiki/makahiki and start the server::
 
@@ -142,7 +163,15 @@ interfaces.
      machine configuration::
      
        > cd <directory-containing-Vagrantfile>
-       > vagrant reload
+       > vagrant reload --no-provision
+       
+     .. note:: 
+        As of Vagrant 1.3.0, the ``no-provision`` option is redundant because Vagrant 
+        no longer automatically runs the provisioning script when ``vagrant reload`` is run. 
+        It is only necessary if your Vagrant version is older than 1.3.0. 
+        See the `Vagrant changelog`_ for more information.
+
+        _Vagrant changelog: https://github.com/mitchellh/vagrant/blob/master/CHANGELOG.md#130-september-5-2013
   
   9. SSH into the virtual machine and check the network interfaces::
      
@@ -190,6 +219,6 @@ interfaces.
 From now on, you should use the IP address configured in the Vagrantfile 
 to access the site when the webserver is running.
 
-If you continue to have problems with host-only networking, see `Chapter 06`_ of the VirtualBox manual.
+For more documentation of VirtualBox host-only networking, see `Chapter 06`_ of the VirtualBox manual.
 
 .. _Chapter 06: http://www.virtualbox.org/manual/ch06.html
