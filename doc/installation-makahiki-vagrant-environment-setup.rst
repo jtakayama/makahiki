@@ -36,8 +36,8 @@ Follow the installation instructions for your operating system in
 Chapter 02 of the `VirtualBox manual`_. Select **Yes** 
 when asked to install drivers for USB support and VirtualBox Host-Only Networking.
 
-.. note::
-   The base virtual machine that Makahiki uses is only compatible with Virtualbox 4.2 versions up to VirtualBox 4.2.18.
+.. warning::
+   **Do not install VirtualBox 4.3.0 or higher.** The base virtual machine that Makahiki uses is compatible with VirtualBox 4.2 versions up to VirtualBox 4.2.18.
    To use Virtualbox 4.3.0 or higher, you will need to follow the `alternate installation instructions`_ instead.
 
 .. _VirtualBox downloads page: http://www.virtualbox.org/wiki/Downloads
