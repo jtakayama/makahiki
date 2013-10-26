@@ -48,7 +48,7 @@ Some basic Vagrant commands are listed below:
      * ``vagrant reload --no-provision``: Restart the virtual machine without provisioning it.
 
 You can only run commands for a given Vagrant virtual machine if your working 
-directory is the directory that has the virtual machine's Vagrantfile.
+directory is the directory that contains the virtual machine's Vagrantfile.
 
 Vagrant virtual machines are linked to the directory which contains their Vagrantfile. 
 If the same Vagrantfile is copied into another directory, the ``vagrant up`` command 
