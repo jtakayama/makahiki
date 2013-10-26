@@ -1,4 +1,4 @@
-.. _section-installation-makahiki-vagrant-configuration-alternate-installation-virtualbox-43
+.. _section-installation-makahiki-vagrant-configuration-alternate-installation-virtualbox-43:
 
 Alternate Installation: Installing Makahiki on Vagrant with Virtualbox 4.3.0
 ============================================================================
@@ -38,7 +38,7 @@ Install VirtualBox
 ------------------
 
 .. note::
-   This guide assumes that you will be using VirtualBox version 4.3.0 or later.
+   This guide assumes that you will be using VirtualBox version 4.3.0 or higher.
 
 Download VirtualBox for your host OS by following the instructions 
 on the `VirtualBox downloads page`_.

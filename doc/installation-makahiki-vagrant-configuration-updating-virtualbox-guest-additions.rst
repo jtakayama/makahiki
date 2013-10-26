@@ -112,17 +112,11 @@ When Updating is Necessary
 Even if the Guest Addition versions do not match, the virtual machine may still 
 work correctly. However, the following problems may occur:
 
-* Running the make.bat script with ``make html`` fails to build documentation in /vagrant/doc, with errors similar to the below examples::
+* Running the make.bat script with ``make html`` fails to build documentation in /vagrant/doc, with errors similar to the below example::
   
     vagrant@precise32:/vagrant/doc$ make html
     The program 'make' is currently not installed.  You can install it by typing:
     sudo apt-get install make
-    
-    vagrant@precise32:/vagrant/doc$ ./make.bat html
-    ./make.bat: line 1: @ECHO: command not found
-    ./make.bat: line 3: REM: command not found
-    ./make.bat: line 5: syntax error near unexpected token `('
-    ./make.bat: line 5: `if "%SPHINXBUILD%" == "" ('
 
 * Libraries or installed programs are not detected
 
@@ -158,9 +152,9 @@ In the host machine's Terminal or Command Prompt, start the virtual machine::
 
   > vagrant up --provision
 
-This will start the virtual machine. At this point, vbguest will attempt to 
-update the Guest Additions, producing a lot of output. Eventually you will see 
-output that is similar to this::
+This will start the virtual machine. At this point, vbguest will update the
+Guest Additions, producing a lot of output. Eventually you will see output 
+that is similar to this::
 
   Installing Virtualbox Guest Additions 4.3.0 - guest version is 4.2.0
   stdin: is not a tty
@@ -211,7 +205,6 @@ output that is similar to this::
      functionality may not work as intended.
      
    The "precise32" virtual machine does not have X.Org or XFree86. It does not need 
-   these programs because it has no applications that require a GUI. It does not need 
    the Window System drivers.
    
 After this is complete, the system will run the rest of the provisioning script, 
@@ -255,7 +248,7 @@ Change this line to::
   
 Save the Vagrantfile and close it. 
 
-This will disable the automatic update checking that we configured previously.
+This will disable the automatic update checking that was configured earlier in this article.
 
 Continue to the next section.
 

@@ -6,7 +6,8 @@ Troubleshooting Makahiki on Vagrant
 This section contains troubleshooting and configuration instructions for a Makahiki installation 
 on Vagrant. Throughout this guide, a ``%`` prompt represents the virtual machine command prompt.
 
-If you were linked here from :ref:`section-installation-makahiki-vagrant-quickstart`, you should 
+If you were linked here from :ref:`section-installation-makahiki-vagrant-quickstart` or 
+:ref:`section-installation-makahiki-vagrant-configuration-alternate-installation-virtualbox-43`, you should 
 jump to the section specific to your problem.
 
   * If **Copying locale settings to /etc/bash.bashrc** failed, go to :ref:`troubleshooting-bash-bashrc-and-utf-8-encodings`.
