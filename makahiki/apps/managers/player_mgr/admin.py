@@ -68,7 +68,8 @@ class MakahikiUserAdmin(UserAdmin):
     page_text = "Click on the name in the Username column to edit a player's " + \
     "password, personal information, roles, and site administration groups.  " + \
     "Click on the name in the Profile column to edit a player's display name, " + \
-    "team, badges, etc."
+    "team, badges, etc. Make sure that player's usernames do not contain " + \
+    "uppercase letters. Mixed-case usernames will be converted to lowercase."
 
     def set_active(self, request, queryset):
         """set the active flag priority."""
