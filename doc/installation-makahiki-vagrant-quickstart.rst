@@ -51,25 +51,26 @@ Use the ``vagrant up`` command to start the virtual machine for the first time::
      * **A Windows Firewall warning about vboxheadless.exe**: This application should be allowed.
      * **VirtualBox is attempting to make changes to the system**: This should be allowed. It is needed for Vagrant / VirtualBox host-only networking to work.
       
-.. warning:: If you are not starting Vagrant for the first time and do not want to lose 
+.. warning:: If your Vagrant version is less than 1.3.0, you are starting your 
+   virtual machine for the first time, and you do not want to lose 
    your configuration, start Vagrant with ``--no-provision``::
    
      makahiki> vagrant up --no-provision
 
-   Each time Vagrant is started with ``vagrant up``, it will run the 
-   ``run_bootstrap.sh`` provisioning script specified in the Vagrantfile. This 
-   script:
+   In Vagrant versions prior to 1.3.0, each time Vagrant is started with 
+   ``vagrant up``, it will run the ``run_bootstrap.sh`` provisioning script 
+   specified in the Vagrantfile. This runs another script, bootstrap.sh, which:
    
      * Sets the system locale to en_US.UTF-8
      * Drops the PostgreSQL cluster data directory, **erasing all data in all databases**
      * Re-initializes the cluster data directory
      * Re-initializes the Makahiki database
-     
-The output of run_bootstrap.sh is logged to a file in makahiki/vagrant/logs.
+   
+The run_bootstrap.sh script logs the output of bootstrap.sh to a file in makahiki/vagrant/logs.
 This file will be called "ubuntu_x86_<timestamp>.log," where **timestamp** is a 
 string in the format yy-mm-dd-HH-MM-SS (year, month, day, hour, minute, second).
 
-When the script finishes, look at the last few lines of output::
+When the script finishes running, look at the last few lines of output::
 
   -------------------------------------------------------------------------------
   Configuration setup results:
