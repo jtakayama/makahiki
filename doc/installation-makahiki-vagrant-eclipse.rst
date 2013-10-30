@@ -50,7 +50,7 @@ Prerequisites: Eclipse
 **********************
 
 Eclipse is an Integrated Development Environment (IDE) available 
-from http://eclipse.org. 
+from `eclipse.org`_. 
 
 Follow the `Eclipse.org installation instructions`_ to install Eclipse 
 (and Java if necessary) on your host machine.
@@ -59,6 +59,7 @@ Eclipse requires that the Java JRE (Java 6 or later) be installed on the host
 machine. The full Java JDK (which includes the JRE) is useful for Java 
 development, but it is **not** required for Makahiki development.
 
+.. _eclipse.org: http://eclipse.org
 .. _Eclipse.org installation instructions: http://wiki.eclipse.org/Eclipse/Installation 
 
 Prerequisites: PyDev
@@ -307,13 +308,13 @@ Open Eclipse. Switch to or open the PyDev perspective if you are not in it.
 4. In the main "Interpreter - Python" window, click "Apply" to rebuild 
    Eclipse's System Pythonpath.
 5. In the PyDev perspective, click on 
-   **Window** --> **Preferences** --> **PyDev** --> **Editor* --> **Code Completion**.
+   **Window** --> **Preferences** --> **PyDev** --> **Editor** --> **Code Completion**.
    These options may be useful:
    
      * Request completion on '.'?
      * Request completion on all letter chars and '_'?
    
-6. To test the code completion, open any file. At the top of the file, 
+6. To test the code completion, open any Python file. At the top of the file, 
    begin typing this line::
    
      from django.core.cache import File
