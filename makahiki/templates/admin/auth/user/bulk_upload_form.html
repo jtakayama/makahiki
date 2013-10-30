@@ -17,6 +17,13 @@
             <p>
                 Click the Choose File button to select the CSV file that contains user information.
             </p>
+            <p>
+            <h4 class="no-top">Be aware that:</h4>
+            <ul>
+                <li>Usernames in the CSV cannot contain uppercase letters.</li> 
+                <li>Usernames containing uppercase letters will be converted to lowercase when the user is created.</li>
+            </ul>
+            </p>
             <form enctype="multipart/form-data" method="POST" action="{% url 'bulk_create' %}">
                 {% csrf_token %}
                 {% if file_error %}
