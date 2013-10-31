@@ -7,9 +7,9 @@ This article describes maintenance tasks for the Makahiki database,
 and describes the process for starting and stopping the Makahiki web 
 server.
 
-Here, ``%`` indicates that a command can be performed from 
-any working directory in the virtual machine. Directories 
-are specified otherwise.
+.. note:: In this article, a "``%``" prompt indicates that a command can be performed from 
+   any working directory in the virtual machine. Directories 
+   are specified otherwise.
 
 Initialize Makahiki
 -------------------
@@ -26,18 +26,66 @@ initialize the database again.
      * Set up static files.
 
    This script should be run only a single time in production scenarios, because 
-   any subsequent configuration modifications will be lost if initialize_instance 
-   is invoked again.
+   any configuration changes that an administrator makes will be lost if the 
+   initialize_instance.py script is used again.
 
    The script initializes the Makahiki database and populates it with default 
    information and users.
 
-Switch to the /vagrant/makahiki directory::
+If the server is running in your terminal, close it::
 
-  vagrant@precise32:~/$ cd /vagrant/makahiki
+  (type control-c in the shell running the makahiki server process)
+
+Change to the /vagrant/makahiki directory if you are not in it. 
+(The ``%`` sign represents a command prompt and indicates that this can be done from 
+any directory on the virtual machine)::
+
+  % cd /vagrant/makahiki
+  
+Next, run the initialize_instance.py script::
+  
   vagrant@precise32:/vagrant/makahiki$ ./scripts/initialize_instance.py --type default
 
 You will need to answer ``Y`` to the question ``Do you wish to continue (Y/n)?``.
+
+Example output of the initialize_instance.py script::
+
+  vagrant@precise32:/vagrant/makahiki$ ./scripts/initialize_instance.py --type default
+  installing requirements...
+  WARNING: This command will reset the database. All existing data will be deleted. This process is irreversible.
+
+  Do you wish to continue (Y/n)? Y
+  resetting the db...
+  DROP DATABASE
+  DROP ROLE
+  CREATE ROLE
+  CREATE DATABASE
+  syncing and migrating db...
+  collecting static and media files...
+  loading base data...
+  loading fixture base_badges.json...
+  loading fixture base_help.json...
+  loading fixture base_notifications.json...
+  loading fixture base_pages.json...
+  loading fixture base_quests.json...
+  loading fixture base_schedule.json...
+  loading fixture base_settings.json...
+  loading fixture smartgrid_library.json...
+  setting up default data...
+  set up 1 one-week rounds, starting from today.
+  loading fixture default_challenge.json...
+  loading fixture default_designer.json...
+  loading fixture default_prizes.json...
+  loading fixture default_smartgrid.json...
+  loading fixture default_teams.json...
+  0 test users deleted.
+  4 test users created.
+  event dates adjusted to round date.
+  created initial resource usages for all teams.
+  created test baselines for all teams.
+  created goal settings for all teams.
+  makahiki cache cleared.
+  vagrant@precise32:/vagrant/makahiki$
 
 If the script experiences errors while connecting to the database, see 
 :ref:`section-installation-makahiki-vagrant-troubleshooting`.
@@ -48,11 +96,13 @@ Update the Makahiki Instance
 Makahiki is designed to support post-installation updating of your configured 
 system when bug fixes or system enhancements become available.
 
-Close the running server in the shell process that is running Makahiki::
+If the server is running in your terminal, close it::
 
   (type control-c in the shell running the makahiki server process)
 
-Go to the vagrant directory (the makahiki directory on the host machine)::
+Change to the vagrant directory if you are not in it.
+(The ``%`` sign represents a command prompt and indicates that 
+this can be done from any directory on the virtual machine)::
 
   % cd /vagrant
 
@@ -60,20 +110,24 @@ Download the updated source code into the Makahiki installation::
 
   vagrant@precise32:/vagrant$ git pull origin master
 
-Switch to vagrant/makahiki and run the update_instance.py script::
+Change your directory to vagrant/makahiki::
 
   vagrant@precise32:/vagrant$ cd makahiki
+  
+Next, run the update_instance.py script::
+
   vagrant@precise32:/vagrant/makahiki$ ./scripts/update_instance.py
 
-Start the server with runserver or gunicorn.
+This updates the Makahiki instance based on any new files that have 
+been added to the Git repository.
 
-To start the runserver server::
+Example output of the update_instance.py script::
 
-  vagrant@precise32:/vagrant/makahiki$ ./manage.py runserver
-
-To start the gunicorn server::
-
-  vagrant@precise32:/vagrant/makahiki$ ./manage.py run_gunicorn
+  vagrant@precise32:/vagrant/makahiki$ ./scripts/update_instance.py
+  installing requirements...
+  syncing and migrating db...
+  collecting static and media files...
+  vagrant@precise32:/vagrant/makahiki$
 
 Start the Makahiki Server
 -------------------------
@@ -92,16 +146,41 @@ To start the server with manage.py::
 
   vagrant@precise32:/vagrant/makahiki$ ./manage.py runserver 0.0.0.0:8000
 
+Example output of starting runserver::
+
+  vagrant@precise32:/vagrant/makahiki$ ./manage.py runserver 0.0.0.0:8000
+  Validating models...
+
+  0 errors found
+  Django version 1.4, using settings 'settings'
+  Development server is running at http://0.0.0.0:8000/
+  Quit the server with CONTROL-C.
+
 To start the server with gunicorn::
 
   vagrant@precise32:/vagrant/makahiki$ ./manage.py run_gunicorn -b 0.0.0.0:8000
 
+Example output of starting gunicorn::
+
+  vagrant@precise32:/vagrant/makahiki$ ./manage.py run_gunicorn -b 0.0.0.0:8000
+  Validating models...
+  0 errors found
+  
+  Django version 1.4, using settings 'settings'
+  Server is running
+  Quit the server with CONTROL-C.
+  2013-10-11 01:59:41 [1399] [INFO] Starting gunicorn 0.13.4
+  2013-10-11 01:59:41 [1399] [INFO] Listening at: http://0.0.0.0:8000 (1399)
+  2013-10-11 01:59:41 [1399] [INFO] Using worker: sync
+  2013-10-11 01:59:41 [1408] [INFO] Booting worker with pid: 1408
+
 View the site in your host machine's web browser at http://192.168.56.4:8000.
 
-Log in with the username (admin) and password (admin) specified in 
-makahiki_env.sh. 
+Log in with the username and password specified in makahiki_env.sh. The  
+username is "admin" and the password is "admin" unless these settings were 
+changed after installation. 
 
-To stop either of the servers, type Control-C in the virtual machine terminal.
+To stop either of the servers, type control-c in the virtual machine terminal.
 
 Testing the Server Without a Web Browser
 ****************************************
@@ -138,8 +217,8 @@ use wget to test the server on the virtual machine::
 If your HTTP response is "200 OK," the server is running correctly. You can 
 delete the "test" directory when you are done.
 
-Because this server was started in the background with ``&``, you cannot stop 
-it with Control-C. You will need to find the PIDs of its processes first::
+Because the server was started in the background with ``&``, you cannot stop 
+it with control-c. You will need to find the PIDs of its processes first::
 
   % ps ax | grep manage.py
   21791 tty1     S     0:00 python ./manage.py runserver
@@ -152,7 +231,7 @@ it with Control-C. You will need to find the PIDs of its processes first::
   (wd now: <your-working-directory>)
 
 The PID of a given process will be different each time it runs. ``kill -9 <PID>`` 
-forces the OS to stop the process. Kill the ``python ./manage.py runserver`` 
+forces the OS to stop the process with the specified PID. Kill the ``python ./manage.py runserver`` 
 and ``/root/.virtualenvs/makahiki/bin/python ./manage.py runserver`` processes 
 to stop the server.
 
