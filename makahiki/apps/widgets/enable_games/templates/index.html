@@ -3,16 +3,16 @@
         Enable Games
     </div>
     <div class="content-box-contents">
-        [DRAFT] Enable or disable games, then save your settings.<br/>
+        Enable or disable games, then save your settings.<br/>
         <form method="post" action=".">{% csrf_token %}
         {% if view_objects.enable_games.games_enabled %}
-            <h3 class="no-top">Currently enabled games</h3>
+            <h3 class="no-top">Disable Games</h3>
             {% for game in view_objects.enable_games.games_enabled %}
                <input type="checkbox" name="enabled_game[]" value="{{ game }}">&nbsp;Disable <span style="font-weight: bold">{{ game }}</span></input><br/>
             {% endfor %}
         {% endif %}
         {% if view_objects.enable_games.games_disabled %}
-            <h3 class="no-top">Currently disabled games</h3>
+            <h3 class="no-top">Enable Games</h3>
             {% for game in view_objects.enable_games.games_disabled %}
                 <input type="checkbox" name="disabled_game[]" value="{{ game }}">&nbsp;Enable <span style="font-weight: bold">{{ game }}</span></input><br/>
             {% endfor %}
