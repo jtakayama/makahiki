@@ -231,6 +231,7 @@ INSTALLED_WIDGET_APPS = (
     'status.DWGG',
     'unlock_creator',
     'enable_games',
+    'edit_teams',
 )
 
 for widget in INSTALLED_WIDGET_APPS:

@@ -54,7 +54,7 @@
 	            <div class="span12">
 	                <div class="content-box">
 	                    <div class="content-box-contents">
-	                        Delete default teams, groups, and users other than admin (unimplemented function)
+	                        Add and delete users other than admin (unimplemented function)
 	                    </div>
 	                </div>
 	            </div>
@@ -90,25 +90,18 @@
 	            <div class="span12">
 	                <div class="content-box">
 	                    <div class="content-box-contents">
-	                        Teams here
-	                    </div>
-	                </div>
-	            </div>
-	        </div>
-	        <div class="row-fluid">
-	            <div class="span12">
-	                <div class="content-box">
-	                    <div class="content-box-contents">
 	                        <!-- Future: Move the "Upload Users" section into an app -->
 	                        <h3 class="no-top">Upload Users</h3>
 	                        <hr/>
 	                        {% block content %}
 	                            <div>
-	                                <h4 class="no-top">[DRAFT] Upload a CSV file.</h4>
+	                                <h4 class="no-top">Upload a CSV file.</h4>
 	                                <p>
 	                                    Click the Choose File button to select the CSV file that contains user information.
 	                                    Each user in the CSV must be formatted as follows:
 	                                    <pre>team, firstname, lastname, email, username, password</pre>
+	                                    <span style="font-weight:bold">Warning:</span> Usernames must not contain uppercase letters. 
+	                                    Uppercase letters will be converted to lowercase when the username is saved.
 	                                </p>
 	                                <form enctype="multipart/form-data" method="POST" action="{% url 'bulk_create' %}">
 	                                    {% csrf_token %}

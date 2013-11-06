@@ -214,7 +214,6 @@ def get_all_enabled_games():
         cache_mgr.set_cache("enabled_games", games, 2592000)
     return games
 
-# Test
 def get_all_disabled_games():
     """Returns the disabled games."""
     games = []

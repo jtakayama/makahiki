@@ -1,0 +1,35 @@
+<div class="content-box">
+    <div class="content-box-title">
+        Edit Teams
+    </div>
+    <div class="content-box-contents">
+        Create, edit, and delete the teams.
+        <form method="post" action=".">{% csrf_token %}
+	        <h3 class="no-top">Add Teams</h3>
+	        <span style="font-weight: bold">Teams created this way are not part of any group.</span><br/>
+            Feature is unimplemented.<br/>
+            <!-- Todo: widget to create new team(s) -->
+            <br/>
+            <h3 class="no-top">Change Team Groups</h3>
+            <span style="font-weight: bold">Change the group of an existing team.</span><br/>
+            Feature is unimplemented.<br/>
+            <!-- Todo: widget to change team groups -->
+            <br/>
+            <h3 class="no-top">Delete Teams</h3>
+            Feature is unimplemented.<br/>
+            <span style="font-weight: bold">WARNING: Deleting teams is not reversible.</span><br/>
+            {% if view_objects.edit_teams.teams_and_groups %}
+                {% for team in view_objects.edit_teams.teams_and_groups %}
+                    <input type="checkbox" name="delete_team[]" value="{{ team.0 }}">&nbsp;Delete <span style="font-weight: bold">{{ team.0 }}</span> in group {{ team.1 }}</input><br/>
+                {% endfor %}
+            {% endif %}
+            {% if view_objects.edit_teams.teams_deleted %}
+                {% for team_name in view_objects.edit_teams.teams_deleted %}
+                    Team <span style="font-weight: bold">{{ team_name }}</span> was deleted.
+                {% endfor %}
+            {% endif %}
+            <br/>
+            <input type="submit" value="Save" />
+        </form>
+    </div>
+</div>

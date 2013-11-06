@@ -599,6 +599,17 @@
         }
     },
     {
+        "pk": 116,
+        "model": "challenge_mgr.pagesetting",
+        "fields": {
+            "priority": 1,
+            "widget": "edit_teams",
+            "enabled": true,
+            "page": 13,
+            "location": "Right"
+        }
+    },
+    {
         "pk": 1,
         "model": "challenge_mgr.gameinfo",
         "fields": {
