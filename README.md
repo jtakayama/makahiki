@@ -25,4 +25,6 @@ Publications
 Selected publications and technical reports regarding Makahiki are available  <a href="http://www.citeulike.org/group/3370/tag/makahiki" rel="nofollow">here</a>. </p>
 
 
-Documentation: http://makahiki.readthedocs.org
+Documentation
+=============
+http://makahiki.readthedocs.org
