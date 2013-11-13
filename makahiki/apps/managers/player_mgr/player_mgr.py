@@ -74,7 +74,7 @@ def create_player(username, password, email, firstname, lastname, team_name, is_
     # Change uppercase letters to lowercase
     username_input = username
     username_lower = username.lower()
-    invalid_username_message = "Username \"%s\" is invalid: usernames must use lowercase. User will be created with username \"%s\" instead." % (username_input, username_lower)
+    invalid_username_message = "Username \"%s\" is invalid: usernames must not use uppercase letters. User will be created with username \"%s\" instead." % (username_input, username_lower)
     if username_is_lowercase(username_input) == False:
         username = username_lower
         # Print warning message to console (not visible to the web UI)
