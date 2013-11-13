@@ -6,7 +6,8 @@
         Create, edit, and delete the teams.
         <form method="post" action=".">{% csrf_token %}
             <!-- Fields to add teams -->
-	        <h3 class="no-top">Add Teams</h3>
+            <h3 class="no-top">Add Team</h3>
+               <span style="font-weight: bold">Create a new team.</span><br/>
                 Add team: <input type="text" name="new_team"/>
                 <select name="assign_to_group">
                     {% if view_objects.edit_teams.groups %}
@@ -25,13 +26,29 @@
             <h3 class="no-top">Change Team Groups</h3>
             <span style="font-weight: bold">Change the group of an existing team.</span><br/>
             Feature is unimplemented.<br/>
+            {% if view_objects.edit_teams.teams_and_groups %}
+                {% for team in view_objects.edit_teams.teams_and_groups %}
+                    <input type="checkbox" name="change_team_group[]" value="{{ team.0 }}">&nbsp;Change team <span style="font-weight: bold">{{ team.0 }}</span> to:&nbsp;</input>
+                    <select name="assign_to_group[]">
+                    {% if view_objects.edit_teams.groups %}
+                        {% for group in view_objects.edit_teams.groups %}
+                           {% ifequal group team.1 %}
+                               <option value="{{ group_name }}" selected>{{ group }} (Current setting)</option>
+                           {% else %}
+                               <option value="{{ group_name }}">{{ group }}</option>
+                           {% endifequal %}
+                        {% endfor %}
+                    {% endif %}
+                    </select><br/>
+                {% endfor %}
+            {% endif %}
             <br/>
             <!-- Fields for deleting teams -->
             <h3 class="no-top">Delete Teams</h3>
             <span style="font-weight: bold">WARNING: Deleting teams is not reversible.</span><br/>
             {% if view_objects.edit_teams.teams_and_groups %}
                 {% for team in view_objects.edit_teams.teams_and_groups %}
-                    <input type="checkbox" name="delete_team[]" value="{{ team.0 }}">&nbsp;Delete <span style="font-weight: bold">{{ team.0 }}</span> in group {{ team.1 }}</input><br/>
+                    <input type="checkbox" name="delete_team[]" value="{{ team.0 }}">&nbsp;Delete team <span style="font-weight: bold">{{ team.0 }}</span> in group {{ team.1 }}</input><br/>
                 {% endfor %}
             {% endif %}
             {% if view_objects.edit_teams.teams_deleted %}

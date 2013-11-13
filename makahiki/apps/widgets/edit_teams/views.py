@@ -66,19 +66,25 @@ def supply(request, page_name):
         # Add a new team
         new_team_name = str(request.POST.getlist("new_team")[0]).strip()
         assigned_group = str(request.POST.getlist("assign_to_group")[0]).strip()
-        if new_team_name != None:
+        # Ignore a blank input field
+        if new_team_name != None and new_team_name != "":
             if len(new_team_name) > 50:
-                new_team_result = "Invalid team name \"%s\": name is longer than 50 characters." % new_team_name
+                new_team_result = "Invalid team name: \"%s\": name is longer than 50 characters." % new_team_name
             elif not team_exists(new_team_name):
                 create_new_team_result = create_new_team(new_team_name,assigned_group)
                 if not create_new_team_result:
                     new_team_result = "Failed to create team \"%s.\"" % new_team_name
                 else:
-                    new_team_result = new_team_name
+                    new_team_result = "Team \"%s\" was created." % new_team_name
             else:
                 new_team_result = "Invalid team name \"%s\": name is already in use." % new_team_name
         else:
             new_team_result = None
+        # End of code to create teams
+        
+        # Change team groups
+        # Code not implemented
+        # End of code to change team groups
         
         # Delete teams
         teams_to_delete = request.POST.getlist("delete_team[]")
@@ -92,6 +98,7 @@ def supply(request, page_name):
                     teams_deleted.append("Could not delete team \"%s\" : multiple teams matched this name." % team_name)
         else:
             teams_deleted = None
+        # End of code to delete teams
     
     # Set the new list of teams after carrying out any creations or deletions.
     teams_and_groups = get_teams()
