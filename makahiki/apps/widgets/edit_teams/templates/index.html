@@ -5,23 +5,28 @@
     <div class="content-box-contents">
         Create, edit, and delete the teams.
         <form method="post" action=".">{% csrf_token %}
+            <!-- Fields to add teams -->
 	        <h3 class="no-top">Add Teams</h3>
-            Feature is unimplemented.<br/>
                 Add team: <input type="text" name="new_team"/>
                 <select name="assign_to_group">
-                    {% for group_name in view_objects.edit_teams.groups %}
-                    <option value="{{ group_name }}">{{ group_name }}</option>
-                    {% endfor %}
+                    {% if view_objects.edit_teams.groups %}
+                        {% for group_name in view_objects.edit_teams.groups %}
+                        <option value="{{ group_name }}">{{ group_name }}</option>
+                        {% endfor %}
+                    {% else %}
+                        <option value="None" disabled>---------</option>
+                    {% endif %}
                 </select><br/>
                 {% if view_objects.edit_teams.new_team_result %}
                     <span style="font-weight: bold">{{ view_objects.edit_teams.new_team_result }}</span> 
                 {% endif %}
             <br/>
+            <!-- Fields to change team groups -->
             <h3 class="no-top">Change Team Groups</h3>
             <span style="font-weight: bold">Change the group of an existing team.</span><br/>
             Feature is unimplemented.<br/>
-            <!-- Todo: widget to change team groups -->
             <br/>
+            <!-- Fields for deleting teams -->
             <h3 class="no-top">Delete Teams</h3>
             <span style="font-weight: bold">WARNING: Deleting teams is not reversible.</span><br/>
             {% if view_objects.edit_teams.teams_and_groups %}
