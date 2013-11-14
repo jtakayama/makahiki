@@ -19,13 +19,22 @@
                     {% endif %}
                 </select><br/>
                 {% if view_objects.edit_teams_and_groups.new_team_result %}
-                    <span style="font-weight: bold">{{ view_objects.edit_teams_and_groups.new_team_result }}</span> 
+                    <span style="font-weight: bold">{{ view_objects.edit_teams_and_groups.new_team_result }}</span><br/>
                 {% endif %}
             <br/>
+            
+            <!-- Fields to create groups -->
+            <h3 class="no-top">Add Group</h3>
+               <span style="font-weight: bold">Create a new group.</span><br/>
+                Add group: <input type="text" name="new_group"/><br/>
+                {% if view_objects.edit_teams_and_groups.new_group_result %}
+                    <span style="font-weight: bold">{{ view_objects.edit_teams_and_groups.new_group_result }}</span><br/> 
+                {% endif %}
+            <br/>
+            
             <!-- Fields to change team groups -->
             <h3 class="no-top">Change Team Groups</h3>
             <span style="font-weight: bold">Change the group of an existing team.</span><br/>
-            Feature is unimplemented.<br/>
             {% if view_objects.edit_teams_and_groups.teams_and_groups %}
                 {% for team in view_objects.edit_teams_and_groups.teams_and_groups %}
                     <input type="checkbox" name="change_team_group[]" value="{{ team.0 }}">&nbsp;Change team <span style="font-weight: bold">{{ team.0 }}</span> to:&nbsp;</input>
@@ -41,6 +50,8 @@
                     {% endif %}
                     </select><br/>
                 {% endfor %}
+                {% else %}
+                    There are no teams.<br/>
             {% endif %}
             {% if view_objects.edit_teams_and_groups.teams_groups_changed %}
                 {% for result in view_objects.edit_teams_and_groups.teams_groups_changed %}

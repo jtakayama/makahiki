@@ -11,16 +11,30 @@
                 {% for team in view_objects.delete_teams_and_groups.teams_and_groups %}
                     <input type="checkbox" name="delete_team[]" value="{{ team.0 }}">&nbsp;Delete team <span style="font-weight: bold">{{ team.0 }}</span> in group {{ team.1 }}</input><br/>
                 {% endfor %}
+                {% else %}
+                    There are no teams.<br/>
             {% endif %}
             {% if view_objects.delete_teams_and_groups.teams_deleted %}
                 {% for team_status in view_objects.delete_teams_and_groups.teams_deleted %}
-                    <span style="font-weight: bold">{{ team_status }}</span>
+                    <span style="font-weight: bold">{{ team_status }}</span><br/>
                 {% endfor %}
             {% endif %}
             <br/>
+            <!-- Fields for deleting groups -->
             <h3 class="no-top">Delete Groups</h3>
-            <span style="font-weight: bold">WARNING: Deleting groups is not reversible.</span><br/>
-            Function not implemented.
+            <span style="font-weight: bold">WARNING: Deleting groups is not reversible. Deleting a group deletes all teams that are members of that group.</span><br/>
+            {% if view_objects.delete_teams_and_groups.groups %}
+                {% for group in view_objects.delete_teams_and_groups.groups %}
+                    <input type="checkbox" name="delete_group[]" value="{{ group.name }}">&nbsp;Delete group <span style="font-weight: bold">{{ group.name }}</span></input><br/>
+                {% endfor %}
+                {% else %}
+                    There are no groups.<br/>
+            {% endif %}
+            {% if view_objects.delete_teams_and_groups.groups_deleted %}
+                {% for group_status in view_objects.delete_teams_and_groups.groups_deleted %}
+                    <span style="font-weight: bold">{{ group_status }}</span><br/>
+                {% endfor %}
+            {% endif %}
             <input type="submit" value="Save" />
         </form>
     </div>

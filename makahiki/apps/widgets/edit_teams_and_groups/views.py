@@ -1,5 +1,6 @@
 """Provides the view of the widget."""
 from apps.managers.team_mgr.models import Team,Group
+from pickle import NONE
 
 def get_teams():
     """ Returns a list of [team,group] lists. """
@@ -51,36 +52,68 @@ def create_new_team(team_name,group_name):
         result = True
     return result
 
+def group_exists(group_name):
+    """ Check if a Group exists with the same name as group_name. """
+    result = False
+    matches = Group.objects.filter(name=group_name)
+    if len(matches) > 0:
+        result = True
+    return result
+
 def supply(request, page_name):
     """ supply view_objects for widget rendering."""
     _ = request
     _ = page_name
     
     # Initialize variables
-    groups = Group.objects.all()
     new_team_result = None
+    new_group_result = None
+    groups = []
     teams_groups_changed = []
     
     # Handle POST request
     if request.method == 'POST':
         # Add a new team
-        new_team_name = str(request.POST.getlist("new_team")[0]).strip()
-        assigned_group = str(request.POST.getlist("assign_to_group")[0]).strip()
-        # Ignore a blank input field
-        if new_team_name != None and new_team_name != "":
-            if len(new_team_name) > 50:
-                new_team_result = "Invalid team name: \"%s\": name is longer than 50 characters." % new_team_name
-            elif not team_exists(new_team_name):
-                create_new_team_result = create_new_team(new_team_name,assigned_group)
-                if not create_new_team_result:
-                    new_team_result = "Failed to create team \"%s.\"" % new_team_name
+        new_team_name = None
+        assigned_group = None
+        new_team_field_text = request.POST.getlist("new_team")
+        if new_team_field_text != None and new_team_field_text != []:
+            new_team_name = str(new_team_field_text[0]).strip()
+            assigned_group = str(request.POST.getlist("assign_to_group")[0]).strip()
+            # Ignore a blank input field
+            if new_team_name != None and new_team_name != "":
+                if len(new_team_name) > 50:
+                    new_team_result = "Invalid team name: \"%s\": name is longer than 50 characters." % new_team_name
+                elif team_exists(new_team_name):
+                    new_team_result = "Invalid team name \"%s\": name is already in use." % new_team_name
                 else:
-                    new_team_result = "Team \"%s\" was created." % new_team_name
-            else:
-                new_team_result = "Invalid team name \"%s\": name is already in use." % new_team_name
+                    create_new_team_result = create_new_team(new_team_name,assigned_group)
+                    if not create_new_team_result:
+                        new_team_result = "Failed to create team \"%s.\"" % new_team_name
+                    else:
+                        new_team_result = "Team \"%s\" was created." % new_team_name
         else:
             new_team_result = None
-        # End of code to create teams
+        # End of code to add a new team
+        
+        # Add a new group
+        new_group_name = None
+        new_group_field_text = request.POST.getlist("new_group")
+        if new_group_field_text != None and new_group_field_text != []:
+            new_group_name = str(new_group_field_text[0]).strip()
+            if len(new_group_name) > 200:
+                new_group_result = "Invalid group name: \"%s\": name is longer than 200 characters." % new_group_name
+            elif group_exists(new_group_name):
+                new_team_result = "Invalid team name \"%s\": name is already in use." % new_team_name
+            else:
+                new_group = Group()
+                new_group.name = new_group_name
+                new_group.save()
+                new_group_result = "Group \"%s\" was created." % new_group_name
+        else:
+            new_group_result = None
+                
+        # End of code to add a new group
         
         # Change team groups
         teams_to_change = request.POST.getlist("change_team_group[]")
@@ -101,20 +134,22 @@ def supply(request, page_name):
                             entry2_matches[0].group = group_matches[0]
                             entry2_matches[0].save()
                             teams_groups_changed.append("Team \"%s\" changed to group \"%s\"." % (entry2[0],entry2[1]))
-                        else:
+                        elif len(group_matches) > 1:
                             teams_groups_changed.append("Could not change team \"%s\" to group \"%s\": multiple groups matched this name." % (entry2[0], entry2[1]))
-                    else:
+                    elif len(entry2_matches) > 1:
                         teams_groups_changed.append("Could not change team \"%s\" to group \"%s\": multiple teams matched this name." % (entry2[0], entry2[1]))
         else:
             teams_groups_changed = None
         print teams_groups_changed    
         # End of code to change team groups
     
-    # Set the new list of teams after carrying out any creations or deletions.
+    # Set the new list of teams and groups after carrying out any changes.
+    groups = Group.objects.all()
     teams_and_groups = get_teams()
             
     return{
         "new_team_result": new_team_result,
+        "new_group_result": new_group_result,
         "groups": groups,
         "teams_groups_changed": teams_groups_changed,
         "teams_and_groups": teams_and_groups
