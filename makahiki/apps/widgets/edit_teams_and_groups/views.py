@@ -59,7 +59,7 @@ def supply(request, page_name):
     # Initialize variables
     groups = Group.objects.all()
     new_team_result = None
-    teams_deleted = []
+    teams_groups_changed = []
     
     # Handle POST request
     if request.method == 'POST':
@@ -83,22 +83,32 @@ def supply(request, page_name):
         # End of code to create teams
         
         # Change team groups
-        # Code not implemented
-        # End of code to change team groups
-        
-        # Delete teams
-        teams_to_delete = request.POST.getlist("delete_team[]")
-        if len(teams_to_delete) > 0:
-            for team_name in teams_to_delete:
-                matches = Team.objects.filter(name=team_name)
-                if len(matches) == 1:
-                    matches[0].delete()
-                    teams_deleted.append("Team \"%s\" was deleted." % team_name)
-                else:
-                    teams_deleted.append("Could not delete team \"%s\" : multiple teams matched this name." % team_name)
+        teams_to_change = request.POST.getlist("change_team_group[]")
+        team_set_groups = request.POST.getlist("set_group[]")
+        if teams_to_change != []:
+            team_set_groups_parsed = []
+            for entry in team_set_groups:
+                # The string passed in from the index.html select input is comma-separated: "team,group"
+                entry_parsed = entry.split(",")
+                team_set_groups_parsed.append(entry_parsed)
+            for entry2 in team_set_groups_parsed:
+                # Expected order: [team,group]
+                if entry2[0] in teams_to_change:
+                    entry2_matches = Team.objects.filter(name=entry2[0])
+                    if len(entry2_matches) == 1:
+                        group_matches = Group.objects.filter(name=entry2[1])
+                        if len(group_matches) == 1:
+                            entry2_matches[0].group = group_matches[0]
+                            entry2_matches[0].save()
+                            teams_groups_changed.append("Team \"%s\" changed to group \"%s\"." % (entry2[0],entry2[1]))
+                        else:
+                            teams_groups_changed.append("Could not change team \"%s\" to group \"%s\": multiple groups matched this name." % (entry2[0], entry2[1]))
+                    else:
+                        teams_groups_changed.append("Could not change team \"%s\" to group \"%s\": multiple teams matched this name." % (entry2[0], entry2[1]))
         else:
-            teams_deleted = None
-        # End of code to delete teams
+            teams_groups_changed = None
+        print teams_groups_changed    
+        # End of code to change team groups
     
     # Set the new list of teams after carrying out any creations or deletions.
     teams_and_groups = get_teams()
@@ -106,6 +116,6 @@ def supply(request, page_name):
     return{
         "new_team_result": new_team_result,
         "groups": groups,
-        "teams_deleted": teams_deleted,
+        "teams_groups_changed": teams_groups_changed,
         "teams_and_groups": teams_and_groups
     }

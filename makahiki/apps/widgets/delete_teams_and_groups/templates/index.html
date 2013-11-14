@@ -1,0 +1,27 @@
+<div class="content-box">
+    <div class="content-box-title">
+        Delete Teams and Groups
+    </div>
+    <div class="content-box-contents">
+        <form method="post" action=".">{% csrf_token %}
+            <!-- Fields for deleting teams -->
+            <h3 class="no-top">Delete Teams</h3>
+            <span style="font-weight: bold">WARNING: Deleting teams is not reversible.</span><br/>
+            {% if view_objects.delete_teams_and_groups.teams_and_groups %}
+                {% for team in view_objects.delete_teams_and_groups.teams_and_groups %}
+                    <input type="checkbox" name="delete_team[]" value="{{ team.0 }}">&nbsp;Delete team <span style="font-weight: bold">{{ team.0 }}</span> in group {{ team.1 }}</input><br/>
+                {% endfor %}
+            {% endif %}
+            {% if view_objects.delete_teams_and_groups.teams_deleted %}
+                {% for team_status in view_objects.delete_teams_and_groups.teams_deleted %}
+                    <span style="font-weight: bold">{{ team_status }}</span>
+                {% endfor %}
+            {% endif %}
+            <br/>
+            <h3 class="no-top">Delete Groups</h3>
+            <span style="font-weight: bold">WARNING: Deleting groups is not reversible.</span><br/>
+            Function not implemented.
+            <input type="submit" value="Save" />
+        </form>
+    </div>
+</div>
