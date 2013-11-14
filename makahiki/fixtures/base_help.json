@@ -468,6 +468,18 @@
         }
     },
     {
+        "pk": 58,
+        "model": "help.helptopic",
+        "fields": {
+            "category": "widget",
+            "title": "Enable Games",
+            "parent_topic": null,
+            "priority": 0,
+            "slug": "enable-games",
+            "contents": "This widget enables or disables game components. If a game is listed under 'Disable games,' check its checkbox to disable it.\r\n\r\nIf a game is listed under 'Enable games,' check its checkbox to enable it.\r\n\r\nClick 'Save' to save your changes." 
+        }
+    },
+    {
         "pk": 39,
         "model": "help.helptopic",
         "fields": {
