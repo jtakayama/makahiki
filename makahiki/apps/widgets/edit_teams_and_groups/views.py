@@ -1,6 +1,5 @@
 """Provides the view of the widget."""
 from apps.managers.team_mgr.models import Team,Group
-from pickle import NONE
 
 def get_teams():
     """ Returns a list of [team,group] lists. """
@@ -68,7 +67,6 @@ def supply(request, page_name):
     # Initialize variables
     new_team_result = None
     new_group_result = None
-    groups = []
     teams_groups_changed = []
     
     # Handle POST request

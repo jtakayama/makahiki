@@ -9,6 +9,7 @@
             <h3 class="no-top">Add Team</h3>
                <span style="font-weight: bold">Create a new team.</span><br/>
                 Add team: <input type="text" name="new_team"/>
+                Select team group:
                 <select name="assign_to_group">
                     {% if view_objects.edit_teams_and_groups.groups %}
                         {% for group_name in view_objects.edit_teams_and_groups.groups %}
