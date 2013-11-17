@@ -77,42 +77,7 @@
 	                </div>
 	            </div>
 	        </div>
-	        <div class="row-fluid">
-	            <div class="span12">
-	                <div class="content-box">
-	                    <div class="content-box-contents">
-	                        <!-- Future: Move the "Upload Users" section into a widget -->
-	                        <h3 class="no-top">Upload Users</h3>
-	                        <hr/>
-	                        {% block content %}
-	                            <div>
-	                                <h4 class="no-top">Upload a CSV file.</h4>
-	                                <p>
-	                                    Click the Choose File button to select the CSV file that contains user information.
-	                                    Each user&apos;s information in the CSV must be formatted as follows:
-	                                    <pre>team,firstname,lastname,email,username,password</pre>
-	                                    <span style="font-weight:bold">Warning:</span>
-	                                    <ul>
-	                                       <li>Usernames must not contain uppercase letters.</li>
-	                                       <li>Uppercase letters will be converted to lowercase when the username is saved.</li>
-	                                    </ul>
-	                                </p>
-	                                <form enctype="multipart/form-data" method="POST" action="{% url 'bulk_create' %}">
-	                                    {% csrf_token %}
-	                                    {% if file_error %}
-	                                        <div style="color: red">{{file_error}}</div>
-	                                    {% endif %}
-	                                    <input id="browser" type="file" name="csvfile" value="CSV File" /></br>
-	                                    <button id="submit" class="btn" type="submit" style="" >Upload</button>
-	                                </form>
-	                        </div>
-	                        {% endblock %}
-	                        <hr/>
-	                    </div>
-	                </div>
-	            </div>
-	        </div>
-	    </div>
+        </div>
             <div class="container-fluid">
                 <div class="row-fluid">
                     <!-- left column -->

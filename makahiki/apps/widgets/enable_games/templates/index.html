@@ -11,17 +11,21 @@
     <div class="content-box-contents">
         Enable or disable games, then save your settings.<br/>
         <form method="post" action=".">{% csrf_token %}
+        <h3 class="no-top">Disable Games</h3>
         {% if view_objects.enable_games.games_enabled %}
-            <h3 class="no-top">Disable Games</h3>
             {% for game in view_objects.enable_games.games_enabled %}
                <input type="checkbox" name="enabled_game[]" value="{{ game }}">&nbsp;Disable <span style="font-weight: bold">{{ game }}</span></input><br/>
             {% endfor %}
+            {% else %}
+                No games are enabled.<br/>
         {% endif %}
+        <h3 class="no-top">Enable Games</h3>
         {% if view_objects.enable_games.games_disabled %}
-            <h3 class="no-top">Enable Games</h3>
             {% for game in view_objects.enable_games.games_disabled %}
                 <input type="checkbox" name="disabled_game[]" value="{{ game }}">&nbsp;Enable <span style="font-weight: bold">{{ game }}</span></input><br/>
             {% endfor %}
+            {% else %}
+                No games are disabled.<br/>
         {% endif %}
         <input type="submit" value="Save" />
         </form>

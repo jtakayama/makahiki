@@ -476,7 +476,43 @@
             "parent_topic": null,
             "priority": 0,
             "slug": "enable-games",
-            "contents": "This widget enables or disables game components. If a game is listed under 'Disable games,' check its checkbox to disable it.\r\n\r\nIf a game is listed under 'Enable games,' check its checkbox to enable it.\r\n\r\nClick 'Save' to save your changes." 
+            "contents": "This widget enables or disables game components. If a game is listed under 'Disable games,' check its checkbox to disable it.\r\n\r\nIf a game is listed under 'Enable games,' check its checkbox to enable it.\r\n\r\nClick 'Save' to save changes." 
+        }
+    },
+    {
+        "pk": 59,
+        "model": "help.helptopic",
+        "fields": {
+            "category": "widget",
+            "title": "Edit Teams and Groups",
+            "parent_topic": null,
+            "priority": 0,
+            "slug": "edit-teams-and-groups",
+            "contents": "Add Team: Type the name of the new team (50 characters maximum) and assign the team to a group.\r\n\r\nAdd Group: Type the name of the new group (200 characters maximum).\r\n\r\nChange Team Groups: Check the checkbox for the team you want to edit, and select its new group from the dropdown list.\r\n\r\nClick 'Save' to save changes."
+        }
+    },
+    {
+        "pk": 60,
+        "model": "help.helptopic",
+        "fields": {
+            "category": "widget",
+            "title": "Delete Teams and Groups",
+            "parent_topic": null,
+            "priority": 0,
+            "slug": "delete-teams-and-groups",
+            "contents": "Delete Team: Check the box for a team to delete it.\r\n\r\nDelete Group: Check the box for a group to delete it and any teams that are members of it.\r\n\r\nClick 'Save' to save changes."
+        }
+    },
+    {
+        "pk": 61,
+        "model": "help.helptopic",
+        "fields": {
+            "category": "widget",
+            "title": "Bulk Upload Users",
+            "parent_topic": null,
+            "priority": 0,
+            "slug": "bulk-upload-users",
+            "contents": "Upload users in bulk from a CSV file."
         }
     },
     {

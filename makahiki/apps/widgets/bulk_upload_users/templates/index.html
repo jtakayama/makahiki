@@ -1,0 +1,49 @@
+<div class="content-box">
+    <div class="content-box-title">
+        Bulk Upload Users
+        <a href="#" style="float: right">
+            <img src="{{ STATIC_URL }}images/icons/icon-help-sm.png" width="20"
+                align="center"
+                title="Click to get help about this window"
+                onclick="toggleHelp(event, 'widget', 'bulk-upload-users'); return false;" />
+        </a>
+    </div>
+    <div class="content-box-contents">
+           <h3 class="no-top">Upload Users</h3>
+           {% block content %}
+               <div>
+                   <h4 class="no-top">Upload a CSV file.</h4>
+                   <p>
+                       Click the Choose File button to select the CSV file that contains user information.
+                       Each user&apos;s information in the CSV must be formatted as follows:
+                       <pre>team,firstname,lastname,email,username,password</pre>
+                       <span style="font-weight:bold">Warning:</span>
+                       <ul>
+                          <li>Usernames must not contain uppercase letters.</li>
+                          <li>Uppercase letters will be converted to lowercase when the username is saved.</li>
+                       </ul>
+                   </p>
+                   <form enctype="multipart/form-data" method="POST" action=".">
+                       {% csrf_token %}
+                       {% if file_error %}
+                           <div style="color: red">{{file_error}}</div>
+                       {% endif %}
+                       <input id="browser" type="file" name="csvfile" value="CSV File" /></br>
+                       <button id="submit" class="btn" type="submit" style="" >Upload</button>
+                   </form>
+                   {% ifnotequal view_objects.bulk_upload_users.load_count -1 %}
+                       {{ view_objects.bulk_upload_users.load_count }} users were loaded.<br/>
+                   {% endifnotequal %}
+                   {% ifnotequal view_objects.bulk_upload_users.file_upload_result "Valid" %}
+                       {% ifequal view_objects.bulk_upload_users.file_upload_result "No file uploaded." %}
+                           <!-- If no file is uploaded, no error is displayed. This happens on every page load. -->
+                           {% else %}
+                               <span style="font-weight: bold">Upload failed: {{ view_objects.bulk_upload_users.file_upload_result }}</span><br/>
+                       {% endifequal %}
+                       {% else %}
+                           Upload successful.
+                   {% endifnotequal %}
+               </div>
+           {% endblock %}
+    </div>
+</div>
