@@ -51,7 +51,7 @@ def competition(request):
 
         if page_name == "sys_admin/challenge_mgr/challengesetting/1":
             page_name = "admin"
-        if page_name in ("challenge_setting_admin", "challenge_admin", "developer_admin", "quick_start"):
+        if page_name in ("challenge_setting_admin", "challenge_admin", "developer_admin"):
             page_name = "admin"
             designer_models[0] = \
                 challenge_mgr.get_designer_challenge_info_models()
