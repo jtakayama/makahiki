@@ -44,7 +44,7 @@
             <span style="font-weight: bold">Change the group of an existing team.</span><br/>
             {% if view_objects.edit_teams_and_groups.teams_and_groups %}
                 {% for team in view_objects.edit_teams_and_groups.teams_and_groups %}
-                    <input type="checkbox" name="change_team_group[]" value="{{ team.0 }}">&nbsp;Change team <span style="font-weight: bold">{{ team.0 }}</span> to:&nbsp;</input>
+                    <input type="checkbox" name="change_team_group[]" value="{{ team.0 }}">&nbsp;Change team <span style="font-weight: bold">{{ team.0 }}&apos;s</span> group to:&nbsp;</input>
                     <select name="set_group[]">
                     {% if view_objects.edit_teams_and_groups.groups %}
                         {% for group in view_objects.edit_teams_and_groups.groups %}
@@ -62,7 +62,7 @@
             {% endif %}
             {% if view_objects.edit_teams_and_groups.teams_groups_changed %}
                 {% for result in view_objects.edit_teams_and_groups.teams_groups_changed %}
-                    {{ result }}<br/>
+                    <span style="font-weight: bold">{{ result }}</span><br/>
                 {% endfor %}
             {% endif %}
             <br/>

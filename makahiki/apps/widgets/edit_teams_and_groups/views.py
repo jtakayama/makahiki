@@ -38,7 +38,6 @@ def create_new_team(team_name,group_name):
         if current_group.name == group_name:
             group_for_team = current_group
             break
-    print group_for_team
     if group_for_team is None:
         result = False
     else:
@@ -71,6 +70,7 @@ def supply(request, page_name):
     
     # Handle POST request
     if request.method == 'POST':
+        
         # Add a new team
         new_team_name = None
         assigned_group = None
@@ -99,18 +99,18 @@ def supply(request, page_name):
         new_group_field_text = request.POST.getlist("new_group")
         if new_group_field_text != None and new_group_field_text != []:
             new_group_name = str(new_group_field_text[0]).strip()
-            if len(new_group_name) > 200:
-                new_group_result = "Invalid group name: \"%s\": name is longer than 200 characters." % new_group_name
-            elif group_exists(new_group_name):
-                new_team_result = "Invalid team name \"%s\": name is already in use." % new_team_name
-            else:
-                new_group = Group()
-                new_group.name = new_group_name
-                new_group.save()
-                new_group_result = "Group \"%s\" was created." % new_group_name
+            if new_group_name != None and new_group_name != "":
+                if len(new_group_name) > 200:
+                    new_group_result = "Invalid group name: \"%s\": name is longer than 200 characters." % new_group_name
+                elif group_exists(new_group_name):
+                    new_group_result = "Invalid group name \"%s\": name is already in use." % new_group_name
+                else:
+                    new_group = Group()
+                    new_group.name = new_group_name
+                    new_group.save()
+                    new_group_result = "Group \"%s\" was created." % new_group_name
         else:
             new_group_result = None
-                
         # End of code to add a new group
         
         # Change team groups
@@ -137,8 +137,7 @@ def supply(request, page_name):
                     elif len(entry2_matches) > 1:
                         teams_groups_changed.append("Could not change team \"%s\" to group \"%s\": multiple teams matched this name." % (entry2[0], entry2[1]))
         else:
-            teams_groups_changed = None
-        print teams_groups_changed    
+            teams_groups_changed = None    
         # End of code to change team groups
     
     # Set the new list of teams and groups after carrying out any changes.
