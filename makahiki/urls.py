@@ -6,7 +6,7 @@ from django.conf.urls.defaults import url, patterns, include
 from django.contrib import admin
 from django.views.generic.simple import direct_to_template
 from apps.admin.admin import sys_admin_site, challenge_designer_site, \
-    challenge_manager_site, developer_site, quick_start_site
+    challenge_manager_site, developer_site#, quick_start_site
 
 admin.autodiscover()
 
@@ -53,7 +53,7 @@ urlpatterns = patterns('',
         name="bulk_upload_form"),
     url(r'^player/bulk_create/$', 'apps.managers.player_mgr.views.bulk_create',
         name="bulk_create"),
-    url(r'^quick_start/', include(quick_start_site.urls),  name='quick_start'),
+    url(r'^quick_start/$', 'apps.pages.views.index',  name='quick_start'),
 
     url(r'^landing/$', direct_to_template, {'template': 'landing.html'}, name='landing'),
     url(r'^restricted/$', direct_to_template, {"template": 'restricted.html'}, name="restricted"),
