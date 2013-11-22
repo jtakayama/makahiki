@@ -3,7 +3,7 @@ from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
-from django.contrib.localflavor.us.models import PhoneNumberField
+from localflavor.us.models import PhoneNumberField
 from apps.managers.challenge_mgr import challenge_mgr
 from apps.managers.score_mgr import score_mgr
 from apps.managers.team_mgr.models import Team
@@ -144,3 +144,6 @@ def create_profile(sender, instance=None, **kwargs):
 
 
 post_save.connect(create_profile, sender=User)
+
+from south.modelsinspector import add_introspection_rules
+add_introspection_rules([], ["^localflavor\.us\.models\.PhoneNumberField"])

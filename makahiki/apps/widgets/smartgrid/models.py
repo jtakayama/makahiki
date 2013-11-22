@@ -10,7 +10,7 @@ from django.contrib.contenttypes import generic
 from django.core.urlresolvers import reverse
 from django.conf import settings
 from django.template.loader import render_to_string
-from django.contrib.localflavor.us.models import PhoneNumberField
+from localflavor.us.models import PhoneNumberField
 import os
 from apps.managers.challenge_mgr import challenge_mgr
 

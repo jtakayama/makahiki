@@ -144,7 +144,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     #'django.contrib.admindocs',
-    'django.contrib.markup',
+    'markup_deprecated',
 
     # external
     'django_extensions',
@@ -263,6 +263,7 @@ SOUTH_TESTS_MIGRATE = False
 
 # Use Nose as the test runner.
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+
 
 ##############################
 # LOGGING settings
@@ -385,6 +386,8 @@ else:
             print "Environment variable MAKAHIKI_DATABASE_URL not defined. Exiting."
             sys.exit(1)
 
+DATABASES['default']['ATOMIC_REQUESTS'] = True
+
 # Admin info Settings
 MAKAHIKI_ADMIN_INFO = env('MAKAHIKI_ADMIN_INFO', '')
 """[Required]  Specify the makahiki admin account and password.
@@ -493,7 +496,8 @@ if AUTH_LDAP_BIND_DN and AUTH_LDAP_BIND_PASSWORD:
         'apps.managers.auth_mgr.ldap_backend.MakahikiLDAPBackend',
         )
 
-MAKAHIKI_SECRET_KEY = env('MAKAHIKI_SECRET_KEY', '')
+MAKAHIKI_SECRET_KEY = env('MAKAHIKI_SECRET_KEY',
+                          'yvzg-s=^gb#)e6l7jq_$%ft=i7jln&izs2@4+3!5%#unumorn-')
 """[Optional] Specifies the Django secret key setting.
 See https://docs.djangoproject.com/en/dev/ref/settings/#secret-key"""
 SECRET_KEY = MAKAHIKI_SECRET_KEY

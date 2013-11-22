@@ -1,7 +1,6 @@
 """handles rendering events."""
+import json
 import urlparse
-
-import simplejson as json
 
 from django.db import  IntegrityError
 from django.shortcuts import get_object_or_404, render_to_response

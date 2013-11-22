@@ -51,6 +51,7 @@ def points_leaders(num_results=None, round_name=None):
             results = results[:num_results]
         return results
 
+
 def username_is_lowercase(username):
     """Check that user names do not include uppercase letter characters."""
     username_input = username
@@ -58,9 +59,10 @@ def username_is_lowercase(username):
     username_lowercase = False
     if username_input == username_lower:
         username_lowercase = True
-    else: 
+    else:
         username_lowercase = False
     return username_lowercase
+
 
 def create_player(username, password, email, firstname, lastname, team_name, is_ra):
     """Create a player with the assigned team"""
@@ -74,7 +76,8 @@ def create_player(username, password, email, firstname, lastname, team_name, is_
     # Change uppercase letters to lowercase
     username_input = username
     username_lower = username.lower()
-    invalid_username_message = "Username \"%s\" is invalid: usernames must not use uppercase letters. User will be created with username \"%s\" instead." % (username_input, username_lower)
+    invalid_username_message = "Username \"%s\" is invalid: usernames must not use uppercase \
+    letters. User will be created with username \"%s\" instead." % (username_input, username_lower)
     if username_is_lowercase(username_input) == False:
         username = username_lower
         # Print warning message to console (not visible to the web UI)

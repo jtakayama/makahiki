@@ -1,5 +1,4 @@
 """Provides the views for the home page and the first login wizard."""
-
 import cgi
 import json
 import datetime

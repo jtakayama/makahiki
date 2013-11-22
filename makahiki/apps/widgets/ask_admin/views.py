@@ -1,7 +1,6 @@
 """Views handler for ask admin page rendering."""
+import json
 from django.core.urlresolvers import reverse
-
-import simplejson as json
 
 from django.http import Http404, HttpResponse
 from django.template.loader import render_to_string

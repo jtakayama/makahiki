@@ -46,7 +46,6 @@
             "interval": null,
             "expires": null,
             "kwargs": "{}",
-            "date_changed": "2012-06-30T14:18:46.151",
             "description": ""
         }
     },
@@ -62,7 +61,6 @@
             "interval": null,
             "expires": null,
             "kwargs": "{}",
-            "date_changed": "2012-06-30T14:18:46.151",
             "description": ""
         }
     },
@@ -78,7 +76,6 @@
             "interval": 1,
             "expires": null,
             "kwargs": "{}",
-            "date_changed": "2012-06-30T14:18:46.151",
             "description": ""
         }
     },
@@ -94,7 +91,6 @@
             "interval": null,
             "expires": null,
             "kwargs": "{}",
-            "date_changed": "2012-06-30T14:18:46.151",
             "description": ""
         }
     },
@@ -110,7 +106,6 @@
             "interval": null,
             "expires": null,
             "kwargs": "{}",
-            "date_changed": "2012-06-30T14:18:46.151",
             "description": ""
         }
     },
@@ -126,7 +121,6 @@
             "interval": 1,
             "expires": null,
             "kwargs": "{}",
-            "date_changed": "2012-06-30T14:18:46.151",
             "description": ""
         }
     }

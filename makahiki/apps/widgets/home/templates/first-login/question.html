@@ -63,7 +63,7 @@
 
         $("#back").button().click(function () {
             $(this).button("option", "disabled", true);
-            $.get("{% url setup_activity %}?from=question", function (data) {
+            $.get("{% url 'setup_activity' %}?from=question", function (data) {
                 $("#ui-dialog-title-setup-dialog").html(data.title);
                 $("#setup-dialog").html(data.contents);
             });
@@ -72,13 +72,13 @@
         $("#next").button().click(function () {
             $(this).button("option", "disabled", true);
             if ($("#response-correct").val() == "true") {
-                $.post('{% url setup_complete %}', function (data) {
+                $.post('{% url 'setup_complete' %}', function (data) {
                     $('#ui-dialog-title-setup-dialog').html(data.title);
                     $('#setup-dialog').html(data.contents);
                 });
             }
             else {
-                $.get('{% url setup_complete %}', function (data) {
+                $.get('{% url 'setup_complete' %}', function (data) {
                     $('#ui-dialog-title-setup-dialog').html(data.title);
                     $('#setup-dialog').html(data.contents);
                 });

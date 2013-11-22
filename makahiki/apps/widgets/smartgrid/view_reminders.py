@@ -1,10 +1,9 @@
 """handles reminders in smartgrid."""
-
+import json
 import datetime
 from django.contrib.auth.decorators import login_required
-import simplejson as json
 
-from django.http import  HttpResponse, Http404
+from django.http import HttpResponse, Http404
 from django.core.exceptions import ObjectDoesNotExist
 from django.template.loader import render_to_string
 from apps.widgets.smartgrid import smartgrid
