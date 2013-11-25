@@ -127,27 +127,30 @@ class Profile(models.Model):
         score_mgr.player_remove_related_points(self, related_object)
 
 
+def create_user_profile(user):
+    """create a profile related to the user."""
+    profile, is_create = Profile.objects.get_or_create(user=user)
+    if is_create or profile.name == user.username:
+        if user.first_name and user.last_name:
+            firstname = user.first_name.capitalize()
+            lastname = user.last_name.capitalize()
+            profile.name = "%s %s." % (firstname, lastname[:1])
+
+            if Profile.objects.filter(name=profile.name).exclude(user=user).exists():
+                profile.name = firstname + " " + lastname
+        else:
+            profile.name = user.username
+        profile.save()
+
+
 def create_profile(sender, instance=None, **kwargs):
     """ Create a profile automatically when creating a user."""
     _ = sender
     if not kwargs.get('raw', False):
-        profile, is_create = Profile.objects.get_or_create(user=instance)
-        if is_create or profile.name == instance.username:
-            if instance.first_name and instance.last_name:
-                firstname = instance.first_name.capitalize()
-                lastname = instance.last_name.capitalize()
-                profile.name = "%s %s." % (firstname, lastname[:1])
-
-                if Profile.objects.filter(name=profile.name).exclude(user=instance).exists():
-                    profile.name = firstname + " " + lastname
-            else:
-                profile.name = instance.username
-            profile.save()
-
+        create_user_profile(instance)
 
 post_save.connect(create_profile, sender=User)
 
 from south.modelsinspector import add_introspection_rules
-
 
 add_introspection_rules([], ["^localflavor\.us\.models\.PhoneNumberField"])

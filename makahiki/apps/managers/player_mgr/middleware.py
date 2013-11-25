@@ -2,9 +2,11 @@
 
 import re
 import datetime
+from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from apps.managers.challenge_mgr import challenge_mgr
+from apps.managers.player_mgr.models import create_user_profile
 
 
 class LoginMiddleware(object):
@@ -83,7 +85,15 @@ class LoginMiddleware(object):
         """ Check to see if setup has been completed."""
         user = request.user
         path = request.path
-        profile = user.profile
+        try:
+            profile = user.profile
+        except User.DoesNotExist:
+            if not self.is_staff(request):
+                return HttpResponseRedirect(reverse("restricted"))
+            else:
+                # if it is admin, recreate the profile
+                create_user_profile(user)
+                profile = user.profile
 
         # We need to check if the user is going to the home page so we don't
         # get caught in a redirect loop. We do need to filter out requests
@@ -100,10 +110,14 @@ class LoginMiddleware(object):
         """Checks if we are still in the competition. If the user is logged in,
         they are redirected to a competition status page.
         """
-        staff_user = request.user.is_staff or request.session.get('staff', False)
+        staff_user = self.is_staff(request)
 
         if not staff_user and \
            not challenge_mgr.in_competition():
             return HttpResponseRedirect(reverse("home_restricted"))
 
         return None
+
+    def is_staff(self, request):
+        """check if a user is staff or superuser."""
+        return request.user.is_superuser or request.user.is_staff
