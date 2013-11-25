@@ -7,7 +7,7 @@ def supply(request, page_name):
 
     _ = page_name
 
-    team = request.user.get_profile().team
+    team = request.user.profile.team
     if team:
         goal = resource_goal.team_goal_settings(team, "energy")
         interval = goal.realtime_meter_interval

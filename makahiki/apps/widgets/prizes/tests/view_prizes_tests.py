@@ -36,7 +36,7 @@ class PrizesFunctionalTestCase(TransactionTestCase):
         from apps.managers.cache_mgr import cache_mgr
         cache_mgr.clear()
 
-        profile = self.user.get_profile()
+        profile = self.user.profile
         profile.add_points(10, datetime.datetime.today(), "test")
         profile.save()
 
@@ -61,7 +61,7 @@ class PrizesFunctionalTestCase(TransactionTestCase):
         from apps.managers.cache_mgr import cache_mgr
         cache_mgr.clear()
 
-        profile = self.user.get_profile()
+        profile = self.user.profile
         profile.name = "Test User"
         profile.add_points(10, datetime.datetime.today(), "test")
         team = profile.team
@@ -99,7 +99,7 @@ class PrizesFunctionalTestCase(TransactionTestCase):
         test_utils.setup_round_prize("Round 2", "individual_team", "points")
         print "testLeadersInRound2.3 prize count %d" % Prize.objects.count()
 
-        profile = self.user.get_profile()
+        profile = self.user.profile
         profile.add_points(10, datetime.datetime.today(), "test")
         profile.name = "Test User"
         team = profile.team

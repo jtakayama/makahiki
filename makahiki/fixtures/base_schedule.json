@@ -45,7 +45,9 @@
             "crontab": 1,
             "interval": null,
             "expires": null,
+            "date_changed": "2011-06-16",
             "kwargs": "{}",
+
             "description": ""
         }
     },
@@ -61,6 +63,7 @@
             "interval": null,
             "expires": null,
             "kwargs": "{}",
+            "date_changed": "2011-06-16",
             "description": ""
         }
     },
@@ -76,6 +79,7 @@
             "interval": 1,
             "expires": null,
             "kwargs": "{}",
+            "date_changed": "2011-06-16",
             "description": ""
         }
     },
@@ -91,6 +95,7 @@
             "interval": null,
             "expires": null,
             "kwargs": "{}",
+            "date_changed": "2011-06-16",
             "description": ""
         }
     },
@@ -106,6 +111,7 @@
             "interval": null,
             "expires": null,
             "kwargs": "{}",
+            "date_changed": "2011-06-16",
             "description": ""
         }
     },
@@ -121,6 +127,7 @@
             "interval": 1,
             "expires": null,
             "kwargs": "{}",
+            "date_changed": "2011-06-16",
             "description": ""
         }
     }

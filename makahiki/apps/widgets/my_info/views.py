@@ -26,7 +26,7 @@ def supply(request, page_name):
 
     if not form:
         user = request.user
-        profile = user.get_profile()
+        profile = user.profile
         user_theme = profile.theme
         if not user_theme:
             user_theme = challenge_mgr.get_challenge().theme
@@ -54,7 +54,7 @@ def save(request):
         form = ProfileForm(request.POST, user=request.user.username)
 
         if form.is_valid():
-            profile = user.get_profile()
+            profile = user.profile
             name = form.cleaned_data["display_name"].strip()
 
             if name != profile.name:

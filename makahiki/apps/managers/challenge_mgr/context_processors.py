@@ -34,7 +34,7 @@ def competition(request):
     css_theme = challenge.theme
     page_name = request.path[1:][:-1]
     if user.is_authenticated():
-        profile = user.get_profile()
+        profile = user.profile
 
         default_view_objects = _get_default_view_objects(request)
         all_page_info = challenge_mgr.all_page_info(user)

@@ -94,8 +94,6 @@ AUTHENTICATION_BACKENDS = (
     'apps.managers.auth_mgr.cas_backend.MakahikiCASBackend',
     )
 
-AUTH_PROFILE_MODULE = 'player_mgr.Profile'
-
 ###################
 # Authentication
 ###################

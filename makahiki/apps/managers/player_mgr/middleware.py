@@ -57,8 +57,8 @@ class LoginMiddleware(object):
 
     def track_login(self, request):
         """Checks if the user is logged in and updates the tracking field."""
-        profile = request.user.get_profile()
-        last_visit = request.user.get_profile().last_visit_date
+        profile = request.user.profile
+        last_visit = profile.last_visit_date
         today = datetime.date.today()
 
         if last_visit:
@@ -83,7 +83,7 @@ class LoginMiddleware(object):
         """ Check to see if setup has been completed."""
         user = request.user
         path = request.path
-        profile = user.get_profile()
+        profile = user.profile
 
         # We need to check if the user is going to the home page so we don't
         # get caught in a redirect loop. We do need to filter out requests

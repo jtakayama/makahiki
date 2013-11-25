@@ -59,7 +59,7 @@ def create_admin_user():
             user.save()
     except ObjectDoesNotExist:
         user = User.objects.create_superuser(settings.ADMIN_USER, "", settings.ADMIN_PASSWORD)
-        profile = user.get_profile()
+        profile = user.profile
         profile.setup_complete = True
         profile.setup_profile = True
         profile.completion_date = datetime.datetime.today()

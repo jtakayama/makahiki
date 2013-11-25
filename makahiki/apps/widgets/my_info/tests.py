@@ -91,7 +91,7 @@ class ProfileFunctionalTestCase(TransactionTestCase):
     def testProfileWithDupName(self):
         """test profile without dupliate name"""
         user = User.objects.create_user("user2", "user2@test.com")
-        profile = user.get_profile()
+        profile = user.profile
         profile.name = "Test U."
         profile.save()
 

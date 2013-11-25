@@ -88,7 +88,7 @@ def create_player(username, password, email, firstname, lastname, team_name, is_
     user.last_name = lastname
     user.save()
 
-    profile = user.get_profile()
+    profile = user.profile
     profile.is_ra = is_ra
 
     try:
@@ -152,7 +152,7 @@ def reset_user(user):
     is_staff = user.is_staff
     is_superuser = user.is_superuser
 
-    profile = user.get_profile()
+    profile = user.profile
     d_name = profile.name
     team = profile.team
 
@@ -164,7 +164,7 @@ def reset_user(user):
     new_user.is_superuser = is_superuser
     new_user.save()
 
-    profile = new_user.get_profile()
+    profile = new_user.profile
     profile.name = d_name
     profile.team = team
 

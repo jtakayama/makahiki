@@ -32,7 +32,7 @@ def avatar_url(user, size=80, first_login=False):
                 md5(user.email).hexdigest(),
                 urllib.urlencode({'s': str(size)}),)
         else:
-            if user.get_profile().setup_complete:
+            if user.profile.setup_complete:
                 return AVATAR_DEFAULT_YES_URL
             else:
                 if size > 60:

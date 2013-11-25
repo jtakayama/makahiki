@@ -2,7 +2,7 @@
 {% load cache %}
 {% cache 600 RIB user.username %}
 
-{% with user.get_profile as profile %}
+{% with user.profile as profile %}
 {% with team=profile.team %}
 {% with profile_points=profile.current_round_points profile_team_rank=profile.current_round_team_rank profile_overall_rank=profile.current_round_overall_rank team_points=team.current_round_points team_rank=team.current_round_rank %}
 <div id="info-bar-wide" class="container-fluid makahiki-box info-bar">

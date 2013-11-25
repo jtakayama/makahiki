@@ -24,7 +24,7 @@ def super_supply(request, page_name, agent):
     """supply the view_objects."""
     agent_post = agent + "_post"
     user = request.user
-    team = user.get_profile().team
+    team = user.profile.team
 
     if "last_post" in request.GET:
         posts = Post.objects.filter(
@@ -88,7 +88,7 @@ def post(request):
         if form.is_valid():
             wall_post = Post(
                 user=request.user,
-                team=request.user.get_profile().team,
+                team=request.user.profile.team,
                 text=form.cleaned_data["post"]
             )
             wall_post.save()

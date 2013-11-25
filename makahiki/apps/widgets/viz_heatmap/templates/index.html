@@ -6,7 +6,7 @@
         Dorm :
         {% for group in all_groups %}
             <input type="radio" name="heatmap-dorm" value="{{ group.name }}"
-                    {% if user.get_profile.team.group == group %} checked="checked" {% endif %}
+                    {% if user.profile.team.group == group %} checked="checked" {% endif %}
                    onchange="updatePeriod();"/> {{ group.name }}
 
             {% for lounge in group.teams %}

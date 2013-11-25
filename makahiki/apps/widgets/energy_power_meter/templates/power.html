@@ -1,5 +1,5 @@
 
-{% if user.get_profile.team %}
+{% if user.profile.team %}
     <div id="visualization"></div>
 {% else %}
     <table >
@@ -21,7 +21,7 @@
         var server_url = "{{ CHALLENGE.wattdepot_server_url }}";
         var source = "{{ view_objects.energy_power_meter.wattdepot_source_name }}";
         var options = {
-        	title: "{{ user.get_profile.team.name }}",
+        	title: "{{ user.profile.team.name }}",
             source: source,
             width: 300,
             powerRange: 2000};

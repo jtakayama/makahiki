@@ -41,7 +41,7 @@ def send_feedback(request):
             # Using adapted version from Django source code
             subject = u'[%s] %s asked a question' % (
                 challenge.name,
-                request.user.get_profile().name)
+                request.user.profile.name)
 
             if challenge.email_enabled or True:
                 mail = EmailMultiAlternatives(subject, message, challenge.contact_email,

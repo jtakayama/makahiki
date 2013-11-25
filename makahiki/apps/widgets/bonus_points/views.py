@@ -51,7 +51,7 @@ def bonus_code(request):
 
     user = request.user
     message = None
-    profile = user.get_profile()
+    profile = user.profile
 
     if request.is_ajax() and request.method == "POST":
         form = BonusPointForm(request.POST)
