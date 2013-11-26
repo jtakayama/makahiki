@@ -34,8 +34,8 @@ class DormTeamPrizeTests(TransactionTestCase):
 
         # Assign users to teams.
         for index, user in enumerate(self.users):
-            user.get_profile().team = self.teams[index % 4]
-            user.get_profile().save()
+            user.profile.team = self.teams[index % 4]
+            user.profile.save()
 
     def testNumAwarded(self):
         """Checks that the number of prizes to award for this prize is the same as the
@@ -55,7 +55,7 @@ class DormTeamPrizeTests(TransactionTestCase):
         self.prize.save()
 
         # Test one user will go ahead in points.
-        profile = self.users[0].get_profile()
+        profile = self.users[0].profile
         profile.add_points(10, datetime.datetime.today() + datetime.timedelta(minutes=1), "test")
         profile.save()
 
@@ -63,7 +63,7 @@ class DormTeamPrizeTests(TransactionTestCase):
             "The user's team is not leading in the prize.")
 
         # Test a user in a different group.
-        profile1 = self.users[1].get_profile()
+        profile1 = self.users[1].profile
         profile1.add_points(profile.points() + 1,
             datetime.datetime.today() + datetime.timedelta(minutes=1), "test")
         profile1.save()
@@ -75,7 +75,7 @@ class DormTeamPrizeTests(TransactionTestCase):
 
         # Test that a user in a different team but same dorm changes the leader for the
         # original user.
-        profile2 = self.users[2].get_profile()
+        profile2 = self.users[2].profile
         profile2.add_points(profile.points() + 1,
             datetime.datetime.today() + datetime.timedelta(minutes=1), "test")
         profile2.save()
@@ -128,7 +128,7 @@ class OverallTeamPrizeTest(TransactionTestCase):
         self.prize.save()
 
         # Test one user will go ahead in points.
-        profile = self.users[0].get_profile()
+        profile = self.users[0].profile
         profile.add_points(10, datetime.datetime.today() + datetime.timedelta(minutes=1), "test")
         profile.save()
 
@@ -136,7 +136,7 @@ class OverallTeamPrizeTest(TransactionTestCase):
             "The user's team is not leading in the prize.")
 
         # Test that a user in a different team changes the leader for the original user.
-        profile2 = self.users[2].get_profile()
+        profile2 = self.users[2].profile
         profile2.add_points(profile.points() + 1,
             datetime.datetime.today() + datetime.timedelta(minutes=1), "test")
         profile2.save()

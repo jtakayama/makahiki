@@ -535,7 +535,7 @@ def process_rsvp():
     for member in members:
         action = member.action
         user = member.user
-        profile = user.get_profile()
+        profile = user.profile
 
         diff = datetime.date.today() - action.event.event_date.date()
         if diff.days == NOSHOW_PENALTY_DAYS:

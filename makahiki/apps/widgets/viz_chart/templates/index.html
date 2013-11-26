@@ -9,7 +9,7 @@
         {{ TEAM_LABEL }} : <br/>
         {% for lounge in all_lounges %}
             <input type="checkbox" name="lounge" value="{{ lounge.name}}"
-                    {% if user.get_profile.team.name == lounge.name %}
+                    {% if user.profile.team.name == lounge.name %}
                    checked="checked" {% endif %}
                    onchange='update();'/>
             {{ lounge.name }}

@@ -10,7 +10,7 @@ def supply(request, page_name):
 
     user = request.user
 
-    team = user.get_profile().team
+    team = user.profile.team
     num_results = 10 if page_name != "status" else None
     round_standings = {}
 
@@ -49,7 +49,7 @@ def supply(request, page_name):
     count = len(rounds)
 
     return {
-        "profile": user.get_profile(),
+        "profile": user.profile,
         "team": team,
         "current_round": current_round,
         "round_standings": round_standings,
