@@ -227,6 +227,15 @@ interfaces.
         vagrant@precise32:~$
         
       If the ping succeeds, then networking is correctly configured.
+      
+  11. Add the new IP address to ALLOWED_HOSTS in settings.py::
+  
+        if MACHINE_IS_VAGRANT:
+            ALLOWED_HOSTS = ['192.168.56.4']
+            
+      Change the IP address for ALLOWED_HOSTS to match the new IP address that you configured.
+      For example, if the new address were 192.168.56.8, you would change the ALLOWED_HOSTS line 
+      to ``ALLOWED_HOSTS = ['192.168.56.8']``.
 
 From now on, you should use the IP address configured in the Vagrantfile 
 to access the site when the webserver is running.
