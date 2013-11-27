@@ -533,6 +533,5 @@ if MAKAHIKI_USE_LOGFILE:
 # Allow the IPv4 address 192.169.56.4 for Vagrant testing
 # Variable is set in Vagrant's makahiki_env.sh
 MACHINE_IS_VAGRANT = env('MACHINE_IS_VAGRANT', '').lower() == "true"
-MACHINE_IS_VAGRANT = True
 if MACHINE_IS_VAGRANT:
     ALLOWED_HOSTS = ['192.168.56.4']
