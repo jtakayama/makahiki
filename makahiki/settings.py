@@ -535,3 +535,6 @@ if MAKAHIKI_USE_LOGFILE:
 MACHINE_IS_VAGRANT = env('MACHINE_IS_VAGRANT', '').lower() == "true"
 if MACHINE_IS_VAGRANT:
     ALLOWED_HOSTS = ['192.168.56.4']
+# Set allowed host domains for normal operation.
+else:
+    ALLOWED_HOSTS = ['localhost','127.0.0.1']
