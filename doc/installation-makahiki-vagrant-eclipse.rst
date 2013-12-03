@@ -281,7 +281,7 @@ Assuming that the pip installation completed successfully when the
 provisioning script was run, the pip packages will be located in 
 ``/usr/local/lib/python2.7/dist-packages``.
 
-Copy the dist-packages directory into the ``/vagrant/makahiki shared directory``::
+Copy the dist-packages directory into the ``/vagrant/makahiki`` shared directory::
 
   vagrant@precise32:~$ cd /usr/local/lib/python2.7/dist-packages
   vagrant@precise32:/usr/local/lib/python2.7/dist-packages$ ls
@@ -290,7 +290,8 @@ Copy the dist-packages directory into the ``/vagrant/makahiki shared directory``
   vagrant@precise32:/usr/local/lib/python2.7$ cp -rL dist-packages /vagrant/makahiki/
   
 On your host machine, the dist-packages directory will appear at 
-``<path-to-makahiki>/makahiki/makahiki/dist-packages``.
+``<path-to-makahiki>/makahiki/makahiki/dist-packages``, where ``<path-to-makahiki>`` is 
+the file system's path to your makahiki installation.
 
 Pythonpath and Code Completion Settings in Eclipse PyDev
 ********************************************************
