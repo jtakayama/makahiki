@@ -52,7 +52,7 @@ class Profile(models.Model):
                                   help_text="Optional properties for the profile.")
 
     class Meta:
-        """Meta sets verbosse name and plural."""
+        """Meta sets verbose name and plural."""
         verbose_name = 'profile'
         verbose_name_plural = 'profiles'
 
