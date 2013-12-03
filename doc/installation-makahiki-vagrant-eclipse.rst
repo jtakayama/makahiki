@@ -422,7 +422,7 @@ Run the demonstration class to see the remote debugger in action:
     
       > vagrant ssh
     
-12. In Vagrant, switch to /vagrant/vagrant and run pydevd_demo.py::
+12. In Vagrant, switch to ``/vagrant/vagrant`` and run pydevd_demo.py::
     
       vagrant@precise32:~$ cd /vagrant/vagrant
       vagrant@precise32:/vagrant/vagrant$ python pydevd_demo.py
@@ -443,7 +443,7 @@ to be tested in pydevd_file_utils.py.
    ``makahiki/makahiki`` earlier, then go to the pysrc directory. Open the 
    pydevd_file_utils.py file.
 2. Follow the instructions at the beginning of the file to edit the 
-   PATHS_FROM_ECLIPSE_TO_PYTHON variable's value to match the location 
+   ``PATHS_FROM_ECLIPSE_TO_PYTHON`` variable's value to match the location 
    of your file on the host machine and on the virtual machine.
 
 Adding Remote Debugging Code to a Python File
