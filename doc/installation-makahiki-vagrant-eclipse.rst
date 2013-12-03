@@ -279,9 +279,9 @@ Copying Makahiki Dependencies to the Shared Directory
 
 Assuming that the pip installation completed successfully when the 
 provisioning script was run, the pip packages will be located in 
-/usr/local/lib/python2.7/dist-packages.
+``/usr/local/lib/python2.7/dist-packages``.
 
-Copy the dist-packages directory into the /vagrant/makahiki shared directory::
+Copy the dist-packages directory into the ``/vagrant/makahiki shared directory``::
 
   vagrant@precise32:~$ cd /usr/local/lib/python2.7/dist-packages
   vagrant@precise32:/usr/local/lib/python2.7/dist-packages$ ls
