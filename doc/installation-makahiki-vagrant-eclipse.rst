@@ -375,9 +375,9 @@ Run the demonstration class to see the remote debugger in action:
 
 1. On the host machine, look for the directory you installed Eclipse into 
    (the directory that contains the "eclipse" directory). In this directory, 
-   navigate to eclipse/plugins/
+   navigate to ``eclipse/plugins/``.
 2. Copy the directory with a name of the form 
-   org.python.pydev_<version number X.X.X>.<nine digits representing build date>
+   ``org.python.pydev_<version number X.X.X>.<nine digits representing build date>``
    (e.g., org.python.pydev_2.7.5.2013052819) to the 
    ``<path-to-makahiki>/makahiki/makahiki`` directory.
 3. In Eclipse, open the Debug perspective.
@@ -439,7 +439,7 @@ Run the demonstration class to see the remote debugger in action:
 If this does not work, you may need to set the location of the file 
 to be tested in pydevd_file_utils.py. 
 
-1. Navigate to the org.python.pydev_<version> directory you copied into 
+1. Navigate to the ``org.python.pydev_<version>`` directory you copied into 
    ``makahiki/makahiki`` earlier, then go to the pysrc directory. Open the 
    pydevd_file_utils.py file.
 2. Follow the instructions at the beginning of the file to edit the 
