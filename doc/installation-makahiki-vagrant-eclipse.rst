@@ -5,7 +5,7 @@ Using Eclipse to Develop With Makahiki on Vagrant
 
 Using Eclipse to develop software with Makahiki is optional. However, 
 ``.project`` and ``.pydevproject`` files are provided for the convenience 
-of Eclipse users in the makahiki/makahiki directory.
+of Eclipse users in the ``makahiki/makahiki`` directory.
 
 This section assumes that the user has followed the instructions in 
 :ref:`section-installation-makahiki-vagrant-quickstart` to configure the 
@@ -162,12 +162,12 @@ virtual machine immediately.
      3a. Click the arrow to expand "General," then select 
          "Existing Projects Into Workspace." Click "Next."
      3b. Uncheck the "Copy Projects into Workspace" checkbox.
-         Select the makahiki/makahiki directory as the root directory.
+         Select the ``makahiki/makahiki`` directory as the root directory.
          
          For example:
         
-           * Makahiki was cloned into: C:/Users/Tester/Vagrant
-           * Project root directory should be: C:/Users/Tester/Vagrant/makahiki/makahiki
+           * Makahiki was cloned into: ``C:/Users/Tester/Vagrant``
+           * Project root directory should be: ``C:/Users/Tester/Vagrant/makahiki/makahiki``
         
      3c. Check the checkbox for "makahiki" when it appears. Click "Finish."
 4. Assuming that you installed PyDev, you will receive the warning:
@@ -304,7 +304,7 @@ Open Eclipse. Switch to or open the PyDev perspective if you are not in it.
 2. Click on "New Folder."
 3. In the "New Folder" window, click the white right-pointing arrow to expand 
    the directory tree. In the directory tree, browse to 
-   <path-to-makahiki>/makahiki/makahiki/dist-packages. 
+   ``<path-to-makahiki>/makahiki/makahiki/dist-packages``. 
    Click on the directory to highlight it, then click "OK."
 4. In the main "Interpreter - Python" window, click "Apply" to rebuild 
    Eclipse's System Pythonpath.
@@ -379,7 +379,7 @@ Run the demonstration class to see the remote debugger in action:
 2. Copy the directory with a name of the form 
    org.python.pydev_<version number X.X.X>.<nine digits representing build date>
    (e.g., org.python.pydev_2.7.5.2013052819) to the 
-   <path-to-makahiki>/makahiki/makahiki directory.
+   ``<path-to-makahiki>/makahiki/makahiki`` directory.
 3. In Eclipse, open the Debug perspective.
 4. In the top button menu bar (below the menu bar that contains "File"),
    search for a bug icon with a "P" next to it. The mouseover text for 
@@ -392,7 +392,7 @@ Run the demonstration class to see the remote debugger in action:
    Click this. In the Debug tab, icons for the "Debug Server [Python Server]" 
    will appear. In the Console tab, the phrase "Debug Server at port: 5678" 
    will appear.
-5. Switch to the PyDev perspective. Navigate to makahiki/makahiki/remote-debugger-demo. 
+5. Switch to the PyDev perspective. Navigate to ``makahiki/makahiki/remote-debugger-demo``. 
 6. Open pydevd_demo.py. This is an example file that uses the PyDev debugger. 
 7. Look at the two import statements at the beginning of the file. These 
    statements must be added to any file in this project that uses the 
@@ -440,7 +440,7 @@ If this does not work, you may need to set the location of the file
 to be tested in pydevd_file_utils.py. 
 
 1. Navigate to the org.python.pydev_<version> directory you copied into 
-   makahiki/makahiki earlier, then go to the pysrc directory. Open the 
+   ``makahiki/makahiki`` earlier, then go to the pysrc directory. Open the 
    pydevd_file_utils.py file.
 2. Follow the instructions at the beginning of the file to edit the 
    PATHS_FROM_ECLIPSE_TO_PYTHON variable's value to match the location 
