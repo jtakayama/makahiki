@@ -37,7 +37,7 @@
     				</a>
     				{% elif act.availablity == 0 %}  {# --- between pub date and expire date --- #}
 	                    {% if act.is_unlock %}
-                    <a href="{% url activity_task act.type act.slug %}"
+                    <a href="{% url 'activity_task' act.type act.slug %}"
                        title="{{act.name}}" onClick="setLevel({{level.priority}})">
                            {% if act.type != 'commitment' %}
                                {% if act.completed %}
@@ -118,7 +118,7 @@
                     </a>
                         {% endif %}
                     {% elif act.availablity == 1 %}  {# expired #}
-                    <a href="{% url activity_task act.type act.slug %}"
+                    <a href="{% url 'activity_task' act.type act.slug %}"
                        title="{{act.name}}" onClick="setLevel({{level.priority}})">
 	                    <br/>
     	                <b>Expired</b>

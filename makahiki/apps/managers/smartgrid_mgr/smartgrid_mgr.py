@@ -18,6 +18,7 @@ from apps.widgets.smartgrid_design.models import DesignerAction, DesignerColumnN
 import os
 from django.core.management import call_command
 from apps.managers.predicate_mgr import predicate_mgr
+from django.conf import settings
 
 
 def duplicate(obj, value=None, field=None, duplicate_order=None):  # pylint: disable=R0914
@@ -878,7 +879,7 @@ def load_example_grid(draft, example_name):
 #     print "load_example_grid(%s, %s)" % (draft, example_name)
 #    manage_py = script_utils.manage_py_command()
 #    manage_command = "python " + manage_py
-    fixture_path = "fixtures"
+    fixture_path = settings.FIXTURE_DIRS[0]
 
     loaded = False
     # Check to see if there is an example.

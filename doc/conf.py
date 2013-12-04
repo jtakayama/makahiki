@@ -272,7 +272,7 @@ def process_docstring(app, what, name, obj, options, lines):
     # Only look at objects that inherit from Django's base model class
     if inspect.isclass(obj) and issubclass(obj, models.Model):
         # Grab the field list from the meta class
-        fields = obj._meta._fields()
+        fields = obj._meta.fields
     
         for field in fields:
             # Decode and strip any html out of the field's help text
@@ -346,6 +346,8 @@ if on_rtd:
 
 
 #setup django
-import settings
-from django.core.management import setup_environ
-setup_environ(settings)
+#import settings
+#from django.core.management import setup_environ
+#setup_environ(settings)
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings") 

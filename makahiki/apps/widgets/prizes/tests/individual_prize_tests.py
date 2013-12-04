@@ -47,7 +47,7 @@ class OverallPrizeTest(TransactionTestCase):
         self.prize.save()
 
         # Test one user
-        profile = self.users[0].get_profile()
+        profile = self.users[0].profile
         top_points = Profile.objects.all()[0].points()
         profile.add_points(top_points + 1,
                            datetime.datetime.today() - datetime.timedelta(minutes=1),
@@ -58,14 +58,14 @@ class OverallPrizeTest(TransactionTestCase):
             "Current prize leader is not the leading user.")
 
         # Have another user move ahead in points
-        profile2 = self.users[1].get_profile()
+        profile2 = self.users[1].profile
         profile2.add_points(profile.points() + 1, datetime.datetime.today(), "test")
         profile2.save()
 
         self.assertEqual(self.prize.leader(), profile2, "User 2 should be the leading profile.")
 
         # Have this user get the same amount of points, but an earlier award date.
-        profile3 = self.users[2].get_profile()
+        profile3 = self.users[2].profile
         profile3.add_points(profile2.points(),
             datetime.datetime.today() - datetime.timedelta(minutes=1), "test")
         profile3.save()
@@ -117,7 +117,7 @@ class TeamPrizeTest(TransactionTestCase):
         self.prize.save()
 
         # Test one user
-        profile = self.users[0].get_profile()
+        profile = self.users[0].profile
         profile.add_points(10, datetime.datetime.today(), "test")
         profile.save()
 
@@ -125,7 +125,7 @@ class TeamPrizeTest(TransactionTestCase):
             "Current prize leader is not the leading user.")
 
         # Have a user on the same team move ahead in points.
-        profile3 = self.users[2].get_profile()
+        profile3 = self.users[2].profile
         profile3.add_points(11, datetime.datetime.today(), "test")
         profile3.save()
 
@@ -133,7 +133,7 @@ class TeamPrizeTest(TransactionTestCase):
             "User 3 should be the the leader.")
 
         # Try a user on a different team.
-        profile2 = self.users[1].get_profile()
+        profile2 = self.users[1].profile
         profile2.add_points(20, datetime.datetime.today(), "test")
         profile2.save()
 
