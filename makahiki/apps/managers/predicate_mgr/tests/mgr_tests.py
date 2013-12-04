@@ -18,7 +18,7 @@ class Test(TransactionTestCase):
         self.user = test_utils.setup_user("user", "changeme")
         self.draft = Draft(name="test", slug="test")
         test_utils.set_competition_round()
-        self.team = self.user.get_profile().team
+        self.team = self.user.profile.team
         self.predicates = ["completed_action('intro-video')",
                             "submitted_all_of_type(action_type='commitment')",
                             "allocated_raffle_ticket()",

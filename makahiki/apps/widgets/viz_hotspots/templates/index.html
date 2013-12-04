@@ -10,7 +10,7 @@
         <b> Hot Spot Analysis : {{ TEAM_LABEL }} </b>
         <select id='lounge' onchange='updateLounge();'>
             {% for lounge in all_lounges %}
-                <option {% if user.get_profile.team.name == lounge.name %}
+                <option {% if user.profile.team.name == lounge.name %}
                     selected {% endif %}
                     value='{{ lounge.name}}'>{{ lounge.name }}
                 </option>

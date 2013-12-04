@@ -8,7 +8,7 @@ def supply(request, page_name):
 
     _ = page_name
 
-    team = request.user.get_profile().team
+    team = request.user.profile.team
     group_lounges_count = 5
     all_lounges = Team.objects.order_by('name').all()
     group_lounges_list = []
