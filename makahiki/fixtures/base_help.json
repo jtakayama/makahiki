@@ -516,6 +516,18 @@
         }
     },
     {
+        "pk": 62,
+        "model": "help.helptopic",
+        "fields": {
+            "category": "widget",
+            "title": "Edit Round Settings",
+            "parent_topic": null,
+            "priority": 0,
+            "slug": "edit-round-settings",
+            "contents": "Edit the round settings for this challenge."
+        }
+    },
+    {
         "pk": 39,
         "model": "help.helptopic",
         "fields": {

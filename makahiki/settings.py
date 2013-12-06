@@ -232,6 +232,7 @@ INSTALLED_WIDGET_APPS = (
     'edit_teams_and_groups',
     'delete_teams_and_groups',
     'bulk_upload_users',
+    'edit_round_settings',
 )
 
 for widget in INSTALLED_WIDGET_APPS:
