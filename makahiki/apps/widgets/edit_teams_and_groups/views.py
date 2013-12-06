@@ -136,6 +136,11 @@ def supply(request, page_name):
                             teams_groups_changed.append("Could not change team \"%s\" to group \"%s\": multiple groups matched this name." % (entry2[0], entry2[1]))
                     elif len(entry2_matches) > 1:
                         teams_groups_changed.append("Could not change team \"%s\" to group \"%s\": multiple teams matched this name." % (entry2[0], entry2[1]))
+                    elif len(entry2_matches) == 0:
+                        # A team that is deleted in the delete_teams_and_groups widget is still temporarily displayed in this widget.
+                        # The deleted team is no longer displayed after this widget's "Save" button is clicked again.
+                        # If the user attempted to modify the deleted team, this message will appear.
+                        teams_groups_changed.append("Team \"%s\" in group \"%s\" does not exist." % (entry2[0], entry2[1]))
         else:
             teams_groups_changed = None    
         # End of code to change team groups
