@@ -1,5 +1,5 @@
-{% extends "base.html" %}
-{% load admin_static %}
+{% extends "logged_in_base.html" %}
+<!-- {% load admin_static %} -->
 {% load url from future %}
 {% block page_title %} Quick Start{% endblock %}
 {% block extra_head %}
@@ -32,22 +32,6 @@
     
 {% endblock %}
 {% block body %}
-    <div id="container">
-            <!-- Header -->
-            <div>
-                {% include "components/navbar.html" %}
-
-                {% if user.is_active and user.is_staff %}
-                    <div id="user-tools">
-                        {% block userlinks %}
-                            <a href="{% url 'admin:logout' %}">Log out</a>
-                        {% endblock %}
-                    </div>
-                {% endif %}
-                {% block nav-global %}{% endblock %}
-            </div>
-            <!-- END Header -->
-    </div>
         <div class="container-fluid">
 	        <div class="row-fluid">
 	            <div class="span12">

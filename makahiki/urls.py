@@ -7,7 +7,7 @@ from django.conf.urls import url, patterns, include
 from django.contrib import admin
 from django.views.generic import TemplateView
 from apps.admin.admin import sys_admin_site, challenge_designer_site, \
-    challenge_manager_site, developer_site#, quick_start_site
+    challenge_manager_site, developer_site
 
 admin.autodiscover()
 
@@ -27,6 +27,7 @@ urlpatterns = patterns('',
     url(r'^advanced/$', 'apps.pages.views.index', name="advanced_index"),
     url(r'^status/$', 'apps.pages.views.index', name="status_index"),
     url(r'^sgg_designer/$', 'apps.pages.views.index', name='smartgrid_design'),
+    url(r'^quick_start/$', 'apps.pages.views.index',  name='quick_start'),
     url(r'^pages/clear_cache/$', 'apps.pages.views.clear_cache', name="clear_cache"),
 
 
@@ -54,7 +55,6 @@ urlpatterns = patterns('',
         name="bulk_upload_form"),
     url(r'^player/bulk_create/$', 'apps.managers.player_mgr.views.bulk_create',
         name="bulk_create"),
-    url(r'^quick_start/$', 'apps.pages.views.index',  name='quick_start'),
 
     url(r'^landing/$', TemplateView.as_view(template_name='landing.html'),
         name='landing'),
