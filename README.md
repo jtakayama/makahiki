@@ -28,3 +28,5 @@ Selected publications and technical reports regarding Makahiki are available  <a
 Documentation
 =============
 http://makahiki.readthedocs.org
+
+[![Build Status](https://travis-ci.org/csdl/makahiki.png)](https://travis-ci.org/csdl/makahiki)
