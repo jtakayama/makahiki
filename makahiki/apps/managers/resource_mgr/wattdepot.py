@@ -8,7 +8,6 @@ from xml.etree import ElementTree
 from apps.managers.resource_mgr.storage import ResourceStorage
 import json
 from django.conf import settings
-import requests
 
 
 class Wattdepot(ResourceStorage):
@@ -19,6 +18,7 @@ class Wattdepot(ResourceStorage):
         return "Wattdepot"
 
     def _get_usage_from_XML(self, xml_response):
+        """get the usage from the XML response"""
         usage = 0
         property_elements = ElementTree.XML(xml_response).findall(".//Property")
         for p in property_elements:
@@ -26,17 +26,19 @@ class Wattdepot(ResourceStorage):
             if key_value and key_value[0].text == "energyConsumed":
                 usage = key_value[1].text
         return usage
-    
+
     def _get_usage_from_json(self, json_response):
+        """get the usage from the JSON response"""
         value_object = json.loads(json_response)
         value = value_object["value"]
         if value:
             return value
         else:
             return 0
-        
+
     def get_latest_resource_data_wattdepot3(self, session, source_name, date):
         """Returns the latest usage of the specified resource for the current date."""
+        _ = date
         session.params = {'sensor': source_name,
                           'latest': "true"}
         url = "%s/depository/energy/value/" % (challenge_mgr.get_challenge().wattdepot_server_url)
@@ -77,7 +79,7 @@ class Wattdepot(ResourceStorage):
         url = "%s/sources/%s/energy/" % (
             challenge_mgr.get_challenge().wattdepot_server_url, source_name)
         return self._get_energy_usage(session, url, source_name)
-    
+
     def get_latest_resource_data(self, session, source_name, date):
         """Returns the latest usage of the specified resource for the current date."""
         if settings.MAKAHIKI_USE_WATTDEPOT3:
@@ -86,7 +88,7 @@ class Wattdepot(ResourceStorage):
             return self.get_latest_resource_data_wattdepot2(session, source_name, date)
 
     def get_history_resource_data(self, session, source_name, date, hour):
-        """Return the history energy usage of the team for the date and hour."""   
+        """Return the history energy usage of the team for the date and hour."""
         if settings.MAKAHIKI_USE_WATTDEPOT3:
             return self.get_history_resource_data_wattdepot3(session, source_name, date, hour)
         else:
@@ -116,4 +118,3 @@ class Wattdepot(ResourceStorage):
             print 'Wattdepot data retrieval for team %s ParseError : %s' % (source, exception)
 
         return 0
-
