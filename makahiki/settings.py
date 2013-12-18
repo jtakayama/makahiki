@@ -530,6 +530,12 @@ if MAKAHIKI_USE_LOGFILE:
         'formatter': 'simple',
         }
 
+MAKAHIKI_USE_WATTDEPOT3 = env('MAKAHIKI_USE_WATTDEPOT3', '').lower() == "true"
+"""[Required if using wattdepot3] wattdepot admin name."""
+WATTDEPOT_ADMIN_NAME = env('WATTDEPOT_ADMIN_NAME', '')
+"""[Required if using wattdepot3] wattdepot admin password."""
+WATTDEPOT_ADMIN_PASSWORD = env('WATTDEPOT_ADMIN_PASSWORD', '')
+
 # Allow the IPv4 address 192.169.56.4 for Vagrant testing
 # Variable is set in Vagrant's makahiki_env.sh
 MACHINE_IS_VAGRANT = env('MACHINE_IS_VAGRANT', '').lower() == "true"

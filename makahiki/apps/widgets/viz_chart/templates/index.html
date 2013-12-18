@@ -8,7 +8,7 @@
     <div id="control">
         {{ TEAM_LABEL }} : <br/>
         {% for lounge in all_lounges %}
-            <input type="checkbox" name="lounge" value="{{ lounge.name}}"
+            <input type="checkbox" name="lounge" value="{{ lounge.wattdepot_source_name}}"
                     {% if user.profile.team.name == lounge.name %}
                    checked="checked" {% endif %}
                    onchange='update();'/>
@@ -28,11 +28,10 @@
         last 21 days
         <br/>
         Data :
-        <input type="radio" name="datatype" value="energyConsumed" checked="checked"
-               onchange="update();"/>
-        Energy Consumed
-        <input type="radio" name="datatype" value="powerConsumed" onchange="update();"/>
+        <input type="radio" name="datatype" value="power" checked="checked" onchange="update();"/>
         Power Consumed
+        <input type="radio" name="datatype" value="energy" onchange="update();"/>
+        Energy Consumed
     </div>
 
 

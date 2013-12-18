@@ -18,7 +18,7 @@
                     {% for lounge in all_lounges %}
                         <option {% if team == lounge or team == lounge.name %}
                             selected {% endif %}
-                            value='{{ lounge.name}}'>{{ lounge.name }}
+                            value='{{ lounge.wattdepot_source_name}}'>{{ lounge.name }}
                         </option>
                     {% endfor %}
                 </select>

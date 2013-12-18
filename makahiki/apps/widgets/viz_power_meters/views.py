@@ -11,6 +11,12 @@ def supply(request, page_name):
     team = request.user.profile.team
     group_lounges_count = 5
     all_lounges = Team.objects.order_by('name').all()
+    for team in all_lounges:
+        wattdepot_source_name = team.energygoalsetting_set.all()[0].wattdepot_source_name
+        if not wattdepot_source_name:
+            wattdepot_source_name = team.name
+        team.wattdepot_source_name = wattdepot_source_name
+
     group_lounges_list = []
 
     if team:
@@ -31,6 +37,12 @@ def supply(request, page_name):
         group_lounges_count = len(group_lounges)
     else:
         group_lounges_count = group_lounges.count()
+
+    for team in group_lounges:
+        wattdepot_source_name = team.energygoalsetting_set.all()[0].wattdepot_source_name
+        if not wattdepot_source_name:
+            wattdepot_source_name = team.name
+        team.wattdepot_source_name = wattdepot_source_name
 
     return  {
         "all_lounges": all_lounges,

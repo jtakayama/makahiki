@@ -5,7 +5,7 @@ google.load("visualization", "1", {packages:['corechart', 'imagechart']});
 // Store user preferences in corresponding variables.
 var title = "Energy Consumed";
 var host_uri = SERVER_URL;
-var dataType = "energyConsumed";
+var dataType = "energy";
 
 // an array for collected tables which will be combined for display.
 var table;
@@ -65,16 +65,12 @@ function initialize() {
     // Set the beginning and end dates
     endDate = new Date();
     // Get on the hour data starting from last midnight.
-    endDate.setMinutes(0);
-    endDate.setHours(0);
 
     // Copy the endDate then subtract the necessary hours.
     // Last two 0's of the constructor sets the seconds and milliseconds to 0.
     begDate = new Date(endDate.getFullYear(), endDate.getMonth(),
         endDate.getDate(), endDate.getHours(), endDate.getMinutes(), 0, 0);
-    begDate.setHours(0);
     begDate.setHours(begDate.getHours() - goBack);
-    begDate.setMinutes(0);
 
     // Initialize beginning and ending variables to hold the timestamp
     // in XMLGregorian format that WattDepot requires.
@@ -102,12 +98,14 @@ function initialize() {
     // In order to support multiple sources in a single visualization, need to create an array of queries
     // and store each as an element in the array.
     var query = new Array();
-    for (l = 0; l < source.length; l++) {
-        var url = host_uri + '/sources/' + source[l].toString() + '/gviz/calculated?startTime=' +
-            startTime + '&endTime=' + endTime + '&samplingInterval=' + interval;
+    for (i = 0; i < source.length; i++) {
+        //var url = host_uri + '/sources/' + source[i].toString() + '/gviz/calculated?startTime=' +
+        //    startTime + '&endTime=' + endTime + '&samplingInterval=' + interval;
+        var url = host_uri + '/depository/' + dataType + '/values/gviz/?sensor='+ source[i] +'&start=' + startTime + '&end=' + endTime + '&interval='+interval;
+        
         //debug(url);
-        query[l] = new google.visualization.Query(url);
-        query[l].setQuery('select timePoint, ' + dataType);
+        query[i] = new google.visualization.Query(url);
+        query[i].setQuery('select timePoint, ' + dataType);
     }
     query[0].send(function(response) {
         responseHandler(response, query, source, 0);

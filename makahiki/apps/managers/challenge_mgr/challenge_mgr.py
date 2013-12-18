@@ -80,10 +80,15 @@ def get_challenge():
     if not challenge:
         challenge, _ = ChallengeSetting.objects.get_or_create(pk=1)
 
-        # check the WattDepot URL to ensure it does't end with '/'
         if challenge.wattdepot_server_url:
+            # check the WattDepot URL to ensure it does't end with '/'
             while challenge.wattdepot_server_url.endswith('/'):
                 challenge.wattdepot_server_url = challenge.wattdepot_server_url[:-1]
+            # append auth info
+            if settings.MAKAHIKI_USE_WATTDEPOT3:
+                challenge.wattdepot_server_url = challenge.wattdepot_server_url.replace(
+                    "://", "://%s:%s@" % (settings.WATTDEPOT_ADMIN_NAME, settings.WATTDEPOT_ADMIN_PASSWORD))
+                print challenge.wattdepot_server_url
 
         # create the admin
         create_admin_user()
