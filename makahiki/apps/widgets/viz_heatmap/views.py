@@ -13,6 +13,11 @@ def supply(request, page_name):
 
     for group in all_groups:
         group.teams = group.team_set.order_by('-name').all()
+        for team in group.teams:
+            wattdepot_source_name = team.energygoalsetting_set.all()[0].wattdepot_source_name
+            if not wattdepot_source_name:
+                wattdepot_source_name = team.name
+            team.wattdepot_source_name = wattdepot_source_name
 
     return  {
         "all_groups": all_groups,

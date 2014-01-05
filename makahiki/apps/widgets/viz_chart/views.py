@@ -11,6 +11,12 @@ def supply(request, page_name):
 
     all_lounges = Team.objects.order_by('name').all()
 
+    for team in all_lounges:
+        wattdepot_source_name = team.energygoalsetting_set.all()[0].wattdepot_source_name
+        if not wattdepot_source_name:
+            wattdepot_source_name = team.name
+        team.wattdepot_source_name = wattdepot_source_name
+
     return  {
         "all_lounges": all_lounges,
         }
