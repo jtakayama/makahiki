@@ -209,7 +209,7 @@ if [ ! -f /usr/local/lib/libmemcached.so ]
         if [ -f /usr/local/lib/libmemcached.so ]
             then
                 print "libmemcached-0.53 built and installed successfully."
-            else:
+            else
                 print "libmemcached-0.53 installation failed."
         fi
         echo "Cleaning up..."
