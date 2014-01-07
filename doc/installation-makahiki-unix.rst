@@ -86,27 +86,58 @@ To check that Git is installed::
   % git --version 
 
 
-Install Pip
+Install pip
 -----------
 
-Install it by typing::
+If easy_install is installed on your system, install pip by by typing::
 
   % easy_install pip
 
-Depending on your system configuration, you may
-have to type ``sudo easy_install pip``. If you do not have easy_install,
-download and install it from the `setuptools website`_. Linux (Ubuntu) users can use 
-``sudo apt-get install python-setuptools``.
+To check that pip is installed::
+
+  % pip --version 
+
+.. note::
+   If you do not have easy_install, download and install it according to the instructions below, 
+   then use easy_install to install pip.
+
+Ubuntu
+******
+Ubuntu users will install the package from PyPA. The method used below will create a directory 
+in the user home directory and download the installer files into it.
+
+Follow these instructions to install setuptools::
+
+  % mkdir ~/install-setuptools
+  % wget https://bitbucket.org/pypa/setuptools/raw/0.8/ez_setup.py -P ~/install-setuptools
+  % python ~/install-setuptools/ez_setup.py
+
+Install pip by typing::
+
+  % sudo easy_install pip
+
+To check that pip is installed::
+
+  % pip --version
+  
+You can safely delete the install-setuptools directory after you have completed this step.
+
+RHEL and CentOS
+***************
 
 RHEL and CentOS users should have enabled the SCL Python 2.7.3 environment before installing pip.
-They **should not** use ``sudo easy_install``: this installs pip for Python 2.6.6 instead.
-
 RHEL and CentOS users who follow this guide have already installed easy_install as part of 
 the Python 2.7.3 SCL installation.
 
-To check that Pip is installed::
+RHEL users **should not** use ``sudo easy_install``: this installs pip for Python 2.6.6 instead.
 
-  % pip --version 
+Install pip by typing::
+
+  % easy_install pip
+
+To check that pip is installed::
+  
+  % pip --version
 
 Install Virtual Environment Wrapper
 -----------------------------------
@@ -391,7 +422,6 @@ If libmemcached.so is found successfully, then the installation is complete.
 .. _Python Imaging Library: http://www.pythonware.com/products/pil/
 .. _Homebrew: http://mxcl.github.com/homebrew/
 .. _GitHub install wiki: http://help.github.com/git-installation-redirect
-.. _setuptools website: http://pypi.python.org/pypi/setuptools
 .. _Virtualenvwrapper: http://www.doughellmann.com/docs/virtualenvwrapper/
 .. _virtualenvwrapper installation instructions: http://www.doughellmann.com/docs/virtualenvwrapper/install.html#basic-installation
 .. _PostgreSQL: http://www.postgresql.org/

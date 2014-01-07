@@ -1,3 +1,7 @@
+--allow-external django 
+--allow-external elementtree
+--allow-unverified elementtree
+--allow-external newrelic
 
 Django==1.6
 django-extensions==1.2.5
