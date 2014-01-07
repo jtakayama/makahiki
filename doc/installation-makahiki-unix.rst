@@ -104,7 +104,7 @@ To check that pip is installed::
 Ubuntu
 ******
 Ubuntu users will install the package from PyPA. The method used below will create a directory 
-in the user home directory and downloads the installer files into it.
+in the user home directory and download the installer files into it.
 
 Follow these instructions to install setuptools::
 
