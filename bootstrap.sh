@@ -65,8 +65,14 @@ echo "apt-get install -y gcc"
 apt-get install -y gcc
 echo "Installing gcc: finished at $(date)"
 echo "Installing python-setuptools: started at $(date)"
-echo "apt-get install -y python-setuptools"
-apt-get install -y python-setuptools
+#echo "apt-get install -y python-setuptools"
+#apt-get install -y python-setuptools
+# begin test code
+mkdir /vagrant/install-setuptools # This fixed the setuptools errors, but it still doesn't install Django.
+wget https://bitbucket.org/pypa/setuptools/raw/0.8/ez_setup.py -P /vagrant/install-setuptools
+python /vagrant/install-setuptools/ez_setup.py
+rm -rf /vagrant/install-setuptools
+# end test code
 echo "Installing python-setuptools: finished at $(date)"
 echo "Installing pip: started at $(date)"
 echo "easy_install pip"
