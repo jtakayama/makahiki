@@ -3,7 +3,7 @@
 Local installation on Unix
 ==========================
 
-These instructions also assume that you are using a Bourne-type shell (such as bash),
+These instructions assume that you are using a Bourne-type shell (such as bash),
 which is the default on Mac OS X and Linux. Using a C-shell variant
 (like tcsh), is possible but not recommended.
 
@@ -86,7 +86,7 @@ To check that Git is installed::
   % git --version 
 
 
-Install pip
+Install Pip
 -----------
 
 If easy_install is installed on your system, install pip by by typing::
@@ -110,7 +110,7 @@ Follow these instructions to install setuptools::
 
   % mkdir ~/install-setuptools
   % wget https://bitbucket.org/pypa/setuptools/raw/0.8/ez_setup.py -P ~/install-setuptools
-  % python ~/install-setuptools/ez_setup.py
+  % sudo python ~/install-setuptools/ez_setup.py
 
 Install pip by typing::
 
@@ -146,7 +146,7 @@ Install Virtual Environment Wrapper
 
 Ubuntu
 ******
-Follow the `virtualenvwrapper installation instructions`_ through the Quick Start section to install virtualenv and virtualenvwrapper. Once they are installed, create a virtual environment for makahiki as follows::
+Follow the `virtualenvwrapper installation instructions`_ through the Quick Start section to install virtualenv and virtualenvwrapper and edit the shell startup file .bashrc. Once they are installed, create a virtual environment for makahiki as follows::
 
   % mkvirtualenv makahiki
 
@@ -410,7 +410,8 @@ Switch into the extracted directory, then configure, make, and make install::
   % cd libmemcached-0.53 
   % ./configure
   % make
-  % make install
+  % sudo make install
+  % cd ../
   
 Finally, check the location of the libmemcached.so library:: 
 
@@ -481,8 +482,11 @@ always available, or you can edit the ``postactivate`` file (in Unix, found in
 ``$WORKON_HOME/makahiki/bin``) so that they are defined whenever you 
 ``workon makahiki``.
 
+After adding the variables to the postactivate file, you will need to run
+``workon makahiki`` again.
+
 Note that you will want to provide a stronger password for the makahiki
-admin account if this server is publically accessible. 
+admin account if this server is publicly accessible. 
 
 Makahiki also utilizes a variety of other environment variables. For complete
 documentation, see :ref:`section-environment-variables`.
