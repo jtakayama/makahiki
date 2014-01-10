@@ -1,4 +1,6 @@
 --allow-external django 
+--allow-external PIL
+--allow-unverified PIL
 --allow-external elementtree
 --allow-unverified elementtree
 --allow-external newrelic

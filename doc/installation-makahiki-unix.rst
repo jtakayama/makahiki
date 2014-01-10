@@ -86,7 +86,7 @@ To check that Git is installed::
   % git --version 
 
 
-Install pip
+Install Pip
 -----------
 
 If easy_install is installed on your system, install pip by by typing::
