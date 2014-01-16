@@ -376,15 +376,15 @@ Example: postgres://username:password@db_host:db_port/db_name"""
 if MAKAHIKI_USE_HEROKU:
     DATABASE_URL = env('DATABASE_URL', '')
     DATABASES = {'default': dj_database_url.parse(DATABASE_URL)}
+    DATABASES['default']['ATOMIC_REQUESTS'] = True
 else:
     if MAKAHIKI_DATABASE_URL:
         DATABASES = {'default': dj_database_url.parse(MAKAHIKI_DATABASE_URL)}
+        DATABASES['default']['ATOMIC_REQUESTS'] = True
     else:
         if 'READTHEDOCS' not in os.environ:
             print "Environment variable MAKAHIKI_DATABASE_URL not defined. Exiting."
             sys.exit(1)
-
-DATABASES['default']['ATOMIC_REQUESTS'] = True
 
 # Admin info Settings
 MAKAHIKI_ADMIN_INFO = env('MAKAHIKI_ADMIN_INFO', '')
