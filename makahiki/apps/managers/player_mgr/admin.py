@@ -25,7 +25,7 @@ class MakahikiUserAdmin(UserAdmin):
     fieldsets = (
         (None, {'fields': ('username', 'password')}),
         ('Personal info', {'fields': ('first_name', 'last_name', 'email',
-                                      'is_active', 'is_superuser',
+                                      'is_active', 'is_superuser', 'is_staff',
                                      )}),
     )
     # add_fieldsets is not a standard ModelAdmin attribute. UserAdmin

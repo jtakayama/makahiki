@@ -87,7 +87,7 @@ def get_challenge():
             # append auth info
             if settings.MAKAHIKI_USE_WATTDEPOT3:
                 challenge.wattdepot_server_url = challenge.wattdepot_server_url.replace(
-                    "://", "://%s:%s@" % (settings.WATTDEPOT_ADMIN_NAME, 
+                    "://", "://%s:%s@" % (settings.WATTDEPOT_ADMIN_NAME,
                                           settings.WATTDEPOT_ADMIN_PASSWORD))
                 print challenge.wattdepot_server_url
 
