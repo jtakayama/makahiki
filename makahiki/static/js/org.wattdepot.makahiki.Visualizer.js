@@ -1,13 +1,15 @@
 
 Namespace("org.wattdepot.makahiki");
 
-  /**loads the visualization for both annotated timelines and for table. */
-  google.load('visualization','1',{'packages':['annotatedtimeline', 'table']}); 
+ var host_uri = SERVER_URL;
+ var wattdepot_version = WATTDEPOT_VERSION;
+
+ /**loads the visualization for both annotated timelines and for table. */
+ google.load('visualization','1',{'packages':['annotatedtimeline', 'table']});
 
  google.setOnLoadCallback(initialize);
 
- var host_uri = SERVER_URL;
- var powerSource;      
+ var powerSource;
  var table;
  var sourceNo;       
   
@@ -85,10 +87,23 @@ Namespace("org.wattdepot.makahiki");
       /**sensor data and calculated data have different query a uri.  */
       var query = new Array();
       for (i=0; i<powerSource.length; i++){
-        //var url = host_uri + '/sources/' + powerSource[i] +  '/gviz/calculated?startTime=' + startTime + '&endTime=' + endTime + '&samplingInterval='+interval;
-        var url = host_uri + '/depository/' + dataType + '/values/gviz/?sensor='+ powerSource[i] +'&start=' + startTime + '&end=' + endTime + '&interval='+interval;
-        
-        query[i] = new google.visualization.Query(url); 
+          if (wattdepot_version == "WATTDEPOT2") {
+            var url = host_uri + '/sources/' + powerSource[i] +  '/gviz/calculated?startTime=' +
+                startTime + '&endTime=' + endTime + '&samplingInterval='+interval;
+            query[i] = new google.visualization.Query(url);
+
+            if (dataType == "power")
+                dataType = "powerConsumed";
+            if (dataType == "energy")
+                dataType = "energyConsumed";
+
+            query[i].setQuery('select timePoint, ' + dataType);
+          }
+          if (wattdepot_version == "WATTDEPOT3") {
+            var url = host_uri + '/depository/' + dataType + '/values/gviz/?sensor='+
+                powerSource[i] +'&start=' + startTime + '&end=' + endTime + '&interval='+interval;
+            query[i] = new google.visualization.Query(url);
+          }
       }
               
       /**begin processing query with first entry in array. passing the query response, the whole query, and the current index.*/

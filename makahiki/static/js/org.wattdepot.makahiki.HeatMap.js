@@ -1,11 +1,12 @@
 Namespace("org.wattdepot.makahiki");
 
+var host_uri = SERVER_URL;
+var wattdepot_version = WATTDEPOT_VERSION;
+
 google.load("visualization", "1", {packages:['corechart', 'imagechart']});
 
 // Store user preferences in corresponding variables.
 var title = "Energy Consumed";
-var host_uri = SERVER_URL;
-var dataType = "energy";
 
 // an array for collected tables which will be combined for display.
 var table;
@@ -99,9 +100,18 @@ function initialize() {
     // and store each as an element in the array.
     var query = new Array();
     for (i = 0; i < source.length; i++) {
-        //var url = host_uri + '/sources/' + source[i].toString() + '/gviz/calculated?startTime=' +
-        //    startTime + '&endTime=' + endTime + '&samplingInterval=' + interval;
-        var url = host_uri + '/depository/' + dataType + '/values/gviz/?sensor='+ source[i] +'&start=' + startTime + '&end=' + endTime + '&interval='+interval;
+
+        var url = null;
+        if (wattdepot_version == "WATTDEPOT2") {
+            var dataType = "energyConsumed";
+            url = host_uri + '/sources/' + source[i] + '/gviz/calculated?startTime=' +
+                startTime + '&endTime=' + endTime + '&samplingInterval=' + interval;
+        }
+        if (wattdepot_version == "WATTDEPOT3") {
+            var dataType = "energy";
+            url = host_uri + '/depository/' + dataType + '/values/gviz/?sensor='+
+                source[i] +'&start=' + startTime + '&end=' + endTime + '&interval='+interval;
+        }
         
         //debug(url);
         query[i] = new google.visualization.Query(url);

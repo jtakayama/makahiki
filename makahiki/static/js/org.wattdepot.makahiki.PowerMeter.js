@@ -1,7 +1,7 @@
 google.load("visualization", "1", {packages:['corechart', 'imagechart']});
 
 // Visualization to show current power data.
-function Makahiki_PowerMeter(server_url, source, refresh_interval, viz_id, options) {
+function Makahiki_PowerMeter(server_url, wattdepot_version, source, refresh_interval, viz_id, options) {
     // http://code.google.com/apis/visualization/documentation/gallery/genericimagechart.html
 
     var query = null;
@@ -13,11 +13,19 @@ function Makahiki_PowerMeter(server_url, source, refresh_interval, viz_id, optio
     return change_source;
 
     function getWattdepotGvizURL(source) {
-    	// wattdepot2:
-        //var gviz_url = server_url + "/sources/" +
-        //    source + "/gviz/sensordata/latest?tq=select%20timePoint%2C%20powerConsumed";
-    	var gviz_url = server_url + "/depository/power/value/gviz/?sensor=" + source + "&latest=true";
-    	return gviz_url;
+        var gviz_url = null;
+        if (wattdepot_version == "WATTDEPOT2") {
+    	  // wattdepot2:
+           gviz_url = server_url + "/sources/" +
+            source + "/gviz/sensordata/latest?tq=select%20timePoint%2C%20powerConsumed";
+        }
+
+        if (wattdepot_version == "WATTDEPOT3") {
+          // wattdepot3
+    	  gviz_url = server_url + "/depository/power/value/gviz/?sensor=" + source + "&latest=true";
+        }
+
+        return gviz_url;
     }
     
     function callback(source) {

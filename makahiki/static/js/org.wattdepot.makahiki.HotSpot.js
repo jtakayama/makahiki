@@ -1,5 +1,8 @@
 Namespace("org.wattdepot.makahiki");
 
+var host_uri = SERVER_URL;
+var wattdepot_version = WATTDEPOT_VERSION;
+
 /** Load the Visualization API and the bar chart package. */
 google.load("visualization", "1", {packages:['corechart', 'imagechart']});
 
@@ -7,9 +10,6 @@ google.load("visualization", "1", {packages:['corechart', 'imagechart']});
 google.setOnLoadCallback(initialize);
 
 var title = "Energy Consumed";
-var host_uri = SERVER_URL;
-
-var dataType = "energy";
 var dateRange = "last7days"
 var goBack = 168;
 var interval = 60;
@@ -68,11 +68,19 @@ function initialize() {
 	// create an array of queries
     // and store each as an element in the array.
 
-    // var url = host_uri + '/sources/' + source + '/gviz/calculated?startTime='
-	// +
-    // startTime + '&endTime=' + endTime + '&samplingInterval=' + interval;
-    var url = host_uri + '/depository/' + dataType + '/values/gviz/?sensor='+ source +'&start=' + startTime + '&end=' + endTime + '&interval='+interval;
-    
+    var url = null;
+    if (wattdepot_version == "WATTDEPOT2") {
+      var dataType = "energyConsumed";
+      url = host_uri + '/sources/' + source + '/gviz/calculated?startTime=' +
+        startTime + '&endTime=' + endTime + '&samplingInterval=' + interval;
+    }
+
+    if (wattdepot_version == "WATTDEPOT3") {
+      var dataType = "energy";
+      url = host_uri + '/depository/' + dataType + '/values/gviz/?sensor='+
+          source +'&start=' + startTime + '&end=' + endTime + '&interval='+interval;
+    }
+
     query = new google.visualization.Query(url);
     //debug(url);
     
