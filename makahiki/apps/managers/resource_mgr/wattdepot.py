@@ -105,10 +105,15 @@ class Wattdepot(ResourceStorage):
         try:
             if settings.MAKAHIKI_USE_WATTDEPOT3:
                 session.auth = (settings.WATTDEPOT_ADMIN_NAME, settings.WATTDEPOT_ADMIN_PASSWORD)
-            response = session.get(url)
+                response = session.get(url)
 
-            #print response.text
-            usage = self._get_usage_from_json(response.text)
+                #print response.text
+                usage = self._get_usage_from_json(response.text)
+            else:
+                response = session.get(url)
+                #print response.text
+
+                usage = self._get_usage_from_XML(response.text)
 
             return abs(int(round(float(usage))))
 
