@@ -3,7 +3,7 @@
 Local installation on Unix
 ==========================
 
-These instructions assume that you are using a Bourne-type shell (such as bash),
+These instructions also assume that you are using a Bourne-type shell (such as bash),
 which is the default on Mac OS X and Linux. Using a C-shell variant
 (like tcsh), is possible but not recommended.
 
@@ -89,55 +89,24 @@ To check that Git is installed::
 Install Pip
 -----------
 
-If easy_install is installed on your system, install pip by by typing::
+Install it by typing::
 
   % easy_install pip
 
-To check that pip is installed::
-
-  % pip --version 
-
-.. note::
-   If you do not have easy_install, download and install it according to the instructions below, 
-   then use easy_install to install pip.
-
-Ubuntu
-******
-Ubuntu users will install the package from PyPA. The method used below will create a directory 
-in the user home directory and download the installer files into it.
-
-Follow these instructions to install setuptools::
-
-  % mkdir ~/install-setuptools
-  % wget https://bitbucket.org/pypa/setuptools/raw/0.8/ez_setup.py -P ~/install-setuptools
-  % sudo python ~/install-setuptools/ez_setup.py
-
-Install pip by typing::
-
-  % sudo easy_install pip
-
-To check that pip is installed::
-
-  % pip --version
-  
-You can safely delete the install-setuptools directory after you have completed this step.
-
-RHEL and CentOS
-***************
+Depending on your system configuration, you may
+have to type ``sudo easy_install pip``. If you do not have easy_install,
+download and install it from the `setuptools website`_. Linux (Ubuntu) users can use 
+``sudo apt-get install python-setuptools``.
 
 RHEL and CentOS users should have enabled the SCL Python 2.7.3 environment before installing pip.
+They **should not** use ``sudo easy_install``: this installs pip for Python 2.6.6 instead.
+
 RHEL and CentOS users who follow this guide have already installed easy_install as part of 
 the Python 2.7.3 SCL installation.
 
-RHEL users **should not** use ``sudo easy_install``: this installs pip for Python 2.6.6 instead.
+To check that Pip is installed::
 
-Install pip by typing::
-
-  % easy_install pip
-
-To check that pip is installed::
-  
-  % pip --version
+  % pip --version 
 
 Install Virtual Environment Wrapper
 -----------------------------------
@@ -146,7 +115,7 @@ Install Virtual Environment Wrapper
 
 Ubuntu
 ******
-Follow the `virtualenvwrapper installation instructions`_ through the Quick Start section to install virtualenv and virtualenvwrapper and edit the shell startup file .bashrc. Once they are installed, create a virtual environment for makahiki as follows::
+Follow the `virtualenvwrapper installation instructions`_ through the Quick Start section to install virtualenv and virtualenvwrapper. Once they are installed, create a virtual environment for makahiki as follows::
 
   % mkvirtualenv makahiki
 
@@ -410,8 +379,7 @@ Switch into the extracted directory, then configure, make, and make install::
   % cd libmemcached-0.53 
   % ./configure
   % make
-  % sudo make install
-  % cd ../
+  % make install
   
 Finally, check the location of the libmemcached.so library:: 
 
@@ -423,6 +391,7 @@ If libmemcached.so is found successfully, then the installation is complete.
 .. _Python Imaging Library: http://www.pythonware.com/products/pil/
 .. _Homebrew: http://mxcl.github.com/homebrew/
 .. _GitHub install wiki: http://help.github.com/git-installation-redirect
+.. _setuptools website: http://pypi.python.org/pypi/setuptools
 .. _Virtualenvwrapper: http://www.doughellmann.com/docs/virtualenvwrapper/
 .. _virtualenvwrapper installation instructions: http://www.doughellmann.com/docs/virtualenvwrapper/install.html#basic-installation
 .. _PostgreSQL: http://www.postgresql.org/
@@ -482,11 +451,8 @@ always available, or you can edit the ``postactivate`` file (in Unix, found in
 ``$WORKON_HOME/makahiki/bin``) so that they are defined whenever you 
 ``workon makahiki``.
 
-After adding the variables to the postactivate file, you will need to run
-``workon makahiki`` again.
-
 Note that you will want to provide a stronger password for the makahiki
-admin account if this server is publicly accessible. 
+admin account if this server is publically accessible. 
 
 Makahiki also utilizes a variety of other environment variables. For complete
 documentation, see :ref:`section-environment-variables`.
