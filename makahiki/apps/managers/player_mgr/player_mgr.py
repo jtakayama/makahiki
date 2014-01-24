@@ -27,13 +27,17 @@ def players(num_results=None):
     return results
 
 
-def points_leader(round_name=None):
+def points_leader(round_name=None, place=1):
     """Returns the points leader (the first place) out of all users, as a Profile object."""
-    entry = score_mgr.player_points_leader(round_name=round_name)
+    entry = score_mgr.player_points_leader(round_name=round_name, place=place)
     if entry:
         return entry
     else:
-        return Profile.objects.all()[0]
+        entries = Profile.objects.all()
+        if len(entries) >= place:
+            return entries[place - 1]
+        else:
+            return None
 
 
 def points_leaders(num_results=None, round_name=None):

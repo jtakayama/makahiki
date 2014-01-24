@@ -184,10 +184,10 @@ def resource_team_rank_info(team, resource):
         return None
 
 
-def resource_leader(name, round_name=None):
+def resource_leader(name, round_name=None, place=1):
     """Returns the leader (team name) of the resource use."""
     ranks = resource_ranks(name, round_name)
-    if ranks:
-        return ranks[0]["team__name"]
+    if len(ranks) >= place:
+        return ranks[place - 1]["team__name"]
     else:
         return None

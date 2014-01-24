@@ -29,16 +29,6 @@ class OverallPrizeTest(TransactionTestCase):
         # Create test users.
         self.users = [User.objects.create_user("test%d" % i, "test@test.com") for i in range(0, 3)]
 
-    def testNumAwarded(self):
-        """
-        Simple test to check that the number of prizes to be awarded is one.
-        """
-        self.prize.round = RoundSetting.objects.get(name="Round 1")
-        self.prize.save()
-
-        self.assertEqual(self.prize.num_awarded(), 1,
-            "This prize should not be awarded to more than one user.")
-
     def testRoundLeader(self):
         """
         Tests that we can retrieve the overall individual points leader for a round prize.
@@ -98,16 +88,6 @@ class TeamPrizeTest(TransactionTestCase):
         test_utils.set_competition_round()
 
         test_utils.create_teams(self)
-
-    def testNumAwarded(self):
-        """
-        Tests that the number of prizes awarded corresponds to the number of teams.
-        """
-        self.prize.round = RoundSetting.objects.get(name="Round 1")
-        self.prize.save()
-
-        self.assertEqual(self.prize.num_awarded(), len(self.teams),
-            "This should correspond to the number of teams.")
 
     def testRoundLeader(self):
         """

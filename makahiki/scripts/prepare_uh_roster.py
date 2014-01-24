@@ -38,7 +38,8 @@ def main(args):
             continue
 
         # roster format: Last Name,First Name,e-mail,Building_ID,Room_ID,Building_Name
-        # Resident.ID Number,Resident.Last Name,Resident.First Name,Resident.Gender,Contract.Name,Resident.e-mail
+        # Resident.ID Number,Resident.Last Name,Resident.First Name,Resident.Gender,
+        # Contract.Name,Resident.e-mail
         lastname = items[1].strip().capitalize()
         firstname = items[2].strip().capitalize()
         email = items[5].strip()

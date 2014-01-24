@@ -37,16 +37,6 @@ class DormTeamPrizeTests(TransactionTestCase):
             user.profile.team = self.teams[index % 4]
             user.profile.save()
 
-    def testNumAwarded(self):
-        """Checks that the number of prizes to award for this prize is the same as the
-        number of groups.
-        """
-        self.prize.round = RoundSetting.objects.get(name="Round 1")
-        self.prize.save()
-
-        self.assertEqual(self.prize.num_awarded(self.teams[0]), len(self.groups),
-            "One prize should be awarded to each of the groups in the competition.")
-
     def testRoundLeader(self):
         """
         Tests that we can retrieve the overall individual points leader for a round prize.
@@ -108,17 +98,6 @@ class OverallTeamPrizeTest(TransactionTestCase):
         self.current_round = "Round 1"
         test_utils.set_competition_round()
         test_utils.create_teams(self)
-
-    def testNumAwarded(self):
-        """
-        Simple test to check that the number of prizes to be awarded is one.
-        """
-        self.prize.round = RoundSetting.objects.get(name="Round 1")
-        self.prize.save()
-
-        self.assertEqual(self.prize.num_awarded(),
-                         1,
-                         "This prize should not be awarded to more than one user.")
 
     def testRoundLeader(self):
         """
