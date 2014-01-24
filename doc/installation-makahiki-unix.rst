@@ -91,7 +91,7 @@ Install Pip
 
 Install it by typing::
 
-  % easy_install pip
+  % easy_install pip==1.4.1
 
 Depending on your system configuration, you may
 have to type ``sudo easy_install pip``. If you do not have easy_install,
