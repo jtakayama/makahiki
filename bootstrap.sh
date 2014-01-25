@@ -69,8 +69,8 @@ echo "apt-get install -y python-setuptools"
 apt-get install -y python-setuptools
 echo "Installing python-setuptools: finished at $(date)"
 echo "Installing pip: started at $(date)"
-echo "easy_install pip"
-easy_install pip
+echo "easy_install pip==1.4.1"
+easy_install pip==1.4.1
 echo "Installing pip: finished at $(date)"
 echo "Installing python-imaging: started at $(date)"
 echo "apt-get install -y python-imaging"
@@ -209,7 +209,7 @@ if [ ! -f /usr/local/lib/libmemcached.so ]
         if [ -f /usr/local/lib/libmemcached.so ]
             then
                 print "libmemcached-0.53 built and installed successfully."
-            else:
+            else
                 print "libmemcached-0.53 installation failed."
         fi
         echo "Cleaning up..."

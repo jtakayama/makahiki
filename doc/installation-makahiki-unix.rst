@@ -89,13 +89,15 @@ To check that Git is installed::
 Install Pip
 -----------
 
-Install it by typing::
+If easy_install is installed on your system, install pip by typing::
 
-  % easy_install pip
+  % easy_install pip==1.4.1
 
-Depending on your system configuration, you may
-have to type ``sudo easy_install pip``. If you do not have easy_install,
-download and install it from the `setuptools website`_. Linux (Ubuntu) users can use 
+Depending on your system configuration, you may 
+have to type ``sudo easy_install pip==1.4.1``. 
+
+If you do not have easy_install, download and install it from the 
+`setuptools website`_. Linux (Ubuntu) users can use 
 ``sudo apt-get install python-setuptools``.
 
 RHEL and CentOS users should have enabled the SCL Python 2.7.3 environment before installing pip.
