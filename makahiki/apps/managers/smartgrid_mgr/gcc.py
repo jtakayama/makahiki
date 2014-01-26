@@ -215,7 +215,7 @@ def check_designer_unlock_dates(draft):
             if len(l) > 1:
                 index = l[1].find(')')
                 date_string = l[1][:index].strip('"\'')
-                unlock_date = datetime.strptime(date_string, "%y-%m-%d")
+                unlock_date = datetime.strptime(date_string, "%Y-%m-%d")
                 if __is_after_challenge(datetime.combine(unlock_date, time(0, 0))):
                     message = "unlock date %s is after challenge end %s" % \
                     (unlock_date.date(), challenge_mgr.get_challenge_end().date())

@@ -31,7 +31,7 @@ class Test(TransactionTestCase):
                             "set_profile_pic()",
                             "referring_count(4)",
                             "daily_visit_count(10)",
-                            "unlock_on_date('13-07-16')",
+                            "unlock_on_date('2013-07-16')",
                            "unlock_on_event(event_slug='kick-off', days=-3, lock_after_days=5)",
                            "approved_some_of_level(level_priority=3, count=3)",
                            "submitted_level(3)",
