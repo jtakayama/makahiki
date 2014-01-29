@@ -33,9 +33,11 @@ def resource_supply(request, resource, page_name):
             round_group_resource_ranks[key] = resource_mgr.group_resource_ranks(resource, key)
             round_resource_goal_ranks[key] = resource_goal.resource_goal_ranks(resource, key)
 
+    """
     round_resource_ranks["Overall"] = resource_mgr.resource_ranks(resource, "Overall")
     round_group_resource_ranks["Overall"] = resource_mgr.group_resource_ranks(resource, "Overall")
     round_resource_goal_ranks["Overall"] = resource_goal.resource_goal_ranks(resource, "Overall")
+    """
 
     resource_setting = resource_mgr.get_resource_setting(resource)
     return {
