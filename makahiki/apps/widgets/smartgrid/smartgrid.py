@@ -149,13 +149,17 @@ def get_level_actions(user):  # pylint: disable=R0914,R0912,R0915
             if level.is_unlock:  # only include unlocked levels
                 if level.unlock_condition != "True":
                     contents = "%s is unlocked." % level
-                    obj, created = UserNotification.objects.\
-                        get_or_create(recipient=user,
-                                      contents=contents,
-                                      level=UserNotification.LEVEL_CHOICES[2][0])
-                    if created:  # only show the notification if it is new
-                        obj.display_alert = True
-                        obj.save()
+
+                    msg_exists = UserNotification.objects.filter(recipient=user,
+                                                                 contents=contents).exists()
+                    if not msg_exists:
+                        obj, created = UserNotification.objects.\
+                            get_or_create(recipient=user,
+                                          contents=contents,
+                                          level=UserNotification.LEVEL_CHOICES[2][0])
+                        if created:  # only show the notification if it is new
+                            obj.display_alert = True
+                            obj.save()
                 level_ret = []
                 level.is_complete = True
                 level_ret.append(level)

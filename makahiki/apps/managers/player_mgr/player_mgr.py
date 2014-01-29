@@ -101,6 +101,13 @@ def create_player(username, password, email, firstname, lastname, team_name, is_
         print "Can not find team '%s', set the team of the player '%s' to None." % \
               (team_name, profile.name)
 
+    if user.first_name and user.last_name:
+        firstname = user.first_name.capitalize()
+        lastname = user.last_name.capitalize()
+        profile.name = "%s %s." % (firstname, lastname[:1])
+        if Profile.objects.filter(name=profile.name).exclude(user=user).exists():
+            profile.name = firstname + " " + lastname
+
     profile.save()
 
 

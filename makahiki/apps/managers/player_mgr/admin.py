@@ -41,7 +41,7 @@ class MakahikiUserAdmin(UserAdmin):
                     'display_name', 'points', 'is_active', 'is_superuser', 'is_ra',
                     'setup_complete', 'referred_by')
 
-    list_filter = ('is_active', 'is_superuser', )
+    list_filter = ('is_active', 'is_superuser', 'profile__is_ra')
     search_fields = ('username', 'first_name', 'last_name', 'email', 'profile__name')
     ordering = ('username',)
 
