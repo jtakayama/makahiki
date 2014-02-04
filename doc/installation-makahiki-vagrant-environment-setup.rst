@@ -200,7 +200,7 @@ An example in Windows:
 Then, enter this command in your Command Prompt or Terminal to 
 clone the repository::
 
-  > git clone http://github.com/jtakayama/makahiki.git
+  > git clone http://github.com/csdl/makahiki.git
 
 .. note:: If the "git clone" command does not work in the Windows Command Prompt, 
    you will need to use the "git clone" command in the Git for Windows terminal instead.
