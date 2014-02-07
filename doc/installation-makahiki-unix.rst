@@ -33,7 +33,8 @@ As of Red Hat Enterprise Linux (RHEL 6) and CentOS 6, Python 2.6.6 is the defaul
 For Makahiki, Python 2.7.5 will be installed from a Software Collections Library as a 
 non-default Python interpreter.
 
-Note that the software Collections Library installation only supports x86_64 binaries.
+The Software Collections Library only provides binaries for x86_64 systems. 
+CentOS i386 systems are not supported.
 
 Install wget::
 
