@@ -27,11 +27,13 @@ To check that python is installed and has the correct version::
   % python --version 
     Python 2.7.3
     
-Red Hat Enterprise Linux: Install Python 2.7.3 from SCL
+Red Hat Enterprise Linux: Install Python 2.7.5 from SCL
 -------------------------------------------------------
-As of Red Hat Enterprise Linux (RHEL 6) and CentOS 6, Python 2.6.6 is the default, 
-Python 2.7.3 will be installed from a Software Collections Library as a non-default 
-Python interpreter.
+As of Red Hat Enterprise Linux (RHEL 6) and CentOS 6, Python 2.6.6 is the default. 
+For Makahiki, Python 2.7.5 will be installed from a Software Collections Library as a 
+non-default Python interpreter.
+
+Note that the software Collections Library installation only supports x86_64 binaries.
 
 Install wget::
 
@@ -43,11 +45,11 @@ Retrieve the .repo file for the SCL collection and copy it to the system repos d
   % sudo cp ./scl_python27.repo /etc/yum.repos.d/scl_python27.repo
   
 
-Install Python 2.7.3 from the SCL::
+Install Python 2.7.5 from the SCL::
 
   % sudo yum install python27
 
-Finally, switch to a Python 2.7.3 shell. You will need to use this command to enable Python 2.7.3 
+Finally, switch to a Python 2.7.5 shell. You will need to use this command to enable Python 2.7.5
 each time you log in::
 
   % scl enable python27 bash
@@ -100,11 +102,11 @@ If you do not have easy_install, download and install it from the
 `setuptools website`_. Linux (Ubuntu) users can use 
 ``sudo apt-get install python-setuptools``.
 
-RHEL and CentOS users should have enabled the SCL Python 2.7.3 environment before installing pip.
+RHEL and CentOS users should have enabled the SCL Python 2.7.5 environment before installing pip.
 They **should not** use ``sudo easy_install``: this installs pip for Python 2.6.6 instead.
 
 RHEL and CentOS users who follow this guide have already installed easy_install as part of 
-the Python 2.7.3 SCL installation.
+the SCL Python installation.
 
 To check that Pip is installed::
 
@@ -128,7 +130,7 @@ To check that virtual environment wrapper is installed::
 RHEL and CentOS
 ***************
 
-RHEL and CentOS users should make sure that they have enabled the SCL Python 2.7.3 environment.
+RHEL and CentOS users should make sure that they have enabled the SCL Python environment.
 
 Install virtualenvwrapper::
 
@@ -168,9 +170,9 @@ To check that virtual environment wrapper is installed::
      VIRTUALENVWRAPPER_PYTHON=/usr/bin/python and that PATH is 
      set properly.
    
-   This error is related to the system not being able to find Python 2.7.3's virtualenvwrapper installation.
+   This error is related to the system not being able to find Python's virtualenvwrapper installation.
    
-   Every time you log on, you must use ``scl enable python27 bash`` to re-enable the Python 2.7.3 environment.
+   Every time you log on, you must use ``scl enable python27 bash`` to re-enable the SCL Python environment.
 
 Install Python Imaging Library
 ------------------------------
