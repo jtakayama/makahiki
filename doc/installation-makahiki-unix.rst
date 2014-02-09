@@ -445,11 +445,11 @@ MAKAHIKI_ADMIN_INFO.
 The following lines show example settings for these two environment variables, preceded by 
 a comment line describing their syntax::
 
-  % # Syntax: postgres://<db_user>:<db_password>@<db_host>:<db_port>/<db_name>
-  % export MAKAHIKI_DATABASE_URL=postgres://makahiki:makahiki@localhost:5432/makahiki
+  # Syntax: postgres://<db_user>:<db_password>@<db_host>:<db_port>/<db_name>
+  export MAKAHIKI_DATABASE_URL=postgres://makahiki:makahiki@localhost:5432/makahiki
 
-  % # Syntax:  <admin_name>:<admin_password>
-  % export MAKAHIKI_ADMIN_INFO=admin:admin
+  # Syntax:  <admin_name>:<admin_password>
+  export MAKAHIKI_ADMIN_INFO=admin:admin
 
 You will want to either add these variables to a login script so they are
 always available, or you can edit the ``postactivate`` file (in Unix, found in
