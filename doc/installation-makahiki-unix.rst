@@ -20,40 +20,70 @@ For **development** only, a modern dual core CPU with 4 GB should be ok, althoug
 Install Python
 --------------
 
-`Python`_ 2.7.3 or higher (but not Python 3).
+Install `Python`_ 2.7.3 or higher (but not Python 3).
 
 To check that python is installed and has the correct version::
 
   % python --version 
     Python 2.7.3
-    
-Red Hat Enterprise Linux: Install Python 2.7.5 from SCL
--------------------------------------------------------
-As of Red Hat Enterprise Linux (RHEL 6) and CentOS 6, Python 2.6.6 is the default. 
-For Makahiki, Python 2.7.5 will be installed from a Software Collections Library as a 
-non-default Python interpreter.
 
-The Software Collections Library only provides binaries for x86_64 systems. 
-CentOS i386 systems are not supported.
+Red Hat Enterprise Linux: Compile and Install Python 2.7.3
+**********************************************************
+
+As of Red Hat Enterprise Linux (RHEL 6) and CentOS 6, Python 2.6.6 is the default. 
+For Makahiki, Python 2.7.3 will be installed by compiling Python from scratch and 
+performing an altinstall.
 
 Install wget::
 
   % sudo yum install wget
 
-Retrieve the .repo file for the SCL collection and copy it to the system repos directory::
+Next, install the packages needed to build and compile C::
 
-  % wget http://people.redhat.com/bkabrda/scl_python27.repo
-  % sudo cp ./scl_python27.repo /etc/yum.repos.d/scl_python27.repo
+  % sudo yum groupinstall -y "Development tools"
+  % sudo yum install -y zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel
   
+This will take a while.
 
-Install Python 2.7.5 from the SCL::
+Next, download and extract the Python 2.7.3 source code::
 
-  % sudo yum install python27
+  % wget http://python.org/ftp/python/2.7.3/Python-2.7.3.tar.bz2
+  % tar xf Python-2.7.3.tar.bz2
+  
+Have the current user take ownership of the extracted directory (replace <username> with your username)::
 
-Finally, switch to a Python 2.7.5 shell. You will need to use this command to enable Python 2.7.5
-each time you log in::
+  % chown -R <username> Python-2.7.3
+  
+Change into the extracted directory::
 
-  % scl enable python27 bash
+  % cd Python-2.7.3
+
+Configure the path to the altinstall::
+
+  % ./configure --prefix=/usr/local
+  
+This sets the location of the altinstall to "/usr/local/bin/python2.7."
+
+To finish the installation, make and install Python to the directory that you configured in the previous step::
+
+  % make
+  % sudo make altinstall
+
+To run Python scripts using the Python 2.7.3 altinstall, you will need to use "python2.7"
+instead of "python." Check the Python version::
+
+  % python2.7 --version
+  Python 2.7.3
+  
+Next, check that you can use the Python 2.7.3 shell, then exit::
+  
+  % python2.7
+  Python 2.7.3 (default, Feb 26 2014, 11:02:10)
+  [GCC 4.4.7 20120313 (Red Hat 4.4.7-4)] on linux2
+  Type "help", "copyright", "credits" or "license" for more information.
+  >>> exit()
+
+You have now verified that the altinstall is working.
 
 Install C Compiler
 ------------------
@@ -92,6 +122,16 @@ To check that Git is installed::
 Install Pip
 -----------
 
+The process to install pip is different for each operating system.
+
+Ubuntu
+******
+
+If you do not have easy_install, download and install it from the 
+`setuptools website`_ using ``sudo apt-get install python-setuptools``::
+
+  % sudo apt-get install python-setuptools
+
 If easy_install is installed on your system, install pip by typing::
 
   % easy_install pip==1.4.1
@@ -99,19 +139,38 @@ If easy_install is installed on your system, install pip by typing::
 Depending on your system configuration, you may 
 have to type ``sudo easy_install pip==1.4.1``. 
 
-If you do not have easy_install, download and install it from the 
-`setuptools website`_. Linux (Ubuntu) users can use 
-``sudo apt-get install python-setuptools``.
-
-RHEL and CentOS users should have enabled the SCL Python 2.7.5 environment before installing pip.
-They **should not** use ``sudo easy_install``: this installs pip for Python 2.6.6 instead.
-
-RHEL and CentOS users who follow this guide have already installed easy_install as part of 
-the SCL Python installation.
-
-To check that Pip is installed::
+Check that pip 1.4.1 is installed::
 
   % pip --version 
+
+Red Hat Enterprise Linux (RHEL) and CentOS
+******************************************
+
+Install setuptools and pip for the original Python 2.6.6 installation:
+
+  % sudo yum install python-setuptools
+  % sudo easy_install pip==1.4.1
+
+For Python 2.7.3, download and extract setuptools-0.8::
+
+  % wget https://pypi.python.org/packages/source/s/setuptools/setuptools-0.8.tar.gz --no-check-certificate
+  % tar xf setuptools-0.8.tar.gz
+  
+Change ownership of the extracted directory by replacing <username> with your username::
+  
+  % chown -R <username> setuptools-0.8
+  
+Change your working directory to the extracted directory and install::
+
+  % cd setuptools-0.8
+  % sudo /usr/local/bin/python2.7 setup.py install
+  
+Check that the installation was successful::
+
+  % /usr/local/bin/easy_install-2.7 --version
+  setuptools 0.8
+  
+You will install pip into the virtual environment later.
 
 Install Virtual Environment Wrapper
 -----------------------------------
@@ -131,50 +190,52 @@ To check that virtual environment wrapper is installed::
 RHEL and CentOS
 ***************
 
-RHEL and CentOS users should make sure that they have enabled the SCL Python environment.
+Install virtualenvwrapper for Python 2.6.6::
 
-Install virtualenvwrapper::
-
-  % pip install virtualenvwrapper
+  % sudo /usr/bin/pip install virtualenvwrapper
 
 Add these lines to the end of the ~/.bashrc file::
 
   # Virtualenvwrapper settings for makahiki
   export WORKON_HOME=$HOME/.virtualenvs
   export PROJECT_HOME=$HOME/makahiki
-  # SCL Python settings
-  if [ ! $PROFILE_ENV ]; 
-      then
-          source /opt/rh/python27/root/usr/bin/virtualenvwrapper.sh
-  fi
+  export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib
+  export VIRTUALENVWRAPPER_VIRTUALENV=/usr/bin/virtualenv
+  export VIRTUALENVWRAPPER_VIRTUALENV_ARGS='--no-site-packages'
+  source /usr/bin/virtualenvwrapper.sh
   
 Then source this file to apply changes::
 
   % source ~/.bashrc
 
-Create the virtual environment::
+Create a virtual environment that uses Python 2.7.3::
 
-  % mkvirtualenv makahiki
+  % mkvirtualenv makahiki -p /usr/local/bin/python2.7
 
-To check that virtual environment wrapper is installed::
+Creating a virtual environment should switch you to the virtual environment.
+The terminal prompt will be preceded by the name of the virtual environment.
+On RHEL, this looks like::
+
+  (makahiki)[robot@computer makahiki]$
+
+If creating the virtual environment did not switch you to the virtual
+environment, use "workon makahiki" to switch to it::
 
   % workon makahiki
 
-.. note::
-   After installing virtualenvwrapper, RHEL and CentOS users will see this error at logon::
-   
-     /usr/bin/python: No module named virtualenvwrapper
-     virtualenvwrapper.sh: There was a problem running the initialization hooks.
+Check your Python version in the virtualenv::
 
-     If Python could not import the module virtualenvwrapper.hook_loader, 
-     check that virtualenv has been installed for
-     VIRTUALENVWRAPPER_PYTHON=/usr/bin/python and that PATH is 
-     set properly.
-   
-   This error is related to the system not being able to find Python's virtualenvwrapper installation.
-   
-   Every time you log on, you must use ``scl enable python27 bash`` to re-enable the SCL Python environment.
+  % python --version
+  Python 2.7.3
 
+.. note:: Any commands run with root privileges (``sudo python``) will use the default 
+   Python 2.6.6, not Python 2.7.3. 
+
+Next, uninstall the pip version in the virtual environment, and install pip==1.4.1 instead::
+
+  % pip uninstall pip
+  % easy_install pip==1.4.1
+   
 Install Python Imaging Library
 ------------------------------
 
@@ -188,37 +249,42 @@ Once Homebrew is installed, install PIL by typing::
 
   % brew install pil
 
-Linux
-*****
+Ubuntu
+******
 
 In Ubuntu, install PIL by typing::
 
   % sudo apt-get install -y python-imaging python-dev libjpeg-dev
 
+Make sure you have both libjpeg (for JPEG) and zlib (for PNG) in the /usr/lib directory. If not, you can make the symbolic link there.
+
+To make the symbolic links in a 32-bit Ubuntu OS::
+
+  % sudo ln -s /usr/lib/i386-linux-gnu/libjpeg.so /usr/lib/libjpeg.so
+  % sudo ln -s /usr/lib/i386-linux-gnu/libz.so /usr/lib/libz.so
+
+To make the symbolic links in a 64-bit Ubuntu OS::
+
+  % sudo ln -s /usr/lib/x86_64-linux-gnu/libjpeg.so /usr/lib/libjpeg.so
+  % sudo ln -s /usr/lib/x86_64-linux-gnu/libz.so /usr/lib/libz.so
+  
+RHEL and CentOS
+***************
+  
 In RHEL and CentOS, install PIL by typing::
 
   % sudo yum install -y python-imaging python-devel libjpeg-devel zlib-devel
 
 Make sure you have both libjpeg (for JPEG) and zlib (for PNG) in the /usr/lib directory. If not, you can make the symbolic link there.
 
-To make the symbolic links in a 32-bit Ubuntu OS::
-
-  % sudo ln -s /usr/lib/i386-linux-gnu/libjpeg.so /usr/lib/
-  % sudo ln -s /usr/lib/i386-linux-gnu/libz.so /usr/lib/
-
-To make the symbolic links in a 64-bit Ubuntu OS::
-
-  % sudo ln -s /usr/lib/x86_64-linux-gnu/libjpeg.so /usr/lib/libjpeg.so
-  % sudo ln -s /usr/lib/x86_64-linux-gnu/libz.so /usr/lib/libz.so
-
 A 32-bit RHEL or CentOS OS should have symbolic links for libz.so and libjpeg.so in /usr/lib 
 created during installation.
 
-To make the symbolic links in a 64-bit RHEL or CentOS OS::
+If you have a 64-bit RHEL or CentOS OS, you will need to create the symbolic links manually::
 
   % sudo ln -s /usr/lib64/libjpeg.so /usr/lib/libjpeg.so
   % sudo ln -s /usr/lib64/libz.so /usr/lib/libz.so 
-  
+
 Install PostgreSQL
 ------------------
 
@@ -229,36 +295,51 @@ Mac OS X
 Note that on Mac OS X, the installer will need to make changes in the
 ``sysctl`` settings and a reboot before installation can proceed. 
 
-Linux
-*****
+Ubuntu
+******
 
 On Ubuntu, install the latest version of PostgreSQL 9.1, and install libpq-dev::
 
   % sudo apt-get install -y postgresql-9.1 libpq-dev
 
-On RHEL and CentOS, install the pgdg91 repository and the latest version of PostgreSQL 9.1, then 
-initialize the database and start the server::
+RHEL and CentOS
+***************
+  
+On RHEL and CentOS, install the pgdg91 repository, then install the latest version of 
+Postgresql 9.1 and related packages.
 
-  % rpm -i http://yum.postgresql.org/9.1/redhat/rhel-6-x86_64/pgdg-redhat91-9.1-5.noarch.rpm
+.. note:: Ignore the following warning when running ``sudo rpm -i``::
+
+     warning: /var/tmp/rpm-tmp.Mgcm3P: Header V4 DSA/SHA1 Signature, key ID 442df0f8:NOKEY
+
+On i386 (32-bit) systems::
+
+  % sudo rpm -i http://yum.postgresql.org/9.1/redhat/rhel-6-i386/pgdg-redhat91-9.1-5.noarch.rpm
   % sudo yum install -y postgresql91-server postgresql91-contrib postgresql91-devel
+
+On x86_64 (64-bit) systems::
+
+  % sudo rpm -i http://yum.postgresql.org/9.1/redhat/rhel-6-x86_64/pgdg-redhat91-9.1-5.noarch.rpm
+  % sudo yum install -y postgresql91-server postgresql91-contrib postgresql91-devel
+  
+Next, whether you are on an i386 or x86_64 system, initialize the database and start the server::
+
   % sudo service postgresql-9.1 initdb
   % sudo chkconfig postgresql-9.1 on
 
 After Installation
 ******************
 
-Once installed, be sure that your PostgreSQL installation's bin/ directory is on
-$PATH so that ``pg_config`` and ``psql`` are defined.
+Once installed, use "which" to check that your PostgreSQL installation's bin/ directory is on
+$PATH so that ``pg_config`` and ``psql`` are defined::
 
-RHEL and CentOS users will need to add the bin/ directory to the $PATH::
-
-  % export PATH=/usr/pgsql-9.1/bin:$PATH
   % which pg_config
-  /usr/pgsql-9.1/bin/pg_config
   % which psql
-  /usr/pgsql-9.1/bin/psql
 
-You will also need to configure authentication for the "postgres" database user.   
+RHEL and CentOS users will see errors here. If you are a RHEL or CentOS user, you will 
+add the bin/ directory to the PATH in a later step.
+
+Next, you will need to configure authentication for the "postgres" database user.   
 
 During development, a simple way to configure authentication is to make the postgres user
 "trusted" locally.  This means that local processes such as Makahiki can connect to the
@@ -331,6 +412,7 @@ To check that PostgresSQL is installed and configured with "trusted" locally::
 
 It should not prompt you for a password.
 
+This will open the postgres command prompt. Use the command ``\q`` to exit.
 
 Install Memcache
 ----------------
@@ -365,11 +447,14 @@ Ubuntu users::
 
   % sudo apt-get install -y build-essential g++ libcloog-ppl-dev libcloog-ppl0
 
-RHEL and CentOS users::
+RHEL and CentOS users: If you have been following this guide, you should already have 
+performed a groupinstall of all packages in "Development tools." 
+
+If you did not, use the below command to do it now::
 
   % sudo yum groupinstall -y "Development tools"
 
-Next, download the source code and extract the archive::
+Next, for Ubuntu, RHEL, and CentOS, download the source code and extract the archive::
  
   % wget http://launchpad.net/libmemcached/1.0/0.53/+download/libmemcached-0.53.tar.gz
   % tar xzvf libmemcached-0.53.tar.gz
@@ -384,7 +469,7 @@ Switch into the extracted directory, then configure, make, and make install::
   % cd libmemcached-0.53 
   % ./configure
   % make
-  % make install
+  % sudo make install
   
 Finally, check the location of the libmemcached.so library:: 
 
@@ -430,6 +515,23 @@ and of course cd to the appropriate directory before continuing.
 Install required packages
 -------------------------
 
+RHEL and CentOS
+***************
+
+RHEL and CentOS users will need to add the PostgreSQL libraries to the PATH before 
+installing packages with "pip"::
+
+  % export PATH=/usr/pgsql-9.1/bin:$PATH
+  % which pg_config
+  /usr/pgsql-9.1/bin/pg_config
+  % which psql
+  /usr/pgsql-9.1/bin/psql
+  
+Continue to "All Platforms."
+  
+All Platforms
+*************
+
 You can install the required Python package for Makahiki by::
 
   % pip install -r requirements.txt
@@ -456,8 +558,11 @@ always available, or you can edit the ``postactivate`` file (in Unix, found in
 ``$WORKON_HOME/makahiki/bin``) so that they are defined whenever you 
 ``workon makahiki``.
 
+After you edit and save ``postactivate``, you will need to ``workon makahiki`` 
+for your changes to take effect.
+
 Note that you will want to provide a stronger password for the makahiki
-admin account if this server is publically accessible. 
+admin account if this server is publicly accessible. 
 
 Makahiki also utilizes a variety of other environment variables. For complete
 documentation, see :ref:`section-environment-variables`.
@@ -470,7 +575,7 @@ of initial data to load. You need to be in the makahiki/makahiki directory. In m
 you will want to load the default dataset, as shown next::
 
   % cd makahiki
-  % scripts/initialize_instance.py --type default
+  % ./scripts/initialize_instance.py --type default
 
 This command will:
   * Install and/or update all Python packages required by Makahiki;
