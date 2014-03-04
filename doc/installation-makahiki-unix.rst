@@ -146,7 +146,7 @@ Check that pip 1.4.1 is installed::
 Red Hat Enterprise Linux (RHEL) and CentOS
 ******************************************
 
-Install setuptools and pip for the original Python 2.6.6 installation:
+Install setuptools and pip for the original Python 2.6.6 installation::
 
   % sudo yum install python-setuptools
   % sudo easy_install pip==1.4.1
@@ -308,7 +308,8 @@ RHEL and CentOS
 On RHEL and CentOS, install the pgdg91 repository, then install the latest version of 
 Postgresql 9.1 and related packages.
 
-.. note:: Ignore the following warning when running ``sudo rpm -i``::
+.. note:: 
+   Ignore the following warning when running ``sudo rpm -i``::
 
      warning: /var/tmp/rpm-tmp.Mgcm3P: Header V4 DSA/SHA1 Signature, key ID 442df0f8:NOKEY
 
