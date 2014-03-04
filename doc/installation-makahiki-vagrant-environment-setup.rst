@@ -36,17 +36,15 @@ Follow the installation instructions for your operating system in
 Chapter 02 of the `VirtualBox manual`_. Select **Yes** 
 when asked to install drivers for USB support and VirtualBox Host-Only Networking.
 
-.. warning::
-   **Do not install VirtualBox 4.3.0 or higher.** The base virtual machine that Makahiki uses is compatible with VirtualBox 4.2 versions up to VirtualBox 4.2.18.
-
 .. _VirtualBox downloads page: http://www.virtualbox.org/wiki/Downloads
 .. _VirtualBox manual: https://www.virtualbox.org/manual/ch02.html
 
 Install Vagrant
 ---------------
 
-Download the `Vagrant installer`_ for your host OS. Vagrant 1.2.4 and Vagrant 1.3.5 have been tested.
-Vagrant 1.2.5 to 1.3.4 should work but have not been tested.
+Download the `Vagrant installer`_ for your host OS. Vagrant 1.2.4, 1.3.5 and 1.4.3 have been tested.
+
+Vagrant 1.2.5 to 1.4.2 should work but have not been tested.
 
 Follow the `Vagrant installation instructions`_.
 

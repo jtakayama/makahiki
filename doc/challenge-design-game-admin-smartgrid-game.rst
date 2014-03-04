@@ -297,12 +297,14 @@ shown the figure below.
    :align: center
 
 If there are no Draft grids when you start the Designer Makahiki presents you with the 
-'First Draft' choice dialog shown below.
+'New Draft' choice dialog shown below when you click on "New Draft."
 
-.. figure:: figs/configuration/configuration-game-admin-smartgrid-game-first-draft.png
+.. figure:: figs/configuration/configuration-game-admin-smartgrid-game-new-draft.png
    :width: 600px
    :align: center
 
+.. warning:: The names of Draft grids cannot contain spaces or uppercase letters.
+ 
 You can choose from five different example Smart Grid Game templates, Empty Grid, Demo,
 Kukui Cup/UH12, and test. These templates provide a variety of different Smart Grid Game examples.
 
