@@ -6,9 +6,9 @@ Configuring Vagrant Settings
 This section contains instructions for changing Vagrant settings related to 
 the virtual machine used by Makahiki. 
 
-See the `Vagrant 1.2 documentation`_ for more information.
+See the `Vagrant documentation`_ for more information.
 
-.. _Vagrant 1.2 documentation: http://docs.vagrantup.com/v2/
+.. _Vagrant documentation: http://docs.vagrantup.com/v2/
 
 Throughout this guide, a ``>`` indicates that a command is performed on the 
 host OS. A ``%`` indicates that a command is performed on the virtual machine, 
@@ -47,12 +47,22 @@ Some basic Vagrant commands are listed below:
    
      * ``vagrant reload --no-provision``: Restart the virtual machine without provisioning it.
 
+.. note:: As of Vagrant 1.4.3, you may see the following warning when 
+   running Vagrant commands::
+   
+     DL is deprecated, please use Fiddle
+	 
+   This is a known issue with Vagrant and will likely be fixed in a future release.
+   The commands will still work correctly. See `Vagrant issue 2656`_.
+
 You can only run commands for a given Vagrant virtual machine if your working 
 directory is the directory that contains the virtual machine's Vagrantfile.
 
 Vagrant virtual machines are linked to the directory which contains their Vagrantfile. 
 If the same Vagrantfile is copied into another directory, the ``vagrant up`` command 
 will create a new virtual machine.
+
+.. _Vagrant issue 2656: http://github.com/mitchellh/vagrant/issues/2656
 
 Re-Provisioning Vagrant
 -----------------------
