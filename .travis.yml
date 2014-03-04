@@ -21,7 +21,7 @@ before_install:
     - sudo ln -s /usr/lib/`uname -i`-linux-gnu/libfreetype.so /usr/lib
     - sudo ln -s /usr/lib/`uname -i`-linux-gnu/libz.so /usr/lib
 install: 
-    - pip install -r requirements.txt --use-mirrors --allow-external PIL elementtree --allow-unverified PIL elementtree
+    - pip install -r requirements.txt --use-mirrors --allow-external PIL --allow-unverified PIL --allow-external elementtree --allow-unverified elementtree
     - pip install -U selenium
 
 before_script:
