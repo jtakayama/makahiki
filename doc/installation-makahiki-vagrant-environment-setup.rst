@@ -47,7 +47,7 @@ Download the latest `Vagrant installer`_ for your host OS.
 The latest version of Vagrant with which this installation process has been tested is 1.6.2.
 
 Other versions with which this process has been tested are 1.2.4, 1.3.5, and 1.4.3. The installation 
-process should work correctly on all versions from 1.2.4 through 1.6.2.
+process should work correctly with all Vagrant versions from 1.2.4 through 1.6.2.
 
 Follow the `Vagrant installation instructions`_.
 
