@@ -37,18 +37,21 @@ Chapter 02 of the `VirtualBox manual`_. Select **Yes**
 when asked to install drivers for USB support and VirtualBox Host-Only Networking.
 
 .. _VirtualBox downloads page: http://www.virtualbox.org/wiki/Downloads
-.. _VirtualBox manual: https://www.virtualbox.org/manual/ch02.html
+.. _VirtualBox manual: http://www.virtualbox.org/manual/ch02.html
 
 Install Vagrant
 ---------------
 
-Download the `Vagrant installer`_ for your host OS. Vagrant 1.2.4, 1.3.5 and 1.4.3 have been tested.
+Download the latest `Vagrant installer`_ for your host OS.
 
-Vagrant 1.2.5 to 1.4.2 should work but have not been tested.
+The latest version of Vagrant with which this installation process has been tested is 1.6.2.
+
+Other versions with which this process has been tested are 1.2.4, 1.3.5, and 1.4.3. The installation 
+process should work correctly with all Vagrant versions from 1.2.4 through 1.6.2.
 
 Follow the `Vagrant installation instructions`_.
 
-.. _Vagrant installer: http://downloads.vagrantup.com/
+.. _Vagrant installer: http://www.vagrantup.com/downloads.html
 .. _Vagrant installation instructions: http://docs.vagrantup.com/v2/installation/index.html
 
 Open A Command Line Application
